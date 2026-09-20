@@ -1,0 +1,49 @@
+======================================================================
+处理报告  (原始 187 条)
+======================================================================
+
+① 过滤: 保留 143 条, 过滤掉 44 条
+   过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] trycua/cua
+     ✗ [GitHub Trending] Open-Dev-Society/OpenStock
+     ✗ [GitHub Trending] cloudflare/quiche
+     ✗ [GitHub Trending] asciimoo/hister
+     ✗ [GitHub Trending] ruanyf/weekly
+     ✗ [GitHub Trending] ZuodaoTech/everyone-can-use-english
+     ✗ [GitHub 升星repo] NandhaKishorM/laya
+     ✗ [GitHub 升星repo] arvindear/wp2shell-PoC
+
+② 去重: 143 → 136 条 (同批合并 7, 跨天历史去重 0)
+   跨源合并的事件:
+     ⇉ Don't Mask the Environment: Observation   ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ FAMOS: Feed-Forward 3D Articulation Mode  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ RetireOPD: Self-Retiring On-Policy Disti  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Video DeltaNet: A Video-Native Hybrid At  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ JEPA-Anything: Learning Predictive Model  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ An Empirical Study of Harness Design for  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ How To Write With An LLM  ← ['Hacker News', 'Simon Willison']
+
+③ 分类分布:
+   【AI 板块】
+     - 模型与研究: 59 条 (含🔧开源 7)
+     - 产品与商业: 10 条 (含🔧开源 1)
+     - Agent & Skill: 35 条 (含🔧开源 7)
+     - AI 工程落地: 17 条 (含🔧开源 2)
+     - 安全与治理: 10 条
+     - 观点与好文: 3 条
+   【基础设施】
+     - 社区与项目: 1 条
+     - 公有云: 1 条
+
+④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
+     🔥 [16分] How To Write With An LLM
+        源:Simon Willison 类:观点与好文 跨源:['Hacker News', 'Simon Willison']
+     🔥 [16分] Funding better evaluations of AI’s impact on wellbeing
+        源:Anthropic News 类:产品与商业 跨源:[]
+
+   打分Top5(参考):
+      16分 [Simon Willison] How To Write With An LLM
+      16分 [Anthropic News] Funding better evaluations of AI’s impact on 
+      15分 [HuggingFace Papers] Don't Mask the Environment: Observation Super
+      15分 [HuggingFace Papers] FAMOS: Feed-Forward 3D Articulation Modeling 
+      15分 [HuggingFace Papers] RetireOPD: Self-Retiring On-Policy Distillati
