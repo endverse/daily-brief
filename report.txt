@@ -1,49 +1,48 @@
 ======================================================================
-处理报告  (原始 187 条)
+处理报告  (原始 133 条)
 ======================================================================
 
-① 过滤: 保留 143 条, 过滤掉 44 条
+① 过滤: 保留 95 条, 过滤掉 38 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] trycua/cua
+     ✗ [GitHub Trending] paperless-ngx/paperless-ngx
+     ✗ [GitHub Trending] mihail911/modern-software-dev-assignments
      ✗ [GitHub Trending] Open-Dev-Society/OpenStock
-     ✗ [GitHub Trending] cloudflare/quiche
-     ✗ [GitHub Trending] asciimoo/hister
-     ✗ [GitHub Trending] ruanyf/weekly
-     ✗ [GitHub Trending] ZuodaoTech/everyone-can-use-english
-     ✗ [GitHub 升星repo] NandhaKishorM/laya
-     ✗ [GitHub 升星repo] arvindear/wp2shell-PoC
+     ✗ [GitHub Trending] vercel-labs/json-render
+     ✗ [GitHub 升星repo] mizorewww/laya-mlx
+     ✗ [GitHub 升星repo] newliver666/apk-reverse
+     ✗ [GitHub 升星repo] JamesKInner/Covalent-MAS
 
-② 去重: 143 → 136 条 (同批合并 7, 跨天历史去重 0)
-   跨源合并的事件:
-     ⇉ Don't Mask the Environment: Observation   ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ FAMOS: Feed-Forward 3D Articulation Mode  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ RetireOPD: Self-Retiring On-Policy Disti  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Video DeltaNet: A Video-Native Hybrid At  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ JEPA-Anything: Learning Predictive Model  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ An Empirical Study of Harness Design for  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ How To Write With An LLM  ← ['Hacker News', 'Simon Willison']
+② 去重: 95 → 80 条 (同批合并 0, 跨天历史去重 15)
+   跨天去重(此前已发过，跳过):
+     ⏭️  [HuggingFace Papers] Sample Count Is Not Enough: Candidate-Generati
+     ⏭️  [HuggingFace Papers] Don't Mask the Environment: Observation Superv
+     ⏭️  [HuggingFace Papers] FAMOS: Feed-Forward 3D Articulation Modeling f
+     ⏭️  [HuggingFace Papers] PACT: Can Enterprise AI Assistants Be Trusted 
+     ⏭️  [HuggingFace Papers] Reflect, Revise, Reuse: Training-Free Skill Ev
+     ⏭️  [HuggingFace Papers] DeepSeek-V4.1-Flash: Pushing the Limits of KV 
+     ⏭️  [HuggingFace Papers] Video DeltaNet: A Video-Native Hybrid Attentio
+     ⏭️  [HuggingFace Papers] JEPA-Anything: Learning Predictive Models acro
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 59 条 (含🔧开源 7)
-     - 产品与商业: 10 条 (含🔧开源 1)
-     - Agent & Skill: 35 条 (含🔧开源 7)
-     - AI 工程落地: 17 条 (含🔧开源 2)
-     - 安全与治理: 10 条
-     - 观点与好文: 3 条
+     - 模型与研究: 36 条 (含🔧开源 5)
+     - Agent & Skill: 24 条 (含🔧开源 7)
+     - 产品与商业: 5 条 (含🔧开源 1)
+     - AI 工程落地: 7 条 (含🔧开源 3)
+     - 安全与治理: 5 条
+     - 观点与好文: 2 条
    【基础设施】
-     - 社区与项目: 1 条
-     - 公有云: 1 条
+     - K8s × AI: 1 条
 
-④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] How To Write With An LLM
-        源:Simon Willison 类:观点与好文 跨源:['Hacker News', 'Simon Willison']
+④ 🔥今日重点 (阈值≥13, 最多2条): 选中 1 条
      🔥 [16分] Funding better evaluations of AI’s impact on wellbeing
         源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      16分 [Simon Willison] How To Write With An LLM
       16分 [Anthropic News] Funding better evaluations of AI’s impact on 
-      15分 [HuggingFace Papers] Don't Mask the Environment: Observation Super
-      15分 [HuggingFace Papers] FAMOS: Feed-Forward 3D Articulation Modeling 
-      15分 [HuggingFace Papers] RetireOPD: Self-Retiring On-Policy Distillati
+      12分 [HuggingFace Papers] Can MiniMax-H3 Reason About the Physical Worl
+      12分 [GitHub Trending] affaan-m/ECC
+      12分 [量子位         ] APUS 开源国内首批Jev跨平台复现：国产模型实现秒级决策
+      12分 [量子位         ] 谷歌AI首次“越狱”：竟然自己破解密码入侵三家公司！
