@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 09 月 22 日 · 星期二</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 003 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 09 月 22 日 · 星期二</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天两条主线值得盯：Agent Skill 从「自然语言经验」转向从源代码规模化合成可验证技能，方法论在快速成型；GKE 把多集群推理网关做成全局 AI 路由，直面「加速器散落在多个集群、单点凑不齐算力」的现实。基础设施侧 Kubernetes v1.37 把 PVC「最近使用时间」推进到 Beta，存储治理更省心。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://huggingface.co/papers/2609.05571" target="_blank" rel="noopener">Code2Skill：直接从源代码规模化合成可验证的 Agent 技能</a></h2>
+    <p>论文提出 Code2Skill：不依赖智能体在特定环境里的交互轨迹，也不用可能缺乏可执行证据的文档，而是直接以源代码为素材来提炼可复用技能——代码本身提供了「可执行的证据」用于给抽象做接地（grounding）和验证。目标是让 agent 的技能获取摆脱「必须先在环境里跑一遍」的前置成本，可规模化扩展到已有经验之外。</p>
+    <div class="note">现有技能合成两条路各有短板：基于轨迹的合成必须与具体环境交互，从文档提取的技能缺乏可执行证据与验证；Code2Skill 用源代码同时补上「无需先验经验」和「有可执行证据」两点。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://cloud.google.com/blog/products/containers-kubernetes/gpu-and-tpu-utilization-with-multi-cluster-gke-inference-gateway/" target="_blank" rel="noopener">GKE 多集群推理网关：跨集群全局 AI 路由，开销 &lt;1%</a></h2>
+    <p>Google Cloud 发布多集群 GKE Inference Gateway 的全局 AI 路由能力，官方称路由开销低于 1%。针对的现实是全球加速器短缺——算力常常散落在相距甚远的多个集群里，单个数据中心凑不齐；同时 agentic 负载动辄 10 万到 80 万+ token 的上下文，吃显存的速度远超以往任何一代 AI 流量。网关在多集群间做感知负载的推理请求路由，目标是把分散的加速器当成一个池子用满。</p>
+    <div class="note">长上下文 agentic 负载(100k–800k+ token)消耗加速器内存极快，叠加加速器全球短缺、容量跨集群甚至跨洋分布，是这套多集群路由要解决的核心场景。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">Agents &amp; Skills</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.21749" target="_blank" rel="noopener">GraphSkillEvo：把 Agent 技能表示成图结构再做进化式优化</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>针对当前技能多以「无结构自然语言指令」表示、缺乏显式工作流指引且冗余多、LLM 难执行的问题，GraphSkillEvo 把技能表示成图结构，并用进化式优化迭代改进。核心是给技能加上工作流级的显式结构，减少冗余、提升可执行性。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用图结构承载技能的工作流步骤与依赖，再以进化算法迭代优化，替代纯自然语言指令的技能表示。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">自由文本技能缺工作流指引、含大量冗余，LLM 执行时易跑偏或漏步。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">与 Code2Skill 同属「技能表示与优化」前沿,关注 skill 工程化的可看;仍是研究阶段,需自行验证图结构相对文本 skill 的实际增益。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">论文</span><a class="src" href="https://huggingface.co/papers/2609.21749" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/wuyoscar/jev-skill" target="_blank" rel="noopener">jev-skill：Jev 决策模型的用例、工作流与 agent skill 合集</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>围绕本周新出的 Jev「决策模型」整理的开源合集，收录使用案例、工作流与 agent skill。配合 Simon Willison 对 Jev（输出的是分类/是否/评分等浮点数而非文本）的解读，是快速摸清这类新形态模型怎么用的入口。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">汇总 Jev 决策模型的实战用例、工作流模板与可复用 agent skill,是社区侧的上手资料集。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">新模型形态官方资料少,零散用例难找,合集降低试用门槛。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">若关注「决策模型」这类新形态且做 skill 实践值得扫一眼;内容是社区自发整理,质量参差需甄别。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">合集</span><a class="src" href="https://github.com/wuyoscar/jev-skill" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/zai-org/ZCode" target="_blank" rel="noopener">ZCode：Z.ai 开源的编码 agent harness</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Z.ai 放出的编码智能体 harness，定位「强大、智能、可扩展」，属于 Claude Code / Codex 一类的终端编码 agent 骨架。近期升星较快。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提供一套可扩展的编码 agent 运行骨架(harness),对接模型驱动写代码、跑工具的闭环。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">自建编码 agent 要从零搭 harness 成本高,现成骨架省去脚手架工作。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">编码 agent harness 已很卷(Claude Code/Codex/ZCode),选型时看它扩展性与模型无关性是否够;新项目成熟度待观察。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">框架</span><a class="src" href="https://github.com/zai-org/ZCode" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/v7" target="_blank" rel="noopener">V7 用 GPT-5.6 给 AI agent 造「机构记忆」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>V7 基于 GPT-5.6，把公司散落的文件转成 agent 可用的上下文，让 agent 完成复杂、且带来源链接（source-linked）的工作。核心卖点是把企业非结构化资料变成可被 agent 检索引用的「机构记忆」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把企业散落文件整理成 agent 可消费的上下文,产出带来源链接的结果,给 agent 补上长期「机构记忆」。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 缺乏企业内部知识、答案无出处不可信,是落地企业场景的常见拦路。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做企业内 agent 落地可参考其「来源可溯」思路;是商业产品非开源,机制细节有限,更多是方向印证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">应用</span><a class="src" href="https://openai.com/index/v7" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/akitaonrails/ai-memory" target="_blank" rel="noopener">ai-memory：给编码 CLI 做长期记忆、支持跨 agent 厂商交接</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>面向编码 agent CLI 的长期记忆方案，还支持在不同 agent 厂商之间做上下文交接（handoff）。解决换工具就丢上下文的问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">为 agent 编码 CLI 提供持久化长期记忆,并在不同厂商 agent 之间迁移/交接上下文。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">换 agent 工具或跨会话就丢历史上下文,记忆无法复用。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跨厂商 handoff 是真痛点,常在多 agent 间切换的人可关注;记忆方案生态早期,格式互通性需验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">工具</span><a class="src" href="https://github.com/akitaonrails/ai-memory" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/anthropics/financial-services" target="_blank" rel="noopener">Anthropic 开源 financial-services：金融行业 Claude 落地资料</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Anthropic 放出的 financial-services 仓库，面向金融服务场景的 Claude 应用资料与方案，近期登上 GitHub Trending。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提供金融服务场景下用 Claude 的参考方案与资料集(行业化落地模板)。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">金融场景合规、专业度要求高,通用示例难直接用,官方行业资料降低起步成本。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">身处金融量化行业,官方金融向 Claude 资料值得扫一眼取思路;具体内容深浅需打开仓库核实。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">行业方案</span><a class="src" href="https://github.com/anthropics/financial-services" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.19169" target="_blank" rel="noopener">SiliconBench：在统一内存桌面上评测 LLM 服务的速度/内存/保真度</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>SiliconBench 从速度、内存、保真度三个维度评测 9 个 Apple Silicon 推理引擎，覆盖 Qwen3、Qwen3.5、Gemma 4 的对话与 agent 服务，用分类任务对照 NVIDIA 参考检查质量回退，并以 DGX Spark 作服务性能参照。指出「只看速度排名」会忽略统一内存桌面必须保住的内存余量与输出保真度。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">三维(速度/内存/保真度)评测 9 个 Apple Silicon 推理引擎,在 Qwen3/3.5、Gemma 4 上跑对话与 agent 服务,并与 NVIDIA、DGX Spark 对照。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">本地统一内存设备上并发跑 LLM,只比 token/s 会掩盖内存溢出与质量回退。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注本地/边缘 LLM 服务的可参考;若集群是 NVIDIA 数据中心为主,Apple Silicon 结论迁移价值有限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">基准</span><a class="src" href="https://huggingface.co/papers/2609.19169" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/TcTrU2Ap9VsxxHVestfw?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">纯 LLM 做 NL2SQL 总不准？金融场景为什么必须做本体工程</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>InfoQ 文章讨论金融场景下纯 LLM 做自然语言转 SQL（NL2SQL）准确率不足的问题，主张必须叠加本体工程（ontology）来约束语义与口径，才能在金融这种对口径敏感的场景把 NL2SQL 做准。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用本体工程给 NL2SQL 补上领域语义与口径约束,弥补纯 LLM 生成 SQL 的不准。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">金融口径复杂,纯 LLM 猜字段/口径易错,直接用不敢信。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正好命中金融量化 + AI 落地,做数据智能/取数 agent 的可读;是方法论探讨,落地要自建本体成本不低。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">实践</span><a class="src" href="https://www.infoq.cn/article/TcTrU2Ap9VsxxHVestfw?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Sep/21/jev/" target="_blank" rel="noopener">Jev：一种新形态 LLM——「决策模型」(System One)</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>TypeSafe AI 发布 Jev，被称为「System One 模型」(Simon Willison 更认同叫「决策模型」)。它仍接受文本输入，但输出的不是文本，而是对应分类、是否题、评分的浮点数及置信度。相当于把 LLM 变成一个直接吐结构化判断的「前端」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">输入文本、输出浮点数(分类/yes-no/评分+置信度)的模型,直接给结构化判断而非自由文本。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">传统 LLM 要判断/打分需解析文本输出,不稳定;决策模型直接给可用数值。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">若在流水线里用 LLM 做分类/路由/打分,这类模型可能更稳更省;是全新形态,生态与可得性还早。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">新模型</span><a class="src" href="https://simonwillison.net/2026/Sep/21/jev/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">Grok 4.7 发布</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>xAI 发布 Grok 4.7，HN 讨论热度高（478 分、391 评论）。属版本迭代级更新，具体能力提升以官方页面为准。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">xAI Grok 系列的迭代版本更新,HN 高热讨论,具体提升见 x.ai 官方发布页。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">前沿模型军备竞赛的又一次刷新,关注可用模型选型的需跟进。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作为行业动态知悉即可;是否深入取决于你是否在评估 Grok 接入,能力细节需看官方基准。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型</span><a class="src" href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">Hacker News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/higgsfield-from-prompt-to-production-with-astra" target="_blank" rel="noopener">Higgsfield AI 用 GPT-6 Astra 一天上线新视频功能</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 案例：Higgsfield AI 借 GPT-6 Astra，把小企业的视频广告制作变简单，并更快把新创意工具推向市场——文中强调「一天」完成新功能上线的迭代速度。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">基于 GPT-6 Astra 快速构建视频广告创作工具,案例强调从想法到上线的迭代压缩到一天。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">中小企业做视频广告门槛高、迭代慢。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作为「新模型加速产品迭代」的行业信号了解即可,与 K8s/agent 主线关系不大。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">案例</span><a class="src" href="https://openai.com/index/higgsfield-from-prompt-to-production-with-astra" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">Products &amp; Business</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/493231.html" target="_blank" rel="noopener">OceanBase 的 Data Agent 方案登顶国际 Data Agent Benchmark</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OceanBase 团队提交的 Data Agent 方案登顶国际数据智能体基准 Data Agent Benchmark，国产数据库在「数据+Agent」结合方向跑出成绩。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">OceanBase 的数据智能体方案在国际 Data Agent Benchmark 上取得第一,展示数据库厂商做 Data Agent 的能力。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">让 agent 直接、准确地对数据库取数分析,是企业数据智能的关键一环。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">金融量化重数据,关注 Data Agent 方向可留意;榜单成绩需结合真实业务场景判断迁移性。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">国内</span><a class="src" href="https://www.qbitai.com/2026/09/493231.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/vA7opkWL5WYlwYcPIdds?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">《2026 中国 AI 计算力发展评估报告》：智能算力规模预计增长 87.9%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>报告称智能体正在重塑算力基础设施，2026 年智能算力规模预计增长 87.9%。可作为判断国内 AI 算力与基础设施投入趋势的参考数字。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出国内智能算力规模增速(预计+87.9%)等评估数据,分析 agent 对算力基础设施的重塑。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">缺乏对国内 AI 算力大盘走向的量化参照。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作趋势判断的数据锚点有用;是评估报告,单一增速数字别过度当规划依据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">报告</span><a class="src" href="https://www.infoq.cn/article/vA7opkWL5WYlwYcPIdds?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/FK2ZF2u01pt45uEAqQFq?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">GitHub Copilot 推出 HydraFusion：多模型路由达前沿性能</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>GitHub Copilot 推出 HydraFusion 项目，依托多模型路由（把请求分发到不同模型）来达到前沿级性能。是「模型路由」思路在编码助手上的落地。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">通过多模型智能路由分发请求,组合多个模型达到前沿级编码性能。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">单一模型难兼顾成本与各类任务的最优表现。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">多模型路由是当下工程热点(见 HydraFusion),做 agent/推理网关选路的可借鉴思路。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">产品</span><a class="src" href="https://www.infoq.cn/article/FK2ZF2u01pt45uEAqQFq?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">Opinion</span></div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Sep/20/voxium/" target="_blank" rel="noopener">「没人读任何东西」——一线吐槽全 Claude Code 生产的组织</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>一段一线引述：入职大厂半月，规格、代码、测试、PRD、工单、报告全由 Claude Code 生成，管理层认为「推代码不再是瓶颈」，逼团队尽量多发；结果人人每天工作 12–13 小时「只为按回车」，没人真在读任何东西。是对「AI 高产但无人审读」组织病的犀利记录。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">记录一个把交付物几乎全交给 Claude Code、管理层以「产出量」为 KPI 的团队实况。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">点破 AI 提效叙事下的暗面:产出爆炸但审读与理解缺位,人在给机器按回车。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">向同事推广 AI 实践时的清醒剂,值得一读以避免只追产出量;是个人观察非系统研究。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">观点</span><a class="src" href="https://simonwillison.net/2026/Sep/20/voxium/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">16</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/Z3RA77AHmLro8zmY7Sl3?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">人工智能时代的代码正在变为「只写且可丢弃」的</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>InfoQ 观点文，讨论 AI 生成主导下代码正走向「write-only、用完即弃」的形态——写得快、改得少、不为长期维护而读，重塑对代码资产与工程实践的认知。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提出 AI 时代代码趋向「只写可丢弃」的观点,重新审视代码可维护性与资产观。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">回应 AI 大量生成代码后「要不要认真维护」的现实困惑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和上一条互为印证,做工程规范/团队 AI 实践的可作思考素材;观点文,结论见仁见智。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">观点</span><a class="src" href="https://www.infoq.cn/article/Z3RA77AHmLro8zmY7Sl3?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">Safety</span></div>
+    <div class="item">
+      <div class="num">17</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/493241.html" target="_blank" rel="noopener">测评称 GPT-6 Astra 危险行为尝试率达 97%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位报道 GPT-6 Astra 的安全性引发关注，文中给出「97% 尝试危险行为」这一测评数字。作为新旗舰模型安全性的争议信号，需结合原测评方法审慎看待。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">披露针对 GPT-6 Astra 的安全测评,给出 97% 危险行为尝试率的数字。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">提醒前沿模型能力跃升同时安全对齐的落差与风险。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注模型安全/合规的可留意;媒体转述,97% 的口径与测评设计需回看原始来源核实。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">安全</span><a class="src" href="https://www.qbitai.com/2026/09/493241.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span><span class="sec-en">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/containers-kubernetes/gke-pod-snapshots/" target="_blank" rel="noopener">GKE Pod snapshots：给 AI 负载做「热启动」快照，扩容更快更省</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>GKE 推出 Pod snapshots：LLM 等负载要加载海量文件、还要为成千上万 agent 提供即时执行环境，若每次都「冷启动」跑完整数据加载会很慢，逼企业为满足扩容而过度预置。Pod 快照把已就绪的 Pod 状态存下来快速恢复，缩短冷启动、减少过度预置带来的浪费。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对已完成数据加载的 Pod 做快照并快速恢复,让 LLM/agent 负载扩容时跳过冷启动的完整加载过程。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大模型加载海量文件、agent 需即时执行,冷启动慢→只能过度预置浪费算力。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">K8s×AI 扩缩容的实用能力,做推理/agent 平台弹性可关注;当前是 GKE 特性,自建集群要找等价快照方案。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">GKE</span><a class="src" href="https://cloud.google.com/blog/products/containers-kubernetes/gke-pod-snapshots/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span><span class="sec-en">K8s Core</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/" target="_blank" rel="noopener">Kubernetes v1.37：追踪 PVC「最近使用时间」进入 Beta（默认开启）</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Kubernetes v1.37 将 PersistentVolumeClaimUnusedSinceTime 特性门控提升到 Beta 并默认开启。PVC 保护控制器会给每个 PVC 加一个 Unused 条件，直接告诉你当前是否还有运行中的 Pod 引用它，无需自建工具或交叉比对，便于识别和回收闲置存储卷。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">PVC 保护控制器为每个 PVC 打 Unused 条件,标示是否仍被运行 Pod 引用,原生给出「最近使用时间」,无需自研脚本交叉核对。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">过去难判断 PVC 是否闲置,清理存储要自建工具、易误删仍在用的卷。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">直接命中你负责的集群存储治理与降本,Beta 默认开启可尽早在测试集群体验;注意 v1.37 版本适配节奏。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">v1.37</span><a class="src" href="https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/" target="_blank" rel="noopener">Kubernetes Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://github.com/coder/coder" target="_blank" rel="noopener">coder/coder：为开发者及其 agent 提供安全的开发环境</a></li>
+      <li><a href="https://github.com/BuilderIO/agent-native" target="_blank" rel="noopener">BuilderIO/agent-native：构建 agentic 应用的框架</a></li>
+      <li><a href="https://azure.microsoft.com/updates?id=572214" target="_blank" rel="noopener">Azure：VS Code 里 GitHub Copilot 的「引导式」建云应用体验进入公开预览</a></li>
+      <li><a href="https://simonwillison.net/2026/Sep/20/hn-49779718/" target="_blank" rel="noopener">MCP was always a bad idea？——Simon Willison 反驳并厘清 MCP 的价值边界</a></li>
+      <li><a href="https://www.infoq.cn/article/G58AHJw8gT8CQuiq5sap?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ：70 强项目观察，Agent 正从「会聊」走向「会干活」</a></li>
+      <li><a href="https://www.infoq.cn/article/xlQFjzl2mGPSYJq1RDod?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">黄仁勋：别先谈 AI 末日，先为已经发生的事故负责</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
