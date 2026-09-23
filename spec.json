@@ -2,17 +2,31 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月21日 · 星期一 · 第002期",
+    "subtitle": "2026年09月22日 · 星期二 · 第003期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
   "cover_image": "/Users/endverse/daily_brief_cover.png",
   "blocks": [
-    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. 微软开源 TauGrid，把 K8s 上的 AI 负载管理打包成平台**\n基于 Kubernetes，覆盖数据准备→训练→微调→推理全生命周期 GPU 任务管理，把 Kueue、KubeRay、GPU 健康监控与可观测性统一集成，Helm 一键部署，消除自己拼组件、写胶水代码的活。\n\n**2. APUS 开源国内首批「决策模型」复现 fast-browser-use，本地秒级决策、零 API 费用**\n跳过自回归解码、用单 Token Logits 直接对候选动作打分，本地 Qwen3.5-9B 完成『点哪里、选哪个』。M2 Pro 上离线跑真实维基检索中位约 18 秒、表单约 3 秒，MIT 协议，一行接入 Claude Code/Codex/OpenCode。"},
-    {"type": "hr"},
-    {"type": "markdown", "content": "**📌 今日看点**\n\n🧠 **模型与研究**：MiniMax-H3 全模态推理评测（114赞）；on-policy 蒸馏长度膨胀根因锁定 EOS token 失配。\n\n🧩 **Agent & Skill**：ECC agent harness 单日涨 826 星；addyosmani/agent-skills 生产级工程 skill 集；Claude Code 起支持 AGENTS.md。\n\n🛡️ **安全与治理**：Gemini 演练『越狱』猜密码入侵三家真实公司，AWS 提 AI 安全双路径；Azure Foundry 上线托管 agent 出站 FQDN 管控。\n\n🛠️ **AI 工程落地**：higgsfield 容错 GPU 编排训练框架（465 星）；WeVisDoc 鲁棒文档解析。\n\n📊 **产品与商业**：Qwen Image 2.1 发布；中国电信全栈国产模型单张 3090 跑本地 AI 办公。"},
-    {"type": "grey", "content": "共 2 条重点 + 6 大分类 14 条精选 + 6 条快讯 · 数据源覆盖 72 小时"}
+    {
+      "type": "markdown",
+      "content": "**🔥 今日重点**\n\n**1. Code2Skill：从源代码规模化合成可验证 Agent 技能**\n不靠环境交互轨迹、也不靠无法验证的文档，而是直接以源代码为素材提炼可复用技能，用代码的可执行性给抽象做接地与验证，让技能获取摆脱「先跑一遍环境」的前置成本。\n\n**2. GKE 多集群推理网关：跨集群全局 AI 路由，开销 <1%**\n针对加速器全球短缺、算力散落多集群甚至跨洋的现实，在集群间感知负载做推理请求路由，官方称额外开销低于 1%，把分散的 GPU/TPU 当一个池子用满；长上下文 agent 负载(100k–800k+ token)吃显存极快是核心场景。"
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "type": "markdown",
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：GraphSkillEvo 把技能表示成图结构再进化式优化；ZCode、ai-memory、jev-skill 等开源工具上新。\n🛠️ **AI 工程落地**：Anthropic 开源金融向 financial-services；SiliconBench 三维评测 Apple Silicon 推理引擎。\n🧠 **模型与研究**：Jev「决策模型」输出结构化数值而非文本；Grok 4.7 发布。\n📊 **产品与商业**：OceanBase 登顶国际 Data Agent 榜单；报告称国内智能算力规模预计增长 87.9%。\n💡 **观点与好文**：一线吐槽全 Claude Code 生产「没人读任何东西」；代码正变得「只写且可丢弃」。\n🤖☸️ **K8s × AI**：GKE Pod snapshots 给 AI 负载做热启动快照，减少过度预置。\n☸️ **K8s 核心**：Kubernetes v1.37 追踪 PVC「最近使用时间」进入 Beta，默认开启，便于回收闲置存储。"
+    },
+    {
+      "type": "grey",
+      "content": "共 2 条今日重点 + 8 大板块 19 条精选 + 6 条快讯 · 数据源覆盖近 72 小时"
+    }
   ],
-  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-21.html"},
+  "button": {
+    "text": "📖 阅读今日早报全文",
+    "url": "https://endverse.github.io/daily-brief/2026/2026-09-22.html"
+  },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }

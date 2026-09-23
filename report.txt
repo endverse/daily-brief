@@ -1,44 +1,49 @@
 ======================================================================
-处理报告  (原始 130 条)
+处理报告  (原始 179 条)
 ======================================================================
 
-① 过滤: 保留 88 条, 过滤掉 42 条
+① 过滤: 保留 145 条, 过滤掉 34 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] trycua/cua
-     ✗ [GitHub Trending] Open-Dev-Society/OpenStock
-     ✗ [GitHub Trending] cloudflare/quiche
      ✗ [GitHub Trending] mvt-project/mvt
-     ✗ [GitHub Trending] ruanyf/weekly
-     ✗ [GitHub 升星repo] Finderchangchang/jev-chat-JARVIS
-     ✗ [GitHub 升星repo] caxete/crypto-tax-calculator
-     ✗ [GitHub 升星repo] mabdulre9/electrical-engineering
+     ✗ [GitHub 升星repo] jev-chat/jev-chat-jarvis
+     ✗ [GitHub 升星repo] jev-chat/jev-chat-windows
+     ✗ [GitHub 升星repo] deepopen-com/deepopen
+     ✗ [GitHub 升星repo] CTNicholas/jev-workflow-builder
+     ✗ [GitHub 升星repo] Re1nhard-1/deconv-preflight
+     ✗ [GitHub 升星repo] ipenywis/laya-ultrafast
+     ✗ [GitHub 升星repo] Futureppo/typesafe_register
 
-② 去重: 88 → 87 条 (同批合并 0, 跨天历史去重 1)
+② 去重: 145 → 138 条 (同批合并 6, 跨天历史去重 1)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub 升星repo] Haleclipse/CometixCode
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] anthropics/financial-services
+   跨源合并的事件:
+     ⇉ onPanda: Efficient Annotation of On-Poli  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Harness-Zero: Harness Distillation via A  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ GameHorizon Suite: Multi-Horizon Data an  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ RRSI: Regularized Recursive Self-Improve  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ WorldCrafter: Consistent Video World Mod  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 29 条
-     - 安全与治理: 4 条
-     - Agent & Skill: 26 条 (含🔧开源 8)
-     - AI 工程落地: 16 条 (含🔧开源 8)
-     - 产品与商业: 8 条
-     - 观点与好文: 1 条
+     - AI 工程落地: 18 条 (含🔧开源 4)
+     - 模型与研究: 51 条 (含🔧开源 2)
+     - 安全与治理: 10 条 (含🔧开源 1)
+     - Agent & Skill: 39 条 (含🔧开源 8)
+     - 产品与商业: 9 条
+     - 观点与好文: 5 条
    【基础设施】
-     - K8s 核心: 1 条
-     - K8s × AI: 2 条
+     - K8s × AI: 3 条
+     - K8s 核心: 3 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
+     🔥 [19分] Better prompt caching for GPT-6
+        源:OpenAI News 类:AI 工程落地 跨源:[]
      🔥 [19分] Higgsfield AI ships new video features in a day with GP
         源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] How V7 gives AI agents institutional memory
-        源:OpenAI News 类:Agent & Skill 跨源:[]
 
    打分Top5(参考):
+      19分 [OpenAI News ] Better prompt caching for GPT-6
       19分 [OpenAI News ] Higgsfield AI ships new video features in a d
-      16分 [OpenAI News ] How V7 gives AI agents institutional memory
-      16分 [Anthropic News] Funding better evaluations of AI’s impact on 
-      12分 [HuggingFace Papers] CodeMidas: Scaling Agentic Coding RL Environm
-      12分 [HuggingFace Papers] Grounded Skill Synthesis from Code at Scale f
+      18分 [HuggingFace Papers] onPanda: Efficient Annotation of On-Policy Al
+      17分 [HuggingFace Papers] GameHorizon Suite: Multi-Horizon Data and Eva
+      17分 [HuggingFace Papers] RRSI: Regularized Recursive Self-Improvement 
