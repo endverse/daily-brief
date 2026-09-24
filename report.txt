@@ -1,49 +1,52 @@
 ======================================================================
-处理报告  (原始 179 条)
+处理报告  (原始 208 条)
 ======================================================================
 
-① 过滤: 保留 145 条, 过滤掉 34 条
+① 过滤: 保留 167 条, 过滤掉 41 条
    过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] Open-Dev-Society/OpenStock
      ✗ [GitHub Trending] mvt-project/mvt
-     ✗ [GitHub 升星repo] jev-chat/jev-chat-jarvis
-     ✗ [GitHub 升星repo] jev-chat/jev-chat-windows
-     ✗ [GitHub 升星repo] deepopen-com/deepopen
-     ✗ [GitHub 升星repo] CTNicholas/jev-workflow-builder
-     ✗ [GitHub 升星repo] Re1nhard-1/deconv-preflight
-     ✗ [GitHub 升星repo] ipenywis/laya-ultrafast
-     ✗ [GitHub 升星repo] Futureppo/typesafe_register
+     ✗ [GitHub Trending] harry7557558/spirula-studio
+     ✗ [GitHub 升星repo] SewCabinSpout/cleanupper
+     ✗ [GitHub 升星repo] kryvora-network/kryvora-node
+     ✗ [GitHub 升星repo] rgem227/knoweldge-base
+     ✗ [GitHub 升星repo] anishfn/shapeshift
+     ✗ [GitHub 升星repo] zeldaboyzlix/corz-client
 
-② 去重: 145 → 138 条 (同批合并 6, 跨天历史去重 1)
+② 去重: 167 → 157 条 (同批合并 4, 跨天历史去重 6)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] anthropics/financial-services
+     ⏭️  [GitHub Trending] davila7/claude-code-templates
+     ⏭️  [GitHub Trending] BuilderIO/agent-native
+     ⏭️  [GitHub Trending] dream-num/univer
+     ⏭️  [GitHub Trending] agent-substrate/substrate
+     ⏭️  [InfoQ中国] Meta 开源 Astryx：面向 Agent 的 React 设计系统
    跨源合并的事件:
-     ⇉ onPanda: Efficient Annotation of On-Poli  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Harness-Zero: Harness Distillation via A  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ GameHorizon Suite: Multi-Horizon Data an  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ RRSI: Regularized Recursive Self-Improve  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ WorldCrafter: Consistent Video World Mod  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Agensh: Scaling Organizational Intellige  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Flash-dLLM: IO-Aware KV Caching and Para  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - AI 工程落地: 18 条 (含🔧开源 4)
-     - 模型与研究: 51 条 (含🔧开源 2)
-     - 安全与治理: 10 条 (含🔧开源 1)
-     - Agent & Skill: 39 条 (含🔧开源 8)
-     - 产品与商业: 9 条
-     - 观点与好文: 5 条
+     - Agent & Skill: 31 条 (含🔧开源 8)
+     - AI 工程落地: 25 条 (含🔧开源 2)
+     - 安全与治理: 10 条
+     - 模型与研究: 68 条 (含🔧开源 4)
+     - 产品与商业: 8 条 (含🔧开源 1)
+     - 观点与好文: 5 条 (含🔧开源 1)
    【基础设施】
-     - K8s × AI: 3 条
-     - K8s 核心: 3 条
+     - K8s × AI: 4 条
+     - K8s 核心: 5 条
+     - 社区与项目: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Better prompt caching for GPT-6
-        源:OpenAI News 类:AI 工程落地 跨源:[]
-     🔥 [19分] Higgsfield AI ships new video features in a day with GP
+     🔥 [19分] Harvey turns legal context into stronger drafts with GP
+        源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [19分] Airbnb widens access to GPT-6 Astra and OpenAI frontier
         源:OpenAI News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
+      19分 [OpenAI News ] Harvey turns legal context into stronger draf
+      19分 [OpenAI News ] Airbnb widens access to GPT-6 Astra and OpenA
       19分 [OpenAI News ] Better prompt caching for GPT-6
       19分 [OpenAI News ] Higgsfield AI ships new video features in a d
-      18分 [HuggingFace Papers] onPanda: Efficient Annotation of On-Policy Al
-      17分 [HuggingFace Papers] GameHorizon Suite: Multi-Horizon Data and Eva
-      17分 [HuggingFace Papers] RRSI: Regularized Recursive Self-Improvement 
+      17分 [Simon Willison] Claude Opus 5.5, GPT-6 Sol, GPT-6 Luna, and a
