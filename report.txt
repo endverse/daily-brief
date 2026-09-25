@@ -1,42 +1,44 @@
 ======================================================================
-处理报告  (原始 208 条)
+处理报告  (原始 206 条)
 ======================================================================
 
-① 过滤: 保留 167 条, 过滤掉 41 条
+① 过滤: 保留 167 条, 过滤掉 39 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] Open-Dev-Society/OpenStock
+     ✗ [GitHub Trending] FxEmbed/FxEmbed
      ✗ [GitHub Trending] mvt-project/mvt
-     ✗ [GitHub Trending] harry7557558/spirula-studio
-     ✗ [GitHub 升星repo] SewCabinSpout/cleanupper
-     ✗ [GitHub 升星repo] kryvora-network/kryvora-node
-     ✗ [GitHub 升星repo] rgem227/knoweldge-base
-     ✗ [GitHub 升星repo] anishfn/shapeshift
-     ✗ [GitHub 升星repo] zeldaboyzlix/corz-client
+     ✗ [GitHub Trending] julyx10/lap
+     ✗ [GitHub 升星repo] Contrastive-LM/CLM
+     ✗ [GitHub 升星repo] dgreenheck/tidewater
+     ✗ [GitHub 升星repo] 852wa/JIZURA
+     ✗ [GitHub 升星repo] Aureliengmz/clearwater
+     ✗ [GitHub 升星repo] BridgeDruidCompress/TauriKit
 
-② 去重: 167 → 157 条 (同批合并 4, 跨天历史去重 6)
+② 去重: 167 → 152 条 (同批合并 3, 跨天历史去重 12)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] anthropics/financial-services
-     ⏭️  [GitHub Trending] davila7/claude-code-templates
-     ⏭️  [GitHub Trending] BuilderIO/agent-native
+     ⏭️  [OpenAI News] Grab and OpenAI bring practical AI skills to S
+     ⏭️  [OpenAI News] Better prompt caching for GPT-6
      ⏭️  [GitHub Trending] dream-num/univer
-     ⏭️  [GitHub Trending] agent-substrate/substrate
-     ⏭️  [InfoQ中国] Meta 开源 Astryx：面向 Agent 的 React 设计系统
+     ⏭️  [GitHub Trending] google/ax
+     ⏭️  [GitHub Trending] anthropics/financial-services
+     ⏭️  [GitHub Trending] obra/superpowers
+     ⏭️  [GitHub Trending] strands-agents/harness-sdk
+     ⏭️  [Simon Willison] Claude Opus 5.5, GPT-6 Sol, GPT-6 Luna, and a 
    跨源合并的事件:
-     ⇉ Agensh: Scaling Organizational Intellige  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Flash-dLLM: IO-Aware KV Caching and Para  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ On the Diffusibility of High-Dimensional  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ StudentBench: AI and human tutoring yiel  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ MemBodied: Recurrent Associative Memory   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 31 条 (含🔧开源 8)
-     - AI 工程落地: 25 条 (含🔧开源 2)
-     - 安全与治理: 10 条
-     - 模型与研究: 68 条 (含🔧开源 4)
-     - 产品与商业: 8 条 (含🔧开源 1)
-     - 观点与好文: 5 条 (含🔧开源 1)
+     - Agent & Skill: 27 条 (含🔧开源 6)
+     - AI 工程落地: 25 条 (含🔧开源 3)
+     - 安全与治理: 7 条
+     - 模型与研究: 72 条 (含🔧开源 4)
+     - 产品与商业: 10 条
    【基础设施】
-     - K8s × AI: 4 条
-     - K8s 核心: 5 条
-     - 社区与项目: 1 条
+     - K8s × AI: 6 条 (含🔧开源 1)
+     - K8s 核心: 3 条
+     - 社区与项目: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Harvey turns legal context into stronger drafts with GP
@@ -47,6 +49,6 @@
    打分Top5(参考):
       19分 [OpenAI News ] Harvey turns legal context into stronger draf
       19分 [OpenAI News ] Airbnb widens access to GPT-6 Astra and OpenA
-      19分 [OpenAI News ] Better prompt caching for GPT-6
-      19分 [OpenAI News ] Higgsfield AI ships new video features in a d
-      17分 [Simon Willison] Claude Opus 5.5, GPT-6 Sol, GPT-6 Luna, and a
+      19分 [OpenAI News ] Introducing GPT-6 Sol and Luna
+      16分 [OpenAI News ] Ringg’s AI agents resolve up to 65% of custom
+      16分 [HuggingFace Papers] Hunyuan-A13B Technical Report

@@ -2,7 +2,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月22日 · 星期二 · 第003期",
+    "subtitle": "2026年09月24日 · 星期四 · 第005期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -10,23 +10,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. Code2Skill：从源代码规模化合成可验证 Agent 技能**\n不靠环境交互轨迹、也不靠无法验证的文档，而是直接以源代码为素材提炼可复用技能，用代码的可执行性给抽象做接地与验证，让技能获取摆脱「先跑一遍环境」的前置成本。\n\n**2. GKE 多集群推理网关：跨集群全局 AI 路由，开销 <1%**\n针对加速器全球短缺、算力散落多集群甚至跨洋的现实，在集群间感知负载做推理请求路由，官方称额外开销低于 1%，把分散的 GPU/TPU 当一个池子用满；长上下文 agent 负载(100k–800k+ token)吃显存极快是核心场景。"
+      "content": "**🔥 今日重点**\n\n**1. Claude Opus 5.5 发布，成本比 GPT-6 Astra 低约 80%**\n官方案例称一天迁移 68 万行代码；同日 OpenAI 推 GPT-6 Sol/Luna 半价档，模型价格战直接打到编码 agent 场景。\n\n**2. 多集群 GKE Inference Gateway：全局 AI 路由，开销 <1%**\n把分散在多集群的 GPU/TPU 容量聚合成统一推理入口，直面加速器紧缺与长上下文 agent 负载的高消耗。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：GraphSkillEvo 把技能表示成图结构再进化式优化；ZCode、ai-memory、jev-skill 等开源工具上新。\n🛠️ **AI 工程落地**：Anthropic 开源金融向 financial-services；SiliconBench 三维评测 Apple Silicon 推理引擎。\n🧠 **模型与研究**：Jev「决策模型」输出结构化数值而非文本；Grok 4.7 发布。\n📊 **产品与商业**：OceanBase 登顶国际 Data Agent 榜单；报告称国内智能算力规模预计增长 87.9%。\n💡 **观点与好文**：一线吐槽全 Claude Code 生产「没人读任何东西」；代码正变得「只写且可丢弃」。\n🤖☸️ **K8s × AI**：GKE Pod snapshots 给 AI 负载做热启动快照，减少过度预置。\n☸️ **K8s 核心**：Kubernetes v1.37 追踪 PVC「最近使用时间」进入 Beta，默认开启，便于回收闲置存储。"
+      "content": "**📌 今日看点**\n\n🧠 **模型与研究**：Opus 5.5 / GPT-6 Sol·Luna 连发价格战；Jev「决策模型」输出数值而非文本。\n🧩 **Agent & Skill**：obra/superpowers、strands harness-sdk 开源；SkillSpec 给 skill 做语义正确性校验。\n🛠️ **AI 工程落地**：GPT-6 提示缓存增强降本；本地 tool-use 评测别把 serving 栈当模型。\n🛡️ **安全与治理**：A2M 揭示 MCP 工具供应链劫持；GenAI 从对齐转向访问控制的策略强制。\n🤖☸️ **K8s × AI**：GKE Pod 快照跳过冷启动；多集群推理网关聚合算力。\n☸️ **K8s 核心**：v1.37 PVC Unused 条件（Beta）；GKE 原生 Scale-to-Zero 与 HPA PromQL。"
     },
     {
       "type": "grey",
-      "content": "共 2 条今日重点 + 8 大板块 19 条精选 + 6 条快讯 · 数据源覆盖近 72 小时"
+      "content": "共2条重点 + 6大板块26条精选 + 6条快讯 · 数据源覆盖72小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-09-22.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-09-24.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
