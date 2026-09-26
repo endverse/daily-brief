@@ -1,44 +1,45 @@
 ======================================================================
-处理报告  (原始 206 条)
+处理报告  (原始 200 条)
 ======================================================================
 
-① 过滤: 保留 167 条, 过滤掉 39 条
+① 过滤: 保留 157 条, 过滤掉 43 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] FxEmbed/FxEmbed
-     ✗ [GitHub Trending] mvt-project/mvt
-     ✗ [GitHub Trending] julyx10/lap
-     ✗ [GitHub 升星repo] Contrastive-LM/CLM
-     ✗ [GitHub 升星repo] dgreenheck/tidewater
-     ✗ [GitHub 升星repo] 852wa/JIZURA
-     ✗ [GitHub 升星repo] Aureliengmz/clearwater
-     ✗ [GitHub 升星repo] BridgeDruidCompress/TauriKit
+     ✗ [GitHub Trending] derv82/wifit3
+     ✗ [GitHub Trending] kelseyhightower/kubernetes-the-hard-way
+     ✗ [GitHub Trending] shy3130/tick-stock-panel
+     ✗ [GitHub Trending] openbao/openbao
+     ✗ [GitHub 升星repo] tobi/disktree
+     ✗ [GitHub 升星repo] jankeesvw/omarchy-meeting-recorder
+     ✗ [GitHub 升星repo] ilkerzg/storycast
+     ✗ [GitHub 升星repo] LuwuDynamics/xgoduck_hardware
 
-② 去重: 167 → 152 条 (同批合并 3, 跨天历史去重 12)
+② 去重: 157 → 147 条 (同批合并 2, 跨天历史去重 8)
    跨天去重(此前已发过，跳过):
-     ⏭️  [OpenAI News] Grab and OpenAI bring practical AI skills to S
-     ⏭️  [OpenAI News] Better prompt caching for GPT-6
+     ⏭️  [GitHub Trending] vectorize-io/hindsight
+     ⏭️  [GitHub Trending] obra/superpowers
      ⏭️  [GitHub Trending] dream-num/univer
      ⏭️  [GitHub Trending] google/ax
-     ⏭️  [GitHub Trending] anthropics/financial-services
-     ⏭️  [GitHub Trending] obra/superpowers
-     ⏭️  [GitHub Trending] strands-agents/harness-sdk
-     ⏭️  [Simon Willison] Claude Opus 5.5, GPT-6 Sol, GPT-6 Luna, and a 
+     ⏭️  [GitHub Trending] NVIDIA/Model-Optimizer
+     ⏭️  [InfoQ中国] Claude Opus 5.5 发布：一天内迁移 68 万行代码，单任务成本比 GPT-6 
+     ⏭️  [Google Cloud] GKE becomes more elastic: Scale to zero, save 
+     ⏭️  [Google Cloud] Scale your own way, using HPA with built-in su
    跨源合并的事件:
-     ⇉ On the Diffusibility of High-Dimensional  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ StudentBench: AI and human tutoring yiel  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ MemBodied: Recurrent Associative Memory   ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Coding Agents for Generalized Task and M  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ ExplorationBench: Measuring AI Systems'   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 27 条 (含🔧开源 6)
+     - 模型与研究: 58 条 (含🔧开源 2)
+     - Agent & Skill: 36 条 (含🔧开源 8)
      - AI 工程落地: 25 条 (含🔧开源 3)
-     - 安全与治理: 7 条
-     - 模型与研究: 72 条 (含🔧开源 4)
-     - 产品与商业: 10 条
+     - 安全与治理: 10 条
+     - 观点与好文: 3 条
+     - 产品与商业: 7 条 (含🔧开源 1)
    【基础设施】
-     - K8s × AI: 6 条 (含🔧开源 1)
-     - K8s 核心: 3 条
-     - 社区与项目: 2 条
+     - 社区与项目: 3 条
+     - K8s 核心: 1 条
+     - K8s × AI: 3 条
+     - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Harvey turns legal context into stronger drafts with GP
@@ -49,6 +50,6 @@
    打分Top5(参考):
       19分 [OpenAI News ] Harvey turns legal context into stronger draf
       19分 [OpenAI News ] Airbnb widens access to GPT-6 Astra and OpenA
-      19分 [OpenAI News ] Introducing GPT-6 Sol and Luna
+      16分 [OpenAI News ] Proaction boosts sales 60% and saves 75+ hour
       16分 [OpenAI News ] Ringg’s AI agents resolve up to 65% of custom
-      16分 [HuggingFace Papers] Hunyuan-A13B Technical Report
+      16分 [Anthropic News] Science Claude discovers a novel enzyme syste
