@@ -1,55 +1,51 @@
 ======================================================================
-处理报告  (原始 200 条)
+处理报告  (原始 177 条)
 ======================================================================
 
-① 过滤: 保留 157 条, 过滤掉 43 条
+① 过滤: 保留 138 条, 过滤掉 39 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] derv82/wifit3
-     ✗ [GitHub Trending] kelseyhightower/kubernetes-the-hard-way
-     ✗ [GitHub Trending] shy3130/tick-stock-panel
      ✗ [GitHub Trending] openbao/openbao
-     ✗ [GitHub 升星repo] tobi/disktree
-     ✗ [GitHub 升星repo] jankeesvw/omarchy-meeting-recorder
-     ✗ [GitHub 升星repo] ilkerzg/storycast
-     ✗ [GitHub 升星repo] LuwuDynamics/xgoduck_hardware
+     ✗ [GitHub Trending] block/buzz
+     ✗ [GitHub Trending] microsoft/vscode
+     ✗ [GitHub Trending] llvm/llvm-project
+     ✗ [GitHub Trending] actions/runner-images
+     ✗ [GitHub Trending] mobile-next/mobile-mcp
+     ✗ [GitHub Trending] vercel/next.js
+     ✗ [GitHub 升星repo] supermemoryai/company-brain
 
-② 去重: 157 → 147 条 (同批合并 2, 跨天历史去重 8)
+② 去重: 138 → 132 条 (同批合并 2, 跨天历史去重 4)
    跨天去重(此前已发过，跳过):
+     ⏭️  [GitHub Trending] paperclipai/paperclip
      ⏭️  [GitHub Trending] vectorize-io/hindsight
-     ⏭️  [GitHub Trending] obra/superpowers
-     ⏭️  [GitHub Trending] dream-num/univer
-     ⏭️  [GitHub Trending] google/ax
      ⏭️  [GitHub Trending] NVIDIA/Model-Optimizer
-     ⏭️  [InfoQ中国] Claude Opus 5.5 发布：一天内迁移 68 万行代码，单任务成本比 GPT-6 
-     ⏭️  [Google Cloud] GKE becomes more elastic: Scale to zero, save 
-     ⏭️  [Google Cloud] Scale your own way, using HPA with built-in su
+     ⏭️  [GitHub Trending] dream-num/univer
    跨源合并的事件:
      ⇉ Coding Agents for Generalized Task and M  ← ['HuggingFace Papers', 'arXiv cs.AI']
      ⇉ ExplorationBench: Measuring AI Systems'   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 58 条 (含🔧开源 2)
-     - Agent & Skill: 36 条 (含🔧开源 8)
-     - AI 工程落地: 25 条 (含🔧开源 3)
-     - 安全与治理: 10 条
+     - 模型与研究: 53 条 (含🔧开源 2)
+     - 安全与治理: 8 条 (含🔧开源 1)
      - 观点与好文: 3 条
-     - 产品与商业: 7 条 (含🔧开源 1)
+     - Agent & Skill: 28 条 (含🔧开源 3)
+     - AI 工程落地: 23 条 (含🔧开源 3)
+     - 产品与商业: 9 条 (含🔧开源 2)
    【基础设施】
-     - 社区与项目: 3 条
+     - K8s × AI: 4 条
+     - 社区与项目: 2 条
      - K8s 核心: 1 条
-     - K8s × AI: 3 条
      - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Harvey turns legal context into stronger drafts with GP
+     🔥 [16分] Proaction boosts sales 60% and saves 75+ hours with Cod
         源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [19分] Airbnb widens access to GPT-6 Astra and OpenAI frontier
-        源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [16分] Science Claude discovers a novel enzyme system with CRI
+        源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      19分 [OpenAI News ] Harvey turns legal context into stronger draf
-      19分 [OpenAI News ] Airbnb widens access to GPT-6 Astra and OpenA
       16分 [OpenAI News ] Proaction boosts sales 60% and saves 75+ hour
-      16分 [OpenAI News ] Ringg’s AI agents resolve up to 65% of custom
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
+      16分 [Anthropic News] Funding better evaluations of AI’s impact on 
+      15分 [HuggingFace Papers] Coding Agents for Generalized Task and Motion
+      15分 [HuggingFace Papers] ExplorationBench: Measuring AI Systems' Explo
