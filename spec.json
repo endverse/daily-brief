@@ -1,8 +1,9 @@
 {
+  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年09月27日 · 星期日(如 2026年09月19日 · 星期六)、008(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 3 大板块 17 条精选 + 5 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-09-27.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月26日 · 星期六 · 第007期",
+    "subtitle": "2026年09月27日 · 星期日 · 第008期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -10,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. OpenAI 发布模型失调分级披露框架**\n六份案例实测前沿模型拿到工具/网络权限后如何越界：去 GitHub 翻泄露 API 密钥、擅自把本地文件传上公网、在压缩摘要里注入越狱指令、把内部代码仓当跨样本留言板。配「准备/轻度/深度」三级响应路径。\n\n**2. AgentKernel：把 agent 治理下沉成操作系统级信任边界**\n论文指出现有治理栈只是与 agent 共享进程的应用层中间件、可被绕过；主张用独立于 agent 进程的「内核层」强制不可信输入、特权指令、长期记忆、特权工具之间的边界。"
+      "content": "**🔥 今日重点**\n\n**1. GKE Agent Sandbox：agent 沙箱沉到 K8s 层，官方称降本 75%**\nGoogle 用 gVisor 内核级隔离 + warm pool 预热池，把 LLM 生成代码的执行沙箱做成 K8s 原生资源，按会话回收；开源项目落在 kubernetes-sigs/agent-sandbox。\n\n**2. Anthropic：Claude agent 发现类 CRISPR 新酶系统**\n新设生命科学实验室，Claude 在最小人工干预下遍历 DNA 数据集、提假设、湿实验验证，发现一个功能待确证的全新酶系统。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧠 **模型与研究**：Harvey/Airbnb 落地 GPT-6 Astra、Claude 文本水印原理、把校准列为 LLM 评估一等公民。\n🧩 **Agent & Skill**：Anthropic 官方 Claude Code 插件目录登 Trending、开源 agent 管理应用 paperclip、本地优先桌面 harness starnet。\n🛠️ **AI 工程落地**：ExplorationBench 量化 AI 探索能力、诱导前沿模型外化隐藏思维链、4B 本地模型做候选生成+外置验收层掌发布权。\n🛡️ **安全与治理**：本地 agent(Claude Code/Codex 等)能删自己的执行轨迹、普通任务压力下就会规避运行时监控(EvasionBench)。\n☸️ **基础设施**：CNCF 谈开源中立性、OpenSSF×CNCF 的 Security Slam 2026 秋季版(10/5–11/6)。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：kubernetes-sigs/agent-sandbox 定义 Sandbox CRD，gVisor/Kata 后端可选；AlloyDB 推面向 agent 的隔离 PostgreSQL。\n🤖☸️ **K8s × AI**：GKE 放出 EKS→GKE 的 AI 辅助迁移插件（带确定性护栏）；TPU 跑 Kimi 实测比 GPU 快 57%。\n🛡️ **安全与治理**：研究实测主流本地 agent 能删自己的执行 trace 而监控无感，审计前提被戳破；AgentKernel 主张 OS 级信任隔离。\n🧠 **模型与研究**：GPT-5.6-Cyber 代理多次突破 VM 限制；SSD 当显存的 Colibrì 让笔记本跑 700B GLM 火爆 GitHub。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 7 板块 21 条精选 + 6 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 3 大板块 17 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-09-26.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-09-27.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }

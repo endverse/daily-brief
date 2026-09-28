@@ -1,40 +1,36 @@
 ======================================================================
-处理报告  (原始 177 条)
+处理报告  (原始 103 条)
 ======================================================================
 
-① 过滤: 保留 138 条, 过滤掉 39 条
+① 过滤: 保留 80 条, 过滤掉 23 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] openbao/openbao
-     ✗ [GitHub Trending] block/buzz
-     ✗ [GitHub Trending] microsoft/vscode
-     ✗ [GitHub Trending] llvm/llvm-project
-     ✗ [GitHub Trending] actions/runner-images
-     ✗ [GitHub Trending] mobile-next/mobile-mcp
-     ✗ [GitHub Trending] vercel/next.js
-     ✗ [GitHub 升星repo] supermemoryai/company-brain
+     ✗ [GitHub Trending] debpalash/VoiceStudio
+     ✗ [GitHub Trending] InfinityLoop1308/PipePipe
+     ✗ [GitHub Trending] vercel-labs/scriptc
+     ✗ [GitHub Trending] willfaust/Madeira
+     ✗ [GitHub 升星repo] Rieranthony/product-film-skill
+     ✗ [GitHub 升星repo] jaydendavisnc/inkwave
+     ✗ [GitHub 升星repo] xikhar/spiderbench
+     ✗ [GitHub 升星repo] ZacharyZhang-NY/OmaPhoto
 
-② 去重: 138 → 132 条 (同批合并 2, 跨天历史去重 4)
+② 去重: 80 → 76 条 (同批合并 0, 跨天历史去重 4)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] paperclipai/paperclip
      ⏭️  [GitHub Trending] vectorize-io/hindsight
-     ⏭️  [GitHub Trending] NVIDIA/Model-Optimizer
      ⏭️  [GitHub Trending] dream-num/univer
-   跨源合并的事件:
-     ⇉ Coding Agents for Generalized Task and M  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ ExplorationBench: Measuring AI Systems'   ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [量子位] 谷歌TPU跑Kimi比英伟达GPU快57%！用的还是DeepSeek推理框架
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 53 条 (含🔧开源 2)
-     - 安全与治理: 8 条 (含🔧开源 1)
-     - 观点与好文: 3 条
-     - Agent & Skill: 28 条 (含🔧开源 3)
-     - AI 工程落地: 23 条 (含🔧开源 3)
-     - 产品与商业: 9 条 (含🔧开源 2)
+     - 模型与研究: 29 条
+     - 安全与治理: 6 条 (含🔧开源 2)
+     - 观点与好文: 2 条
+     - Agent & Skill: 21 条 (含🔧开源 9)
+     - AI 工程落地: 9 条 (含🔧开源 1)
+     - 产品与商业: 7 条 (含🔧开源 2)
    【基础设施】
-     - K8s × AI: 4 条
-     - 社区与项目: 2 条
-     - K8s 核心: 1 条
+     - 社区与项目: 1 条
      - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
@@ -47,5 +43,5 @@
       16分 [OpenAI News ] Proaction boosts sales 60% and saves 75+ hour
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
       16分 [Anthropic News] Funding better evaluations of AI’s impact on 
-      15分 [HuggingFace Papers] Coding Agents for Generalized Task and Motion
-      15分 [HuggingFace Papers] ExplorationBench: Measuring AI Systems' Explo
+      14分 [Simon Willison] Kākāpō Party
+      13分 [HuggingFace Papers] Capable yet Parsimonious: Extracting and Char
