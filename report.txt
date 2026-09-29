@@ -1,47 +1,47 @@
 ======================================================================
-处理报告  (原始 103 条)
+处理报告  (原始 118 条)
 ======================================================================
 
-① 过滤: 保留 80 条, 过滤掉 23 条
+① 过滤: 保留 83 条, 过滤掉 35 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub Trending] InfinityLoop1308/PipePipe
-     ✗ [GitHub Trending] vercel-labs/scriptc
-     ✗ [GitHub Trending] willfaust/Madeira
-     ✗ [GitHub 升星repo] Rieranthony/product-film-skill
-     ✗ [GitHub 升星repo] jaydendavisnc/inkwave
+     ✗ [GitHub Trending] NawfalMotii79/PLFM_RADAR
+     ✗ [GitHub Trending] cs341-illinois/coursebook
+     ✗ [GitHub Trending] byoungd/up
      ✗ [GitHub 升星repo] xikhar/spiderbench
-     ✗ [GitHub 升星repo] ZacharyZhang-NY/OmaPhoto
+     ✗ [GitHub 升星repo] tileshoutdipper/Discord-Booster-Server
+     ✗ [GitHub 升星repo] brainbrick-trades/The-Quant-Trading-Vault
+     ✗ [GitHub 升星repo] BagasRizkyHarySaputra/MLBB-waydroid-LinuxCloudMLBB
 
-② 去重: 80 → 76 条 (同批合并 0, 跨天历史去重 4)
+② 去重: 83 → 78 条 (同批合并 0, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] paperclipai/paperclip
      ⏭️  [GitHub Trending] vectorize-io/hindsight
+     ⏭️  [GitHub Trending] mvschwarz/openrig
      ⏭️  [GitHub Trending] dream-num/univer
-     ⏭️  [量子位] 谷歌TPU跑Kimi比英伟达GPU快57%！用的还是DeepSeek推理框架
+     ⏭️  [InfoQ中国] 阿里巴巴开源 AI 辅助代码评审工具 OpenCodeReview
    (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 29 条
-     - 安全与治理: 6 条 (含🔧开源 2)
-     - 观点与好文: 2 条
-     - Agent & Skill: 21 条 (含🔧开源 9)
-     - AI 工程落地: 9 条 (含🔧开源 1)
-     - 产品与商业: 7 条 (含🔧开源 2)
+     - 产品与商业: 9 条
+     - 模型与研究: 41 条 (含🔧开源 4)
+     - 安全与治理: 4 条
+     - AI 工程落地: 9 条
+     - 观点与好文: 3 条
+     - Agent & Skill: 10 条 (含🔧开源 5)
    【基础设施】
-     - 社区与项目: 1 条
-     - 公有云: 1 条
+     - K8s × AI: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] Proaction boosts sales 60% and saves 75+ hours with Cod
+     🔥 [22分] Basis completes a tax workbook 2x faster with GPT-6 Ast
         源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] Science Claude discovers a novel enzyme system with CRI
-        源:Anthropic News 类:模型与研究 跨源:[]
+     🔥 [16分] The Lenfest Institute grows landmark program with expan
+        源:OpenAI News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      16分 [OpenAI News ] Proaction boosts sales 60% and saves 75+ hour
+      22分 [OpenAI News ] Basis completes a tax workbook 2x faster with
+      16分 [OpenAI News ] The Lenfest Institute grows landmark program 
+      16分 [AWS News    ] AWS Weekly Roundup: GPT-6 Sol and Luna, Claud
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
       16分 [Anthropic News] Funding better evaluations of AI’s impact on 
-      14分 [Simon Willison] Kākāpō Party
-      13分 [HuggingFace Papers] Capable yet Parsimonious: Extracting and Char

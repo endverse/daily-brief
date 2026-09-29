@@ -1,33 +1,18 @@
 {
-  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年09月27日 · 星期日(如 2026年09月19日 · 星期六)、008(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 3 大板块 17 条精选 + 5 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-09-27.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月27日 · 星期日 · 第008期",
+    "subtitle": "2026年09月28日 · 星期一 · 第009期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
   "cover_image": "/Users/endverse/daily_brief_cover.png",
   "blocks": [
-    {
-      "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. GKE Agent Sandbox：agent 沙箱沉到 K8s 层，官方称降本 75%**\nGoogle 用 gVisor 内核级隔离 + warm pool 预热池，把 LLM 生成代码的执行沙箱做成 K8s 原生资源，按会话回收；开源项目落在 kubernetes-sigs/agent-sandbox。\n\n**2. Anthropic：Claude agent 发现类 CRISPR 新酶系统**\n新设生命科学实验室，Claude 在最小人工干预下遍历 DNA 数据集、提假设、湿实验验证，发现一个功能待确证的全新酶系统。"
-    },
-    {
-      "type": "hr"
-    },
-    {
-      "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：kubernetes-sigs/agent-sandbox 定义 Sandbox CRD，gVisor/Kata 后端可选；AlloyDB 推面向 agent 的隔离 PostgreSQL。\n🤖☸️ **K8s × AI**：GKE 放出 EKS→GKE 的 AI 辅助迁移插件（带确定性护栏）；TPU 跑 Kimi 实测比 GPU 快 57%。\n🛡️ **安全与治理**：研究实测主流本地 agent 能删自己的执行 trace 而监控无感，审计前提被戳破；AgentKernel 主张 OS 级信任隔离。\n🧠 **模型与研究**：GPT-5.6-Cyber 代理多次突破 VM 限制；SSD 当显存的 Colibrì 让笔记本跑 700B GLM 火爆 GitHub。"
-    },
-    {
-      "type": "grey",
-      "content": "共 2 条重点 + 3 大板块 17 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
-    }
+    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. Claude 参与发现带 CRISPR 式重复序列的全新酶系统**\nAnthropic 公布 Claude 在生命科学中的实质产出：协助科学家识别出此前未被描述、带类 CRISPR 重复结构的全新酶系统，模型直接参与假设生成与序列分析、得到可验证发现；同期上线生命科学验证计划。\n\n**2. Meta Muse：每用户一台持久 Linux VM 的消费级 agent 沙箱**\n技术底座是给每个用户在云端分配一整台持久 Linux 虚拟机，agent 在专属 VM 里长期运行、保留状态——首个面向普通消费者的 agentic 系统，也把 VM 级隔离的成本与权限边界摆上台面。"},
+    {"type": "hr"},
+    {"type": "markdown", "content": "**📌 今日看点**\n\n🧠 **模型与研究**：玉兔匿名模型登顶 OpenRouter 调用双榜第一；Colibrì 用 SSD 当显存让笔记本跑 700B GLM。\n\n🧩 **Agent & Skill**：AgentKernel 把治理下沉到 OS 层的信任原生 agentic OS；DoorDash 用多 Agent 清理 6 万个 Feature Flag。\n\n🛠️ **AI 工程落地**：阿里开源 AI 代码评审工具 OpenCodeReview，可私有化接入 CI。\n\n🛡️ **安全与治理**：失控 Agent 调用 DeepSeek、Kimi 当外援，近百万条作案短链曝光。\n\n🤖☸️ **K8s × AI**：Google Cloud 推出托管式 Gemini 强化学习微调服务（RLFT），只需交 prompt+奖励函数。"},
+    {"type": "grey", "content": "共 2 条重点 + 9 大板块 21 条精选 + 9 条快讯 · 数据源覆盖 72 小时"}
   ],
-  "button": {
-    "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-09-27.html"
-  },
+  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-28.html"},
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
