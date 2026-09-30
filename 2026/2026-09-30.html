@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 09 月 30 日 · 星期三</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 011 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 09 月 30 日 · 星期三</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天两条主线同时被打薄：一条是推理成本，OpenAI 在 DevDay 2026 放出 20+ 项更新，核心是 GPT-6.1 Sol——以 Astra 五分之一的价格提供近 Astra 级智能，并配上 8 倍提速、最高 300 tokens/秒的 Ultrafast 模式；另一条是 agent 的沙箱基础设施，Google 把 GKE Agent Sandbox 做成 RL 专用原语，把沙箱首次执行时间从 45–85 秒压到 1–9 秒、最差等待从 7.5 分钟降到 10 秒以内，AWS 则在 EKS 上加了 GPU 感知的推理路由，首 token 延迟最多降 82%。agent 侧还有两份能直接对照自己实践的材料：Workday 用生产数据说明 skill 按需加载会让检索更准但延迟略升，小米把「组内评分 + 优势重分配」塞进了 code agent 的 RL 流水线。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://openai.com/index/introducing-gpt-6-1-sol" target="_blank" rel="noopener">DevDay 2026：GPT-6.1 Sol 以五分之一价格给出近 Astra 智能，外加 8x 的 Ultrafast 与 agent 助手 Dots</a></h2>
+    <p>OpenAI 发布 GPT-6.1 Sol，官方定位「近 Astra 级智能、Astra 五分之一的价格」，覆盖编码、computer use 与专业工作，当天即可用。同时推出 Ultrafast 模式：8 倍提速、最高 300 tokens/秒，价格为标准模式的 6 倍，先支持 Astra 6、随后支持 Sol 6.1。订阅侧新增 Pro 500（含 Ultrafast，用量为 Plus 的 25 倍），并把 $200/月档重新对新用户开卖。面向个人与团队的 agent 产品 Dots 与 ChatGPT Space 同场发布，Dots 由 Astra 驱动、可在 Slack 等外部工具中自主推进任务，ChatGPT Pro 与 Enterprise 客户当天可用。另有 Decisions API 预览：把 Luna 模型限制在一组预定义选项中做选择，让响应压到「零点几秒」。整场共 20+ 项公告。</p>
+    <div class="note">新闻要点：① Sol 定位「近 Astra 智能 + 1/5 价格」，覆盖 coding / computer use / 专业工作；② Ultrafast 8x、最高 300 tok/s、6x 价格，先 Astra 6 后 Sol 6.1；③ 新增 Pro 500 订阅并把 $200/月档重新开卖；④ Dots（Astra 驱动）+ ChatGPT Space 面向 Pro/Enterprise 开放；⑤ Decisions API 预览，用预定义选项把延迟压到零点几秒；⑥ Codex on Linux 与手机端同日发布。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://cloud.google.com/blog/products/containers-kubernetes/accelerate-agentic-rl-with-gke-agent-sandbox/" target="_blank" rel="noopener">GKE Agent Sandbox：agentic RL 沙箱冷启动快 45 倍，把 GPU 从「等沙箱」里解放出来</a></h2>
+    <p>Google 发布面向强化学习优化的 GKE Agent Sandbox 与配套的 Agent Sandbox RL 编排 SDK，并提供主流 RL gym / harness 的原生集成，目前已 GA。它的做法是在 Kubernetes 之上加 SandboxWarmPool 预热池 + GKE Image Streaming，把沙箱首次执行时间（TTFC）从 45–85 秒压到 1–9 秒（10x–45x），最差等待从 7.5 分钟降到 10 秒以内。针对 RL 每个训练步都会突发数千沙箱的负载特征，SDK 用「原地复用」策略跨 rollout 复用 Pod 而非反复创建删除，使 Pod 创建量减少 3 倍，避免 API Server 队列拥塞、Pod 状态错误和误判节点不健康。Google 用 SWE-bench 等重负载刻意压测自己的集群，把 etcd 超时、GPU 空转等瓶颈回灌进开发循环。实测一个 10 节点 gVisor 沙箱池 + 镜像流式拉取，即可支撑上千个大于 1.2GB 的大镜像高基数场景（如 4,578 个 R2E 镜像 ×4 rollout = 18,312 个并发沙箱）。该原语已在 Mistral AI 的 agentic RL 训练基础设施中投用。</p>
+    <div class="note">新闻要点：① GA 的 GKE Agent Sandbox（RL 优化）+ RL 编排 SDK + RL gym/harness 原生集成；② TTFC 从 45–85 秒降到 1–9 秒，尾延迟从 7.5 分钟降到 &lt;10 秒；③ 原地复用使 Pod 创建减少 3 倍，稳住 API Server；④ 支持快照、挂起恢复与 sandbox forking；⑤ 压测规模 4,578 个 R2E 镜像 ×4 rollout = 18,312 个并发沙箱；⑥ 已用于 Mistral AI 的 RL 训练基础设施。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">Agents &amp; Skills</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/NVIDIA/OpenShell" target="_blank" rel="noopener">NVIDIA/OpenShell：自主 agent 的「安全私有运行时」，单日 +990 star</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>NVIDIA 开源 OpenShell，定位是「自主 AI agent 的安全、私有运行时」，仓库已累积 10.6k star，单日新增约 990 star 冲上 GitHub Trending。代码主体为 Rust（Cargo 工作区 + crates/），并带 deploy/、providers/、telemetry/、sdk/ 与 e2e 目录，是可部署的运行时工程而非 demo。0.1.x 已进入稳定发布节奏，官方给出的三个方向是新的隔离原语（isolation primitives）、扩展面（extension surface）与新 API，并提供 0.1.0 升级指南。仓库内同时维护 .agents/、skills/、.claude/、.opencode/ 等目录，把 agent 配置与 skill 当作运行时的一等资产管理。对「agent 跑在自己的机器或集群上、但不能完全信任它」这个诉求，这是目前最完整的开源答案之一。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给自主 agent 提供隔离运行时：Rust 实现的运行时主体，配 isolation primitives、可扩展的 extension surface 与新 API；仓库自带 deploy/ 与 providers/（对接不同后端）、telemetry/（可观测）、sdk/ 与 e2e 测试；内置 .agents/ 与 skills/ 目录说明它把 agent 的 skill 定义纳入运行时管理。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">自主 agent 需要在真实机器上执行代码、读写文件、访问网络，但它由不可信输入驱动——传统做法是给它一个容器或一台虚拟机，粒度粗、启动慢、权限是「有或没有」。OpenShell 试图把「agent 运行时」做成一个自带隔离原语与策略面的产品级组件。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得深入：和你正在评估的多用户 × 多会话 agent 沙箱是同一题目，NVIDIA 在 0.1.x 就给出稳定发布节奏说明准备长期维护，单日 990 star 也意味着生态会快速跟上。限制是项目极新（0.1.x）、Rust 技术栈、生产验证案例还在积累，现阶段适合对照设计思路和做 PoC，不建议直接压生产。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">运行时</span><a class="src" href="https://github.com/NVIDIA/OpenShell" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2609.35692v1" target="_blank" rel="noopener">Workday 实测「agent skill 按需加载」：检索质量上升，整体延迟略微退化</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Workday 的生产经验是：用户提的新需求往往能通过「命名过程（即 skill）」写进 LLM 上下文来解决，等于给 agent 加能力；但 skill 库一大，运营成本就跟着涨。这份报告实证研究渐进披露（progressive disclosure，也就是按需 lazy-load skill）的影响，结论是它提升了 skill 检索质量，但整体延迟有轻微退化。也就是说，把 skill 全量塞进上下文与按需加载之间不是单纯的省钱替换，而要在「检索准确率 vs 端到端延迟」之间做取舍。作者为 Guilin Zhang、Waleed Ammar 等 7 人。对任何用 skill 做能力扩展的团队，这是第一份拿生产环境数据说话的对照结论。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">拆开「skill 作为命名过程写进上下文」这一做法的成本结构，用 Workday 已部署 agent 的实证数据量化 progressive disclosure（按需加载 skill、而非全量注入）对两个指标的影响：skill 检索质量与端到端延迟。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">skill 库随需求增长而膨胀，全量注入把上下文与推理成本一起推高，正是「skill 越攒越多、agent 越跑越贵」的困境；而「改成懒加载就好了」此前只是直觉，没有生产数据支撑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读：结论直接可用于你自己的 skill 体系——按需加载换来检索更准、代价是延迟略增，说明 skill 的组织方式（命名、分层、索引）比「全塞还是懒加载」更值得投入。限制是这是单家公司（Workday）部署环境的报告，延迟退化的幅度与在不同 harness 下的表现需自己验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">论文</span><a class="src" href="https://arxiv.org/abs/2609.35692v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.32577" target="_blank" rel="noopener">小米 GAGAR：给 code agent 的 RL 加「组内评分 + 优势重分配」，让它不只过测试还写得干净</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>小米提出 GAGAR，为 code agent 的强化学习引入 groupwise agentic grader 做在线优势重分配。它针对的是二值测试奖励的根本缺陷：GRPO 会给同一 rollout 组里所有「通过测试」的轨迹相同优势，无法区分精准最小实现与到处塞垃圾的解，团队内部吐槽是「任务解决了，但模型把代码拉得到处都是」。GAGAR 让 grader 在同一任务的多条轨迹之间横向比较，把信用从低质量的成功解转移到高质量解，让模型学会选更好的解题路径、写更接近可合并的代码。三个关键设计是：组内对比让质量差异显形、评估本身是 agentic 的（要主动调查上百轮交互的轨迹）、按组重分配优势。该技术已进入 MiMo-V2.6 系列的大规模 RL 训练流水线。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 code agent 的 RL 里用「组内 agentic 评分器」替换隐含的二值奖励：让 grader 同时看同一任务的多条成功轨迹，比较后重新分配优势，把信用从冗余、绕路的成功解挪给精准最小的解。关键设计是 groupwise（差异靠对比才显形）、agentic（评分本身要主动调查多轮轨迹）、advantage redistribution（按组重算信用）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">测试通过不等于实现质量好。GRPO 对同组内所有通过测试的轨迹给相同优势，模型因此拿不到「写干净点」的学习信号，产出大量超范围、夹带无关改动、需要人工清理的 diff——这在把 code agent 接入真实仓库时是主要的人工成本。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得深入：评审/评分信号的设计正是 code agent 落地的关键瓶颈，这份工作给了「把质量偏好塞进 RL 奖励」的一个可复现设计，并已在 MiMo-V2.6 的训练流水线里跑过规模。限制是需自建 agentic grader（额外推理成本）且面向自训模型的团队，纯调用 API 的使用方只能借鉴评分维度设计。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">论文</span><a class="src" href="https://huggingface.co/papers/2609.32577" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.32965" target="_blank" rel="noopener">Relic：把多 agent 反复踩的坑，固化成组织级可执行协议</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文研究的问题是「AI 组织能否学会如何运作」：多个 agent 在同一组织里经常冲突——一个改了仓库接口，另一个还在旧版本上继续开发、测试全过期；一次对话能解决当下这次，但参与者一换，教训就留不下来。Relic 把反复出现的协作失败转成组织拥有、可执行的协议：成员复盘可见的工作、提出规则，再让规则跨任务与人员流动持续生效。360 次受控实验中，Relic 提升了「完整契约交付」，可执行协议的迁移成功率达到 41.2%，对比纯文本规则 34.6%、从零开始 25.4%。论文把这件事定义为「组织能力」——能脱离创建它的那批具体 agent 而延续的能力。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把多 agent 协作中反复出现的失败，从「一次性对话解决」升级为跨任务、跨成员流动仍然生效的可执行协议：agent 复盘彼此可见的工作 → 提出规则 → 规则以可执行形式（而非纯文本提示）沉淀，供后续成员加载执行，核心指标是协议迁移率。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 团队的知识无法沉淀：接口变更、约定失效这类冲突每换一批参与者就复发；写在提示里的规则效果有限——实验中可执行协议迁移率 41.2% 明显高于纯文本规则 34.6%，从零开始只有 25.4%。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读：它把「多 agent 的规范与记忆放在哪里」这个你正在面对的问题（每用户独立沙箱、上下文隔离）做成了可量化实验，41.2% vs 34.6% 的差距说明「可执行」比「写文档」重要。限制是 360 次实验仍在受控环境，真实工程的规模与冲突类型更杂，迁移时需自行设计协议的存储与加载点。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">论文</span><a class="src" href="https://huggingface.co/papers/2609.32965" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/openai/mcp-extensions" target="_blank" rel="noopener">openai/mcp-extensions：让第三方插件在 ChatGPT 里「像原生功能一样」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 开源 mcp-extensions（TypeScript，216 star），目标是让开发者构建的插件在 ChatGPT 里表现得像原生、一等的功能，而不是外挂。仓库名直接指向 MCP（Model Context Protocol）作为插件接入面，与 DevDay 上「平台化」的叙事（模型、工具与分发）配套。对在做 agent 工具链的团队，这是 OpenAI 侧插件生态的官方参考实现，也基本确认了 MCP 作为跨厂商 agent 工具接口的事实标准地位。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提供一套基于 MCP 的扩展机制，让第三方能力以「原生功能」的形态出现在 ChatGPT 内部，而不是通过外挂或粘贴文本；TypeScript 实现，可直接参考其接口与打包方式。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前把外部工具接进 ChatGPT 要么依赖闭源连接器、要么体验割裂；agent 工具接入缺少厂商认同的标准形态，同一能力要针对不同客户端各写一遍。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得追：MCP 已是跨模型的事实标准，OpenAI 出官方扩展仓库意味着「写一次 MCP server、各家客户端都能接」的路径更明确，对自建 agent 的工具层设计有直接参考价值。限制是仓库刚起步、216 star，抽象层是否稳定要看后续版本。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源</span><a class="src" href="https://github.com/openai/mcp-extensions" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=571899" target="_blank" rel="noopener">Azure 把 SQL Server 迁移做成 Agent Skills：评估→选目标→执行→验证，已 GA</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>微软把从 SQL Server 迁移到 Azure 的端到端旅程封装成可复用的 AI 技能（SQL Migration Agent Skills），覆盖评估、目标选择、迁移执行与迁移后验证四个阶段，现已正式 GA；同时 Microsoft SQL Agent Skills 进入公开预览，为构建、运维与迁移 SQL 工作负载的 agent 提供更准确的产品专属指引，可用于 Azure SQL Database 与 Azure SQL 容器等场景。这是「厂商把自家专业操作流程固化成 agent skill 并作为产品交付」的又一实例，说明 skill 正在从社区约定变成厂商的交付界面。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把数据库迁移这种多阶段、强流程的专家工作拆成可复用 skill：评估现有工作负载、目标选择、迁移执行、迁移后验证，由 agent 按 skill 指引逐步推进；同族的 Microsoft SQL Agent Skills 则覆盖构建 / 运维 / 迁移的日常操作指引。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">迁移类任务步骤长、依赖产品细节多，agent 缺少厂商知识时容易给出似是而非的操作；把官方流程固化成 skill 后，指引变成「被验证过的步骤」而不是模型即兴发挥。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得关注形态变化：云厂商开始把「操作流程」按 skill 的形式交付，意味着以后 agent 能力来源会包括「厂商发布的 skill 包」而不只是社区仓库——这对金融场景里「流程必须可审计、指引必须来自权威方」的诉求是正向的。限制是强绑定 Azure SQL 栈，迁移类 skill 复用面窄。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">技能</span><a class="src" href="https://azure.microsoft.com/updates?id=571899" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.35718" target="_blank" rel="noopener">GPT-6 Astra 在 34 项视觉能力上对上专用 CV 模型：什么变容易了、什么还难</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>研究者用 GPT-6 Astra 与其他 5 个前沿通用系统，跨 9 个计算机视觉领域、34 项能力、55 个 benchmark 做了系统评测，并与专用 CV 模型逐项对比。论文回答两个问题：通用系统在视觉上的能力边界已经推到哪里，以及还剩什么依然困难。对搭建视觉流水线的团队，这是一份现成的「哪些环节可以从专用模型迁到通用模型」的对照表。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提供一次覆盖 9 个 CV 领域、34 项能力、55 个 benchmark 的横向评测，把通用前沿系统（GPT-6 Astra 等 6 个）与专用 CV 模型放在同一套任务上对比，明确标出「通用系统已追上 / 仍落后」的分区。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">视觉流水线的选型长期靠经验：哪些任务还得用专用模型、哪些已可以用通用模型省掉一套部署，缺少公开、同口径的对照数据。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得扫一眼：如果手上有 OCR / 检测 / 分割这类环节，「通用模型是否够用」直接决定一套模型服务要不要保留，这份表能省掉一轮自测。限制是论文评测口径与生产数据分布有差距，结论适合做初筛而非最终选型依据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">评测</span><a class="src" href="https://huggingface.co/papers/2609.35718" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system" target="_blank" rel="noopener">Claude 自主发现一个带 CRISPR 样重复序列的新型酶系统</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Anthropic 成立了生命科学研究组与自有实验室，思路是让 Claude 在生物研究的每一步与人类协作。早期成果之一是：在科学家只给出高层方向的情况下，Claude 自主发现了与大量 DNA 重复序列相关联的新型酶系统，其模式与 CRISPR 相似。该系统的功能目前尚不清楚，但它具备的一组特征此前只在少数可编程、能执行剪切 / 复制 / 粘贴 DNA 操作的系统中同时出现过。Anthropic 强调这类加速来自「agent + 人」的新研究方式，而不只是更强的模型。原帖发布于 9 月 23 日。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Claude 在只拿到高层方向时，自主在 DNA 序列数据里找出未表征的蛋白家族并提出假设，最终定位到一个与大量 DNA 重复序列关联、性质类似 CRISPR 的新型酶系统；Anthropic 为此自建实验室，把「模型提假设 → 实验验证」闭环起来。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">生物学发现的瓶颈在假设产生速度：限制酶、Taq 聚合酶、CRISPR 都是先「注意到某处不对劲」才诞生的。让 agent 在海量序列里系统化地找异常模式，是把这类偶然发现产业化的尝试。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得关注方向而非细节：它示范了「agent 做开放式研究」的可验证形态——假设由模型提出、结论由实验室实验确认，而不是模型自说自话。对金融量化的类比是「agent 提因子假设 + 回测验证」的闭环；限制是该成果绑定自建湿实验室，短期不可迁移。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">科学</span><a class="src" href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system" target="_blank" rel="noopener">Anthropic News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://research.google/blog/how-diffusion-controller-unifies-and-simplifies-ai-image-generation/" target="_blank" rel="noopener">Google 用 Diffusion Controller 统一并简化图像生成</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Research 提出 Diffusion Controller，把图像生成中的多种控制方式（结构、风格、参考图等）收敛到一套统一接口，目标是替掉「每种控制方式各训一个适配模型」的碎片化现状。文章走的是把控制信号统一进扩散过程的技术路线，属于 Algorithms &amp; Theory 系列。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用统一的控制器接口承载多种图像生成控制信号，替代当前「一个控制方式一个适配模型」的堆叠式做法，减少模型数量与显存占用。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多控制条件组合时，模型堆叠带来显存、延迟和互相干扰；每加一种控制就多训一个适配器，工程与成本线性膨胀。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做方向性关注即可：属于生成模型侧的统一化趋势，与 K8s / agent 方向关联弱；但若团队有图像生成类业务的推理成本问题，统一控制器意味着更少的模型副本与更低的显存门槛。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">研究</span><a class="src" href="https://research.google/blog/how-diffusion-controller-unifies-and-simplifies-ai-image-generation/" target="_blank" rel="noopener">Google Research</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/VectifyAI/PageIndex" target="_blank" rel="noopener">PageIndex：不建向量库的 RAG——用层级文档索引 + 推理定位，单日 +835 star</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>PageIndex 提出 vectorless、reasoning-based RAG：不为文档建向量索引，而是构建文档的层级结构索引，让模型像人翻目录一样沿层级推理定位到相关段落。它今天冲上 GitHub Trending，单日新增约 835 star，说明「embedding + chunk 相似度」的默认范式正在被重新审视。它直接针对 RAG 的老问题：chunk 切分丢掉上下文、相似度高不等于答案相关。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把文档解析成带层级的树状索引，检索时让模型在索引上做推理式导航（先选章节再选段落），因而省掉向量库与 embedding 服务这一整套组件，同时保留原文的上下文结构。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">向量 RAG 的两个硬伤：chunk 切分破坏上下文导致召回片段不可用；余弦相似度与「是否真的能回答问题」经常不一致。此外向量库、embedding 模型与同步管道本身就是一套要运维的组件。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得试：如果现在维护着向量库 + embedding 管道的 RAG 服务，这里给出的是「用一个索引 + 推理调用换掉整套组件」的替代路径，尤其适合文档结构清晰（规范、手册、报告）的知识库。限制是推理式检索会带来额外模型调用与延迟，超大语料的成本需实测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">RAG</span><a class="src" href="https://github.com/VectifyAI/PageIndex" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/alpcanaydin/tusk" target="_blank" rel="noopener">tusk：原生 macOS 数据库客户端，20 种数据库 + 会「展示过程」的 AI 助手</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>tusk 是一个用 Rust 写的原生 macOS 数据库客户端，支持 20 种数据库，键盘驱动、启动快，内置一个会把推理过程展示出来的 AI 助手（而不是只丢结果），免费且开源。它代表的是「AI 助手透明化」这一小趋势：让用户看到 SQL 是怎么被生成的，而不是黑箱执行。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Rust 原生实现的 macOS 数据库 GUI，覆盖 20 种数据库、全键盘操作；内置 AI 助手在生成与解释 SQL 时会把中间推理展示出来供人复核。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有数据库客户端要么是 JVM / Electron 的沉重体验，要么把 AI 生成 SQL 做成黑箱——在需要审计的环境里，看不见推理就没法信任执行结果。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">属于顺手的工具类项目（68 star，规模小），但「AI 显示其工作过程」这个交互取向值得留意——在金融环境里，能展示推理链路的 AI 辅助才可能被允许接触生产库。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">工具</span><a class="src" href="https://github.com/alpcanaydin/tusk" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">Products &amp; Business</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/499098.html" target="_blank" rel="noopener">李飞飞的世界模型公司被 AMD 以 550 亿收购，李飞飞出任 AMD 首席科学家</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位报道，李飞飞创立的世界模型公司被 AMD 苏姿丰以 550 亿美元收购，是迄今世界模型方向金额最大的交易，李飞飞将出任 AMD 首席科学家。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">AMD 以 550 亿美元买下李飞飞的世界模型公司，并让李飞飞出任首席科学家，把世界模型能力纳入自己的 AI 版图。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">AMD 在 AI 芯片上一直缺软件与模型层的生态抓手，靠收购直接获得前沿研究团队与叙事能力，对标 CUDA 侧的生态优势。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作为行业信号记一笔：世界模型成为巨头争夺的新战略资产，算力厂商在往模型层上移；对做基础设施选型的人来说，意味着 GPU 供应方的软件栈会更快分化，多后端兼容的价值上升。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">收购</span><a class="src" href="https://www.qbitai.com/2026/09/499098.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=571800" target="_blank" rel="noopener">Azure SQL 向量检索与向量索引正式 GA</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure SQL Database 的向量搜索与向量索引正式 GA，可直接用 CREATE VECTOR INDEX 与 VECTOR_SEARCH 两条 T-SQL 做近似最近邻（ANN）检索，用于语义检索等 AI 场景。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在关系库内用标准 T-SQL 建向量索引并做 ANN 检索（CREATE VECTOR INDEX / VECTOR_SEARCH），不再需要外挂一套向量数据库。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">RAG 场景此前要额外运维向量库并与业务库做数据同步，一致性与运维成本都高；把向量能力放进已有数据库可省掉一层组件。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果在评估 RAG 的存储层，这是「向量库能否不引入」的一个现实选项，尤其适合数据已经在 SQL 里、且团队不想多维护一套集群的情况；限制是 ANN 性能与规模上限通常不如专用向量库，需要压测验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">GA</span><a class="src" href="https://azure.microsoft.com/updates?id=571800" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">Opinion</span></div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Sep/29/anthropic-frontier-red-team/" target="_blank" rel="noopener">Anthropic 前沿红队：GLM-5.3 已在 4% 试验中写出完整控制流劫持</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Simon Willison 摘录 Anthropic 前沿红队的结论：在内部二进制利用 benchmark 中随机抽取的 100 个任务上，GLM-5.3 在 4% 的试验里成功开发出完整的控制流劫持，Claude Mythos Preview 为 6%；而更早的 Claude Opus 4.6 与 GLM-5.2 一次都没成功。红队认为一个有意义的门槛已被跨过。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出可比的攻击能力量化：同一套 100 个二进制利用任务、随机抽样下，GLM-5.3 达 4%、Claude Mythos Preview 达 6% 的完整控制流劫持成功率，而上一代两个模型为 0。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">「模型的攻击性网络能力到底到哪了」此前多是定性描述；红队用同一口径的 benchmark 给出跨代对比，让「从 0 到 4%」这种台阶可被观测。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得记：开源权重模型跨过「能自主写出完整漏洞利用」的门槛之后，内部 AI 编码 agent 的权限边界就不能只靠提示约束了——这对在出口做审计 / DLP、以及给 agent 沙箱收窄权限的规划是直接佐证。限制是数字来自单一内部 benchmark，样本量 100 偏小。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">引用</span><a class="src" href="https://simonwillison.net/2026/Sep/29/anthropic-frontier-red-team/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">Safety &amp; Governance</span></div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.35699" target="_blank" rel="noopener">蒸馏防御在「蒸馏后再 RL」的威胁模型下被轻易打破</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文指出蒸馏攻击防御的评测盲区：现有防御都在蒸馏「刚结束」时评估，隐含假设攻击者不会继续训练。作者把威胁模型改成「蒸馏 + 后续强化学习」，结果一些看似有效的防御被直接打破，且用现成 API 就能拿到的数据做简单攻击，即可窃取闭源模型的推理能力，效果逼近需要完整隐藏轨迹的复杂攻击。结论直白：任何泄露了足够信息、能让攻击者近似重建推理轨迹的防御，大概率都无效。论文最后讨论了更可能有效的 batch-level 蒸馏防御。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">重新定义蒸馏攻击的威胁模型（蒸馏之后还允许攻击者做 RL 再训练），并在此模型下评测现有防御；同时证明只用当前 API 就能拿到的数据做简单攻击，即可获得与「完整提取隐藏推理轨迹」相当的推理能力提升。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">防御方容易被「蒸馏刚结束时看起来有效」的指标误导——错误指定的威胁模型会带来虚假的安全感，而 RL 恰好降低了蒸馏攻击的门槛。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读：如果 agent 或模型对外提供推理服务，这直接决定「加水印 / 扰动输出 / 限速」这类防御值不值得投入——论文的结论是它们大概率挡不住，防御重心该转向批次级（batch-level）约束与数据面控制。限制是论文偏机理验证，工业规模的攻击成本未量化。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">安全</span><a class="src" href="https://huggingface.co/papers/2609.35699" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">16</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/identity-security/google-cloud-partners-deliver-new-security-agents-and-ai-defenses-with-gemini-enterprise/" target="_blank" rel="noopener">Google Cloud 把合作方安全 agent 引入 Gemini Enterprise</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 在 Cloud Next 上把合作方构建的安全 agent 引入 Gemini Enterprise，让企业在同一个入口发现与部署覆盖身份、网络、端点、数据、云与应用层的专用安全 agent。其论点是：面对用 AI 加速攻击的对手，防御方真正的优势是只有自己掌握的业务上下文，因此需要把分散在十几个产品里的安全信号聚合起来。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把第三方为身份、网络、端点、数据、云、应用各层构建的安全 agent 汇聚进 Gemini Enterprise 做统一发现与部署，用企业自有业务上下文增强检测与响应。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业安全栈由十几个产品拼成，每层只看自己的上下文，攻击者却用 AI 跨层串联；缺一个把信号与处置统一起来的地方。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">方向性关注：它确认了「安全运营也要 agent 化」的产品化路径。对自建 agent 平台的团队，值得借鉴的是「把业务上下文当作防御资产」这一设计取向——与在出口做联网搜索审计 / DLP 的思路一致。限制是这条路绑定 Gemini Enterprise。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">安全</span><a class="src" href="https://cloud.google.com/blog/products/identity-security/google-cloud-partners-deliver-new-security-agents-and-ai-defenses-with-gemini-enterprise/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span><span class="sec-en">K8s meets AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-gpt-6-sol-and-luna-claude-opus-5-5-on-amazon-bedrock-strands-harness-and-more-september-28-2026/" target="_blank" rel="noopener">AWS：EKS 上多了 GPU 感知的推理路由，首 token 延迟最多降 82%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AWS 在周报里公布 SageMaker HyperPod Inference Gateway：一个 Kubernetes 原生、GPU 感知的推理路由层，以单个 EKS 托管 add-on 的形式部署、业务应用零改动。它不再用轮询负载均衡，而是按实时推理信号路由——KV cache 利用率、队列深度、前缀缓存命中、预测延迟等，在混合硬件与突发场景下把首 token 延迟最多降低 82%，并兼容任意 OpenAI 兼容模型服务（含 vLLM、SGLang）。同一份周报里还发布了 CloudWatch Omni（基于 OpenTelemetry，把应用与 AI agent 观测放在同一个界面，可自动发现服务、映射依赖并把 AWS DevOps Agent 拉进调查会话）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 EKS 托管 add-on 的形式提供推理路由层，按 KV cache 利用率、队列深度、前缀缓存命中与预测延迟等实时信号做路由决策，而不是轮询散列；对应用零改动、兼容 vLLM / SGLang 等 OpenAI 兼容服务端。配套的 CloudWatch Omni 用 OpenTelemetry 把应用与 agent 的遥测汇到一个界面。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多副本 LLM 推理用轮询负载均衡时会互相踩缓存：请求落到已缓存饱和或队列积压的副本上，首 token 延迟飙升；而前缀缓存这种对 agent 场景收益最大的机制，也依赖「同一前缀落到同一副本」。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得深入：它与 GKE 今天的 Agent Sandbox 发布正好构成基础设施侧两条线——一条优化「沙箱起得多快」，一条优化「请求路由到哪」。82% 的首 token 延迟改善若能在自建集群复现，对在线 agent 的体验是直接收益；限制是当前以 SageMaker HyperPod + EKS 托管形态交付，自建 vLLM + Gateway API 的团队需要自己实现等价的路由策略。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">推理网关</span><a class="src" href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-gpt-6-sol-and-luna-claude-opus-5-5-on-amazon-bedrock-strands-harness-and-more-september-28-2026/" target="_blank" rel="noopener">AWS News Blog</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/video/HsaJfo3DKR9XC0LeeV30?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 议题：每天上千万次创建，Agent Sandbox 正在变成新算力形态</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>InfoQ 播出的一个议题直接抛出「Agent Sandbox 为什么会成为新算力形态」，给出的量级是每天上千万次沙箱创建；同期还有一篇「Agent 不只烧 Token：为什么 Agent Sandbox 正在变得重要」的文章。这一组内容与今天 Google 发布 GKE Agent Sandbox 的时机互相印证：agent 的算力消耗正在从「推理 token」扩展到「沙箱生命周期管理」，沙箱创建频率成为新的基础设施指标。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 agent 基础设施的成本视角从 token 扩展到沙箱生命周期：以「每天上千万次创建」这样的量级，论证沙箱调度、隔离与回收正在成为独立的算力形态与工程题目。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">只盯推理成本的优化视角会漏掉 agent 真正的大头——大量短生命周期隔离环境的创建、镜像拉取与回收，这些在传统「静态工作负载」的容量模型里没有位置。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得作为选题线索：它把「沙箱创建频率」提为一个可观测的基础设施指标，与 GKE 那篇的 TTFC / Pod 复用数据可以对照着读。限制是视频议题形式、缺公开的量化方法细节，还不足以直接作为容量规划依据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">议题</span><a class="src" href="https://www.infoq.cn/video/HsaJfo3DKR9XC0LeeV30?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☁️</span><span class="sec-title">公有云动态</span><span class="sec-en">Cloud</span></div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=572630" target="_blank" rel="noopener">Azure 存储优化型 Lasv5 / Laosv5 虚拟机 GA：AMD Turin，每 vCPU 配 720GB 本地 NVMe</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure Lasv5 与 Laosv5 存储优化型虚拟机正式 GA，基于第五代 AMD EPYC（Turin）处理器，规格从 2 到 160 vCPU，每个 vCPU 配 8GiB 内存与 720GB 本地 NVMe 磁盘容量。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提供 2–160 vCPU 的存储优化机型，基于 AMD 第五代 EPYC（Turin），每 vCPU 8GiB 内存与 720GB 本地 NVMe，面向 IO 密集型负载。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">本地 NVMe 容量与带宽型工作负载（缓存、向量索引落盘、日志与数据预处理）此前要么选内存优化机型、要么外挂云盘，成本与延迟都不理想。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">选型时可对比的规格点：本地 NVMe 是这类机型的核心价值，适合节点本地缓存与临时数据场景；但它不解决 GPU 侧需求，与 AI 训练推理无直接关系。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">虚拟机</span><a class="src" href="https://azure.microsoft.com/updates?id=572630" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=571857" target="_blank" rel="noopener">Azure SQL Hyperscale Serverless 支持自动暂停与自动恢复（预览）</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure SQL Database 的 Hyperscale 层在 Serverless 计算档上开始公开预览自动暂停（auto-pause）与自动恢复（auto-resume）：数据库可在空闲期自动暂停，有活动时自动恢复。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 Serverless 的按需计费扩展到 Hyperscale 层：空闲自动暂停、有请求自动唤醒，无需手工启停。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">开发 / 测试库与低频业务库长期挂着实例持续计费；Hyperscale 此前缺少 Serverless 的自动暂停能力，闲置成本无法收敛。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">属于成本优化类的实用更新，非核心方向；如果公司有大量低频使用的库，这类能力能直接压账单。注意自动恢复会有冷启动延迟，不适合对首请求延迟敏感的业务。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">预览</span><a class="src" href="https://azure.microsoft.com/updates?id=571857" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=570800" target="_blank" rel="noopener">Azure Functions v1 托管模型将于 2027-09-29 在 Azure Container Apps 上退役</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure 宣布 Azure Container Apps 上的 Azure Functions v1 托管模型将于 2027 年 9 月 29 日退役，此后现有 v1 应用将停止运行，不再处理请求或事件驱动触发器。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">官方给出明确的退役时间点与影响范围：2027-09-29 之后，ACA 上仍运行 Functions v1 托管模型的应用将直接停止处理请求与触发器。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">平台侧的统一是必然——保留多代托管模型意味着额外的兼容与运维成本，对使用方则是「必须迁移」的硬期限。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果公司有 Serverless 应用跑在 ACA 上，值得现在就盘点是否存在 v1 托管模型依赖，把迁移排进 2027 年的计划；这是典型的「早发现成本低」类事项。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">退役</span><a class="src" href="https://azure.microsoft.com/updates?id=570800" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://openai.com/index/introducing-dots" target="_blank" rel="noopener">OpenAI 发布 dots：可持续推进复杂项目与日常任务的主动式助手</a></li>
+      <li><a href="https://arxiv.org/abs/2609.35741v1" target="_blank" rel="noopener">ROFT：只训练模型「复盘解释自己的经历」，不靠 RL 也能提升 agent 表现</a></li>
+      <li><a href="https://arxiv.org/abs/2609.35671v1" target="_blank" rel="noopener">PhoneCLI：把 App 的 GUI 导航编译成可调用命令，移动 agent 不再每步截图</a></li>
+      <li><a href="https://huggingface.co/papers/2609.35706" target="_blank" rel="noopener">Night Science：用 RL 教模型产出高熵、非常规的科学创意</a></li>
+      <li><a href="https://huggingface.co/papers/2609.33791" target="_blank" rel="noopener">on-policy 蒸馏到底还需不需要 KL 散度？有人做了对照实验</a></li>
+      <li><a href="https://www.anthropic.com/news/claude-text-watermark" target="_blank" rel="noopener">Anthropic 公布 Claude 文本水印的工作原理</a></li>
+      <li><a href="https://www.anthropic.com/news/model-hardware-standard-research-preview" target="_blank" rel="noopener">Anthropic 预告 Model Hardware Standard，试图标准化模型与硬件的对接</a></li>
+      <li><a href="https://www.qbitai.com/2026/09/498584.html" target="_blank" rel="noopener">匿名模型「玉兔」登 OpenRouter 调用日榜榜首，Coding 实测公开</a></li>
+      <li><a href="https://simonwillison.net/2026/Sep/28/muse-ai-agent/" target="_blank" rel="noopener">Simon Willison 引用 Muse AI Agent 的翻车复盘：自动回复替用户「答应」了不该答应的事</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
