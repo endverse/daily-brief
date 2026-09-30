@@ -2,17 +2,17 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月29日 · 星期二 · 第010期",
+    "subtitle": "2026年09月30日 · 星期三 · 第011期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
   "cover_image": "/Users/endverse/daily_brief_cover.png",
   "blocks": [
-    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. Cloudflare ADLC：用可编程 Workflows + 信任棘轮，把 agent 开发生命周期做成「自动化软件工厂」**\nWorkflows 作核心编排层动态起容器、跑无头浏览器、调度子智能体，@cloudflare/ci 让 agent 自主故障分诊；安全侧「智能体访问模型」给 agent 绑定任务的短期凭证，碰到受保护资源时「信任棘轮」动态降权、强制最小权限。旨在取代人在回路的传统 SDLC。\n\n**2. Claude Sonnet 5.5 发布：同价换 30% 提速与降本，基准全面超越 Sonnet 5**\n官方称快 30%+、多数工作成本降至多 30%，定价与 Sonnet 5 持平却在几乎所有基准上超越前代；Simon Willison 实测仍复现 max 思考档耗尽 12.8 万 token 未产出结果的 bug。"},
+    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. DevDay 2026：GPT-6.1 Sol 以五分之一价格给出近 Astra 智能，外加 8x 的 Ultrafast 与 agent 助手 Dots**\nOpenAI 发布 GPT-6.1 Sol（近 Astra 智能、Astra 1/5 价格，覆盖编码/computer use/专业工作）；Ultrafast 模式 8x 提速、最高 300 tok/s、6x 单价；新增 Pro 500 订阅；agent 助手 Dots 与 ChatGPT Space 面向 Pro/Enterprise 开放；Decisions API 预览用预定义选项把延迟压到零点几秒，整场 20+ 项公告。\n\n**2. GKE Agent Sandbox：agentic RL 沙箱冷启动快 45 倍，把 GPU 从「等沙箱」里解放出来**\nGA 的 GKE Agent Sandbox + RL 编排 SDK：SandboxWarmPool + Image Streaming 把沙箱 TTFC 从 45–85 秒压到 1–9 秒、尾延迟 7.5 分钟降到 10 秒内；原地复用让 Pod 创建少 3 倍从而稳住 API Server；10 节点 gVisor 池实测支撑 18,312 个并发沙箱，已用于 Mistral AI 的 RL 训练基础设施。"},
     {"type": "hr"},
-    {"type": "markdown", "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：CNCF 论证 agent 需要一套云原生 harness（工具/共享文件系统/子智能体/skill）；awesome-claude-video-skills 把 180 个 skill 逐个安全分级。\n\n🧠 **模型与研究**：GPT-6 Astra 完成 50 页税务工作簿快 2 倍；PISA 把块稀疏注意力的块选择降到对数线性复杂度。\n\n🛠️ **AI 工程落地**：RayOrch 编排谱系可控的数据准备流；解耦量化给 prefill/decode 分别定制。\n\n📊 **产品与商业**：Azure SQL 向量搜索正式 GA，可用 T-SQL 直接做 ANN 检索。\n\n🤖☸️ **K8s × AI**：循环语言模型的深度自适应推理——连续深度批处理补上 vLLM 无法处理的空白。"},
-    {"type": "grey", "content": "共 2 条重点 + 6 大分类 12 条精选 + 7 条快讯 · 数据源覆盖 72 小时"}
+    {"type": "markdown", "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：NVIDIA OpenShell 做自主 agent 的安全私有运行时（单日 +990 star）；Workday 实测 skill 按需加载让检索更准、延迟略升；小米 GAGAR 用组内评分训练 code agent 写干净代码。\n\n🧠 **模型与研究**：GPT-6 Astra 在 34 项视觉能力上与专用 CV 模型逐项对照；Claude 自主发现带 CRISPR 样重复序列的新型酶系统。\n\n🛠️ **AI 工程落地**：PageIndex 用层级索引 + 推理检索做出「不建向量库」的 RAG（单日 +835 star）。\n\n📊 **产品与商业**：李飞飞的世界模型公司被 AMD 以 550 亿美元收购；Azure SQL 向量检索与向量索引 GA。\n\n💡 **观点与好文**：Anthropic 红队称 GLM-5.3 已在 4% 试验中写出完整控制流劫持。\n\n🛡️ **安全与治理**：蒸馏防御在「蒸馏后再 RL」下被打破，泄露近似推理轨迹的防御大概率无效。\n\n🤖☸️ **K8s × AI**：AWS 在 EKS 上加 GPU 感知的推理路由，首 token 延迟最多降 82%。\n\n☁️ **公有云动态**：Azure Lasv5 / Laosv5 存储优化机型 GA，每 vCPU 配 720GB 本地 NVMe。"},
+    {"type": "grey", "content": "共 2 条重点 + 8 大分类 21 条精选 + 9 条快讯 · 数据源覆盖 72 小时"}
   ],
-  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-29.html"},
+  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-30.html"},
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
