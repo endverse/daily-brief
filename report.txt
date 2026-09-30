@@ -1,47 +1,50 @@
 ======================================================================
-处理报告  (原始 118 条)
+处理报告  (原始 211 条)
 ======================================================================
 
-① 过滤: 保留 83 条, 过滤掉 35 条
+① 过滤: 保留 145 条, 过滤掉 66 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub Trending] NawfalMotii79/PLFM_RADAR
+     ✗ [GitHub Trending] oblien/openship
+     ✗ [GitHub Trending] averygan/reclip
      ✗ [GitHub Trending] cs341-illinois/coursebook
-     ✗ [GitHub Trending] byoungd/up
-     ✗ [GitHub 升星repo] xikhar/spiderbench
-     ✗ [GitHub 升星repo] tileshoutdipper/Discord-Booster-Server
-     ✗ [GitHub 升星repo] brainbrick-trades/The-Quant-Trading-Vault
-     ✗ [GitHub 升星repo] BagasRizkyHarySaputra/MLBB-waydroid-LinuxCloudMLBB
+     ✗ [GitHub Trending] willfaust/Madeira
+     ✗ [GitHub Trending] rakyll/hey
+     ✗ [GitHub 升星repo] KKKKhazix/AIHOT
+     ✗ [GitHub 升星repo] wy51ai/floorplan-3d
 
-② 去重: 83 → 78 条 (同批合并 0, 跨天历史去重 5)
+② 去重: 145 → 136 条 (同批合并 4, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] paperclipai/paperclip
      ⏭️  [GitHub Trending] vectorize-io/hindsight
+     ⏭️  [GitHub Trending] paperclipai/paperclip
      ⏭️  [GitHub Trending] mvschwarz/openrig
+     ⏭️  [GitHub Trending] rohitg00/ai-engineering-from-scratch
      ⏭️  [GitHub Trending] dream-num/univer
-     ⏭️  [InfoQ中国] 阿里巴巴开源 AI 辅助代码评审工具 OpenCodeReview
-   (本批无跨源重复标题)
+   跨源合并的事件:
+     ⇉ Reinforcing Agentic Creativity in Scient  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Distillation Defenses Easily Break After  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 产品与商业: 9 条
-     - 模型与研究: 41 条 (含🔧开源 4)
-     - 安全与治理: 4 条
-     - AI 工程落地: 9 条
+     - 模型与研究: 63 条 (含🔧开源 1)
+     - 安全与治理: 13 条
+     - 产品与商业: 16 条
+     - AI 工程落地: 10 条 (含🔧开源 4)
+     - Agent & Skill: 26 条 (含🔧开源 4)
      - 观点与好文: 3 条
-     - Agent & Skill: 10 条 (含🔧开源 5)
    【基础设施】
-     - K8s × AI: 2 条
+     - K8s × AI: 3 条
+     - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [22分] Basis completes a tax workbook 2x faster with GPT-6 Ast
         源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] The Lenfest Institute grows landmark program with expan
-        源:OpenAI News 类:产品与商业 跨源:[]
+     🔥 [19分] Introducing GPT-6.1 Sol
+        源:OpenAI News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
       22分 [OpenAI News ] Basis completes a tax workbook 2x faster with
+      19分 [OpenAI News ] Introducing GPT-6.1 Sol
+      18分 [HuggingFace Papers] Distillation Defenses Easily Break After Rein
+      16分 [OpenAI News ] DevDay 2026 Recap
       16分 [OpenAI News ] The Lenfest Institute grows landmark program 
-      16分 [AWS News    ] AWS Weekly Roundup: GPT-6 Sol and Luna, Claud
-      16分 [Anthropic News] Science Claude discovers a novel enzyme syste
-      16分 [Anthropic News] Funding better evaluations of AI’s impact on 

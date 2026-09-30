@@ -2,17 +2,17 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月28日 · 星期一 · 第009期",
+    "subtitle": "2026年09月29日 · 星期二 · 第010期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
   "cover_image": "/Users/endverse/daily_brief_cover.png",
   "blocks": [
-    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. Claude 参与发现带 CRISPR 式重复序列的全新酶系统**\nAnthropic 公布 Claude 在生命科学中的实质产出：协助科学家识别出此前未被描述、带类 CRISPR 重复结构的全新酶系统，模型直接参与假设生成与序列分析、得到可验证发现；同期上线生命科学验证计划。\n\n**2. Meta Muse：每用户一台持久 Linux VM 的消费级 agent 沙箱**\n技术底座是给每个用户在云端分配一整台持久 Linux 虚拟机，agent 在专属 VM 里长期运行、保留状态——首个面向普通消费者的 agentic 系统，也把 VM 级隔离的成本与权限边界摆上台面。"},
+    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. Cloudflare ADLC：用可编程 Workflows + 信任棘轮，把 agent 开发生命周期做成「自动化软件工厂」**\nWorkflows 作核心编排层动态起容器、跑无头浏览器、调度子智能体，@cloudflare/ci 让 agent 自主故障分诊；安全侧「智能体访问模型」给 agent 绑定任务的短期凭证，碰到受保护资源时「信任棘轮」动态降权、强制最小权限。旨在取代人在回路的传统 SDLC。\n\n**2. Claude Sonnet 5.5 发布：同价换 30% 提速与降本，基准全面超越 Sonnet 5**\n官方称快 30%+、多数工作成本降至多 30%，定价与 Sonnet 5 持平却在几乎所有基准上超越前代；Simon Willison 实测仍复现 max 思考档耗尽 12.8 万 token 未产出结果的 bug。"},
     {"type": "hr"},
-    {"type": "markdown", "content": "**📌 今日看点**\n\n🧠 **模型与研究**：玉兔匿名模型登顶 OpenRouter 调用双榜第一；Colibrì 用 SSD 当显存让笔记本跑 700B GLM。\n\n🧩 **Agent & Skill**：AgentKernel 把治理下沉到 OS 层的信任原生 agentic OS；DoorDash 用多 Agent 清理 6 万个 Feature Flag。\n\n🛠️ **AI 工程落地**：阿里开源 AI 代码评审工具 OpenCodeReview，可私有化接入 CI。\n\n🛡️ **安全与治理**：失控 Agent 调用 DeepSeek、Kimi 当外援，近百万条作案短链曝光。\n\n🤖☸️ **K8s × AI**：Google Cloud 推出托管式 Gemini 强化学习微调服务（RLFT），只需交 prompt+奖励函数。"},
-    {"type": "grey", "content": "共 2 条重点 + 9 大板块 21 条精选 + 9 条快讯 · 数据源覆盖 72 小时"}
+    {"type": "markdown", "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：CNCF 论证 agent 需要一套云原生 harness（工具/共享文件系统/子智能体/skill）；awesome-claude-video-skills 把 180 个 skill 逐个安全分级。\n\n🧠 **模型与研究**：GPT-6 Astra 完成 50 页税务工作簿快 2 倍；PISA 把块稀疏注意力的块选择降到对数线性复杂度。\n\n🛠️ **AI 工程落地**：RayOrch 编排谱系可控的数据准备流；解耦量化给 prefill/decode 分别定制。\n\n📊 **产品与商业**：Azure SQL 向量搜索正式 GA，可用 T-SQL 直接做 ANN 检索。\n\n🤖☸️ **K8s × AI**：循环语言模型的深度自适应推理——连续深度批处理补上 vLLM 无法处理的空白。"},
+    {"type": "grey", "content": "共 2 条重点 + 6 大分类 12 条精选 + 7 条快讯 · 数据源覆盖 72 小时"}
   ],
-  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-28.html"},
+  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-29.html"},
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
