@@ -1,50 +1,49 @@
 ======================================================================
-处理报告  (原始 211 条)
+处理报告  (原始 230 条)
 ======================================================================
 
-① 过滤: 保留 145 条, 过滤掉 66 条
+① 过滤: 保留 169 条, 过滤掉 61 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub Trending] oblien/openship
-     ✗ [GitHub Trending] averygan/reclip
-     ✗ [GitHub Trending] cs341-illinois/coursebook
-     ✗ [GitHub Trending] willfaust/Madeira
-     ✗ [GitHub Trending] rakyll/hey
-     ✗ [GitHub 升星repo] KKKKhazix/AIHOT
+     ✗ [GitHub Trending] firebase/firebase-ios-sdk
+     ✗ [GitHub Trending] modelcontextprotocol/servers
+     ✗ [GitHub Trending] byoungd/up
+     ✗ [GitHub Trending] NawfalMotii79/PLFM_RADAR
      ✗ [GitHub 升星repo] wy51ai/floorplan-3d
+     ✗ [GitHub 升星repo] OpSafari/hypoarena
+     ✗ [GitHub 升星repo] fsiaonma/elpis
 
-② 去重: 145 → 136 条 (同批合并 4, 跨天历史去重 5)
+② 去重: 169 → 165 条 (同批合并 0, 跨天历史去重 4)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] vectorize-io/hindsight
-     ⏭️  [GitHub Trending] paperclipai/paperclip
+     ⏭️  [GitHub Trending] NVIDIA/OpenShell
      ⏭️  [GitHub Trending] mvschwarz/openrig
-     ⏭️  [GitHub Trending] rohitg00/ai-engineering-from-scratch
-     ⏭️  [GitHub Trending] dream-num/univer
-   跨源合并的事件:
-     ⇉ Reinforcing Agentic Creativity in Scient  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Distillation Defenses Easily Break After  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] VectifyAI/PageIndex
+     ⏭️  [GitHub 升星repo] openai/mcp-extensions
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 63 条 (含🔧开源 1)
-     - 安全与治理: 13 条
-     - 产品与商业: 16 条
-     - AI 工程落地: 10 条 (含🔧开源 4)
-     - Agent & Skill: 26 条 (含🔧开源 4)
-     - 观点与好文: 3 条
+     - 模型与研究: 66 条 (含🔧开源 1)
+     - 安全与治理: 12 条
+     - 产品与商业: 12 条
+     - AI 工程落地: 22 条 (含🔧开源 6)
+     - Agent & Skill: 38 条 (含🔧开源 12)
+     - 观点与好文: 4 条
    【基础设施】
-     - K8s × AI: 3 条
+     - K8s × AI: 6 条
+     - 社区与项目: 2 条
+     - K8s 核心: 1 条
      - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [22分] Basis completes a tax workbook 2x faster with GPT-6 Ast
-        源:OpenAI News 类:模型与研究 跨源:[]
      🔥 [19分] Introducing GPT-6.1 Sol
         源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [16分] DevDay 2026 Recap
+        源:OpenAI News 类:安全与治理 跨源:[]
 
    打分Top5(参考):
-      22分 [OpenAI News ] Basis completes a tax workbook 2x faster with
       19分 [OpenAI News ] Introducing GPT-6.1 Sol
-      18分 [HuggingFace Papers] Distillation Defenses Easily Break After Rein
       16分 [OpenAI News ] DevDay 2026 Recap
       16分 [OpenAI News ] The Lenfest Institute grows landmark program 
+      16分 [AWS News    ] AWS Weekly Roundup: GPT-6 Sol and Luna, Claud
+      16分 [Anthropic News] Science Claude discovers a novel enzyme syste
