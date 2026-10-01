@@ -2,17 +2,31 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年09月30日 · 星期三 · 第011期",
+    "subtitle": "2026年10月01日 · 星期四 · 第012期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
   "cover_image": "/Users/endverse/daily_brief_cover.png",
   "blocks": [
-    {"type": "markdown", "content": "**🔥 今日重点**\n\n**1. DevDay 2026：GPT-6.1 Sol 以五分之一价格给出近 Astra 智能，外加 8x 的 Ultrafast 与 agent 助手 Dots**\nOpenAI 发布 GPT-6.1 Sol（近 Astra 智能、Astra 1/5 价格，覆盖编码/computer use/专业工作）；Ultrafast 模式 8x 提速、最高 300 tok/s、6x 单价；新增 Pro 500 订阅；agent 助手 Dots 与 ChatGPT Space 面向 Pro/Enterprise 开放；Decisions API 预览用预定义选项把延迟压到零点几秒，整场 20+ 项公告。\n\n**2. GKE Agent Sandbox：agentic RL 沙箱冷启动快 45 倍，把 GPU 从「等沙箱」里解放出来**\nGA 的 GKE Agent Sandbox + RL 编排 SDK：SandboxWarmPool + Image Streaming 把沙箱 TTFC 从 45–85 秒压到 1–9 秒、尾延迟 7.5 分钟降到 10 秒内；原地复用让 Pod 创建少 3 倍从而稳住 API Server；10 节点 gVisor 池实测支撑 18,312 个并发沙箱，已用于 Mistral AI 的 RL 训练基础设施。"},
-    {"type": "hr"},
-    {"type": "markdown", "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：NVIDIA OpenShell 做自主 agent 的安全私有运行时（单日 +990 star）；Workday 实测 skill 按需加载让检索更准、延迟略升；小米 GAGAR 用组内评分训练 code agent 写干净代码。\n\n🧠 **模型与研究**：GPT-6 Astra 在 34 项视觉能力上与专用 CV 模型逐项对照；Claude 自主发现带 CRISPR 样重复序列的新型酶系统。\n\n🛠️ **AI 工程落地**：PageIndex 用层级索引 + 推理检索做出「不建向量库」的 RAG（单日 +835 star）。\n\n📊 **产品与商业**：李飞飞的世界模型公司被 AMD 以 550 亿美元收购；Azure SQL 向量检索与向量索引 GA。\n\n💡 **观点与好文**：Anthropic 红队称 GLM-5.3 已在 4% 试验中写出完整控制流劫持。\n\n🛡️ **安全与治理**：蒸馏防御在「蒸馏后再 RL」下被打破，泄露近似推理轨迹的防御大概率无效。\n\n🤖☸️ **K8s × AI**：AWS 在 EKS 上加 GPU 感知的推理路由，首 token 延迟最多降 82%。\n\n☁️ **公有云动态**：Azure Lasv5 / Laosv5 存储优化机型 GA，每 vCPU 配 720GB 本地 NVMe。"},
-    {"type": "grey", "content": "共 2 条重点 + 8 大分类 21 条精选 + 9 条快讯 · 数据源覆盖 72 小时"}
+    {
+      "type": "markdown",
+      "content": "**🔥 今日重点**\n\n**1. 谷歌开源 AX：K8s 风格的声明式 Agent 编排器，亚秒级挂起/恢复 + Actor 多路复用**\nApache 2.0 开源（google/ax，跑在 Agent Substrate 之上），把 agent 会话当有状态 Actor 而非微服务/批任务；ax.io/v1alpha1 下四类原语 Task/Workspace/Gateway/Model 分别管执行生命周期、环境装配（挂 Git、配 MCP、装 skill 包）、出网白名单与凭据注入、模型参数与密钥；空闲时检查点挂起、亚秒级无冷启动恢复，数十个隔离 Actor 复用同一批主机进程；ax CLI（apply/watch/ssh/suspend/resume）+ ko 部署控制面、Redis 在 ax-system。HN 评价分化：认可省掉等待期云成本，质疑 ko + CRD 的运维负担，并强调 gVisor 隔离与出站代理仍是早期问题。\n\n**2. DeepSeek 公开 V4 训练沙箱底座 DSec：可组合环境层 + 按需镜像加载，生产超卖超 50 倍**\n与清华联合发布技术报告（130+ 作者，梁文锋在列），首次公开支撑 V4 全部训练/评测/预处理的沙箱底座：FnCall/Container/MicroVM/Full VM 四种后端 + 统一 libdsec SDK；环境拆成基础镜像/工作区/工具包三层（EROFS + OverlayFS 按需组合，工具包更新只重建该层）；实测沙箱只访问镜像 4.2%–13.3% 的数据，放 3FS 按需加载后集中创建 8,192 容器从 60+ 分钟降到约 35 分钟（1.71x、写入 -57%），工作区从解压 tar.gz 改挂 EROFS 层 79→45 分钟；virtio-pmem + DAX 共享页缓存使峰值内存 -40.2%，DAMON + balloon 使累计内存 -21.2%，超卖率做到 50 倍以上。"
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "type": "markdown",
+      "content": "**📌 今日看点**\n\n🤖☸️ **K8s × AI**：CNCF 主张 agent harness 要从设计上就是云原生分布式应用，而非把桌面工具塞进容器；Google Cloud 九月更新用 Pod 快照把推理启动缩短最多 89%，并给出 EKS→GKE 的 agent 迁移能力；阿里云 Agent Sandbox 每分钟可建 10 万沙箱，前程无忧按会话隔离把单会员日成本压到约 1 元。\n\n☸️ **K8s 核心技术**：Atlassian 用 OpenTelemetry + Kafka + Flink on K8s 重建事故检测，自动建单延迟从 40 秒降到 10 秒内，并公开召回率 60%→峰值 86%→差月回落 64% 的月度数据。\n\n🧩 **Agent & Skill**：Google Data Agent Kit 转 GA，把数据工程最佳实践做成可被 Claude Code/Codex 调用的 skill 包；mattpocock/skills 单日 +876 star 把工程师的 .agents 目录直接开源。\n\n🧠 **模型与研究**：Claude Sonnet 5.5 定价不变、官方称快 30%+ 且多数工作便宜到 30%；Gemini 4 Argon 以百万 token 上下文先经 Fairwind Program 向可信防御方开放。\n\n🛠️ **AI 工程落地**：DeepSeek 开源昇腾算子与通信库（DeepEP 实测 Dispatch 375 GB/s、Combine 347 GB/s）；S3 Vectors 支持元数据预过滤，过滤查询召回最高 5 倍。\n\n📊 **产品与商业**：Manus 2.0 给 agent 配手机号与钱包，还能拉群协作；OpenAI 追加 500 万美元扩大 Lenfest 新闻业 AI 计划。\n\n🛡️ **安全与治理**：OpenAI 披露阻断一次针对模型推理过程的协同蒸馏行动；AgentTell 证明浏览器 agent 的行为与时序侧信道能推断任务意图。\n\n📦 **社区与项目**：Argo 社区启动 Argo CD 4.0 愿景规划，ArgoCon NA 2026 成为讨论窗口。\n\n☁️ **公有云动态**：AKS 支持 Ubuntu 26.04（公开预览）；Google Cloud Z4D 存储优化机型 GA，裸金属单机可承载数千隔离 microVM。\n\n💡 **观点与好文**：OpenAI 推理方向负责人访谈——数学只是多智能体时代的开胃菜。"
+    },
+    {
+      "type": "grey",
+      "content": "共 2 条重点 + 10 大分类 25 条精选 + 9 条快讯 · 数据源覆盖 72 小时"
+    }
   ],
-  "button": {"text": "📖 阅读今日早报全文", "url": "https://endverse.github.io/daily-brief/2026/2026-09-30.html"},
+  "button": {
+    "text": "📖 阅读今日早报全文",
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-01.html"
+  },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
