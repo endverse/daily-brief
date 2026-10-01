@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 10 月 01 日 · 星期四</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 012 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 10 月 01 日 · 星期四</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的主线是「agent 跑在什么上面」：谷歌把 K8s 风格的声明式编排器 AX 开源，用亚秒级挂起/恢复和 Actor 多路复用解决 agent 空闲期占着资源的问题；DeepSeek 则公开了支撑 V4 全部训练流程的沙箱底座 DSec，把可组合环境层、按需镜像加载和 50 倍超卖的具体数字摊开。云厂商侧的动作同向——GKE 的 Pod 快照把推理启动缩短 89%，阿里云把 Agent Sandbox 定义成继 VM、容器之后的新算力形态；而上层则继续补 skill 生态，Google Data Agent Kit 转 GA，把数据工程最佳实践做成可被任意 coding agent 调用的 skill 包。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/M6BRTrsyJvUg8y0M0kyh?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">谷歌开源 AX：K8s 风格的声明式 Agent 编排器，亚秒级挂起/恢复 + Actor 多路复用</a></h2>
+    <p>谷歌开源 AX（Apache 2.0，代码在 google/ax、文档站 agentexecutor.io），一个跑在 Agent Substrate 运行时之上的声明式编排器，把 agent 会话当作有状态 Actor，而不是微服务或批处理任务。控制面在 ax.io/v1alpha1 API 组下给出四类原语：Task 定义执行生命周期与沙箱资源约束，Workspace 在任务启动前装配环境（声明式挂载 Git 仓库、配置 MCP 服务器、安装技能包，或由初始化 agent 按自然语言执行），Gateway 把沙箱出网限制在主机名与端口白名单内并向出站请求注入凭据，Model 统一管理 LLM 参数、运行时配置与存在 Kubernetes 里的密钥。空闲时（等模型、等工具、等人）它把执行状态做检查点后挂起，恢复是亚秒级且无冷启动，并把数十个隔离 Actor 复用在同一批共享主机工作进程上。操作面是一个 Go 写的 ax CLI：ax apply 注册清单、ax watch 流式看任务阶段、ax ssh 进沙箱调试、ax suspend/resume 手动控制；控制面用 ko 部署到 Kubernetes，Redis 放在 ax-system 命名空间，复用现有 kubeconfig。Hacker News 上评价分化：infra 工程师认可它消掉了 agent 等待期的高昂云成本，质疑者指出 ko + 自定义 CRD + 容器 registry 带来的运维负担，也有系统与安全从业者强调 gVisor 隔离沙箱、出站代理连接中断与基础密钥管理这些早期问题。它的定位是底层执行运行时，而不是 LangGraph/CrewAI 那类高层应用编排框架。</p>
+    
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.qbitai.com/2026/09/499308.html" target="_blank" rel="noopener">DeepSeek 公开 V4 训练沙箱底座 DSec：可组合环境层 + 按需镜像加载，生产超卖超 50 倍</a></h2>
+    <p>DeepSeek 联合清华大学发布技术报告《DeepSeek 弹性计算（DSec）：面向大规模智能体训练的高效沙箱基础设施》，首次公开支撑 DeepSeek-V4 全部训练、评测与数据预处理流程的沙箱底座，作者团队超 130 人，梁文锋在列。DSec 同时支持 FnCall、Container、MicroVM、Full VM 四种执行后端，用统一 Python SDK（libdsec）按任务选隔离强度：FnCall 复用预热容器跑在线评测等短任务，Container 服务最通用的软件工程与工具调用，MicroVM 提供更强隔离边界给安全任务，Full VM 支持图形界面、渲染与 Android 场景。环境被拆为基础镜像、工作区、工具包三层各自独立版本管理，以 EROFS 格式存储、运行时用 OverlayFS 按需组合；生产某一周用到 11,266 个基础镜像、102,171 个工作区，工具包更新时只需重建变化的那一层。因为实测沙箱运行实际访问的数据只占镜像总大小的 4.2%–13.3%，镜像数据放 3FS、本地只拉元数据：集中创建 8,192 个容器的完成时间从 60 多分钟压到约 35 分钟（加速约 1.71x，磁盘写入降约 57%），工作区从逐个解压 tar.gz 改为直接挂载 EROFS 层后从 79 分钟降到 45 分钟、写入量降到约 1/5.5。资源侧约 90% 的沙箱平均 CPU 用量不超过申请量的 5%、内存却要长期驻留，DSec 用 virtio-pmem 与 DAX 让同宿主机 MicroVM 共享宿主页缓存（峰值内存较基线降 40.2%），叠加 DAMON 与 balloon 空闲页回收（按时间累计内存消耗降 21.2%），把生产超卖率做到 50 倍以上。</p>
+    
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/topics/developers-practitioners/data-agent-kit-is-now-ga-bring-google-data-cloud-to-any-coding-agent/" target="_blank" rel="noopener">Google Data Agent Kit 转 GA：把数据工程最佳实践做成 skill 包，塞进任意 coding agent</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 的 Data Agent Kit 正式 GA，它以「skill 包 + MCP 工具」的形式把 Google 工程师的数据最佳实践交给 agent：bigquery-graph-author 会把表映射成节点与边、逐个校验候选关系再让你确认，bigquery-graph-query 负责写 GQL；bigtable-basics 按读取方式设计 row key 并提前标出热点与全表扫描；federate-lakehouse-catalog 让 agent 直接查 AWS Glue 与 Databricks Unity Catalog 里的 Iceberg 表，不用先建摄取管道。接入面很宽：VS Code/Antigravity/Cursor 等编辑器的 IDE 扩展，Antigravity 2.0、Antigravity CLI、Claude Code、Codex 的插件，以及预装的 Cloud Shell 与 Cloud Workstations。GA 新增 BigQuery Graph、Bigtable 进入支持范围，以及用 Managed Service for Apache Spark 跑 Lakehouse 表（serverless、会话级状态保留、支持 Iceberg 分支/时间旅行/模式演进），还有把 dbt/Dataform 模型与 notebook 一起编排成 Airflow 上的 Orchestration Pipeline。所有步骤都跑在用户自己的 IAM 权限下。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把数据云的用法沉淀成可被第三方 coding agent 加载的 skill 集合（bigquery-graph-author / bigquery-graph-query / bigtable-basics / federate-lakehouse-catalog / gcp-pipeline-orchestration），配合 MCP 工具执行；支持 IDE 扩展、Claude Code/Codex 插件、Cloud Shell 三种接入方式；GA 新增 BigQuery Graph、Bigtable、Spark 上的 Iceberg 查询与 Airflow 编排。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业里让 agent 碰数据层最怕「照着常见写法乱写」：property graph 要手写 CREATE PROPERTY GRAPH DDL、Bigtable 行键设计错就出热点、跨云表要先建摄取管道、分析逻辑要手工搬成 Airflow 任务——这些领域知识此前只存在于文档和资深工程师脑子里。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得看的是它的封装形态而非 Google 专属内容：把领域最佳实践按 skill 粒度拆分、每个 skill 带校验与确认步骤、全部走调用者 IAM，这套模式与你做 skill 沉淀的路线一致，可以直接借鉴结构；实际使用前提是数据在 Google Cloud 上。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">skill 包</span><a class="src" href="https://cloud.google.com/blog/topics/developers-practitioners/data-agent-kit-is-now-ga-bring-google-data-cloud-to-any-coding-agent/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">mattpocock/skills 单日 +876 star：把工程师的 .agents 目录直接开源</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>TypeScript 圈知名布道者 Matt Pocock 开源了自己的 skills 集合，仓库描述是「Skills for Real Engineers，直接来自我的 .agents 目录」，已有约 27.3 万 star、单日新增约 876 star 冲上 Trending。与大量「prompt 合集」不同，它的组织方式是按真实工程任务切分技能，与 .agents 目录结构对齐，便于直接挂到支持 skill 机制的 agent 客户端上。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">作者个人 .agents 目录的完整开源镜像，按真实工程任务组织的 skill 集合，仓库结构直接对应 agent 客户端的 skill 加载约定，可整目录挂载复用。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多数公开 skill/prompt 合集是零散问答式片段，缺少目录结构与加载约定，拿过来要自己重排才能被 agent 真正按需加载。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">适合作为「高质量 skill 长什么样」的对照样本，看它如何切分粒度与命名；内容偏 TypeScript/前端工程，通用性有限，别整体照搬。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">skill 集合</span><a class="src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/ComposioHQ/awesome-claude-skills" target="_blank" rel="noopener">ComposioHQ/awesome-claude-skills 单日 +123 star：skill 生态开始有索引页</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Composio 维护的 Claude Skills 索引仓库进入 Trending，收录可用来定制 Claude 工作流的 skill、资源与工具，仓库已约 7.6 万 star、单日新增约 123 star。它的价值不在于自己实现技能，而是把散落在各处的 skill 源集中成一张可检索的清单。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">社区维护的 Claude Skills 索引：汇总 skill 仓库、资源与配套工具的链接清单，随生态更新。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">skill 生态碎片化，散落仓库难以检索，「有哪些现成 skill 值得挂」这件事缺一个统一入口。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">当作选型索引用，扫一遍能快速建立生态全貌；本身不含实现，质量取决于收录项，需要逐个回源确认。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">索引</span><a class="src" href="https://github.com/ComposioHQ/awesome-claude-skills" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/mksglu/context-mode" target="_blank" rel="noopener">mksglu/context-mode：把工具输出压掉 98%，并用 MCP + hooks 给 17 个平台做路由</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>context-mode 是面向 AI coding agent 的上下文窗口优化工具，做法是把工具输出沙箱化后再进上下文（官方数字是减少 98%）、持久化会话记忆，并通过 MCP 与 hooks 在 17 个平台上做统一路由。仓库已约 2.4 万 star、单日新增约 90 star。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 agent 与工具之间加一层上下文管理器：拦截并压缩工具输出（宣称减少 98% token）、把会话记忆持久化、用 MCP + hooks 在 17 个平台统一路由。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长会话里最容易被工具输出（日志、diff、文件内容）挤爆上下文窗口，既贵又让模型丢失主线。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">压缩率数字很夸张，需要自己实测确认不会丢关键信息；如果你在跑长会话 agent，这类「先压缩再入上下文」的中间层值得试，注意它与 agent 自身 context 管理机制是否重叠。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">上下文优化</span><a class="src" href="https://github.com/mksglu/context-mode" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=573385" target="_blank" rel="noopener">Azure canvases for GitHub Copilot：把 Azure 工具与面板搬进 Copilot 对话旁边</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>微软发布 Azure canvases for GitHub Copilot——可交互的共享工作区，把 Azure 工具、仪表盘与引导式流程直接放在 Copilot 对话旁边，可在同一处浏览 Azure 资源、分析成本、构建托管型 skill。它延续的是「agent 对话 + 配套可视化工作区」的产品形态。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">GitHub Copilot 的 Azure 侧交互工作区：内嵌资源浏览、成本分析与托管 skill 构建流程，与对话并排显示。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">在 Copilot 里问 Azure 问题时，资源状态、费用与操作面板都要切窗口查，上下文断层。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你团队已用 Azure + Copilot 组合，能省切换成本；纯 K8s 自建场景参考价值有限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">工作区</span><a class="src" href="https://azure.microsoft.com/updates?id=573385" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Sep/28/claude-sonnet-5-5/" target="_blank" rel="noopener">Claude Sonnet 5.5：价格不变但宣称快 30%+、多数工作便宜到 30%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Anthropic 发布 Claude Sonnet 5.5，官方说法是「快 30% 以上、多数工作成本最多低 30%」，定价与 Sonnet 5 相同但各项基准都更好。Simon Willison 实测时发现它继承了 Opus 5.5 的同款问题：把 thinking effort 设为 max 的「鹈鹕测试」里，模型思考了 128,000 token（花掉 1.28 美元）后耗尽额度、没能产出 SVG。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">新一代 Sonnet 模型：同价位下官方宣称速度提升 30%+、多数工作流成本最多降 30%，基准全面超过 Sonnet 5。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">中端模型要在成本与能力之间取舍；这次的做法是保持定价、同时提升速度与基准，降低单位任务的实际花费。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你在按 token 成本挑主力模型，值得在自有评测集上跑一遍；注意 max thinking effort 下的失控风险仍在，高 effort 配置需设输出上限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型</span><a class="src" href="https://simonwillison.net/2026/Sep/28/claude-sonnet-5-5/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/" target="_blank" rel="noopener">Gemini 4 Argon 发布：百万 token 级长程推理，先只给可信防御方开放</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google DeepMind 发布新一代前沿模型 Gemini 4 Argon（9 月 30 日），主打复杂长程工作流的深度推理，官方给出的标志性能力是行业领先的 100 万 token 上下文，覆盖真实软件工程、法律与金融等企业知识工作，以及自动化修安全漏洞（autonomous cybersecurity vulnerability patching）。发布方式是分阶段：当前先通过 Fairwind Program 提供给一批可信的网络安全防御方，同时参与美国政府的前置模型访问自愿流程，安全测试通过后再扩大开放。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">百万 token 级上下文的前沿推理模型，面向软件工程、法律/金融知识工作与防御性网络安全（漏洞自动修补）；当前经 Fairwind Program 定向开放给可信防御方，分阶段扩量。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长程、多步的专业任务（跨文件重构、长文档法务与金融分析、漏洞研判与修补）此前受上下文与推理深度限制，需要人工切分。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">面向 defensive security 与长程企业文档处理的能力值得跟踪，但现阶段拿不到权重与 API 泛用入口；关注它的分阶段开放节奏与后续基准对比即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">前沿模型</span><a class="src" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/" target="_blank" rel="noopener">Google DeepMind</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/499263.html" target="_blank" rel="noopener">DeepSeek 开源昇腾基础组件：算子库 + 通信库对上 GPU 侧的那套，实测通信接近硬件上限</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DeepSeek 开源面向华为昇腾的基础设施组件，涵盖 TileLang 高级语言编译工具、高性能计算库与分布式通信库，与之前面向 GPU 开源的组件一一对应：算子侧发布 DeepGEMM、FlashMLA、TileKernel、DeepSelect，通信侧是 DeepEP。昇腾提供 Ascend C API 与 PTO ISA 底层指令体系，既支持手工调优也支持 TileLang 这类高级语言编译对接。基于 UBL128 超节点，DeepEP 覆盖 EP/CP/PP/FSDP 通信算子，实测 Dispatch 375 GB/s、Combine 347 GB/s，官方称接近硬件上限；部署侧给出 V4.1-Flash 在 EP32 下的 offline 纯模型数据：TPOT=5ms 时每卡输出 2,469 tokens/s，TPOT=10ms 时 5,102 tokens/s。华为同步把成果在 CANN 社区开源，包含大 EP 低时延推理、单卡/单机部署、大规模训练、超长文本 KV cache 池化与 Agentic RL。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">面向昇腾的完整软件栈开源：TileLang 编译工具 + DeepGEMM/FlashMLA/TileKernel/DeepSelect 算子库 + DeepEP 分布式通信库（EP/CP/PP/FSDP），以及 CANN 社区里的部署实践（大 EP 低时延推理、单机/单卡部署、KV cache 池化、Agentic RL）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">国产加速卡此前的短板在软件栈：算子与集合通信库不齐、大模型部署缺少可复现的调优配方，导致同样的硬件跑不出应有吞吐。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你在评估非 NVIDIA 路线或做异构算力规划，这是难得的「芯模协同」一手数据（通信带宽与 TPOT/吞吐都有具体数字）；注意数据是 offline 纯模型、不含 serving 调度开销，真实服务化还要打折。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">国产算力</span><a class="src" href="https://www.qbitai.com/2026/09/499263.html" target="_blank" rel="noopener">量子位（华为昇腾 × DeepSeek）</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://aws.amazon.com/blogs/aws/amazon-s3-vectors-now-supports-metadata-pre-filtering-for-higher-recall-on-filtered-searches/" target="_blank" rel="noopener">Amazon S3 Vectors 支持元数据预过滤：先过滤再算相似度，召回最高 5 倍</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AWS 给 S3 Vectors 加上元数据预过滤：过滤器在相似度检索之前生效，官方给出的收益是带过滤条件的查询召回最高提升 5 倍。适用场景明确指向 RAG、agentic 应用与文档检索——这类查询通常要「限定租户/时间/类别再找最近邻」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">S3 Vectors 的过滤语义从检索后过滤改为检索前过滤，使限定范围的查询返回更相关结果，官方口径召回最高 5 倍。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">RAG 与多租户检索常见「先过滤再找近邻」的需求，后过滤会让候选集被无关向量挤占，导致实际召回偏低。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果知识库按租户或时间分区，这个改动能直接提升检索质量，值得在自有数据上复测召回；前提是已经在用 S3 Vectors，自建向量库要自己实现同等的 pre-filter 路径。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">向量检索</span><a class="src" href="https://aws.amazon.com/blogs/aws/amazon-s3-vectors-now-supports-metadata-pre-filtering-for-higher-recall-on-filtered-searches/" target="_blank" rel="noopener">AWS News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/colbymchenry/codegraph" target="_blank" rel="noopener">codegraph：预索引的代码知识图谱，本地跑、支持 Hermes Agent 等九种客户端</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>codegraph 把代码预先索引成知识图谱，随代码变更自动同步，官方卖点是减少 token 消耗与工具调用次数、全程 100% 本地执行；客户端覆盖面很广，包含 Claude Code、Codex、Gemini、Cursor、OpenCode、AntiGravity、Kiro、CoPilot 与 Hermes Agent。仓库约 7.3 万 star、单日新增约 118 star。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对仓库做预处理生成代码知识图谱并持续同步，作为 agent 的检索层替代逐文件 grep/读取，从而减少 token 与工具调用；支持九种 agent 客户端，数据不出本地。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 读代码时靠反复搜索与打开文件自建上下文，既慢又烧 token，大仓里还容易定位不到关键关系。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">与「agent 自带检索」相比，预索引路线在多轮大仓任务上收益明显，且本地执行符合数据不出内网的要求；建议先在小仓验证索引新鲜度与增量同步延迟。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">代码索引</span><a class="src" href="https://github.com/colbymchenry/codegraph" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://deepmind.google/blog/introducing-synthid-bio/" target="_blank" rel="noopener">SynthID Bio：给 AI 生成的蛋白质打水印，同时不破坏其生物功能</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google DeepMind 发布 SynthID Bio 的概念验证：为 AI 生成的蛋白质序列嵌入水印，同时保持其生物学功能不变。它是 SynthID 系列从文本、图像、音频扩展到生物分子设计的动作。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">面向 AI 生成蛋白质序列的水印方案，目标是让设计产物可溯源、可鉴别，同时不改变其折叠与功能表现。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">生物设计领域一旦模型大量产出可用分子，来源与责任无法追溯，监管与科研诚信都缺抓手。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">属于前瞻性治理动作，现阶段是概念验证、与你当前工作无直接交集；作为「AI 生成物溯源」延伸到生命科学的方向保持关注即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">溯源水印</span><a class="src" href="https://deepmind.google/blog/introducing-synthid-bio/" target="_blank" rel="noopener">Google DeepMind</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">Products &amp; Business</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/499592.html" target="_blank" rel="noopener">Manus 2.0：给 agent 配手机号和钱包，还能拉群干活</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Manus 发布 2.0，方向是让 agent 具备「真实身份」：给它一个手机号与钱包，并支持把多个 agent 拉进同一个群协作完成任务。这延续了 agent 从「工具调用」走向「以独立身份参与业务流程」的产品叙事。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给 agent 分配手机号与支付钱包，并提供多 agent 群组协作形态，让 agent 能接收验证码、完成需要身份验证的操作并在群内分工。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 执行真实业务时常卡在身份与支付环节（注册、收码、付款），这一步打通后自动化链条才能延伸到交易型任务。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">是 agent 落地形态的风向标（身份 + 支付 + 多 agent 协作），但引入钱包与手机号意味着权限与资金风险显著放大，观察其权限边界设计而不是急着接入。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">agent 产品</span><a class="src" href="https://www.qbitai.com/2026/09/499592.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/lenfest-ai-collaborative-expansion" target="_blank" rel="noopener">OpenAI 扩大 Lenfest AI 协作计划：追加 500 万美元与最高 500 万软件额度</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 宣布扩大与 Lenfest Institute 的 AI Collaborative 与 Fellowship Program，追加 500 万美元资金，并提供最高 500 万美元的软件额度与工程支持，方向是支持新闻业落地 AI。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对新闻机构的资金 + 软件额度 + 工程支持组合，用于 AI 在本地新闻编辑部的落地项目。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">地方新闻机构预算薄、缺少 AI 工程能力，难以自行开展大模型相关项目。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">属于生态与公关层面动作，与你的工作无直接关系，作为行业格局信息了解即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">资助</span><a class="src" href="https://openai.com/index/lenfest-ai-collaborative-expansion" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/07qzHLvyNXSW1SFNV5NV?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">火山引擎新模型：像改文字一样改语音内容</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>火山引擎发布语音内容编辑模型，交互形态是把语音当成可编辑文本：直接修改语音内容中指定的字词，而不是整段重录或重合成。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">面向语音内容的编辑模型，支持对已有音频做字词级的定向修改，保留原说话人的音色与韵律特征。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">配音与播客后期里改一个字通常要重录整段或用拼接手段处理，成品自然度与效率都差。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你做语音类内容或音频数据处理，这是可直接试的能力；与工程架构无关，按需关注即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">语音编辑</span><a class="src" href="https://www.infoq.cn/article/07qzHLvyNXSW1SFNV5NV?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中文</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/499493.html" target="_blank" rel="noopener">GPT-6 Astra 接上宇树 G1：机器人把厨房收拾了</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位报道 GPT-6 Astra 接入宇树 G1 人形机器人完成收拾厨房的家务任务，展示的是大模型作为「大脑」驱动通用机器人执行长程物理操作的路线。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">大模型驱动的具身执行：由 Astra 负责任务理解与步骤规划，宇树 G1 承担物理操作，完成厨房整理这类长程家务。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">通用机器人长期缺少能处理开放环境与长程任务的高层决策，模型侧的规划能力是当前瓶颈之一。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">具身方向对你属于行业跟踪信息，观察点是长程任务成功率与是否公开可复现细节，不必投入时间深入。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">具身智能</span><a class="src" href="https://www.qbitai.com/2026/09/499493.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">Reading</span></div>
+    <div class="item">
+      <div class="num">16</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/09/499654.html" target="_blank" rel="noopener">OpenAI 推理之父最新访谈：数学只是多智能体时代的开胃菜</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位整理的 OpenAI 推理方向负责人访谈，核心观点是推理能力（以数学等可验证任务为代表）在多智能体时代只是起点，真正的挑战在于多个模型/agent 之间的协作、验证与分工。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">围绕推理模型与多智能体协作的技术访谈整理，给出对下一代 RL 与多 agent 系统分工的判断。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">在推理模型能力被快速拉平后，如何组织多个 agent 协作、谁负责验证，成为落地的主要不确定性。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作为方向判断读物价值有限但信息密度尚可，适合通勤时扫一遍；不必从中提炼方法论。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">访谈</span><a class="src" href="https://www.qbitai.com/2026/09/499654.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">Safety &amp; Governance</span></div>
+    <div class="item">
+      <div class="num">17</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign" target="_blank" rel="noopener">OpenAI 披露阻断一次协同蒸馏行动：被提取的是模型推理过程</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 公开称阻断了一场协同的模型蒸馏行动，攻击目标是提取受保护的模型推理内容，并说明正在加强针对对抗性蒸馏的防御。这条披露把「蒸馏攻击」从学术论文话题推到了厂商对外通报层面。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">厂商侧的对抗蒸馏防御实践披露：识别并阻断针对推理过程的大规模提取行动，同时加固防护措施。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">模型能力（尤其推理链）可被对手通过大规模调用 + 蒸馏外流，直接抹平训练投入形成的领先。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对做私有模型或调用外部 API 的团队都有参考意义：前者要防被蒸，后者要防自己的调用数据被用于反向提取，建议关注其披露的检测信号类型。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型安全</span><a class="src" href="https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">18</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.32915" target="_blank" rel="noopener">AgentTell：浏览器 agent 的行为侧信道会泄漏你在做什么</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文 AgentTell 研究浏览器使用类 agent 的行为侧信道泄漏：即便内容被加密或脱敏，agent 的操作时序与行为模式本身仍可被推断出任务意图。它把风险从「数据泄漏」推进到「行为模式泄漏」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对浏览器 agent 的行为侧信道分析：通过操作序列与时序特征推断任务意图，证明脱敏内容不足以保护语义。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业给 agent 开放浏览器权限后，往往只做内容级脱敏与网络白名单，忽略了行为序列本身携带的信息。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对做 agent 出口管控与审计有直接价值（行为模式也要纳入监控面），方法是学术原型，工程化需要自行设计特征与告警阈值。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">侧信道</span><a class="src" href="https://huggingface.co/papers/2609.32915" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span><span class="sec-en">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/09/28/the-case-for-a-cloud-native-agent-harness/" target="_blank" rel="noopener">CNCF：agent harness 该按云原生分布式应用设计，而不是塞进容器的桌面工具</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Stacklok 的 Craig McLuckie 在 CNCF 撰文分析 agent harness 的架构走向：coding agent 变有用是因为四件事改变了问题形状——能干的工具、共享的仓库与文件系统、subagent，以及把经验沉淀下来的 skill；但这些模式长在开发者笔记本上，而它们正在流向不打开终端的用户和没人在场的长时任务。主流 harness 假设「一人一机一本地文件系统」，一个交互进程同时充当 UI、agent 循环、沙箱、凭据库、工具宿主与会话数据库，因此当组织要跑数百会话、逐会话治理工具调用、扛住节点中途宕机、或从笔记本切到手机续跑时就会崩掉。作者强调把桌面 harness 装进容器只是换了运行位置，Kubernetes 早就教过「容器里的单体还是单体」，下一代 harness 应当从设计上就是分布式应用。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提出 agent harness 的云原生化架构论点：把 UI、agent 循环、沙箱、凭据、工具宿主、会话存储拆成可独立扩展与故障隔离的分布式组件，而不是单机单进程模型。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">单机 harness 无法满足多会话并发、逐会话工具权限治理、节点故障后任务存活、跨设备续跑这些组织级诉求；把进程塞进容器只是搬位置，耦合关系没变。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你的目标是让 agent 以多用户、长时任务形式稳定跑在集群上，这篇文章给了清晰的拆解维度（也是判断现有沙箱/编排方案是否够用的检查表）；它是架构论点而非可直接部署的产物。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">架构观点</span><a class="src" href="https://www.cncf.io/blog/2026/09/28/the-case-for-a-cloud-native-agent-harness/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/topics/ai-infrastructure/whats-new-in-ai-infrastructure-this-month/" target="_blank" rel="noopener">Google Cloud 九月 AI 基础设施与编排更新：Pod 快照把推理启动缩到原来的 11%，还给了 EKS→GKE 迁移 agent</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 把九月定义为「可扩展性月」，重点在让编排层承接 agentic 负载：GKE Pod snapshots 可保存含 CPU/GPU 内存的运行状态并按需恢复，内部测试把 AI 推理启动时间最多缩短 89%；GKE HPA 新增基于自定义 PromQL 指标的扩缩容与 Autoscaling Metric 支持，不用再手工拼组件。新上线的 GKE agentic migration 由一组 agent skill 加本地 MCP server 构成，取代零散提示词，把 AWS EKS 的 IaC 与 Kubernetes manifest 直接翻译成 GKE landing zone 并带确定性护栏。存储与算力侧，Filestore agent volumes 与 GKE Agent Sandbox/Substrate 集成，可在毫秒级给沙箱分配独立文件工作区；M4N（每核 IOPS 与吞吐领先，配 Titanium 卸载与 Hyperdisk Extreme 可达 25 GiB/s 聚合带宽、100 万 IOPS）与 Z4D（存储优化、裸金属形态可单机承载数千隔离 microVM）转 GA；AlloyDB for PostgreSQL 新版把 Colossus 与 Jupiter 网络用到 agentic 时代的数据库架构上。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一组面向 agentic 负载的编排与基础设施更新：GKE Pod snapshots（保存/恢复含 GPU 内存的运行状态）、HPA 支持自定义 PromQL 指标、GKE agentic migration（agent skill + 本地 MCP 把 EKS manifest 翻成 GKE landing zone）、Filestore agent volumes（毫秒级给沙箱挂独立文件工作区）、M4N/Z4D VM GA。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agentic 负载把瓶颈从 GPU 算力转移到编排与 I/O：推理启动慢、沙箱要给独立文件系统、控制面在数万并行 rollout 下被打爆、跨云迁移靠人肉改 manifest。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">其中 Pod 快照（推理启动 -89%）、沙箱专用文件卷与「迁移做成 skill + MCP」这三点都可直接迁移到自建集群设计思路里；数据是 Google 内部测试口径，落地前需在自有负载复测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">云基础设施</span><a class="src" href="https://cloud.google.com/blog/topics/ai-infrastructure/whats-new-in-ai-infrastructure-this-month/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/he0zFgEyStxF9kOh70AP?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">阿里云 Agent Sandbox：每分钟可建 10 万沙箱，前程无忧按会话隔离把单会员日成本压到约 1 元</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>InfoQ 整理云栖大会的 Agent Sandbox 圆桌：阿里云把 Agent Sandbox 定义为「面向智能的新型算力形态」，每个沙箱以 Kubernetes Pod 为载体、跑在 MicroVM 隔离环境里，公布的数字是每分钟可创建 10 万个沙箱，模板化创建的冷启动 P99 小于 180ms、资源池预热后热启动 P99 小于 20ms、深休眠唤醒 P99 低于 600ms。前程无忧的 AI 招聘助手为每个 HR Session 分配独享 Sandbox，并按使用状态在活跃、浅休眠、深休眠之间切换，早上 9–10 点要承接万级脉冲请求，1 个月完成 POC、再 3 个月打磨 MVP 后进入生产，单个会员相关成本约 1 元/天，团队结论是把人力放在应用与业务而不是自建基础架构更划算。金山办公则按业务分档：对外业务把 Sandbox 当底层运行时，内部业务只把 Shell 脚本等关进沙箱，安全要求低的老用法继续留在原应用集群。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">云厂商给出的 Agent Sandbox 规格与落地数据：Pod + MicroVM 双层隔离、每分钟 10 万沙箱创建、冷启动 P99 &lt;180ms / 热启动 P99 &lt;20ms / 深休眠唤醒 P99 &lt;600ms，以及按会话隔离 + 三级休眠的真实业务账（万级脉冲请求、约 1 元/会员/天）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 既不是长跑微服务也不是有明确生命周期的离线 Job：下一步调用谁、跑多少轮由模型动态决定，等待期占着 CPU/内存就是在为用户等待时间付费，直接销毁又会丢任务状态。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和你评估的「多用户沙箱按会话复用 + 空闲挂起」问题完全同构，三个数字（创建密度、热启动、唤醒延迟）可以直接当验收指标用；注意这是云厂商托管能力，自建要自己解决预热池与深休眠存储。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">沙箱</span><a class="src" href="https://www.infoq.cn/article/he0zFgEyStxF9kOh70AP?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中文（云栖大会圆桌）</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span><span class="sec-en">Kubernetes Core</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/09/30/from-40-seconds-to-under-10-rebuilding-incident-detection-on-opentelemetry-apache-kafka-and-apache-flink-on-kubernetes/" target="_blank" rel="noopener">Atlassian 重建事故检测管道：OTel + Kafka + Flink on K8s，自动建单从 40 秒压到 10 秒内</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Atlassian 中央监控团队公开重建 AutoHOT（自动创建高优先级事故单）的 18 个月实测数据：管道由 OpenTelemetry 采集、Apache Kafka 传输、跑在 Kubernetes 上的 Apache Flink 做流式计算，覆盖十多个云产品、每天数十亿条客户端操作事件。命中范围内的召回率从约 60% 提升到峰值 86%，但在表现差的一个月又回落到 64%，精确率也仍未达标——作者刻意不做成功叙事，把月度数据和「会怎么做不同」都写了出来。另一条硬指标是自动建单延迟从 40 秒降到 10 秒以内。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">流式事故检测平台的工程复盘：OpenTelemetry 统一采集客户端操作事件，Kafka 承担海量传输，Flink on Kubernetes 做有状态流式聚合与判定，实现自动建单（AutoHOT），并公开 18 个月的召回/精确率月度曲线与调延迟过程。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">SaaS 的经典缺口是「事故是监控先发现还是客户先发现」——判定链路慢、召回低会直接让客户先报障，手工建单又拖长响应时间。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">是少见的带真实起伏数据的流式管道复盘（含降级月份与失败做法），对自建可观测性/事件管道的团队很有参考价值：能直接对照其 Flink 状态设计与背压处理。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">可观测性</span><a class="src" href="https://www.cncf.io/blog/2026/09/30/from-40-seconds-to-under-10-rebuilding-incident-detection-on-opentelemetry-apache-kafka-and-apache-flink-on-kubernetes/" target="_blank" rel="noopener">CNCF Blog（Atlassian）</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📦</span><span class="sec-title">社区与项目</span><span class="sec-en">Community</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/09/30/argocon-north-america-2026-what-to-expect-as-the-argo-community-looks-toward-cd-4-0/" target="_blank" rel="noopener">ArgoCon North America 2026：社区开始为 Argo CD 4.0 做愿景规划</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CNCF 预告 ArgoCon North America 2026：Argo 项目采用面与维护者持续增长、新用例变多，社区同时启动 Argo CD 4.0 的愿景规划过程，这届会议是讨论窗口。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Argo 社区现状与 Argo CD 4.0 愿景规划的公开预告，含采纳情况、新用例与维护者增长。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">GitOps 主力项目进入大版本更替的规划期，使用方需要提前了解方向以免被版本迁移打乱。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你在用 Argo CD 做交付，值得关注 4.0 的愿景讨论与迁移预告；本次内容为会议预告，细节等会议材料。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">社区</span><a class="src" href="https://www.cncf.io/blog/2026/09/30/argocon-north-america-2026-what-to-expect-as-the-argo-community-looks-toward-cd-4-0/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☁️</span><span class="sec-title">公有云动态</span><span class="sec-en">Public Cloud</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=573214" target="_blank" rel="noopener">AKS 支持 Ubuntu 26.04（公开预览）</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure 宣布 AKS 对 Ubuntu 26.04 的支持进入公开预览，集群节点操作系统可升级到新 LTS 版本，便于对齐上游内核与系统组件。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">AKS 节点池可选择 Ubuntu 26.04 作为节点操作系统（公开预览）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">节点 OS 停留在旧版本会积累内核与包层面的补丁债务，也错过新内核特性与容器运行时支持。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 AKS 的话可排入 OS 升级窗口做小规模验证；预览阶段不建议直接上生产节点池。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">AKS</span><a class="src" href="https://azure.microsoft.com/updates?id=573214" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/compute/storage-optimized-z4d-vm-and-bare-metal-instances/" target="_blank" rel="noopener">Google Cloud Z4D 存储优化机型 GA：裸金属形态单机可承载数千隔离 microVM</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 的 Z4D 存储优化机型正式 GA，主打 AI/ML 训练与推理的存储需求；以裸金属形态使用时同时提供高容量本地 SSD 与低延迟，官方定位是承载 agentic microVM——单机可跑数千个隔离沙箱。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">存储优化型 VM/裸金属实例：面向 AI 训练与推理的高本地 SSD 容量 + 低延迟，裸金属形态适配 agentic microVM 的高密度沙箱部署。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">沙箱密度受制于本地存储容量与延迟，单机跑数千隔离 microVM 需要兼顾 IOPS 与稳定性。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">是「沙箱即算力形态」在硬件侧落地的直接证据，如果你规划高密度沙箱节点可作为机型选型参考；具体性价比需结合本地存储盘型实测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">机型</span><a class="src" href="https://cloud.google.com/blog/products/compute/storage-optimized-z4d-vm-and-bare-metal-instances/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://www.infoq.cn/article/fOuaRtwuySyZsS0iGg7N?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">openJiuwen workSwarm：全双工多模态、像聊天一样与 agent 交互，昇腾算力原生亲和</a></li>
+      <li><a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener">heygen-com/hyperframes：写 HTML 就能渲染视频，为 agent 而生，单日 +349 star</a></li>
+      <li><a href="https://github.com/harry0703/MoneyPrinterTurbo" target="_blank" rel="noopener">harry0703/MoneyPrinterTurbo：给主题或关键词一键生成高清短视频，单日 +431 star</a></li>
+      <li><a href="https://github.com/feder-cr/dots" target="_blank" rel="noopener">feder-cr/dots：自带浏览器、不易被封的开源网页版 dots</a></li>
+      <li><a href="https://github.com/rehan-remade/universal-modder" target="_blank" rel="noopener">rehan-remade/universal-modder：把 Claude 指向任意 PC 游戏，做侦察/逆向/美术生成/实机测试</a></li>
+      <li><a href="https://www.infoq.cn/article/cA9rSEGKphbJHIiTQKMv?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">GitLab Duo 通过微软 Foundry 扩展自托管 AI 选项</a></li>
+      <li><a href="https://azure.microsoft.com/updates?id=573003" target="_blank" rel="noopener">Azure：Microsoft SQL Agent Skills 进入公开预览</a></li>
+      <li><a href="https://www.infoq.cn/article/z9VP6ZQ3vCxTrk1VdU5D?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">一个忘关的开关，与企业 Agent 的全栈技术账单</a></li>
+      <li><a href="https://www.qbitai.com/2026/09/499597.html" target="_blank" rel="noopener">量子位：Anthropic 这波发布，是来给智谱打广告的吧</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
