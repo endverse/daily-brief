@@ -1,8 +1,9 @@
 {
+  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年10月02日 · 星期五(如 2026年09月19日 · 星期六)、013(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格**\nOpenAI 在 DevDay 2026 发布 GPT-6.1 Sol，标准 API 价维持每百万输入 2 美元、输出 10 美元不变，缓存输入再降 50% 到 0.10 美元（相对标准输入相当于 95% 折扣）；上下文窗口 105 万 token、单次最多输出 12.8 万 token，支持 low/high/xhigh/max 多档推理强度。官方定位是「接近 Astra 的智能、五分之一的成本」：DeepSWE v1.1 与 Astra 持平，AutomationBench 中等推理强度下比 Claude Opus 5.5 高 2.2 个百分点。Terminal-Bench Science 0.1 在最高推理强度下平均每题 5.47 美元，Astra 为 23.80 美元，但 Astra 准确率仍最高（68.1%），官方建议它留给最难的科研任务。同场还发布 Ultrafast 档（token 生成最高 8 倍速、价格 6 倍）与面向敏感数据的 private intelligence 选项。\n\n**2. GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 10 秒内**\nGoogle 把面向 RL 与评测优化的 GKE Agent Sandbox、Agent Sandbox RL 编排 SDK 一起转 GA，并提供主流 RL gym/harness 的原生集成。给出的数字是：time-to-first-command 提升 10–45 倍（1–9 秒，原 45–85 秒），最坏情况沙箱等待从 7.5 分钟降到 10 秒以内，控制面 churn 减少约 3 倍。关键机制是 in-place recycling：每个 RL step 会一次性申请成千上万个沙箱，SDK 复用 Pod 而不是删除重建，Pod 创建量降到三分之一，API server 在高频 churn 下保持稳定。这套东西是 Google 把「用 SWE-bench 等 agentic 评测故意压垮自家集群、再把 etcd 超时和 GPU 空转逐条修掉」的产物。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧩 Agent & Skill：SkillGym 用自动生成的可验证环境训练会用 skill 的 agent；微软 SQL 迁移 skills 转 GA；Google 把 gcloud/bq 收进单个 MCP server。\n🧠 模型与研究：GPT-6.1 Sol 把近 Astra 智能压到五分之一价格；何恺明团队用纯视觉方案把 ARC 做到 63.4%；Claude 文本水印机制公开。\n🛠️ AI 工程落地：TileLang 新增昇腾 950 后端；两台 DGX Spark 跑 GLM-5.3-Flash 的完整实测配方；AWS 把架构评审做成 agent。\n📊 产品与商业：Barclays 目标年底 Claude Code 覆盖 50% 开发者；Azure 存储优化机型 Lazv5/Laosv5 GA。\n💡 观点与好文：Simon Willison 的 Sol pelican 测试看不到代际差异；OpenAI 谈 AI 落点在「执行」而非创意。\n🛡️ 安全与治理：安全学者警告隔离沙箱间的共享缓存已成 agent 传指令通道；Anthropic 复盘 Claude 越权事件。\n☸️ K8s 核心技术：CNCF 主张平台策略要从「闸门」改成「护栏」；Google Cloud 托管 Lustre 继续降门槛。\n📦 社区与项目：KubeCon + CloudNativeCon NA 2026 按角色给出四份参会路线图。\n☁️ 公有云动态：Azure 提醒 Functions on ACA V1 明年 9 月退役；Hyperscale Serverless 支持自动暂停。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 34 条精选 + 14 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-10-02.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月01日 · 星期四 · 第012期",
+    "subtitle": "2026年10月02日 · 星期五 · 第013期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -10,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. 谷歌开源 AX：K8s 风格的声明式 Agent 编排器，亚秒级挂起/恢复 + Actor 多路复用**\nApache 2.0 开源（google/ax，跑在 Agent Substrate 之上），把 agent 会话当有状态 Actor 而非微服务/批任务；ax.io/v1alpha1 下四类原语 Task/Workspace/Gateway/Model 分别管执行生命周期、环境装配（挂 Git、配 MCP、装 skill 包）、出网白名单与凭据注入、模型参数与密钥；空闲时检查点挂起、亚秒级无冷启动恢复，数十个隔离 Actor 复用同一批主机进程；ax CLI（apply/watch/ssh/suspend/resume）+ ko 部署控制面、Redis 在 ax-system。HN 评价分化：认可省掉等待期云成本，质疑 ko + CRD 的运维负担，并强调 gVisor 隔离与出站代理仍是早期问题。\n\n**2. DeepSeek 公开 V4 训练沙箱底座 DSec：可组合环境层 + 按需镜像加载，生产超卖超 50 倍**\n与清华联合发布技术报告（130+ 作者，梁文锋在列），首次公开支撑 V4 全部训练/评测/预处理的沙箱底座：FnCall/Container/MicroVM/Full VM 四种后端 + 统一 libdsec SDK；环境拆成基础镜像/工作区/工具包三层（EROFS + OverlayFS 按需组合，工具包更新只重建该层）；实测沙箱只访问镜像 4.2%–13.3% 的数据，放 3FS 按需加载后集中创建 8,192 容器从 60+ 分钟降到约 35 分钟（1.71x、写入 -57%），工作区从解压 tar.gz 改挂 EROFS 层 79→45 分钟；virtio-pmem + DAX 共享页缓存使峰值内存 -40.2%，DAMON + balloon 使累计内存 -21.2%，超卖率做到 50 倍以上。"
+      "content": "**🔥 今日重点**\n\n**1. GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格**\nOpenAI 在 DevDay 2026 发布 GPT-6.1 Sol，标准 API 价维持每百万输入 2 美元、输出 10 美元不变，缓存输入再降 50% 到 0.10 美元（相对标准输入相当于 95% 折扣）；上下文窗口 105 万 token、单次最多输出 12.8 万 token，支持 low/high/xhigh/max 多档推理强度。官方定位是「接近 Astra 的智能、五分之一的成本」：DeepSWE v1.1 与 Astra 持平，AutomationBench 中等推理强度下比 Claude Opus 5.5 高 2.2 个百分点。Terminal-Bench Science 0.1 在最高推理强度下平均每题 5.47 美元，Astra 为 23.80 美元，但 Astra 准确率仍最高（68.1%），官方建议它留给最难的科研任务。同场还发布 Ultrafast 档（token 生成最高 8 倍速、价格 6 倍）与面向敏感数据的 private intelligence 选项。\n\n**2. GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 10 秒内**\nGoogle 把面向 RL 与评测优化的 GKE Agent Sandbox、Agent Sandbox RL 编排 SDK 一起转 GA，并提供主流 RL gym/harness 的原生集成。给出的数字是：time-to-first-command 提升 10–45 倍（1–9 秒，原 45–85 秒），最坏情况沙箱等待从 7.5 分钟降到 10 秒以内，控制面 churn 减少约 3 倍。关键机制是 in-place recycling：每个 RL step 会一次性申请成千上万个沙箱，SDK 复用 Pod 而不是删除重建，Pod 创建量降到三分之一，API server 在高频 churn 下保持稳定。这套东西是 Google 把「用 SWE-bench 等 agentic 评测故意压垮自家集群、再把 etcd 超时和 GPU 空转逐条修掉」的产物。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🤖☸️ **K8s × AI**：CNCF 主张 agent harness 要从设计上就是云原生分布式应用，而非把桌面工具塞进容器；Google Cloud 九月更新用 Pod 快照把推理启动缩短最多 89%，并给出 EKS→GKE 的 agent 迁移能力；阿里云 Agent Sandbox 每分钟可建 10 万沙箱，前程无忧按会话隔离把单会员日成本压到约 1 元。\n\n☸️ **K8s 核心技术**：Atlassian 用 OpenTelemetry + Kafka + Flink on K8s 重建事故检测，自动建单延迟从 40 秒降到 10 秒内，并公开召回率 60%→峰值 86%→差月回落 64% 的月度数据。\n\n🧩 **Agent & Skill**：Google Data Agent Kit 转 GA，把数据工程最佳实践做成可被 Claude Code/Codex 调用的 skill 包；mattpocock/skills 单日 +876 star 把工程师的 .agents 目录直接开源。\n\n🧠 **模型与研究**：Claude Sonnet 5.5 定价不变、官方称快 30%+ 且多数工作便宜到 30%；Gemini 4 Argon 以百万 token 上下文先经 Fairwind Program 向可信防御方开放。\n\n🛠️ **AI 工程落地**：DeepSeek 开源昇腾算子与通信库（DeepEP 实测 Dispatch 375 GB/s、Combine 347 GB/s）；S3 Vectors 支持元数据预过滤，过滤查询召回最高 5 倍。\n\n📊 **产品与商业**：Manus 2.0 给 agent 配手机号与钱包，还能拉群协作；OpenAI 追加 500 万美元扩大 Lenfest 新闻业 AI 计划。\n\n🛡️ **安全与治理**：OpenAI 披露阻断一次针对模型推理过程的协同蒸馏行动；AgentTell 证明浏览器 agent 的行为与时序侧信道能推断任务意图。\n\n📦 **社区与项目**：Argo 社区启动 Argo CD 4.0 愿景规划，ArgoCon NA 2026 成为讨论窗口。\n\n☁️ **公有云动态**：AKS 支持 Ubuntu 26.04（公开预览）；Google Cloud Z4D 存储优化机型 GA，裸金属单机可承载数千隔离 microVM。\n\n💡 **观点与好文**：OpenAI 推理方向负责人访谈——数学只是多智能体时代的开胃菜。"
+      "content": "**📌 今日看点**\n\n🧩 Agent & Skill：SkillGym 用自动生成的可验证环境训练会用 skill 的 agent；微软 SQL 迁移 skills 转 GA；Google 把 gcloud/bq 收进单个 MCP server。\n🧠 模型与研究：GPT-6.1 Sol 把近 Astra 智能压到五分之一价格；何恺明团队用纯视觉方案把 ARC 做到 63.4%；Claude 文本水印机制公开。\n🛠️ AI 工程落地：TileLang 新增昇腾 950 后端；两台 DGX Spark 跑 GLM-5.3-Flash 的完整实测配方；AWS 把架构评审做成 agent。\n📊 产品与商业：Barclays 目标年底 Claude Code 覆盖 50% 开发者；Azure 存储优化机型 Lazv5/Laosv5 GA。\n💡 观点与好文：Simon Willison 的 Sol pelican 测试看不到代际差异；OpenAI 谈 AI 落点在「执行」而非创意。\n🛡️ 安全与治理：安全学者警告隔离沙箱间的共享缓存已成 agent 传指令通道；Anthropic 复盘 Claude 越权事件。\n☸️ K8s 核心技术：CNCF 主张平台策略要从「闸门」改成「护栏」；Google Cloud 托管 Lustre 继续降门槛。\n📦 社区与项目：KubeCon + CloudNativeCon NA 2026 按角色给出四份参会路线图。\n☁️ 公有云动态：Azure 提醒 Functions on ACA V1 明年 9 月退役；Hyperscale Serverless 支持自动暂停。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 10 大分类 25 条精选 + 9 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 34 条精选 + 14 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-01.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-02.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
