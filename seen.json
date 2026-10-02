@@ -1422,5 +1422,205 @@
   "u:https://www.qbitai.com/2026/09/499597.html|t:量子位anthropic这波发布是来给智谱打广告的吧": {
     "first_seen": "2026-10-01",
     "title": "量子位：Anthropic 这波发布，是来给智谱打广告的吧"
+  },
+  "u:https://openai.com/index/introducing-gpt-6-1-sol|t:gpt61sol发布对标astra的智能五分之一的api价格": {
+    "first_seen": "2026-10-02",
+    "title": "GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格"
+  },
+  "u:https://cloud.google.com/blog/products/containers-kubernetes/accelerate-agentic-rl-with-gke-agent-sandbox|t:gkeagentsandbox转ga沙箱首条命令从4585秒压到19秒尾延迟75": {
+    "first_seen": "2026-10-02",
+    "title": "GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 "
+  },
+  "u:https://huggingface.co/papers/2609.37539|t:skillgym用自动生成的可验证环境训练「会用skill」的agent": {
+    "first_seen": "2026-10-02",
+    "title": "SkillGym：用自动生成的可验证环境训练「会用 skill」的 agent"
+  },
+  "u:https://huggingface.co/papers/2609.38349|t:milo用多agent进化自动搜索出更好的agentharness": {
+    "first_seen": "2026-10-02",
+    "title": "MILO：用多 agent 进化自动搜索出更好的 agent harness"
+  },
+  "u:https://azure.microsoft.com/updates?id=571899|t:微软把sql迁移做成agentskills并转ga评估选型执行校验四段可复用": {
+    "first_seen": "2026-10-02",
+    "title": "微软把 SQL 迁移做成 agent skills 并转 GA：评估、选型、执行、校验四段可复用"
+  },
+  "u:https://cloud.google.com/blog/products/ai-machine-learning/google-cloud-cli-remote-mcp-server-in-preview|t:google把gcloudbq打包成一个远程mcpserver让agent直接用": {
+    "first_seen": "2026-10-02",
+    "title": "Google 把 gcloud / bq 打包成一个远程 MCP server：让 agent 直接用几百条 CLI 命"
+  },
+  "u:https://cloud.google.com/blog/topics/developers-practitioners/graph-workflows-in-adk-everything-you-need-to-know|t:adk图工作流什么时候用静态图什么时候让python决定下一步": {
+    "first_seen": "2026-10-02",
+    "title": "ADK 图工作流：什么时候用静态图，什么时候让 Python 决定下一步"
+  },
+  "gh:wenziai/wenzi-xhs-agent-skills": {
+    "first_seen": "2026-10-02",
+    "title": "文子的开源小红书 Agent Skills：把账号冷启动拆成 6 个可安装 skill"
+  },
+  "gh:justxor/claude-code-pro-course": {
+    "first_seen": "2026-10-02",
+    "title": "Claude Code 完整课程开源：12 模块 + 8 个实验 + starter kit"
+  },
+  "u:https://www.anthropic.com/news/claude-discovers-novel-enzyme-system|t:anthropic自建实验室claude自主发现了一个类似crispr的新型酶系": {
+    "first_seen": "2026-10-02",
+    "title": "Anthropic 自建实验室：Claude 自主发现了一个类似 CRISPR 的新型酶系统"
+  },
+  "u:https://www.anthropic.com/news/claude-text-watermark|t:claude文本水印怎么做不增token不插隐藏字符拿密钥才能判定": {
+    "first_seen": "2026-10-02",
+    "title": "Claude 文本水印怎么做：不增 token、不插隐藏字符、拿密钥才能判定"
+  },
+  "u:https://www.infoq.cn/article/psvhjyojtc9bslwyxpff?utm_source=rss&utm_medium=article|t:infoq拆解claudesonnet55terminalbench从103%跳": {
+    "first_seen": "2026-10-02",
+    "title": "InfoQ 拆解 Claude Sonnet 5.5：Terminal-Bench 从 10.3% 跳到 70.6%，但"
+  },
+  "u:https://www.qbitai.com/2026/10/499812.html|t:何恺明团队natarc纯视觉方案做arc单模型634%集成702%": {
+    "first_seen": "2026-10-02",
+    "title": "何恺明团队 NAT-ARC：纯视觉方案做 ARC，单模型 63.4%、集成 70.2%"
+  },
+  "u:https://huggingface.co/papers/2609.40295|t:「ai生成网页文本」占比首次量化2026年6月275%8月升到311%": {
+    "first_seen": "2026-10-02",
+    "title": "「AI 生成网页文本」占比首次量化：2026 年 6 月 27.5%，8 月升到 31.1%"
+  },
+  "u:https://blog.cloudflare.com/clef-decision-models|t:cloudflare开源决策模型clef廉价确定性的结构化判断外加rl微调平台": {
+    "first_seen": "2026-10-02",
+    "title": "Cloudflare 开源决策模型 Clef：廉价确定性的结构化判断，外加 RL 微调平台"
+  },
+  "gh:tile-ai/tilelang": {
+    "first_seen": "2026-10-02",
+    "title": "tile-ai/tilelang 再上热榜：TVM 之上的 Pythonic kernel DSL，新增华为昇腾 950"
+  },
+  "gh:miaai-lab/glm-5.3-flash-exl3-2x-dgx-sparks-tensorfold": {
+    "first_seen": "2026-10-02",
+    "title": "两台 DGX Spark 跑 GLM-5.3-Flash：EXL3 4bit 权重 + FP8 KV，104 万 tok"
+  },
+  "u:https://aws.amazon.com/blogs/aws/announcing-aws-well-architected-agent-an-ai-powered-intelligence-to-optimize-your-cloud-environment-preview|t:aws把wellarchitected评审做成agent预览自动扫环境给成本安全": {
+    "first_seen": "2026-10-02",
+    "title": "AWS 把 Well-Architected 评审做成 agent（预览）：自动扫环境给成本/安全/性能建议"
+  },
+  "u:https://www.infoq.cn/article/hw3ppm2zlcmcarsno1y7?utm_source=rss&utm_medium=article|t:snowflake的ai落地经验卡点是组织协同不是模型能力": {
+    "first_seen": "2026-10-02",
+    "title": "Snowflake 的 AI 落地经验：卡点是组织协同，不是模型能力"
+  },
+  "u:https://www.anthropic.com/news/barclays-scales-claude|t:barclays扩大与anthropic合作claudecode覆盖50%开发者": {
+    "first_seen": "2026-10-02",
+    "title": "Barclays 扩大与 Anthropic 合作：Claude Code 覆盖 50% 开发者的目标定在 2026 年"
+  },
+  "u:https://azure.microsoft.com/updates?id=572630|t:azure存储优化机型lasv5laosv5ga每vcpu8gib内存+720g": {
+    "first_seen": "2026-10-02",
+    "title": "Azure 存储优化机型 Lasv5 / Laosv5 GA：每 vCPU 8GiB 内存 + 720GB 本地 NVM"
+  },
+  "u:https://www.anthropic.com/news/accenture-embedded-evaluation|t:anthropic与埃森哲合作「嵌入式评测」把前沿模型评测做进交付流程": {
+    "first_seen": "2026-10-02",
+    "title": "Anthropic 与埃森哲合作「嵌入式评测」：把前沿模型评测做进交付流程"
+  },
+  "u:https://simonwillison.net/2026/sep/29/hn-49898129|t:simonwillison的gpt61solpelican测试与gpt6家族没有": {
+    "first_seen": "2026-10-02",
+    "title": "Simon Willison 的 GPT-6.1 Sol pelican 测试：与 GPT-6 家族没有明显差异"
+  },
+  "u:https://openai.com/index/the-eternal-complement|t:openai随笔《theeternalcomplement》ai影响最大的可能是": {
+    "first_seen": "2026-10-02",
+    "title": "OpenAI 随笔《The eternal complement》：AI 影响最大的可能是「执行」而不是创意"
+  },
+  "u:https://simonwillison.net/2026/sep/29/photo-scrubber|t:photoscrubber本地糊脸+清元数据的开源小工具作者让gpt6astra": {
+    "first_seen": "2026-10-02",
+    "title": "Photo Scrubber：本地糊脸 + 清元数据的开源小工具，作者让 GPT-6 Astra 写的"
+  },
+  "u:https://simonwillison.net/2026/oct/1/matthew-green|t:安全学者指出agent蠕虫雏形隔离沙箱之间用共享包缓存互相传递指令": {
+    "first_seen": "2026-10-02",
+    "title": "安全学者指出 agent 蠕虫雏形：隔离沙箱之间用共享包缓存互相传递指令"
+  },
+  "u:https://www.anthropic.com/news/improving-alignment-security-efforts|t:anthropic复盘claude越权访问真实系统定位为运维安全问题+两个对齐问": {
+    "first_seen": "2026-10-02",
+    "title": "Anthropic 复盘 Claude 越权访问真实系统：定位为运维安全问题 + 两个对齐问题"
+  },
+  "u:https://www.anthropic.com/news/model-hardware-standard-research-preview|t:anthropic开放mhs让agent安全操作实验室与产线设备的共享规范": {
+    "first_seen": "2026-10-02",
+    "title": "Anthropic 开放 MHS：让 agent 安全操作实验室与产线设备的共享规范"
+  },
+  "u:https://cloud.google.com/blog/topics/threat-intelligence/vulnerability-discovery-and-exploitation-trends-in-the-ai-era|t:google威胁情报ai正在改写漏洞从发现到利用的节奏": {
+    "first_seen": "2026-10-02",
+    "title": "Google 威胁情报：AI 正在改写漏洞从发现到利用的节奏"
+  },
+  "u:https://www.cncf.io/blog/2026/10/01/guardrails-not-gates-rethinking-policy-in-platform-teams|t:cncf平台团队把策略做成「闸门」是错的先想清失败模式再谈guardrail": {
+    "first_seen": "2026-10-02",
+    "title": "CNCF：平台团队把策略做成「闸门」是错的，先想清失败模式再谈 guardrail"
+  },
+  "u:https://cloud.google.com/blog/topics/developers-practitioners/democratizing-managed-lustre-with-lower-cost-and-frictionless-development|t:googlecloud托管lustre降门槛tbs吞吐亚毫秒延迟posix并行文": {
+    "first_seen": "2026-10-02",
+    "title": "Google Cloud 托管 Lustre 降门槛：TB/s 吞吐、亚毫秒延迟、POSIX 并行文件系统"
+  },
+  "u:https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey|t:kubecon+cloudnativeconna2026按角色给出参会路线图四个": {
+    "first_seen": "2026-10-02",
+    "title": "KubeCon + CloudNativeCon NA 2026 按角色给出参会路线图（四个版本）"
+  },
+  "u:https://azure.microsoft.com/updates?id=570800|t:azure提醒containerapps上的functionsv1将于20270": {
+    "first_seen": "2026-10-02",
+    "title": "Azure 提醒：Container Apps 上的 Functions V1 将于 2027-09-29 退役"
+  },
+  "u:https://azure.microsoft.com/updates?id=571857|t:azuresqlhyperscale无服务器层支持自动暂停恢复公开预览": {
+    "first_seen": "2026-10-02",
+    "title": "Azure SQL Hyperscale 无服务器层支持自动暂停/恢复（公开预览）"
+  },
+  "u:https://azure.microsoft.com/updates?id=573032|t:azurenetappfiles启用coolaccess时qos更新冷热分层吞吐": {
+    "first_seen": "2026-10-02",
+    "title": "Azure NetApp Files：启用 cool access 时 QoS 更新，冷热分层吞吐自动调整"
+  },
+  "u:https://cloud.google.com/blog/products/storage-data-transfer/enabling-end-to-end-checksums-in-cloud-storage|t:googlecloudstorage端到端校验和验证静态与传输中的数据完整性": {
+    "first_seen": "2026-10-02",
+    "title": "Google Cloud Storage 端到端校验和：验证静态与传输中的数据完整性"
+  },
+  "u:https://openai.com/index/devday-2026-recap|t:openaidevday2026回顾官方汇总20+项发布gpt6astracha": {
+    "first_seen": "2026-10-02",
+    "title": "OpenAI DevDay 2026 回顾：官方汇总 20+ 项发布（GPT-6 Astra、ChatGPT、Codex"
+  },
+  "u:https://huggingface.co/papers/2609.32600|t:cuaswe把「计算机使用agent」放进可视化软件工程开发需要看界面行为再决定": {
+    "first_seen": "2026-10-02",
+    "title": "CUA-SWE：把「计算机使用 agent」放进可视化软件工程——开发需要看界面行为再决定改什么"
+  },
+  "u:https://huggingface.co/papers/2609.39154|t:dagent用dag做「先评估再生长」的规划提升深度研究agent的并行探索与计": {
+    "first_seen": "2026-10-02",
+    "title": "DAGent：用 DAG 做「先评估再生长」的规划，提升深度研究 agent 的并行探索与计划修订"
+  },
+  "u:https://huggingface.co/papers/2609.39788|t:多agent潜在空间通信的安全研究直接交换内部表示虽省token但引入了新的攻击": {
+    "first_seen": "2026-10-02",
+    "title": "多 agent 潜在空间通信的安全研究：直接交换内部表示虽省 token，但引入了新的攻击面"
+  },
+  "u:https://huggingface.co/papers/2609.35928|t:实验发现让agent知道彼此来自哪家模型会显著破坏多智能体协作": {
+    "first_seen": "2026-10-02",
+    "title": "实验发现：让 agent 知道彼此来自哪家模型，会显著破坏多智能体协作"
+  },
+  "u:https://huggingface.co/papers/2609.37501|t:regllm面向受监管agent工作流的有界自主性诊断工具含引用有效性升级正确性": {
+    "first_seen": "2026-10-02",
+    "title": "RegLLM：面向受监管 agent 工作流的有界自主性诊断工具，含引用有效性、升级正确性等六项信号"
+  },
+  "gh:deepseek-ai/deepep-ascend": {
+    "first_seen": "2026-10-02",
+    "title": "deepseek-ai/DeepEP-Ascend：面向华为昇腾 NPU 的高性能训练/推理通信库开源"
+  },
+  "gh:earendil-works/pi": {
+    "first_seen": "2026-10-02",
+    "title": "earendil-works/pi：统一 LLM API + agent loop + TUI + coding age"
+  },
+  "gh:dietrichgebert/ponytail": {
+    "first_seen": "2026-10-02",
+    "title": "DietrichGebert/ponytail：让 agent「像房间里最懒的资深开发」——不写代码也是解法"
+  },
+  "gh:afk-surf/comma": {
+    "first_seen": "2026-10-02",
+    "title": "AFK-surf/Comma：无会话、持续运行的个人 agent，开源版的 Muse / Dots 类产品"
+  },
+  "gh:nanaism/yomiyasu": {
+    "first_seen": "2026-10-02",
+    "title": "nanaism/yomiyasu：把 AI 生成的日语改写成自然日语的 agent skill"
+  },
+  "u:https://azure.microsoft.com/updates?id=571841|t:azuresqlserveronazurelocal连接模式ga本地跑sql负载": {
+    "first_seen": "2026-10-02",
+    "title": "Azure：SQL Server on Azure Local 连接模式 GA，本地跑 SQL 负载同时用 Azure "
+  },
+  "u:https://cloud.google.com/blog/products/data-analytics/paypals-journey-with-managed-service-for-apache-spark|t:paypal用managedserviceforapachespark做分析加速": {
+    "first_seen": "2026-10-02",
+    "title": "PayPal 用 Managed Service for Apache Spark 做分析加速的实践：分析与 agent"
+  },
+  "u:https://cloud.google.com/blog/products/identity-security/google-cloud-partners-deliver-new-security-agents-and-ai-defenses-with-gemini-enterprise|t:googlecloud合作伙伴推出安全agent与geminienterpris": {
+    "first_seen": "2026-10-02",
+    "title": "Google Cloud 合作伙伴推出安全 agent 与 Gemini Enterprise 防御方案，把企业上下文接"
   }
 }
