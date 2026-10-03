@@ -1,53 +1,56 @@
 ======================================================================
-处理报告  (原始 186 条)
+处理报告  (原始 199 条)
 ======================================================================
 
-① 过滤: 保留 122 条, 过滤掉 64 条
+① 过滤: 保留 154 条, 过滤掉 45 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] firebase/firebase-ios-sdk
+     ✗ [GitHub Trending] getsentry/sentry
      ✗ [GitHub Trending] cursor/plugins
+     ✗ [GitHub Trending] Effect-TS/effect
      ✗ [GitHub Trending] pablostanley/yoinks
-     ✗ [GitHub Trending] HunxByts/GhostTrack
-     ✗ [GitHub Trending] Friedrich-M/UniMate
-     ✗ [GitHub 升星repo] OpSafari/hypoarena
-     ✗ [GitHub 升星repo] Edwardxlai/easyread
-     ✗ [GitHub 升星repo] pengchujin/livecanvas
+     ✗ [GitHub 升星repo] youcci/playport
+     ✗ [GitHub 升星repo] facebookincubator/muse-gadget-sdk
+     ✗ [GitHub 升星repo] x4gpanell/SuperJinX
+     ✗ [GitHub 升星repo] idlerunner00/procedural-pixel-creatures
 
-② 去重: 122 → 112 条 (同批合并 0, 跨天历史去重 10)
+② 去重: 154 → 139 条 (同批合并 4, 跨天历史去重 11)
    跨天去重(此前已发过，跳过):
+     ⏭️  [GitHub Trending] obra/superpowers
+     ⏭️  [GitHub Trending] DietrichGebert/ponytail
      ⏭️  [GitHub Trending] mattpocock/skills
      ⏭️  [GitHub Trending] NVIDIA/OpenShell
-     ⏭️  [GitHub Trending] mvschwarz/openrig
-     ⏭️  [GitHub Trending] obra/superpowers
-     ⏭️  [GitHub Trending] mksglu/context-mode
      ⏭️  [GitHub Trending] heygen-com/hyperframes
-     ⏭️  [GitHub 升星repo] rehan-remade/universal-modder
-     ⏭️  [量子位] OpenAI推理之父最新访谈！数学只是多智能体时代的开胃菜
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] mksglu/context-mode
+     ⏭️  [GitHub Trending] colbymchenry/codegraph
+     ⏭️  [GitHub Trending] mvschwarz/openrig
+   跨源合并的事件:
+     ⇉ Keyword Harnesses Fail Open: A Cheap Dia  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ ScholarCatalyst: A Benchmark for Retriev  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Where-OPD: Spatially Guided On-Policy Se  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Decoding Looped Transformers Better for   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 观点与好文: 3 条
-     - 模型与研究: 33 条
-     - 安全与治理: 8 条
-     - 产品与商业: 9 条
-     - AI 工程落地: 14 条 (含🔧开源 5)
      - Agent & Skill: 31 条 (含🔧开源 6)
+     - 观点与好文: 1 条
+     - 模型与研究: 63 条 (含🔧开源 4)
+     - AI 工程落地: 18 条 (含🔧开源 1)
+     - 安全与治理: 6 条
+     - 产品与商业: 7 条
    【基础设施】
-     - K8s × AI: 4 条
-     - K8s 核心: 6 条
+     - K8s × AI: 3 条
+     - K8s 核心: 8 条
      - 社区与项目: 2 条
-     - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Introducing GPT-6.1 Sol
-        源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] The eternal complement
-        源:OpenAI News 类:观点与好文 跨源:[]
+     🔥 [19分] A model guide for the GPT-6 family
+        源:OpenAI News 类:Agent & Skill 跨源:[]
+     🔥 [18分] ScholarCatalyst: A Benchmark for Retrieving Papers That
+        源:HuggingFace Papers 类:模型与研究 跨源:['HuggingFace Papers', 'arXiv cs.AI']
 
    打分Top5(参考):
-      19分 [OpenAI News ] Introducing GPT-6.1 Sol
+      19分 [OpenAI News ] A model guide for the GPT-6 family
+      18分 [HuggingFace Papers] ScholarCatalyst: A Benchmark for Retrieving P
+      16分 [OpenAI News ] Chatham scales its capital markets expertise 
       16分 [OpenAI News ] The eternal complement
-      16分 [OpenAI News ] DevDay 2026 Recap
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      16分 [Anthropic News] Science Claude discovers a novel enzyme syste

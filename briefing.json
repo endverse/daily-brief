@@ -1,53 +1,53 @@
 {
   "brand": "AI & 基础设施早报",
-  "date_label": "2026 年 10 月 02 日 · 星期五",
-  "issue": 13,
+  "date_label": "2026 年 10 月 03 日 · 星期六",
+  "issue": 14,
   "kicker": "DAILY",
   "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
-  "lead": "今天的两个主线都很实在。模型侧是价格带的重新划线：OpenAI 发布 GPT-6.1 Sol，用每百万输入 2 美元 / 输出 10 美元把「接近 Astra 的智能」拉进五分之一的成本区间，缓存输入再砍一半；第三方拆解 Claude Sonnet 5.5 也给出同样的教训——默认档省钱、最高推理强度反而不便宜。基础设施侧是把 agent 沙箱做成一等公民：GKE Agent Sandbox 转 GA，首条命令从 45–85 秒压到 1–9 秒、控制面 churn 降 3 倍；安全学者则在同一时间提醒，隔离沙箱之间的共享包缓存已经成了 agent 互相传指令的通道，隔离边界不等于信任边界。板块内容上，云厂商继续把成熟流程封装成 skill 交付（微软 SQL 迁移 skills GA、Google 把 gcloud/bq 收进单个 MCP server），Anthropic 则公开了 Claude 自主发现新型酶系统的早期结果。",
+  "lead": "今天的主线偏向「把能力做成 agent 可复用的工作台」。模型侧，OpenAI 端出 GPT-6 家族的官方落地指南，把选型、推理强度档位、skill 与工具编排写成可照做的调参路线；工程侧则继续补 agent 的基建——Google Cloud 给出 AlloyDB + Valkey 的分层长期记忆，并用 Spanner queues 把「状态 + 异步派发」收进同一事务。生态侧，Google 把自家云产品知识做成官方 Agent Skills 仓库，agent 可按需加载 GKE、BigQuery 等技能。国产算力侧，DeepSeek 开源面向华为昇腾的全套基础设施组件，与英伟达版接口一一对应。",
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
   "highlights": [
     {
-      "title": "GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格",
-      "url": "https://openai.com/index/introducing-gpt-6-1-sol",
-      "summary": "OpenAI 在 DevDay 2026 发布 GPT-6.1 Sol，标准 API 价维持每百万输入 2 美元、输出 10 美元不变，缓存输入再降 50% 到 0.10 美元（相对标准输入相当于 95% 折扣）；上下文窗口 105 万 token、单次最多输出 12.8 万 token，支持 low/high/xhigh/max 多档推理强度。官方定位是「接近 Astra 的智能、五分之一的成本」：DeepSWE v1.1 与 Astra 持平，AutomationBench 中等推理强度下比 Claude Opus 5.5 高 2.2 个百分点。Terminal-Bench Science 0.1 在最高推理强度下平均每题 5.47 美元，Astra 为 23.80 美元，但 Astra 准确率仍最高（68.1%），官方建议它留给最难的科研任务。同场还发布 Ultrafast 档（token 生成最高 8 倍速、价格 6 倍）与面向敏感数据的 private intelligence 选项。",
-      "note": "价格对照：GPT-6 Sol 缓存输入 0.20 美元、GPT-6 Astra 输入 10 美元 / 输出 50 美元；Sol 系列一周前刚整体降价 50%。Simon Willison 的 pelican 实测显示它与 GPT-6 家族的输出没有明显差异——这轮的重点是价格带而不是能力跃迁。",
-      "tag": "模型发布",
+      "title": "OpenAI 发布 GPT-6 家族落地指南：从选型、推理强度到 skill 与工具编排",
+      "url": "https://openai.com/index/practical-guide-building-gpt-6",
       "source": "OpenAI News",
+      "tag": "Agent 指南",
+      "summary": "OpenAI 发布面向团队的 GPT-6 家族落地指南，围绕「选哪个模型、怎么配推理强度、怎么写 prompt 与 skill、怎么编排工具、怎么把工作流推上生产」给出官方建议。指南确认 GPT-6 Astra 与 GPT-6.1 Sol 不支持 none 推理档，最低为 low；reasoning.effort 可取 low / medium（默认）/ high / xhigh / max 五档。工具调用建议走 Responses API，Chat Completions 仅在无工具的请求下可用。官方给出的调参路径是：先用默认推理强度，只在任务需要更深规划或分析时才逐级上调，以便在延迟、token 成本与效果之间取平衡。",
+      "note": "要点：①按任务所需的推理深度、速度与成本选模型；②推理档 low→max，Astra/Sol 不支持 none，minimal 需从 low 起步对比；③prompt 与 skill 协同、工具编排建议用 Responses API；④给出从原型到生产的迁移与治理建议。",
       "detail": [
         {
           "key": "能做什么",
-          "value": "gpt-6.1-sol 这个模型本身：105 万 token 上下文、12.8 万输出上限、文本+图像输入、工具调用与缓存，五档推理强度；价格 $2/$10（缓存 $0.10）覆盖短上下文请求，超过 27.2 万输入 token 的请求整单走长上下文档价格。"
+          "value": "官方模型选型 + 推理强度(effort)分档 + prompt/skill 写法 + 工具编排 + 上生产工作流的完整建议，含各档位差异与迁移注意点。"
         },
         {
           "key": "解决什么痛点",
-          "value": "把「接近顶级模型」的能力放进能用得起的价位：对批量跑 agent 的团队，缓存输入降 95% 直接影响多轮工具调用的账单；Terminal-Bench Science 这类评测里单题成本从 23.80 美元降到 5.47 美元，是数量级差异。"
+          "value": "GPT-6 家族型号多、推理档位细，团队容易选错模型或用错推理强度，导致成本高或效果差。"
         },
         {
           "key": "值不值得",
-          "value": "如果你在给 agent 工作流选主力模型，这是当下性价比基准线，值得实测自己的任务集；注意推理强度拉到 max 后成本结构会变，长上下文请求会整单升价，需要按 prompt 长度分层核算。"
+          "value": "用 GPT 系做 agent/生产工作流的团队值得照着调参；面向 OpenAI 自家模型，跨供应商不通用。"
         }
       ]
     },
     {
-      "title": "GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 10 秒内",
-      "url": "https://cloud.google.com/blog/products/containers-kubernetes/accelerate-agentic-rl-with-gke-agent-sandbox/",
-      "summary": "Google 把面向 RL 与评测优化的 GKE Agent Sandbox、Agent Sandbox RL 编排 SDK 一起转 GA，并提供主流 RL gym/harness 的原生集成。给出的数字是：time-to-first-command 提升 10–45 倍（1–9 秒，原 45–85 秒），最坏情况沙箱等待从 7.5 分钟降到 10 秒以内，控制面 churn 减少约 3 倍。关键机制是 in-place recycling：每个 RL step 会一次性申请成千上万个沙箱，SDK 复用 Pod 而不是删除重建，Pod 创建量降到三分之一，API server 在高频 churn 下保持稳定。这套东西是 Google 把「用 SWE-bench 等 agentic 评测故意压垮自家集群、再把 etcd 超时和 GPU 空转逐条修掉」的产物。",
-      "note": "痛点描述得很具体：agentic RL 是同步批处理，训练要等最慢的沙箱就绪；每个任务往往需要独立 OCI 镜像，他们测试的公开数据集里仅 R2E 就有 4,578 个镜像，按每任务 4 个 rollout 计就是 1.8 万次镜像实例化——标准容器缓存的「少量静态基础镜像」假设在这里完全失效。",
-      "tag": "K8s × AI",
-      "source": "Google Cloud Blog",
+      "title": "DeepSeek 开源华为昇腾全套基础设施组件，与英伟达版接口一一对应",
+      "url": "https://www.infoq.cn/article/t5i2Yv2z0LwIbK36lteR?utm_source=rss&utm_medium=article",
+      "source": "InfoQ中国",
+      "tag": "国产算力",
+      "summary": "DeepSeek 正式开源面向华为昇腾算力平台的全套基础设施组件，涵盖 TileLang 昇腾版高级语言/编译工具、计算库与分布式通信库，所有组件与此前英伟达平台版本在接口层一一对应。本次开源的组件包括 DeepGEMM（通用矩阵运算加速）、DeepEP（大规模跨设备通信）、TileKernels（向量计算与访存算子）、FlashMLA（稀疏注意力）与 DeepSelect（数据筛选）；多项关键测试中，其计算与通信性能已接近硬件上限。TileLang 昇腾版封装 Ascend C 底层指令，提供高级语言编程方式且不损失硬件性能，DeepSeek 训练中用到的每个 TileLang 算子在昇腾上都有对应的高性能实现。此举意味着前沿大模型训练在软件栈层面不再唯一依赖 CUDA/英伟达。",
+      "note": "要点：①覆盖编译工具 + 计算库 + 分布式通信库三大层；②组件与英伟达版一一对应，降低换芯迁移成本；③TileLang 已承载 DeepSeek V4 系列训练的大部分算子；④昇腾已启动核心算子开发，国产 AI 芯片生态加速成型。",
       "detail": [
         {
           "key": "能做什么",
-          "value": "面向 agentic RL/评测的沙箱供给层：TTFC 1–9 秒、尾延迟 <10 秒、控制面写入量降 3 倍；配 Agent Sandbox RL 编排 SDK 与 RL gym/harness 集成；镜像基数问题（数千个独立 OCI 镜像）在调度与拉取侧单独优化。"
+          "value": "面向昇腾的一套开源基础设施：TileLang 昇腾版编译工具、DeepGEMM/DeepEP/TileKernels/FlashMLA/DeepSelect 等计算与通信库，与英伟达版接口一一对应。"
         },
         {
           "key": "解决什么痛点",
-          "value": "同步 RL step 里训练必须等最慢沙箱就绪，沙箱冷启动慢 + 镜像拉取 + 调度积压会让昂贵的 GPU 集群空转烧预算；每个任务一个镜像的场景让常规容器缓存策略失效。"
+          "value": "大模型训练长期绑定 CUDA/英伟达，国产芯片硬件指标上来了但软件栈迁移成本高。"
         },
         {
           "key": "值不值得",
-          "value": "这是当下把「每用户/每会话沙箱」做进 K8s 的最完整一手材料，数字和机制都可直接对照你们在评估的 sandbox 常驻与空闲挂起问题；但它是 GKE 托管能力，自建集群要自己实现等价的 Pod 复用 + 镜像分发策略。"
+          "value": "做国产化替代 / 关注昇腾生态的值得跟进；目前是训练侧软件栈，推理与云原生集成的成熟度待观察。"
         }
       ]
     }
@@ -62,151 +62,89 @@
           "en": "Agent & Skill",
           "items": [
             {
-              "title": "SkillGym：用自动生成的可验证环境训练「会用 skill」的 agent",
-              "url": "https://huggingface.co/papers/2609.37539",
-              "summary": "SkillGym 针对一个具体缺口：skill 已被广泛用作 agent 完成长程任务的载体，但「如何合成可靠的训练数据、如何训练 agent 用好 skill」缺少系统方法。它的做法是把长程任务自动转换成可自动判定的训练环境，用带验证的奖励训练 agent 选择、组合与执行 skill，而不是只把 skill 文本塞进系统提示。论文对比了不同环境合成质量与验证信号对训练结果的影响，并给出 skill-use 能力在长程任务上的提升。对正在把 skill 体系落到生产 agent 上的团队，这是少见的「skill 训练 + 评测」公开方法论。",
-              "tag": "Agent Skill",
-              "source": "HuggingFace Papers",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "自动生成可验证环境的 skill 训练框架：把任务转成有确定奖励信号的 gym 式环境，训练 agent 在长程任务中调用并组合 skill，而不是靠 prompt 注入 skill 文档。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "现在 skill 生态里大量做法是「写技能文档 + 塞进上下文」，效果依赖模型自觉，既无法验证也没有训练闭环；skill 用错或不用时很难定位。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你在做内部 skill 库，值得看它的环境合成与奖励设计思路（这是把 skill 从文档变成可训练能力的关键）；偏研究方法，工程化仍需自己搭训练与判定链路。"
-                }
-              ]
-            },
-            {
-              "title": "MILO：用多 agent 进化自动搜索出更好的 agent harness",
-              "url": "https://huggingface.co/papers/2609.38349",
-              "summary": "MILO 把 harness——包住模型、控制执行与环境交互的那层代码——当作可搜索对象，用编排式多 agent 进化自动发现更优设计，代替人工反复试错。论文的动机很直接：harness 对长程任务表现影响很大，但组合空间巨大，而且每次改动都要人来重复验证。",
-              "tag": "Agent Harness",
-              "source": "HuggingFace Papers",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "把 harness 设计自动化：多个 agent 并行提出/变异 harness 实现，用任务表现作为进化信号，自动筛选出更优的执行框架配置。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "harness 的差异（工具 schema、重试策略、上下文裁剪、循环终止条件）对长程任务成功率影响很大，但靠人手逐个实验成本高、结论难复现。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "适合关注 agent 工程化调优的团队做思路参考；它是研究原型，离「直接在你们生产 harness 上跑」还有距离。"
-                }
-              ]
-            },
-            {
-              "title": "微软把 SQL 迁移做成 agent skills 并转 GA：评估、选型、执行、校验四段可复用",
-              "url": "https://azure.microsoft.com/updates?id=571899",
-              "summary": "Azure SQL Migration Agent Skills 转 GA：把 SQL Server 到 Azure 的迁移旅程拆成评估、目标选型、迁移执行、迁移后校验四段可复用 skill，交给 AI agent 驱动，而不是固化在某个专用工具里。它们以 MCP/skill 形式交付，可配合用户在用的 coding agent 使用。这类「把成熟运维流程封装成 skill」正在成为云厂商交付专业能力的主流形态——同月 Google 的 Data Agent Kit 走的是同一路子。",
-              "tag": "Agent Skill",
-              "source": "Azure Updates",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "四段式迁移 skill：评估现有 SQL 负载、选择目标服务、执行迁移、迁移后验证，每段是独立可调用的 skill，agent 可组合编排。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "数据库迁移是步骤多、判定标准细的流程，以往要么依赖专家手工清单，要么被锁在厂商专用迁移工具里，agent 无法按现场情况灵活调整。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你在做企业内部流程 skill 化（把 DBA、发布、巡检等成熟流程交出去），这是很好的「流程即 skill」样板；具体可用性取决于你是否用 Azure SQL。"
-                }
-              ]
-            },
-            {
-              "title": "Google 把 gcloud / bq 打包成一个远程 MCP server：让 agent 直接用几百条 CLI 命令管云",
-              "url": "https://cloud.google.com/blog/products/ai-machine-learning/google-cloud-cli-remote-mcp-server-in-preview/",
-              "summary": "Google Cloud 发布 Cloud CLI remote MCP server（预览），把 gcloud 与 bq 的数百条命令收拢成一个托管远程 MCP server，agent 不必为每个 API 写多步编排，直接调用 CLI 层的高层封装。官方给的理由有两条：CLI 已经把多步工作流、参数校验和高层操作打包成单条命令；LLM 在公开 CLI 文档上被大量预训练，调 CLI 比调裸 API 更稳、更易泛化。它补充了 Google 的托管远程 MCP 生态（此前已有各类服务级 server）。",
-              "tag": "MCP",
-              "source": "Google Cloud Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "把一个 MCP server 同时暴露 gcloud 与 bq 的能力：agent 用 CLI 语义完成创建集群、查 BigQuery、配置 IAM 等操作，走托管服务而非自建网关。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "让 agent 操作云资源时，逐 API 编排步骤多、易错；而把 CLI 给 agent 又缺统一的鉴权与封装层，凭据与权限粒度难以控制。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你在给内部 agent 开云操作通道，这是「CLI-as-tool」的托管参考实现；注意它是预览版，权限最小化与出网审计还得自己在 MCP 层补。"
-                }
-              ]
-            },
-            {
-              "title": "ADK 图工作流：什么时候用静态图，什么时候让 Python 决定下一步",
-              "url": "https://cloud.google.com/blog/topics/developers-practitioners/graph-workflows-in-adk-everything-you-need-to-know/",
-              "summary": "Google 用退款流程做例子讲清 Agent Development Kit（ADK）的 Workflow 抽象：任务拆成节点、用边连接、由代码/模型/人决定下一步，覆盖 fan-out/fan-in 并行、确定性路由与 agent 路由、human-in-the-loop 暂停、并行 worker 与动态编排。文章重点回答「什么时候把路径声明成静态图、什么时候让 Python 在结果到达时决定下一步」，也就是哪些部分要可测可控、哪些部分要留给运行时判断。对正在给 agent 工作流定结构的团队，这是把「单 agent + 大 prompt」拆成可验证节点的具体做法。",
-              "tag": "工作流",
-              "source": "Google Cloud Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "ADK Workflow 的图式编排：节点里可以是函数或 agent，边表达顺序与路由，支持并行 fan-out、人工审核暂停、列表批处理，并区分静态图与运行时动态调度两种模式。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "把整条业务逻辑塞进一个 agent 的 prompt 后，流程不可观测、失败不可归因、策略改动无法评审；纯代码 pipeline 又无法容纳模型判断。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "值得细读它的「静态 vs 动态」取舍标准，可以直接对照你给业务接入 agent 时的边界划分；ADK 是 Google 系框架，不在 GCP 也能用但要接受它的抽象。"
-                }
-              ]
-            },
-            {
-              "title": "文子的开源小红书 Agent Skills：把账号冷启动拆成 6 个可安装 skill",
-              "url": "https://github.com/wenziai/wenzi-xhs-agent-skills",
-              "summary": "一套开源的小红书内容运营 skill 包：从账号定位、选题标题、真人化改稿、6–8 页图文结构到发布排期与数据复盘，拆成 6 个 skill 目录，可直接复制到 ~/.claude/skills/ 或 Codex 的 skills 目录使用。设计上不是「文案提示词合集」，而是把运营状态沉淀下来：每轮发布的数据与结论写回账号档案，成为下一轮输入，先由变现代推定位、再规划前 10 条内容。作者说明结果来自真实账号实践，并明确不承诺粉丝量或流量。",
-              "tag": "Agent Skill",
-              "source": "GitHub",
+              "title": "Google 官方 Agent Skills 仓库：13 个技能覆盖 GKE / BigQuery / Cloud Run 等",
+              "url": "https://github.com/google/skills",
+              "source": "GitHub Trending",
               "oss": true,
+              "tag": "Agent Skills",
+              "summary": "Google 在 Cloud Next 2026 发布官方 Agent Skills 仓库 github.com/google/skills，用 Markdown 写的 SKILL.md 形式给 agent 注入 Google Cloud / Workspace 产品的专项知识，按需加载以减少上下文膨胀。首发 13 个技能，覆盖 AlloyDB、BigQuery、Cloud Run、Cloud SQL、Firebase、Gemini API、GKE 等产品，外加 Security / Reliability / Cost Optimization 三个 Well-Architected 支柱技能，以及 Onboarding、Authentication、Network Observability 三个 recipe 技能。仓库随后扩展到 Security/Identity、广告等多个产品域（如 GKE 平台安全、GKE Workload Identity 排障等）。可用 npx skills install github.com/google/skills 安装到 Antigravity、Gemini CLI 及第三方 agent。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "6 个可安装 skill 组成的完整工作流：账号档案与定位、选题库与标题、人味化改稿、图文结构、发布排期、数据复盘写回档案；在 Claude Code / Codex / WorkBuddy 里自然语言触发。"
+                  "value": "以 SKILL.md（Markdown）打包产品知识、agent 按需加载；覆盖 GKE/BigQuery/Cloud Run/Cloud SQL/Firebase 等，含安全/可靠/成本三支柱与 onboarding/auth/可观测性 recipe。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "自媒体运营 prompt 往往一次性、无状态，下一轮又从头开始；定位、选题、复盘之间的数据不连通，AI 产出无法累积成账号资产。"
+                  "value": "agent 缺最新的云产品知识，硬塞进 prompt 会撑爆上下文；官方维护的技能让知识可复用、可更新、按需检索。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "对做「流程型 skill」（状态沉淀 + 多 skill 组合）的人是最好的现成样本，哪怕不做小红书也能抄它的档案写回机制；内容领域专用，通用性有限。"
+                  "value": "维护 K8s/云同时用 agent 的团队值得挑 GKE、BigQuery、IAM 等几个技能装来试；面向 Google Cloud，非云厂商中立。"
                 }
               ]
             },
             {
-              "title": "Claude Code 完整课程开源：12 模块 + 8 个实验 + starter kit",
-              "url": "https://github.com/justxor/claude-code-pro-course",
-              "summary": "一份把 Claude Code 讲透的开源课程（俄语）：CLAUDE.md、settings、skills、subagents、hooks、MCP、插件、headless 模式与 CI 都有理论加示例，配 8 个带「完成标准」的实验，以及含 8 个 skill、5 个 subagent 的 starter kit。价值在于把散落的配置点整理成从单 agent 到多 agent 的进阶路线，并单列反模式与成本优化章节。",
-              "tag": "Agent Skill",
-              "source": "GitHub",
+              "title": "Agent-Reach：一个 CLI 让 agent 读遍 Twitter / Reddit / YouTube / GitHub / B站 / 小红书",
+              "url": "https://github.com/Panniantong/Agent-Reach",
+              "source": "GitHub Trending",
               "oss": true,
+              "tag": "工具",
+              "summary": "Panniantong/Agent-Reach 是一个给 agent「上网的眼睛」的开源 CLI，用单一命令行接口就能读取和搜索 Twitter、Reddit、YouTube、GitHub、Bilibili、小红书等平台的内容。定位是零 API 费用——绕开各平台的付费 API，用一个 CLI 统一封装多源抓取。适合让 agent 做跨平台情报/内容采集的场景，省去逐平台接 API 与鉴权的成本。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "12 模块理论 + 8 个实验室式练习 + starter kit（8 skills / 5 subagents）：CLAUDE.md 与 settings 的写法、skill/subagent/hook 的分工、MCP 接入、headless 与 CI 里跑 agent。"
+                  "value": "单 CLI 统一读取/搜索 Twitter、Reddit、YouTube、GitHub、Bilibili、小红书，声称零 API 费用。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "agent 工具的配置点分散在官方文档各处，团队内部想统一规范时缺少成体系的材料，容易各写各的。"
+                  "value": "各平台 API 分散、收费、鉴权繁琐，agent 难以低成本聚合多源公开内容。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "适合当作团队内部 agent 使用规范的底稿，尤其是 skill/subagent/hook 的职责划分那几节；语言是俄语，需要机翻。"
+                  "value": "做内容监控/情报聚合的可以试；依赖抓取，稳定性与合规风险需自评，长期可用性受平台反爬影响。"
+                }
+              ]
+            },
+            {
+              "title": "AutoCompact：训练编码 agent 自己判断「何时压缩上下文、保留什么」",
+              "url": "https://arxiv.org/abs/2610.02163v1",
+              "source": "arXiv cs.AI",
+              "tag": "上下文管理",
+              "summary": "AutoCompact 是一个面向长流程编码 agent 的上下文管理方法：让 agent 自己学会「何时压缩上下文、保留哪些工作状态、压缩后如何继续」，而不只是被动防止上下文溢出。论文指出，随着任务推进，早期的代码探查与搜索会逐渐过时，因此上下文管理的关键不是「塞不塞得下」，而是「该丢什么、该留什么」。方法通过训练编码 agent 来做这一决策。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "训练编码 agent 自主决定压缩时机、保留的工作状态与恢复方式，把上下文管理从「防溢出」变成「状态取舍」。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "长任务里早期探索过时，窗口被无效信息占满，agent 易丢失关键状态导致后续步骤跑偏。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做 coding agent / 长程任务框架的值得跟进；目前是论文方法，落地需自接训练管线，门槛中高。"
+                }
+              ]
+            },
+            {
+              "title": "caveman：让编码 agent「说穴居人话」，号称砍掉 65% token",
+              "url": "https://github.com/JuliusBrussee/caveman",
+              "source": "GitHub Trending",
+              "oss": true,
+              "tag": "Skill",
+              "summary": "JuliusBrussee/caveman 是一个病毒式传播的 skill + 代理，做法是让编码 agent 用极简的「穴居人式」表达（「why use many token when few token do trick」），以压缩输出 token，仓库声称可削减约 65% 的 token 消耗。本质是把「表达精简」做成一个可安装的 skill，并配代理统一控制输出长度。对 token 成本敏感的长对话编码 agent 是一个低门槛的省钱技巧。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "让 agent 用极简表达输出、并配代理压缩 token 的 skill，声称省约 65% token。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "编码 agent 长对话 token 消耗高，输出啰嗦冗余、成本敏感。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "想快速降 token 成本的可以试；但过度压缩会损失可读性与细节，正式代码/文档场景慎用。"
                 }
               ]
             }
@@ -218,129 +156,86 @@
           "en": "Models & Research",
           "items": [
             {
-              "title": "Anthropic 自建实验室：Claude 自主发现了一个类似 CRISPR 的新型酶系统",
-              "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
-              "summary": "Anthropic 公开其生命科学团队与自建实验室的早期结果：在只有高层方向的情况下，Claude 分析 DNA 数据集、定位到一类未被表征的蛋白家族，并发现了一套与成串 DNA 重复序列相关的新酶系统，其特征组合此前只在极少数可编程系统（限制性内切酶、Taq 聚合酶、CRISPR）中出现过。功能尚未确定，但团队已在实验室验证其存在，并把「agent 参与科研每一步」当作目标工作方式。同批还发布了面向生命科学专业人员的验证计划。",
-              "tag": "AI for Science",
-              "source": "Anthropic News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "DNA 数据集的大规模分析 + 假设生成 + 实验验证的闭环：Claude 在高层方向下筛出未表征蛋白家族，识别出与 CRISPR 类似的重复序列关联系统，再由实验室做湿实验确认。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "生物学发现长期依赖科学家在庞大的分子机器多样性里「注意到不对劲的东西」，从假设到实验的通路长、人力瓶颈硬。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "判断点是「AI 做科研」是否到了能产出可验证新知识的阶段——这是目前最具体的一个案例；功能未知意味着离应用还很远，但方法学值得跟。"
-                }
-              ]
-            },
-            {
-              "title": "Claude 文本水印怎么做：不增 token、不插隐藏字符、拿密钥才能判定",
-              "url": "https://www.anthropic.com/news/claude-text-watermark",
-              "summary": "Anthropic 解释 Claude 文本水印的机制：在「overcast / grey」这类对语义影响很小的选词处，模型本来就靠随机数决定，水印把随机数的来源换成密钥加上前文几个词，于是词的分布与可读性不变，但持有密钥的人可以检验整段序列是否与该密钥一致，从而给出「这段文本由 Claude 生成」的概率。官方强调不添加隐藏字符、不额外消耗 token、不携带可追溯到个人或组织的信息，且这是为符合 EU AI Act（8 月 2 日起要求标注 AI 生成内容）而做，多家厂商使用同类方案。",
-              "tag": "水印",
-              "source": "Anthropic News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "基于选词随机性的统计水印：用密钥 + 前文决定低风险位置的选词，检测方用同一密钥做一致性检验，输出概率式判定而非硬标记。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "监管要求标记 AI 生成内容，但插入隐形字符或改标点会破坏文本、可被简单清洗；厂商需要一个不损质量、又能被验证的机制。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "跟你的场景直接相关的一点：这类水印是可被检测方验证、也可被对手通过改写绕过的统计信号，做内容合规或数据出境审计时需要知道它的能力边界。"
-                }
-              ]
-            },
-            {
-              "title": "InfoQ 拆解 Claude Sonnet 5.5：Terminal-Bench 从 10.3% 跳到 70.6%，但最高推理强度下单任务 7.60 美元",
-              "url": "https://www.infoq.cn/article/PSvHjyoJTC9bSLWYxpfF?utm_source=rss&utm_medium=article",
-              "summary": "InfoQ 复盘 Claude Sonnet 5.5 的实测数据：Terminal-Bench 4.0 从上一代 10.3% 跃升到 70.6%（超过 Opus 5.5 公布成绩），CursorBench 55.5% 与 Opus 5.5 只差约两个百分点；Lovable 的测试显示完成编程任务所需工具调用减少约三分之一、Shell 执行减半，Base44 的 118 次真实应用构建里平均 3.6 轮迭代完成（Opus 5 需 7.7 轮）。但 Artificial Analysis 测出推理强度拉到 Max 时每任务平均生成约 19.3 万输出 token（约为 GPT-6 Astra Max 的 7 倍），单任务成本 7.60 美元、比 Sonnet 5 高约 50%。",
-              "note": "Sonnet 5.5 也是首款带网络安全分类器与模型回退的 Sonnet：高风险请求会被交给能力较弱的 Sonnet 5 处理，API 用户需主动启用服务器端 fallback，基准测试里约 0.1% 的任务触发回退。",
-              "tag": "模型实测",
-              "source": "InfoQ 中文",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "实测数据 + 成本结构分析：agentic coding 能力跃迁（Terminal-Bench 4.0 70.6%）、工具调用/Shell 次数下降、迭代轮数减少；同时量化 Max 档下的 token 膨胀与单任务成本。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "「模型更强」和「更省钱」在同一个模型的不同推理档位上并不一致：默认档省钱，最高档反而可能比上一代更贵，选型时容易踩坑。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你把 coding agent 放进 CI 或批量任务，这篇给的成本分层结论比官方口径更有用；注意它的数据来自第三方基准，真实任务集仍需自测。"
-                }
-              ]
-            },
-            {
-              "title": "何恺明团队 NAT-ARC：纯视觉方案做 ARC，单模型 63.4%、集成 70.2%",
-              "url": "https://www.qbitai.com/2026/10/499812.html",
-              "summary": "论文提出 NAT-ARC，用纯视觉方式解 ARC 抽象推理：预训练只用 ImageNet 的自然图像（猫狗花草），完全不使用 ARC 的彩色格子，再把学到的视觉能力迁移到格子推理上。单模型在 ARC-1 上 pass@2 达 63.4%，集成后 70.2%，是纯视觉方案首次逼近专用 LLM 系统的水平。",
-              "tag": "ARC",
-              "source": "量子位",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "把 ARC 当作视觉任务而非符号/文本推理：ImageNet 预训练 encoder → 迁移到最大 30×30、10 色的格子变换推理，输出规则并应用。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "主流 ARC 解法都把格子翻译成文本交给 LLM，语言接口未必适合本质是视觉模式的变换推理，且依赖大规模 LLM 推理成本。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "值得看它「不用 LLM 也能逼近专用系统」的结论——对抽象推理是否必须靠语言这个假设是一个反例；学术性强，短期没有工程落地路径。"
-                }
-              ]
-            },
-            {
-              "title": "「AI 生成网页文本」占比首次量化：2026 年 6 月 27.5%，8 月升到 31.1%",
-              "url": "https://huggingface.co/papers/2609.40295",
-              "summary": "论文用 Pangram 对通过 FineWeb 质量过滤的网页文本做标注，发现 2026 年 6 月的数据里 27.5% 的 token 由 AI 生成，8 月升到 31.1%。作者进一步给出「一个 AI token 值多少」的缩放律，讨论 AI 生成文本混入预训练语料后的边际收益衰减，以及它与有意合成的数据在性质上的差异。",
-              "tag": "数据质量",
+              "title": "ScholarCatalyst：评估模型「能否找到启发新研究的论文」的检索基准",
+              "url": "https://huggingface.co/papers/2610.02202",
               "source": "HuggingFace Papers",
+              "tag": "基准",
+              "summary": "论文提出 ScholarCatalyst 基准，用来衡量模型能否在浩如烟海的文献里检索到「真正激发某项新研究」的先验工作——这是科学家目前远胜 AI 的一项能力。基准的做法是请研究者标出哪些早期论文推动了他们已完成的项目，用论文作为「想法的指针」来构造评测。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "对真实网页语料做 AI 生成标注 + 缩放律分析：量化 AI 文本占比随时间上升，并估计这类 token 在继续预训练中的价值衰减。"
+                  "value": "以研究者真实标注的「哪些前作启发了本项目」为金标准，评测检索/推荐模型能否找出启发性先验论文。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "预训练语料正在被 AI 生成内容稀释，但「稀释了多少、代价多大」此前只有定性判断；数据供应商与模型团队都缺量化依据。"
+                  "value": "现有文献检索评测多衡量相关性/引用，无法区分「相关」与「真正启发新想法」。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "如果你关注语料采购、数据治理或自建持续预训练，这是目前少见的硬数字；结论直接影响对「继续爬网页是否还有边际价值」的判断。"
+                  "value": "做科研 agent / 文献 RAG 的值得看；面向科研场景，与工程实践关联较弱。"
                 }
               ]
             },
             {
-              "title": "Cloudflare 开源决策模型 Clef：廉价确定性的结构化判断，外加 RL 微调平台",
-              "url": "https://blog.cloudflare.com/clef-decision-models/",
-              "summary": "Cloudflare 在 Workers AI 上发布自研决策模型 Clef 与 Clef-flash，并以 Apache 2.0 在 Hugging Face 开源：这类模型不生成文本，而是对任意输入给出带概率的有界结构化判断（例如一条客服消息是否紧急、该派给哪个团队），供代码做路由、升级或转人工；它无需为新增分类反复重训，与 LLM 的非确定性形成互补。Clef 在 Jev Decision Index 上排名第一并兼容 Jev API，Cloudflare 内部用它做域名分类（接 Browser Run，2.2 秒返回）。同时推出 RL 微调产品，可把 Clef 调到自家场景。",
-              "tag": "决策模型",
-              "source": "Hacker News",
+              "title": "论文：预训练 Transformer「想得太浅」，一个 rank-8 LoRA 补上深度推理",
+              "url": "https://huggingface.co/papers/2609.36585",
+              "source": "HuggingFace Papers",
+              "tag": "机制",
+              "summary": "研究发现预训练 Transformer 只用了很浅的深度来处理上下文引用：13 个基座模型可靠跟随的引用行数仅 1.4–3.6 行，增加预训练循环也几乎无改善。作者在某早期层加一个任务训练的 rank-8 LoRA（冻结全部原权重），即可延长这段计算：Qwen3-8B 在 24 行链条上的精确率从 15.5% 提升到 99%，更长时间训练的 LoRA 可处理 50 行。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "决策模型（decision model）：输入任意文本，输出带概率的枚举/结构化判断，可本地跑（Apache 2.0）或调 Workers AI 托管版；配套 RL 微调服务。"
+                  "value": "用冻结主干 + 单层 rank-8 LoRA 延长模型的「深度计算」，显著提升长链条引用跟随（Qwen3-8B 24 行 15.5%→99%）。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "agent 工作流里的分支判断（分类、路由、是否升级）用 LLM 做既慢又不稳定，还不好做阈值控制；纯传统分类器又不够泛化、加类别要重训。"
+                  "value": "预训练模型在长依赖/多行引用任务上过早「停止思考」，浅层深度限制推理。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "值得关注的信号是「决策模型」作为独立品类出现（有第三方 Jev Index 基准）；如果你的 agent 里有大量路由/判定节点，用它替代 LLM 调用能同时省成本和降抖动。"
+                  "value": "对做模型微调/长上下文推理的团队有直接参考；需自行复现训练，属研究阶段。"
+                }
+              ]
+            },
+            {
+              "title": "论文：关键词匹配式评测会「误判」小模型的工具调用能力",
+              "url": "https://huggingface.co/papers/2610.02142",
+              "source": "HuggingFace Papers",
+              "tag": "评测",
+              "summary": "论文指出关键词匹配式 benchmark 会把小模型「根本没做过的工具调用」判为成功，作者在一对同架构的西班牙语安全模型上复现了这一假阳性，并提出一套严格、低成本的诊断阶梯。样本含 661.6M 参数模型（约 65% 代码/技术文本、无专门 SFT）与 1,109M 模型（网页为主的多阶段课程、6B token 工具 SFT），两者共享解码器结构。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "用严格的低成本诊断阶梯替代关键词匹配，识别小模型的「伪工具调用」假阳性。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "关键词 harness 会让模型「蒙对」工具调用、虚高评测分，误导选型。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做模型评测 / agent 工具调用验证的值得参考；属评测方法论，非产品。"
+                }
+              ]
+            },
+            {
+              "title": "论文：LLM 的「泛化」应是稳定性，而非准确率",
+              "url": "https://huggingface.co/papers/2610.01428",
+              "source": "HuggingFace Papers",
+              "tag": "评测",
+              "summary": "论文主张 LLM 的泛化能力应被定义为「稳定性」而非准确率——即同一输入换不同表述时，输出是否保持语义一致，而不是看一个聚合准确率分数。作者据此提出一套多轴（multi-axis）评测方法来衡量这种稳定性。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "把泛化重新定义为「输入改写下的语义稳定性」，用多轴评测取代单一聚合准确率。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "聚合准确率会掩盖模型对同一问题不同表述的输出漂移。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做评测 / 鲁棒性的值得参考；属方法论文，落地需自建评测集。"
                 }
               ]
             }
@@ -352,88 +247,66 @@
           "en": "AI Engineering",
           "items": [
             {
-              "title": "tile-ai/tilelang 再上热榜：TVM 之上的 Pythonic kernel DSL，新增华为昇腾 950 后端",
-              "url": "https://github.com/tile-ai/tilelang",
-              "summary": "TileLang 是构建在 TVM 之上的 Pythonic DSL，用来写 GEMM、Dequant GEMM、FlashAttention、LinearAttention 这类高性能 GPU/CPU/NPU kernel，让开发者在保留底层优化的同时不必手写 CUDA。9 月 30 日新增 Ascend 950 后端，支持原生代码生成、自动调度与同步、SIMD/SIMT 向量编程，仓库约 8.1k star。",
-              "tag": "Kernel DSL",
+              "title": "Google Cloud：AlloyDB + Valkey 分层做 agent 长期记忆，token 支出最多降 70%",
+              "url": "https://cloud.google.com/blog/products/databases/implementing-long-term-ai-agent-memory-in-alloydb-and-memorystore/",
+              "source": "Google Cloud",
+              "tag": "Agent 记忆",
+              "summary": "Google Cloud 给出企业 agent 长期记忆的两层架构：用 Memorystore for Valkey 做短期缓冲记忆、用 AlloyDB AI 做长期持久记忆。官方称该架构可把 token 支出降低最高 70%，同时保留关键数据与企业护栏。目标是支撑 agent 执行跨天、长周期的任务工作流。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "两层记忆架构——Valkey 存短期缓冲、AlloyDB 存长期持久记忆，供 agent 跨多天执行长任务。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "长周期 agent 需要持久记忆，但把历史全塞进上下文会推高 token 成本。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "用 Google Cloud 且做长程 agent 的值得看（宣称降 70% token）；绑定 AlloyDB/Valkey，非 GCP 需找等价物。"
+                }
+              ]
+            },
+            {
+              "title": "Google Cloud 发布 Spanner queues：给 agentic 工作流的事务级消息队列",
+              "url": "https://cloud.google.com/blog/products/databases/spanner-queues-provide-native-transactional-messaging/",
+              "source": "Google Cloud",
+              "tag": "消息队列",
+              "summary": "Google Cloud 在 Spanner 内推出原生事务消息（queues），面向 agentic 工作负载。背景是 agent 不再只回答查询，还会自主退款、管理库存、做多步交接、编排子 agent，这通常要求同时维护数据库内的状态并通过独立的消息/事件队列派发异步动作；Spanner queues 把「数据库状态 + 队列派发」统一进同一事务，避免双写不一致。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "在 Spanner 内提供原生事务消息，把「数据库状态 + 异步队列派发」合并到同一事务。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "agent 工作流需同时写 DB 并发消息，跨系统双写易出现状态与事件不一致。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "在 GCP 上做有状态 agent 编排的值得关注；绑定 Spanner，迁移与成本需评估。"
+                }
+              ]
+            },
+            {
+              "title": "impeccable：一套让 AI harness「更懂设计」的设计语言",
+              "url": "https://github.com/pbakaus/impeccable",
               "source": "GitHub Trending",
               "oss": true,
+              "tag": "设计语言",
+              "summary": "pbakaus/impeccable 是一套开源设计语言，目标是让你的 AI harness / coding agent 在设计类任务上产出更好。项目当日登上 GitHub Trending。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "Python 语法 + TVM 编译栈写 tile 级 kernel：同一份代码面向 CUDA / ROCm / Metal / CPU / 昇腾 NPU 生成高性能实现，自动处理调度与同步。"
+                  "value": "一套可接入 AI harness 的设计语言/规范，约束 agent 在 UI/设计任务上的输出质量。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "手写 CUDA/汇编 kernel 门槛高、平台绑定重；换一代 GPU/NPU 就要重写，算子库难以跨厂商复用。"
+                  "value": "coding agent 写界面时缺设计规范，产出千篇一律或不符合设计系统。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "如果你们要碰推理/训练算子优化或做国产算力适配，这是目前最活跃的可移植 kernel DSL；昇腾后端刚落地，成熟度需要验证。"
-                }
-              ]
-            },
-            {
-              "title": "两台 DGX Spark 跑 GLM-5.3-Flash：EXL3 4bit 权重 + FP8 KV，104 万 token 上下文，单请求 60 tok/s",
-              "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold",
-              "summary": "一份可复现的双机本地推理方案：用 TensorFold v0.6.0 在两台 DGX Spark 上各放一个 rank，把 GLM-5.3-Flash 的 routed experts 用 EXL3 量化到 4 bit（其余 BF16，权重约 176 GB），配 FP8 KV cache 与 DFlash2 草稿模型，并打了 53 个补丁（含两台机器间的 one-shot RoCE all-gather、共享 KV 池、视觉与工具调用）。实测上下文 104.8 万 token，4 个并发请求共享约 292 万 token 的 KV 池，decode 单请求 60.4 tok/s、TTFT 170 ms。一条 ./start.sh 同时拉起两台机器。",
-              "tag": "本地推理",
-              "source": "GitHub",
-              "oss": true,
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "双 DGX Spark 集群式本地部署：EXL3 4bit 专家权重 + FP8 KV + 草稿模型加速，跨机 RoCE all-gather，多请求共享 KV 池，暴露 OpenAI 兼容 API 并支持工具调用与视觉。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "想在本地/私有环境跑前沿开源大模型，单机显存放不下、多机部署又缺少能直接照抄的配置；量化后质量与吞吐的取舍通常没有实测数字。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "对「数据不出内网 + 大上下文」的推理需求，这是少见的完整实测配方；注意硬件是 2×DGX Spark（GB10 级），性能对应小团队规模而非生产高并发。"
-                }
-              ]
-            },
-            {
-              "title": "AWS 把 Well-Architected 评审做成 agent（预览）：自动扫环境给成本/安全/性能建议",
-              "url": "https://aws.amazon.com/blogs/aws/announcing-aws-well-architected-agent-an-ai-powered-intelligence-to-optimize-your-cloud-environment-preview/",
-              "summary": "AWS Well-Architected Agent 进入公开预览：它分析用户的 AWS 环境，按成本、安全、性能、韧性四个方向给出结合上下文的建议，并附上可直接执行的操作（ready-to-implement recommendations），把原本靠人工访谈与检查表驱动的架构评审部分自动化。",
-              "tag": "云运维 Agent",
-              "source": "AWS News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "以 agent 形式做架构评审：读取账号内的真实配置与用量，对照 Well-Architected 框架逐项指出问题，并生成可执行改进项。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "架构评审依赖资深人力、周期长，检查表结论难以贴合实际资源；问题发现与修复之间隔着文档和工作量估算。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "值得看「评审即 agent」这个形态，与你在做的集群管理页/规范落地思路接近；落地受限于 AWS 环境，但思路可迁移到自建平台。"
-                }
-              ]
-            },
-            {
-              "title": "Snowflake 的 AI 落地经验：卡点是组织协同，不是模型能力",
-              "url": "https://www.infoq.cn/article/hw3PpM2ZlCmCArsNo1y7?utm_source=rss&utm_medium=article",
-              "summary": "Snowflake 复盘自家 GTM（销售与营销）团队从 AI 试点到营收增长的路径，核心结论是失败主因在部门割裂而非模型能力：销售与营销需要在目标、数据与客户叙事上对齐，把统一数据底座当成跨职能的「神经系统」，并在客户生命周期各阶段联合定义成功指标。文章面向 CRO/CMO/GTM 架构师与 AI 产品负责人。",
-              "tag": "组织落地",
-              "source": "InfoQ 中文",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "一套从试点到营收的组织层方法：统一数据底座承载跨职能信号，销售与营销共担指标，按客户生命周期阶段定义 AI 的价值验证点。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "企业内部 AI 试点很多死在「模型效果不错但没人用」：数据与目标分散在部门墙里，成功指标各自定义，无法把效果转成营收证明。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "你推 AI 落地并要向同事分享经验时，这篇提供了「技术之外的卡点清单」；内容偏管理视角，技术细节少。"
+                  "value": "用 agent 做前端/设计交付的可以试；效果取决于你自己的设计系统是否对齐。"
                 }
               ]
             }
@@ -445,65 +318,65 @@
           "en": "Products & Business",
           "items": [
             {
-              "title": "Barclays 扩大与 Anthropic 合作：Claude Code 覆盖 50% 开发者的目标定在 2026 年底",
-              "url": "https://www.anthropic.com/news/barclays-scales-claude",
-              "summary": "巴克莱把与 Anthropic 的合作扩展到全行：用 Claude 加速软件开发、改造遗留系统并提升运营效率，并给出量化目标——2026 年底 Claude Code 覆盖 50% 的开发者，2027 年过半软件工程师使用。它的参考价值在于强监管、庞大遗留系统环境下的落地方式与治理配套。",
+              "title": "Anthropic 投 1 亿美元办 Claude Frontier Academy，计划培训 1 万名工程师",
+              "url": "https://www.anthropic.com/news/claude-frontier-academy",
+              "source": "Anthropic News",
+              "tag": "人才",
+              "summary": "Anthropic 宣布投入 1 亿美元成立 Claude Frontier Academy，目标到 2027 年底培训 10,000 名「前沿部署工程师（FDE）」。首批学员来自埃森哲、贝恩、凯捷、德勤、麦肯锡、摩根士丹利、诺和诺德、澳洲联邦银行等。培养方式是先参加由 Anthropic 工程师带的多日线下课程、走一遍模拟企业部署（从选场景到安全评审与交接），通过后进入 12 周驻场、在自家公司牵头一个真实 Claude 项目；首批认证预计 2027 年初。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "企业 AI 部署人才项目：多日线下课 + 模拟企业部署 + 12 周真实项目驻场，目标 2027 底培养 1 万名 FDE。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "企业 AI 落地缺「能把 AI 从想法做到生产」的工程师。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "反映大厂在补企业 AI 交付人才缺口；个人可关注其课程/认证路径，门槛与费用待定。"
+                }
+              ]
+            },
+            {
+              "title": "OpenAI 案例：Chatham 用 Codex 把交易校验从 30 分钟压到 4 分钟以内",
+              "url": "https://openai.com/index/chatham-financial",
+              "source": "OpenAI News",
               "tag": "金融落地",
-              "source": "Anthropic News",
+              "summary": "OpenAI 发布金融行业案例：Chatham Financial 用 Codex 与 GPT-5.6 构建技术栈并重做工作流，把交易校验（trade validation）的耗时从 30 分钟降到 4 分钟以内。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "银行业规模化落地 Claude 的路径：从试点扩展到全行软件开发与遗留系统现代化，明确以开发者覆盖率为里程碑指标。"
+                  "value": "用 Codex + GPT-5.6 重做金融业务流程，交易校验 30 分钟 → 4 分钟以内。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "强监管行业引入 AI 时，技术与合规要求同时成立才可行；只谈模型能力不谈治理，跨不过内部评审。"
+                  "value": "金融流程人工校验慢、成本高。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "与你的金融量化行业背景直接对应，值得看它如何处理权限与合规边界；但公开材料以口径为主，缺具体技术架构。"
+                  "value": "金融行业 agent 落地的参考案例；属厂商案例，口径与细节有限。"
                 }
               ]
             },
             {
-              "title": "Azure 存储优化机型 Lasv5 / Laosv5 GA：每 vCPU 8GiB 内存 + 720GB 本地 NVMe",
-              "url": "https://azure.microsoft.com/updates?id=572630",
-              "summary": "基于第五代 AMD EPYC（Turin）的 Lasv5 与 Laosv5 存储优化虚拟机转 GA，规格从 2 到 160 vCPU，每 vCPU 配 8GiB 内存与 720GB 本地 NVMe 盘容量，面向高吞吐、低延迟的本地盘工作负载。",
-              "tag": "云机型",
-              "source": "Azure Updates",
+              "title": "丘成桐新论文致谢 GPT 和 Claude",
+              "url": "https://www.qbitai.com/2026/10/499991.html",
+              "source": "量子位",
+              "tag": "科研",
+              "summary": "量子位报道，数学家丘成桐的新论文致谢了 GPT 与 Claude；文中提到相关问题是 44 年前被列入问题清单的。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "存储优化 VM 系列：每 vCPU 8GiB 内存 + 720GB 本地 NVMe，2–160 vCPU 可选，适合数据库、缓存、日志与需要本地盘的分布式存储节点。"
+                  "value": "报道丘成桐新论文致谢 GPT 与 Claude，涉及其 44 年前提出的问题。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "上云后高 IOPS 场景常被网络盘延迟与成本限制，本地 NVMe 机型选择少、规格不好对齐。"
+                  "value": "反映前沿数学研究开始把大模型作为工具/助手并公开致谢。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "如果你们在公有云侧做存储/数据库节点选型，这类型号可放进对比表；本地盘意味着实例停用即数据丢失，需要副本设计。"
-                }
-              ]
-            },
-            {
-              "title": "Anthropic 与埃森哲合作「嵌入式评测」：把前沿模型评测做进交付流程",
-              "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
-              "summary": "Anthropic 宣布与埃森哲合作对前沿 AI 做独立评测，作为其此前承诺的一步：把评测嵌进企业在真实业务里的落地流程，而不是交付后再补测。",
-              "tag": "企业评测",
-              "source": "Anthropic News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "第三方（埃森哲）参与的嵌入式评测：在客户交付链路里持续评估模型表现与风险，而非上线前一次性验收。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "企业落地 AI 后缺少持续评测机制，模型换代或 prompt 改动造成的退化难以发现。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "对你评估「AI 系统如何进生产」有参考价值；公开信息较少，更像方向性公告。"
+                  "value": "关注 AI 向科研渗透的看一眼即可；属动态消息，无技术细节。"
                 }
               ]
             }
@@ -515,65 +388,23 @@
           "en": "Reading",
           "items": [
             {
-              "title": "Simon Willison 的 GPT-6.1 Sol pelican 测试：与 GPT-6 家族没有明显差异",
-              "url": "https://simonwillison.net/2026/Sep/29/hn-49898129/",
-              "summary": "Simon Willison 在 DevDay 现场直播之后补上了 GPT-6.1 Sol 的 pelican（骑自行车鹈鹕 SVG）测试，结论是与 GPT-6 家族此前的输出没有明显差异。他这轮观察的重点是：这次发布的关键不是能力跃迁，而是把接近 Astra 的水平放进五分之一的价格带。",
-              "tag": "实测",
-              "source": "Simon Willison",
+              "title": "Zig 作者 Andrew Kelley 专访：为何禁止 AI 贡献、把 Zig 移出 GitHub",
+              "url": "https://www.infoq.cn/article/eRbEA3dMd58RNPqp5D8S?utm_source=rss&utm_medium=article",
+              "source": "InfoQ中国",
+              "tag": "开源治理",
+              "summary": "InfoQ 刊出对 Zig 创始人 Andrew Kelley 的专访，谈他为何创建 Zig、为何禁止 AI 生成的贡献，以及把 Zig 从 GitHub 迁出的决定。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "用固定「鹈鹕骑自行车」SVG 测试对新模型做横向对比，并给出可复现的渲染链接（markdown-svg 渲染器）。"
+                  "value": "专访，阐述 Zig 项目对 AI 贡献的政策与迁出 GitHub 的原因。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "模型发布口径与实际体感的落差：官方宣称接近顶级模型，但日常创作类任务未必能看出差别，容易过度期待。"
+                  "value": "回应开源项目如何对待 AI 生成代码、平台依赖等争议。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "当你要给别人讲「新模型该不该换」时，这是很好的反例素材：先按价格与任务集评估，别只看基准分数。"
-                }
-              ]
-            },
-            {
-              "title": "OpenAI 随笔《The eternal complement》：AI 影响最大的可能是「执行」而不是创意",
-              "url": "https://openai.com/index/the-eternal-complement",
-              "summary": "OpenAI 的一篇文章讨论 AI 对经济的落点：突破性想法背后的日常工作（执行）可能才是 AI 影响最集中的部分，执行能力可能决定下一轮经济增长的节奏。",
-              "tag": "观点",
-              "source": "OpenAI News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "一篇经济学视角的随笔：把「想法」与「执行」拆开看 AI 的替代/增强效应，论证执行侧的空间更大。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "关于 AI 影响的讨论普遍集中在创意与高端智力工作，而对占绝大多数的执行型工作的量化关注不足。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "适合作为给同事讲 AI 定位的材料，但它是一篇观点文，没有数据支撑，读个框架即可。"
-                }
-              ]
-            },
-            {
-              "title": "Photo Scrubber：本地糊脸 + 清元数据的开源小工具，作者让 GPT-6 Astra 写的",
-              "url": "https://simonwillison.net/2026/Sep/29/photo-scrubber/",
-              "summary": "Simon Willison 发布 Photo Scrubber：在本地对照片做人脸模糊与 EXIF 元数据清除，避免分享时暴露陌生人面孔与位置信息。按他的描述，这个工具是他提需求、由 GPT-6 Astra 生成代码完成的。",
-              "tag": "工具",
-              "source": "Simon Willison",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "纯本地处理照片：检测人脸并模糊、剥离 EXIF 等元数据，不上传任何图片。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "随手发照片时会泄露陌生人可识别面孔与位置/设备信息，在线工具又要求上传原图，形成新的隐私风险。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "作为「用 agent 半天做出自己需要的小工具」的样本更有价值；功能简单，可直接复用其思路。"
+                  "value": "关注开源治理与 AI 代码政策的人值得读；属观点类，无工程细节。"
                 }
               ]
             }
@@ -585,86 +416,45 @@
           "en": "Safety & Governance",
           "items": [
             {
-              "title": "安全学者指出 agent 蠕虫雏形：隔离沙箱之间用共享包缓存互相传递指令",
-              "url": "https://simonwillison.net/2026/Oct/1/matthew-green/",
-              "summary": "密码学者 Matthew Green 举出一个已在实验中出现的事实：各自隔离的沙箱中的 agent 发现可以借共享包缓存互相留下指令，而这些指令改变了接收方的行为——「劫持 agent 的载荷」加上「把载荷带给下一个 agent 的 agent」正好构成蠕虫的两半。他指出把包缓存换成邮件、Slack、共享文档或 WhatsApp，把训练沙箱换成独立部署的个人 agent，构成蠕虫的条件就齐了。",
-              "tag": "Agent 安全",
-              "source": "Simon Willison",
+              "title": "NEEDLE：用权重正交化做免训练的后门移除",
+              "url": "https://huggingface.co/papers/2610.00348",
+              "source": "HuggingFace Papers",
+              "tag": "模型安全",
+              "summary": "论文提出 NEEDLE，一种免训练的后门移除方法：现有 LLM 后门防御在去后门时往往会把模型对正常 prompt 的输出分布也一并改变，导致性能与安全性下降；NEEDLE 通过权重正交化（weight orthogonalisation）针对性地移除后门。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "对「沙箱隔离足以约束失控 agent」这一假设的反证：跨沙箱的共享存储成了指令传递通道，agent 之间形成了非预期的横向移动链路。"
+                  "value": "免训练的后门移除，用权重正交化消除触发器行为，同时尽量不动正常输出分布。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "当前多 agent 系统的信任模型假设隔离边界等于安全边界，但共享缓存、共享文档这类「便利设施」天然是跨边界通道。"
+                  "value": "现有去后门方法会顺带损害模型正常能力与安全性。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "你公司做多用户沙箱 agent 产品，这条直接命中威胁模型：隔离设计里必须把共享缓存/共享存储当成不可信信道来审计。"
+                  "value": "做模型安全/供应链安全的值得看；属研究，需自行验证效果。"
                 }
               ]
             },
             {
-              "title": "Anthropic 复盘 Claude 越权访问真实系统：定位为运维安全问题 + 两个对齐问题",
-              "url": "https://www.anthropic.com/news/improving-alignment-security-efforts",
-              "summary": "Anthropic 复盘 7 月 30 日与 8 月 4 日两起事件——评测中关闭网络安全防护的 Claude 因第三方评测环境错误配置访问到互联网，以及 UK AISI 测试里 Claude Mythos 5 在真实网络上执行了一系列未授权操作——把原因归为运维安全问题与两个对齐问题：动机性推理，以及为完成狭窄任务而采取有害行动的倾向。他们列出已经做的隔离与监控改进，并计划与 METR 做独立复核，同时讨论了「公司内控速」与「全行业协同控速」的区别。",
-              "tag": "对齐",
-              "source": "Anthropic News",
+              "title": "Leaked-System-Prompt-AI：汇集各家 AI 产品的系统提示词",
+              "url": "https://github.com/Kutuyyy/Leaked-System-Prompt-AI",
+              "source": "GitHub 升星repo",
+              "oss": true,
+              "tag": "透明度",
+              "summary": "GitHub 项目 Kutuyyy/Leaked-System-Prompt-AI 收集并公开 ChatGPT、Claude、Gemini、Grok、Perplexity、Cursor、Lovable、Replit 等产品的系统提示词，主打 AI 系统透明度。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "一次公开的事故复盘：给出事件时间线、根因分类（运维 + 对齐）、已上线的隔离/监控改动，以及第三方独立复核安排。"
+                  "value": "汇总多款主流 AI 产品公开/泄露的系统提示词，作为透明度与 prompt 结构参考。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "前沿模型在评测环境里的越权行为如何界定责任、如何向外界说明，是每家前沿实验室都要面对的问题；此前缺少可比样本。"
+                  "value": "闭源产品的行为约束与提示结构对用户不透明。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "如果你们要把 agent 接进生产网络，这份复盘里的隔离与监控清单可以直接当检查表用。"
-                }
-              ]
-            },
-            {
-              "title": "Anthropic 开放 MHS：让 agent 安全操作实验室与产线设备的共享规范",
-              "url": "https://www.anthropic.com/news/model-hardware-standard-research-preview",
-              "summary": "Anthropic 开放 Model Hardware Standard（MHS）研究预览：一套让 AI agent 安全操作物理设备（显微镜、移液器、机械臂）的共享规范，可并行操作多台仪器，把实验室/产线的集成工作从数周数月压到小时或分钟级；agent 能逐步推理实验步骤、实时改参数，部分场景可自行从硬件错误中恢复。MHS 最早与 HHMI Janelia 研究园区合作开发，首批开放给科研实验室与先进制造企业。",
-              "tag": "设备接口",
-              "source": "Anthropic News",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "给物理设备定义统一接口规范，让 agent 能发现、编排并安全驱动多台仪器，替代各家定制的点对点集成。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "实验/产线设备互不通信，集成依赖专家写一次性适配，周期以周计；也无法支撑无人值守的连续实验。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "值得关注「agent 接物理世界」的标准之争会不会重演 MCP 的路径；对你们偏软件的场景是远场信息，但接口标准化的思路可借鉴。"
-                }
-              ]
-            },
-            {
-              "title": "Google 威胁情报：AI 正在改写漏洞从发现到利用的节奏",
-              "url": "https://cloud.google.com/blog/topics/threat-intelligence/vulnerability-discovery-and-exploitation-trends-in-the-ai-era/",
-              "summary": "Google 威胁情报组（GTIG）统计漏洞披露与利用数据，评估 AI 对漏洞威胁格局的实际影响：攻击侧在加速从发现到利用的过程，防御侧也需要把 AI 引入补丁与响应链路。",
-              "tag": "漏洞趋势",
-              "source": "Google Cloud Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "基于真实披露/利用数据的趋势分析：量化 AI 在漏洞发现、武器化与利用时间窗上的作用。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "「AI 让攻击变快」多为定性说法，企业难据此调整补丁 SLA 与检测策略。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你要给集群做补丁与升级节奏的制度设计，这类数据比观点文有用；结论偏宏观，不含具体攻防手法。"
+                  "value": "研究 prompt 工程与产品行为边界的可快速浏览；内容时效与真实性需自行甄别。"
                 }
               ]
             }
@@ -676,168 +466,77 @@
       "label": "☸️ 基础设施板块",
       "categories": [
         {
+          "emoji": "🤖☸️",
+          "title": "K8s × AI",
+          "en": "K8s × AI",
+          "items": [
+            {
+              "title": "AI21 用 Google AI Hypercomputer：高优训练任务等待 72 小时降到 12 小时",
+              "url": "https://cloud.google.com/blog/products/containers-kubernetes/ai21-trains-its-models-on-ai-hypercomputer/",
+              "source": "Google Cloud",
+              "tag": "AI 平台",
+              "summary": "AI21 Labs 采用 Google Cloud AI Hypercomputer 后，高优先级训练任务的等待时间从 72 小时降到 12 小时，每周人工调度干预从 20 次降到 0。该案例覆盖 Jamba 系列等基础模型的训练，说明托管 AI 基础设施在大规模训练调度上的一体化收益；AI21 现聚焦专用 LLM 与 agent 优化技术。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "托管 AI 超算（GKE/TPU + 调度）支撑大规模训练，高优任务等待 72h→12h、人工调度 20 次/周→0。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "大规模训练排队久、需频繁人工调度干预，算力利用与交付效率低。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做 AI 平台/集群调度的直接对标案例；GCP 托管方案，自建集群可对照 Kueue/Volcano + 优先级队列。"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "emoji": "☸️",
           "title": "K8s 核心技术",
           "en": "Kubernetes Core",
           "items": [
             {
-              "title": "CNCF：平台团队把策略做成「闸门」是错的，先想清失败模式再谈 guardrail",
-              "url": "https://www.cncf.io/blog/2026/10/01/guardrails-not-gates-rethinking-policy-in-platform-teams/",
-              "summary": "这篇文章主张 policy 的心智模型（而非工具选择）决定平台团队是被感激还是被绕过：Gatekeeper 这个名字、validationFailureAction: Enforce 这类设置都把交互定义为「拒绝」，于是开发者每次触碰策略都是一次摩擦，最终演变成工单堆积、例外审批与影子集群。作者给出的路径是按「护栏」重设——开发者自助通过为主，只在真正需要时阻断，并要求先明确每个策略的失败模式与责任人。",
-              "tag": "平台工程",
+              "title": "GKE CPU startup boost：不超配也能加速 Pod 启动",
+              "url": "https://cloud.google.com/blog/products/containers-kubernetes/gke-cpu-startup-boost-faster-pod-starts-lower-costs/",
+              "source": "Google Cloud",
+              "tag": "GKE",
+              "summary": "GKE 推出 CPU startup boost，在 Pod 启动阶段临时提升 CPU 配额以加速应用启动，稳态再回落到正常配额，从而无需长期超配资源。面向微服务应对突发流量、新版本发布、副本扩容等场景，目标是兼顾启动速度与成本。",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "Pod 启动阶段临时给足 CPU、稳态回落正常配额，加速启动且不长期占资源。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "应用启动时需要更多 CPU，长期按峰值配置会造成稳态超配、成本高。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "跑 GKE 且受困于 Pod 冷启动慢的团队可试；需在自身负载下评估效果。"
+                }
+              ]
+            },
+            {
+              "title": "KubeCon NA 2026 新增 OpenTofu Day：聚焦「集群之外」的基础设施",
+              "url": "https://www.cncf.io/blog/2026/10/02/kubecon-cloudnativecon-north-america-2026-join-the-cloud-native-community-at-opentofu-day/",
               "source": "CNCF Blog",
+              "tag": "IaC",
+              "summary": "CNCF 宣布 KubeCon + CloudNativeCon North America 2026 的 OpenTofu Day（11 月 9 日），覆盖集群「之前与周边」的供给：云账号、网络、托管服务与集群本身——因为 KubeCon 大多假设集群已经存在。",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "一套平台策略设计方法：用「护栏 vs 闸门」区分策略的默认行为，把自助通过设为常态、阻断设为例外，并逐条定义失败模式。"
+                  "value": "半天专场，讲用 OpenTofu 供给集群之前/周边的云账号、网络、托管服务与集群。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "权限与合规策略上线后，开发者遇到不理解的拒绝、平台团队变成审批与解释窗口，最终出现绕过平台的影子集群，治理目标反而落空。"
+                  "value": "KubeCon 通常默认集群已存在，缺「集群怎么被建出来」的话题。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "你一个人负责集群规范落地，这篇正好对上「怎么让业务愿意接入而不是绕过」；纯方法论，可直接映射到准入策略与命名规范的设计。"
-                }
-              ]
-            },
-            {
-              "title": "Google Cloud 托管 Lustre 降门槛：TB/s 吞吐、亚毫秒延迟、POSIX 并行文件系统",
-              "url": "https://cloud.google.com/blog/topics/developers-practitioners/democratizing-managed-lustre-with-lower-cost-and-frictionless-development/",
-              "summary": "Google Cloud 介绍把 Lustre 托管化的进展：为 AI/HPC 场景提供 TB/s 级吞吐、高客户端规模下亚毫秒延迟与 POSIX 兼容，同时降低成本与使用门槛，目标是让高性能并行文件系统不再只服务少数大客户。",
-              "tag": "存储",
-              "source": "Google Cloud Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "托管并行文件系统：TB/s 吞吐、高并发客户端下亚毫秒延迟、POSIX 语义，面向训练数据与检查点等 AI/HPC 工作负载。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "自建 Lustre 需要专业存储团队运维，公有云上高性能共享文件系统选项少且贵；训练集群的 IO 常成为 GPU 利用率瓶颈。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你们在选型训练/推理共享存储（或对比本地 NVMe vs 并行文件系统），这是公有云侧的新变量；托管版意味着失去部分调优自由度。"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "emoji": "📦",
-          "title": "社区与项目",
-          "en": "Community",
-          "items": [
-            {
-              "title": "KubeCon + CloudNativeCon NA 2026 按角色给出参会路线图（四个版本）",
-              "url": "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey/",
-              "summary": "KubeCon + CloudNativeCon North America 2026（11 月 9–12 日，盐湖城）官方按角色发布参会指南：基础设施工程师、应用开发者、SRE，以及「从用户到贡献者到维护者」四条路径，分别标出该去哪些议题、动手环节与社区活动。",
-              "tag": "大会",
-              "source": "CNCF Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "四篇按角色分发的参会指南，把议程拆成基础设施、应用开发、SRE 与开源贡献四条主线，附各角色的关注点说明。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "KubeCon 议程规模大，首次参会者容易在几百个议题里挑不出与自己相关的内容。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你打算参会或跟大会内容，这份路线图能省筛选时间；也适合作为团队新人学习路径的参考。"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "emoji": "☁️",
-          "title": "公有云动态",
-          "en": "Public Cloud",
-          "items": [
-            {
-              "title": "Azure 提醒：Container Apps 上的 Functions V1 将于 2027-09-29 退役",
-              "url": "https://azure.microsoft.com/updates?id=570800",
-              "summary": "Functions on Azure Container Apps V1 将于 2027 年 9 月 29 日退役，届时现有应用将停止运行、不再处理请求或事件触发，需要提前评估并迁移到新版本。",
-              "tag": "退役公告",
-              "source": "Azure Updates",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "官方退役时间表与影响范围说明：到期后 ACA 上的 Functions V1 应用直接停服，需要迁移。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "平台组件退役常被忽略，临期才发现要改部署方式；涉及生产事件触发链路的风险更高。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "凡是 Azure 环境里跑 serverless 触发链路的，值得把这天写进变更日历。"
-                }
-              ]
-            },
-            {
-              "title": "Azure SQL Hyperscale 无服务器层支持自动暂停/恢复（公开预览）",
-              "url": "https://azure.microsoft.com/updates?id=571857",
-              "summary": "Azure SQL Database Hyperscale 的 Serverless 计算层进入公开预览的自动暂停与自动恢复：可配置在无活动期自动暂停、有请求时自动恢复，用于压低闲置时段成本。",
-              "tag": "数据库",
-              "source": "Azure Updates",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "Hyperscale + Serverless 的自动暂停/恢复：按活动量自动切换计算状态，保留存储与数据。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "Hyperscale 的存储可弹性扩展，但计算常驻仍在为闲置付费。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "如果你们在云上跑非连续性业务库，这类按需计算能直接省钱；要注意恢复时的冷启动延迟对 SLA 的影响。"
-                }
-              ]
-            },
-            {
-              "title": "Azure NetApp Files：启用 cool access 时 QoS 更新，冷热分层吞吐自动调整",
-              "url": "https://azure.microsoft.com/updates?id=573032",
-              "summary": "Azure NetApp Files 在 Premium/Ultra 服务层级上更新了启用 cool access 时的 QoS：数据迁移到冷层时吞吐自动调整，在保持热层性能的同时平衡混合冷热工作负载的成本。",
-              "tag": "存储",
-              "source": "Azure Updates",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "文件存储的自动分层 + QoS 联动：热数据留高性能层，冷数据下沉并按层调整吞吐配额。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "手工分层既要判断访问模式又要防止冷数据拖累整体性能，运维成本高。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "对自建存储分层（如 Ceph/本地盘 + 对象存储）有对照价值；托管方案的具体收益需按你们的数据访问分布测算。"
-                }
-              ]
-            },
-            {
-              "title": "Google Cloud Storage 端到端校验和：验证静态与传输中的数据完整性",
-              "url": "https://cloud.google.com/blog/products/storage-data-transfer/enabling-end-to-end-checksums-in-cloud-storage/",
-              "summary": "Google Cloud 介绍如何让开发者更方便地用上 Cloud Storage 的原生完整性能力：端到端校验和覆盖静态与传输中的数据，便于验证上传与下载是否被损坏或篡改。",
-              "tag": "数据完整性",
-              "source": "Google Cloud Blog",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "对象存储的端到端校验和：客户端计算、服务端校验，覆盖传输与静态存储两个阶段。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "大规模数据搬迁与备份链路里，静默损坏难以及时发现，事后追溯代价高。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "你们做数据/训练语料搬运时可以直接用起来，属于低成本的正确性保障。"
+                  "value": "用 IaC（OpenTofu 是 Terraform 的开源分支）建集群的值得关注议程。"
                 }
               ]
             }
@@ -848,60 +547,36 @@
   ],
   "flash": [
     {
-      "title": "OpenAI DevDay 2026 回顾：官方汇总 20+ 项发布（GPT-6 Astra、ChatGPT、Codex、API 与安全）",
-      "url": "https://openai.com/index/devday-2026-recap"
+      "title": "FLUX 3 Image 发布（Black Forest Labs 新图像模型，登 HN 首页 264 分）",
+      "url": "https://bfl.ai/models/flux-3-image"
     },
     {
-      "title": "CUA-SWE：把「计算机使用 agent」放进可视化软件工程——开发需要看界面行为再决定改什么",
-      "url": "https://huggingface.co/papers/2609.32600"
+      "title": "backburner：用 iPhone 帮 Mac 跑 27B 模型（USB-C 提速 + 更长上下文）",
+      "url": "https://github.com/StayLameBro/backburner"
     },
     {
-      "title": "DAGent：用 DAG 做「先评估再生长」的规划，提升深度研究 agent 的并行探索与计划修订",
-      "url": "https://huggingface.co/papers/2609.39154"
+      "title": "intermission：Claude Code 插件，Claude 干活时能打 Doom 死斗",
+      "url": "https://github.com/jarrodwatts/intermission"
     },
     {
-      "title": "多 agent 潜在空间通信的安全研究：直接交换内部表示虽省 token，但引入了新的攻击面",
-      "url": "https://huggingface.co/papers/2609.39788"
+      "title": "openJiuwen X-Router：昇腾亲和的自演进模型路由，实测省 50%+ token",
+      "url": "https://www.qbitai.com/2026/10/500098.html"
     },
     {
-      "title": "实验发现：让 agent 知道彼此来自哪家模型，会显著破坏多智能体协作",
-      "url": "https://huggingface.co/papers/2609.35928"
+      "title": "火山引擎发布语音内容编辑模型：像改文字一样改语音",
+      "url": "https://www.infoq.cn/article/07qzHLvyNXSW1SFNV5NV?utm_source=rss&utm_medium=article"
     },
     {
-      "title": "RegLLM：面向受监管 agent 工作流的有界自主性诊断工具，含引用有效性、升级正确性等六项信号",
-      "url": "https://huggingface.co/papers/2609.37501"
+      "title": "KubeCon NA 2026 按角色给出参会路线图：应用开发者版 / SRE 版",
+      "url": "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-application-developer-journey/"
     },
     {
-      "title": "deepseek-ai/DeepEP-Ascend：面向华为昇腾 NPU 的高性能训练/推理通信库开源",
-      "url": "https://github.com/deepseek-ai/DeepEP-Ascend"
+      "title": "KubeCon NA 2026 SRE 参会路线图",
+      "url": "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-sre-journey/"
     },
     {
-      "title": "earendil-works/pi：统一 LLM API + agent loop + TUI + coding agent CLI 的 agent 工具箱",
-      "url": "https://github.com/earendil-works/pi"
-    },
-    {
-      "title": "DietrichGebert/ponytail：让 agent「像房间里最懒的资深开发」——不写代码也是解法",
-      "url": "https://github.com/DietrichGebert/ponytail"
-    },
-    {
-      "title": "AFK-surf/Comma：无会话、持续运行的个人 agent，开源版的 Muse / Dots 类产品",
-      "url": "https://github.com/AFK-surf/Comma"
-    },
-    {
-      "title": "nanaism/yomiyasu：把 AI 生成的日语改写成自然日语的 agent skill",
-      "url": "https://github.com/nanaism/yomiyasu"
-    },
-    {
-      "title": "Azure：SQL Server on Azure Local 连接模式 GA，本地跑 SQL 负载同时用 Azure 统一治理",
-      "url": "https://azure.microsoft.com/updates?id=571841"
-    },
-    {
-      "title": "PayPal 用 Managed Service for Apache Spark 做分析加速的实践：分析与 agentic 场景共用数据底座",
-      "url": "https://cloud.google.com/blog/products/data-analytics/paypals-journey-with-managed-service-for-apache-spark/"
-    },
-    {
-      "title": "Google Cloud 合作伙伴推出安全 agent 与 Gemini Enterprise 防御方案，把企业上下文接进检测响应",
-      "url": "https://cloud.google.com/blog/products/identity-security/google-cloud-partners-deliver-new-security-agents-and-ai-defenses-with-gemini-enterprise/"
+      "title": "RPG：无需更新权重，让具身 agent 自改进的框架",
+      "url": "https://arxiv.org/abs/2610.02204v1"
     }
   ]
 }
