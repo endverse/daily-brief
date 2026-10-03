@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 10 月 03 日 · 星期六</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 014 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 10 月 03 日 · 星期六</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的主线偏向「把能力做成 agent 可复用的工作台」。模型侧，OpenAI 端出 GPT-6 家族的官方落地指南，把选型、推理强度档位、skill 与工具编排写成可照做的调参路线；工程侧则继续补 agent 的基建——Google Cloud 给出 AlloyDB + Valkey 的分层长期记忆，并用 Spanner queues 把「状态 + 异步派发」收进同一事务。生态侧，Google 把自家云产品知识做成官方 Agent Skills 仓库，agent 可按需加载 GKE、BigQuery 等技能。国产算力侧，DeepSeek 开源面向华为昇腾的全套基础设施组件，与英伟达版接口一一对应。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://openai.com/index/practical-guide-building-gpt-6" target="_blank" rel="noopener">OpenAI 发布 GPT-6 家族落地指南：从选型、推理强度到 skill 与工具编排</a></h2>
+    <p>OpenAI 发布面向团队的 GPT-6 家族落地指南，围绕「选哪个模型、怎么配推理强度、怎么写 prompt 与 skill、怎么编排工具、怎么把工作流推上生产」给出官方建议。指南确认 GPT-6 Astra 与 GPT-6.1 Sol 不支持 none 推理档，最低为 low；reasoning.effort 可取 low / medium（默认）/ high / xhigh / max 五档。工具调用建议走 Responses API，Chat Completions 仅在无工具的请求下可用。官方给出的调参路径是：先用默认推理强度，只在任务需要更深规划或分析时才逐级上调，以便在延迟、token 成本与效果之间取平衡。</p>
+    <div class="note">要点：①按任务所需的推理深度、速度与成本选模型；②推理档 low→max，Astra/Sol 不支持 none，minimal 需从 low 起步对比；③prompt 与 skill 协同、工具编排建议用 Responses API；④给出从原型到生产的迁移与治理建议。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/t5i2Yv2z0LwIbK36lteR?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">DeepSeek 开源华为昇腾全套基础设施组件，与英伟达版接口一一对应</a></h2>
+    <p>DeepSeek 正式开源面向华为昇腾算力平台的全套基础设施组件，涵盖 TileLang 昇腾版高级语言/编译工具、计算库与分布式通信库，所有组件与此前英伟达平台版本在接口层一一对应。本次开源的组件包括 DeepGEMM（通用矩阵运算加速）、DeepEP（大规模跨设备通信）、TileKernels（向量计算与访存算子）、FlashMLA（稀疏注意力）与 DeepSelect（数据筛选）；多项关键测试中，其计算与通信性能已接近硬件上限。TileLang 昇腾版封装 Ascend C 底层指令，提供高级语言编程方式且不损失硬件性能，DeepSeek 训练中用到的每个 TileLang 算子在昇腾上都有对应的高性能实现。此举意味着前沿大模型训练在软件栈层面不再唯一依赖 CUDA/英伟达。</p>
+    <div class="note">要点：①覆盖编译工具 + 计算库 + 分布式通信库三大层；②组件与英伟达版一一对应，降低换芯迁移成本；③TileLang 已承载 DeepSeek V4 系列训练的大部分算子；④昇腾已启动核心算子开发，国产 AI 芯片生态加速成型。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/google/skills" target="_blank" rel="noopener">Google 官方 Agent Skills 仓库：13 个技能覆盖 GKE / BigQuery / Cloud Run 等</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google 在 Cloud Next 2026 发布官方 Agent Skills 仓库 github.com/google/skills，用 Markdown 写的 SKILL.md 形式给 agent 注入 Google Cloud / Workspace 产品的专项知识，按需加载以减少上下文膨胀。首发 13 个技能，覆盖 AlloyDB、BigQuery、Cloud Run、Cloud SQL、Firebase、Gemini API、GKE 等产品，外加 Security / Reliability / Cost Optimization 三个 Well-Architected 支柱技能，以及 Onboarding、Authentication、Network Observability 三个 recipe 技能。仓库随后扩展到 Security/Identity、广告等多个产品域（如 GKE 平台安全、GKE Workload Identity 排障等）。可用 npx skills install github.com/google/skills 安装到 Antigravity、Gemini CLI 及第三方 agent。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 SKILL.md（Markdown）打包产品知识、agent 按需加载；覆盖 GKE/BigQuery/Cloud Run/Cloud SQL/Firebase 等，含安全/可靠/成本三支柱与 onboarding/auth/可观测性 recipe。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 缺最新的云产品知识，硬塞进 prompt 会撑爆上下文；官方维护的技能让知识可复用、可更新、按需检索。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">维护 K8s/云同时用 agent 的团队值得挑 GKE、BigQuery、IAM 等几个技能装来试；面向 Google Cloud，非云厂商中立。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">Agent Skills</span><a class="src" href="https://github.com/google/skills" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/Panniantong/Agent-Reach" target="_blank" rel="noopener">Agent-Reach：一个 CLI 让 agent 读遍 Twitter / Reddit / YouTube / GitHub / B站 / 小红书</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Panniantong/Agent-Reach 是一个给 agent「上网的眼睛」的开源 CLI，用单一命令行接口就能读取和搜索 Twitter、Reddit、YouTube、GitHub、Bilibili、小红书等平台的内容。定位是零 API 费用——绕开各平台的付费 API，用一个 CLI 统一封装多源抓取。适合让 agent 做跨平台情报/内容采集的场景，省去逐平台接 API 与鉴权的成本。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">单 CLI 统一读取/搜索 Twitter、Reddit、YouTube、GitHub、Bilibili、小红书，声称零 API 费用。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">各平台 API 分散、收费、鉴权繁琐，agent 难以低成本聚合多源公开内容。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做内容监控/情报聚合的可以试；依赖抓取，稳定性与合规风险需自评，长期可用性受平台反爬影响。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">工具</span><a class="src" href="https://github.com/Panniantong/Agent-Reach" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2610.02163v1" target="_blank" rel="noopener">AutoCompact：训练编码 agent 自己判断「何时压缩上下文、保留什么」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AutoCompact 是一个面向长流程编码 agent 的上下文管理方法：让 agent 自己学会「何时压缩上下文、保留哪些工作状态、压缩后如何继续」，而不只是被动防止上下文溢出。论文指出，随着任务推进，早期的代码探查与搜索会逐渐过时，因此上下文管理的关键不是「塞不塞得下」，而是「该丢什么、该留什么」。方法通过训练编码 agent 来做这一决策。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">训练编码 agent 自主决定压缩时机、保留的工作状态与恢复方式，把上下文管理从「防溢出」变成「状态取舍」。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长任务里早期探索过时，窗口被无效信息占满，agent 易丢失关键状态导致后续步骤跑偏。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做 coding agent / 长程任务框架的值得跟进；目前是论文方法，落地需自接训练管线，门槛中高。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">上下文管理</span><a class="src" href="https://arxiv.org/abs/2610.02163v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/JuliusBrussee/caveman" target="_blank" rel="noopener">caveman：让编码 agent「说穴居人话」，号称砍掉 65% token</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>JuliusBrussee/caveman 是一个病毒式传播的 skill + 代理，做法是让编码 agent 用极简的「穴居人式」表达（「why use many token when few token do trick」），以压缩输出 token，仓库声称可削减约 65% 的 token 消耗。本质是把「表达精简」做成一个可安装的 skill，并配代理统一控制输出长度。对 token 成本敏感的长对话编码 agent 是一个低门槛的省钱技巧。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">让 agent 用极简表达输出、并配代理压缩 token 的 skill，声称省约 65% token。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">编码 agent 长对话 token 消耗高，输出啰嗦冗余、成本敏感。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">想快速降 token 成本的可以试；但过度压缩会损失可读性与细节，正式代码/文档场景慎用。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">Skill</span><a class="src" href="https://github.com/JuliusBrussee/caveman" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.02202" target="_blank" rel="noopener">ScholarCatalyst：评估模型「能否找到启发新研究的论文」的检索基准</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文提出 ScholarCatalyst 基准，用来衡量模型能否在浩如烟海的文献里检索到「真正激发某项新研究」的先验工作——这是科学家目前远胜 AI 的一项能力。基准的做法是请研究者标出哪些早期论文推动了他们已完成的项目，用论文作为「想法的指针」来构造评测。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以研究者真实标注的「哪些前作启发了本项目」为金标准，评测检索/推荐模型能否找出启发性先验论文。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有文献检索评测多衡量相关性/引用，无法区分「相关」与「真正启发新想法」。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做科研 agent / 文献 RAG 的值得看；面向科研场景，与工程实践关联较弱。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">基准</span><a class="src" href="https://huggingface.co/papers/2610.02202" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.36585" target="_blank" rel="noopener">论文：预训练 Transformer「想得太浅」，一个 rank-8 LoRA 补上深度推理</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>研究发现预训练 Transformer 只用了很浅的深度来处理上下文引用：13 个基座模型可靠跟随的引用行数仅 1.4–3.6 行，增加预训练循环也几乎无改善。作者在某早期层加一个任务训练的 rank-8 LoRA（冻结全部原权重），即可延长这段计算：Qwen3-8B 在 24 行链条上的精确率从 15.5% 提升到 99%，更长时间训练的 LoRA 可处理 50 行。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用冻结主干 + 单层 rank-8 LoRA 延长模型的「深度计算」，显著提升长链条引用跟随（Qwen3-8B 24 行 15.5%→99%）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">预训练模型在长依赖/多行引用任务上过早「停止思考」，浅层深度限制推理。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对做模型微调/长上下文推理的团队有直接参考；需自行复现训练，属研究阶段。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">机制</span><a class="src" href="https://huggingface.co/papers/2609.36585" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.02142" target="_blank" rel="noopener">论文：关键词匹配式评测会「误判」小模型的工具调用能力</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文指出关键词匹配式 benchmark 会把小模型「根本没做过的工具调用」判为成功，作者在一对同架构的西班牙语安全模型上复现了这一假阳性，并提出一套严格、低成本的诊断阶梯。样本含 661.6M 参数模型（约 65% 代码/技术文本、无专门 SFT）与 1,109M 模型（网页为主的多阶段课程、6B token 工具 SFT），两者共享解码器结构。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用严格的低成本诊断阶梯替代关键词匹配，识别小模型的「伪工具调用」假阳性。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">关键词 harness 会让模型「蒙对」工具调用、虚高评测分，误导选型。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做模型评测 / agent 工具调用验证的值得参考；属评测方法论，非产品。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">评测</span><a class="src" href="https://huggingface.co/papers/2610.02142" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.01428" target="_blank" rel="noopener">论文：LLM 的「泛化」应是稳定性，而非准确率</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文主张 LLM 的泛化能力应被定义为「稳定性」而非准确率——即同一输入换不同表述时，输出是否保持语义一致，而不是看一个聚合准确率分数。作者据此提出一套多轴（multi-axis）评测方法来衡量这种稳定性。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把泛化重新定义为「输入改写下的语义稳定性」，用多轴评测取代单一聚合准确率。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">聚合准确率会掩盖模型对同一问题不同表述的输出漂移。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做评测 / 鲁棒性的值得参考；属方法论文，落地需自建评测集。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">评测</span><a class="src" href="https://huggingface.co/papers/2610.01428" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/databases/implementing-long-term-ai-agent-memory-in-alloydb-and-memorystore/" target="_blank" rel="noopener">Google Cloud：AlloyDB + Valkey 分层做 agent 长期记忆，token 支出最多降 70%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 给出企业 agent 长期记忆的两层架构：用 Memorystore for Valkey 做短期缓冲记忆、用 AlloyDB AI 做长期持久记忆。官方称该架构可把 token 支出降低最高 70%，同时保留关键数据与企业护栏。目标是支撑 agent 执行跨天、长周期的任务工作流。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">两层记忆架构——Valkey 存短期缓冲、AlloyDB 存长期持久记忆，供 agent 跨多天执行长任务。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长周期 agent 需要持久记忆，但把历史全塞进上下文会推高 token 成本。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 Google Cloud 且做长程 agent 的值得看（宣称降 70% token）；绑定 AlloyDB/Valkey，非 GCP 需找等价物。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 记忆</span><a class="src" href="https://cloud.google.com/blog/products/databases/implementing-long-term-ai-agent-memory-in-alloydb-and-memorystore/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/databases/spanner-queues-provide-native-transactional-messaging/" target="_blank" rel="noopener">Google Cloud 发布 Spanner queues：给 agentic 工作流的事务级消息队列</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 在 Spanner 内推出原生事务消息（queues），面向 agentic 工作负载。背景是 agent 不再只回答查询，还会自主退款、管理库存、做多步交接、编排子 agent，这通常要求同时维护数据库内的状态并通过独立的消息/事件队列派发异步动作；Spanner queues 把「数据库状态 + 队列派发」统一进同一事务，避免双写不一致。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 Spanner 内提供原生事务消息，把「数据库状态 + 异步队列派发」合并到同一事务。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 工作流需同时写 DB 并发消息，跨系统双写易出现状态与事件不一致。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在 GCP 上做有状态 agent 编排的值得关注；绑定 Spanner，迁移与成本需评估。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">消息队列</span><a class="src" href="https://cloud.google.com/blog/products/databases/spanner-queues-provide-native-transactional-messaging/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">impeccable：一套让 AI harness「更懂设计」的设计语言</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>pbakaus/impeccable 是一套开源设计语言，目标是让你的 AI harness / coding agent 在设计类任务上产出更好。项目当日登上 GitHub Trending。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一套可接入 AI harness 的设计语言/规范，约束 agent 在 UI/设计任务上的输出质量。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">coding agent 写界面时缺设计规范，产出千篇一律或不符合设计系统。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 agent 做前端/设计交付的可以试；效果取决于你自己的设计系统是否对齐。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">设计语言</span><a class="src" href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">Products &amp; Business</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.anthropic.com/news/claude-frontier-academy" target="_blank" rel="noopener">Anthropic 投 1 亿美元办 Claude Frontier Academy，计划培训 1 万名工程师</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Anthropic 宣布投入 1 亿美元成立 Claude Frontier Academy，目标到 2027 年底培训 10,000 名「前沿部署工程师（FDE）」。首批学员来自埃森哲、贝恩、凯捷、德勤、麦肯锡、摩根士丹利、诺和诺德、澳洲联邦银行等。培养方式是先参加由 Anthropic 工程师带的多日线下课程、走一遍模拟企业部署（从选场景到安全评审与交接），通过后进入 12 周驻场、在自家公司牵头一个真实 Claude 项目；首批认证预计 2027 年初。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">企业 AI 部署人才项目：多日线下课 + 模拟企业部署 + 12 周真实项目驻场，目标 2027 底培养 1 万名 FDE。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业 AI 落地缺「能把 AI 从想法做到生产」的工程师。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">反映大厂在补企业 AI 交付人才缺口；个人可关注其课程/认证路径，门槛与费用待定。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">人才</span><a class="src" href="https://www.anthropic.com/news/claude-frontier-academy" target="_blank" rel="noopener">Anthropic News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/chatham-financial" target="_blank" rel="noopener">OpenAI 案例：Chatham 用 Codex 把交易校验从 30 分钟压到 4 分钟以内</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 发布金融行业案例：Chatham Financial 用 Codex 与 GPT-5.6 构建技术栈并重做工作流，把交易校验（trade validation）的耗时从 30 分钟降到 4 分钟以内。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用 Codex + GPT-5.6 重做金融业务流程，交易校验 30 分钟 → 4 分钟以内。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">金融流程人工校验慢、成本高。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">金融行业 agent 落地的参考案例；属厂商案例，口径与细节有限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">金融落地</span><a class="src" href="https://openai.com/index/chatham-financial" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/10/499991.html" target="_blank" rel="noopener">丘成桐新论文致谢 GPT 和 Claude</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位报道，数学家丘成桐的新论文致谢了 GPT 与 Claude；文中提到相关问题是 44 年前被列入问题清单的。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">报道丘成桐新论文致谢 GPT 与 Claude，涉及其 44 年前提出的问题。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">反映前沿数学研究开始把大模型作为工具/助手并公开致谢。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注 AI 向科研渗透的看一眼即可；属动态消息，无技术细节。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">科研</span><a class="src" href="https://www.qbitai.com/2026/10/499991.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">Reading</span></div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/eRbEA3dMd58RNPqp5D8S?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Zig 作者 Andrew Kelley 专访：为何禁止 AI 贡献、把 Zig 移出 GitHub</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>InfoQ 刊出对 Zig 创始人 Andrew Kelley 的专访，谈他为何创建 Zig、为何禁止 AI 生成的贡献，以及把 Zig 从 GitHub 迁出的决定。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">专访，阐述 Zig 项目对 AI 贡献的政策与迁出 GitHub 的原因。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">回应开源项目如何对待 AI 生成代码、平台依赖等争议。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注开源治理与 AI 代码政策的人值得读；属观点类，无工程细节。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">开源治理</span><a class="src" href="https://www.infoq.cn/article/eRbEA3dMd58RNPqp5D8S?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">Safety &amp; Governance</span></div>
+    <div class="item">
+      <div class="num">16</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.00348" target="_blank" rel="noopener">NEEDLE：用权重正交化做免训练的后门移除</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文提出 NEEDLE，一种免训练的后门移除方法：现有 LLM 后门防御在去后门时往往会把模型对正常 prompt 的输出分布也一并改变，导致性能与安全性下降；NEEDLE 通过权重正交化（weight orthogonalisation）针对性地移除后门。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">免训练的后门移除，用权重正交化消除触发器行为，同时尽量不动正常输出分布。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有去后门方法会顺带损害模型正常能力与安全性。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做模型安全/供应链安全的值得看；属研究，需自行验证效果。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型安全</span><a class="src" href="https://huggingface.co/papers/2610.00348" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">17</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/Kutuyyy/Leaked-System-Prompt-AI" target="_blank" rel="noopener">Leaked-System-Prompt-AI：汇集各家 AI 产品的系统提示词</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>GitHub 项目 Kutuyyy/Leaked-System-Prompt-AI 收集并公开 ChatGPT、Claude、Gemini、Grok、Perplexity、Cursor、Lovable、Replit 等产品的系统提示词，主打 AI 系统透明度。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">汇总多款主流 AI 产品公开/泄露的系统提示词，作为透明度与 prompt 结构参考。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">闭源产品的行为约束与提示结构对用户不透明。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">研究 prompt 工程与产品行为边界的可快速浏览；内容时效与真实性需自行甄别。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">透明度</span><a class="src" href="https://github.com/Kutuyyy/Leaked-System-Prompt-AI" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span><span class="sec-en">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/containers-kubernetes/ai21-trains-its-models-on-ai-hypercomputer/" target="_blank" rel="noopener">AI21 用 Google AI Hypercomputer：高优训练任务等待 72 小时降到 12 小时</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AI21 Labs 采用 Google Cloud AI Hypercomputer 后，高优先级训练任务的等待时间从 72 小时降到 12 小时，每周人工调度干预从 20 次降到 0。该案例覆盖 Jamba 系列等基础模型的训练，说明托管 AI 基础设施在大规模训练调度上的一体化收益；AI21 现聚焦专用 LLM 与 agent 优化技术。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">托管 AI 超算（GKE/TPU + 调度）支撑大规模训练，高优任务等待 72h→12h、人工调度 20 次/周→0。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大规模训练排队久、需频繁人工调度干预，算力利用与交付效率低。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做 AI 平台/集群调度的直接对标案例；GCP 托管方案，自建集群可对照 Kueue/Volcano + 优先级队列。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">AI 平台</span><a class="src" href="https://cloud.google.com/blog/products/containers-kubernetes/ai21-trains-its-models-on-ai-hypercomputer/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span><span class="sec-en">Kubernetes Core</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/containers-kubernetes/gke-cpu-startup-boost-faster-pod-starts-lower-costs/" target="_blank" rel="noopener">GKE CPU startup boost：不超配也能加速 Pod 启动</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>GKE 推出 CPU startup boost，在 Pod 启动阶段临时提升 CPU 配额以加速应用启动，稳态再回落到正常配额，从而无需长期超配资源。面向微服务应对突发流量、新版本发布、副本扩容等场景，目标是兼顾启动速度与成本。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Pod 启动阶段临时给足 CPU、稳态回落正常配额，加速启动且不长期占资源。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">应用启动时需要更多 CPU，长期按峰值配置会造成稳态超配、成本高。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跑 GKE 且受困于 Pod 冷启动慢的团队可试；需在自身负载下评估效果。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">GKE</span><a class="src" href="https://cloud.google.com/blog/products/containers-kubernetes/gke-cpu-startup-boost-faster-pod-starts-lower-costs/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/10/02/kubecon-cloudnativecon-north-america-2026-join-the-cloud-native-community-at-opentofu-day/" target="_blank" rel="noopener">KubeCon NA 2026 新增 OpenTofu Day：聚焦「集群之外」的基础设施</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CNCF 宣布 KubeCon + CloudNativeCon North America 2026 的 OpenTofu Day（11 月 9 日），覆盖集群「之前与周边」的供给：云账号、网络、托管服务与集群本身——因为 KubeCon 大多假设集群已经存在。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">半天专场，讲用 OpenTofu 供给集群之前/周边的云账号、网络、托管服务与集群。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">KubeCon 通常默认集群已存在，缺「集群怎么被建出来」的话题。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 IaC（OpenTofu 是 Terraform 的开源分支）建集群的值得关注议程。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">IaC</span><a class="src" href="https://www.cncf.io/blog/2026/10/02/kubecon-cloudnativecon-north-america-2026-join-the-cloud-native-community-at-opentofu-day/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://bfl.ai/models/flux-3-image" target="_blank" rel="noopener">FLUX 3 Image 发布（Black Forest Labs 新图像模型，登 HN 首页 264 分）</a></li>
+      <li><a href="https://github.com/StayLameBro/backburner" target="_blank" rel="noopener">backburner：用 iPhone 帮 Mac 跑 27B 模型（USB-C 提速 + 更长上下文）</a></li>
+      <li><a href="https://github.com/jarrodwatts/intermission" target="_blank" rel="noopener">intermission：Claude Code 插件，Claude 干活时能打 Doom 死斗</a></li>
+      <li><a href="https://www.qbitai.com/2026/10/500098.html" target="_blank" rel="noopener">openJiuwen X-Router：昇腾亲和的自演进模型路由，实测省 50%+ token</a></li>
+      <li><a href="https://www.infoq.cn/article/07qzHLvyNXSW1SFNV5NV?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">火山引擎发布语音内容编辑模型：像改文字一样改语音</a></li>
+      <li><a href="https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-application-developer-journey/" target="_blank" rel="noopener">KubeCon NA 2026 按角色给出参会路线图：应用开发者版 / SRE 版</a></li>
+      <li><a href="https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-sre-journey/" target="_blank" rel="noopener">KubeCon NA 2026 SRE 参会路线图</a></li>
+      <li><a href="https://arxiv.org/abs/2610.02204v1" target="_blank" rel="noopener">RPG：无需更新权重，让具身 agent 自改进的框架</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
