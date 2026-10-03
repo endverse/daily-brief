@@ -1,9 +1,8 @@
 {
-  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年10月02日 · 星期五(如 2026年09月19日 · 星期六)、013(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格**\nOpenAI 在 DevDay 2026 发布 GPT-6.1 Sol，标准 API 价维持每百万输入 2 美元、输出 10 美元不变，缓存输入再降 50% 到 0.10 美元（相对标准输入相当于 95% 折扣）；上下文窗口 105 万 token、单次最多输出 12.8 万 token，支持 low/high/xhigh/max 多档推理强度。官方定位是「接近 Astra 的智能、五分之一的成本」：DeepSWE v1.1 与 Astra 持平，AutomationBench 中等推理强度下比 Claude Opus 5.5 高 2.2 个百分点。Terminal-Bench Science 0.1 在最高推理强度下平均每题 5.47 美元，Astra 为 23.80 美元，但 Astra 准确率仍最高（68.1%），官方建议它留给最难的科研任务。同场还发布 Ultrafast 档（token 生成最高 8 倍速、价格 6 倍）与面向敏感数据的 private intelligence 选项。\n\n**2. GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 10 秒内**\nGoogle 把面向 RL 与评测优化的 GKE Agent Sandbox、Agent Sandbox RL 编排 SDK 一起转 GA，并提供主流 RL gym/harness 的原生集成。给出的数字是：time-to-first-command 提升 10–45 倍（1–9 秒，原 45–85 秒），最坏情况沙箱等待从 7.5 分钟降到 10 秒以内，控制面 churn 减少约 3 倍。关键机制是 in-place recycling：每个 RL step 会一次性申请成千上万个沙箱，SDK 复用 Pod 而不是删除重建，Pod 创建量降到三分之一，API server 在高频 churn 下保持稳定。这套东西是 Google 把「用 SWE-bench 等 agentic 评测故意压垮自家集群、再把 etcd 超时和 GPU 空转逐条修掉」的产物。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧩 Agent & Skill：SkillGym 用自动生成的可验证环境训练会用 skill 的 agent；微软 SQL 迁移 skills 转 GA；Google 把 gcloud/bq 收进单个 MCP server。\n🧠 模型与研究：GPT-6.1 Sol 把近 Astra 智能压到五分之一价格；何恺明团队用纯视觉方案把 ARC 做到 63.4%；Claude 文本水印机制公开。\n🛠️ AI 工程落地：TileLang 新增昇腾 950 后端；两台 DGX Spark 跑 GLM-5.3-Flash 的完整实测配方；AWS 把架构评审做成 agent。\n📊 产品与商业：Barclays 目标年底 Claude Code 覆盖 50% 开发者；Azure 存储优化机型 Lazv5/Laosv5 GA。\n💡 观点与好文：Simon Willison 的 Sol pelican 测试看不到代际差异；OpenAI 谈 AI 落点在「执行」而非创意。\n🛡️ 安全与治理：安全学者警告隔离沙箱间的共享缓存已成 agent 传指令通道；Anthropic 复盘 Claude 越权事件。\n☸️ K8s 核心技术：CNCF 主张平台策略要从「闸门」改成「护栏」；Google Cloud 托管 Lustre 继续降门槛。\n📦 社区与项目：KubeCon + CloudNativeCon NA 2026 按角色给出四份参会路线图。\n☁️ 公有云动态：Azure 提醒 Functions on ACA V1 明年 9 月退役；Hyperscale Serverless 支持自动暂停。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 34 条精选 + 14 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-10-02.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月02日 · 星期五 · 第013期",
+    "subtitle": "2026年10月03日 · 星期六 · 第014期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +10,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. GPT-6.1 Sol 发布：对标 Astra 的智能、五分之一的 API 价格**\nOpenAI 在 DevDay 2026 发布 GPT-6.1 Sol，标准 API 价维持每百万输入 2 美元、输出 10 美元不变，缓存输入再降 50% 到 0.10 美元（相对标准输入相当于 95% 折扣）；上下文窗口 105 万 token、单次最多输出 12.8 万 token，支持 low/high/xhigh/max 多档推理强度。官方定位是「接近 Astra 的智能、五分之一的成本」：DeepSWE v1.1 与 Astra 持平，AutomationBench 中等推理强度下比 Claude Opus 5.5 高 2.2 个百分点。Terminal-Bench Science 0.1 在最高推理强度下平均每题 5.47 美元，Astra 为 23.80 美元，但 Astra 准确率仍最高（68.1%），官方建议它留给最难的科研任务。同场还发布 Ultrafast 档（token 生成最高 8 倍速、价格 6 倍）与面向敏感数据的 private intelligence 选项。\n\n**2. GKE Agent Sandbox 转 GA：沙箱首条命令从 45–85 秒压到 1–9 秒，尾延迟 7.5 分钟降到 10 秒内**\nGoogle 把面向 RL 与评测优化的 GKE Agent Sandbox、Agent Sandbox RL 编排 SDK 一起转 GA，并提供主流 RL gym/harness 的原生集成。给出的数字是：time-to-first-command 提升 10–45 倍（1–9 秒，原 45–85 秒），最坏情况沙箱等待从 7.5 分钟降到 10 秒以内，控制面 churn 减少约 3 倍。关键机制是 in-place recycling：每个 RL step 会一次性申请成千上万个沙箱，SDK 复用 Pod 而不是删除重建，Pod 创建量降到三分之一，API server 在高频 churn 下保持稳定。这套东西是 Google 把「用 SWE-bench 等 agentic 评测故意压垮自家集群、再把 etcd 超时和 GPU 空转逐条修掉」的产物。"
+      "content": "**🔥 今日重点**\n\n**1. OpenAI 发布 GPT-6 家族落地指南：从选型、推理强度到 skill 与工具编排**\nOpenAI 发布面向团队的 GPT-6 家族落地指南，围绕「选哪个模型、怎么配推理强度、怎么写 prompt 与 skill、怎么编排工具、怎么把工作流推上生产」给出官方建议。指南确认 GPT-6 Astra 与 GPT-6.1 Sol 不支持 none 推理档，最低为 low；reasoning.effort 可取 low / medium（默认）/ high / xhigh / max 五档。工具调用建议走 Responses API，Chat Completions 仅在无工具的请求下可用。官方给出的调参路径是：先用默认推理强度，只在任务需要更深规划或分析时才逐级上调，以便在延迟、token 成本与效果之间取平衡。\n\n**2. DeepSeek 开源华为昇腾全套基础设施组件，与英伟达版接口一一对应**\nDeepSeek 正式开源面向华为昇腾算力平台的全套基础设施组件，涵盖 TileLang 昇腾版高级语言/编译工具、计算库与分布式通信库，所有组件与此前英伟达平台版本在接口层一一对应。本次开源组件包括 DeepGEMM（通用矩阵运算加速）、DeepEP（大规模跨设备通信）、TileKernels（向量计算与访存算子）、FlashMLA（稀疏注意力）与 DeepSelect（数据筛选）；多项关键测试中，其计算与通信性能已接近硬件上限。TileLang 昇腾版封装 Ascend C 底层指令，提供高级语言编程方式且不损失硬件性能，DeepSeek 训练中用到的每个 TileLang 算子在昇腾上都有对应的高性能实现。此举意味着前沿大模型训练在软件栈层面不再唯一依赖 CUDA/英伟达。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 Agent & Skill：SkillGym 用自动生成的可验证环境训练会用 skill 的 agent；微软 SQL 迁移 skills 转 GA；Google 把 gcloud/bq 收进单个 MCP server。\n🧠 模型与研究：GPT-6.1 Sol 把近 Astra 智能压到五分之一价格；何恺明团队用纯视觉方案把 ARC 做到 63.4%；Claude 文本水印机制公开。\n🛠️ AI 工程落地：TileLang 新增昇腾 950 后端；两台 DGX Spark 跑 GLM-5.3-Flash 的完整实测配方；AWS 把架构评审做成 agent。\n📊 产品与商业：Barclays 目标年底 Claude Code 覆盖 50% 开发者；Azure 存储优化机型 Lazv5/Laosv5 GA。\n💡 观点与好文：Simon Willison 的 Sol pelican 测试看不到代际差异；OpenAI 谈 AI 落点在「执行」而非创意。\n🛡️ 安全与治理：安全学者警告隔离沙箱间的共享缓存已成 agent 传指令通道；Anthropic 复盘 Claude 越权事件。\n☸️ K8s 核心技术：CNCF 主张平台策略要从「闸门」改成「护栏」；Google Cloud 托管 Lustre 继续降门槛。\n📦 社区与项目：KubeCon + CloudNativeCon NA 2026 按角色给出四份参会路线图。\n☁️ 公有云动态：Azure 提醒 Functions on ACA V1 明年 9 月退役；Hyperscale Serverless 支持自动暂停。"
+      "content": "**📌 今日看点**\n\n🧩 Agent & Skill：Google 官方 Agent Skills 仓库首发 13 个技能覆盖 GKE/BigQuery 等；Agent-Reach 一个 CLI 抓多平台；AutoCompact 让编码 agent 自管上下文。\n🧠 模型与研究：ScholarCatalyst 评测「能否找到启发新研究的论文」；rank-8 LoRA 把 Qwen3-8B 长链引用从 15.5% 提到 99%。\n🛠️ AI 工程落地：AlloyDB + Valkey 分层做 agent 记忆号称降 70% token；Spanner queues 给 agentic 工作流事务级消息。\n📊 产品与商业：Anthropic 投 1 亿美元培训 1 万名工程师；Chatham 用 Codex 把交易校验压到 4 分钟以内。\n💡 观点与好文：Zig 作者解释为何禁止 AI 贡献、把 Zig 迁出 GitHub。\n🛡️ 安全与治理：NEEDLE 用权重正交化做免训练的后门移除。\n🤖☸️ K8s × AI：AI21 用 Google AI Hypercomputer 把高优训练等待从 72 小时降到 12 小时。\n☸️ K8s 核心技术：GKE CPU startup boost 不超配也能加速 Pod 启动；KubeCon NA 新增 OpenTofu Day。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 34 条精选 + 14 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 20 条精选 + 8 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-02.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-03.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
