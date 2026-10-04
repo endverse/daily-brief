@@ -1,8 +1,9 @@
 {
+  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：{date}(如 2026年09月19日 · 星期六)、{issue}(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月03日 · 星期六 · 第014期",
+    "subtitle": "2026年10月04日 · 第015期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -10,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. OpenAI 发布 GPT-6 家族落地指南：从选型、推理强度到 skill 与工具编排**\nOpenAI 发布面向团队的 GPT-6 家族落地指南，围绕「选哪个模型、怎么配推理强度、怎么写 prompt 与 skill、怎么编排工具、怎么把工作流推上生产」给出官方建议。指南确认 GPT-6 Astra 与 GPT-6.1 Sol 不支持 none 推理档，最低为 low；reasoning.effort 可取 low / medium（默认）/ high / xhigh / max 五档。工具调用建议走 Responses API，Chat Completions 仅在无工具的请求下可用。官方给出的调参路径是：先用默认推理强度，只在任务需要更深规划或分析时才逐级上调，以便在延迟、token 成本与效果之间取平衡。\n\n**2. DeepSeek 开源华为昇腾全套基础设施组件，与英伟达版接口一一对应**\nDeepSeek 正式开源面向华为昇腾算力平台的全套基础设施组件，涵盖 TileLang 昇腾版高级语言/编译工具、计算库与分布式通信库，所有组件与此前英伟达平台版本在接口层一一对应。本次开源组件包括 DeepGEMM（通用矩阵运算加速）、DeepEP（大规模跨设备通信）、TileKernels（向量计算与访存算子）、FlashMLA（稀疏注意力）与 DeepSelect（数据筛选）；多项关键测试中，其计算与通信性能已接近硬件上限。TileLang 昇腾版封装 Ascend C 底层指令，提供高级语言编程方式且不损失硬件性能，DeepSeek 训练中用到的每个 TileLang 算子在昇腾上都有对应的高性能实现。此举意味着前沿大模型训练在软件栈层面不再唯一依赖 CUDA/英伟达。"
+      "content": "**🔥 今日重点**\n\n1. **Cloudflare 开源 cloudflare-os：把内部全员在用的 AI 生产力环境做成一套「操作系统」**\nCloudflare 开源了内部全员在用的 AI 生产力环境 cloudflare-os，源码托管在 GitHub。它提供三块能力：预置公司运作知识的 agent 聊天界面（可直接派活）、沙箱化的应用开发（让 agent 生成并安全分享「gadgets」小程序），以及名为 Gatekeepers 的安全框架（对 agent 行为施加护栏）。Cloudflare 称其大部分员工——从工程到销售——每天都在用它工作。…\n\n2. **别再给 Agent 一个「毛坯房」：把既有研发环境翻成 Agent 可用的 ADE（QCon 上海）**\n蚂蚁集团 Agent 工程师李俊将在 QCon 上海（10/22–24）分享《别再给 Agent 一个「毛坯房」了》。核心观察是：AI Coding 把个人写码效率抬高后，整条链路仍卡在联调——环境搭不齐、流量跑不准、问题查不清、环境养不住；他借阿姆达尔定律指出生码只占链路一部分，环境与验证才是新瓶颈。方案是把既有 DEV/Stable 研发环境「上翻」为 Agent 可用的 AI 研发环境（ADE）：以沙箱提供…"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 Agent & Skill：Google 官方 Agent Skills 仓库首发 13 个技能覆盖 GKE/BigQuery 等；Agent-Reach 一个 CLI 抓多平台；AutoCompact 让编码 agent 自管上下文。\n🧠 模型与研究：ScholarCatalyst 评测「能否找到启发新研究的论文」；rank-8 LoRA 把 Qwen3-8B 长链引用从 15.5% 提到 99%。\n🛠️ AI 工程落地：AlloyDB + Valkey 分层做 agent 记忆号称降 70% token；Spanner queues 给 agentic 工作流事务级消息。\n📊 产品与商业：Anthropic 投 1 亿美元培训 1 万名工程师；Chatham 用 Codex 把交易校验压到 4 分钟以内。\n💡 观点与好文：Zig 作者解释为何禁止 AI 贡献、把 Zig 迁出 GitHub。\n🛡️ 安全与治理：NEEDLE 用权重正交化做免训练的后门移除。\n🤖☸️ K8s × AI：AI21 用 Google AI Hypercomputer 把高优训练等待从 72 小时降到 12 小时。\n☸️ K8s 核心技术：GKE CPU startup boost 不超配也能加速 Pod 启动；KubeCon NA 新增 OpenTofu Day。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：claude-mem 给编码 agent 加跨会话持久记忆；生产级 RAG 开源课程；Argo-Bench / KaliBench 两个 agent 评测基准；快手用 Agentic AIGC 自动修复广告素材（QCon）。\n🧠 **模型与研究**：Where-OPD 合成场景多模态自蒸馏；LoopCD 近乎零成本解码循环 Transformer；The Missing Primitive 诊断数学推理；PyRUA-Lean 让机器人 agent 成功率 +14%、token −65%。\n💡 **观点与好文**：Simon Willison 主张按量计费的 agent / API 服务应给出「默认硬性预算上限」，而非软告警。\n🤖☸️ **K8s × AI**：上汽分享企业级 Agent Infra——以 K8s Agent Sandbox 做可信执行、OVN-Kubernetes 做多租户网络、Istio 做 L7 与身份治理（QCon 上海）。\n☸️ **K8s 核心技术**：KubeCon NA 2026（11/9–12 盐湖城）给出「用户 → 贡献者 → 维护者」参与路线图。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 20 条精选 + 8 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 5 大板块 12 条精选 + 7 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-03.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-04.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
