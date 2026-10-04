@@ -1,28 +1,28 @@
 ======================================================================
-处理报告  (原始 199 条)
+处理报告  (原始 146 条)
 ======================================================================
 
-① 过滤: 保留 154 条, 过滤掉 45 条
+① 过滤: 保留 128 条, 过滤掉 18 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] getsentry/sentry
-     ✗ [GitHub Trending] cursor/plugins
      ✗ [GitHub Trending] Effect-TS/effect
-     ✗ [GitHub Trending] pablostanley/yoinks
-     ✗ [GitHub 升星repo] youcci/playport
-     ✗ [GitHub 升星repo] facebookincubator/muse-gadget-sdk
-     ✗ [GitHub 升星repo] x4gpanell/SuperJinX
-     ✗ [GitHub 升星repo] idlerunner00/procedural-pixel-creatures
+     ✗ [GitHub Trending] pingdotgg/t3code
+     ✗ [GitHub Trending] getsentry/sentry
+     ✗ [GitHub Trending] meituan-longcat/LongCat-Video
+     ✗ [GitHub Trending] OpenCut-app/OpenCut
+     ✗ [Hacker News] Federal judge calls Flock 'indiscriminate mass sur
+     ✗ [Hacker News] Hole Punch: Sling your spaceship around gravitatio
+     ✗ [Hacker News] Kolibri: A Sovereign Open-Weight Model
 
-② 去重: 154 → 139 条 (同批合并 4, 跨天历史去重 11)
+② 去重: 128 → 113 条 (同批合并 4, 跨天历史去重 11)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] obra/superpowers
      ⏭️  [GitHub Trending] DietrichGebert/ponytail
+     ⏭️  [GitHub Trending] pbakaus/impeccable
+     ⏭️  [GitHub Trending] affaan-m/ECC
+     ⏭️  [GitHub Trending] JuliusBrussee/caveman
+     ⏭️  [GitHub Trending] Panniantong/Agent-Reach
+     ⏭️  [GitHub Trending] addyosmani/agent-skills
+     ⏭️  [GitHub Trending] obra/superpowers
      ⏭️  [GitHub Trending] mattpocock/skills
-     ⏭️  [GitHub Trending] NVIDIA/OpenShell
-     ⏭️  [GitHub Trending] heygen-com/hyperframes
-     ⏭️  [GitHub Trending] mksglu/context-mode
-     ⏭️  [GitHub Trending] colbymchenry/codegraph
-     ⏭️  [GitHub Trending] mvschwarz/openrig
    跨源合并的事件:
      ⇉ Keyword Harnesses Fail Open: A Cheap Dia  ← ['HuggingFace Papers', 'arXiv cs.AI']
      ⇉ ScholarCatalyst: A Benchmark for Retriev  ← ['HuggingFace Papers', 'arXiv cs.AI']
@@ -31,16 +31,15 @@
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 31 条 (含🔧开源 6)
+     - Agent & Skill: 21 条 (含🔧开源 2)
      - 观点与好文: 1 条
-     - 模型与研究: 63 条 (含🔧开源 4)
-     - AI 工程落地: 18 条 (含🔧开源 1)
+     - 模型与研究: 52 条 (含🔧开源 1)
+     - AI 工程落地: 17 条
      - 安全与治理: 6 条
-     - 产品与商业: 7 条
+     - 产品与商业: 8 条
    【基础设施】
-     - K8s × AI: 3 条
-     - K8s 核心: 8 条
-     - 社区与项目: 2 条
+     - K8s 核心: 7 条
+     - K8s × AI: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] A model guide for the GPT-6 family
