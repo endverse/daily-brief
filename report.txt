@@ -1,55 +1,48 @@
 ======================================================================
-处理报告  (原始 146 条)
+处理报告  (原始 104 条)
 ======================================================================
 
-① 过滤: 保留 128 条, 过滤掉 18 条
+① 过滤: 保留 78 条, 过滤掉 26 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] Effect-TS/effect
-     ✗ [GitHub Trending] pingdotgg/t3code
+     ✗ [GitHub Trending] tester-army/e2e
      ✗ [GitHub Trending] getsentry/sentry
-     ✗ [GitHub Trending] meituan-longcat/LongCat-Video
+     ✗ [GitHub Trending] pingdotgg/t3code
+     ✗ [GitHub Trending] caddyserver/caddy
      ✗ [GitHub Trending] OpenCut-app/OpenCut
-     ✗ [Hacker News] Federal judge calls Flock 'indiscriminate mass sur
-     ✗ [Hacker News] Hole Punch: Sling your spaceship around gravitatio
-     ✗ [Hacker News] Kolibri: A Sovereign Open-Weight Model
+     ✗ [GitHub 升星repo] kargulstudio/sales-crm
+     ✗ [GitHub 升星repo] BlackCrewmanFringe/AutoCad
+     ✗ [GitHub 升星repo] Blockadezoshack/Microsoft-Project
 
-② 去重: 128 → 113 条 (同批合并 4, 跨天历史去重 11)
+② 去重: 78 → 73 条 (同批合并 0, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] DietrichGebert/ponytail
      ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [GitHub Trending] affaan-m/ECC
-     ⏭️  [GitHub Trending] JuliusBrussee/caveman
+     ⏭️  [GitHub Trending] DietrichGebert/ponytail
      ⏭️  [GitHub Trending] Panniantong/Agent-Reach
      ⏭️  [GitHub Trending] addyosmani/agent-skills
-     ⏭️  [GitHub Trending] obra/superpowers
-     ⏭️  [GitHub Trending] mattpocock/skills
-   跨源合并的事件:
-     ⇉ Keyword Harnesses Fail Open: A Cheap Dia  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ ScholarCatalyst: A Benchmark for Retriev  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Where-OPD: Spatially Guided On-Policy Se  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Decoding Looped Transformers Better for   ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] thedotmack/claude-mem
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 21 条 (含🔧开源 2)
-     - 观点与好文: 1 条
-     - 模型与研究: 52 条 (含🔧开源 1)
-     - AI 工程落地: 17 条
-     - 安全与治理: 6 条
-     - 产品与商业: 8 条
+     - Agent & Skill: 20 条 (含🔧开源 11)
+     - 模型与研究: 27 条
+     - AI 工程落地: 14 条 (含🔧开源 3)
+     - 安全与治理: 5 条
+     - 观点与好文: 1 条 (含🔧开源 1)
+     - 产品与商业: 3 条
    【基础设施】
-     - K8s 核心: 7 条
+     - K8s 核心: 2 条
      - K8s × AI: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] A model guide for the GPT-6 family
         源:OpenAI News 类:Agent & Skill 跨源:[]
-     🔥 [18分] ScholarCatalyst: A Benchmark for Retrieving Papers That
-        源:HuggingFace Papers 类:模型与研究 跨源:['HuggingFace Papers', 'arXiv cs.AI']
+     🔥 [16分] Barclays scales Claude to upgrade operations and improv
+        源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
       19分 [OpenAI News ] A model guide for the GPT-6 family
-      18分 [HuggingFace Papers] ScholarCatalyst: A Benchmark for Retrieving P
-      16分 [OpenAI News ] Chatham scales its capital markets expertise 
-      16分 [OpenAI News ] The eternal complement
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
+      16分 [Anthropic News] Science Claude discovers a novel enzyme syste
+      16分 [Anthropic News] Funding better evaluations of AI’s impact on 
+      12分 [GitHub Trending] calesthio/OpenMontage
