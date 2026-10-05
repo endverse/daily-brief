@@ -3,7 +3,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月04日 · 第015期",
+    "subtitle": "2026年10月05日 · 星期一 · 第016期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n1. **Cloudflare 开源 cloudflare-os：把内部全员在用的 AI 生产力环境做成一套「操作系统」**\nCloudflare 开源了内部全员在用的 AI 生产力环境 cloudflare-os，源码托管在 GitHub。它提供三块能力：预置公司运作知识的 agent 聊天界面（可直接派活）、沙箱化的应用开发（让 agent 生成并安全分享「gadgets」小程序），以及名为 Gatekeepers 的安全框架（对 agent 行为施加护栏）。Cloudflare 称其大部分员工——从工程到销售——每天都在用它工作。…\n\n2. **别再给 Agent 一个「毛坯房」：把既有研发环境翻成 Agent 可用的 ADE（QCon 上海）**\n蚂蚁集团 Agent 工程师李俊将在 QCon 上海（10/22–24）分享《别再给 Agent 一个「毛坯房」了》。核心观察是：AI Coding 把个人写码效率抬高后，整条链路仍卡在联调——环境搭不齐、流量跑不准、问题查不清、环境养不住；他借阿姆达尔定律指出生码只占链路一部分，环境与验证才是新瓶颈。方案是把既有 DEV/Stable 研发环境「上翻」为 Agent 可用的 AI 研发环境（ADE）：以沙箱提供…"
+      "content": "**🔥 今日重点**\n\n1. **pstack-claude：把 Cursor 的严谨 agent 工作流移植到 Claude Code / Codex / Pi 等 harness**\n把 Lauren Tan 的 Cursor 技能栈 pstack 移植到 Claude Code、Codex、Pi、Gemini 等 harness，跟踪上游并把策略性改动登记为具名 fork（tools/forks.json）；入口 poteto-mode 按目标路由工作流，可按角色配置模型与推理强度，另配 TLA+ / Lean 验证插件。\n\n2. **把企业数仓沉淀为多智能体「可治理共享语义记忆」（QCon 上海）**\n卡奥斯余锦泽博士给出工业 agent 记忆的工程路径：六要素记忆 + verified/asserted/gap 三级置信；写入侧「大模型只提议、真实数据裁决」四道判据；冲突用时间轴校验 / 双源融合 / 对抗评审消解。实测只注入一半语义，正确率反而低于完全不注入。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：claude-mem 给编码 agent 加跨会话持久记忆；生产级 RAG 开源课程；Argo-Bench / KaliBench 两个 agent 评测基准；快手用 Agentic AIGC 自动修复广告素材（QCon）。\n🧠 **模型与研究**：Where-OPD 合成场景多模态自蒸馏；LoopCD 近乎零成本解码循环 Transformer；The Missing Primitive 诊断数学推理；PyRUA-Lean 让机器人 agent 成功率 +14%、token −65%。\n💡 **观点与好文**：Simon Willison 主张按量计费的 agent / API 服务应给出「默认硬性预算上限」，而非软告警。\n🤖☸️ **K8s × AI**：上汽分享企业级 Agent Infra——以 K8s Agent Sandbox 做可信执行、OVN-Kubernetes 做多租户网络、Istio 做 L7 与身份治理（QCon 上海）。\n☸️ **K8s 核心技术**：KubeCon NA 2026（11/9–12 盐湖城）给出「用户 → 贡献者 → 维护者」参与路线图。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — OpenMontage 用 700+ 技能文件把编码助手变视频工作室、marketingskills 营销技能包、JSON 生成动画架构图、Hermes 硬件 SDK\n🧠 **模型与研究** — OneStreamer 统一流式视频感知与主动记忆、Latent-Foresight 端到端可预测表征、CorrGRPO 修正多奖励归一化、Persona Dosing 可量化人格强度\n🛠️ **AI 工程落地** — antirez 的 DeepSeek 4 本地推理引擎（Metal / CUDA / ROCm）、MemFold 紧凑软记忆、边缘编排用 Jev 决策模型替掉 LLM\n📊 **产品与商业** — Meshy ARR 不到两年从 100 万做到 1 亿美元\n💡 **观点与好文** — YC 总裁 Garry Tan 公开自己的 Claude Code 全套配置（23 个角色工具）\n🛡️ **安全与治理** — OpenAI 安全团队再震荡：负责人离职、三人因泄密被解雇"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 5 大板块 12 条精选 + 7 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 6 大板块 15 条精选 + 8 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-04.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-05.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
