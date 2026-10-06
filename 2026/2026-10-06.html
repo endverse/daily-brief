@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 10 月 06 日 · 星期二</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 017 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 10 月 06 日 · 星期二</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的焦点在基础设施：Kubernetes 官方给出 Local SSD 支撑的节点 swap 基准（v1.34 已 GA），在 agent 沙盒类负载上把 pod 密度最高提到 3 倍；DeepSeek 则公开了 Agent 沙盒平台 DSec 的工程细节，单套分片日服务约 300 万个沙盒、资源超卖超 50 倍。模型侧 Reflection 放出 501B 开源权重模型 Beam，agent 侧则有 Bedrock 托管 Agent 公测、Leviathan 这类把检索外包给确定性索引的记忆方案，以及 Anthropic 把 Cowork 从本地 VM 迁到云端沙盒的架构换代。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/" target="_blank" rel="noopener">Kubernetes 官方实测节点 swap：Local SSD 支撑下 agent 沙盒 pod 密度最高提升 3 倍</a></h2>
+    <p>Kubernetes 官方博客给出在节点上启用 swap 的基准方法：节点 swap 支持已在 v1.34 GA，配合高速 NVMe Local SSD，内核可把休眠内存换出，从而在同一台机器上跑更多 pod。文章测了三类负载——Linux 内核 CI/CD 构建、无头 Chrome 沙盒（Kata / gVisor）、隔离 Python 沙盒（gVisor）。结果：内核构建把内存上限从 600MB 压到 300MB（-50%），Kata 下并发 pod 从 40 升到 50（+25%），gVisor 下 Chrome 从 80 升到 160（+100%），Python 沙盒从 80 升到 240（+200%，约 3×），多数场景延迟无明显代价。</p>
+    <div class="note">要点：① swap 支持在 v1.34 GA，能成立的关键前提是 cgroup v2 对 swap 独立记账、以及 NVMe SSD 消除换页延迟（旧版 cgroup v1 把内存与 swap 合并计量，导致用量不可预测）；② 动机正是 agentic 负载「启动吃大内存、之后长时间 idle 但内存仍需常驻」的形态，文中点名 agent-sandbox 框架；③ 密度收益：内核构建内存 -50%、Chrome Kata +25%、Chrome gVisor +100%、Python 沙盒 +200%。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.qbitai.com/2026/10/501381.html" target="_blank" rel="noopener">DeepSeek 披露 Agent 沙盒平台 DSec：单套分片日服务约 300 万沙盒，资源超卖超 50 倍</a></h2>
+    <p>DeepSeek 公开其 Agent 沙盒平台 DSec 的工程细节：一套扩展分片约 160 台服务器、3 万 CPU 核心、250TB 内存，每天服务约 300 万个沙盒，峰值约 38 万个沙盒同时在线，承载 V3.2 到 V4.1 的 Agent 训练、评测与数据预处理负载。它把环境拆成 base image（OS/基础软件）、workspace（任务代码依赖）、toolkit（如 DeepSeek Harness）三层各自版本化、创建时组合，避免工具一改就整镜像重建；镜像数据放 3FS、本地只留元数据按需读取——8192 容器并发测试从 60 多分钟降到约 35 分钟（1.71×），磁盘写入减少约 57%。资源侧，约 90% 沙盒平均 CPU 使用不足申请量的 5%，生产超卖率超过 50 倍；用 virtio-pmem + DAX 让同宿主机 MicroVM 共享页缓存，峰值内存降 40.2%，再用 DAMON + balloon 回收空闲页，累计内存再降 21.2%。</p>
+    <div class="note">要点：① 规模——160 台服务器 / 3 万核 / 250TB 内存，日约 300 万沙盒、峰值 38 万并发；② 环境三层拆分（base image / workspace / toolkit）+ 镜像按需加载（Agent 实际只访问镜像的 4.2%–13.3%），EROFS 挂载把工作区准备从 79 分钟压到 45 分钟；③ 资源侧 ~90% 沙盒 CPU 使用 &lt;5%、超卖 &gt;50 倍，virtio-pmem+DAX 与 DAMON+balloon 分别省内存 40.2% / 21.2%；④ 统一 FnCall / Container / MicroVM / Full VM 四种后端，并用 Agent 构建 Agent 的环境。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/elstongun/leviathan" target="_blank" rel="noopener">Leviathan：把数据集变成 agent 可查的排序全文索引，单二进制、每次作答约 450 token</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>elstongun/leviathan 是一个单文件二进制，把 JSONL/JSON/CSV/TSV/SQLite（或任意数据库 CLI 的导出）建成排序全文索引，agent 用自然语言提问即可拿到带引用的短结果卡。它在 100 万条记录（678MB）上对比「最佳 grep 策略」：中位每问 436 token 对 107,122 token（245×），Top-5 命中相关记录 99.0%、Rank-1 98.5%，中位延迟 33ms 对 92ms，最坏情况 602 token 对 9.7M token。它不持有任何数据库凭据（数据经各库自身 CLI 管道进来），索引就是一个 SQLite 文件，并提供 skills/leviathan 供拷进 ~/.claude/skills/，另有 MCP 模式（search / resolve_group / get / describe 四个只读工具）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">单二进制把任意表格/导出/日志建成排序全文索引，自然语言查询返回带引用结果卡（约 450 token）；支持 -g 分组检索、--where / --since / 短语与排除过滤，upsert/delete 增量刷新，可作 CLI+skill 或 MCP 接入 agent。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 面对大数据集只能 grep 再读原始历史，token 消耗爆炸（实测差 245×）且容易漏掉关键记录；上下文预算全被原始数据吃掉。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注 agent 上下文/成本治理的值得试——无运行时依赖、索引即一个 SQLite 文件、未使用时 0 token 成本；但它是确定性全文索引而非向量库，语义模糊检索能力有限，适合工单/台账/日志这类记录型数据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">Agent 记忆</span><a class="src" href="https://github.com/elstongun/leviathan" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-amazon-bedrock-managed-agents-powered-by-openai-q3-service-availability-updates-kiro-workflows-and-more-october-5-2026/" target="_blank" rel="noopener">AWS：Bedrock 托管 Agent（OpenAI 驱动）公测，并上架 GPT-6.1 Sol 等新模型</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AWS 上周宣布 Amazon Bedrock Managed Agents powered by OpenAI 进入公测：基于定制版 OpenAI Agents API，做成 AWS 原生并接入既有的身份、权限与治理控制；执行环境可选自托管算力（已有开发机、容器或计算环境）或 Bedrock AgentCore Runtime（托管运行时 + 你 AWS 账户内可配置存储）。同期 Bedrock 上架多款模型：GPT-6.1 Sol（称接近 GPT-6 Astra 但成本约 1/5）、GPT-6 Astra 的 UltraFast 模式（称 API 推理最高快 6×、约 300 token/秒）、Anthropic Claude Sonnet 5.5、SpaceXAI Grok 4.7（强化混合文档处理与 repo 级编码的规划/错误恢复）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 Bedrock 上托管运行 OpenAI 模型驱动的 agent：可复用 IAM 身份、权限与治理，执行环境在自托管算力与 AgentCore Runtime 之间可选，并同时把 GPT-6.1 Sol、GPT-6 Astra UltraFast、Claude Sonnet 5.5、Grok 4.7 纳入 Bedrock 模型目录。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业要在合规边界内跑 agent，既不想自建 agent 运行时，又希望沿用云上现有的身份/权限/审计体系；同时模型选择被单一供应商锁定。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">若你在评估「agent 运行时托管 vs 自建」，这是一条主流公有云的现成路线，值得对照 AgentCore 的能力边界与计费；注意它是 AWS 侧托管（含 OpenAI 模型），与本地/私有化 agent Infra 是两条不同取舍。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 平台</span><a class="src" href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-amazon-bedrock-managed-agents-powered-by-openai-q3-service-availability-updates-kiro-workflows-and-more-october-5-2026/" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/msitarzewski/agency-agents" target="_blank" rel="noopener">The Agency：把成套专业 agent 人格一键装进 Claude Code / Cursor / Codex 等 harness</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>msitarzewski/agency-agents 是一套按职能划分的 AI agent 人格集合（前端、社区运营、创意、现实校验等），每个 agent 文件包含身份与人格、核心任务与工作流、可交付物定义。它现在提供原生桌面 App（macOS/Linux/Windows，可 brew install --cask msitarzewski/agency-agents/agency-agents），用于浏览整套 roster 并一键安装到 Claude Code、Cursor、Codex、Gemini CLI、OpenCode、Qwen、Osaurus，且自动更新；也支持脚本安装（./scripts/install.sh --tool claude-code）或直接把 markdown 拷进 ~/.claude/agents/。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 markdown 文件组织的 agent 人格库，按职能分目录；桌面 App 可浏览整套 roster 并一键装进多种 harness，脚本方式支持只装某一类；每个 agent 定义人格、任务与工作流、可交付物。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">各家 harness 的 subagent / 角色配置格式不一，想复用一套按职能划分的角色资产得逐个手工迁移；且角色定义容易停留在空泛 prompt 模板。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">想快速给编码助手配一套「分工角色」的可以直接装来试，App 化安装降低了门槛；但它偏角色/流程编排而非硬能力，实际收益取决于你的工作流是否真需要多角色分工，值得与已有的 project rules / skill 体系对比后再引入。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">Agent 人格库</span><a class="src" href="https://github.com/msitarzewski/agency-agents" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.32046" target="_blank" rel="noopener">接收方条件化潜在通信：多 agent 协作的缓存开销据称降低约 94%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文针对多 agent 系统中「把大上下文分散到各 agent、靠通信协作」的场景：文本消息紧凑但需解码、且可能丢失接收方真正需要的证据，近期用潜在表示（latent）传递上下文的工作能保留更多信息。作者提出 Receiver-Conditioned Latent Communication，让通信按接收方条件化，据论文标题口径可获得约 94% 的缓存收益（CacheBack）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把多 agent 之间的上下文传递从文本消息改为「接收方条件化」的潜在表示，使接收方能直接复用所需的证据信息，而非先解码文本再补证。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多 agent 系统里文本通信要么信息有损、要么因解码与重复传递产生大量缓存/上下文开销，团队难以在「保真」与「省开销」之间取平衡。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做多 agent 编排、关心上下文/缓存成本的可以读原文看条件化机制的具体做法；属研究阶段、结论来自论文自测口径，工程可用性还需验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">多 Agent</span><a class="src" href="https://huggingface.co/papers/2609.32046" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://reflection.ai/blog/introducing-beam" target="_blank" rel="noopener">Reflection 发布 501B 开源权重模型 Beam：23B 激活稀疏 MoE，RL 用了 1.05 万张 GB300</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Reflection 发布其首个开源权重模型 Beam：稀疏 MoE，总参数 501B、激活 23B，面向编码、推理与 agentic 负载。预训练用了 23.8 万亿 token（含自有授权数据集）；并行开展的大算力 RL 在 1.05 万张 NVIDIA GB300 上、4 周训练里产生超过 1 亿次 rollout。公开榜单上 Beam 的 SWE-Bench Verified 80.9、Terminal Bench v2.1 80.1、SWE-Bench Pro v2-Hard 77.2、AIME 2026 97.8、HLE（无工具）36.2，官方称接近 Qwen 3.8-Max，优势在推理时效率。权重、技术报告与模型卡将在本月晚些发布，目前开放早期访问申请。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">501B 总参 / 23B 激活的稀疏 MoE 开源权重模型，面向编码与 agentic 任务，配合在 1.05 万张 GB300 上、4 周完成、超 1 亿次 rollout 的大规模 RL 训练流程。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">开源阵营要在编码/agentic 能力上逼近闭源前沿，同时控制推理成本；训练侧则需要能支撑高算力 RL 的环境与基础设施。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注开源模型前沿与「RL 训练基础设施」规模效应的值得留意，尤其 1 万卡级 GB300 的 RL 时长与 rollout 数据；但权重尚未放出、能力为厂商自测口径，真正评估需等模型卡与第三方复现。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">开源权重模型</span><a class="src" href="https://reflection.ai/blog/introducing-beam" target="_blank" rel="noopener">Reflection</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Oct/4/qwen38-addition-in-words/" target="_blank" rel="noopener">Qwen3.8 27B「用文字算加法」：模型能算对和，却给出错误的英文数词</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Simon Willison 记录 Colin Frasier 分享的一个实验：用 GPT-4o 让模型「算出和，但用英文单词写出答案」，结果模型能算对数值，却在把数字转成英文数词时出错。文章借此说明「模型内部能算对、只是在特定输出格式上失败」的现象，对评估与提示设计有直接含义。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">通过「要求用英文数词输出加法结果」的对照实验，暴露模型在数值计算与数字→数词转换之间的能力落差：中间计算正确、最终格式化输出错误。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">单看答案对错容易误判模型能力——同一模型可能「会算」却因输出格式要求而答错，给评测、U 型能力判断与提示设计带来干扰。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做模型评测/提示工程的值得一看，提醒在评测时区分「能力缺失」与「格式失败」；属短帖观察，非系统性研究。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型行为</span><a class="src" href="https://simonwillison.net/2026/Oct/4/qwen38-addition-in-words/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.03675" target="_blank" rel="noopener">FrugalEvo：把「成本」纳入 LLM 引导的程序进化</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文针对 AlphaEvolve 一类 LLM 引导的进化式程序优化（如圆堆积等困难计算优化问题）提出 FrugalEvo：以往方法通常只优化结果，忽略搜索过程的算力/调用成本，FrugalEvo 让搜索对成本敏感，在同等预算下做更划算的探索。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 LLM 引导的程序进化框架中加入成本感知：不只是追求最优解，还把搜索过程中的算力/token 开销纳入决策，使有限预算下的优化更高效。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">AlphaEvolve 类方法效果好但调用与算力成本高，缺乏「花多少换来多少」的显式权衡，预算受限时容易浪费在低效探索上。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注用 LLM 做自动化算法/程序优化的可留意其成本建模方式；属研究论文，落地价值取决于与你实际优化任务的匹配度。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">程序进化</span><a class="src" href="https://huggingface.co/papers/2610.03675" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2610.02710" target="_blank" rel="noopener">Self-Supervised Scaling：用自监督方式规模化构造终端 agent 的训练环境</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文指出终端 agent 已越来越多地部署到软件工程之外的科研等领域，而构造这类训练环境需要「可执行的参考行为」与领域知识，成本高、难规模化。作者提出自监督扩展方法来批量生成终端环境，降低对人工构造环境的依赖。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">面向终端 agent 的训练环境构造：以自监督方式规模化生成具备可执行参考行为的领域环境，摆脱逐个人工搭建。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">终端 agent 要走出软件工程、进入科学等专业领域，最大瓶颈是环境——需要真实可执行的参考行为与领域知识，人工构造既慢又贵。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做 agent 训练环境/评测集建设的值得看思路；属研究阶段，通用性（尤其专业领域的可执行性）仍需验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 训练环境</span><a class="src" href="https://huggingface.co/papers/2610.02710" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2609.26425" target="_blank" rel="noopener">QuantWM：面向视频世界模型的 2-bit KV Cache 量化</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文针对视频世界模型：它靠生成过程中保存 KV cache 来获得长程时序一致性，但 cache 随生成增长，KV 显存成为部署瓶颈。QuantWM 提出时间一致的 2-bit KV cache 量化，把显存占用压到低位宽，同时维持跨帧的时间一致性。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对视频世界模型的 KV cache 做 2-bit 量化，并保证量化在时间维度上一致，从而在保持长程时序一致性的前提下大幅降低 KV 显存。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">视频世界模型的 KV cache 随生成长度线性增长，显存成为部署瓶颈；而低位宽量化又容易破坏跨帧一致性。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做长视频/世界模型推理部署、关心显存与吞吐的值得关注其一致性保持手法；属论文结果，需在自有模型上验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">推理优化</span><a class="src" href="https://huggingface.co/papers/2609.26425" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">Business</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/10/501700.html" target="_blank" rel="noopener">OpenAI Codex 负责人承诺「28 天二选一」：要么每天一个明显改进，要么重置额度</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>据报道，OpenAI Codex 负责人 Tibo 公开承诺接下来 28 天每天二选一：要么交付一项对大多数 Codex/Chat 用户明显有用的改进，要么做一次完整的额度重置。背景是他此前向用户征集「Codex 还缺什么」，并把工作锁定在简化产品、提高效率、突破性功能与新模型四个方向。量子位的报道同时梳理了用户的抱怨：DevDay 一次抛出 20 多项更新、重点不清；频繁且不可预测的额度重置反而打乱工作安排；以及模型任务中途断连等体验问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">面向 Codex/Chat 用户的公开服务承诺：28 天内每天提供一项「对大多数用户明显有用」的改进，或执行一次完整额度重置；改进口径包含修 Bug 到新发布。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">用户对频繁、不可预测的额度重置与产品更新失焦不满——重置打乱工作节奏，更新太多反而找不到重点，真正的痛点是稳定性与体验一致性。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">日常重度使用 Codex/编码 agent 的值得留意这条「服务节奏」信号（也能侧面看竞品压力，报道提到 Claude/Grok 相关方的公开互呛）；属产品与舆论动态，不含技术细节。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">产品动态</span><a class="src" href="https://www.qbitai.com/2026/10/501700.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/new-chatgpt-ads-format-and-measurement" target="_blank" rel="noopener">OpenAI 为 ChatGPT 推出新的视觉广告格式，并扩展衡量与品牌适配工具</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 宣布在 ChatGPT 中引入新的视觉广告格式，同时扩展面向广告主的衡量工具、归因合作与品牌适配（brand suitability）能力。报道口径聚焦广告形态与效果度量体系的变化。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 ChatGPT 内投放新的视觉广告位，配套提供效果衡量、归因合作与品牌适配工具，形成从展示到度量的闭环。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">对话式 AI 广告缺乏成熟的展示形态与效果度量/品牌安全机制，广告主难以判断投放效果与风险。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注 AI 产品商业化路径的可留意其广告形态与度量口径；与技术选型无直接关系。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">商业模式</span><a class="src" href="https://openai.com/index/new-chatgpt-ads-format-and-measurement" target="_blank" rel="noopener">OpenAI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">Reading</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Oct/5/felix-rieseberg/" target="_blank" rel="noopener">Felix Rieseberg 谈 Claude Cowork 架构换代：从本地 VM 改为云端沙盒</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Simon Willison 收录了 Anthropic 的 Felix Rieseberg 的一段说明：旧版 Cowork 在云端做模型推理，但把工具调用执行在「随桌面端下发的 Anthropic 提供的 VM」里——加这个本地 VM 是为了能力、安全与安全边界，只把用户显式加入会话的数据映射进去。用户喜欢 Claude 能做到的事，但不喜欢本地跑 VM 的磁盘、续航与性能代价，也受不了「合上笔记本工作就停」。新版把模型推理和 VM 都搬到云端，每个会话独占一个沙箱、不与其他会话共享状态；当 VM 需要用户设备上的东西（如某个文件），由桌面 App 负责那次文件访问的工具调用。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">记录 Anthropic 把 Cowork 的执行架构从「云端推理 + 本地 VM 执行工具调用」迁移到「推理与 VM 都在云端」，每个会话独立沙箱、互不共享状态，设备侧文件访问改由桌面 App 以工具调用形式代理。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">本地 VM 带来磁盘/续航/性能负担，且合盖即中断；同时沙箱隔离与「只映射用户显式加入的数据」是安全前提，需要在不牺牲隔离性的前提下把负载搬到云端。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做桌面 agent / 会话沙箱隔离设计的很值得读——这是主流厂商在「端侧执行 vs 云端沙箱隔离」上的一次明确取舍，与多会话上下文隔离、设备侧能力代理的设计直接相关。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 架构</span><a class="src" href="https://simonwillison.net/2026/Oct/5/felix-rieseberg/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/eu-text-provenance" target="_blank" rel="noopener">OpenAI 谈 EU 文本溯源规则：水印用在哪、检测怎么做</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 发布博文说明其在欧盟文本溯源（provenance）规则下的做法：介绍水印在哪些场景适用、检测如何工作，以及为何访问权限先从研究者开放。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出面向欧盟文本溯源规则的水印方案：明确水印的适用范围、检测机制，并采用「先向研究者开放访问」的渐进策略。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">AI 生成文本在欧盟面临溯源合规要求，但水印的可用范围、检测可靠性与开放节奏缺乏统一实践。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注 AI 合规与内容溯源的值得了解其策略口径；技术细节有限，偏政策与产品说明。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">合规</span><a class="src" href="https://openai.com/index/eu-text-provenance" target="_blank" rel="noopener">OpenAI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">Safety &amp; Governance</span></div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://research.google/blog/open-and-emergent-problems-in-agentic-privacy-and-security-a-contextual-angle/" target="_blank" rel="noopener">Google Research 发布 Agentic 隐私与安全研讨会报告：50+ 专家、四层协同防御</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Research 发布研讨会报告《Open and Emergent Problems in Agentic Privacy and Security: A Contextual Angle》，来自 2025 年底在纽约举行的 Google Contextual Agent Privacy and Security (CAPS) Workshop，汇集 50 余位学界与业界专家。报告以「情境完整性（Contextual Integrity）」理论为框架，梳理自主 agent 面临的基础隐私与安全问题，指出需要系统、模型、用户与生态四个层面协同防御；并给出 agent 区别于传统确定性软件的三个维度：非结构化接口与输入歧义等。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以情境完整性理论为框架的研究议程报告：从系统、模型、用户、生态四个层面，列出自主 agent 的隐私与安全开放问题，并归纳 agent 相对传统确定性软件的三类差异（如非结构化接口与输入歧义）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 要真正有用就得接触个人数据、并跨多种情境执行有后果的动作，行为又高度灵活，传统软件的安全模型（确定性、可静态验证）不再适用。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做企业 agent 隔离/权限治理的值得按框架自查——它把问题拆到系统/模型/用户/生态四层，适合用来对齐「网络管控 + 身份治理 + 数据最小化」这类设计；属研究议程，非可直接落地的方案。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 安全</span><a class="src" href="https://research.google/blog/open-and-emergent-problems-in-agentic-privacy-and-security-a-contextual-angle/" target="_blank" rel="noopener">Google Research</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://www.techspot.com/news/114091-florida-woman-used-claude-diary-anthropic-reported-shoot.html" target="_blank" rel="noopener">Anthropic 向警方报告用户日记内容，当事人面临重罪指控（HN 500 分）</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Hacker News 上 500 分、435 条讨论的条目：TechSpot 报道一名佛罗里达女性把 Claude 当作日记使用并涉及一起枪击相关内容，Anthropic 将该日记内容报告给了警方，当事人因此面临重罪指控。讨论集中在 AI 服务的用户数据保密边界、供应商主动披露的触发条件与合规/道德张力。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一起引发广泛讨论的事件：用户把 AI 助手当私人日记使用，其内容被模型提供方报告给执法机构，当事人面临重罪指控；讨论聚焦 AI 服务的保密承诺边界与主动披露的触发条件。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">用户常把 AI 当作高信任度的私人记录工具，但服务条款与安全机制允许供应商在特定情形下主动披露内容，二者之间存在预期落差。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注 AI 数据治理与企业合规边界的值得了解——它直接关系到企业内部用 agent 处理敏感数据时的披露与审计预期；属媒体事件，事实细节以报道为准。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">AI 治理争议</span><a class="src" href="https://www.techspot.com/news/114091-florida-woman-used-claude-diary-anthropic-reported-shoot.html" target="_blank" rel="noopener">Hacker News</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span><span class="sec-en">K8s Core</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/10/05/kubelet-watches-inodes-just-not-until-its-an-emergency/" target="_blank" rel="noopener">Kubelet 其实会看 inode，只是要等到「快满」才动手</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CNCF 博文剖析一次真实的 inode 告警：节点触发 NodeFilesystemFilesFillingUp，直觉会先看磁盘——83% 已用、剩 22G，再看 inode 才 67% 已用、剩 530 万。作者指出这并不矛盾：该告警基于 predict_linear，报的是增长速度（斜率）而非当前水位，67% 本身没问题，问题是在多快逼近上限；而 kubelet 里唯一会介入的机制是驱逐。文章据此澄清 kubelet 到底看什么：镜像垃圾回收只看字节百分比（imageGCHighThresholdPercent 默认 85，降到 80），从不看文件数；但 Linux 的默认硬驱逐信号里确实包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%（Windows 与其他平台的默认文件则没有 inode 阈值）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">厘清 kubelet 对 inode 的真实处理路径：image GC 仅按字节百分比（85/80）回收、不看文件数，而 Linux 默认硬驱逐信号包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%，并解释 predict_linear 类告警为何按斜率触发。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">inode 耗尽与磁盘写满是两种不同故障，但运维惯性只盯 df -h 的磁盘百分比，容易漏掉文件数增长这个真正逼近的上限；等 inode 真满时唯一兜底是驱逐 pod。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">负责集群节点运维的直接有用：把「同时看 df -h 与 df -i」变成例行检查项，并按平台确认默认驱逐信号是否含 inode 阈值（Linux 有、Windows/其他没有）；具体阈值随版本变化，需对照自家 kubelet 版本核对。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">K8s 运维</span><a class="src" href="https://www.cncf.io/blog/2026/10/05/kubelet-watches-inodes-just-not-until-its-an-emergency/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☁️</span><span class="sec-title">公有云动态</span><span class="sec-en">Cloud</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/infrastructure-modernization/google-cloud-modernize-accelerate-transformation-with-ai/" target="_blank" rel="noopener">Google Cloud Modernize：端到端的「AI 加速现代化改造」产品组合</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 发布 Google Cloud Modernize，定位为端到端的转型产品组合，目标是用 AI 帮企业把原本需要多年的改造路线图压缩完成。报道口径把它描述为整合多项 Google Cloud 能力的现代化改造方案。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把现代化改造相关的多项 Google Cloud 能力打包成端到端组合，主打以 AI 加速企业既有改造路线图的落地。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业上云的现代化改造涉及迁移、重构、数据与应用改造等多环节，周期长、牵涉面广，难以一站式推进。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">与具体 K8s/技术选型关联较弱的厂商产品动态；若在用 GCP 做改造可关注其能力范围，否则了解即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">云厂商</span><a class="src" href="https://cloud.google.com/blog/products/infrastructure-modernization/google-cloud-modernize-accelerate-transformation-with-ai/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://huggingface.co/papers/2609.39394" target="_blank" rel="noopener">计算复用能否帮 LLM 解新题：同一会话中前序问题的计算对后续题目的影响（HF 13 热度）</a></li>
+      <li><a href="https://huggingface.co/papers/2610.03695" target="_blank" rel="noopener">会下棋也会解释的大模型：让 LM 兼顾棋力与走法解释</a></li>
+      <li><a href="https://huggingface.co/papers/2610.02381" target="_blank" rel="noopener">Latent-MOPD：多教师 on-policy 蒸馏，在潜在空间而非输出分布上迁移专家能力</a></li>
+      <li><a href="https://huggingface.co/papers/2610.02179" target="_blank" rel="noopener">From Gradients to Capabilities：拆解多教师 on-policy 蒸馏如何改变参数</a></li>
+      <li><a href="https://huggingface.co/papers/2609.33463" target="_blank" rel="noopener">SFT 的 token 重加权：抑制、反转与外推模型已学到特征的监督信号</a></li>
+      <li><a href="https://huggingface.co/papers/2610.03367" target="_blank" rel="noopener">Multilingual GSM-Symbolic：跨语言能力迁移由什么决定</a></li>
+      <li><a href="https://huggingface.co/papers/2608.26762" target="_blank" rel="noopener">同样的排序质量、不同的决策：测量并降低 LLM 打分器的顺序依赖</a></li>
+      <li><a href="https://huggingface.co/papers/2610.03240" target="_blank" rel="noopener">通过模型路由与协作做集体偏见缓解</a></li>
+      <li><a href="https://huggingface.co/papers/2610.00722" target="_blank" rel="noopener">JEPA-TTT：潜世界模型的持续测试时训练，应对动力学漂移下的规划</a></li>
+      <li><a href="https://huggingface.co/papers/2609.34826" target="_blank" rel="noopener">WM-VLM：探测视觉语言模型的内部世界模型，做交错的视觉-文本推理</a></li>
+      <li><a href="https://huggingface.co/papers/2609.32182" target="_blank" rel="noopener">KeyRec：为流式与长视频理解设计的有界视觉记忆</a></li>
+      <li><a href="https://huggingface.co/papers/2610.01780" target="_blank" rel="noopener">RealCompanion：基于长周期真实对话推理来评测「理解人」的能力</a></li>
+      <li><a href="https://huggingface.co/papers/2609.37925" target="_blank" rel="noopener">Rollout-Marginal 蒸馏：长时程自回归视频生成</a></li>
+      <li><a href="https://huggingface.co/papers/2609.34895" target="_blank" rel="noopener">LVMT：面向长期视频分割的视频掩码 Transformer</a></li>
+      <li><a href="https://github.com/shinshin86/mesh-avatar-studio" target="_blank" rel="noopener">mesh-avatar-studio：用编码 agent + 本地编辑器把一张插画变成会动的 2D 网格头像</a></li>
+      <li><a href="https://huggingface.co/papers/2609.30467" target="_blank" rel="noopener">检索式开放式评测何时失效：从长文医学答案事实核查自动归纳分类体系</a></li>
+      <li><a href="https://huggingface.co/papers/2609.38096" target="_blank" rel="noopener">Tail-Influence Sampling：面向 CVaR 的策略评估采样</a></li>
+      <li><a href="https://huggingface.co/papers/2609.38325" target="_blank" rel="noopener">模态动态字体：用字形自然振动模态做可读的语义动画</a></li>
+      <li><a href="https://huggingface.co/papers/2610.02772" target="_blank" rel="noopener">聚焦视图提升原子事实召回：非结构化知识编辑</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
