@@ -3,7 +3,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月05日 · 星期一 · 第016期",
+    "subtitle": "2026年10月06日 · 星期二 · 第017期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n1. **pstack-claude：把 Cursor 的严谨 agent 工作流移植到 Claude Code / Codex / Pi 等 harness**\n把 Lauren Tan 的 Cursor 技能栈 pstack 移植到 Claude Code、Codex、Pi、Gemini 等 harness，跟踪上游并把策略性改动登记为具名 fork（tools/forks.json）；入口 poteto-mode 按目标路由工作流，可按角色配置模型与推理强度，另配 TLA+ / Lean 验证插件。\n\n2. **把企业数仓沉淀为多智能体「可治理共享语义记忆」（QCon 上海）**\n卡奥斯余锦泽博士给出工业 agent 记忆的工程路径：六要素记忆 + verified/asserted/gap 三级置信；写入侧「大模型只提议、真实数据裁决」四道判据；冲突用时间轴校验 / 双源融合 / 对抗评审消解。实测只注入一半语义，正确率反而低于完全不注入。"
+      "content": "**🔥 今日重点**\n\n1. **Kubernetes 官方实测节点 swap：Local SSD 支撑下 agent 沙盒 pod 密度最高提升 3 倍**\\n节点 swap 支持已在 v1.34 GA，配合 NVMe Local SSD 可把休眠内存换出。官方三类负载基准：内核构建内存上限 600MB→300MB（-50%），无头 Chrome 在 Kata 下 40→50 pod、gVisor 下 80→160 pod，隔离 Python 沙盒 80→240 pod（+200%，约 3×），多数场景延迟无明显代价。\\n\\n2. **DeepSeek 披露 Agent 沙盒平台 DSec：单套分片日服务约 300 万沙盒，资源超卖超 50 倍**\\n一套分片约 160 台服务器 / 3 万核 / 250TB 内存，日约 300 万沙盒、峰值 38 万并发。环境拆成 base image / workspace / toolkit 三层，镜像经 3FS 按需加载（8192 容器并发 60+ 分钟降到约 35 分钟）；约 90% 沙盒 CPU 使用不足申请量 5%，靠 virtio-pmem+DAX 与 DAMON+balloon 分别省内存 40.2% / 21.2%。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — OpenMontage 用 700+ 技能文件把编码助手变视频工作室、marketingskills 营销技能包、JSON 生成动画架构图、Hermes 硬件 SDK\n🧠 **模型与研究** — OneStreamer 统一流式视频感知与主动记忆、Latent-Foresight 端到端可预测表征、CorrGRPO 修正多奖励归一化、Persona Dosing 可量化人格强度\n🛠️ **AI 工程落地** — antirez 的 DeepSeek 4 本地推理引擎（Metal / CUDA / ROCm）、MemFold 紧凑软记忆、边缘编排用 Jev 决策模型替掉 LLM\n📊 **产品与商业** — Meshy ARR 不到两年从 100 万做到 1 亿美元\n💡 **观点与好文** — YC 总裁 Garry Tan 公开自己的 Claude Code 全套配置（23 个角色工具）\n🛡️ **安全与治理** — OpenAI 安全团队再震荡：负责人离职、三人因泄密被解雇"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Leviathan 把数据集建成 agent 可查的排序索引（每次约 450 token）、Bedrock 托管 Agent（OpenAI 驱动）公测、The Agency 一键装成套 agent 人格、快手 DataAgent 落地\\n🧠 **模型与研究** — Reflection 发布 501B 开源权重 Beam（23B 激活、1.05 万张 GB300 跑 RL）、Qwen3.8 27B「用文字算加法」实验、FrugalEvo 把成本纳入程序进化\\n🛠️ **AI 工程落地** — 自监督规模化构造终端 agent 训练环境、QuantWM 给视频世界模型做 2-bit KV 量化\\n📊 **产品与商业** — OpenAI Codex 承诺「28 天二选一」、ChatGPT 新视觉广告格式与衡量体系\\n💡 **观点与好文** — Anthropic 把 Cowork 从本地 VM 迁到云端沙盒（每会话独立）、OpenAI 谈 EU 文本溯源水印\\n🛡️ **安全与治理** — Google 50+ 专家 agentic 隐私安全报告（四层协同防御）、Anthropic 报告用户日记内容引发争议\\n☸️ **K8s 核心技术** — Kubelet 其实会看 inode，只是要等到「快满」才动手\\n☁️ **公有云动态** — Google Cloud Modernize：端到端 AI 加速现代化改造组合"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 + 6 大板块 15 条精选 + 8 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 8 个分类 17 条精选 + 19 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-05.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-06.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
