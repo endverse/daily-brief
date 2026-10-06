@@ -1,56 +1,55 @@
 {
   "brand": "AI & 基础设施早报",
-  "date_label": "2026 年 10 月 05 日 · 星期一",
-  "issue": 16,
+  "date_label": "2026 年 10 月 06 日 · 星期二",
+  "issue": 17,
   "kicker": "DAILY",
   "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
-  "lead": "今天的主线是「agent 技能栈的规模化与跨 harness 化」。开源侧，Lauren Tan 的 pstack（原 Cursor 技能栈）被移植到 Claude Code / Codex / Pi 等 harness 并跟踪上游，OpenMontage 用 12 条管线、100+ 工具、700+ 技能文件把编码助手变成视频生产系统，marketingskills 则把 CRO、文案、SEO、增长工程沉淀成跨平台技能包。工程侧，卡奥斯在 QCon 上海分享把企业数仓沉淀为「可治理共享语义记忆」的完整工程路径，并给出「只注入一半语义、正确率反而低于不注入」的实测。研究侧集中在世界模型与长上下文：定长场景记忆 Honeycomb、端到端可预测表征 Latent-Foresight、统一感知与主动记忆的流式视频模型 OneStreamer。基础设施板块今日无新增（GKE 启动加速、Spanner queues 等已在近几期报过）。",
+  "lead": "今天的焦点在基础设施：Kubernetes 官方给出 Local SSD 支撑的节点 swap 基准（v1.34 已 GA），在 agent 沙盒类负载上把 pod 密度最高提到 3 倍；DeepSeek 则公开了 Agent 沙盒平台 DSec 的工程细节，单套分片日服务约 300 万个沙盒、资源超卖超 50 倍。模型侧 Reflection 放出 501B 开源权重模型 Beam，agent 侧则有 Bedrock 托管 Agent 公测、Leviathan 这类把检索外包给确定性索引的记忆方案，以及 Anthropic 把 Cowork 从本地 VM 迁到云端沙盒的架构换代。",
   "highlights": [
     {
-      "title": "pstack-claude：把 Cursor 的严谨 agent 工作流移植到 Claude Code / Codex / Pi 等 harness",
-      "url": "https://github.com/michael-denyer/pstack-claude",
-      "summary": "michael-denyer/pstack-claude 把 Lauren Tan（poteto）为 Cursor 写的技能栈 pstack 移植到 Claude Code、Codex、Pi、OpenCode、Gemini 等 agent harness，今日 GitHub Trending 新增 232 星。它并非一次性拷贝：仓库跟踪上游改进，并把每一处策略性改动以「具名 fork」形式登记在 tools/forks.json 中。装上后只需向入口 poteto-mode 描述目标，它就会自动调用对应工作流，目标是让产出代码保持「简洁、简单、可验证」。仓库另提供 setup-pstack 调整模型默认值与各角色的推理强度（例如把 arena runner 设为 opus @xhigh、fable @max）。对测试触及不到的并发缺陷与不变量，还配套插件 agent-formal-verify 引入 TLA+ 模型检查与 Lean 证明。",
-      "tag": "Agent 工作流",
-      "source": "GitHub Trending",
-      "oss": true,
-      "note": "要点：①移植对象是 Cursor 的技能栈 pstack，覆盖 Claude Code / Codex / Pi / OpenCode / Gemini / Prime Agent；②「跟踪上游 + 具名策略 fork」（tools/forks.json）；③入口是 poteto-mode 路由，可按角色配置模型与推理强度；④配套 agent-formal-verify 用 TLA+ / Lean 兜住并发与不变量。",
+      "title": "Kubernetes 官方实测节点 swap：Local SSD 支撑下 agent 沙盒 pod 密度最高提升 3 倍",
+      "url": "https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/",
+      "summary": "Kubernetes 官方博客给出在节点上启用 swap 的基准方法：节点 swap 支持已在 v1.34 GA，配合高速 NVMe Local SSD，内核可把休眠内存换出，从而在同一台机器上跑更多 pod。文章测了三类负载——Linux 内核 CI/CD 构建、无头 Chrome 沙盒（Kata / gVisor）、隔离 Python 沙盒（gVisor）。结果：内核构建把内存上限从 600MB 压到 300MB（-50%），Kata 下并发 pod 从 40 升到 50（+25%），gVisor 下 Chrome 从 80 升到 160（+100%），Python 沙盒从 80 升到 240（+200%，约 3×），多数场景延迟无明显代价。",
+      "tag": "K8s × AI",
+      "source": "Kubernetes Blog",
       "detail": [
         {
           "key": "能做什么",
-          "value": "把 Cursor 的 pstack 技能栈做成多 harness 通用插件：poteto-mode 按目标路由工作流，setup-pstack 配置每角色模型与推理强度，具名 fork 登记在 tools/forks.json，可叠加 TLA+ 模型检查 / Lean 证明插件 agent-formal-verify。"
+          "value": "文章给出 Local SSD 支撑的节点 swap 实测口径：以 v1.34 起 GA 的节点 swap 为底座，在 Linux 内核构建（600MB→300MB 上限）、无头 Chrome（Kata 40→50 pod、gVisor 80→160 pod）、隔离 Python 沙盒（80→240 pod）三类负载上量出内存与密度收益。"
         },
         {
           "key": "解决什么痛点",
-          "value": "优质 agent 工作流常被单一 harness（如 Cursor）锁定，换到 Claude Code / Codex 就得重搭；且普遍缺「跟踪上游改进 + 显式记录自家改动」的机制。"
+          "value": "agentic 负载启动需大内存、运行期大量 idle 但驻留内存不能释放，直接顶住单节点可容纳的 pod 数，让 AI 基础设施成本居高；设置内存 limit 太高浪费、太低触发 OOM。"
         },
         {
           "key": "值不值得",
-          "value": "用 Claude Code / Codex 做工程、想直接复用一套已被验证工作流的值得试；插件式安装（Claude Code 走 /plugin marketplace），收益取决于你与上游工作流风格的契合度。"
+          "value": "正在做 K8s 集群与 AI 负载接入的值得细读：给出的是可复现的容量规划口径（NVMe + cgroup v2 是硬前提）。注意 swap 只适合可容忍换页延迟的负载，对延迟敏感的在线服务仍应慎用。"
         }
-      ]
+      ],
+      "note": "要点：① swap 支持在 v1.34 GA，能成立的关键前提是 cgroup v2 对 swap 独立记账、以及 NVMe SSD 消除换页延迟（旧版 cgroup v1 把内存与 swap 合并计量，导致用量不可预测）；② 动机正是 agentic 负载「启动吃大内存、之后长时间 idle 但内存仍需常驻」的形态，文中点名 agent-sandbox 框架；③ 密度收益：内核构建内存 -50%、Chrome Kata +25%、Chrome gVisor +100%、Python 沙盒 +200%。"
     },
     {
-      "title": "把企业数仓沉淀为多智能体「可治理共享语义记忆」：写错的记忆比遗忘更危险（QCon 上海）",
-      "url": "https://www.infoq.cn/article/M4mgbKf4RDv5AKTwQvFH?utm_source=rss&utm_medium=article",
-      "summary": "卡奥斯 COSMOPlat 工业智能首席科学家余锦泽博士将在 QCon 上海（10/22–24）「Agent 自主进化：从记忆到持续学习」专题分享。他指出现有记忆框架（Mem0、Zep、Letta/MemGPT）解决的是「跨会话记住用户」，而工业多智能体缺的是「这家企业的数据语义」——比如指标的分子分母是什么、同一工单号在不同表里有几种写法，这些语义不在对话流里，而在数仓表结构、建表代码与工艺文档里，且没有外键、命名晦涩。他给出一个反直觉实测：只注入实体与关系、不带指标口径时，回答正确率反而低于完全不注入，模型会更自信地选错表。方案是把企业数仓沉淀为多智能体共享语义记忆：记忆分对象、关系、事件、指标、动作、场景六要素，每条带证据等级（数据验证 verified / 人工断言 asserted / 缺口 gap）。写入侧坚持「大模型只提议、真实数据裁决」，取值重叠度、子键唯一性、父键近似唯一、列名有据可依四道判据缺一不可；冲突用时间轴校验、双源融合（代码 JOIN 证据优先于命名推断）、对抗评审消解；结论是企业语义记忆是需要治理的资产——写入有裁决、冲突有消解、经验能沉淀、错误可撤销。",
-      "tag": "Agent 记忆",
-      "source": "InfoQ中国",
-      "note": "要点：①业界记忆框架解决「记住用户」，工业缺的是「企业数据语义」（指标口径、同名异表）；②实测半量语义注入比不注入更差——写错比遗忘更危险；③六要素 + 三级置信（verified/asserted/gap），verified 只能由数据裁决产生；④写入四道判据、冲突消解三招（时间轴校验 / 双源融合 / 对抗评审）；⑤踩坑：单日窗口会造成「时序假象」，采样窗口不足一律不写入。",
+      "title": "DeepSeek 披露 Agent 沙盒平台 DSec：单套分片日服务约 300 万沙盒，资源超卖超 50 倍",
+      "url": "https://www.qbitai.com/2026/10/501381.html",
+      "summary": "DeepSeek 公开其 Agent 沙盒平台 DSec 的工程细节：一套扩展分片约 160 台服务器、3 万 CPU 核心、250TB 内存，每天服务约 300 万个沙盒，峰值约 38 万个沙盒同时在线，承载 V3.2 到 V4.1 的 Agent 训练、评测与数据预处理负载。它把环境拆成 base image（OS/基础软件）、workspace（任务代码依赖）、toolkit（如 DeepSeek Harness）三层各自版本化、创建时组合，避免工具一改就整镜像重建；镜像数据放 3FS、本地只留元数据按需读取——8192 容器并发测试从 60 多分钟降到约 35 分钟（1.71×），磁盘写入减少约 57%。资源侧，约 90% 沙盒平均 CPU 使用不足申请量的 5%，生产超卖率超过 50 倍；用 virtio-pmem + DAX 让同宿主机 MicroVM 共享页缓存，峰值内存降 40.2%，再用 DAMON + balloon 回收空闲页，累计内存再降 21.2%。",
+      "tag": "Agent 基础设施",
+      "source": "量子位",
       "detail": [
         {
           "key": "能做什么",
-          "value": "把企业数仓沉淀为多智能体共享语义记忆的工程方法论：六要素记忆结构 + verified/asserted/gap 三级置信，写入侧「大模型只提议、真实数据裁决」（四道判据），冲突侧时间轴校验 / 双源融合 / 对抗评审，使用侧按对象锚定动态构建上下文。"
+          "value": "DSec 是面向 Agent 训练/评测的沙盒供给平台：分片级可扩，环境三层拆分各自版本化、创建时组合，镜像数据经自研 3FS 按需加载、本地只存元数据，四类执行后端覆盖从 FnCall 短任务到带 GUI 的 Full VM。"
         },
         {
           "key": "解决什么痛点",
-          "value": "对话式记忆框架搬不进工厂：真正要记的指标口径与表间语义不产生于对话，藏在数仓与文档里；且记忆污染会造成口径错账，比单纯遗忘更危险。"
+          "value": "Agent 沙盒负载高度稀疏（90% 沙盒 CPU 用不到申请量 5%）却必须常驻内存保存状态，加上创建请求突发、镜像复用率低，传统做法资源与镜像成本都被顶死。"
         },
         {
           "key": "值不值得",
-          "value": "做企业级 agent 平台、多租户记忆治理的高度相关，四道判据与三级置信可直接对照自家记忆层设计；偏架构与方法分享，具体实现需结合自家数仓落地。"
+          "value": "做 Agent 沙盒/多用户隔离基础设施的值得逐条看——把「环境分层 + 镜像按需 + 页缓存共享 + 分级调度」这套降本手段讲得很具体，可直接对照自建方案的成本结构；注意文中数据来自 DeepSeek 自研栈（3FS、DSec），并非可直接套用的开源组件。"
         }
-      ]
+      ],
+      "note": "要点：① 规模——160 台服务器 / 3 万核 / 250TB 内存，日约 300 万沙盒、峰值 38 万并发；② 环境三层拆分（base image / workspace / toolkit）+ 镜像按需加载（Agent 实际只访问镜像的 4.2%–13.3%），EROFS 挂载把工作区准备从 79 分钟压到 45 分钟；③ 资源侧 ~90% 沙盒 CPU 使用 <5%、超卖 >50 倍，virtio-pmem+DAX 与 DAMON+balloon 分别省内存 40.2% / 21.2%；④ 统一 FnCall / Container / MicroVM / Full VM 四种后端，并用 Agent 构建 Agent 的环境。"
     }
   ],
   "sections": [
@@ -63,111 +62,88 @@
           "en": "Agent & Skill",
           "items": [
             {
-              "title": "OpenMontage：首个开源 agentic 视频生产系统，700+ 技能文件把编码助手变视频工作室",
-              "url": "https://github.com/calesthio/OpenMontage",
-              "summary": "calesthio/OpenMontage 自称首个开源的 agentic 视频生产系统，今日 GitHub Trending 新增 245 星。它提供 12 条生产管线、100+ 工具，以及 700+ 个 agent skill 与 production-knowledge 文件，把 Claude Code 这类编码助手直接变成完整的视频生产环境（AGPLv3）。README 给出的入口很直接：粘贴一条你喜欢的视频作为参考，或用 Quick Start / 提示词起步，另附 Agent Guide 与 PR Review Guide，并用 docs/PROVIDERS.md 统一管理模型与工具供应商。它的看点不在渲染器本身，而在于把一整条专业制作流程拆成 agent 可调用、可组合的技能文件。",
-              "tag": "视频生产",
-              "source": "GitHub Trending",
-              "oss": true,
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "把视频生产拆成 12 条管线、100+ 工具与 700+ agent skill / 知识文件，由 Claude Code 等编码助手驱动，从参考视频、Quick Start 或提示词起步跑完整条制作流程。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "视频制作工具链碎片化、专业门槛高；agent 侧缺一套可调用、可组合、内置领域知识的技能资产。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "研究「agent skill 如何组织成大型领域能力库」的值得看，700+ 技能文件的分层与命名是可借鉴样本；AGPLv3 且依赖大量外部供应商，商业集成需先评估许可与成本。"
-                }
-              ]
-            },
-            {
-              "title": "marketingskills：把 CRO / 文案 / SEO / 增长工程沉淀成跨平台 agent 技能包",
-              "url": "https://github.com/coreyhaines31/marketingskills",
-              "summary": "coreyhaines31/marketingskills 是一组面向营销任务的 AI agent 技能，覆盖转化率优化（CRO）、文案、SEO、分析与增长工程，今日 GitHub Trending 新增 197 星。它按 Agent Skills 规范（agentskills.io）编写，可跑在 Claude Code、OpenAI Codex、Cursor、Windsurf 等支持该规范的 agent 上，MIT 许可。定位是给技术型营销者与创业者用，让编码 agent 直接承担营销工作。",
-              "tag": "营销技能",
-              "source": "GitHub Trending",
-              "oss": true,
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "按 Agent Skills 规范提供一组营销技能（CRO、文案、SEO、分析、增长工程），可跨 Claude Code / Codex / Cursor / Windsurf 等 harness 复用。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "营销工作流难沉淀为可复用资产，换个 agent 就要重写提示词与流程。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "做「非编码领域 skill 化」实践的值得参考其技能划分；营销专业性依赖作者经验，MIT 可自由改。"
-                }
-              ]
-            },
-            {
-              "title": "live-panel-skill：一份 JSON 生成会动的架构图，输出 MP4 或实时网页",
-              "url": "https://github.com/ythx-101/live-panel-skill",
-              "summary": "ythx-101/live-panel-skill（431 星）是配置驱动的动画架构图工具：把一份 JSON 变成终端风格的常驻动画，或浅色主题的动效信息图，输出 H.264 MP4 或可实时渲染的网页。它同时以 Claude Code 风格的 skill（带 SKILL.md）形式提供，便于 agent 直接调用生成。",
-              "tag": "架构图",
+              "title": "Leviathan：把数据集变成 agent 可查的排序全文索引，单二进制、每次作答约 450 token",
+              "url": "https://github.com/elstongun/leviathan",
+              "summary": "elstongun/leviathan 是一个单文件二进制，把 JSONL/JSON/CSV/TSV/SQLite（或任意数据库 CLI 的导出）建成排序全文索引，agent 用自然语言提问即可拿到带引用的短结果卡。它在 100 万条记录（678MB）上对比「最佳 grep 策略」：中位每问 436 token 对 107,122 token（245×），Top-5 命中相关记录 99.0%、Rank-1 98.5%，中位延迟 33ms 对 92ms，最坏情况 602 token 对 9.7M token。它不持有任何数据库凭据（数据经各库自身 CLI 管道进来），索引就是一个 SQLite 文件，并提供 skills/leviathan 供拷进 ~/.claude/skills/，另有 MCP 模式（search / resolve_group / get / describe 四个只读工具）。",
+              "tag": "Agent 记忆",
               "source": "GitHub 升星repo",
               "oss": true,
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "配置驱动的动画架构图：单份 JSON → 终端风常驻动画 / 浅色动效信息图，输出 H.264 MP4 或实时网页，并以 SKILL.md 形式供 agent 调用。"
+                  "value": "单二进制把任意表格/导出/日志建成排序全文索引，自然语言查询返回带引用结果卡（约 450 token）；支持 -g 分组检索、--where / --since / 短语与排除过滤，upsert/delete 增量刷新，可作 CLI+skill 或 MCP 接入 agent。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "架构图多为静态、依赖手动绘图工具，难以随配置更新，也不便由 agent 生成。"
+                  "value": "agent 面对大数据集只能 grep 再读原始历史，token 消耗爆炸（实测差 245×）且容易漏掉关键记录；上下文预算全被原始数据吃掉。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "常画架构图、想让 agent 直接产图的值得一试，与 JSON/配置流契合度高；属工具型 skill，样式可定制空间有限。"
+                  "value": "关注 agent 上下文/成本治理的值得试——无运行时依赖、索引即一个 SQLite 文件、未使用时 0 token 成本；但它是确定性全文索引而非向量库，语义模糊检索能力有限，适合工单/台账/日志这类记录型数据。"
                 }
               ]
             },
             {
-              "title": "hermes-gadget-sdk：给 Hermes Agent 造语音 / 文本硬件设备（ESP32 + Linux 客户端 + 模拟器）",
-              "url": "https://github.com/Adolanium/hermes-gadget-sdk",
-              "summary": "Adolanium/hermes-gadget-sdk（179 星，C++）是给 Hermes Agent 构建语音与文本设备的 SDK，包含 ESP32 固件、一个 Linux 客户端和一个桌面模拟器。它把「和 agent 对话」从手机 / 桌面延伸到自造硬件，方便在没有现成客户端的设备上接入。",
-              "tag": "硬件接入",
-              "source": "GitHub 升星repo",
+              "title": "AWS：Bedrock 托管 Agent（OpenAI 驱动）公测，并上架 GPT-6.1 Sol 等新模型",
+              "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-amazon-bedrock-managed-agents-powered-by-openai-q3-service-availability-updates-kiro-workflows-and-more-october-5-2026/",
+              "summary": "AWS 上周宣布 Amazon Bedrock Managed Agents powered by OpenAI 进入公测：基于定制版 OpenAI Agents API，做成 AWS 原生并接入既有的身份、权限与治理控制；执行环境可选自托管算力（已有开发机、容器或计算环境）或 Bedrock AgentCore Runtime（托管运行时 + 你 AWS 账户内可配置存储）。同期 Bedrock 上架多款模型：GPT-6.1 Sol（称接近 GPT-6 Astra 但成本约 1/5）、GPT-6 Astra 的 UltraFast 模式（称 API 推理最高快 6×、约 300 token/秒）、Anthropic Claude Sonnet 5.5、SpaceXAI Grok 4.7（强化混合文档处理与 repo 级编码的规划/错误恢复）。",
+              "tag": "Agent 平台",
+              "source": "InfoQ中国",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "在 Bedrock 上托管运行 OpenAI 模型驱动的 agent：可复用 IAM 身份、权限与治理，执行环境在自托管算力与 AgentCore Runtime 之间可选，并同时把 GPT-6.1 Sol、GPT-6 Astra UltraFast、Claude Sonnet 5.5、Grok 4.7 纳入 Bedrock 模型目录。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "企业要在合规边界内跑 agent，既不想自建 agent 运行时，又希望沿用云上现有的身份/权限/审计体系；同时模型选择被单一供应商锁定。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "若你在评估「agent 运行时托管 vs 自建」，这是一条主流公有云的现成路线，值得对照 AgentCore 的能力边界与计费；注意它是 AWS 侧托管（含 OpenAI 模型），与本地/私有化 agent Infra 是两条不同取舍。"
+                }
+              ]
+            },
+            {
+              "title": "The Agency：把成套专业 agent 人格一键装进 Claude Code / Cursor / Codex 等 harness",
+              "url": "https://github.com/msitarzewski/agency-agents",
+              "summary": "msitarzewski/agency-agents 是一套按职能划分的 AI agent 人格集合（前端、社区运营、创意、现实校验等），每个 agent 文件包含身份与人格、核心任务与工作流、可交付物定义。它现在提供原生桌面 App（macOS/Linux/Windows，可 brew install --cask msitarzewski/agency-agents/agency-agents），用于浏览整套 roster 并一键安装到 Claude Code、Cursor、Codex、Gemini CLI、OpenCode、Qwen、Osaurus，且自动更新；也支持脚本安装（./scripts/install.sh --tool claude-code）或直接把 markdown 拷进 ~/.claude/agents/。",
+              "tag": "Agent 人格库",
+              "source": "GitHub Trending",
               "oss": true,
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "为 Hermes Agent 构建语音 / 文本终端设备：ESP32 固件 + Linux 客户端 + 桌面模拟器三件套。"
+                  "value": "以 markdown 文件组织的 agent 人格库，按职能分目录；桌面 App 可浏览整套 roster 并一键装进多种 harness，脚本方式支持只装某一类；每个 agent 定义人格、任务与工作流、可交付物。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "Agent 入口被限制在既有客户端，想做成独立硬件或嵌入设备时缺现成 SDK。"
+                  "value": "各家 harness 的 subagent / 角色配置格式不一，想复用一套按职能划分的角色资产得逐个手工迁移；且角色定义容易停留在空泛 prompt 模板。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "想把 agent 接入实体设备 / 自造终端的可以研究其固件与协议；属硬件向项目，需 ESP32 与嵌入式基础。"
+                  "value": "想快速给编码助手配一套「分工角色」的可以直接装来试，App 化安装降低了门槛；但它偏角色/流程编排而非硬能力，实际收益取决于你的工作流是否真需要多角色分工，值得与已有的 project rules / skill 体系对比后再引入。"
                 }
               ]
             },
             {
-              "title": "JevSpawn：用「组合式动作空间」做自适应 agent 推理，降低长交互开销",
-              "url": "https://huggingface.co/papers/2610.00437",
-              "summary": "论文 JevSpawn 针对 LLM agent 逐 token 生成推理与动作、长交互慢且贵的问题，提出用 Jev 式模型在有限动作集合上做快速概率预测，从而组合出自适应 agentic 推理的动作空间。",
-              "tag": "Agent 推理",
+              "title": "接收方条件化潜在通信：多 agent 协作的缓存开销据称降低约 94%",
+              "url": "https://huggingface.co/papers/2609.32046",
+              "summary": "论文针对多 agent 系统中「把大上下文分散到各 agent、靠通信协作」的场景：文本消息紧凑但需解码、且可能丢失接收方真正需要的证据，近期用潜在表示（latent）传递上下文的工作能保留更多信息。作者提出 Receiver-Conditioned Latent Communication，让通信按接收方条件化，据论文标题口径可获得约 94% 的缓存收益（CacheBack）。",
+              "tag": "多 Agent",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "以组合式动作空间替代逐步 token 生成，用 Jev 式模型对有限动作集合做快速概率预测，实现自适应的 agentic 推理。"
+                  "value": "把多 agent 之间的上下文传递从文本消息改为「接收方条件化」的潜在表示，使接收方能直接复用所需的证据信息，而非先解码文本再补证。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "agent 逐步产生中间推理与动作，长交互下延迟与算力开销高。"
+                  "value": "多 agent 系统里文本通信要么信息有损、要么因解码与重复传递产生大量缓存/上下文开销，团队难以在「保真」与「省开销」之间取平衡。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做 agent 推理延迟 / 成本优化的值得跟进；属方法研究，需自建模型与评测。"
+                  "value": "做多 agent 编排、关心上下文/缓存成本的可以读原文看条件化机制的具体做法；属研究阶段、结论来自论文自测口径，工程可用性还需验证。"
                 }
               ]
             }
@@ -179,86 +155,65 @@
           "en": "Models & Research",
           "items": [
             {
-              "title": "OneStreamer：把流式视频交互的感知、记忆与主动响应统一进一个生成过程",
-              "url": "https://huggingface.co/papers/2610.01762",
-              "summary": "论文 OneStreamer 面向流式视频 LLM：这类模型必须在还不知道证据将来是否有用时先把它留住，并在证据足够时主动作答。OneStreamer 用共享的「主动生成」过程联合学习「与查询无关的证据记录」与任务响应，其 Proactive Hierarchical Caption Memory（PHCM）产出带时间定位的局部细节字幕与段落摘要，在 HuggingFace 获 165 赞。",
-              "tag": "流式视频",
-              "source": "HuggingFace Papers",
+              "title": "Reflection 发布 501B 开源权重模型 Beam：23B 激活稀疏 MoE，RL 用了 1.05 万张 GB300",
+              "url": "https://reflection.ai/blog/introducing-beam",
+              "summary": "Reflection 发布其首个开源权重模型 Beam：稀疏 MoE，总参数 501B、激活 23B，面向编码、推理与 agentic 负载。预训练用了 23.8 万亿 token（含自有授权数据集）；并行开展的大算力 RL 在 1.05 万张 NVIDIA GB300 上、4 周训练里产生超过 1 亿次 rollout。公开榜单上 Beam 的 SWE-Bench Verified 80.9、Terminal Bench v2.1 80.1、SWE-Bench Pro v2-Hard 77.2、AIME 2026 97.8、HLE（无工具）36.2，官方称接近 Qwen 3.8-Max，优势在推理时效率。权重、技术报告与模型卡将在本月晚些发布，目前开放早期访问申请。",
+              "tag": "开源权重模型",
+              "source": "Reflection",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "统一感知、记忆与主动响应的流式视频模型：共享生成过程同时学「与查询无关的证据记录」与任务应答，PHCM 记忆产出时间定位的细粒度字幕与摘要。"
+                  "value": "501B 总参 / 23B 激活的稀疏 MoE 开源权重模型，面向编码与 agentic 任务，配合在 1.05 万张 GB300 上、4 周完成、超 1 亿次 rollout 的大规模 RL 训练流程。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "流式场景下证据的相关性事前未知，实时感知与长期记忆互相挤占，难以两全。"
+                  "value": "开源阵营要在编码/agentic 能力上逼近闭源前沿，同时控制推理成本；训练侧则需要能支撑高算力 RL 的环境与基础设施。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做实时视频理解 / 主动式多模态 agent 的值得精读；属新方法，落地需流式数据与工程支持。"
+                  "value": "关注开源模型前沿与「RL 训练基础设施」规模效应的值得留意，尤其 1 万卡级 GB300 的 RL 时长与 rollout 数据；但权重尚未放出、能力为厂商自测口径，真正评估需等模型卡与第三方复现。"
                 }
               ]
             },
             {
-              "title": "Latent-Foresight：端到端学习「可预测表征」，替代两阶段潜世界模型",
-              "url": "https://huggingface.co/papers/2610.01942",
-              "summary": "论文 Latent-Foresight 针对潜世界模型（latent world model）的主流做法：先用 PCA 或独立训练的自编码器压缩视觉基础模型（VFM）特征，再单独训练预测器——这种两阶段流程让表征未必有利于预测。Latent-Foresight 改为端到端学习「可预测的表征」，让未来场景演化预测更准。",
-              "tag": "世界模型",
-              "source": "HuggingFace Papers",
+              "title": "Qwen3.8 27B「用文字算加法」：模型能算对和，却给出错误的英文数词",
+              "url": "https://simonwillison.net/2026/Oct/4/qwen38-addition-in-words/",
+              "summary": "Simon Willison 记录 Colin Frasier 分享的一个实验：用 GPT-4o 让模型「算出和，但用英文单词写出答案」，结果模型能算对数值，却在把数字转成英文数词时出错。文章借此说明「模型内部能算对、只是在特定输出格式上失败」的现象，对评估与提示设计有直接含义。",
+              "tag": "模型行为",
+              "source": "Simon Willison",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "端到端学习面向预测的表征，替代「先固定降维、再训预测器」的两阶段潜世界模型流程。"
+                  "value": "通过「要求用英文数词输出加法结果」的对照实验，暴露模型在数值计算与数字→数词转换之间的能力落差：中间计算正确、最终格式化输出错误。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "两阶段里压缩器与预测器目标不一致，所得表征对下游预测未必最优。"
+                  "value": "单看答案对错容易误判模型能力——同一模型可能「会算」却因输出格式要求而答错，给评测、U 型能力判断与提示设计带来干扰。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做世界模型 / 具身预测的值得看其表征学习设计；属研究，需 VFM 与仿真环境。"
+                  "value": "做模型评测/提示工程的值得一看，提醒在评测时区分「能力缺失」与「格式失败」；属短帖观察，非系统性研究。"
                 }
               ]
             },
             {
-              "title": "CorrGRPO：按协方差归一化多奖励，修正 GRPO 的优势缩放偏差",
-              "url": "https://huggingface.co/papers/2609.36820",
-              "summary": "论文 CorrGRPO 分析 GRPO（广泛用于训练推理模型）在多奖励下的问题：GRPO 把各奖励分量相加后用组内标准差归一化总奖励，而总方差等于所有两两奖励协方差之和——因此固定中心化奖励下，协方差越大优势越小，训练信号被系统性扭曲。CorrGRPO 据此对归一化引入相关性修正。",
-              "tag": "RL 训练",
+              "title": "FrugalEvo：把「成本」纳入 LLM 引导的程序进化",
+              "url": "https://huggingface.co/papers/2610.03675",
+              "summary": "论文针对 AlphaEvolve 一类 LLM 引导的进化式程序优化（如圆堆积等困难计算优化问题）提出 FrugalEvo：以往方法通常只优化结果，忽略搜索过程的算力/调用成本，FrugalEvo 让搜索对成本敏感，在同等预算下做更划算的探索。",
+              "tag": "程序进化",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "对 GRPO 的多奖励归一化做协方差修正：指出总方差 = 奖励两两协方差之和导致的优势缩放偏差，并按相关性重新归一。"
+                  "value": "在 LLM 引导的程序进化框架中加入成本感知：不只是追求最优解，还把搜索过程中的算力/token 开销纳入决策，使有限预算下的优化更高效。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "多奖励相加后用组内标准差归一，会随奖励间协方差大小意外放大 / 缩小优势，扭曲训练信号。"
+                  "value": "AlphaEvolve 类方法效果好但调用与算力成本高，缺乏「花多少换来多少」的显式权衡，预算受限时容易浪费在低效探索上。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做 RLHF / 多目标推理训练的值得核对自家奖励加权；属方法改进，需训练侧验证。"
-                }
-              ]
-            },
-            {
-              "title": "Persona Dosing：让「人格强度」可量化调节的激活引导方法",
-              "url": "https://huggingface.co/papers/2609.36388",
-              "summary": "论文 Persona Dosing 研究如何按「特质描述 + 目标平均强度」控制语言模型的人格表达：激活引导系数只决定干预强度，而「想要多强的人格」需要一把行为尺度。PersonaDose 在人格响应上特化一个共享的、以描述为条件的 FLAS 控制器，再用实测特质表达校准其 flow time；训练响应不与目标强度配对（48 赞）。",
-              "tag": "行为控制",
-              "source": "HuggingFace Papers",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "用「特质描述 + 目标平均强度」调节模型人格表达：特化描述条件化的 FLAS 控制器，并按实测特质表达校准干预强度。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "激活引导系数只给强度，缺少与可观测行为对齐的量化尺度，人格调节不可控。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "做模型行为控制 / 人格化产品的值得关注其校准思路；属研究，需激活访问与评测集。"
+                  "value": "关注用 LLM 做自动化算法/程序优化的可留意其成本建模方式；属研究论文，落地价值取决于与你实际优化任务的匹配度。"
                 }
               ]
             }
@@ -270,66 +225,44 @@
           "en": "AI Engineering",
           "items": [
             {
-              "title": "ds4：antirez 的 DeepSeek 4 Flash/PRO 本地推理引擎，支持 Metal / CUDA / ROCm",
-              "url": "https://github.com/antirez/ds4",
-              "summary": "antirez/ds4（今日 GitHub Trending 新增 211 星）是 Redis 作者 Salvatore Sanfilippo 写的 DeepSeek 4 Flash 与 PRO 本地推理引擎，后端覆盖 Metal、CUDA 与 ROCm。它瞄准「在本地机器上直接跑 DeepSeek 4 系列」，一套代码横跨 Apple 芯片与 N 卡 / AMD 三类加速后端。",
-              "tag": "本地推理",
-              "source": "GitHub Trending",
-              "oss": true,
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "DeepSeek 4 Flash / PRO 的本地推理引擎，一套代码覆盖 Metal（Apple）、CUDA（NVIDIA）、ROCm（AMD）三种加速后端。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "DeepSeek 4 系列缺跨平台本地推理方案，本地部署要么绑单一后端、要么依赖重型框架。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "想本地 / 内网跑 DeepSeek 4 的值得关注（尤其 Apple 与 AMD 用户）；项目很新，成熟度与量化支持需实测。"
-                }
-              ]
-            },
-            {
-              "title": "MemFold：用 on-policy 优化学「紧凑软记忆」，做长上下文个性化",
-              "url": "https://huggingface.co/papers/2609.36435",
-              "summary": "论文 MemFold 面向长期服务同一用户的助手：它必须从用户透露的信息里记住哪些偏好仍有效、哪些已改、当前适用哪些约束。把信息保留成文本会让输入随历史增长，压成固定数量的潜向量虽能限制接口，但通常只被训练来「重建」而非「据以行动」。MemFold 用 on-policy 优化学习紧凑软记忆。",
-              "tag": "长上下文记忆",
+              "title": "Self-Supervised Scaling：用自监督方式规模化构造终端 agent 的训练环境",
+              "url": "https://huggingface.co/papers/2610.02710",
+              "summary": "论文指出终端 agent 已越来越多地部署到软件工程之外的科研等领域，而构造这类训练环境需要「可执行的参考行为」与领域知识，成本高、难规模化。作者提出自监督扩展方法来批量生成终端环境，降低对人工构造环境的依赖。",
+              "tag": "Agent 训练环境",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "用 on-policy 优化训练固定大小的软记忆向量，让助手长期保留并「按需使用」用户的偏好与约束。"
+                  "value": "面向终端 agent 的训练环境构造：以自监督方式规模化生成具备可执行参考行为的领域环境，摆脱逐个人工搭建。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "文本式记忆随历史线性膨胀输入，而潜向量压缩通常只优化重建、不对齐「据此行动」。"
+                  "value": "终端 agent 要走出软件工程、进入科学等专业领域，最大瓶颈是环境——需要真实可执行的参考行为与领域知识，人工构造既慢又贵。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做 agent 长期记忆 / 个性化上下文压缩的值得看；属方法研究，需自建数据与训练。"
+                  "value": "做 agent 训练环境/评测集建设的值得看思路；属研究阶段，通用性（尤其专业领域的可执行性）仍需验证。"
                 }
               ]
             },
             {
-              "title": "用 Jev 决策模型替换 LLM：低延迟边缘服务编排",
-              "url": "https://huggingface.co/papers/2609.22753",
-              "summary": "论文把 LLM 决策从边缘服务编排的关键路径上拿掉：自然语言服务请求在执行前若要等一次语言模型决策，会吃掉请求的延迟预算。作者把 Jev 的「决策导向 API」接入边缘服务编排，抽取 4–8 个有界意图字段，再用共享的校验器、准入策略与调度器处理，并在整个请求时间线中计入「决策等待」。",
-              "tag": "边缘编排",
+              "title": "QuantWM：面向视频世界模型的 2-bit KV Cache 量化",
+              "url": "https://huggingface.co/papers/2609.26425",
+              "summary": "论文针对视频世界模型：它靠生成过程中保存 KV cache 来获得长程时序一致性，但 cache 随生成增长，KV 显存成为部署瓶颈。QuantWM 提出时间一致的 2-bit KV cache 量化，把显存占用压到低位宽，同时维持跨帧的时间一致性。",
+              "tag": "推理优化",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "把 Jev 决策 API 接入边缘服务编排：抽取 4–8 个有界意图字段 + 共享校验器 / 准入策略 / 调度器，全程计入决策等待时间。"
+                  "value": "对视频世界模型的 KV cache 做 2-bit 量化，并保证量化在时间维度上一致，从而在保持长程时序一致性的前提下大幅降低 KV 显存。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "用 LLM 做请求前决策会占用延迟预算，对边缘低延迟服务不划算。"
+                  "value": "视频世界模型的 KV cache 随生成长度线性增长，显存成为部署瓶颈；而低位宽量化又容易破坏跨帧一致性。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做边缘 / 网关侧请求路由与准入的值得参考其「把小模型决策放进编排」的思路；需自建 Jev 类模型。"
+                  "value": "做长视频/世界模型推理部署、关心显存与吞吐的值得关注其一致性保持手法；属论文结果，需在自有模型上验证。"
                 }
               ]
             }
@@ -341,23 +274,44 @@
           "en": "Business",
           "items": [
             {
-              "title": "Meshy 不到两年 ARR 从 100 万做到 1 亿美元：最强通用模型带火 3D，专业 3D 模型反而更稀缺",
-              "url": "https://www.qbitai.com/2026/10/501451.html",
-              "summary": "量子位对比 GPT-6 Astra 与专业 AI 3D 工具 Meshy：Astra 靠 Computer Use 操作 Blender、Coding 生成脚本、空间理解判断结构，擅长 CAD、参数化建模与程序化生成；但同一张参考图交给两者，Meshy 在发丝、斗篷褶皱、护甲层次与盾牌纹样上明显更完整。报道称在通用模型能力狂飙的两年里 Meshy 生意未被挤压——ARR 从 100 万美元增至 1 亿美元用时不到两年，快于 HeyGen（29 个月）与 ElevenLabs（约 20 个月）。",
-              "tag": "行业动态",
+              "title": "OpenAI Codex 负责人承诺「28 天二选一」：要么每天一个明显改进，要么重置额度",
+              "url": "https://www.qbitai.com/2026/10/501700.html",
+              "summary": "据报道，OpenAI Codex 负责人 Tibo 公开承诺接下来 28 天每天二选一：要么交付一项对大多数 Codex/Chat 用户明显有用的改进，要么做一次完整的额度重置。背景是他此前向用户征集「Codex 还缺什么」，并把工作锁定在简化产品、提高效率、突破性功能与新模型四个方向。量子位的报道同时梳理了用户的抱怨：DevDay 一次抛出 20 多项更新、重点不清；频繁且不可预测的额度重置反而打乱工作安排；以及模型任务中途断连等体验问题。",
+              "tag": "产品动态",
               "source": "量子位",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "（行业观察）说明通用多模态模型与专业垂直模型的分工：通用模型擅长可拆成几何关系的任务，角色、复杂道具这类依赖真实资产先验的仍靠专业模型。"
+                  "value": "面向 Codex/Chat 用户的公开服务承诺：28 天内每天提供一项「对大多数用户明显有用」的改进，或执行一次完整额度重置；改进口径包含修 Bug 到新发布。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "回答「通用模型都能建模了，还需不需要专门 AI 3D 模型」这一路线问题，并给出商业化速度的量化参照。"
+                  "value": "用户对频繁、不可预测的额度重置与产品更新失焦不满——重置打乱工作节奏，更新太多反而找不到重点，真正的痛点是稳定性与体验一致性。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "关注垂直模型商业化与「通用 vs 专业」边界判断的值得一读；属行业报道，无技术实现细节。"
+                  "value": "日常重度使用 Codex/编码 agent 的值得留意这条「服务节奏」信号（也能侧面看竞品压力，报道提到 Claude/Grok 相关方的公开互呛）；属产品与舆论动态，不含技术细节。"
+                }
+              ]
+            },
+            {
+              "title": "OpenAI 为 ChatGPT 推出新的视觉广告格式，并扩展衡量与品牌适配工具",
+              "url": "https://openai.com/index/new-chatgpt-ads-format-and-measurement",
+              "summary": "OpenAI 宣布在 ChatGPT 中引入新的视觉广告格式，同时扩展面向广告主的衡量工具、归因合作与品牌适配（brand suitability）能力。报道口径聚焦广告形态与效果度量体系的变化。",
+              "tag": "商业模式",
+              "source": "OpenAI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "在 ChatGPT 内投放新的视觉广告位，配套提供效果衡量、归因合作与品牌适配工具，形成从展示到度量的闭环。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "对话式 AI 广告缺乏成熟的展示形态与效果度量/品牌安全机制，广告主难以判断投放效果与风险。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "关注 AI 产品商业化路径的可留意其广告形态与度量口径；与技术选型无直接关系。"
                 }
               ]
             }
@@ -369,24 +323,44 @@
           "en": "Reading",
           "items": [
             {
-              "title": "gstack：YC 总裁 Garry Tan 公开自己的 Claude Code 全套配置（23 个工具）",
-              "url": "https://github.com/garrytan/gstack",
-              "summary": "garrytan/gstack 是 Y Combinator 总裁 Garry Tan 公开的 Claude Code 配置：23 个「有主见」的工具分别扮演 CEO、设计师、工程经理、发布经理、文档工程师与 QA，今日 GitHub Trending 新增 125 星。README 用「逻辑代码变更」（而非 AI 会虚高的原始 LOC）度量产出：2026 年他的跑速约为 2013 年的 810 倍（11,417 vs 14 逻辑行 / 天），年初至今产量已是 2013 全年的 240 倍。",
-              "tag": "Agent 配置",
-              "source": "GitHub Trending",
-              "oss": true,
+              "title": "Felix Rieseberg 谈 Claude Cowork 架构换代：从本地 VM 改为云端沙盒",
+              "url": "https://simonwillison.net/2026/Oct/5/felix-rieseberg/",
+              "summary": "Simon Willison 收录了 Anthropic 的 Felix Rieseberg 的一段说明：旧版 Cowork 在云端做模型推理，但把工具调用执行在「随桌面端下发的 Anthropic 提供的 VM」里——加这个本地 VM 是为了能力、安全与安全边界，只把用户显式加入会话的数据映射进去。用户喜欢 Claude 能做到的事，但不喜欢本地跑 VM 的磁盘、续航与性能代价，也受不了「合上笔记本工作就停」。新版把模型推理和 VM 都搬到云端，每个会话独占一个沙箱、不与其他会话共享状态；当 VM 需要用户设备上的东西（如某个文件），由桌面 App 负责那次文件访问的工具调用。",
+              "tag": "Agent 架构",
+              "source": "Simon Willison",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "一套可直接抄用的 Claude Code 配置：23 个按角色分工的工具（CEO / 设计师 / 工程经理 / 发布经理 / 文档 / QA）。"
+                  "value": "记录 Anthropic 把 Cowork 的执行架构从「云端推理 + 本地 VM 执行工具调用」迁移到「推理与 VM 都在云端」，每个会话独立沙箱、互不共享状态，设备侧文件访问改由桌面 App 以工具调用形式代理。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "多数人不知如何把编码 agent 组织成「一个团队」，缺少经过实战验证的角色分工范式。"
+                  "value": "本地 VM 带来磁盘/续航/性能负担，且合盖即中断；同时沙箱隔离与「只映射用户显式加入的数据」是安全前提，需要在不牺牲隔离性的前提下把负载搬到云端。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "想照着搭自己 agent 工作流的值得读其角色划分与度量方式；个人风格强，需按自身流程裁剪。"
+                  "value": "做桌面 agent / 会话沙箱隔离设计的很值得读——这是主流厂商在「端侧执行 vs 云端沙箱隔离」上的一次明确取舍，与多会话上下文隔离、设备侧能力代理的设计直接相关。"
+                }
+              ]
+            },
+            {
+              "title": "OpenAI 谈 EU 文本溯源规则：水印用在哪、检测怎么做",
+              "url": "https://openai.com/index/eu-text-provenance",
+              "summary": "OpenAI 发布博文说明其在欧盟文本溯源（provenance）规则下的做法：介绍水印在哪些场景适用、检测如何工作，以及为何访问权限先从研究者开放。",
+              "tag": "合规",
+              "source": "OpenAI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "给出面向欧盟文本溯源规则的水印方案：明确水印的适用范围、检测机制，并采用「先向研究者开放访问」的渐进策略。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "AI 生成文本在欧盟面临溯源合规要求，但水印的可用范围、检测可靠性与开放节奏缺乏统一实践。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "关注 AI 合规与内容溯源的值得了解其策略口径；技术细节有限，偏政策与产品说明。"
                 }
               ]
             }
@@ -398,23 +372,105 @@
           "en": "Safety & Governance",
           "items": [
             {
-              "title": "OpenAI 安全团队再震荡：负责人离职，三名员工因泄密被解雇",
-              "url": "https://www.qbitai.com/2026/10/501368.html",
-              "summary": "量子位报道 OpenAI 安全条线再度人事震荡：安全负责人离职，另有三名员工因泄露信息被解雇。报道未给出更细的组织与时间线细节。",
-              "tag": "AI 治理",
-              "source": "量子位",
+              "title": "Google Research 发布 Agentic 隐私与安全研讨会报告：50+ 专家、四层协同防御",
+              "url": "https://research.google/blog/open-and-emergent-problems-in-agentic-privacy-and-security-a-contextual-angle/",
+              "summary": "Google Research 发布研讨会报告《Open and Emergent Problems in Agentic Privacy and Security: A Contextual Angle》，来自 2025 年底在纽约举行的 Google Contextual Agent Privacy and Security (CAPS) Workshop，汇集 50 余位学界与业界专家。报告以「情境完整性（Contextual Integrity）」理论为框架，梳理自主 agent 面临的基础隐私与安全问题，指出需要系统、模型、用户与生态四个层面协同防御；并给出 agent 区别于传统确定性软件的三个维度：非结构化接口与输入歧义等。",
+              "tag": "Agent 安全",
+              "source": "Google Research",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "（行业动态）OpenAI 安全条线负责人离职、三名员工因泄密被解雇。"
+                  "value": "以情境完整性理论为框架的研究议程报告：从系统、模型、用户、生态四个层面，列出自主 agent 的隐私与安全开放问题，并归纳 agent 相对传统确定性软件的三类差异（如非结构化接口与输入歧义）。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "（信息型条目）反映前沿实验室安全团队的人员稳定性问题。"
+                  "value": "agent 要真正有用就得接触个人数据、并跨多种情境执行有后果的动作，行为又高度灵活，传统软件的安全模型（确定性、可静态验证）不再适用。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "关注 AI 治理与实验室组织的可留个印象；属新闻，无技术细节。"
+                  "value": "做企业 agent 隔离/权限治理的值得按框架自查——它把问题拆到系统/模型/用户/生态四层，适合用来对齐「网络管控 + 身份治理 + 数据最小化」这类设计；属研究议程，非可直接落地的方案。"
+                }
+              ]
+            },
+            {
+              "title": "Anthropic 向警方报告用户日记内容，当事人面临重罪指控（HN 500 分）",
+              "url": "https://www.techspot.com/news/114091-florida-woman-used-claude-diary-anthropic-reported-shoot.html",
+              "summary": "Hacker News 上 500 分、435 条讨论的条目：TechSpot 报道一名佛罗里达女性把 Claude 当作日记使用并涉及一起枪击相关内容，Anthropic 将该日记内容报告给了警方，当事人因此面临重罪指控。讨论集中在 AI 服务的用户数据保密边界、供应商主动披露的触发条件与合规/道德张力。",
+              "tag": "AI 治理争议",
+              "source": "Hacker News",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "一起引发广泛讨论的事件：用户把 AI 助手当私人日记使用，其内容被模型提供方报告给执法机构，当事人面临重罪指控；讨论聚焦 AI 服务的保密承诺边界与主动披露的触发条件。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "用户常把 AI 当作高信任度的私人记录工具，但服务条款与安全机制允许供应商在特定情形下主动披露内容，二者之间存在预期落差。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "关注 AI 数据治理与企业合规边界的值得了解——它直接关系到企业内部用 agent 处理敏感数据时的披露与审计预期；属媒体事件，事实细节以报道为准。"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "☸️ 基础设施板块",
+      "categories": [
+        {
+          "emoji": "☸️",
+          "title": "K8s 核心技术",
+          "en": "K8s Core",
+          "items": [
+            {
+              "title": "Kubelet 其实会看 inode，只是要等到「快满」才动手",
+              "url": "https://www.cncf.io/blog/2026/10/05/kubelet-watches-inodes-just-not-until-its-an-emergency/",
+              "summary": "CNCF 博文剖析一次真实的 inode 告警：节点触发 NodeFilesystemFilesFillingUp，直觉会先看磁盘——83% 已用、剩 22G，再看 inode 才 67% 已用、剩 530 万。作者指出这并不矛盾：该告警基于 predict_linear，报的是增长速度（斜率）而非当前水位，67% 本身没问题，问题是在多快逼近上限；而 kubelet 里唯一会介入的机制是驱逐。文章据此澄清 kubelet 到底看什么：镜像垃圾回收只看字节百分比（imageGCHighThresholdPercent 默认 85，降到 80），从不看文件数；但 Linux 的默认硬驱逐信号里确实包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%（Windows 与其他平台的默认文件则没有 inode 阈值）。",
+              "tag": "K8s 运维",
+              "source": "CNCF Blog",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "厘清 kubelet 对 inode 的真实处理路径：image GC 仅按字节百分比（85/80）回收、不看文件数，而 Linux 默认硬驱逐信号包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%，并解释 predict_linear 类告警为何按斜率触发。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "inode 耗尽与磁盘写满是两种不同故障，但运维惯性只盯 df -h 的磁盘百分比，容易漏掉文件数增长这个真正逼近的上限；等 inode 真满时唯一兜底是驱逐 pod。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "负责集群节点运维的直接有用：把「同时看 df -h 与 df -i」变成例行检查项，并按平台确认默认驱逐信号是否含 inode 阈值（Linux 有、Windows/其他没有）；具体阈值随版本变化，需对照自家 kubelet 版本核对。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "emoji": "☁️",
+          "title": "公有云动态",
+          "en": "Cloud",
+          "items": [
+            {
+              "title": "Google Cloud Modernize：端到端的「AI 加速现代化改造」产品组合",
+              "url": "https://cloud.google.com/blog/products/infrastructure-modernization/google-cloud-modernize-accelerate-transformation-with-ai/",
+              "summary": "Google Cloud 发布 Google Cloud Modernize，定位为端到端的转型产品组合，目标是用 AI 帮企业把原本需要多年的改造路线图压缩完成。报道口径把它描述为整合多项 Google Cloud 能力的现代化改造方案。",
+              "tag": "云厂商",
+              "source": "Google Cloud",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "把现代化改造相关的多项 Google Cloud 能力打包成端到端组合，主打以 AI 加速企业既有改造路线图的落地。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "企业上云的现代化改造涉及迁移、重构、数据与应用改造等多环节，周期长、牵涉面广，难以一站式推进。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "与具体 K8s/技术选型关联较弱的厂商产品动态；若在用 GCP 做改造可关注其能力范围，否则了解即可。"
                 }
               ]
             }
@@ -425,36 +481,80 @@
   ],
   "flash": [
     {
-      "title": "Video Generation Models：视频生成后训练与对齐的系统综述（55 赞）",
-      "url": "https://huggingface.co/papers/2610.00812"
+      "title": "计算复用能否帮 LLM 解新题：同一会话中前序问题的计算对后续题目的影响（HF 13 热度）",
+      "url": "https://huggingface.co/papers/2609.39394"
     },
     {
-      "title": "Honeycomb：用六平面的定长记忆表示给视频世界模型省存储",
-      "url": "https://huggingface.co/papers/2609.37690"
+      "title": "会下棋也会解释的大模型：让 LM 兼顾棋力与走法解释",
+      "url": "https://huggingface.co/papers/2610.03695"
     },
     {
-      "title": "Ego2Act：评测第一人称视频生成里的目标导向操作能力（25 赞）",
-      "url": "https://huggingface.co/papers/2610.01092"
+      "title": "Latent-MOPD：多教师 on-policy 蒸馏，在潜在空间而非输出分布上迁移专家能力",
+      "url": "https://huggingface.co/papers/2610.02381"
     },
     {
-      "title": "VTR-Bench：系统评测视频生成中的「画面文字渲染」",
-      "url": "https://huggingface.co/papers/2610.01499"
+      "title": "From Gradients to Capabilities：拆解多教师 on-policy 蒸馏如何改变参数",
+      "url": "https://huggingface.co/papers/2610.02179"
     },
     {
-      "title": "Before It Fades：在推理期强化 VideoLLM 的时间表征",
-      "url": "https://huggingface.co/papers/2610.01595"
+      "title": "SFT 的 token 重加权：抑制、反转与外推模型已学到特征的监督信号",
+      "url": "https://huggingface.co/papers/2609.33463"
     },
     {
-      "title": "text-to-cad：给 agent 装上 CAD 能力",
-      "url": "https://github.com/earthtojake/text-to-cad"
+      "title": "Multilingual GSM-Symbolic：跨语言能力迁移由什么决定",
+      "url": "https://huggingface.co/papers/2610.03367"
     },
     {
-      "title": "replica-skill：11 个免费的 Claude 技能，逆向并重建任意 App",
-      "url": "https://github.com/Jakeschincariol/replica-skill"
+      "title": "同样的排序质量、不同的决策：测量并降低 LLM 打分器的顺序依赖",
+      "url": "https://huggingface.co/papers/2608.26762"
     },
     {
-      "title": "Papermorph：把书变成可动画、可朗读、可交互的网页",
-      "url": "https://github.com/DozenTwelve/Papermorph"
+      "title": "通过模型路由与协作做集体偏见缓解",
+      "url": "https://huggingface.co/papers/2610.03240"
+    },
+    {
+      "title": "JEPA-TTT：潜世界模型的持续测试时训练，应对动力学漂移下的规划",
+      "url": "https://huggingface.co/papers/2610.00722"
+    },
+    {
+      "title": "WM-VLM：探测视觉语言模型的内部世界模型，做交错的视觉-文本推理",
+      "url": "https://huggingface.co/papers/2609.34826"
+    },
+    {
+      "title": "KeyRec：为流式与长视频理解设计的有界视觉记忆",
+      "url": "https://huggingface.co/papers/2609.32182"
+    },
+    {
+      "title": "RealCompanion：基于长周期真实对话推理来评测「理解人」的能力",
+      "url": "https://huggingface.co/papers/2610.01780"
+    },
+    {
+      "title": "Rollout-Marginal 蒸馏：长时程自回归视频生成",
+      "url": "https://huggingface.co/papers/2609.37925"
+    },
+    {
+      "title": "LVMT：面向长期视频分割的视频掩码 Transformer",
+      "url": "https://huggingface.co/papers/2609.34895"
+    },
+    {
+      "title": "mesh-avatar-studio：用编码 agent + 本地编辑器把一张插画变成会动的 2D 网格头像",
+      "url": "https://github.com/shinshin86/mesh-avatar-studio"
+    },
+    {
+      "title": "检索式开放式评测何时失效：从长文医学答案事实核查自动归纳分类体系",
+      "url": "https://huggingface.co/papers/2609.30467"
+    },
+    {
+      "title": "Tail-Influence Sampling：面向 CVaR 的策略评估采样",
+      "url": "https://huggingface.co/papers/2609.38096"
+    },
+    {
+      "title": "模态动态字体：用字形自然振动模态做可读的语义动画",
+      "url": "https://huggingface.co/papers/2609.38325"
+    },
+    {
+      "title": "聚焦视图提升原子事实召回：非结构化知识编辑",
+      "url": "https://huggingface.co/papers/2610.02772"
     }
   ]
 }

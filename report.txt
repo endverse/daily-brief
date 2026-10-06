@@ -1,48 +1,48 @@
 ======================================================================
-处理报告  (原始 104 条)
+处理报告  (原始 108 条)
 ======================================================================
 
-① 过滤: 保留 78 条, 过滤掉 26 条
+① 过滤: 保留 68 条, 过滤掉 40 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] tester-army/e2e
-     ✗ [GitHub Trending] getsentry/sentry
      ✗ [GitHub Trending] pingdotgg/t3code
+     ✗ [GitHub Trending] boykopovar/AnyPS5
      ✗ [GitHub Trending] caddyserver/caddy
-     ✗ [GitHub Trending] OpenCut-app/OpenCut
+     ✗ [GitHub Trending] DuarteSantos8/openGym
+     ✗ [GitHub Trending] Stremio/stremio-web
+     ✗ [GitHub Trending] M-Abozaid/esp32-c3-adblock
      ✗ [GitHub 升星repo] kargulstudio/sales-crm
-     ✗ [GitHub 升星repo] BlackCrewmanFringe/AutoCad
-     ✗ [GitHub 升星repo] Blockadezoshack/Microsoft-Project
 
-② 去重: 78 → 73 条 (同批合并 0, 跨天历史去重 5)
+② 去重: 68 → 63 条 (同批合并 0, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [GitHub Trending] DietrichGebert/ponytail
-     ⏭️  [GitHub Trending] Panniantong/Agent-Reach
-     ⏭️  [GitHub Trending] addyosmani/agent-skills
      ⏭️  [GitHub Trending] thedotmack/claude-mem
+     ⏭️  [GitHub Trending] earthtojake/text-to-cad
+     ⏭️  [GitHub Trending] Panniantong/Agent-Reach
+     ⏭️  [GitHub Trending] calesthio/OpenMontage
+     ⏭️  [GitHub Trending] cloudflare/cloudflare-os
    (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 20 条 (含🔧开源 11)
-     - 模型与研究: 27 条
-     - AI 工程落地: 14 条 (含🔧开源 3)
-     - 安全与治理: 5 条
-     - 观点与好文: 1 条 (含🔧开源 1)
-     - 产品与商业: 3 条
+     - 观点与好文: 2 条
+     - 产品与商业: 6 条
+     - 安全与治理: 6 条
+     - 模型与研究: 29 条
+     - AI 工程落地: 9 条 (含🔧开源 1)
+     - Agent & Skill: 8 条 (含🔧开源 3)
    【基础设施】
-     - K8s 核心: 2 条
-     - K8s × AI: 1 条
+     - K8s × AI: 2 条
+     - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] A model guide for the GPT-6 family
-        源:OpenAI News 类:Agent & Skill 跨源:[]
      🔥 [16分] Barclays scales Claude to upgrade operations and improv
+        源:Anthropic News 类:模型与研究 跨源:[]
+     🔥 [16分] Science Claude discovers a novel enzyme system with CRI
         源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      19分 [OpenAI News ] A model guide for the GPT-6 family
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
       16分 [Anthropic News] Funding better evaluations of AI’s impact on 
-      12分 [GitHub Trending] calesthio/OpenMontage
+      13分 [HuggingFace Papers] Can Computation from Earlier Problems Help LL
+      13分 [CNCF Blog   ] Kubelet watches inodes. Just not until it’s a
