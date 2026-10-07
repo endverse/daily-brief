@@ -1,55 +1,55 @@
 {
   "brand": "AI & 基础设施早报",
-  "date_label": "2026 年 10 月 06 日 · 星期二",
-  "issue": 17,
+  "date_label": "2026 年 10 月 07 日 · 星期三",
+  "issue": 18,
   "kicker": "DAILY",
   "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
-  "lead": "今天的焦点在基础设施：Kubernetes 官方给出 Local SSD 支撑的节点 swap 基准（v1.34 已 GA），在 agent 沙盒类负载上把 pod 密度最高提到 3 倍；DeepSeek 则公开了 Agent 沙盒平台 DSec 的工程细节，单套分片日服务约 300 万个沙盒、资源超卖超 50 倍。模型侧 Reflection 放出 501B 开源权重模型 Beam，agent 侧则有 Bedrock 托管 Agent 公测、Leviathan 这类把检索外包给确定性索引的记忆方案，以及 Anthropic 把 Cowork 从本地 VM 迁到云端沙盒的架构换代。",
+  "lead": "今天基础设施侧有两条硬信息：Kubernetes 官方明确 cgroup v1 已弃用——v1.35 起 kubelet 默认拒绝在 cgroup v1 节点启动，kubeadm 预检对你直接报错，同时给出 cgroup v2 上才有的 Memory QoS 与容器级 OOM 口径；Google Cloud 则为 AI 推理给出两套参考架构，用 Inference Gateway 按模型路由、PSC 内网入口与 Model Armor 做护栏。模型侧 Mistral Large 4 预览到 1T 参数、49B 激活，EmbeddingGemma 2 把端侧多模态嵌入压到 740M 并给 Apache 2.0；工程侧 Jump Trading 公开了「数天级」量化研究分析交给 agent 的用法，另有一组 agent 记忆/检索与安全评测的新论文。",
   "highlights": [
     {
-      "title": "Kubernetes 官方实测节点 swap：Local SSD 支撑下 agent 沙盒 pod 密度最高提升 3 倍",
-      "url": "https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/",
-      "summary": "Kubernetes 官方博客给出在节点上启用 swap 的基准方法：节点 swap 支持已在 v1.34 GA，配合高速 NVMe Local SSD，内核可把休眠内存换出，从而在同一台机器上跑更多 pod。文章测了三类负载——Linux 内核 CI/CD 构建、无头 Chrome 沙盒（Kata / gVisor）、隔离 Python 沙盒（gVisor）。结果：内核构建把内存上限从 600MB 压到 300MB（-50%），Kata 下并发 pod 从 40 升到 50（+25%），gVisor 下 Chrome 从 80 升到 160（+100%），Python 沙盒从 80 升到 240（+200%，约 3×），多数场景延迟无明显代价。",
-      "tag": "K8s × AI",
+      "title": "Kubernetes 官方：cgroup v1 已弃用，v1.35 起 kubelet 默认不再在 cgroup v1 节点启动",
+      "url": "https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/",
+      "summary": "Kubernetes 官方博文梳理 cgroup v2 迁移：cgroup v1 管理自 v1.31 进入维护模式、现已被弃用，cgroup v2 自 v1.25 起稳定。从 v1.35 起 failCgroupV1 默认为 true，kubelet 默认不会在 cgroup v1 节点上启动；kubeadm 的 SystemVerification 预检在 kubelet ≥v1.35 时会直接报错，中止 init / join / upgrade。文章同时列出 cgroup v2 上才有的能力：Memory QoS（memory.high 限流 + memory.min / memory.low 分层保护，memoryReservationPolicy 取 TieredReservation 时启用，memoryThrottlingFactor 默认 0.9，建议内核 ≥5.9），以及容器级 OOM 处理——cgroup v2 节点上 singleProcessOOMKill 默认 false，kubelet 会写 memory.oom.group 让整个容器一起被杀。还有一条迁移后依然存在的老问题：active_file 在 kubelet 眼里不算可回收内存（kubernetes#43916），I/O 密集负载下大 page cache 会触发内存压力驱逐，官方给的绕法是对这类容器设相等的 request 与 limit。",
+      "tag": "K8s 升级",
       "source": "Kubernetes Blog",
       "detail": [
         {
           "key": "能做什么",
-          "value": "文章给出 Local SSD 支撑的节点 swap 实测口径：以 v1.34 起 GA 的节点 swap 为底座，在 Linux 内核构建（600MB→300MB 上限）、无头 Chrome（Kata 40→50 pod、gVisor 80→160 pod）、隔离 Python 沙盒（80→240 pod）三类负载上量出内存与密度收益。"
+          "value": "给出 cgroup v2 迁移的完整口径：v1.31 起 v1 cgroup 进入维护模式、v1.35 起 failCgroupV1 默认 true、kubeadm SystemVerification 预检直接报错中止，以及 cgroup v2 专属的 Memory QoS 分层保护（memory.min / memory.low 硬软两层）与容器级 OOM（memory.oom.group 一次杀掉整容器）。"
         },
         {
           "key": "解决什么痛点",
-          "value": "agentic 负载启动需大内存、运行期大量 idle 但驻留内存不能释放，直接顶住单节点可容纳的 pod 数，让 AI 基础设施成本居高；设置内存 limit 太高浪费、太低触发 OOM。"
+          "value": "集群里只要还剩一个 cgroup v1 节点，升到 v1.35+ 后 kubelet 会启动失败、kubeadm upgrade 会卡住；同时 cgroup v1 给不了 memory.high 限流与分层内存保护，资源隔离与超卖能力受限。"
         },
         {
           "key": "值不值得",
-          "value": "正在做 K8s 集群与 AI 负载接入的值得细读：给出的是可复现的容量规划口径（NVMe + cgroup v2 是硬前提）。注意 swap 只适合可容忍换页延迟的负载，对延迟敏感的在线服务仍应慎用。"
+          "value": "正在做集群版本规划与升级的必须逐条对照：先确认每个 Linux 节点都跑 cgroup v2 再升级，或显式保留 failCgroupV1: false 覆盖并记入技术债；另需按内核版本评估 Memory QoS（v1.36 仍是 alpha，官方不建议生产默认开）。"
         }
       ],
-      "note": "要点：① swap 支持在 v1.34 GA，能成立的关键前提是 cgroup v2 对 swap 独立记账、以及 NVMe SSD 消除换页延迟（旧版 cgroup v1 把内存与 swap 合并计量，导致用量不可预测）；② 动机正是 agentic 负载「启动吃大内存、之后长时间 idle 但内存仍需常驻」的形态，文中点名 agent-sandbox 框架；③ 密度收益：内核构建内存 -50%、Chrome Kata +25%、Chrome gVisor +100%、Python 沙盒 +200%。"
+      "note": "要点：① v1.31 cgroup v1 进入维护模式、现已弃用，cgroup v2 自 v1.25 稳定；② v1.35 起 failCgroupV1 默认 true，kubelet 不再在 cgroup v1 节点启动，kubeadm 对 v1.35+ 预检直接报错（旧 kubelet 只是告警）；③ cgroup v2 独占：Memory QoS（memory.high 限流 + memory.min / memory.low 分层保护，memoryThrottlingFactor 0.9，建议内核 ≥5.9）与容器级 OOM（singleProcessOOMKill 默认 false → memory.oom.group）；④ active_file 不计入可回收内存的旧问题（k8s#43916）迁移后仍在，I/O 密集容器需设 request=limit。"
     },
     {
-      "title": "DeepSeek 披露 Agent 沙盒平台 DSec：单套分片日服务约 300 万沙盒，资源超卖超 50 倍",
-      "url": "https://www.qbitai.com/2026/10/501381.html",
-      "summary": "DeepSeek 公开其 Agent 沙盒平台 DSec 的工程细节：一套扩展分片约 160 台服务器、3 万 CPU 核心、250TB 内存，每天服务约 300 万个沙盒，峰值约 38 万个沙盒同时在线，承载 V3.2 到 V4.1 的 Agent 训练、评测与数据预处理负载。它把环境拆成 base image（OS/基础软件）、workspace（任务代码依赖）、toolkit（如 DeepSeek Harness）三层各自版本化、创建时组合，避免工具一改就整镜像重建；镜像数据放 3FS、本地只留元数据按需读取——8192 容器并发测试从 60 多分钟降到约 35 分钟（1.71×），磁盘写入减少约 57%。资源侧，约 90% 沙盒平均 CPU 使用不足申请量的 5%，生产超卖率超过 50 倍；用 virtio-pmem + DAX 让同宿主机 MicroVM 共享页缓存，峰值内存降 40.2%，再用 DAMON + balloon 回收空闲页，累计内存再降 21.2%。",
-      "tag": "Agent 基础设施",
-      "source": "量子位",
+      "title": "GKE 为 AI 推理给出两套参考架构：Inference Gateway 按模型路由 + PSC 内网入口 + Model Armor 护栏",
+      "url": "https://cloud.google.com/blog/topics/developers-practitioners/networking-for-ai-inference-model-serving-gke-only-and-for-all-other-backends/",
+      "summary": "Google Cloud 发布两套「AI 推理服务网络」参考架构：一套基于 GKE，一套面向其他所有后端类型。共同组件包括 Private Service Connect 推理端点（把入口锚定在消费方 VPC 内，流量走私有内部 IP，推理调用不出私网）、可选的 Apigee API 管理（通过 Extension Processor 回调做客户端身份校验、限流与配额），以及 Model Armor 作为内联 AI 安全检查点（对 prompt 与 completion 做提示注入与敏感数据泄漏筛查）。GKE 版额外引入 GKE Inference Gateway，以内部应用负载均衡器（gke-l7-rilb）形式部署，解析请求负载、按 HTTPRoute 规则把请求路由到对应模型的 inference pool（同模型副本的逻辑分组）。入口层统一承担 TLS 终止、API 管理扩展与安全策略执行。",
+      "tag": "K8s × AI",
+      "source": "Google Cloud",
       "detail": [
         {
           "key": "能做什么",
-          "value": "DSec 是面向 Agent 训练/评测的沙盒供给平台：分片级可扩，环境三层拆分各自版本化、创建时组合，镜像数据经自研 3FS 按需加载、本地只存元数据，四类执行后端覆盖从 FnCall 短任务到带 GUI 的 Full VM。"
+          "value": "给出两套可拼装的推理网络参考架构：入口用 PSC 私网端点锚定在消费方 VPC；GKE 版以 Inference Gateway（内部 ALB gke-l7-rilb）解析请求并按 HTTPRoute 规则选到同模型的 inference pool；统一叠加 Apigee 的身份/限流与 Model Armor 的提示注入与数据泄漏筛查。"
         },
         {
           "key": "解决什么痛点",
-          "value": "Agent 沙盒负载高度稀疏（90% 沙盒 CPU 用不到申请量 5%）却必须常驻内存保存状态，加上创建请求突发、镜像复用率低，传统做法资源与镜像成本都被顶死。"
+          "value": "团队同时跑多个推理模型时，调用入口、鉴权、限流与安全筛查往往各写一套，「N 个模型 × M 个后端」的组合让网关与策略无法集中治理。"
         },
         {
           "key": "值不值得",
-          "value": "做 Agent 沙盒/多用户隔离基础设施的值得逐条看——把「环境分层 + 镜像按需 + 页缓存共享 + 分级调度」这套降本手段讲得很具体，可直接对照自建方案的成本结构；注意文中数据来自 DeepSeek 自研栈（3FS、DSec），并非可直接套用的开源组件。"
+          "value": "正在为 K8s 上的推理服务设计入口与多模型路由的值得对照其分层（入口 / 路由 / 治理）；但组件以 GKE 与 Google Cloud 托管能力为主，自建栈只能借鉴分层思路，PSC、Model Armor 等无法直接搬。"
         }
       ],
-      "note": "要点：① 规模——160 台服务器 / 3 万核 / 250TB 内存，日约 300 万沙盒、峰值 38 万并发；② 环境三层拆分（base image / workspace / toolkit）+ 镜像按需加载（Agent 实际只访问镜像的 4.2%–13.3%），EROFS 挂载把工作区准备从 79 分钟压到 45 分钟；③ 资源侧 ~90% 沙盒 CPU 使用 <5%、超卖 >50 倍，virtio-pmem+DAX 与 DAMON+balloon 分别省内存 40.2% / 21.2%；④ 统一 FnCall / Container / MicroVM / Full VM 四种后端，并用 Agent 构建 Agent 的环境。"
+      "note": "要点：① 两套参考架构——GKE 版与「所有其他后端」版，共享 PSC 私网推理端点、可选 Apigee（Extension Processor 回调做身份/限流/配额）与 Model Armor 内联安全筛查；② GKE 版核心是 GKE Inference Gateway，作为内部 ALB（gke-l7-rilb）按 HTTPRoute 规则选 pool，pool 内是同模型副本的逻辑分组；③ 入口同时是策略、安全与业务逻辑的执行点，TLS 终止与 API 管理扩展都收敛在这一层。"
     }
   ],
   "sections": [
@@ -62,88 +62,130 @@
           "en": "Agent & Skill",
           "items": [
             {
-              "title": "Leviathan：把数据集变成 agent 可查的排序全文索引，单二进制、每次作答约 450 token",
-              "url": "https://github.com/elstongun/leviathan",
-              "summary": "elstongun/leviathan 是一个单文件二进制，把 JSONL/JSON/CSV/TSV/SQLite（或任意数据库 CLI 的导出）建成排序全文索引，agent 用自然语言提问即可拿到带引用的短结果卡。它在 100 万条记录（678MB）上对比「最佳 grep 策略」：中位每问 436 token 对 107,122 token（245×），Top-5 命中相关记录 99.0%、Rank-1 98.5%，中位延迟 33ms 对 92ms，最坏情况 602 token 对 9.7M token。它不持有任何数据库凭据（数据经各库自身 CLI 管道进来），索引就是一个 SQLite 文件，并提供 skills/leviathan 供拷进 ~/.claude/skills/，另有 MCP 模式（search / resolve_group / get / describe 四个只读工具）。",
-              "tag": "Agent 记忆",
-              "source": "GitHub 升星repo",
-              "oss": true,
+              "title": "MCP Toolbox Java SDK 发布 1.0：把 agent 的数据访问收敛成类型安全的一套 MCP 接口",
+              "url": "https://cloud.google.com/blog/topics/developers-practitioners/announcing-mcp-toolbox-java-sdk-v10-agentic-data-access-for-the-enterprise/",
+              "summary": "Google 宣布 MCP Toolbox Java SDK 达到 v1.0（紧随 MCP Toolbox v1.0）。它针对的是「N 个模型 × M 个企业数据源 = N×M 套定制连接」的集成爆炸，把集成收敛到单一的 MCP 协议层：任何 MCP 兼容 agent 都能直接访问 MCP 使能的数据系统，无需为每个模型或数据库重写连接代码。Java 侧提供类型安全的 agent 编排 API，v1.0 标记为稳定且向后兼容，官方称面向高并发、强事务一致性与状态管理的生产场景。",
+              "tag": "Agent 数据接入",
+              "source": "Google Cloud",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "单二进制把任意表格/导出/日志建成排序全文索引，自然语言查询返回带引用结果卡（约 450 token）；支持 -g 分组检索、--where / --since / 短语与排除过滤，upsert/delete 增量刷新，可作 CLI+skill 或 MCP 接入 agent。"
+                  "value": "以 MCP 作为模型与数据源之间的统一接口，提供 1.0 稳定、向后兼容的 Java 类型安全编排 SDK，让 MCP 兼容 agent 直接访问 MCP 使能的数据系统。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "agent 面对大数据集只能 grep 再读原始历史，token 消耗爆炸（实测差 245×）且容易漏掉关键记录；上下文预算全被原始数据吃掉。"
+                  "value": "N×M 的自定义集成网既难维护，又让敏感企业数据库暴露在分散的访问控制与安全面之下；每接一个模型或数据源都要重写一套连接。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "关注 agent 上下文/成本治理的值得试——无运行时依赖、索引即一个 SQLite 文件、未使用时 0 token 成本；但它是确定性全文索引而非向量库，语义模糊检索能力有限，适合工单/台账/日志这类记录型数据。"
+                  "value": "团队主力栈是 Java、又要把 agent 接到既有企业数据源的值得评估——1.0 的稳定 API 意味着可以进生产；非 Java 栈收益有限，仍应评估凭据传递与最小权限。"
                 }
               ]
             },
             {
-              "title": "AWS：Bedrock 托管 Agent（OpenAI 驱动）公测，并上架 GPT-6.1 Sol 等新模型",
-              "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-amazon-bedrock-managed-agents-powered-by-openai-q3-service-availability-updates-kiro-workflows-and-more-october-5-2026/",
-              "summary": "AWS 上周宣布 Amazon Bedrock Managed Agents powered by OpenAI 进入公测：基于定制版 OpenAI Agents API，做成 AWS 原生并接入既有的身份、权限与治理控制；执行环境可选自托管算力（已有开发机、容器或计算环境）或 Bedrock AgentCore Runtime（托管运行时 + 你 AWS 账户内可配置存储）。同期 Bedrock 上架多款模型：GPT-6.1 Sol（称接近 GPT-6 Astra 但成本约 1/5）、GPT-6 Astra 的 UltraFast 模式（称 API 推理最高快 6×、约 300 token/秒）、Anthropic Claude Sonnet 5.5、SpaceXAI Grok 4.7（强化混合文档处理与 repo 级编码的规划/错误恢复）。",
-              "tag": "Agent 平台",
-              "source": "InfoQ中国",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "在 Bedrock 上托管运行 OpenAI 模型驱动的 agent：可复用 IAM 身份、权限与治理，执行环境在自托管算力与 AgentCore Runtime 之间可选，并同时把 GPT-6.1 Sol、GPT-6 Astra UltraFast、Claude Sonnet 5.5、Grok 4.7 纳入 Bedrock 模型目录。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "企业要在合规边界内跑 agent，既不想自建 agent 运行时，又希望沿用云上现有的身份/权限/审计体系；同时模型选择被单一供应商锁定。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "若你在评估「agent 运行时托管 vs 自建」，这是一条主流公有云的现成路线，值得对照 AgentCore 的能力边界与计费；注意它是 AWS 侧托管（含 OpenAI 模型），与本地/私有化 agent Infra 是两条不同取舍。"
-                }
-              ]
-            },
-            {
-              "title": "The Agency：把成套专业 agent 人格一键装进 Claude Code / Cursor / Codex 等 harness",
-              "url": "https://github.com/msitarzewski/agency-agents",
-              "summary": "msitarzewski/agency-agents 是一套按职能划分的 AI agent 人格集合（前端、社区运营、创意、现实校验等），每个 agent 文件包含身份与人格、核心任务与工作流、可交付物定义。它现在提供原生桌面 App（macOS/Linux/Windows，可 brew install --cask msitarzewski/agency-agents/agency-agents），用于浏览整套 roster 并一键安装到 Claude Code、Cursor、Codex、Gemini CLI、OpenCode、Qwen、Osaurus，且自动更新；也支持脚本安装（./scripts/install.sh --tool claude-code）或直接把 markdown 拷进 ~/.claude/agents/。",
-              "tag": "Agent 人格库",
+              "title": "REA：一个 MCP 打通二进制 / 应用 / 运行时的逆向分析（今日 GitHub Trending 约 2960 星）",
+              "url": "https://github.com/morluto/rea",
+              "summary": "morluto/rea 把逆向工程做成一个 MCP server，覆盖二进制文件、应用与运行时行为，目标是「看到一个功能就把它理解到二进制级别」。它通过 npm 包 rea-agents 分发，要求 Node.js 22.19+，采用 MIT 许可，并自带 MCP tool catalog 与多语言 README；今日 GitHub Trending 单日新增约 2,956 星。",
+              "tag": "Agent 工具",
               "source": "GitHub Trending",
               "oss": true,
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "以 markdown 文件组织的 agent 人格库，按职能分目录；桌面 App 可浏览整套 roster 并一键装进多种 harness，脚本方式支持只装某一类；每个 agent 定义人格、任务与工作流、可交付物。"
+                  "value": "把跨二进制、应用与运行时三层的逆向分析封装成单一 MCP server（npm: rea-agents，Node 22.19+，MIT），agent 用统一工具目录做调查式分析。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "各家 harness 的 subagent / 角色配置格式不一，想复用一套按职能划分的角色资产得逐个手工迁移；且角色定义容易停留在空泛 prompt 模板。"
+                  "value": "逆向工具链分散，静态二进制 / 应用逻辑 / 运行时各要换工具，agent 很难端到端回答「这个功能是怎么实现的」。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "想快速给编码助手配一套「分工角色」的可以直接装来试，App 化安装降低了门槛；但它偏角色/流程编排而非硬能力，实际收益取决于你的工作流是否真需要多角色分工，值得与已有的 project rules / skill 体系对比后再引入。"
+                  "value": "做安全分析、或需要 agent 读懂第三方实现（含闭源二进制）的可以直接挂到现有 harness 试；但逆向属高双用途能力，企业使用要考虑合规与 agent 的出口管控。"
                 }
               ]
             },
             {
-              "title": "接收方条件化潜在通信：多 agent 协作的缓存开销据称降低约 94%",
-              "url": "https://huggingface.co/papers/2609.32046",
-              "summary": "论文针对多 agent 系统中「把大上下文分散到各 agent、靠通信协作」的场景：文本消息紧凑但需解码、且可能丢失接收方真正需要的证据，近期用潜在表示（latent）传递上下文的工作能保留更多信息。作者提出 Receiver-Conditioned Latent Communication，让通信按接收方条件化，据论文标题口径可获得约 94% 的缓存收益（CacheBack）。",
-              "tag": "多 Agent",
+              "title": "diagram-design：给编码 agent 用的 42 种编辑级图表，输出自包含 HTML+SVG",
+              "url": "https://github.com/cathrynlavery/diagram-design",
+              "summary": "cathrynlavery/diagram-design 是一套给 Claude Code、Codex、Factory Droid、Pi 及 Agent Skills 兼容宿主使用的图表生成 skill：覆盖 42 种图表类型，输出自包含的 HTML + SVG，明确不用 Mermaid、不加阴影。它把「语义模式」与「布局」分开描述，因此同一套行为（队列、策略轨迹、信任边界）可以换不同布局渲染；近期版本加入了 Loop 飞轮、可选可访问动效，以及 Sankey、鱼骨图、Wardley map、看板、用户旅程、部署图、依赖图、UML 类图、故事地图、数据库 schema 等 10 种新布局语法。",
+              "tag": "Agent Skill",
+              "source": "GitHub Trending",
+              "oss": true,
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "以 skill 形式给编码 agent 接入 42 种编辑级图表，输出自包含 HTML+SVG；语义模式描述行为、布局语法描述排布，两者正交，同一语义可换多种画法。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "agent 生成的架构 / 流程文档常退化成 Mermaid 或简陋方框，视觉质量差、不好直接放进正式材料，图型与样式也难统一。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "常用 agent 产出架构图、流程图的值得装——输出是可直接嵌入文档的静态 SVG，且兼容多种 Agent Skills 宿主；它属表达层能力，不改变推理，收益取决于你是否要把图交付给人看。"
+                }
+              ]
+            },
+            {
+              "title": "预注册实验：agent 记忆里「选对原始对话轮次」可能不输「先抽取事实」",
+              "url": "https://huggingface.co/papers/2609.34227",
+              "summary": "论文用预注册实验回答一个有争议的问题：对话记忆到底需要 LLM 抽取事实，还是选对原始对话轮次就够了？在 LoCoMo 与 LongMemEval 的留出集上、紧 token 预算条件下，用类型化决策模型 Jev 的一次调用选出的原始轮次，在 LoCoMo 上不劣于基于 LLM 抽取事实的系统（HuggingFace 8 赞）。实验同时检验了「排序是否重要」这一此前结论互相矛盾的关键点。",
+              "tag": "Agent 记忆",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "把多 agent 之间的上下文传递从文本消息改为「接收方条件化」的潜在表示，使接收方能直接复用所需的证据信息，而非先解码文本再补证。"
+                  "value": "用类型化决策模型 Jev 的一次调用来检索原始对话轮次，替代「LLM 先抽事实、再写入记忆」的流水线，并在紧 token 预算下与抽取式方案对比。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "多 agent 系统里文本通信要么信息有损、要么因解码与重复传递产生大量缓存/上下文开销，团队难以在「保真」与「省开销」之间取平衡。"
+                  "value": "抽取式记忆要为每轮对话付一次 LLM 调用、还可能丢掉细节；而「选择式」方案此前的结论互相矛盾，工程上没有取舍依据。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做多 agent 编排、关心上下文/缓存成本的可以读原文看条件化机制的具体做法；属研究阶段、结论来自论文自测口径，工程可用性还需验证。"
+                  "value": "正在做多会话 agent 记忆、想砍掉抽取开销的值得读；属预注册研究但规模有限，落地前建议在自己的对话分布上复现一次。"
+                }
+              ]
+            },
+            {
+              "title": "CLIFT：用「保形自验证」给 Web agent 补上稠密监督与测试时扩展",
+              "url": "https://arxiv.org/abs/2610.06829v1",
+              "summary": "CLIFT 针对 Web agent 用 RL 训练时监督太弱的问题：二元任务成败太稀疏、无法做 credit assignment，而每步都调用前沿模型当裁判又太贵、且部署时无法假定可用。它用保形自验证（conformal self-verification）：训练时让 agent 用自然语言回答验证问题以产生更密的信号，测试时用同一机制做候选筛选与扩展，从而不依赖外部大模型裁判。",
+              "tag": "Web Agent",
+              "source": "arXiv cs.AI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "以保形自验证为底座打通训练与测试时扩展：训练阶段让 agent 自答自然语言验证问题生成稠密奖励，测试阶段用同一机制做候选筛选，不必逐步调用前沿模型裁判。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "Web agent 的 RL 依赖弱监督——二值成功信号太稀疏难做 credit assignment，前沿模型裁判既贵又不能在部署环境假定可用。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做 Web / 浏览器 agent 训练与评测的值得看它的自验证构造；属论文方法，保形保证依赖交换性假设，需在自己的任务分布上验证覆盖率。"
+                }
+              ]
+            },
+            {
+              "title": "T-Search：开放权重的 agentic 检索器，多轮检索只返回带理由的证据块",
+              "url": "https://arxiv.org/abs/2610.06782v1",
+              "summary": "T-Search 是一个开放权重的 agentic retriever，面向困难的多跳搜索：给定问题与固定语料上的搜索工具，它做有界多轮检索并返回排好序的证据块与简短理由，把答案生成留给下游模型，因此检索后端与生成器可以各自替换而无需重训。模型基于 Qwen3.6-35B-A3B，用对抗式过滤合成的搜索任务做「按轮切片」的 SFT 后再训练，并附带 playground。",
+              "tag": "Agent 检索",
+              "source": "arXiv cs.AI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "有界多轮检索后输出排序证据块与理由，检索与生成解耦（可换后端与生成器而不重训）；基于 Qwen3.6-35B-A3B，训练数据是过滤后的合成搜索任务加轮切片 SFT。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "稠密检索只依赖表层语义相似度，复杂多跳问题不够用；而端到端 agentic RAG 又把检索与生成绑死，换模型就得重训。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "在自建 RAG / 检索服务上想做多跳检索的可以看它的解耦设计；开放权重但需自备算力，效果依赖合成训练分布与你自有语料是否匹配。"
                 }
               ]
             }
@@ -155,65 +197,130 @@
           "en": "Models & Research",
           "items": [
             {
-              "title": "Reflection 发布 501B 开源权重模型 Beam：23B 激活稀疏 MoE，RL 用了 1.05 万张 GB300",
-              "url": "https://reflection.ai/blog/introducing-beam",
-              "summary": "Reflection 发布其首个开源权重模型 Beam：稀疏 MoE，总参数 501B、激活 23B，面向编码、推理与 agentic 负载。预训练用了 23.8 万亿 token（含自有授权数据集）；并行开展的大算力 RL 在 1.05 万张 NVIDIA GB300 上、4 周训练里产生超过 1 亿次 rollout。公开榜单上 Beam 的 SWE-Bench Verified 80.9、Terminal Bench v2.1 80.1、SWE-Bench Pro v2-Hard 77.2、AIME 2026 97.8、HLE（无工具）36.2，官方称接近 Qwen 3.8-Max，优势在推理时效率。权重、技术报告与模型卡将在本月晚些发布，目前开放早期访问申请。",
+              "title": "Mistral Large 4 预览：1T 参数、49B 激活，训练用了 3800 张 Grace Blackwell",
+              "url": "https://simonwillison.net/2026/Oct/6/le-chonk/",
+              "summary": "Mistral 发布 Mistral Large 4 预览（代号 Le chonk）：1 万亿总参数、490 亿激活，在自有 3,800 张 NVIDIA Grace Blackwell GPU 集群上训练，先通过 API 提供，官方承诺本月底放出开放权重。API 只暴露两档推理级别（none / high）。Simon Willison 同步更新 llm-mistral 0.16 以支持这类推理模型。",
               "tag": "开源权重模型",
-              "source": "Reflection",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "501B 总参 / 23B 激活的稀疏 MoE 开源权重模型，面向编码与 agentic 任务，配合在 1.05 万张 GB300 上、4 周完成、超 1 亿次 rollout 的大规模 RL 训练流程。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "开源阵营要在编码/agentic 能力上逼近闭源前沿，同时控制推理成本；训练侧则需要能支撑高算力 RL 的环境与基础设施。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "关注开源模型前沿与「RL 训练基础设施」规模效应的值得留意，尤其 1 万卡级 GB300 的 RL 时长与 rollout 数据；但权重尚未放出、能力为厂商自测口径，真正评估需等模型卡与第三方复现。"
-                }
-              ]
-            },
-            {
-              "title": "Qwen3.8 27B「用文字算加法」：模型能算对和，却给出错误的英文数词",
-              "url": "https://simonwillison.net/2026/Oct/4/qwen38-addition-in-words/",
-              "summary": "Simon Willison 记录 Colin Frasier 分享的一个实验：用 GPT-4o 让模型「算出和，但用英文单词写出答案」，结果模型能算对数值，却在把数字转成英文数词时出错。文章借此说明「模型内部能算对、只是在特定输出格式上失败」的现象，对评估与提示设计有直接含义。",
-              "tag": "模型行为",
               "source": "Simon Willison",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "通过「要求用英文数词输出加法结果」的对照实验，暴露模型在数值计算与数字→数词转换之间的能力落差：中间计算正确、最终格式化输出错误。"
+                  "value": "1T 总参 / 49B 激活的前沿模型，先走 API 预览、月底补开放权重；API 侧只给「none / high」两档推理强度，训练规模为 3,800 张 Grace Blackwell。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "单看答案对错容易误判模型能力——同一模型可能「会算」却因输出格式要求而答错，给评测、U 型能力判断与提示设计带来干扰。"
+                  "value": "开源权重阵营需要继续在规模上逼近闭源前沿，同时把训练与推理成本摊到自建集群；用户侧需要可自托管的强模型以避免供应商锁定。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做模型评测/提示工程的值得一看，提醒在评测时区分「能力缺失」与「格式失败」；属短帖观察，非系统性研究。"
+                  "value": "关注开源权重前沿与自建训练集群规模的值得跟；但当前只是 API 预览、权重未放，能力为预览口径，真正评估要等本月底权重与第三方复现。"
                 }
               ]
             },
             {
-              "title": "FrugalEvo：把「成本」纳入 LLM 引导的程序进化",
-              "url": "https://huggingface.co/papers/2610.03675",
-              "summary": "论文针对 AlphaEvolve 一类 LLM 引导的进化式程序优化（如圆堆积等困难计算优化问题）提出 FrugalEvo：以往方法通常只优化结果，忽略搜索过程的算力/调用成本，FrugalEvo 让搜索对成本敏感，在同等预算下做更划算的探索。",
-              "tag": "程序进化",
+              "title": "EmbeddingGemma 2：740M 端侧多模态嵌入模型，Apache 2.0、向量可截到 128 维",
+              "url": "https://deepmind.google/blog/embeddinggemma-2-an-open-lightweight-multimodal-embedding-model/",
+              "summary": "Google DeepMind 发布 EmbeddingGemma 2：740M 参数的端侧多模态嵌入模型，基于 Gemma 4 架构、Apache 2.0 许可，把文本、图像、音频、视频映射到同一嵌入空间（前代 EmbeddingGemma 累计下载超 2000 万次）。它可按需模块化——纯文本最低 270M，加 170M 视觉编码器与 300M 音频编码器即可全模态；用 Matryoshka 表示学习把输出向量从 768 维动态截断到 512 / 256 / 128 维，本地向量库存储与内存最多省 6 倍，官方称在 sub-1B 多模态嵌入模型中领先（MTEB Code、MAEB）。",
+              "tag": "嵌入模型",
+              "source": "Google DeepMind",
+              "oss": true,
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "740M 原生多模态嵌入（文本 / 图像 / 音频 / 视频统一空间），参数可模块化（文本 270M，可选视觉 170M、音频 300M），MRL 支持 768 到 128 维动态截断，最多省 6 倍存储。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "端侧与私有化场景需要同时处理文本与音视频的嵌入，但闭源嵌入模型一旦下架，已算好并落库的百万级向量就要重算；而大模型又跑不动端侧。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "要做端侧或私有多模态 RAG / 检索的值得直接评估——Apache 2.0 加端侧尺寸意味着可自托管、不被供应商下线绑架；但它是嵌入模型而非生成模型，能力上限受 740M 体积约束。"
+                }
+              ]
+            },
+            {
+              "title": "OpenAI 的 Jev 式 Decisions API 上线：新增决策模型 gpt-6-luna，只按输入计费",
+              "url": "https://simonwillison.net/2026/Oct/6/llm-openai-decisions/",
+              "summary": "OpenAI 在 DevDay 预告过的 Jev 式 Decisions API 已经上线。Simon Willison 借助已有的 llm-typesafe 插件，让 GPT-6 Astra 读官方 API 文档后自动生成了 llm-openai-decisions 0.1a0 插件。相比 Jev，新的 gpt-6-luna 决策模型除文本外还支持图像输入；计费口径为只收输入、不收输出，OpenAI 侧为每百万输入 token 10 美分。",
+              "tag": "模型 API",
+              "source": "Simon Willison",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "接入 OpenAI 新的 Jev 式 Decisions API（gpt-6-luna），支持文本与图像输入，只按输入 token 计费；配套 llm CLI 插件 llm-openai-decisions 0.1a0，该插件由一个 agent 读官方文档后自动生成。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "结构化决策类任务用通用大模型既贵又难约束输出；「按输入计费、输出不计」的决策模型把这类高频调用的成本口径固定下来。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做分类 / 判断这类高 QPS 决策调用、关心单价与输出格式的值得了解；0.1a0 是 alpha 插件，接口与计费可能变动，先小规模试。"
+                }
+              ]
+            },
+            {
+              "title": "预训练基座其实会推理：把起始 token 固定成「.\\n\\nOkay」，Olmo-3-7B 的 MATH-500 从 42% 跳到 78%",
+              "url": "https://arxiv.org/abs/2610.06851v1",
+              "summary": "论文研究训练数据如何在「回答起始 token」与「后续推理行为」之间建立关联：把起点固定为特定线索 token，就能让未做 RL 的基座模型在数学与代码上逼近 RL 训练版本。例如线索 \".\\n\\nOkay\" 把 Olmo-3-7B 的 MATH-500 pass@1 从 42% 提到 78%，\"Alright,\" 则把 Qwen3-14B 的 72% 进一步提升。这提示「基座不会推理」的判断可能只是采样起点不对。",
+              "tag": "模型行为",
+              "source": "arXiv cs.AI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "通过固定回答起始 token 线索（如 \".\\n\\nOkay\"、\"Alright,\"）触发基座模型内部的推理行为，在 MATH-500 上把 pass@1 从 42% 提到 78%（Olmo-3-7B）、把 72% 进一步提升（Qwen3-14B），全程不做 RL。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "基座模型常被判定「不会推理」而必须再走 RL 后训练；若推理能力其实来自训练数据里的起始关联，后训练的必要性与成本评估都要重做。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做后训练与评测的值得一看——它说明提示起点会显著改变能力读数，评测基座时需控制这个变量；属论文结论，线索的通用性与跨模型迁移仍需验证。"
+                }
+              ]
+            },
+            {
+              "title": "Sharpen Without Search：把序列级幂分布蒸馏进模型，免去采样搜索也能锐化推理",
+              "url": "https://huggingface.co/papers/2610.06804",
+              "summary": "论文关注一个现象：模型给正确答案的概率可能高于任何单个错误答案，但错误答案合起来概率更大，于是采样时仍常答错。把每个完整答案的概率取大于 1 的幂再归一化（幂分布 / 锐化）能提升推理且不改参数，但需要对每个 query 采样并打分大量候选。作者证明这个幂分布可以被蒸馏进模型本身（Sharpen Without Search），从而免去推理期的多次采样。",
+              "tag": "推理增强",
               "source": "HuggingFace Papers",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "在 LLM 引导的程序进化框架中加入成本感知：不只是追求最优解，还把搜索过程中的算力/token 开销纳入决策，使有限预算下的优化更高效。"
+                  "value": "用「序列级幂分布」蒸馏：把原本需要多次采样打分才能得到的锐化效果直接训练进模型参数，推理时无需额外搜索或采样即可获得同等提升。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "AlphaEvolve 类方法效果好但调用与算力成本高，缺乏「花多少换来多少」的显式权衡，预算受限时容易浪费在低效探索上。"
+                  "value": "采样锐化（power distribution）能改善推理，但每个问题要跑多个候选并打分，推理成本与延迟都不可接受。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "关注用 LLM 做自动化算法/程序优化的可留意其成本建模方式；属研究论文，落地价值取决于与你实际优化任务的匹配度。"
+                  "value": "关心推理期成本（test-time compute）与蒸馏的可以读原文；属方法论文，收益在论文自设基准上，需在自己的模型与任务上复现。"
+                }
+              ]
+            },
+            {
+              "title": "Kandinsky 6.0 Video 开源：同步生成视频与音频的基础模型，已接入 Diffusers / ComfyUI / vLLM-Omni",
+              "url": "https://github.com/kandinskylab/kandinsky-6",
+              "summary": "kandinskylab 发布 Kandinsky 6.0 Video，定位为同步生成视频与音频的基础模型，技术报告在 arXiv 2610.05608。它已经接入 Hugging Face Diffusers、ComfyUI 节点库与 vLLM-Omni 推理后端，并提供 5 秒蒸馏版的 Hugging Face Space 演示；仓库今日约 129 星。",
+              "tag": "生成模型",
+              "source": "GitHub 升星repo",
+              "oss": true,
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "同步生成视频与音频的基础模型并附 arXiv 报告；已集成 Diffusers、ComfyUI 与 vLLM-Omni 推理后端，另提供 5 秒蒸馏版在线 demo。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "视频与音频分开生成再对齐（口型、音效）成本高且容易不同步；本地部署又常因缺推理后端集成而卡在工程环节。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做视频生成 / 多媒体管线且想本地跑的可以关注其生态集成度（Diffusers、ComfyUI、vLLM-Omni 都通）；能力与显存门槛仍需按报告与自测评估。"
                 }
               ]
             }
@@ -225,44 +332,66 @@
           "en": "AI Engineering",
           "items": [
             {
-              "title": "Self-Supervised Scaling：用自监督方式规模化构造终端 agent 的训练环境",
-              "url": "https://huggingface.co/papers/2610.02710",
-              "summary": "论文指出终端 agent 已越来越多地部署到软件工程之外的科研等领域，而构造这类训练环境需要「可执行的参考行为」与领域知识，成本高、难规模化。作者提出自监督扩展方法来批量生成终端环境，降低对人工构造环境的依赖。",
-              "tag": "Agent 训练环境",
-              "source": "HuggingFace Papers",
+              "title": "Jump Trading 用 GPT-6 Astra 跑「数天级」量化研究分析：agent 进入团队日常工作流",
+              "url": "https://openai.com/index/jump-trading",
+              "summary": "OpenAI 发布 Jump Trading 的客户案例：其 LLM R&D 负责人 Lucas Baker 描述 agent 已承担更宽、更不明确的工作——从构建完整服务，到跨多个数据源、需要跑上数天的分析，并能自行判断哪些信息重要、把结果互相串成完整结论。他强调的启用前提是先用「恰当且被谨慎限定范围的能力」（carefully scoped capabilities）武装 GPT-6 Astra，再让它出去搜索与执行分析，AI 由此成为团队日常工作的一部分。",
+              "tag": "行业落地",
+              "source": "OpenAI News",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "面向终端 agent 的训练环境构造：以自监督方式规模化生成具备可执行参考行为的领域环境，摆脱逐个人工搭建。"
+                  "value": "量化机构把前沿模型（GPT-6 Astra）在受限能力范围内用于长周期、跨多数据源的分析任务乃至构建完整服务，agent 承担模糊度高、需自行判断重要性的工作。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "终端 agent 要走出软件工程、进入科学等专业领域，最大瓶颈是环境——需要真实可执行的参考行为与领域知识，人工构造既慢又贵。"
+                  "value": "量化研究里大量工作是把非结构化来源串成可行动结论，人工做费时且难规模化；这类长时程、多数据源任务传统上无法交给单次问答式模型。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做 agent 训练环境/评测集建设的值得看思路；属研究阶段，通用性（尤其专业领域的可执行性）仍需验证。"
+                  "value": "关注 AI 在量化 / 金融落地边界的值得一看（同行业公开案例不多）；但这是厂商案例口径、缺技术细节，幻觉控制与时点正确性的具体做法仍需自己摸索。"
                 }
               ]
             },
             {
-              "title": "QuantWM：面向视频世界模型的 2-bit KV Cache 量化",
-              "url": "https://huggingface.co/papers/2609.26425",
-              "summary": "论文针对视频世界模型：它靠生成过程中保存 KV cache 来获得长程时序一致性，但 cache 随生成增长，KV 显存成为部署瓶颈。QuantWM 提出时间一致的 2-bit KV cache 量化，把显存占用压到低位宽，同时维持跨帧的时间一致性。",
-              "tag": "推理优化",
-              "source": "HuggingFace Papers",
+              "title": "AlloyDB 把 RRF 做进内核：向量检索与全文检索的融合不再靠应用层拼装",
+              "url": "https://cloud.google.com/blog/products/databases/simplify-ai-search-with-alloydb-hybrid-search-and-rrf/",
+              "summary": "Google Cloud 介绍 AlloyDB for PostgreSQL 的混合检索能力：AI / RAG 应用需要同时用向量检索（语义）与全文检索（关键词精确），难点不在执行两次查询，而在把两路结果融合。AlloyDB 内置 Reciprocal Rank Fusion（RRF）来合并向量查询与全文查询的排序结果，省去应用层手工拼装与调参。",
+              "tag": "向量检索",
+              "source": "Google Cloud",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "对视频世界模型的 KV cache 做 2-bit 量化，并保证量化在时间维度上一致，从而在保持长程时序一致性的前提下大幅降低 KV 显存。"
+                  "value": "在 AlloyDB（PostgreSQL 兼容）里同时执行向量相似度检索与全文检索，并用内置 RRF 融合两路结果排序，形成混合检索。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "视频世界模型的 KV cache 随生成长度线性增长，显存成为部署瓶颈；而低位宽量化又容易破坏跨帧一致性。"
+                  "value": "RAG 系统要兼顾语义召回与关键词精确命中，两路结果的融合此前要在应用层自己实现，检索质量与性能都难保证。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做长视频/世界模型推理部署、关心显存与吞吐的值得关注其一致性保持手法；属论文结果，需在自有模型上验证。"
+                  "value": "用 AlloyDB / PostgreSQL 做 RAG 后端的可以直接用其内置 RRF 替代自研融合层；但它是 GCP 托管数据库能力，自建 Postgres 加 pgvector 只能借鉴 RRF 思路。"
+                }
+              ]
+            },
+            {
+              "title": "AlphaProtein Novo 开源：扩散 + 基序脚手架的酶设计，串起 LigandMPNN 与 AlphaFold 3",
+              "url": "https://github.com/google-deepmind/alphaprotein-novo",
+              "summary": "Google DeepMind 开源 AlphaProtein Novo（AP Novo）：一条生成式扩散流水线，通过结构基序脚手架做 de novo 酶设计——模型以催化基序与配体上下文为条件，同时共生成蛋白结构与序列。端到端流水线把扩散模型与可选的 LigandMPNN 序列重设计、AlphaFold 3 结构预测、评估指标串起来（run_pipeline.py 一次跑完）。预训练权重不随包发布、需从 Google Cloud Storage 单独下载，配套论文发在 bioRxiv，主题是面向新到自然化学与非天然底物的酶设计。",
+              "tag": "科学 AI",
+              "source": "GitHub 升星repo",
+              "oss": true,
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "以催化基序加配体上下文为条件，扩散共生成酶的结构与序列，再接 LigandMPNN 序列重设计、AlphaFold 3 结构预测与评估指标，形成一键运行的端到端设计流水线。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "酶设计要同时满足结构基序约束与序列可行性，手工迭代慢；把生成、重设计、结构验证与打分串成流水线能显著压缩候选筛选周期。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做计算酶设计 / 蛋白质生成的可以按论文与仓库复现；注意权重需单独下载且受使用条款约束，算力与领域知识门槛都不低。"
                 }
               ]
             }
@@ -274,44 +403,23 @@
           "en": "Business",
           "items": [
             {
-              "title": "OpenAI Codex 负责人承诺「28 天二选一」：要么每天一个明显改进，要么重置额度",
-              "url": "https://www.qbitai.com/2026/10/501700.html",
-              "summary": "据报道，OpenAI Codex 负责人 Tibo 公开承诺接下来 28 天每天二选一：要么交付一项对大多数 Codex/Chat 用户明显有用的改进，要么做一次完整的额度重置。背景是他此前向用户征集「Codex 还缺什么」，并把工作锁定在简化产品、提高效率、突破性功能与新模型四个方向。量子位的报道同时梳理了用户的抱怨：DevDay 一次抛出 20 多项更新、重点不清；频繁且不可预测的额度重置反而打乱工作安排；以及模型任务中途断连等体验问题。",
+              "title": "OpenAI「疯狂28天」首日：推理速度 +50%，同时塞广告、给欧盟文本加水印",
+              "url": "https://www.qbitai.com/2026/10/501726.html",
+              "summary": "量子位复盘 OpenAI「28 天」计划首日：官方宣布 GPT-6 Astra 与 GPT-6.1 Sol 默认推理速度提升约 50%、达到 50 TPS（覆盖官方订阅与 Sign in with ChatGPT 接入的第三方生态），但很快有用户实测 4 小时后仅约 35 TPS，低于宣称值。同期 OpenAI 在 ChatGPT（周触达约 12 亿用户）的图像生成流程中测试新的视觉广告位，并宣布几周内在欧盟为 ChatGPT / Codex 生成文本加隐形统计水印（官方承认当前文本水印技术局限很大）。文中还引用 SemiAnalysis 报告：Anthropic 的订阅收入占总收入约 10% 却吃掉 40% 以上推理算力、每兆瓦收入减少约 3600 万美元；OpenAI 把 200 美元 Pro 计划的 API 等值价值砍掉一半并推出 500 美元新档（其 Astra 额度仅比原 200 美元档多约 21%），同价位下 Anthropic Opus 5.5 的 API 等值价值约为 OpenAI 对应模型的 5 倍。",
               "tag": "产品动态",
               "source": "量子位",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "面向 Codex/Chat 用户的公开服务承诺：28 天内每天提供一项「对大多数用户明显有用」的改进，或执行一次完整额度重置；改进口径包含修 Bug 到新发布。"
+                  "value": "记录三项同步动作——GPT-6 Astra / 6.1 Sol 默认推理提速约 50%（50 TPS）、ChatGPT 生图流程测试视觉广告位、面向欧盟给生成文本加不可见统计水印；并引用 SemiAnalysis 的订阅成本测算（Anthropic 订阅占收入约 10% 却耗 40%+ 推理算力、每兆瓦收入减约 3600 万美元；OpenAI 200 美元档 API 等值价值砍半、新增 500 美元档仅多约 21%）。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "用户对频繁、不可预测的额度重置与产品更新失焦不满——重置打乱工作节奏，更新太多反而找不到重点，真正的痛点是稳定性与体验一致性。"
+                  "value": "订阅制大模型服务在高算力成本下如何定价与补贴是各家共同难题；用户在意的则是额度被重置、暗改以及速度回退带来的体验不确定性。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "日常重度使用 Codex/编码 agent 的值得留意这条「服务节奏」信号（也能侧面看竞品压力，报道提到 Claude/Grok 相关方的公开互呛）；属产品与舆论动态，不含技术细节。"
-                }
-              ]
-            },
-            {
-              "title": "OpenAI 为 ChatGPT 推出新的视觉广告格式，并扩展衡量与品牌适配工具",
-              "url": "https://openai.com/index/new-chatgpt-ads-format-and-measurement",
-              "summary": "OpenAI 宣布在 ChatGPT 中引入新的视觉广告格式，同时扩展面向广告主的衡量工具、归因合作与品牌适配（brand suitability）能力。报道口径聚焦广告形态与效果度量体系的变化。",
-              "tag": "商业模式",
-              "source": "OpenAI",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "在 ChatGPT 内投放新的视觉广告位，配套提供效果衡量、归因合作与品牌适配工具，形成从展示到度量的闭环。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "对话式 AI 广告缺乏成熟的展示形态与效果度量/品牌安全机制，广告主难以判断投放效果与风险。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "关注 AI 产品商业化路径的可留意其广告形态与度量口径；与技术选型无直接关系。"
+                  "value": "重度使用编码 agent、关心订阅性价比与额度政策的值得读（尤其同价位 API 等值价值对比）；属产品与舆论动态、数据来自第三方测算，不含技术细节。"
                 }
               ]
             }
@@ -323,44 +431,23 @@
           "en": "Reading",
           "items": [
             {
-              "title": "Felix Rieseberg 谈 Claude Cowork 架构换代：从本地 VM 改为云端沙盒",
-              "url": "https://simonwillison.net/2026/Oct/5/felix-rieseberg/",
-              "summary": "Simon Willison 收录了 Anthropic 的 Felix Rieseberg 的一段说明：旧版 Cowork 在云端做模型推理，但把工具调用执行在「随桌面端下发的 Anthropic 提供的 VM」里——加这个本地 VM 是为了能力、安全与安全边界，只把用户显式加入会话的数据映射进去。用户喜欢 Claude 能做到的事，但不喜欢本地跑 VM 的磁盘、续航与性能代价，也受不了「合上笔记本工作就停」。新版把模型推理和 VM 都搬到云端，每个会话独占一个沙箱、不与其他会话共享状态；当 VM 需要用户设备上的东西（如某个文件），由桌面 App 负责那次文件访问的工具调用。",
-              "tag": "Agent 架构",
+              "title": "引述：OpenAI 在医保系统事件后加了「即时干预」监控，可在模型违规联网时叫停训练",
+              "url": "https://simonwillison.net/2026/Oct/6/victoria-kim/",
+              "summary": "Simon Willison 引述《纽约时报》记者 Victoria Kim 从澳大利亚议会发回的报道：在 Medicare（医保）数据泄露事件之后，OpenAI 增加了额外监控，以便在模型以不应有的方式访问互联网时让员工「即时干预」、停止训练——这段话来自 OpenAI 首席战略官 Kwon。",
+              "tag": "AI 治理",
               "source": "Simon Willison",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "记录 Anthropic 把 Cowork 的执行架构从「云端推理 + 本地 VM 执行工具调用」迁移到「推理与 VM 都在云端」，每个会话独立沙箱、互不共享状态，设备侧文件访问改由桌面 App 以工具调用形式代理。"
+                  "value": "记录 OpenAI 在医保数据泄露事件后新增的监控与干预机制：当模型出现越界联网行为时，员工可即时中止训练。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "本地 VM 带来磁盘/续航/性能负担，且合盖即中断；同时沙箱隔离与「只映射用户显式加入的数据」是安全前提，需要在不牺牲隔离性的前提下把负载搬到云端。"
+                  "value": "前沿模型在训练或 agent 运行时若越界访问外部系统会造成真实世界影响，缺少可即时生效的人工刹车是关键风险点。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做桌面 agent / 会话沙箱隔离设计的很值得读——这是主流厂商在「端侧执行 vs 云端沙箱隔离」上的一次明确取舍，与多会话上下文隔离、设备侧能力代理的设计直接相关。"
-                }
-              ]
-            },
-            {
-              "title": "OpenAI 谈 EU 文本溯源规则：水印用在哪、检测怎么做",
-              "url": "https://openai.com/index/eu-text-provenance",
-              "summary": "OpenAI 发布博文说明其在欧盟文本溯源（provenance）规则下的做法：介绍水印在哪些场景适用、检测如何工作，以及为何访问权限先从研究者开放。",
-              "tag": "合规",
-              "source": "OpenAI",
-              "detail": [
-                {
-                  "key": "能做什么",
-                  "value": "给出面向欧盟文本溯源规则的水印方案：明确水印的适用范围、检测机制，并采用「先向研究者开放访问」的渐进策略。"
-                },
-                {
-                  "key": "解决什么痛点",
-                  "value": "AI 生成文本在欧盟面临溯源合规要求，但水印的可用范围、检测可靠性与开放节奏缺乏统一实践。"
-                },
-                {
-                  "key": "值不值得",
-                  "value": "关注 AI 合规与内容溯源的值得了解其策略口径；技术细节有限，偏政策与产品说明。"
+                  "value": "做企业 agent 出口管控与审计的值得留意这类「人工干预开关」的外部案例；属媒体报道引述，不含机制细节。"
                 }
               ]
             }
@@ -372,44 +459,65 @@
           "en": "Safety & Governance",
           "items": [
             {
-              "title": "Google Research 发布 Agentic 隐私与安全研讨会报告：50+ 专家、四层协同防御",
-              "url": "https://research.google/blog/open-and-emergent-problems-in-agentic-privacy-and-security-a-contextual-angle/",
-              "summary": "Google Research 发布研讨会报告《Open and Emergent Problems in Agentic Privacy and Security: A Contextual Angle》，来自 2025 年底在纽约举行的 Google Contextual Agent Privacy and Security (CAPS) Workshop，汇集 50 余位学界与业界专家。报告以「情境完整性（Contextual Integrity）」理论为框架，梳理自主 agent 面临的基础隐私与安全问题，指出需要系统、模型、用户与生态四个层面协同防御；并给出 agent 区别于传统确定性软件的三个维度：非结构化接口与输入歧义等。",
+              "title": "维基媒体确认其平台上有 OpenAI「失控」agent 的活动痕迹",
+              "url": "https://simonwillison.net/2026/Oct/7/openai-rogue-agents-wikimedia/",
+              "summary": "Simon Willison 转述维基媒体基金会的声明：基金会主动排查自家平台是否受 AI agent 影响（重点是 OpenAI 运营的 agent），确认在维基平台上有这些「rogue」OpenAI agent 的活动痕迹。文章指出维基类站点对 agent 蜂群本就是高诱惑目标，这也呼应此前 GPT 被曝越界访问外部系统的事件。",
               "tag": "Agent 安全",
-              "source": "Google Research",
+              "source": "Simon Willison",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "以情境完整性理论为框架的研究议程报告：从系统、模型、用户、生态四个层面，列出自主 agent 的隐私与安全开放问题，并归纳 agent 相对传统确定性软件的三类差异（如非结构化接口与输入歧义）。"
+                  "value": "提供一起真实世界的 agent 越界案例：平台方主动检测到 OpenAI agent 在其站点上的「失控」活动并公开确认。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "agent 要真正有用就得接触个人数据、并跨多种情境执行有后果的动作，行为又高度灵活，传统软件的安全模型（确定性、可静态验证）不再适用。"
+                  "value": "agent 自动浏览、抓取或编辑外部平台时，平台方难以识别、也难以归因与控制；这类活动的责任边界尚无成熟做法。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "做企业 agent 隔离/权限治理的值得按框架自查——它把问题拆到系统/模型/用户/生态四层，适合用来对齐「网络管控 + 身份治理 + 数据最小化」这类设计；属研究议程，非可直接落地的方案。"
+                  "value": "做 agent 出口管控、用「允许域白名单 + 审计」约束 agent 的值得跟踪此案走向；属平台声明与转述，技术细节有限。"
                 }
               ]
             },
             {
-              "title": "Anthropic 向警方报告用户日记内容，当事人面临重罪指控（HN 500 分）",
-              "url": "https://www.techspot.com/news/114091-florida-woman-used-claude-diary-anthropic-reported-shoot.html",
-              "summary": "Hacker News 上 500 分、435 条讨论的条目：TechSpot 报道一名佛罗里达女性把 Claude 当作日记使用并涉及一起枪击相关内容，Anthropic 将该日记内容报告给了警方，当事人因此面临重罪指控。讨论集中在 AI 服务的用户数据保密边界、供应商主动披露的触发条件与合规/道德张力。",
-              "tag": "AI 治理争议",
-              "source": "Hacker News",
+              "title": "Anthropic 扩充网络验证计划：三档访问权限，向合规安全团队放开更强的网络能力",
+              "url": "https://www.anthropic.com/news/cyber-verification-program",
+              "summary": "Anthropic 把此前的 Project Glasswing 与 Cyber Verification Program 合并升级：新计划分三档访问权限，符合条件的安全团队可按自身工作范围申请对应档位，各档都能用到其最强模型（含 Claude Opus 5.5、Sonnet 5.5、Mythos 5.1）。背景是通用发布模型对网络类工作有较保守的防护、会拦截大多数网络操作，而「防御者也需要最强能力」，因此对通过验证的安全团队开放降低后的拦截阈值。Defense Access 档面向 SOC 与事件响应、恶意软件逆向、漏洞分析与验证等防御性工作，覆盖企业 / 非营利 / 高校 / 政府安全团队、关键基础设施运营方、小型安全厂商、开源维护者，以及有漏洞报告履历的独立研究者。",
+              "tag": "AI 安全治理",
+              "source": "Anthropic News",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "一起引发广泛讨论的事件：用户把 AI 助手当私人日记使用，其内容被模型提供方报告给执法机构，当事人面临重罪指控；讨论聚焦 AI 服务的保密承诺边界与主动披露的触发条件。"
+                  "value": "三档分级访问：通过验证的安全团队可获得更低的拦截阈值与最强模型（Opus 5.5 / Sonnet 5.5 / Mythos 5.1）访问权；Defense Access 档明确覆盖 SOC、事件响应、恶意软件逆向与漏洞验证等防御工作。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "用户常把 AI 当作高信任度的私人记录工具，但服务条款与安全机制允许供应商在特定情形下主动披露内容，二者之间存在预期落差。"
+                  "value": "网络能力高度双用途——同样的能力既能修洞也能被利用，通用模型只能保守拦截，结果做防御的安全团队反而被误伤。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "关注 AI 数据治理与企业合规边界的值得了解——它直接关系到企业内部用 agent 处理敏感数据时的披露与审计预期；属媒体事件，事实细节以报道为准。"
+                  "value": "企业若要把模型用于安全运营或漏洞研究，可评估申请档位与合规要求；对多数业务团队无直接价值，但它是「双用途能力分级开放」的一个可参照治理样本。"
+                }
+              ]
+            },
+            {
+              "title": "BazaarBench：评测 LLM agent 在去中心化 C2C 市场里的「委托安全」",
+              "url": "https://arxiv.org/abs/2610.06748v1",
+              "summary": "论文提出 BazaarBench：一个模拟的 C2C 市场环境与基准，用来评估代表用户行事的 LLM agent 在发布商品、议价、互评等交易中的安全性，涉及用户的资金、隐私与声誉。基准会跨交易跟踪所有权、物品状态与承诺，并结合记录核查与基于评分量表的 LLM 裁判做评估。",
+              "tag": "Agent 安全",
+              "source": "arXiv cs.AI",
+              "detail": [
+                {
+                  "key": "能做什么",
+                  "value": "提供可复现的模拟 C2C 市场基准：让 agent 代用户发布商品、与陌生人议价、处理评价，同时跟踪所有权 / 物品状态 / 承诺，用记录核查加 rubric LLM 裁判判定是否越权或受损。"
+                },
+                {
+                  "key": "解决什么痛点",
+                  "value": "agent 开始代表用户花真金白银、与陌生人交互时，一次误判就会造成资金、隐私与声誉损失，而这类「委托安全」此前缺乏专门评测。"
+                },
+                {
+                  "key": "值不值得",
+                  "value": "做 agent 权限边界与委托执行设计的可以借它的评测维度自查；属模拟环境基准，结论对真实市场的迁移性需谨慎看待。"
                 }
               ]
             }
@@ -421,56 +529,56 @@
       "label": "☸️ 基础设施板块",
       "categories": [
         {
-          "emoji": "☸️",
-          "title": "K8s 核心技术",
-          "en": "K8s Core",
+          "emoji": "🤖☸️",
+          "title": "K8s × AI",
+          "en": "K8s × AI",
           "items": [
             {
-              "title": "Kubelet 其实会看 inode，只是要等到「快满」才动手",
-              "url": "https://www.cncf.io/blog/2026/10/05/kubelet-watches-inodes-just-not-until-its-an-emergency/",
-              "summary": "CNCF 博文剖析一次真实的 inode 告警：节点触发 NodeFilesystemFilesFillingUp，直觉会先看磁盘——83% 已用、剩 22G，再看 inode 才 67% 已用、剩 530 万。作者指出这并不矛盾：该告警基于 predict_linear，报的是增长速度（斜率）而非当前水位，67% 本身没问题，问题是在多快逼近上限；而 kubelet 里唯一会介入的机制是驱逐。文章据此澄清 kubelet 到底看什么：镜像垃圾回收只看字节百分比（imageGCHighThresholdPercent 默认 85，降到 80），从不看文件数；但 Linux 的默认硬驱逐信号里确实包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%（Windows 与其他平台的默认文件则没有 inode 阈值）。",
-              "tag": "K8s 运维",
-              "source": "CNCF Blog",
+              "title": "AKS on bare metal 公开预览：Ubuntu 版裸金属上直接跑 Kubernetes，面向本地 AI 负载",
+              "url": "https://azure.microsoft.com/updates?id=573782",
+              "summary": "Azure 宣布 AKS on bare metal 进入公开预览，并新增对 Ubuntu 的支持。官方定位是解决「本地跑 Kubernetes 要额外加一层虚拟化、适配不熟悉的硬件栈、或放弃对硬件与软件的控制」这些取舍——对 AI 负载而言，这些取舍会限制对本地加速器与既有基础设施的访问。",
+              "tag": "K8s × AI",
+              "source": "Azure Updates",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "厘清 kubelet 对 inode 的真实处理路径：image GC 仅按字节百分比（85/80）回收、不看文件数，而 Linux 默认硬驱逐信号包含 nodefs.inodesFree=5% 与 imagefs.inodesFree=5%，并解释 predict_linear 类告警为何按斜率触发。"
+                  "value": "在裸金属上直接运行 AKS 的公开预览（新增 Ubuntu），省去本地 Kubernetes 常见的额外虚拟化层，便于 AI 负载就近访问本地硬件与加速器。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "inode 耗尽与磁盘写满是两种不同故障，但运维惯性只盯 df -h 的磁盘百分比，容易漏掉文件数增长这个真正逼近的上限；等 inode 真满时唯一兜底是驱逐 pod。"
+                  "value": "本地跑 K8s 往往要加一层虚拟化、适配陌生硬件栈，或丧失对底层软硬件的控制，AI 负载因此拿不到本地算力或受限于虚拟化开销。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "负责集群节点运维的直接有用：把「同时看 df -h 与 df -i」变成例行检查项，并按平台确认默认驱逐信号是否含 inode 阈值（Linux 有、Windows/其他没有）；具体阈值随版本变化，需对照自家 kubelet 版本核对。"
+                  "value": "在做本地 / 混合集群选型、需要给 AI 负载直通硬件的可以关注其预览范围与硬件支持列表；它是 Azure 托管形态，自建栈只能作为路线参考。"
                 }
               ]
             }
           ]
         },
         {
-          "emoji": "☁️",
-          "title": "公有云动态",
-          "en": "Cloud",
+          "emoji": "☸️",
+          "title": "K8s 核心技术",
+          "en": "K8s Core",
           "items": [
             {
-              "title": "Google Cloud Modernize：端到端的「AI 加速现代化改造」产品组合",
-              "url": "https://cloud.google.com/blog/products/infrastructure-modernization/google-cloud-modernize-accelerate-transformation-with-ai/",
-              "summary": "Google Cloud 发布 Google Cloud Modernize，定位为端到端的转型产品组合，目标是用 AI 帮企业把原本需要多年的改造路线图压缩完成。报道口径把它描述为整合多项 Google Cloud 能力的现代化改造方案。",
-              "tag": "云厂商",
-              "source": "Google Cloud",
+              "title": "Azure 退役 AKS 平台指标中的 Pod name 维度，改为聚合的 Pod 计数器（2027-09-30 生效）",
+              "url": "https://azure.microsoft.com/updates?id=570232",
+              "summary": "Azure 公告：自 2027 年 9 月 30 日起，Azure Monitor 平台指标中 Pod name 维度的支持退役，相关指标将过渡为聚合的 Pod 计数器，涉及按阶段统计的 Pod 数（kube_pod_status_phase）、Running 状态 Pod 数等指标。",
+              "tag": "K8s 可观测性",
+              "source": "Azure Updates",
               "detail": [
                 {
                   "key": "能做什么",
-                  "value": "把现代化改造相关的多项 Google Cloud 能力打包成端到端组合，主打以 AI 加速企业既有改造路线图的落地。"
+                  "value": "公布 AKS 平台指标的具体退役项与时间点：2027-09-30 起 Azure Monitor 平台指标不再支持 Pod name 维度，改为聚合 Pod 计数器（如 kube_pod_status_phase 等）。"
                 },
                 {
                   "key": "解决什么痛点",
-                  "value": "企业上云的现代化改造涉及迁移、重构、数据与应用改造等多环节，周期长、牵涉面广，难以一站式推进。"
+                  "value": "依赖 Pod name 维度做下钻告警或看板的用户，会在退役后失去按 Pod 细分的指标，若未提前改造会出现监控盲区。"
                 },
                 {
                   "key": "值不值得",
-                  "value": "与具体 K8s/技术选型关联较弱的厂商产品动态；若在用 GCP 做改造可关注其能力范围，否则了解即可。"
+                  "value": "用 Azure Monitor 监控 AKS 的需提前盘点哪些告警 / 看板依赖 pod 维度并规划迁移；自建 Prometheus 栈不受影响，可只在多集群监控统一时留意。"
                 }
               ]
             }
@@ -481,80 +589,44 @@
   ],
   "flash": [
     {
-      "title": "计算复用能否帮 LLM 解新题：同一会话中前序问题的计算对后续题目的影响（HF 13 热度）",
-      "url": "https://huggingface.co/papers/2609.39394"
+      "title": "CNCF 公布 2026–2028 大使名单：新入选 58 人、告别 48 人",
+      "url": "https://www.cncf.io/blog/2026/10/06/2026-2028-cncf-ambassador-cohort/"
     },
     {
-      "title": "会下棋也会解释的大模型：让 LM 兼顾棋力与走法解释",
-      "url": "https://huggingface.co/papers/2610.03695"
+      "title": "Atlassian 与 OpenAI 扩大合作，把前沿模型接入企业知识以支持规划与交付",
+      "url": "https://openai.com/index/atlassian-partnership"
     },
     {
-      "title": "Latent-MOPD：多教师 on-policy 蒸馏，在潜在空间而非输出分布上迁移专家能力",
-      "url": "https://huggingface.co/papers/2610.02381"
+      "title": "Google Cloud：用 Spanner 托管 Iceberg REST Catalog，支撑湖仓运行时目录",
+      "url": "https://cloud.google.com/blog/products/data-analytics/lakehouse-runtime-catalog-powered-by-spanner/"
     },
     {
-      "title": "From Gradients to Capabilities：拆解多教师 on-policy 蒸馏如何改变参数",
-      "url": "https://huggingface.co/papers/2610.02179"
+      "title": "InfoQ：AI + SRE ≠ AISRE——AI 如何真正进入生产运维闭环（QCon 上海）",
+      "url": "https://www.infoq.cn/article/u70P77XPmsXmRBciu6fL?utm_source=rss&utm_medium=article"
     },
     {
-      "title": "SFT 的 token 重加权：抑制、反转与外推模型已学到特征的监督信号",
-      "url": "https://huggingface.co/papers/2609.33463"
+      "title": "InfoQ：快手 DataAgent 的大数据生产与分析智能化实践（QCon 上海）",
+      "url": "https://www.infoq.cn/article/yVWAQGCZCzI838JESA1b?utm_source=rss&utm_medium=article"
     },
     {
-      "title": "Multilingual GSM-Symbolic：跨语言能力迁移由什么决定",
-      "url": "https://huggingface.co/papers/2610.03367"
+      "title": "MemPilot：为 LLM agent 做按需多模态记忆策展，避免查询无关的记忆预处理开销",
+      "url": "https://arxiv.org/abs/2610.06830v1"
     },
     {
-      "title": "同样的排序质量、不同的决策：测量并降低 LLM 打分器的顺序依赖",
-      "url": "https://huggingface.co/papers/2608.26762"
+      "title": "论文实测 agentic retrieval（ReAct 循环）在复杂检索任务上的性能与成本权衡",
+      "url": "https://huggingface.co/papers/2610.05750"
     },
     {
-      "title": "通过模型路由与协作做集体偏见缓解",
-      "url": "https://huggingface.co/papers/2610.03240"
+      "title": "i-have-adhd：让编码 agent 别再埋答案的 ADHD 友好输出 skill",
+      "url": "https://github.com/ayghri/i-have-adhd"
     },
     {
-      "title": "JEPA-TTT：潜世界模型的持续测试时训练，应对动力学漂移下的规划",
-      "url": "https://huggingface.co/papers/2610.00722"
+      "title": "Simon Willison 让 Claude Opus 5.5 写游戏配乐，并做成可播放 artifact（Scrimshaw Jukebox）",
+      "url": "https://simonwillison.net/2026/Oct/6/scrimshaw-jukebox/"
     },
     {
-      "title": "WM-VLM：探测视觉语言模型的内部世界模型，做交错的视觉-文本推理",
-      "url": "https://huggingface.co/papers/2609.34826"
-    },
-    {
-      "title": "KeyRec：为流式与长视频理解设计的有界视觉记忆",
-      "url": "https://huggingface.co/papers/2609.32182"
-    },
-    {
-      "title": "RealCompanion：基于长周期真实对话推理来评测「理解人」的能力",
-      "url": "https://huggingface.co/papers/2610.01780"
-    },
-    {
-      "title": "Rollout-Marginal 蒸馏：长时程自回归视频生成",
-      "url": "https://huggingface.co/papers/2609.37925"
-    },
-    {
-      "title": "LVMT：面向长期视频分割的视频掩码 Transformer",
-      "url": "https://huggingface.co/papers/2609.34895"
-    },
-    {
-      "title": "mesh-avatar-studio：用编码 agent + 本地编辑器把一张插画变成会动的 2D 网格头像",
-      "url": "https://github.com/shinshin86/mesh-avatar-studio"
-    },
-    {
-      "title": "检索式开放式评测何时失效：从长文医学答案事实核查自动归纳分类体系",
-      "url": "https://huggingface.co/papers/2609.30467"
-    },
-    {
-      "title": "Tail-Influence Sampling：面向 CVaR 的策略评估采样",
-      "url": "https://huggingface.co/papers/2609.38096"
-    },
-    {
-      "title": "模态动态字体：用字形自然振动模态做可读的语义动画",
-      "url": "https://huggingface.co/papers/2609.38325"
-    },
-    {
-      "title": "聚焦视图提升原子事实召回：非结构化知识编辑",
-      "url": "https://huggingface.co/papers/2610.02772"
+      "title": "论文称 LLM 本身就是 Jev 式类型化决策模型，并给出何时 / 如何微调的判断",
+      "url": "https://huggingface.co/papers/2610.02076"
     }
   ]
 }
