@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 019 (2026-10-08) from processed.json.
+URLs/sources are looked up by unique title substring -> no hand-typed URLs."""
+import json, sys
+
+PROC = "processed.json"
+items = json.load(open(PROC))
+# extra items added from targeted gap search (funnel step 3/4), verified live:
+EXTRA = [
+  {"title": "GKE Agent Sandbox 针对 agentic RL 优化并 GA：沙箱冷启动快 10–45 倍，Mistral 单集群跑过 3 万沙箱",
+   "url": "https://cloud.google.com/blog/products/containers-kubernetes/accelerate-agentic-rl-with-gke-agent-sandbox",
+   "summary": "Google Cloud 把 GKE Agent Sandbox 针对 agentic RL 与评测做了专项优化并转入 GA，同时发布 Agent Sandbox RL 编排 SDK，内置对 Gymnasium、NVIDIA NeMo Gym、OpenHands 的原生集成。",
+   "published": "2026-09-30T00:00:00+00:00", "source": "Google Cloud", "source_cat": "云厂商-官方",
+   "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": False, "hot_score": 15, "is_hot": False},
+  {"title": "Red Hat 讲 Kueue × DRA：把 GPU 配额从「按张数」改成「按显存」计费",
+   "url": "https://developers.redhat.com/articles/2026/10/02/smarter-gpu-sharing-how-red-hat-build-of-kueue-works-with-dynamic-resource-allocation",
+   "summary": "Red Hat 博文演示 Red Hat build of Kueue 1.4 在 OpenShift 上结合 DRA 做 GPU 配额管理。",
+   "published": "2026-10-02T00:00:00+00:00", "source": "Red Hat Developer", "source_cat": "厂商工程博客",
+   "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": False, "hot_score": 12, "is_hot": False},
+]
+have = {i["url"] for i in items}
+for e in EXTRA:
+    if e["url"] not in have:
+        items.append(e)
+
+def pick(sub):
+    hits = [i for i in items if sub.lower() in i["title"].lower()]
+    if len(hits) != 1:
+        sys.exit(f"AMBIGUOUS/MISSING title substring {sub!r}: {[h['title'][:60] for h in hits]}")
+    return hits[0]
+
+def it(sub, summary, tag, detail, oss=None):
+    s = pick(sub)
+    d = {"title": s["title"], "url": s["url"], "summary": summary, "tag": tag,
+         "source": s["source"],
+         "detail": [{"key": "能做什么", "value": detail[0]},
+                    {"key": "解决什么痛点", "value": detail[1]},
+                    {"key": "值不值得", "value": detail[2]}]}
+    if oss if oss is not None else s.get("oss"):
+        d["oss"] = True
+    return d
+
+brief = {
+  "brand": "AI & 基础设施早报",
+  "date_label": "2026 年 10 月 08 日 · 星期四",
+  "issue": 19,
+  "kicker": "DAILY",
+  "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+  "lead": "今天两条主线。基础设施侧，Google 把 GKE Agent Sandbox 针对 agentic RL 做了专项优化并转 GA——用预热沙箱池加镜像流式分发把沙箱冷启动从 45–85 秒压到 1–9 秒、最坏尾延迟从 7.5 分钟降到 10 秒内，控制面 churn 减约 3 倍，Mistral AI 已在单集群扛过 3 万个沙箱尖峰；Red Hat 则给出 Kueue 结合 DRA 的 GPU 配额方案，把按张数计费改成按显存精确计费。模型侧 Anthropic 发布 Claude Haiku 5.5，价格对齐 GPT-6 Luna（$0.10/$0.50）但换了更耗 token 的新分词器；OpenAI 与 Ironclad 用 11 个真实合同任务把 computer use 推进专业工作流，另有 Cloudflare 开源的安全审计 skill 与一批 Agent / 安全治理新论文。",
+  "highlights": [
+    it("GKE Agent Sandbox 针对 agentic RL",
+       "Google Cloud 把 GKE Agent Sandbox 针对 agentic RL 与评测做了专项优化并转入 GA，同时发布 Agent Sandbox RL 编排 SDK，内置对 Gymnasium、NVIDIA NeMo Gym、OpenHands 的原生集成。核心是 SandboxWarmPool（预热的健康沙箱池）叠加 GKE Image Streaming：在一个 10 节点 gVisor 沙箱池上，time-to-first-command 从裸 K8s 的 45–85 秒降到 1–9 秒（约 10 倍），最坏尾延迟从 7.5 分钟降到 10 秒以内（约 45 倍）。针对 4,578 张 R2E 镜像（单张 >1.2GB）这类高镜像基数场景，SDK 会把镜像水合放到关键路径之外。控制面方面，SDK 用「原地回收」复用 Pod、在 rollout 之间做 git reset 与 checkout，把 18,312 个任务产生的 Pod 创建数从 18,312 降到 5,869（约 3.1 倍）。Mistral AI 已在生产使用该能力，称可跨集群编排数十万个安全环境、单集群承受超过 3 万个沙箱的尖峰。",
+       "K8s × AI",
+       ["为 agentic RL / 评测提供专用沙箱层：SandboxWarmPool 维持预热沙箱、Image Streaming 支撑上千张多 GB 镜像的高基数，配合 async Python 的 RL 编排 SDK、原地 Pod 回收以及快照 / 挂起恢复、沙箱 fork（用于并行分支探索）。",
+        "同步 RL step 必须等最慢的沙箱就绪，CPU 沙箱冷启动与镜像拉取会让昂贵 GPU 空转；几千张不同 OCI 镜像带来拉取与存储瓶颈；上万 Pod/分钟的突发会把 API server / etcd 打到超时，并触发假的节点健康驱逐（官方测得 18,312 任务、churn 3.1 倍）。",
+        "正在为公司 agent 沙箱平台选型的值得细读——它把「会话复用 + 预热池 + 原地回收」做成 K8s 原生原语，正对应常驻沙箱浪费资源、空闲应挂起的痛点；但组件绑定 GKE / gVisor 与 Image Streaming，自建栈只能借鉴其池化与回收策略。"]),
+    it("Claude Haiku 5.5",
+       "Anthropic 发布新一代快速低价模型 Claude Haiku 5.5，取代近一年前的 Haiku 4.5——后者定价 $1/$5（每百万输入/输出 token），比同期 OpenAI GPT-6 Luna 贵了整整 10 倍。Haiku 5.5 把价格降到 $0.10/$0.50（10 万 token 以内），与 GPT-6 Luna 完全对齐；超过 10 万 token 后涨到 $0.50/$2.50，而 Luna 要到 27.2 万 token 才涨到 $0.20/$0.75。Simon Willison 用 Claude Token Counter 实测同一段长 prompt 在新模型上多耗约 1.25 倍 token，相当于一笔隐性涨价，因此长上下文场景 Luna 更划算。他还实测了 low→max 五档 thinking effort（新 Haiku 不能关闭推理、默认 medium）。同日 Anthropic 把 Sonnet 5.5 的缓存读取价格减半，并开始按月给 Max / Team 订阅发放 API 额度。",
+       "模型定价",
+       ["取代 Haiku 4.5 的快速低成本模型：≤10 万 token 区间与 GPT-6 Luna 同价，支持文本与图像，推理不可关闭、默认 medium，可调 low→max 五档 thinking effort；配套 llm-anthropic 已支持。",
+        "Haiku 4.5 定价明显落后（$1/$5，是 Luna 的 10 倍），高频小模型调用（分类、路由、轻量 agent 步骤）成本过高；订阅用户想直接用 API 又担心账单失控。",
+        "在做编码 agent 或大量小模型调用的，值得把 Haiku 5.5 与 GPT-6 Luna 按实际 token 量算一遍单任务成本（注意 1.25× 分词器差异）；>10 万 token 的长上下文任务应优先 Luna，短任务两者接近。新增的订阅 API 额度对重度用户是实打实的补贴。"]),
+  ],
+  "sections": [
+    {"label": "🤖 AI 板块", "categories": [
+      {"emoji": "🧩", "title": "Agent & Skill", "en": "Agent & Skill", "items": [
+        it("security-audit-skill",
+           "Cloudflare 开源 security-audit-skill，把编码 agent 组织成一个可复现的安全审计器：它编排彼此隔离的 agent，依次完成侦察、覆盖度驱动的漏洞搜寻、候选验证、结构化输出、独立记录复核与目标中立的报告。它是 Cloudflare 自家漏洞挖掘 harness 的起点（对应博文 Build your own vulnerability harness），该 harness 后来长成多阶段、全舰队的系统，而这个 skill 是它演化前的单仓库版本。六个阶段先产出 architecture.md 与 coverage-ledger.json，再把每个候选交给全新的 verifier 去尝试证伪，最后把 confirmed / needs_validation / rejected 三类记录写入 findings.json 并用 report-schema.json 校验。同一仓库的多次运行是累加的：新运行会复用历史 ledger 与 findings，只补缺口、复核变更源码，不把过期或未解决的项当成已覆盖。",
+           "Agent Skill",
+           ["六阶段安全审计编排（侦察 → 覆盖度驱动搜寻 → 候选验证 → 结构化输出 → 独立记录复核 → 目标中立报告），产出 architecture.md / coverage-ledger.json / findings.json / REPORT.md，并用 validate-coverage-ledger.cjs、validate-findings.cjs、report-schema.json 做机器可校验；confirmed / needs_validation / rejected 三态区分严格。",
+            "agent 做安全审计时缺覆盖度账本、候选可自证、结论不可复现，容易把「没查到」当成「没有」；多轮审计也难累加，重复劳动且会漏掉变更过的源码。",
+            "正在用 agent 做代码安全审计或想搭自己 harness 的值得直接读它的编排结构与三态裁决——它是单仓起点、设计成可累加，与「工具 + 流程 + 产物」的 skill 落地思路一致；但仍是研究级 harness，企业使用需评估权限与误报处置流程。"]),
+        it("Advancing computer use with Ironclad",
+           "OpenAI 公布与 AI 合同平台 Ironclad 的研究合作：把复杂的合同工作流做成 agent 的训练与评测任务，双方共同定义了 11 个真实合同任务，要求 agent 配置协议、审批与可复用的法务条款。据第三方整理，OpenAI 给出的内部数据是 GPT-6 Astra 在 11 个任务上得分 55.0%，高于 GPT-5.6 Sol 的 41.6%，每次尝试耗时 19.2 分钟对 37.0 分钟。OpenAI 称让 agent 在真实专业软件里、由真正用它的人协同训练，是提升专业工作能力最快的路径，并公开征集希望把「可安全用于研究的数据」接入研究的合作方。Ironclad 表示合作把它们真实的客户需求直接带进了前沿模型的研发过程。",
+           "Agent 落地",
+           ["把专业软件（合同平台）的真实工作流变成 agent 训练与评测任务：11 个任务要求 agent 配置协议、审批与可复用条款，并给出 Astra 55.0% vs Sol 41.6%、19.2 vs 37.0 分钟的对照数据（OpenAI 内部口径）。",
+            "computer use 在通用场景已可用，但专业软件里的长流程、强约束任务仍是短板；厂商单靠自己的评测集无法覆盖真实业务控制与合规要求。",
+            "关注 agent 进入垂直专业工作流边界的值得一看（这是「模型进真实业务系统」的一种范式）；但数据取自厂商内部与第三方转述、口径不透明，落地到自己的业务前需自建评测。"]),
+        it("nanoMuse",
+           "论文 nanoMuse 提出一个开源个人 agent，定位是对 2011 年的助手（只会应答）与 2023 年的 agent（做完一件就停）的超越，对标 2026 年 9 月 Meta 的 Muse——后者展示了「一个人的 agent」：有账号、设备、持续记忆与长期对话，但封闭、跑在某家厂商的云、且限定在一个国家。nanoMuse 要以开源方式实现同类能力：操作用户的账号与设备、跨周记住用户、在值得时主动开口，并对自己的行为负责。论文把它描述为「属于你自己的设备」上的个人 agent。",
+           "个人 Agent",
+           ["面向单用户的持久个人 agent：跨设备与账号行动、跨周记忆、可主动发起交互，并以开源实现替代 Meta Muse 那类封闭、单云、限区域的方案。",
+            "现有个人助理要么无状态、要么被锁在单一厂商的云与单一司法辖区里，用户的数据、记忆与可控性都不在自己手里。",
+            "关心「agent 归属与数据主权」、想做自托管个人 agent 的值得一读其架构取向；属论文/开源设计，能力与成熟度需自行验证，且要自备模型与运行环境。"]),
+        it("manaflow-ai/cmux",
+           "manaflow-ai/cmux 是一个基于 Ghostty 的开源 macOS 终端，专为 AI 编码 agent 场景设计：支持垂直标签与通知，主打多任务、组织与可编程性。它今日出现在 GitHub Trending，仓库已有近 2 万次提交，并自带 .claude / .agents 等 agent 配置目录。",
+           "开发工具",
+           ["把 macOS 终端做成面向多 agent 并行的控制台：Ghostty 内核 + 垂直标签 + 通知，方便同时盯多个编码 agent 会话，并保留可编程性与 agent 配置目录。",
+            "同时跑多个编码 agent 时，水平标签与会话切换让人难以跟踪哪个 agent 需要介入，通知与组织能力缺失。",
+            "日常并行跑多个编码 agent 的 macOS 用户可以试；属本地开发体验工具、不改变模型能力，收益取决于你的多会话工作强度。"]),
+      ]},
+      {"emoji": "🧠", "title": "模型与研究", "en": "Models & Research", "items": [
+        it("GPT-6 and Intelligent UI",
+           "OpenAI 宣布 GPT-6 在全球范围的 ChatGPT 中铺开，并带出 Intelligent UI——在更快响应的同时直接给出可视化与可交互的体验，用户可在对话里直接探索与使用，而不必只读文本。官方定位是「为每个人」的一代。",
+           "产品动态",
+           ["GPT-6 全球铺开并引入 Intelligent UI：响应更快，并在对话中直接渲染可视化与可交互界面供用户操作。",
+            "对话式界面长期只能输出纯文本，遇到需要图表、表单、可操作控件时体验断裂。",
+            "重度使用 ChatGPT 的值得关注其交互形态变化；官方未给出可核验的技术细节，能力边界需以实际使用为准。"]),
+        it("Sherpa: Teaching LLMs",
+           "论文 Sherpa 关注一个缺口：LLM 会解题不等于会教学。已有把 LLM 训练成「老师」的方法依赖示范、偏好数据或预先规定的教学标准，这些信号往往不基于学生个体的学习结果。Sherpa 用多轮强化学习实例化多种「学生原型」（以不同学习偏好为条件），直接以学生的成绩提升为目标训练教师模型。结果显示受教学生在各原型上平均提升 20.5 个百分点，MathTutorBench 教学法得分从 52.5% 升到 79.2%，人类教师在 79.6% 的成对比较中更偏好训练后的教师。",
+           "教学模型",
+           ["多轮 RL 教学框架：用 LLM 实例化多种学生原型、直接优化学生的学习结果来训练教师模型，受教学生平均提升 20.5 个百分点，MathTutorBench 52.5%→79.2%，人类偏好胜率 79.6%。",
+            "用示范或预设教学标准训练出的「教师」不贴合个体学生的真实学习效果，教学策略无法因材施教。",
+            "做 AI 家教 / 教育类 agent、或关心「以结果优化代替示范」这一 RL 范式的可以读；属论文，模拟学生与真实学生的差距仍需验证。"]),
+        it("Multilinguality in Hybrid Attention",
+           "论文首次系统研究混合注意力 LLM 的多语言行为：为支撑 agentic 与推理场景的长序列，许多前沿 LLM 把多种注意力变体组合起来，以在完整 softmax 注意力与基于 recurrence 的替代方案之间取得平衡。该工作考察这种混合设计在多语言上的表现差异。",
+           "长上下文",
+           ["对混合注意力 LLM 的多语言行为做首份系统研究，覆盖「全注意力 + 循环替代」组合在长序列 agentic / 推理场景下的表现。",
+            "长上下文模型常靠混合注意力降复杂度，但这类折中在多语言上的代价此前缺乏对照数据，选型时无据可依。",
+            "做多语言长上下文服务、需要权衡注意力架构的可以参考其结论；属论文研究，需结合具体模型与语言对复现。"]),
+        it("openai/math",
+           "OpenAI 在 GitHub 开源了 openai/math：一个由内部模型在开放研究问题上产出的数学手稿与证明工件集合，当前目录含 722 篇手稿、归为 372 个 family，并按数学学科分类。部分结果附带 Lean 形式化（不是全部），另发布了一批结果的推理摘要；官方明确提醒「未形式化的结果可能存在问题」，会持续补充 Lean 形式化。",
+           "AI 数学",
+           ["开源 722 篇数学手稿 / 372 个 family + 部分 Lean 形式化 + 推理摘要，全部由内部模型在开放研究问题上产出，按学科归类并带构建与校验说明。",
+            "模型在既有数学评测上饱和后，缺少公开的、可检验的「模型做出的新结果」样本，社区无法评估其真实水准与可靠性。",
+            "关注「模型能否做前沿数学」与形式化验证的值得看它与 Lean 工具链的衔接；但结果验证状态不一、部分可能有问题，不可当作已证明结论。"]),
+      ]},
+      {"emoji": "🛠️", "title": "AI 工程落地", "en": "AI Engineering", "items": [
+        it("OPD Before RL",
+           "论文提出 OPD（On-Policy Distillation）先于 RL 的两阶段方法，针对「无法按精确结果判分」的任务：这类任务用 rubric（评分量表）式强化学习给开放式回答打分，但奖励在整段回答之后才给出，训练信号无法定位到是哪一步决策贡献了分数。OPD 用同策略蒸馏为 rubric 式 RL 做热启动，从而改善信用分配。",
+           "后训练方法",
+           ["两阶段训练：先用同策略蒸馏（OPD）为基于 rubric 的 RL 热启动，再进入 RL，缓解「奖励只在整段回答后给出」导致的信用分配难题。",
+            "开放式任务无法精确判分，rubric 式 RL 的奖励过于滞后，训练信号无法定位到具体决策，收敛慢、效果不稳。",
+            "做开放任务后训练 / 用评分量表打奖励的可以读其两阶段设计；属论文方法，收益依赖 rubric 质量与任务分布。"]),
+        it("Do Language Models Need a Trainable Input Embedding",
+           "论文追问一个基础问题：可训练的词嵌入表是否必要？可训练嵌入为每个词元分配独立可调向量，作者在 1.7B 级规模上，用相同分词器与上下文骨干、相同数据，对比三组仅解码器模型（其中包括把词元身份固定为最小码的版本），检验共享 Transformer 能否从固定词元标识中学会语言建模能力。",
+           "模型结构",
+           ["在 1.7B 级规模上做受控对比：相同分词器 / 骨干 / 数据下，检验「固定最小词元码」能否替代可训练输入嵌入表仍保持语言建模能力。",
+            "输入嵌入表占大量参数（词表 × 隐藏维度），若可固定或共享，能省参数与显存、简化训练与部署。",
+            "做模型瘦身 / 端侧部署、或关心参数化必要性的可以读；属基础研究，结论在 1.7B 规模得出，外推到更大模型需谨慎。"]),
+        it("Toward Real-Time VLAs",
+           "论文研究视觉-语言-动作（VLA）模型「低速率推理 vs 高速率机器人执行」之间的时序缺口：通过端到端测量模型推理与机器人执行链的延迟，作者指出重复的 Flow Matching 去噪显著推高推理成本，而机器人侧延迟主要来自感知采集、通信调度等环节。方法上提出分阶段的两步流去噪并做系统级评测。",
+           "机器人 VLA",
+           ["刻画 VLA 的端到端时延构成（推理 + 机器人执行链），指出 Flow Matching 重复去噪是推理成本大头、机器人侧延迟来自感知与通信调度，并给出分阶段两步流去噪方案与系统级评测。",
+            "VLA 推理速率远低于机器人执行速率，重复去噪让模型跟不上高频控制，端到端延迟掩盖在单点指标里难以定位。",
+            "做机器人 / 具身 agent、关心实时推理链路的可以看其延迟分解方法；属论文，需在自己的硬件与执行链上复现。"]),
+      ]},
+      {"emoji": "📊", "title": "产品与商业", "en": "Business", "items": [
+        it("Meshy 跻身 a16z",
+           "在 a16z 首份消费级 AI 应用月收入榜单中，3D 生成公司 Meshy 位列第 31 名，是与 OpenAI、Anthropic、Canva、Superhuman、Higgsfield 等一同上榜的榜单中唯一一家 AI 3D 公司。",
+           "产品动态",
+           ["Meshy 进入 a16z 首份消费级 AI 应用月收入 Top 50（第 31 名），是榜单里唯一的 AI 3D 公司。",
+            "AI 3D 生成长期被视为难变现的赛道，缺乏可比的收入侧证据。",
+            "关注 AI 3D / 消费级 AI 商业化的可留意该榜单口径；属第三方榜单，营收估算方法未完全公开。"]),
+        it("怪物史莱克",
+           "量子位报道一家 AI 影视公司请到《怪物史莱克》编剧加盟，其视频模型据称全球排名第二，反映 AI 视频生成公司正以人才与模型排名两条线争夺影视内容市场。",
+           "国内动态",
+           ["国内 AI 影视公司引入《怪物史莱克》编剧、并宣称其视频模型全球排名第二，指向 AI 视频生成向专业影视制作渗透。",
+            "AI 视频公司同质化竞争激烈，需靠人才与榜单排名建立差异化。",
+            "关注国内 AI 视频赛道的可作趋势参照；报道含厂商宣传口径，模型排名需以第三方评测为准。"]),
+      ]},
+      {"emoji": "🛡️", "title": "安全与治理", "en": "Safety & Governance", "items": [
+        it("Source Identification Is Not Fitness Testing",
+           "论文检验「用来源标注决定哪些模型生成数据可复用」这一做法的两个前提：一是来源能被多可靠地恢复，二是在改写（paraphrase）之后是否仍能识别来源；随后检验来源信息是否真能挑出更好的训练数据。作者用金融风险文本做实验，先识别生成段落的来源，再在改写后重复该测试。",
+           "数据治理",
+           ["以金融风险文本为样本，同时检验生成数据的来源可恢复性与「来源=数据质量」的假设，并在改写后重测，量化来源标注的可靠性边界。",
+            "用模型生成数据反复训练会退化，「按来源筛选」被当作解法，但来源是否可可靠恢复、改写后是否还认得、以及它是否真能选出好数据都缺乏证据。",
+            "做数据治理 / 合成数据复用的可以看其结论以校准预期；属论文，结论基于特定文本域，跨域迁移需验证。"]),
+        it("CheckerBench",
+           "论文提出 CheckerBench，评测长时程 agent 能否合成静态分析检查器：这类任务要求 agent 解读缺陷规格、审查仓库、实现针对特定分析器的逻辑，并通过反复编译与分析反馈来迭代修正检查器。现有编码 agent 基准多集中在补丁生成或漏洞检测，很少评估 agent 能否在真实仓库里做出一个能跑的检查器。",
+           "Agent 评测",
+           ["基准化「长时程 agent 合成静态分析检查器」：从读缺陷规格、审仓库、写分析器逻辑到按编译/分析反馈迭代，评估面覆盖此前被编码 agent 基准忽略的能力。",
+            "补丁生成类基准无法衡量 agent 能否产出可编译、可用的分析工具，长时程反馈迭代能力被低估。",
+            "做代码分析 agent 或安全工具链的可以借其评测维度；属基准研究，成绩与具体语言 / 分析器绑定。"]),
+        it("Secure Speculative Decoding",
+           "论文关注投机解码（speculative decoding）的安全面：通常用小模型（draft）先起草候选 token，再由大模型（target）验证接受或拒绝，此前研究多聚焦效率—效用权衡（如无损 vs 有损）。该工作转向其安全问题。",
+           "推理安全",
+           ["研究投机解码在安全维度的风险，把此前集中在效率—效用权衡的讨论扩展到 draft/target 验证流程的安全性。",
+            "投机解码被广泛用于加速推理，但其接受 / 拒绝机制可能引入新的安全面，此前缺乏系统审视。",
+            "在生产里用投机解码加速的团队值得了解其风险面；属论文，具体攻击面与缓解需按其设置评估。"]),
+      ]},
+    ]},
+    {"label": "☸️ 基础设施板块", "categories": [
+      {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8s × AI", "items": [
+        it("Red Hat 讲 Kueue × DRA",
+           "Red Hat 博文演示 Red Hat build of Kueue 1.4 在 OpenShift 上结合 DRA 做 GPU 配额管理。背景是设备插件模型把 GPU 当匿名整数（nvidia.com/gpu: 1），调度器无从得知显存、算力与是否为分区切片——一张整卡 80GB 与一个 5GB MIG 切片都计为「1」。DRA 已在 K8s 1.34 GA，用结构化 API 暴露真实设备属性，但不解决配额、公平共享与抢占。Kueue 的 DRA 集成补上这块：把 DeviceClass 映射到逻辑配额资源名，按设备计数或按显存 counter 计费，并复用 Kueue 既有的队列借用、优先级抢占与准入公平共享；分区设备的 counter 式配额已随 Kueue 0.19 转 Beta 并默认开启。",
+           "K8s × AI",
+           ["Kueue × DRA 的 GPU 配额方案：把 DeviceClass（如 gpu.nvidia.com / mig.nvidia.com）映射到逻辑配额，既可按设备计数、也可按 DRA 暴露的显存 counter 计费（counter 式已随 Kueue 0.19 转 Beta 默认开），并直接沿用 Kueue 的队列借用、优先级抢占与准入公平共享；OpenShift 上由 operator 自动探测并开启对应 feature gate。",
+            "设备插件把 GPU 当匿名整数，80GB 整卡与 5GB MIG 切片都算「1」，多租户下无法做准确计费与公平共享；DRA 只解决发现与分配，不解决配额、公平与抢占。",
+            "正在设计集群 GPU 共享与多租户配额、且打算走 DRA 路线的值得逐条对照其配置（deviceClassMappings + Counter source）；但这是 Red Hat build（OpenShift 托管便利），自建栈需自行配置 Kueue 与其 feature gate，并评估分区设备的成熟度。"]),
+        it("Anyscale on Azure",
+           "Azure 宣布 Anyscale on Azure 正式 GA：它是在 Ray 上运行分布式 Python 工作负载的托管平台，直接部署到用户的 Azure Kubernetes Service（AKS）集群上，并与团队已有的 Azure 服务集成。",
+           "K8s × AI",
+           ["在自有 AKS 集群上以托管方式运行 Ray 分布式负载，并与既有 Azure 服务集成，把 Ray 的调度与运维交给托管控制面。",
+            "自建 Ray on K8s 需要自己处理调度、弹性与运维；同时又要与云上既有身份、网络、监控打通，粘合成本高。",
+            "用 AKS 跑分布式训练 / 数据处理、又不想自己维护 Ray 控制面的可以评估；属 Azure 托管能力，自建栈只能借鉴其「Ray on K8s」的落地方式。"]),
+      ]},
+      {"emoji": "📦", "title": "社区与项目", "en": "Community & Projects", "items": [
+        it("Meshery becomes a CNCF Incubating",
+           "CNCF 技术监督委员会（TOC）投票通过，接受 Meshery 成为 CNCF 孵化项目。Meshery 被航空航天、电信、网络与企业软件等领域的组织用作统一的云原生管理平面。",
+           "云原生项目",
+           ["Meshery 从沙箱升入 CNCF 孵化阶段，定位为管理多类云原生基础设施的统一控制平面，覆盖航空航天、电信、网络与企业软件等行业用户在管。",
+            "不同云原生组件（服务网格、K8s 发行版等）各自有独立管理入口，多栈并存时运维视图割裂。",
+            "在做多集群 / 多云管理平面对比选型的可以把 Meshery 列入候选；升入孵化意味着治理与社区更稳，但其管理平面的成熟度仍需按你的栈验证。"]),
+      ]},
+    ]},
+  ],
+  "flash": [
+    {"title": "CiliumCon 回到 KubeCon + CloudNativeCon 北美 2026", "url": pick("CiliumCon is back")["url"]},
+    {"title": "BackstageCon 加入 KubeCon + CloudNativeCon 北美 2026（盐湖城）", "url": pick("BackstageCon comes")["url"]},
+    {"title": "Kubernetes on Edge Day 回归 KubeCon + CloudNativeCon 北美 2026", "url": pick("Kubernetes on Edge Day")["url"]},
+    {"title": "Agent in a Bottle：LLM agent 能否把能力变成廉价、可扩展的资源", "url": pick("Agent in a Bottle")["url"]},
+    {"title": "论文追问：agent 的执行历史能否预判「上下文压缩何时会伤到它」", "url": pick("Does an Agent's History Tell You")["url"]},
+    {"title": "DAEDALUS：用自生成任务引导 agent 记忆的冷启动", "url": pick("DAEDALUS")["url"]},
+    {"title": "bops：一支各带电脑、邮箱与电话的 AI bot 团队运营业务", "url": pick("nickvasilescu/bops")["url"]},
+    {"title": "Simon Willison 引述 Ben Affleck 谈 AI 与创作", "url": pick("Quoting Ben Affleck")["url"]},
+  ],
+}
+
+json.dump(items, open(PROC, "w"), ensure_ascii=False, indent=1)  # persist gap-search add-ons so verify_links sees them
+json.dump(brief, open("briefing.json", "w"), ensure_ascii=False, indent=2)
+# sanity: every item has non-empty title
+def walk(o):
+    if isinstance(o, dict):
+        if "url" in o and "title" in o:
+            assert o["title"] and str(o["title"]).strip(), f"empty title {o}"
+        for v in o.values(): walk(v)
+    elif isinstance(o, list):
+        for x in o: walk(x)
+walk(brief)
+n = sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print(f"OK: issue {brief['issue']}, highlights {len(brief['highlights'])}, section items {n}, flash {len(brief['flash'])}")

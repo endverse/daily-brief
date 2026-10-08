@@ -1,51 +1,52 @@
 ======================================================================
-处理报告  (原始 174 条)
+处理报告  (原始 202 条)
 ======================================================================
 
-① 过滤: 保留 136 条, 过滤掉 38 条
+① 过滤: 保留 144 条, 过滤掉 58 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] tester-army/e2e
      ✗ [GitHub Trending] boykopovar/AnyPS5
+     ✗ [GitHub Trending] EpicGames/raddebugger
+     ✗ [GitHub Trending] trycua/cua
+     ✗ [GitHub Trending] tester-army/e2e
      ✗ [GitHub Trending] DuarteSantos8/openGym
      ✗ [GitHub 升星repo] alchaincyf/huashu-art-motion
-     ✗ [GitHub 升星repo] rit3zh/morphlet
-     ✗ [GitHub 升星repo] jasonbitsmith/muse-skills
-     ✗ [GitHub 升星repo] yoge7388095s/eth-trading-bot
-     ✗ [GitHub 升星repo] h100envy/gem-search
+     ✗ [GitHub 升星repo] alejandrobujan/tendedero
+     ✗ [GitHub 升星repo] LoreanXavier/pt-pc
 
-② 去重: 136 → 129 条 (同批合并 1, 跨天历史去重 6)
+② 去重: 144 → 134 条 (同批合并 4, 跨天历史去重 6)
    跨天去重(此前已发过，跳过):
+     ⏭️  [GitHub Trending] morluto/rea
      ⏭️  [GitHub Trending] mattpocock/skills
-     ⏭️  [GitHub Trending] earthtojake/text-to-cad
-     ⏭️  [GitHub Trending] pbakaus/impeccable
+     ⏭️  [GitHub Trending] ayghri/i-have-adhd
+     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
+     ⏭️  [GitHub Trending] addyosmani/agent-skills
      ⏭️  [GitHub Trending] thedotmack/claude-mem
-     ⏭️  [GitHub Trending] msitarzewski/agency-agents
-     ⏭️  [GitHub 升星repo] elstongun/leviathan
    跨源合并的事件:
-     ⇉ Sharpen Without Search: On-Policy Distil  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Sherpa: Teaching LLMs to Teach Adaptivel  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Claude Haiku 5.5  ← ['Hacker News', 'Simon Willison']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 69 条 (含🔧开源 5)
-     - Agent & Skill: 23 条 (含🔧开源 3)
-     - 产品与商业: 6 条
-     - 观点与好文: 2 条
-     - 安全与治理: 7 条
-     - AI 工程落地: 14 条 (含🔧开源 4)
+     - 模型与研究: 67 条 (含🔧开源 1)
+     - Agent & Skill: 17 条 (含🔧开源 2)
+     - 产品与商业: 14 条
+     - 观点与好文: 2 条 (含🔧开源 1)
+     - 安全与治理: 8 条
+     - AI 工程落地: 13 条 (含🔧开源 2)
    【基础设施】
-     - K8s 核心: 3 条
+     - K8s 核心: 7 条
      - K8s × AI: 4 条
-     - 社区与项目: 1 条
+     - 社区与项目: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [18分] Sharpen Without Search: On-Policy Distillation of Seque
-        源:HuggingFace Papers 类:产品与商业 跨源:['HuggingFace Papers', 'arXiv cs.AI']
-     🔥 [16分] Barclays scales Claude to upgrade operations and improv
-        源:Anthropic News 类:模型与研究 跨源:[]
+     🔥 [25分] Claude Haiku 5.5
+        源:Simon Willison 类:模型与研究 跨源:['Hacker News', 'Simon Willison']
+     🔥 [16分] GPT-6 and Intelligent UI for everyone
+        源:OpenAI News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      18分 [HuggingFace Papers] Sharpen Without Search: On-Policy Distillatio
+      25分 [Simon Willison] Claude Haiku 5.5
+      16分 [OpenAI News ] GPT-6 and Intelligent UI for everyone
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
-      15分 [arXiv cs.AI ] Base Models Can Reason By Taking a Cue From T
-      14分 [Simon Willison] llm-openai-decisions 0.1a0
+      15分 [HuggingFace Papers] Sherpa: Teaching LLMs to Teach Adaptively
