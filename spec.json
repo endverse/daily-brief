@@ -3,7 +3,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月07日 · 星期三 · 第018期",
+    "subtitle": "2026年10月08日 · 星期四 · 第019期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. Kubernetes 官方：cgroup v1 已弃用，v1.35 起 kubelet 默认不再在 cgroup v1 节点启动**\nKubernetes 官方博文梳理 cgroup v2 迁移：cgroup v1 管理自 v1.31 进入维护模式、现已被弃用，cgroup v2 自 v1.25 起稳定。从 v1.35 起 failCgroupV1 默认为 true，kubelet 默认不会在 cgroup v1 节点上启动；kubeadm 的 SystemVerification 预检在 kubelet ≥v1.35 时会直接报错，中止 init / join / upgrade。文章同时列出 cgroup v2 上才有的能力：Memory QoS（memory.high 限流 + memory.min / memory.low 分层保护，memoryReservationPolicy 取 TieredReservation 时启用，memoryThrottlingFactor 默认 0.9，建议内核 ≥5.9），以及容器级 OOM 处理——cgroup v2 节点上 singleProcessOOMKill 默认 false，kubelet 会写 memory.oom.group 让整个容器一起被杀。还有一条迁移后依然存在的老问题：active_file 在 kubelet 眼里不算可回收内存（kubernetes#43916），I/O 密集负载下大 page cache 会触发内存压力驱逐，官方给的绕法是对这类容器设相等的 request 与 limit。\n\n**2. GKE 为 AI 推理给出两套参考架构：Inference Gateway 按模型路由 + PSC 内网入口 + Model Armor 护栏**\nGoogle Cloud 发布两套「AI 推理服务网络」参考架构：一套基于 GKE，一套面向其他所有后端类型。共同组件包括 Private Service Connect 推理端点（把入口锚定在消费方 VPC 内，流量走私有内部 IP，推理调用不出私网）、可选的 Apigee API 管理（通过 Extension Processor 回调做客户端身份校验、限流与配额），以及 Model Armor 作为内联 AI 安全检查点（对 prompt 与 completion 做提示注入与敏感数据泄漏筛查）。GKE 版额外引入 GKE Inference Gateway，以内部应用负载均衡器（gke-l7-rilb）形式部署，解析请求负载、按 HTTPRoute 规则把请求路由到对应模型的 inference pool（同模型副本的逻辑分组）。入口层统一承担 TLS 终止、API 管理扩展与安全策略执行。"
+      "content": "**🔥 今日重点**\n\n**1. GKE Agent Sandbox 针对 agentic RL 优化并 GA：沙箱冷启动快 10–45 倍，Mistral 单集群跑过 3 万沙箱**\nGoogle Cloud 把 GKE Agent Sandbox 针对 agentic RL 与评测做了专项优化并转入 GA，同时发布 Agent Sandbox RL 编排 SDK，内置对 Gymnasium、NVIDIA NeMo Gym、OpenHands 的原生集成。核心是 SandboxWarmPool（预热的健康沙箱池）叠加 GKE Image Streaming：在一个 10 节点 gVisor 沙箱池上，time-to-first-command 从裸 K8s 的 45–85 秒降到 1–9 秒（约 10 倍），最坏尾延迟从 7.5 分钟降到 10 秒以内（约 45 倍）。针对 4,578 张 R2E 镜像（单张 >1.2GB）这类高镜像基数场景，SDK 会把镜像水合放到关键路径之外。控制面方面，SDK 用「原地回收」复用 Pod、在 rollout 之间做 git reset 与 checkout，把 18,312 个任务产生的 Pod 创建数从 18,312 降到 5,869（约 3.1 倍）。Mistral AI 已在生产使用该能力，称可跨集群编排数十万个安全环境、单集群承受超过 3 万个沙箱的尖峰。\n\n**2. Claude Haiku 5.5**\nAnthropic 发布新一代快速低价模型 Claude Haiku 5.5，取代近一年前的 Haiku 4.5——后者定价 $1/$5（每百万输入/输出 token），比同期 OpenAI GPT-6 Luna 贵了整整 10 倍。Haiku 5.5 把价格降到 $0.10/$0.50（10 万 token 以内），与 GPT-6 Luna 完全对齐；超过 10 万 token 后涨到 $0.50/$2.50，而 Luna 要到 27.2 万 token 才涨到 $0.20/$0.75。Simon Willison 用 Claude Token Counter 实测同一段长 prompt 在新模型上多耗约 1.25 倍 token，相当于一笔隐性涨价，因此长上下文场景 Luna 更划算。他还实测了 low→max 五档 thinking effort（新 Haiku 不能关闭推理、默认 medium）。同日 Anthropic 把 Sonnet 5.5 的缓存读取价格减半，并开始按月给 Max / Team 订阅发放 API 额度。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — MCP Toolbox Java SDK 1.0 把 agent 数据访问收敛成类型安全 MCP 接口；REA 用一个 MCP 打通二进制/应用/运行时逆向；diagram-design 给编码 agent 提供 42 种编辑级图表。\n🧠 **模型与研究** — Mistral Large 4 预览 1T 参数/49B 激活；EmbeddingGemma 2 是 740M 端侧多模态嵌入（Apache 2.0）；OpenAI 的 Jev 式 Decisions API 上线，新增 gpt-6-luna。\n🛠️ **AI 工程落地** — Jump Trading 把「数天级」量化研究分析交给 GPT-6 Astra 驱动的 agent；AlloyDB 内置 RRF 做混合检索；AlphaProtein Novo 开源酶设计流水线。\n📊 **产品与商业** — OpenAI「疯狂28天」首日默认推理提速约 50%，同期测试视觉广告并给欧盟生成文本加隐形水印。\n💡 **观点与好文** — 引述：OpenAI 在医保事件后新增「即时干预」监控，可叫停模型越界联网时的训练。\n🛡️ **安全与治理** — 维基媒体确认发现 OpenAI「失控」agent 活动痕迹；Anthropic 扩充网络验证计划为三档访问权限。\n🤖☸️ **K8s × AI** — AKS on bare metal 公开预览并支持 Ubuntu，面向本地 AI 负载。\n☸️ **K8s 核心技术** — Azure 退役 AKS 平台指标中的 Pod name 维度（2027-09-30 生效）。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Cloudflare 开源 security-audit skill（六阶段安全审计）；OpenAI×Ironclad 用 11 个合同任务推进 computer use；nanoMuse 提出开源个人 agent；cmux 是给编码 agent 的 Ghostty 系终端。\n🧠 **模型与研究** — GPT-6 携 Intelligent UI 全球铺开；Sherpa 用多轮 RL 教 LLM「因材施教」；混合注意力 LLM 的多语言行为首份系统研究；OpenAI 开源 722 篇模型产出的数学手稿。\n🛠️ **AI 工程落地** — OPD 用同策略蒸馏给 rubric 式 RL 热启动；论文追问可训练输入嵌入表是否必要；VLA 实时推理的端到端延迟分解与两步流去噪。\n📊 **产品与商业** — Meshy 进入 a16z 消费级 AI 月收入 Top 50（唯一 AI 3D 公司）；国内 AI 影视公司引入《怪物史莱克》编剧、视频模型称全球第二。\n🛡️ **安全与治理** — 论文检验「按来源筛选合成数据」的两个前提；CheckerBench 评测 agent 能否合成静态分析检查器；投机解码的安全面研究。\n🤖☸️ **K8s × AI** — Red Hat 给出 Kueue×DRA 方案，GPU 配额从按张数改为按显存计费；Anyscale on Azure GA，在 AKS 上托管运行 Ray。\n📦 **社区与项目** — Meshery 升入 CNCF 孵化项目，定位统一云原生管理平面。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 · 8 大板块 22 条精选 · 10 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 · 7 大板块 19 条精选 · 8 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-07.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-08.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
