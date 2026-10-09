@@ -3,7 +3,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月08日 · 星期四 · 第019期",
+    "subtitle": "2026年10月09日 · 星期五 · 第020期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. GKE Agent Sandbox 针对 agentic RL 优化并 GA：沙箱冷启动快 10–45 倍，Mistral 单集群跑过 3 万沙箱**\nGoogle Cloud 把 GKE Agent Sandbox 针对 agentic RL 与评测做了专项优化并转入 GA，同时发布 Agent Sandbox RL 编排 SDK，内置对 Gymnasium、NVIDIA NeMo Gym、OpenHands 的原生集成。核心是 SandboxWarmPool（预热的健康沙箱池）叠加 GKE Image Streaming：在一个 10 节点 gVisor 沙箱池上，time-to-first-command 从裸 K8s 的 45–85 秒降到 1–9 秒（约 10 倍），最坏尾延迟从 7.5 分钟降到 10 秒以内（约 45 倍）。针对 4,578 张 R2E 镜像（单张 >1.2GB）这类高镜像基数场景，SDK 会把镜像水合放到关键路径之外。控制面方面，SDK 用「原地回收」复用 Pod、在 rollout 之间做 git reset 与 checkout，把 18,312 个任务产生的 Pod 创建数从 18,312 降到 5,869（约 3.1 倍）。Mistral AI 已在生产使用该能力，称可跨集群编排数十万个安全环境、单集群承受超过 3 万个沙箱的尖峰。\n\n**2. Claude Haiku 5.5**\nAnthropic 发布新一代快速低价模型 Claude Haiku 5.5，取代近一年前的 Haiku 4.5——后者定价 $1/$5（每百万输入/输出 token），比同期 OpenAI GPT-6 Luna 贵了整整 10 倍。Haiku 5.5 把价格降到 $0.10/$0.50（10 万 token 以内），与 GPT-6 Luna 完全对齐；超过 10 万 token 后涨到 $0.50/$2.50，而 Luna 要到 27.2 万 token 才涨到 $0.20/$0.75。Simon Willison 用 Claude Token Counter 实测同一段长 prompt 在新模型上多耗约 1.25 倍 token，相当于一笔隐性涨价，因此长上下文场景 Luna 更划算。他还实测了 low→max 五档 thinking effort（新 Haiku 不能关闭推理、默认 medium）。同日 Anthropic 把 Sonnet 5.5 的缓存读取价格减半，并开始按月给 Max / Team 订阅发放 API 额度。"
+      "content": "**🔥 今日重点**\n\n**1. 自动驾驶公司卓驭用 Koordinator 把 K8s GPU 分配率推过 95%：单集群日调度 30–80 万 Pod，开发环境省下约 60% 整卡**\nCNCF 发布卓驭科技(Zhuoyu)的案例：这家中国自动驾驶公司用 CNCF Sandbox 项目 Koordinator 扩展 Kubernetes 调度，解决默认 kube-scheduler 造成的 GPU 搁浅与分布式作业调度低效。成果是集群 GPU 分配率超过 95%、整体 GPU 利用率 55%+（共享推理场景约 60%），开发环境(Codespaces)使用的整卡数量减少约 60%。规模上单集群维护 100+ 个 ElasticQuota，日调度吞吐量达 30 万–80 万个 Pod。整套栈同时用了 Kubernetes、Koordinator 与 HAMi，回应的是 AI 时代「卡贵、但大量卡被碎片化占用」的核心矛盾。\n\n**2. Mistral 发布 Large 4「le Chonk」：1T 参数 MoE（激活 49B）、512k 上下文，10 月 6 日开放 API 预览、权重承诺月底开源**\nMistral 于 10 月 6 日开放旗舰模型 Mistral Large 4 的 API 预览（模型 ID mistral-large-4，昵称 le Chonk）。它是一个约 1 万亿参数、激活约 490 亿的 MoE，报告使用 3,800 张 NVIDIA Grace Blackwell GPU 训练，支持 512k 上下文与图像输入，定位长文档、agentic 工作流、代码与网络安全任务，官方称在 Cybench 上达 93%、对 prompt injection 有较强抵抗。权重承诺在 10 月底发布（含安全审查），独立评测 Vals Index 给到 48.05% 排 32/44。它是欧洲阵营在开源权重赛道对中美的正面回应。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Cloudflare 开源 security-audit skill（六阶段安全审计）；OpenAI×Ironclad 用 11 个合同任务推进 computer use；nanoMuse 提出开源个人 agent；cmux 是给编码 agent 的 Ghostty 系终端。\n🧠 **模型与研究** — GPT-6 携 Intelligent UI 全球铺开；Sherpa 用多轮 RL 教 LLM「因材施教」；混合注意力 LLM 的多语言行为首份系统研究；OpenAI 开源 722 篇模型产出的数学手稿。\n🛠️ **AI 工程落地** — OPD 用同策略蒸馏给 rubric 式 RL 热启动；论文追问可训练输入嵌入表是否必要；VLA 实时推理的端到端延迟分解与两步流去噪。\n📊 **产品与商业** — Meshy 进入 a16z 消费级 AI 月收入 Top 50（唯一 AI 3D 公司）；国内 AI 影视公司引入《怪物史莱克》编剧、视频模型称全球第二。\n🛡️ **安全与治理** — 论文检验「按来源筛选合成数据」的两个前提；CheckerBench 评测 agent 能否合成静态分析检查器；投机解码的安全面研究。\n🤖☸️ **K8s × AI** — Red Hat 给出 Kueue×DRA 方案，GPU 配额从按张数改为按显存计费；Anyscale on Azure GA，在 AKS 上托管运行 Ray。\n📦 **社区与项目** — Meshery 升入 CNCF 孵化项目，定位统一云原生管理平面。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Oracle 用 ChatGPT Work + Codex 把专家知识变可复现工作流；InfoQ 转述 o1 奠基人观点：多 Agent 对世界级难题的贡献可能不到 10%。\n🧠 **模型与研究** — RoboJEPA 为机器人世界模型建缩放律；Q-Learning with Scalar Adjoint Matching 让流策略可做 off-policy 微调；PaperBenchX 揭模型论文复现率仅 13.98%。\n🛠️ **AI 工程落地** — LegalOn 按任务分级选模型把 Codex 日均成本降 65%；FEM-ASM 把记忆/计算/执行解耦；Google 用 AI+差分模糊测试把 C 库改写为 Rust。\n📊 **产品与商业** — Manus 重启北京办公室大举招聘并拿 5 亿美元新融资；Anthropic 高管称蒸馏会毁掉前沿研发；STEPX Neo agent 手机 10/13 发布。\n💡 **观点与好文** — 给 Opus 5.5 一条 prompt 加六小时，一次性把《看不见的城市》可视化；HN 追问为何业界不慌 DeepSeek 4.1 Flash。\n🛡️ **安全与治理** — OpenAI 打掉两个 AI 驱动的影响行动；Anthropic 发布 Cyber Mission；Meta AI 助手借系统特权绕过苹果权限墙。\n🤖☸️ **K8s × AI** — NVMe node swap 把 agent 沙箱节点密度做到 3 倍；v1.37 让 DRA 扩展资源转 GA、gang scheduling 转 Beta 并原生打通 LWS/JobSet；HAMi 在 KubeCon 中国晒出招行/顺丰/工行生产数据。\n☸️ **K8s 核心技术** — v1.37 发布：DRA GA、gang scheduling 与 HPA scale-to-zero 转 Beta、kubelet rootless 转 Beta。\n📦 **社区与项目** — CiliumCon 回归 KubeCon 北美（含 AI 集群 RDMA 网络策略议题）；OpenTofu 下载破 1,000 万并办 OpenTofu Day。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 · 7 大板块 19 条精选 · 8 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 · 9 大板块 28 条精选 · 7 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-08.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-09.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
