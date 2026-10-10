@@ -1,56 +1,55 @@
 ======================================================================
-处理报告  (原始 206 条)
+处理报告  (原始 194 条)
 ======================================================================
 
-① 过滤: 保留 148 条, 过滤掉 58 条
+① 过滤: 保留 148 条, 过滤掉 46 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] boykopovar/AnyPS5
-     ✗ [GitHub Trending] EpicGames/raddebugger
      ✗ [GitHub Trending] storytold/artcraft
-     ✗ [GitHub Trending] liquidslr/system-design-notes
-     ✗ [GitHub 升星repo] nullmoth/nvidia-macos-driver
-     ✗ [GitHub 升星repo] alejandrobujan/tendedero
-     ✗ [GitHub 升星repo] LoreanXavier/pt-pc
-     ✗ [GitHub 升星repo] storytold/wordcraft
+     ✗ [GitHub 升星repo] noahdunnagan/fsearch
+     ✗ [GitHub 升星repo] KindStatesman/KMS-Pico
+     ✗ [GitHub 升星repo] VarnishSerpentBurn/Discord-Quest-Completer
+     ✗ [GitHub 升星repo] ToiCF/CF-Workers-TGProxy
+     ✗ [GitHub 升星repo] passrhymegazebo/AnyUnlock
+     ✗ [GitHub 升星repo] Clawfitzfilter/Display-Fusion
 
-② 去重: 148 → 134 条 (同批合并 4, 跨天历史去重 10)
+② 去重: 148 → 125 条 (同批合并 4, 跨天历史去重 19)
    跨天去重(此前已发过，跳过):
-     ⏭️  [OpenAI News] GPT-6 and Intelligent UI for everyone
-     ⏭️  [OpenAI News] Advancing computer use with Ironclad
-     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
+     ⏭️  [OpenAI News] How Oracle turns days of work into minutes wit
+     ⏭️  [OpenAI News] LegalOn halves Codex costs while maintaining d
+     ⏭️  [OpenAI News] Disrupting AI-enabled “false front” operations
      ⏭️  [GitHub Trending] morluto/rea
      ⏭️  [GitHub Trending] mattpocock/skills
-     ⏭️  [GitHub Trending] thedotmack/claude-mem
+     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
      ⏭️  [GitHub Trending] anthropics/knowledge-work-plugins
-     ⏭️  [Simon Willison] Claude Haiku 5.5
+     ⏭️  [GitHub Trending] addyosmani/agent-skills
    跨源合并的事件:
-     ⇉ RoboJEPA: Scaling Robotic Latent World M  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Composing What Each Teacher Learned: Mul  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Q-Learning with Scalar Adjoint Matching  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ EngramEdit: Decoupled Knowledge Updates   ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ One Block, Multiple Depths: Recurrent Vi  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ SpaceFlow: Locally Controllable 3D Gener  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Beyond Spatio-Temporal Priors: A General  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 29 条 (含🔧开源 2)
-     - 模型与研究: 69 条 (含🔧开源 1)
-     - 产品与商业: 9 条
-     - AI 工程落地: 10 条
-     - 安全与治理: 3 条
+     - AI 工程落地: 22 条 (含🔧开源 2)
+     - 模型与研究: 52 条 (含🔧开源 2)
+     - Agent & Skill: 27 条 (含🔧开源 2)
+     - 产品与商业: 7 条
+     - 安全与治理: 5 条
      - 观点与好文: 3 条
    【基础设施】
-     - K8s × AI: 3 条
+     - K8s × AI: 2 条 (含🔧开源 1)
      - K8s 核心: 5 条
-     - 社区与项目: 3 条
+     - 社区与项目: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
+     🔥 [19分] Asana cuts model costs 76x in browser tests with GPT-6.
+        源:OpenAI News 类:模型与研究 跨源:[]
      🔥 [19分] Pollo AI turns creative ideas into campaigns with OpenA
         源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] Barclays scales Claude to upgrade operations and improv
-        源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
+      19分 [OpenAI News ] Asana cuts model costs 76x in browser tests w
       19分 [OpenAI News ] Pollo AI turns creative ideas into campaigns 
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
-      15分 [HuggingFace Papers] RoboJEPA: Scaling Robotic Latent World Models
-      15分 [HuggingFace Papers] Composing What Each Teacher Learned: Multi-Te
+      15分 [HuggingFace Papers] One Block, Multiple Depths: Recurrent Vision 
