@@ -1,33 +1,32 @@
 {
-  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：{date}(如 2026年09月19日 · 星期六)、{issue}(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
-  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
-  "header": {
-    "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月09日 · 星期五 · 第020期",
-    "template": "indigo",
-    "icon": "myai_colorful"
+ "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
+ "header": {
+  "title": "📰 AI & 基础设施早报",
+  "subtitle": "2026年10月10日 · 星期六 · 第021期",
+  "template": "indigo",
+  "icon": "myai_colorful"
+ },
+ "cover_image": "/Users/endverse/daily_brief_cover.png",
+ "blocks": [
+  {
+   "type": "markdown",
+   "content": "**🔥 今日重点**\n\n**1. Google 的 Agent Substrate 在 GKE 开放可用：10 倍密度承载百万级 agent 沙箱，sub-500ms 恢复**\nGoogle 宣布 Agent Substrate 在 GKE 上可用：这是一个开源、默认安全的 agent 执行运行时，官方称相比标准容器运行时密度高 10 倍、可跑百万级沙箱，恢复操作 sub-500ms、每秒 500+ suspend/resume，并内置零信任内核与网络隔离。它的核心是“把 agent 执行与机器管理解耦”：Kubernetes 继续管机器（节点自愈、集群弹性伸缩），一个新执行层直接在本地 worker 上做高频挂起/恢复，从而绕过标准 K8s 控制面的瓶颈。隔离用硬件隔离的 Cloud Hypervisor microVM 或 gVisor 沙箱，配合出口代理在 agent 触及不到的位置注入凭据。Google 点名 Nous Research（Hermes Agent 团队）已在 Agent Substrate 上构建。\n\n**2. openJiuwen 发布并开源企业级 AgentOS：蜂群协同 + 自演进 + 算力亲和，讲究工程护城河**\n由华为 2012 实验室、华为云、终端等团队联合高校与开发者共建的开源 AI Agent 平台 openJiuwen，发布并开源了企业级 AgentOS，把多智能体协同、自演进、算力亲和与企业级安全可靠整合进统一底座，并以插件化架构连接上层应用与底层模型/算力。协同侧走“蜂群协同 + 工作流编排”，支持任务拆解、角色分工、并行执行与关键环节人工介入；自演进侧依托执行轨迹、用户反馈与记忆，把有效经验沉淀为可复用能力。运行底座提供多租户隔离、安全沙箱、权限管理与安全护栏，并以故障恢复支撑长任务高可靠运行；北向生态把技能/连接器/插件/专家/专家团五类资产通过 Agentic Hub 发布共享。"
   },
-  "cover_image": "/Users/endverse/daily_brief_cover.png",
-  "blocks": [
-    {
-      "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. 自动驾驶公司卓驭用 Koordinator 把 K8s GPU 分配率推过 95%：单集群日调度 30–80 万 Pod，开发环境省下约 60% 整卡**\nCNCF 发布卓驭科技(Zhuoyu)的案例：这家中国自动驾驶公司用 CNCF Sandbox 项目 Koordinator 扩展 Kubernetes 调度，解决默认 kube-scheduler 造成的 GPU 搁浅与分布式作业调度低效。成果是集群 GPU 分配率超过 95%、整体 GPU 利用率 55%+（共享推理场景约 60%），开发环境(Codespaces)使用的整卡数量减少约 60%。规模上单集群维护 100+ 个 ElasticQuota，日调度吞吐量达 30 万–80 万个 Pod。整套栈同时用了 Kubernetes、Koordinator 与 HAMi，回应的是 AI 时代「卡贵、但大量卡被碎片化占用」的核心矛盾。\n\n**2. Mistral 发布 Large 4「le Chonk」：1T 参数 MoE（激活 49B）、512k 上下文，10 月 6 日开放 API 预览、权重承诺月底开源**\nMistral 于 10 月 6 日开放旗舰模型 Mistral Large 4 的 API 预览（模型 ID mistral-large-4，昵称 le Chonk）。它是一个约 1 万亿参数、激活约 490 亿的 MoE，报告使用 3,800 张 NVIDIA Grace Blackwell GPU 训练，支持 512k 上下文与图像输入，定位长文档、agentic 工作流、代码与网络安全任务，官方称在 Cybench 上达 93%、对 prompt injection 有较强抵抗。权重承诺在 10 月底发布（含安全审查），独立评测 Vals Index 给到 48.05% 排 32/44。它是欧洲阵营在开源权重赛道对中美的正面回应。"
-    },
-    {
-      "type": "hr"
-    },
-    {
-      "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Oracle 用 ChatGPT Work + Codex 把专家知识变可复现工作流；InfoQ 转述 o1 奠基人观点：多 Agent 对世界级难题的贡献可能不到 10%。\n🧠 **模型与研究** — RoboJEPA 为机器人世界模型建缩放律；Q-Learning with Scalar Adjoint Matching 让流策略可做 off-policy 微调；PaperBenchX 揭模型论文复现率仅 13.98%。\n🛠️ **AI 工程落地** — LegalOn 按任务分级选模型把 Codex 日均成本降 65%；FEM-ASM 把记忆/计算/执行解耦；Google 用 AI+差分模糊测试把 C 库改写为 Rust。\n📊 **产品与商业** — Manus 重启北京办公室大举招聘并拿 5 亿美元新融资；Anthropic 高管称蒸馏会毁掉前沿研发；STEPX Neo agent 手机 10/13 发布。\n💡 **观点与好文** — 给 Opus 5.5 一条 prompt 加六小时，一次性把《看不见的城市》可视化；HN 追问为何业界不慌 DeepSeek 4.1 Flash。\n🛡️ **安全与治理** — OpenAI 打掉两个 AI 驱动的影响行动；Anthropic 发布 Cyber Mission；Meta AI 助手借系统特权绕过苹果权限墙。\n🤖☸️ **K8s × AI** — NVMe node swap 把 agent 沙箱节点密度做到 3 倍；v1.37 让 DRA 扩展资源转 GA、gang scheduling 转 Beta 并原生打通 LWS/JobSet；HAMi 在 KubeCon 中国晒出招行/顺丰/工行生产数据。\n☸️ **K8s 核心技术** — v1.37 发布：DRA GA、gang scheduling 与 HPA scale-to-zero 转 Beta、kubelet rootless 转 Beta。\n📦 **社区与项目** — CiliumCon 回归 KubeCon 北美（含 AI 集群 RDMA 网络策略议题）；OpenTofu 下载破 1,000 万并办 OpenTofu Day。"
-    },
-    {
-      "type": "grey",
-      "content": "共 2 条重点 · 9 大板块 28 条精选 · 7 条快讯 · 数据源覆盖 72 小时"
-    }
-  ],
-  "button": {
-    "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-09.html"
+  {
+   "type": "hr"
   },
-  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
+  {
+   "type": "markdown",
+   "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — openJiuwen 开源企业级 AgentOS（蜂群协同+自演进）；Skill Constellations 拆解 GitHub 上 agent skill 的供应链；联想代码智能体登顶 SWE-bench-Live。\n🧠 **模型与研究** — 清华具身模型登顶全球第一且不靠外挂数据；字节解释 DeepSeek 时强时弱；Anthropic 加码科研合作。\n🛠️ **AI 工程落地** — Asana 靠“保持缓存完整”把浏览器 Agent 单次成本砍到 1/76（$36.21→$0.47）；Sophos 用 Daybreak 把威胁调查缩短 96%。\n📊 **产品与商业** — 谷歌办公 Agent 拥有独立账号、可建子 Agent 并调用 Claude；Typesafe AI 以 75 亿美元估值融资 8.7 亿美元。\n💡 **观点与好文** — Simon Willison 给博客加了用“自己声音”说话的功能；前 OpenAI 研究员谈 Codex/Claude Code 的路线分歧。\n🛡️ **安全与治理** — OpenAI 解雇三名安全研究员引寒蝉效应争议；Kimi 分享 AI Native 开源治理；论文称多 agent 协作存在“起飞”种群阈值。\n🤖☸️ **K8s × AI** — Red Hat 把 Kueue 1.4 与 DRA 打通、可按显存精确核算共享 GPU 配额；CNCF 主张别给 agent root、让它“提议系统状态”。\n☸️ **K8s 核心技术** — 平台团队里 NIS2/DORA 的合规责任划分；Azure Key Vault Secrets Provider 扩展退役需规划迁移。\n📦 **社区与项目** — 面向 AKS 的 Managed StandardV2 NAT 网关正式 GA。\n☁️ **公有云动态** — Google Public Sector 与 SUNY 共建 AI 平台加速大学科研。"
+  },
+  {
+   "type": "grey",
+   "content": "共 2 条重点 · 30 条精选 · 7 条快讯 · 数据源覆盖 72 小时"
+  }
+ ],
+ "button": {
+  "text": "📖 阅读今日早报全文",
+  "url": "https://endverse.github.io/daily-brief/2026/2026-10-10.html"
+ },
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
