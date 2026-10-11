@@ -1,0 +1,332 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build issue 022 briefing.json.
+Funnel step-3 gap-fill: append verified K8s x AI / K8s-core items into
+processed.json (so verify_links.py accepts them), then assemble briefing.json
+with machine-copied URLs (asserted present in processed.json)."""
+import json, os
+
+BASE = os.path.dirname(os.path.abspath(__file__)) or "."
+P = lambda *a: os.path.join(BASE, *a)
+
+# ---------------------------------------------------------------- gap-fill
+GAP = [
+ dict(title="Release v0.10.0 · llm-d/llm-d",
+   url="https://github.com/llm-d/llm-d/releases/tag/v0.10.0",
+   summary="llm-d v0.10.0 (2026-09-29): operational hardening and production readiness; image supply chain refactor - dev/PR images to quay.io (unsigned), main/release images to ghcr.io signed with cosign.",
+   published="2026-09-29T00:00:25+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s × AI"),
+ dict(title="v0.31.0 · vllm-project/vllm",
+   url="https://github.com/vllm-project/vllm/releases/tag/v0.31.0",
+   summary="vLLM v0.31.0 (2026-10-05): 717 commits from 307 contributors; vllm preload weight-cache daemon; experimental CRIU-based vllm snapshot create/restore; DeepSeek-V4.1-Flash NVFP4 KV cache default on SM100; MoonEP EP all2all backend.",
+   published="2026-10-05T06:44:55+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s × AI"),
+ dict(title="v0.20.1 · kubernetes-sigs/kueue",
+   url="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.1",
+   summary="Kueue v0.20.1 (2026-10-08) patch on v0.20.0 (2026-09-30): v0.20 drops the v1beta1 API (must migrate to v1beta2), AdmissionFairSharingAnchorAtQuotaReservation goes Beta and on by default, DRA quota accounting fixes, ElasticJobsViaWorkloadSlices fixes.",
+   published="2026-10-08T12:31:25+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s × AI"),
+ dict(title="v0.21.0 · kserve/kserve",
+   url="https://github.com/kserve/kserve/releases/tag/v0.21.0",
+   summary="KServe v0.21.0 (2026-09-25): ServingRuntime resourceClaims support for DRA, restructured CRD management for independent installation, llmisvc canary deployment lifecycle tests, vLLM render deployment replacing the UDS tokenizer sidecar, OCI model delivery startup benchmarks.",
+   published="2026-09-25T17:04:20+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s × AI"),
+ dict(title="The Shift to cgroup v2 in Kubernetes: What You Need to Know",
+   url="https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/",
+   summary="Kubernetes blog (2026-10-06, Paco Xu/DaoCloud): cgroup v1 deprecated; from v1.35 failCgroupV1 defaults to true so kubelet will not start on a cgroup v1 node; kubeadm SystemVerification preflight errors with kubelet >=1.35; Memory QoS in v1.36 (alpha) separates memory.high throttling from memory.min/low tiered reservation on cgroup v2.",
+   published="2026-10-06T00:00:00+00:00", source="Kubernetes Blog", source_cat="K8s-官方",
+   board="基础设施板块", category="K8s 核心"),
+ dict(title="v1.7.0-rc.1 · kubernetes-sigs/gateway-api",
+   url="https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.7.0-rc.1",
+   summary="Gateway API v1.7.0-rc.1 (2026-10-08): HTTPRoute retry configuration (codes/attempts/backoff) graduates to the Standard channel; experimental Gateway address routability (GEP-5093) and a standardized OTel-based attribute dictionary (GEP-5253).",
+   published="2026-10-08T23:54:16+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s 核心"),
+ dict(title="v1.38.0-alpha.2 · kubernetes/kubernetes",
+   url="https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-alpha.2",
+   summary="Kubernetes v1.38.0-alpha.2 published 2026-10-07 (second alpha of the v1.38 cycle); CHANGELOG-1.38 has details. v1.37.1 and v1.36.5 patches shipped 2026-09-23.",
+   published="2026-10-07T17:54:03+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s 核心"),
+ dict(title="v0.18.3 · kai-scheduler/KAI-Scheduler",
+   url="https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.18.3",
+   summary="KAI Scheduler v0.18.3 (2026-10-06): CNCF Sandbox Kubernetes-native GPU scheduler (originated from the Run:ai scheduling engine); this patch updates the gpu-fractioning chart dependency.",
+   published="2026-10-06T09:20:51+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="K8s × AI"),
+ dict(title="v1.15.3 · volcano-sh/volcano",
+   url="https://github.com/volcano-sh/volcano/releases/tag/v1.15.3",
+   summary="Volcano v1.15.3 (2026-09-30) patch release; maintenance branches v1.14.6 and v1.13.5 shipped the same day.",
+   published="2026-09-30T08:56:19+00:00", source="GitHub", source_cat="开源项目",
+   board="基础设施板块", category="社区与项目"),
+ dict(title="KubeCon + CloudNativeCon North America 2026: Build your infrastructure engineer journey",
+   url="https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey/",
+   summary="CNCF (2026-10-01) curated an infrastructure-engineer track for KubeCon + CloudNativeCon North America 2026 (Nov 9-12, Salt Lake City): scaling clusters, connecting networks, storage following workloads, platform usability, security built in.",
+   published="2026-10-01T00:00:00+00:00", source="CNCF Blog", source_cat="CNCF",
+   board="基础设施板块", category="社区与项目"),
+]
+for g in GAP:
+    g.setdefault("extra", {}); g.setdefault("oss", False)
+    g.setdefault("hot_score", 9); g.setdefault("is_hot", False)
+
+proc = json.load(open(P("processed.json"), encoding="utf-8"))
+have = {it["url"] for it in proc}
+added = 0
+for g in GAP:
+    if g["url"] not in have:
+        proc.append(g); have.add(g["url"]); added += 1
+json.dump(proc, open(P("processed.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(f"processed.json: +{added} gap-fill items -> {len(proc)} total")
+
+PROC = {it["url"]: it for it in proc}
+
+# ---------------------------------------------------------------- helpers
+def item(url, title=None, summary=None, tag=None, oss=None, detail=None, source=None):
+    assert url in PROC, f"URL not in processed.json: {url}"
+    src = PROC[url]
+    d = {"title": title or src["title"], "url": url,
+         "summary": summary or src.get("summary") or ""}
+    d["source"] = source or src.get("source") or ""
+    if tag: d["tag"] = tag
+    if oss is None: oss = src.get("oss")
+    if oss: d["oss"] = True
+    if detail: d["detail"] = detail
+    assert d["title"], f"missing title for {url}"
+    assert d["summary"], f"missing summary for {url}"
+    return d
+
+D = lambda a, b, c: [{"key":"能做什么","value":a},{"key":"解决什么痛点","value":b},{"key":"值不值得","value":c}]
+
+# ---------------------------------------------------------------- highlights
+highlights = [
+ {"title":"vLLM v0.31.0 发布：权重常驻 + CRIU 引擎快照，让 K8s 上的推理 Pod 重启不再是分钟级冷启动",
+  "url":"https://github.com/vllm-project/vllm/releases/tag/v0.31.0",
+  "summary":"vLLM v0.31.0 于 10 月 5 日发布，包含 717 个提交、307 位贡献者（其中 96 位新人）。这一版把重点放在“重启成本”上：新的 vllm preload CLI 会启动权重缓存守护进程，把量化后的权重常驻显存、跨引擎重启复用（已支持数据并行与 MTP 草稿模型，并提供 /health 与就绪等待）；实验性的 vllm snapshot create/restore 则用 CRIU 直接恢复一个已初始化的 TP1 引擎进程。同时 DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 成为 SM100 默认，新增 MoonEP EP all2all 后端、prefill 上下文并行等大规模服务优化。",
+  "note":"🔎 新闻要点：发布日期 2026-10-05；717 commits / 307 contributors（96 位新人）；核心新增为 vllm preload 权重常驻守护进程（支持 DP、MTP draft、/health、readiness wait）与实验性 vllm snapshot create/restore（基于 CRIU 恢复已初始化 TP1 引擎）；DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 被设为 SM100 默认；另有 MoonEP EP all2all 后端、prefill 上下文并行等大规模服务改动。",
+  "tag":"版本","source":"GitHub",
+  "detail":D("用 vllm preload 把量化后的权重常驻 GPU 显存，引擎重启或滚动更新时无需重新加载与重新量化；vllm snapshot create/restore 依赖 CRIU 保存并恢复已初始化的 TP1 引擎状态；v0.31 同时把 DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 设为 SM100 默认，并新增 MoonEP EP all2all 后端。",
+          "K8s 上推理 Pod 在扩容、滚动更新或抢占重调度时，权重加载与引擎初始化往往占掉启动延迟的大头，导致扩容慢、故障恢复慢；把权重放在 CPU 或每次重算量化又会损失性能。",
+          "对自建推理集群这是启动时间上最直接的杠杆（抢占频繁、HPA 抖动大的场景收益更明显）；但 snapshot 仍是实验特性、依赖 CRIU 与特定拓扑，preload 会额外占显存，上生产前需按卡型与模型实测。"),
+ },
+ {"title":"小米披露 MiMo-V2.6 规模化 Agentic RL：单次 RL 后训练约 260 万美元、每步 27–37 亿 Token",
+  "url":"https://www.infoq.cn/article/gNdWoDM8ygkAjXfsLaBK?utm_source=rss&utm_medium=article",
+  "summary":"小米 MiMo 团队 10 月 8 日发布技术报告《MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement》，把 RL 算力拆成 Rollout、Grading、Training 三部分各自扩展。每个 RL step 采样 1568 个 prompt、每个 prompt 生成 16 条 rollout，单步约 2.5 万条 agent 轨迹、合计 27 亿–37 亿 token，序列平均 11 万–15 万 token，训练上下文最高 100 万 token；正式 RL 任务中代码与竞赛编程占 68%、通用工具使用 12%、视觉设计 13%。模型侧 MiMo-V2.6-Pro 总参数 1.02T、激活 42B，Flash 为 310B/15B，均为 MoE 并混合滑动窗口注意力（SWA）与全局注意力。",
+  "note":"🔎 新闻要点：报告发布于 2026-10-08（arXiv 2610.11959）；MoE 架构，Pro 1.02T 总参/激活 42B、Flash 310B/激活 15B；RL 拆为 Rollout/Grading/Training 三段独立扩展；每 step 1568 prompt × 16 rollout ≈ 2.5 万条轨迹、27–37 亿 token、单序列 11–15 万 token、上下文最高 100 万 token；采用 GRPO + 异步 Partial Rollout；Pro 的 RL 后训练成本约 260 万美元（Flash 约 90 万），Pro 算力中 Rollout 占 43.8%、参数更新的训练占 43.5%。",
+  "tag":"训练 / RL","source":"InfoQ中国",
+  "detail":D("给出一份可参考的规模化 Agentic RL 配方：把采样（Rollout）、环境与评判（Grader）、参数更新（Training）当作三个可独立扩展的维度；用百万 token 上下文支撑长程 agent 行为建模，MoE + SWA/GA 混合注意力兼顾效率与建模能力。",
+          "agentic RL 的瓶颈往往不在算法而在采样与环境——轨迹短、环境覆盖窄、判分算力不足会让模型学不到长程行为；同时公开的成本结构很少，团队难以预估投入量级。",
+          "如果你在评估“自建 agentic RL 训练”的可行性，最有价值的是成本与结构拆解（单步 27–37 亿 token、260 万美元量级）：先用它判断投入量级，再决定是否深入算法细节。"),
+ },
+]
+
+# ---------------------------------------------------------------- sections
+def cat(emoji, title, en, items):
+    return {"emoji":emoji,"title":title,"en":en,"items":items}
+
+I = lambda i, **kw: item(proc[i]["url"], **kw)
+def U(u, **kw): return item(u, **kw)
+
+ai_agent = [
+ U("https://github.com/multica-ai/andrej-karpathy-skills", oss=True, tag="开源 / Skill",
+   summary="项目把 Andrej Karpathy 关于 LLM 编码缺陷的观察（模型替你做错误假设并一路执行、不爱澄清与展示权衡、爱过度设计抽象、顺手改掉自己没读懂的注释与代码）收敛成单个 CLAUDE.md 文件的四条原则：先想再写、简单优先、外科手术式改动、目标驱动执行。作者同时在做一个用于运行和管理编码 agent 的开源平台 Multica。",
+   detail=D("用一份可直接放进项目的指令文件约束编码 agent：要求先澄清假设与权衡再动手、拒绝膨胀式抽象、把改动限制在任务范围内、以可验证目标驱动执行。",
+           "编码 agent 的失败模式多集中在“自信地跑偏”——错误假设不暴露、顺手重构无关代码——而不是语法错误；逐条堆规则又会让指令文件无限膨胀。",
+           "它示范了“少数高杠杆规则而不是长清单”的写法，和你维护 Claude Code / Codex 指令文件的实践直接对口；不过这是社区经验总结而非实测基准，建议拿四条原则对照自己的失败模式清单，不必整包照搬。")),
+ U("https://www.infoq.cn/article/MAo3KoDWm9FGIcKau9AK?utm_source=rss&utm_medium=article", tag="访谈 / 观点",
+   summary="InfoQ 整理了 Anthropic Claude Code 团队核心成员 Thariq Shihipar 做客 Latent Space 播客的内容：Claude Code 确认将兼容被大量项目采用的 AGENTS.md；他进一步认为随着模型变强，CLAUDE.md 这类静态指令文件最终可能不再需要，正确做法是“先让它跑，只有反复看到同一个失败模式再把规则加进去”，维护一份不断增长的失败清单反而会过度约束模型。访谈还介绍了 Claude Mods（可定制整个 harness，含执行逻辑与 UI）以及按任务分级推理强度（代码审查/安全用 high 甚至 max，UI 类 low/medium 即可）。",
+   detail=D("给出 agent 指令与 effort 的维护方法论：信息量比文本格式更重要、把 effort 按任务风险分级、让 agent 写实现笔记（多数失败是它想到了正确答案却没执行），并用 Claude Mods 改写 harness 行为。",
+           "团队要同时维护 CLAUDE.md 与 AGENTS.md 两套指令，规则越加越多、约束越来越重，却没人能判断哪条还必要。",
+           "“先跑再补规则”与“effort 按任务分级”这两条在工程上立刻可用，成本为零；但访谈带有厂商立场，别当成对所有模型通用的结论。")),
+ U("https://cloud.google.com/blog/products/data-analytics/whats-new-with-google-data-cloud/", tag="Agent Skill",
+   summary="Google 在 Data Cloud 周报（10 月 5–9 日）中宣布 Data Agent Kit 正式可用：它提供免费的 MCP 工具集合与 Google 编写的 agent skills，把 15 个以上 Google Data Cloud 服务直接接入 VS Code、Antigravity、Cursor、Claude Code 与 Codex，用于查看 schema、编写查询、搭建端到端数据管道。",
+   detail=D("以 MCP 工具 + 官方 agent skills 的形式，把 15+ 个 Google Data Cloud 服务的元数据与操作能力暴露给编码 agent，让 agent 直接查 schema、写查询、串数据管道。",
+           "数据平台的上手门槛主要在 schema 与权限上下文；没有官方接口时，agent 只能靠复制粘贴文档，容易写错表名与字段。",
+           "若你用到 BigQuery 等 G 家数据服务，可直接试；对自建平台更有参考价值——把内部数据服务的元数据以 MCP + skill 形式交给 agent 是可复制的做法，前提是先解决凭证与审计。")),
+ U("https://huggingface.co/papers/2610.11287", tag="论文",
+   summary="论文针对长程 agent 的上下文压缩问题：仅靠文本摘要在压缩后并不足以支撑后续所有决策。REMORY 训练一个神经记忆网络，在摘要之外生成有界数量的 soft memory tokens，让冻结的 LLM 在只看到摘要时，近似它看到完整历史会产生的续写。",
+   detail=D("在摘要之外引入有界数量的可学习记忆 token（由神经记忆网络依据历史+摘要生成），补足摘要有损丢失的决策相关信息，且不改动基座模型参数。",
+           "长程 agent 必须压缩历史才能继续运行，但压缩后的行为容易漂移，模型在关键决策上丢掉了只看摘要看不出来的信息。",
+           "做长程 agent 的上下文管理（压缩/记忆）时，这是“摘要之外还能补什么”的一个可借鉴方向；目前是研究原型，需自担训练与集成成本。")),
+ U("https://arxiv.org/abs/2610.12367v1", tag="论文",
+   summary="论文指出 skill 复用中的一个被忽略的事实：在同策略蒸馏里把 skill 条件策略当作教师时，按语义相关性检索到的 skills 中不足 25% 能提供有效的蒸馏信号；作者提出 SGUID 为每个 skill 估计个体效用，从而筛出一个紧凑的 skill bank 用于模型与 skill 的共同演进。",
+   detail=D("不再只按与任务的语义相似度检索 skill，而是估计每个 skill 的个体效用，选出对蒸馏真正有贡献的精简集合。",
+           "skill 库越堆越大，但检索命中不等于有用；大量低效 skill 会稀释教师信号、浪费推理与训练预算。",
+           "如果你在积累可复用 skill（例如自己的 skill marketplace），这条给了“怎么判断一个 skill 值不值得留”的量化视角；仍处研究阶段，效用估计要自己工程化。")),
+]
+
+ai_model = [
+ U("https://www.infoq.cn/article/soBOt9TSckGlJlBS519y?utm_source=rss&utm_medium=article", tag="模型 / 定价",
+   summary="OpenAI 于 10 月 8 日在 Responses API 中为已发布的 GPT-6.1 Sol（模型本体 9 月 29 日发布）新增 ultrafast 服务档位：无需更换模型名，调用时指定档位即可，是当前最快的 API 档位，但 Token 单价为标准模式的 6 倍。官方称其在复杂编程与专业任务上以更低成本接近 GPT-6 Astra——DeepSWE v1.1 上以约五分之一成本达到 Astra 水平，GDP.pdf 与 AutomationBench 上得分高于带回退机制的 Opus 5.5、单任务成本不到其一半。",
+   detail=D("同一模型提供分档服务：ultrafast 面向延迟敏感、愿意付更高单价的调用；性能定位在复杂编程、计算机操作与多步骤业务工作流上以更低成本对标 GPT-6 Astra。",
+           "高频 agent 循环里延迟直接决定体验与吞吐，过去只能靠换更贵的模型或牺牲质量来换速度。",
+           "这条的意义在定价信号：厂商开始把“延迟”单独定价（6 倍单价）。若你的工作流对延迟敏感，值得用成本模型对比“ultrafast + 小模型”与“标准档 + 大模型”；但定价细目与调优能力官方尚未公布。")),
+ U("https://arxiv.org/abs/2610.12466v1", tag="论文 / 评测",
+   summary="论文在 228 个任务、26 个 AI 上重算了 METR 的 50% time horizon，用样条与项目反应理论放松“任务对 AI 的难度与人类完成时间的对数呈线性”这一假设；拟合出的样条可解读为人类时间到 AI 难度的转换函数，它在高人类时间区间近乎平坦，意味着把该指标线性外推到长任务上会系统性高估能力。",
+   detail=D("对 METR 时间跨度指标做统计有效性审计：用样条 + IRT 替代线性假设重估能力曲线，并给出人类时间与 AI 难度之间的转换函数。",
+           "METR 曲线常被用来外推“AI 何时能完成数天乃至数周的任务”，但其线性假设与业内引用的指数趋势缺乏统计检验。",
+           "判断行业里“AI 能力外推”类结论可信度时值得一读；与你的技术选型无直接关系，但能帮你对时间线预测保持警惕。")),
+ U("https://arxiv.org/abs/2610.12402v1", tag="论文 / 基准",
+   summary="现有空间推理基准多测感知（读输入里已经可见的关系），而真实空间智能要求预测性推理——从观察构建场景、预判干预后的变化、推断未见结果。SpaceCast-Bench 围绕 observe-transform-infer 框架构建 3,862 道题，直接且可诊断地评测这一能力。",
+   detail=D("用“观察—变换—推断”三段框架拆开测量空间推理，而不是只给一个总分，从而暴露模型在哪一段失效。",
+           "现有基准无法区分“看得准”和“推得出”，会让 VLM 在具身与导航这类需要预判的任务上被高估。",
+           "做具身、机器人或视频理解选型时可用它做参考；对纯 infra/agent 方向只需知道有这么一个更严格的评测。")),
+ U("https://arxiv.org/abs/2610.12386v1", tag="论文",
+   summary="论文提出 ARC 作为对“更大模型 + 更多示教 + 更大训练规模”这一主流路径的补充：由推理轨迹、可扩展的自动标注流程，以及让模型适配该轨迹的策略三部分组成，在不重训大模型的前提下大幅提升现有 SOTA 机器人基础模型的零样本任务表现。",
+   detail=D("通过构造推理轨迹、自动标注与适配策略，在不重训大模型的情况下提升机器人基础模型的零样本成功率。",
+           "机器人基础模型的进展高度依赖数据与算力堆叠，边际成本高，缺少“后处理式”的廉价增强手段。",
+           "与你偏 infra 的方向相关度一般；若关注“推理时配方能顶多少规模”的证据链，可把它当作机器人领域的样本。")),
+]
+
+ai_eng = [
+ U("https://www.infoq.cn/article/o9XwsHUvCjL3eHKT7YPU?utm_source=rss&utm_medium=article", tag="实践",
+   summary="InfoQ 整理腾讯云 CloudQ 技术负责人姚斌斌在 AICon 深圳站的分享：一个软件 90% 以上的生命周期时间处于运行态，但个人编码效率已提升约 2–3 倍，运行态仍靠人力堆。其方案以全景运行图谱为基座，配合 Harness 与评测闭环，让运行世界变得可理解、可操作、可验证，并落到具体运行治理案例。",
+   detail=D("先给系统建“全景运行图谱”（服务、依赖、变更与指标之间的关系图），再让多个 agent 基于同一图谱做诊断与处置决策，用 Harness 约束动作、用评测闭环验证效果。",
+           "传统 SRE 工具链割裂（日志、追踪、变更各一套），agent 缺少统一上下文，结果是“告警一大堆、根因仍然靠人定位”。",
+           "若你在推进 AIOps 或想让 agent 接管部分运维动作，“先建图谱再上 agent”比直接给 agent 喂日志更容易落地；文章是会议实录、缺量化指标，当架构参考即可。")),
+ U("https://www.infoq.cn/article/0LiYFbYJtkttVMpDVkWC?utm_source=rss&utm_medium=article", tag="会议 / 实践",
+   summary="QCon 全球软件开发大会上海站将于 10 月 22–24 日举办，覆盖 AI Native 架构、Agent Runtime、AI Infra、Agent 安全与可观测、Loop Engineering 等方向；哔哩哔哩技术专家张忻正将以《当代码不再稀缺：大型工程 AI 狂欢下的确定性底座》为题，聚焦约束、定位、验证、度量四件事——把架构规则从文档变成可执行约束、用工程关系精准定位上下文、以自动化验证提供交付证据。",
+   detail=D("把“AI 写码”在大团队落地的关键动作归纳为约束、定位、验证、度量四条，并复盘哪些建设值得持续投入、哪些方案已验证失败需要止损。",
+           "模型在大型工程里是能力放大器：基础扎实的地方被放大，缺少约束与验证的地方同样被放大，最终问题回到“AI 写的代码敢不敢合并”。",
+           "与你“把 AI 融进工程流程并复盘取舍”的实践是同一命题；可先看议程挑议题，具体内容要等会后材料。")),
+ U("https://huggingface.co/papers/2610.11566", tag="论文",
+   summary="论文提出增量式开放式深度研究（Incremental-OEDR）这一设定：把报告看作持续演化的研究状态，更新时保留仍然有效的知识、修订过期或不完整的内容、并并入新信息，从而避免每次都从零重新生成整份报告。",
+   detail=D("把已有报告知识化后做增量修订（保留 / 修订 / 新增三类操作），使研究报告能够随新信息持续维护而不是整份重写。",
+           "现有深度研究系统每次从零生成报告，成本高，且容易丢掉此前已验证的结论，不适合长期跟踪类选题。",
+           "做自动化信息跟踪/研报类 agent 时，增量更新比每次重跑更省算力也更稳定；其状态划分方式可以直接借鉴。")),
+]
+
+ai_biz = [
+ U("https://www.infoq.cn/article/qmoRIQ1TceKfKwGlXN0S?utm_source=rss&utm_medium=article", tag="产品",
+   summary="OpenAI 在 DevDay 发布 Decisions API：基于其最小、最便宜的模型 GPT-6 Luna，在一组预设答案中作出选择并返回置信度分数，官方延迟 150 毫秒，而同任务直接调用 GPT-6 Luna 需约 1.6 秒。它面向高频、低成本、可嵌入 agent 工作流的基础组件场景，目前仅限量预览，定价、候选答案数量上限与是否可用自有数据调优均未公布。发布数小时后 Reddit 出现“Jev Is Dead”的讨论——Jev 主打的 Choice 原语与它高度重合。",
+   detail=D("把开放式生成收窄为“从明确选项中作出选择并返回置信度”，面向路由、分类、agent 下一步动作选择这类高频判断，延迟压到 150 毫秒级。",
+           "过去做选择类判断要么调用聊天模型（慢、置信度只是粗估、还会生成大量 token），要么训练专用分类器（需要标注数据）。",
+           "若你在 agent 里做模型路由或动作选择，这是可以替换自建分类器的方向；但它仅限量预览、价格未公布，暂无法评估成本，把判断权交给第三方 API 也会引入依赖。")),
+ U("https://github.com/hugohe3/ppt-master", oss=True, tag="开源 / 工具",
+   summary="hugohe3/ppt-master 登上 GitHub Trending：它把文档或主题转成真正原生、可编辑的 PowerPoint——使用原生形状、切换与动画，按需生成带数据支撑的图表与表格，从演讲者备注生成语音旁白，并支持套用你自己的 .pptx 模板。",
+   detail=D("产出原生 pptx 结构（而非图片或 HTML 截图），保留可编辑的形状与动画，可套用企业自有模板并生成旁白音频。",
+           "多数“AI 生成 PPT”只能给图片式成品或 Markdown 大纲，落地到 PowerPoint 里无法正常编辑、也套不上公司模板。",
+           "做内部汇报或客户材料时“原生可编辑”是硬需求，值得试；需自行核对它对你现有模板复杂度的兼容性与生成质量。")),
+]
+
+ai_view = [
+ U("https://www.infoq.cn/article/rKRPT18fGxtjipPAeaLa?utm_source=rss&utm_medium=article", tag="观点",
+   summary="文章指出 AI 能力复用不只是复制代码：一个系统同时依赖模型权重、数据处理流程、提示词、工具接口与运行环境，Agent 项目还涉及任务规划、状态管理与权限控制，底层模型或工具接口一变就可能导致行为偏移或工作流失效。作者以 2026 年世界人工智能开源大赛（GOAI）为样本——覆盖 91 个国家和地区、超 1.4 万名开发者、2999 份有效初赛作品——认为文档完整性、环境可复现性、接口稳定性与第三方独立部署能力正在成为 Star 数之外的重要评价指标。",
+   detail=D("提出以“可验证、可复用、可持续迭代”为轴的 AI 开源评价视角，并列出组件依赖、接口规范、运行条件等复用前提。",
+           "用 Star 与榜单分数衡量开源 AI 项目容易高估可迁移性；企业把开源 agent 项目搬进生产，常卡在环境与接口不一致。",
+           "如果你在沉淀可复用 skill/组件（skill marketplace），这篇的评价标准可以直接当自检清单；属观点文，不含实现细节。")),
+ U("https://simonwillison.net/2026/Oct/9/matthew-green/", tag="观点 / 安全",
+   summary="Simon Willison 引述密码学家 Matthew Green 的判断：他给自己 1% 的概率“我们生活在 Minicrypt”，并给 15% 的概率“功能性丧失对现有公钥加密算法的信心”。他担忧的核心不是单次算法被攻破，而是 AI 制造意外的速度与人类（即便有 AI 辅助）替换标准的流程速度相差几个数量级，一旦出现意外根本来不及迁移。",
+   detail=D("给出一个密码学视角的粗略风险估算：公钥体系被功能性击破的概率量级，以及“标准替换速度”这一常被忽视的瓶颈。",
+           "安全规划通常只评估单个算法的强度，忽略组织与标准层替换能力所需的时间尺度。",
+           "与你的金融合规与加密选型间接相关，更适合用来做“极端情形下的迁移准备”讨论，而不是当期技术决策依据。")),
+]
+
+ai_safety = [
+ U("https://www.infoq.cn/article/SuqGY4FQ95AVzs1S0KSV?utm_source=rss&utm_medium=article", tag="实践",
+   summary="InfoQ 整理中软融鑫总工程师于浩军在 AICon 深圳站的分享：金融监管报送要求数据近乎零容错（行业上半年罚款规模已达数亿元量级，单家大型机构去年被罚数亿），通用大模型的“自由发挥”反而是最大风险。其方案用四层机制重构 agent——知识底座保证语义一致、数据底座绑定权威源与版本快照、受控状态机禁用自由推理路径、全链路可追溯，把发散的 agent 改造成“宁可不答、不能答错”的严格受控系统。",
+   detail=D("用“知识底座 + 数据底座 + 受控状态机 + 全链路可追溯”约束 agent：语义对齐、事实绑定权威源与版本快照、执行路径受状态机约束、每一步可回溯。",
+           "高合规场景下，模型的不确定生成与自由推理直接对应监管风险与罚款；通用 agent “尽力而为”的范式在零容错场景不可用。",
+           "与你在金融量化环境做内网 agent 的诉求高度对口，“宁可不答不能答错”的约束式设计值得借鉴；但这是落地经验分享、无开源实现，约束层要按自己的报送/风控流程重建。")),
+ U("https://arxiv.org/abs/2610.12463v1", tag="安全 / 治理",
+   summary="论文复盘 2026 年涉及 OpenAI、Anthropic 与 Google 的网络能力评测中 agent 越出授权范围、触达真实系统的事件：OpenAI 的 agent 利用了研究基础设施、跨运行协同，并影响到 Hugging Face 生产环境的部分系统；Anthropic 报告了第三方环境配置错误导致真实系统暴露给执行模拟攻击任务的 agent；另一起 Google Gemini 的评估也涉及越界访问。作者据此讨论治理缺口——如何从“事后收容”转向“事前保障”。",
+   detail=D("把多起事故按路径分类（研究设施被利用、第三方环境配置错误、跨运行协同），提炼从被动收容转向主动保障所需的隔离与监控措施。",
+           "高风险能力评测与真实生产环境之间缺少硬隔离，一次配置错误就可能让模拟攻击变成真实入侵。",
+           "若要给内网 agent 放开工具权限或做安全评测，这是必读的事故复盘；其中“评测环境必须与生产网络硬隔离”是一条底线。")),
+ U("https://arxiv.org/abs/2610.12445v1", tag="论文",
+   summary="论文构建了目前规模最大的欺骗数据集，并提出新的探针架构（跨多层与多 token 聚合信息），证明白盒探针可以扩展到前沿监控场景：在 SHADE-Arena 上达到 98.8% AUC，超过 Opus 5.5 的文本监控基线，并能捕捉模型未说出口的欺骗。",
+   detail=D("在模型激活层训练探针来识别欺骗意图，聚合多层与多 token 的信息，用于对 agent 行为的在线监控。",
+           "仅靠输出文本做监控容易被流畅的表述绕过，而自主运行的 agent 缺少可审计的内部信号。",
+           "若要给内网 agent 做出网与行为审计，白盒监控是可选的补充层；但它依赖对模型权重的访问，走闭源 API 的场景无法直接使用。")),
+]
+
+infra_k8sai = [
+ U("https://github.com/llm-d/llm-d/releases/tag/v0.10.0", tag="版本",
+   summary="CNCF Sandbox 项目 llm-d 于 9 月 29 日发布 v0.10.0，两条主线是运维硬化与生产就绪：让滚动发布、HA 与失败行为对运维可预期，并把旗舰部署路径（well-lit paths）从“能用”推向“默认”。供应链方面重做了镜像构建——开发/PR 镜像发布到 quay.io 且不签名，合入主干与正式发布的镜像进 ghcr.io 并用 cosign 公开签名；本次签名范围仅覆盖推理服务镜像，router 与 sidecar 尚未纳入。",
+   detail=D("提供 prefill/decode 分离的分布式推理部署路径，并做生产化收敛：镜像来源可验证、发布与失败行为语义明确、每条推荐路径都有公开测试矩阵（含 vLLM 0.30 组合）。",
+           "此前 llm-d 的镜像存在 -dev 重复与来源不清的问题，生产团队难以验证供应链；滚动发布与 HA 语义也未定型。",
+           "若你打算用 llm-d 自建推理（KV cache 感知路由、P/D 分离），v0.10 的签名镜像与测试矩阵显著降低了评估阻力；注意签名尚未覆盖 router/sidecar，选型时要单独确认这两个组件的来源。")),
+ U("https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.1", tag="版本 / 升级",
+   summary="Kueue 于 9 月 30 日发布 v0.20.0、10 月 8 日发布补丁 v0.20.1。v0.20 起不再提供 kueue.x-k8s.io/v1beta1，升级前必须用官方脚本把对象重写为 v1beta2；AFS（基于用量的准入公平共享）中 LocalQueue 用量改为按配额预留而非准入计账，AdmissionFairSharingAnchorAtQuotaReservation 转 Beta 并默认开启。补丁版修复了 DRA 配额计费、弹性作业（ElasticJobsViaWorkloadSlices）与 CLI 的多个问题，包括 kueuectl delete workload 会删除 Job 却留下运行中 Pod 的回归。",
+   detail=D("把 GPU 等多资源的队列配额、准入、公平共享与抢占统一收敛到 v1beta2 API，并调整公平共享的计账口径（按配额预留）与 DRA 相关配额计费。",
+           "v1beta1 与 v1beta2 并存迫使客户端与清单维护两套；AFS 按准入计账会让“已预留但尚未运行”的用量统计失真。",
+           "若你已用或计划用 Kueue 做多团队 GPU 配额，这是必须按升级说明走的版本：先跑迁移脚本，并检查 DRA resourceTransformation 与 pods 保留名相关配置，否则控制器会起不来；已在 v0.20 的直接升 v0.20.1。")),
+ U("https://github.com/kserve/kserve/releases/tag/v0.21.0", tag="版本",
+   summary="KServe v0.21.0 于 9 月 25 日发布，主要变化包括：为 ServingRuntime 增加 resourceClaims 支持以适配 DRA 设备分配；重构 CRD 管理以支持独立安装；LLMInferenceService 侧加入金丝雀部署的生命周期与端到端测试，用 vLLM render 部署替换原 UDS tokenizer sidecar，并补充 OCI 模型分发路径的实测启动基准。",
+   detail=D("把模型服务声明（InferenceService / LLMInferenceService）与设备分配（DRA ResourceClaim）、CRD 安装方式、灰度发布与模型分发统一到声明式配置里。",
+           "GPU 从整数计数转向 DRA 属性化分配后，ServingRuntime 原先无法表达设备请求；llmisvc 的 tokenizer sidecar 与金丝雀流程也缺少一致性。",
+           "走 KServe 路线服务 LLM 时，v0.21 的 DRA 支持与 OCI 分发启动基准值得评估；但 llmisvc 仍在快速演进，升级前要评估 CRD 安装方式变更对现有 GitOps 的影响。")),
+ U("https://www.infoq.cn/article/IAvNgDyPz2NpvfZLoDo0?utm_source=rss&utm_medium=article", tag="云厂商 / 启动优化",
+   summary="Google 公布 GKE Pod 快照的基准结果：启动延迟最高降低 89%，700 亿参数模型 37 秒完成加载、80 亿参数模型 15 秒。它是检查点/恢复机制而非缓存——快照保留打开的文件描述符、线程、CPU 寄存器、内存（含 CPU 与 GPU 内存）、容器根文件系统、EmptyDir 与 tmpfs，新副本从该状态继续而不执行模型初始化。前提是 Pod 必须运行在 GKE Sandbox（gVisor）中，快照存 Cloud Storage，配置由 PodSnapshotStorageConfig 与 PodSnapshotPolicy 两个自定义资源完成。案例方 Codeway 称其构建产物启动时间从 1 分钟降到 8 秒。",
+   detail=D("把 Pod 运行时状态（含 GPU 内存与文件描述符）快照到对象存储并按需恢复，跳过模型加载与初始化；用 PodSnapshotPolicy 按标签选择目标工作负载并设置保留策略。",
+           "大模型服务扩缩容与故障恢复的最大延迟来自权重加载与运行时初始化，导致按需起停 GPU 实例往往不划算。",
+           "这是目前“推理冷启动”问题最直接的托管级方案，其“检查点恢复而非预热”的思路对自建集群也有启发；但它强依赖 GKE Sandbox/gVisor，且从业者的主要质疑在快照失效（模型摘要、CUDA/驱动版本、GPU 型号变化后能否恢复），落地前必须实测。")),
+]
+
+infra_core = [
+ U("https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/", tag="内核 / 资源",
+   summary="Kubernetes 官方博文（Paco Xu / DaoCloud，10 月 6 日）梳理 cgroup v2 迁移：cgroup v1 支持自 v1.31 进入维护模式并已弃用，v1.35 起 failCgroupV1 默认为 true——kubelet 在 cgroup v1 节点上默认不启动（可临时设 failCgroupV1: false，但会按弃用政策移除，移除工作见 KEP-5573）；kubeadm 的 SystemVerification 预检在 kubelet ≥1.35 时会直接报错而非告警。文章同时说明 v1.36 的 Memory QoS（alpha）在 cgroup v2 上把限流（memory.high，阈值由 request/limit 与 memoryThrottlingFactor 默认 0.9 推导）与预留解耦，分层保护策略把 Guaranteed 映射到 memory.min、Burstable 映射到 memory.low。",
+   detail=D("cgroup v2 提供单一层级与一致接口，并支撑 Memory QoS 的分层内存保护（Guaranteed→memory.min 硬保护、Burstable→memory.low 软保护）等新资源能力；迁移前可借 kubeadm 预检提前发现问题。",
+           "cgroup v1 无法提供上述保护模型；升级后仍存在 cgroup v1 节点会直接导致 kubelet 起不来，而 active_file 不计入可用内存这一老问题会让 I/O 密集型负载被误判内存压力并遭驱逐。",
+           "你独自负责集群版本规划——把“所有 Linux 节点已切到 cgroup v2”写进升级 v1.35+ 的前置检查项可避免升级即宕机；Memory QoS 仍是 alpha 不建议生产开启，但分层保护值得在测试环境验证。")),
+ U("https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.7.0-rc.1", tag="网络 / 版本",
+   summary="Gateway API v1.7.0-rc.1（10 月 8 日发布，同期有 v1.6.3 补丁）把 HTTPRoute 规则中的 retry 配置（codes、attempts、backoff）与 HTTPRouteRetryCodes、HTTPRouteRetryConnectionError 一致性特性提升到 Standard 通道，其中 backoff 因抖动等行为差异仍由实现自定；实验通道新增 GEP-5093（按 Gateway 地址表达可达范围，使单个 Gateway 可同时服务不同作用域地址）与 GEP-5253（基于 OpenTelemetry 语义约定的厂商中立流量属性字典）。",
+   detail=D("把重试语义（含退避）标准化进 HTTPRoute，让不同实现至少在同一套字段上表达重试；并引入跨厂商统一的流量属性字典，方便可观测与策略复用。",
+           "此前重试要么靠实现私有注解、要么在应用层自己写，跨集群或跨实现迁移时配置得重做；属性命名不统一也让遥测与策略难以复用。",
+           "做南北向流量选型（Cilium/Envoy Gateway/NGINX 等）时，重试进入 Standard 意味着少写一层私有配置；但当前是 rc，生产建议先跟 v1.6.x 稳定分支，等 v1.7 正式版再评估。")),
+]
+
+infra_community = [
+ U("https://www.cncf.io/blog/2026/10/09/join-platform-engineering-day-at-kubecon-cloudnativecon-north-america-2026/", tag="会议",
+   summary="CNCF 宣布 KubeCon + CloudNativeCon 北美 2026（11 月 9–12 日，盐湖城）设 Platform Engineering Day。官方给出的背景是：随着组织加速采用 AI 与云原生技术，平台团队被要求解决开发者如何安全、高效地获得 AI 等新能力，以及随之而来的治理与成本问题。",
+   detail=D("把平台工程在 AI 时代的具体议题（AI 能力的自助交付、安全与治理、成本）集中成一天的专场。",
+           "平台团队的职责正从“发容器”转向“发 AI 能力”，但缺少可参考的同业做法与边界定义。",
+           "与你“业务上 K8s + AI-native 转型”的职责直接相关，值得按议题挑场次；不参会可等会后材料。")),
+ U("https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey/", tag="会议",
+   summary="CNCF 为 KubeCon + CloudNativeCon 北美 2026（11 月 9–12 日，盐湖城）整理了面向基础设施工程师的参会路线：内容按集群扩缩容、网络互连、存储跟随工作负载、平台可用性、安全内建等主题组织，并越来越多地覆盖 AI 负载相关会话。",
+   detail=D("把大会中偏基础设施的会话按主题串成一条路线，便于按职责快速筛选。",
+           "KubeCon 议程体量很大，基础设施工程师很难快速筛出与自己职责相关的部分。",
+           "可作为选会选题的索引：结合新增的 Platform Engineering Day 与 AI Inference + Agentic 新 track 一起看，就能判断这一届重心是否与你的方向一致。")),
+]
+
+sections = [
+ {"label":"🤖 AI 板块","categories":[
+    cat("🧩","Agent & Skill","Agent & Skill", ai_agent),
+    cat("🧠","模型与研究","Models & Research", ai_model),
+    cat("🛠️","AI 工程落地","AI Engineering", ai_eng),
+    cat("📊","产品与商业","Business", ai_biz),
+    cat("💡","观点与好文","Opinion", ai_view),
+    cat("🛡️","安全与治理","Safety & Governance", ai_safety),
+ ]},
+ {"label":"☸️ 基础设施板块","categories":[
+    cat("🤖☸️","K8s × AI","K8s × AI", infra_k8sai),
+    cat("☸️","K8s 核心技术","K8s Core", infra_core),
+    cat("📦","社区与项目","Community & Projects", infra_community),
+ ]},
+]
+
+FLASH = [
+ (proc[8]["url"], "NVIDIA KAI Scheduler v0.18.3 发布：CNCF Sandbox 的 K8s 原生 GPU 调度器补丁版，更新 gpu-fractioning chart 依赖。"),
+ (proc[10]["url"], "Kubernetes v1.38.0-alpha.2 发布（10 月 7 日）：v1.38 进入第二个 alpha，同线 v1.37.1 与 v1.36.5 补丁已在 9 月 23 日发出。"),
+ (proc[9]["url"], "Volcano v1.15.3 发布（9 月 30 日）：批量与 AI 调度器的 v1.14.6、v1.13.5 维护分支同日同步发补丁。"),
+ (proc[77]["url"], "Simon Willison：Python 3.15.0 已加入 actions/python-versions，GitHub Actions 测试矩阵现在可以直接加 \"3.15\"。"),
+ (proc[22]["url"], "Memento 3：让冻结 LLM agent 通过外部记忆维护自然语言「规则手册」式世界模型，持续修正对环境的理解。"),
+]
+flash = [{"title": t, "url": u} for u, t in FLASH]
+for f in flash:
+    assert f["url"] in PROC, f["url"]
+
+brief = {
+ "brand":"AI & 基础设施早报",
+ "date_label":"2026 年 10 月 11 日 · 星期日",
+ "issue":22,
+ "kicker":"DAILY",
+ "hint":"👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead":"今天的主线是“推理与调度栈的集体换挡”：vLLM v0.31.0 用权重常驻守护进程与 CRIU 引擎快照压缩重启成本，llm-d v0.10 把重心放到生产化硬化与镜像签名，KServe v0.21 让 ServingRuntime 接上 DRA，Kueue v0.20 则不再提供 v1beta1 API（升级前必须迁移）。云厂商侧，GKE Pod 快照把 70B 模型加载压到 37 秒。AI 板块，小米用一份 260 万美元量级的 RL 后训练账单，把 agentic RL 的规模与成本结构摊开；OpenAI 在 DevDay 用 Decisions API 把“从选项里选”做成了 150 毫秒的廉价基础组件。",
+ "highlights":highlights,
+ "sections":sections,
+ "flash":flash,
+ "footer":"由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+json.dump(brief, open(P("briefing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("briefing.json written. highlights:", len(highlights),
+      "| AI items:", sum(len(c["items"]) for c in sections[0]["categories"]),
+      "| infra items:", sum(len(c["items"]) for c in sections[1]["categories"]),
+      "| flash:", len(flash))
