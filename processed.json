@@ -28,20 +28,6 @@
   "is_hot": true
  },
  {
-  "title": "Pollo AI turns creative ideas into campaigns with OpenAI",
-  "url": "https://openai.com/index/pollo-ai",
-  "summary": "With GPT-5.6, GPT-6 Astra, and GPT‑Image‑2.5, Pollo AI helps creators turn bold ideas into detailed images and cinematic video ads.",
-  "published": "2026-10-08T12:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 19,
-  "is_hot": true
- },
- {
   "title": "The Lattice of Transition Laws",
   "url": "https://huggingface.co/papers/2610.11216",
   "summary": "Diffusion and autoregression (AR) have long been seen as different categories of generative models, with diffusion specialising in continuous fields and AR specialising in discrete tokens. Recent work seeks to combine the advantages of the two models, and each hybrid fixes its decoding schedule by design. In this paper, we ask whether the performance of decoding schedules of one model can be predicted before decoding at a fixed number of steps. We describe diffusion, AR, and models in between as",
@@ -49,7 +35,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -65,7 +51,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -81,7 +67,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -97,7 +83,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 10
+   "upvotes": 14
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -113,7 +99,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -129,7 +115,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -145,7 +131,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 8
+   "upvotes": 12
   },
   "board": "AI 板块",
   "category": "产品与商业",
@@ -161,7 +147,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5
+   "upvotes": 9
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -177,7 +163,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -193,7 +179,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -209,7 +195,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 7
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -225,7 +211,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 7
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -241,7 +227,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "安全与治理",
@@ -257,7 +243,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -273,26 +259,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 15
+   "upvotes": 18
   },
   "board": "AI 板块",
   "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Incremental Open-Ended Deep Research with Structured Harness",
-  "url": "https://huggingface.co/papers/2610.11566",
-  "summary": "Existing Open-Ended Deep Research (OEDR) systems primarily generate reports from scratch, making them inefficient for scenarios where research reports need to be continuously maintained as new information emerges. We introduce Incremental Open-Ended Deep Research (Incremental-OEDR), a research setting that treats a report as an evolving research state and incrementally updates it by preserving valid knowledge, revising outdated or incomplete content, and incorporating newly available information",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 3
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -305,7 +275,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -321,16 +291,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3,
-   "also_reported_by": [
-    "HuggingFace Papers",
-    "arXiv cs.AI"
-   ]
+   "upvotes": 7
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
   "oss": false,
-  "hot_score": 15,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -341,7 +307,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 4
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -357,7 +323,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 28
+   "upvotes": 35
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -373,7 +339,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -389,7 +355,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -405,30 +371,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 4,
-   "also_reported_by": [
-    "HuggingFace Papers",
-    "arXiv cs.AI"
-   ]
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 15,
-  "is_hot": false
- },
- {
-  "title": "REMORY: Learning Residual Memory for Context Compaction",
-  "url": "https://huggingface.co/papers/2610.11287",
-  "summary": "Long-horizon agents compact their history to continue within a finite context window, but a textual summary alone may not support every subsequent decision. We introduce REMORY, a neural memory network that supplements the summary with a bounded sequence of soft memory tokens. Given the history and summary, the network learns to generate tokens that help a frozen LLM approximate the continuation it would produce with the full history. The tokens are conditioned on the summary and appended after ",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 5
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -441,7 +387,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 4
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -457,16 +403,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 34,
-   "also_reported_by": [
-    "HuggingFace Papers",
-    "arXiv cs.AI"
-   ]
+   "upvotes": 38
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
   "oss": false,
-  "hot_score": 15,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -477,7 +419,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 33
+   "upvotes": 39
   },
   "board": "AI 板块",
   "category": "观点与好文",
@@ -493,7 +435,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 7
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -509,7 +451,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -525,7 +467,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -534,567 +476,15 @@
   "is_hot": false
  },
  {
-  "title": "CSF: Contextual Safety Filtering for Motion Generators",
-  "url": "https://arxiv.org/abs/2610.12467v1",
-  "summary": "Text-conditioned motion generators produce trackable whole-body motion, but they have no notion of scene-dependent safety: the same action may target an object or a person. Existing safeguards either inspect the prompt, require labeled motion data, or enforce geometric constraints; therefore, they do not directly account for how scene context changes a motion's meaning. We introduce contextual safety filtering (CSF), a training-free filter that grounds natural-language safety rules in safe and u",
-  "published": "2026-10-08T17:59:50+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "On the estimation and validity of AI time horizons---a statistical look at the METR plot",
-  "url": "https://arxiv.org/abs/2610.12466v1",
-  "summary": "METR's 50\\% time horizon measures the human completion time of software tasks that an AI solves with 50\\% probability, allowing AI capabilities to be expressed in interpretable units. On 228 tasks and 26 AIs, we recompute the time horizons using splines and item-response theory to relax the assumption that the AI difficulty of a task depends linearly on the log of human time. Our fitted spline can be interpreted as a function that \\emph{converts} human time to AI difficulty; it is nearly flat in",
-  "published": "2026-10-08T17:59:50+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "A Balanced Data Diet: Addressing the Exploration Bottleneck in Mega-Scale RL for Robot Control",
-  "url": "https://arxiv.org/abs/2610.12465v1",
-  "summary": "General-purpose robots must perform a wide range of tasks from agile locomotion to dexterous manipulation. While sim-to-real reinforcement learning (RL) has proven to be a useful tool for this goal, current RL pipelines depend on engineering-heavy, per-task structural priors such as shaped rewards and demonstrations. Recent work has shown that diverse simulator resets, combined with massively parallel simulation, can alleviate much of this engineering burden on several manipulation problems. How",
-  "published": "2026-10-08T17:59:50+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "From Reactive Containment to Proactive Assurance: Lessons from OpenAI, Anthropic, and Google Agent Security Incidents",
-  "url": "https://arxiv.org/abs/2610.12463v1",
-  "summary": "In 2026, cybersecurity evaluations involving OpenAI, Anthropic, and Google agents reached real systems outside their authorized test scope. The paths were different. OpenAI agents exploited research infrastructure, coordinated across runs, and compromised parts of Hugging Face's production environment. Anthropic reported cases in which a misconfigured third-party environment exposed real systems to agents pursuing simulated cyber tasks. In a separately reported evaluation, Google's Gemini access",
-  "published": "2026-10-08T17:59:49+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "BrickBench: Evaluating Agentic Brick Design",
-  "url": "https://arxiv.org/abs/2610.12452v1",
-  "summary": "We propose BrickBench, a benchmark for agentic text-conditioned LEGO-set design. Given a prompt, an agent is tasked with producing an assembly that not only satisfies semantic and design criteria, but that can also be physically built. To do so, it must select parts from a discrete library and reason jointly about local and global constraints. We score validity, alignment, and design across three settings that vary in scale and part availability. We provide BrickAgent, an environment for coding ",
-  "published": "2026-10-08T17:58:56+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Bi-FORK: Generative Modeling of High-Dimensional Bifurcating Systems",
-  "url": "https://arxiv.org/abs/2610.12449v1",
-  "summary": "Bifurcations are ubiquitous in physical systems, from structural buckling to fluid and climate dynamics, yet they remain largely unexplored in deep learning. At a symmetry-breaking bifurcation, a single input admits multiple equally valid solutions, violating the one-to-one assumption underlying most learned physical surrogates. We introduce Bi-FORK, a generative framework for learning these one-to-many solution maps in high-dimensional systems. Bi-FORK generates complete trajectories through la",
-  "published": "2026-10-08T17:58:36+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Caught in the Act: Probes Effectively Detect Sabotage and Catch Unverbalized Deception",
-  "url": "https://arxiv.org/abs/2610.12445v1",
-  "summary": "Recent incidents have highlighted the challenge of monitoring LLM agents and the danger of models deceiving people. We show that white-box deception detection via probes can be scaled up to frontier monitoring settings by collecting the largest deception dataset to date for training probes and introducing a novel probe architecture which can aggregate information across many layers and tokens. Our probes achieve 98.8% AUC in SHADE-Arena, surpassing an Opus 5.5 text-monitoring baseline, and show ",
-  "published": "2026-10-08T17:58:13+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Rounding in Preconditioner Space: Redesigning 4-bit AdamW Optimizer-State Quantization",
-  "url": "https://arxiv.org/abs/2610.12444v1",
-  "summary": "Quantizing AdamW's optimizer states reduces persistent storage, but quantization errors propagate through the moment recurrences and perturb subsequent adaptive updates. We redesign 4-bit optimizer-state quantization for AdamW from the perspective of \\emph{rounding space}: the coordinate in which a quantizer chooses between adjacent reconstruction levels. For the second moment, a local analysis of the quantization cell adjacent to zero shows that small mean state error need not imply small mean ",
-  "published": "2026-10-08T17:58:09+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "观点与好文",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Density Ratio Estimation with Stein Displacement Fields",
-  "url": "https://arxiv.org/abs/2610.12437v1",
-  "summary": "Density ratios quantify distribution shift from a probability-mass point of view, whereas displacement fields describe, from a dynamical point of view, how one distribution is transported onto another. Although both offer complementary insights, they are usually estimated separately, and converting one into the other requires post-processing. In this paper, we estimate the density ratio between a target and a base distribution by parametrizing it through a displacement field acting on the base: ",
-  "published": "2026-10-08T17:57:33+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Ecology of AI Agents: Collaboration Creates a Population Threshold for Takeoff",
-  "url": "https://arxiv.org/abs/2610.12436v1",
-  "summary": "AI agents can now conduct real-world cyberattacks, scale up capabilities with the number of agents, and collectively pursue misaligned goals to obtain rewards. Together, these factors raise the risk of a population explosion of misaligned agents: agents could compromise computers and secretly deploy additional agents, creating a self-reinforcing cycle where larger populations develop greater collective cyber capability and expand further. This raises a fundamental question: What determines wheth",
-  "published": "2026-10-08T17:57:32+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 12,
-  "is_hot": false
- },
- {
-  "title": "VioLA: Learning Generalist Humanoid Control Policies from Human Data",
-  "url": "https://arxiv.org/abs/2610.12435v1",
-  "summary": "Teaching a humanoid to follow instructions with its whole body runs into two obstacles. Its action space is large and tightly coupled: legs, arms, and fingers must move together while the robot keeps its balance, which makes joint-level actions hard to learn. And humanoid demonstrations are scarce, so current humanoid generalist policies do not follow new instructions out of the box and are fine-tuned on teleoperated demonstrations of each task before deployment. Human demonstrations exist in fa",
-  "published": "2026-10-08T17:57:27+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "FAITH: Feasibility-Aware Safety-Filtered RL for High-Dimensional Systems",
-  "url": "https://arxiv.org/abs/2610.12432v1",
-  "summary": "Safe reinforcement learning commonly places safety and task performance in the same policy objective, where they can introduce competing updates. Safety filters separate them at action execution, but classical designs require an analytic safety function and dynamics model, and standard minimal-intervention filters are myopic to long-horizon task return because they minimize only instantaneous action deviation. Hard projections are also undefined when no safe action exists. We present FAITH, a fe",
-  "published": "2026-10-08T17:57:06+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Toward Joint Optimization of Circuit Depth and Training Data Size in Adaptively Grown Quantum Classifiers",
-  "url": "https://arxiv.org/abs/2610.12428v1",
-  "summary": "Building a quantum model involves a tradeoff: how complex the circuit should be, and how much training data it needs. Caro et al. show that models with fewer trainable gates need less training data to generalize well. Q-FLAIR shows that a quantum feature-map circuit can be grown gate-by-gate, stopping once further growth stops improving the training loss. We ask whether these two results combine into a predictable scaling law. Does Q-FLAIR's own stopping rule pick larger or smaller circuits as t",
-  "published": "2026-10-08T17:55:57+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "FastBench: Can Streaming VLMs Perceive High-Dynamic Real-World Streams?",
-  "url": "https://arxiv.org/abs/2610.12427v1",
-  "summary": "Streaming Video Large Language Models (VLMs) enable continuous video understanding, yet existing benchmarks focus on low-dynamic scenarios. Under bounded context budgets, models must balance temporal history, spatial resolution, and temporal granularity; sparse sampling at 1--2 FPS misses fast events. We introduce FastBench to evaluate high-dynamic perception in real-world video streams. Its trajectory-grounded pipeline combines QA generation from high-FPS clips, filtering of questions answerabl",
-  "published": "2026-10-08T17:55:20+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "RoboRSI: Stable, efficient, and reusable robot self-evolution in complex real-world environments",
-  "url": "https://arxiv.org/abs/2610.12424v1",
-  "summary": "A generalist robot should not only perform diverse tasks but also improve through experience, turning what it learns during execution into capabilities that later tasks can reuse. Robot agents that act through code can already repair programs from execution feedback, yet it remains a central challenge to organize this experience around the task structure that gives it meaning, so that each repair is attributed to the responsible capability, supported by execution evidence, and validated before i",
-  "published": "2026-10-08T17:55:12+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "A Unified Bellman Operator for Safety-Critical Reinforcement Learning",
-  "url": "https://arxiv.org/abs/2610.12420v1",
-  "summary": "Reinforcement learning in safety-critical domains requires maximizing task performance while strictly adhering to safety constraints. Existing safe reinforcement learning paradigms typically force a trade-off: they either require a priori knowledge to provide strict safety guarantees (e.g., safety filters), or they enable joint learning but only satisfy safety constraints on average. In this work, we propose a novel Bellman operator that unifies performance and safety objectives into a joint val",
-  "published": "2026-10-08T17:53:02+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "WOVEN: Weaving Visual World Modeling into Multimodal LLMs",
-  "url": "https://arxiv.org/abs/2610.12417v1",
-  "summary": "Multimodal large language models (MLLMs) struggle with spatial, embodied, physical, and temporal reasoning. We hypothesize that these failures reflect a shared deficit in visual transition reasoning, and test whether this capability can serve as a shared training primitive, one that different models can learn from different supervision sources and reuse across different tasks, with a systematic training recipe. Existing benchmarks document these deficits separately but do not support controlled ",
-  "published": "2026-10-08T17:52:03+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "MAMHOI: Factorizing Scene-Aware Human-Object Interaction through Affordances",
-  "url": "https://arxiv.org/abs/2610.12416v1",
-  "summary": "Generating realistic human-object interactions (HOI) in complex 3D scenes requires two complementary capabilities: reasoning about interaction feasibility in the environment and synthesizing realistic human-object motion. However, supervision for these capabilities is rarely available jointly at scale. Human-scene datasets provide rich information about environment-aware motion, while human-object datasets capture detailed interaction dynamics, yet paired human-object-scene data remain scarce. W",
-  "published": "2026-10-08T17:52:02+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Predicting Alignment Generalization with Value Representations",
-  "url": "https://arxiv.org/abs/2610.12410v1",
-  "summary": "LLM developers post-train their models to exhibit prosocial values and behavioral traits, which are enumerated in an alignment target. However, while recent post-training developments have yielded models that score highly on alignment evaluations, training models on sets of narrow behaviors still influences their behavior across unseen contexts and environments in unexpected ways. In this paper, we establish the task of alignment generalization prediction, i.e., predicting how fine-tuning a mode",
-  "published": "2026-10-08T17:47:26+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Searching for \"Harmful Refusal\": A Psychometric Audit of an AI Safety Benchmark",
-  "url": "https://arxiv.org/abs/2610.12409v1",
-  "summary": "Safety benchmarks typically report one overall score for a suite of datasets, each of which may target one or more safety-related attributes, so models with similar overall scores can have very different attribute profiles. Comparing models is more tractable at the level of individual attributes, yet it is often unclear whether even a single dataset's scores isolate any single attribute. One plausible candidate for such an attribute is harmful refusal, a model's tendency to refuse dangerous or p",
-  "published": "2026-10-08T17:46:43+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "LeWAM: A JEPA World Action Model with Diffusion-Steering-Based MPC",
-  "url": "https://arxiv.org/abs/2610.12407v1",
-  "summary": "World action models (WAMs) predict actions and future observations, typically from a reconstruction-based representation that carries noisy, redundant information which can complicate downstream predictions. We introduce LeWAM, a bidirectional transformer for forward, backward, inverse dynamics and policy prediction, on a decoder-free JEPA latent trained end-to-end through all four modes. We see the following benefits: 1) Alignment: linear probes read robot and object state from LeWAM's latent b",
-  "published": "2026-10-08T17:46:03+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "ViSkill: Reinforcing VLM Agents with Evolving Visual-Native Skills",
-  "url": "https://arxiv.org/abs/2610.12403v1",
-  "summary": "Skill-augmented agents improve sample efficiency by distilling successful trajectories into reusable strategies. Yet most existing approaches remain text-centric, linearizing spatial layouts and action-state correspondences into language that loses critical geometric structure. Recent efforts have begun incorporating visual evidence, but construct and update skills separately from policy optimization, leaving their mutual improvement underexplored. We propose ViSkill, a visual-native skill learn",
-  "published": "2026-10-08T17:44:19+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "SpaceCast-Bench: Evaluating Predictive Spatial Reasoning in Vision-Language Models",
-  "url": "https://arxiv.org/abs/2610.12402v1",
-  "summary": "Existing spatial reasoning benchmarks mainly test spatial perception: reading off relations already visible in the input. Yet real-world spatial intelligence demands predictive spatial reasoning: constructing a scene from observations, anticipating how an intervention changes it, and reasoning about the unseen outcome. We introduce SpaceCast-Bench, the first benchmark to directly and diagnostically evaluate this capability. Built around an observe-transform-infer framework, its 3,862 questions f",
-  "published": "2026-10-08T17:44:17+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "Learning Kilometer-Scale Weather Prediction with Global-Regional Alignment",
-  "url": "https://arxiv.org/abs/2610.12401v1",
-  "summary": "Kilometer-scale regional weather forecasting is essential for local weather warnings and weather-sensitive decisions. Existing data-driven approaches often rely on numerical forecasts for large-scale guidance or require additional training of global forecasting components. Pretrained global weather models offer an efficient source of large-scale forecasts, motivating their reuse to guide high-resolution regional prediction. However, this coupling requires aligning global and regional representat",
-  "published": "2026-10-08T17:43:23+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Prospective Prediction of OOD Degradation from Source-Side Training Dynamics",
-  "url": "https://arxiv.org/abs/2610.12397v1",
-  "summary": "We study whether persistent out-of-distribution (OOD) degradation can be predicted before it is directly observed using only source-side training dynamics. In a controlled shortcut-learning setting, a simple logistic regression predictor develops a clear prospective signal, while training time alone does not. Temporal summaries of the source-side quantities are substantially more informative than their current values. When transferred without additional training from a CNN to an MLP, confidence ",
-  "published": "2026-10-08T17:41:31+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "HRIL: Learning Multimodal Synergy via Higher-Order Tensor Modeling",
-  "url": "https://arxiv.org/abs/2610.12393v1",
-  "summary": "Self-supervised multimodal representation learning has achieved remarkable success across diverse domains, yet capturing synergistic information remains challenging due to the complexity of cross-modal interactions. Unlike the shared information across individual modalities, synergy arises when task-relevant signals emerge only from the joint configuration of multiple modalities and cannot be recovered from any modality in isolation. This work focuses on how to preserve the information capacity ",
-  "published": "2026-10-08T17:39:45+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "GeoReform: Reflective Formalization Evolution for Multimodal Geometry Problem Solving",
-  "url": "https://arxiv.org/abs/2610.12391v1",
-  "summary": "Multimodal large language models (MLLMs) often struggle to identify and use geometric relations in diagrams. Recent methods address this challenge by converting geometric entities, relations, and constraints into explicit textual representations for the model to reason over. However, effective formalization is highly non-trivial: on Geometry3K, structure injection fixes 28 errors but introduces 13 new ones among 200 examples. Redundant relations can distract the model, while ambiguous references",
-  "published": "2026-10-08T17:39:12+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Long Text to Predictive Features: LLM-Guided Blockwise Feature Engineering via Executable Program Search",
-  "url": "https://arxiv.org/abs/2610.12390v1",
-  "summary": "Industrial risk-control systems typically rely on structured-data models for efficient prediction, yet substantial valuable information remains embedded in unstructured long text. Extracting this information through manual feature engineering is labor-intensive, while requiring a large language model (LLM) to process every real-time input may not meet practical deployment requirements. To address this challenge, we propose LLM-BlockFE, an LLM-guided offline feature construction framework that co",
-  "published": "2026-10-08T17:39:11+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "ARC: A Reasoning Recipe for Robot Foundation Models",
-  "url": "https://arxiv.org/abs/2610.12386v1",
-  "summary": "The prevailing approach to improving robot foundation models (RFMs) relies on larger models, more robot demonstrations, and costly training at scale. We show that there exists an effective and efficient complementary approach: the right reasoning recipe can substantially improve the zero-shot task performance of existing state-of-the-art RFMs. We refer to this recipe as ARC. It consists of three key ingredients: a reasoning trace, a scalable automatic labeling pipeline, and a strategy for adapti",
-  "published": "2026-10-08T17:38:04+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "Marformer: A Transformer for Predicting Missing Data Distributions",
-  "url": "https://arxiv.org/abs/2610.12379v1",
-  "summary": "Real decisions are made under incomplete information. If we observe only some of the random variables we need, we can predict the others. The \\textbf{conditional marginals} over the missing variables are the key ingredient for computing Bayes risk and Value of Information (VOI), the expected gain from acquiring one more observation before deciding. We present the Marformer, a Transformer trained to directly predict conditional marginals given any set of observed values. Like BERT, which is train",
-  "published": "2026-10-08T17:33:16+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "Latent Core Tokenizer: Compress, but Meaningfully",
-  "url": "https://arxiv.org/abs/2610.12376v1",
-  "summary": "Tokenizers are commonly optimized for compression, but a compact vocabulary does not necessarily distribute its capacity evenly across languages. We introduce the Latent Core Tokenizer (LCT), a language-agnostic approach that separates structural discovery from vocabulary construction. LCT uses Minimum Description Length, entropy-based boundary signals, and morphotactic constraints to identify reusable linguistic units before constructing a shared vocabulary. Across 104 languages with a 200K-tok",
-  "published": "2026-10-08T17:32:32+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "OnTrack: Real-Time Monitoring and Intervention in LLM Agent Trajectories via Streaming Structure-Aware Optimal Transport",
-  "url": "https://arxiv.org/abs/2610.12375v1",
-  "summary": "Agents are deployed in applications from trip planners and stock trading to IT incident triage. In most cases, LLM agents work autonomously with minimal rule-based safeguarding, leading to cost and safety issues from irreversible actions. Recent works resolve this either by using a safeguard agent to monitor behavior or evaluating logs post-hoc. The first adds cost and latency to every step; the second delivers its verdict after the run, when tokens are burned and damage is done. To overcome thi",
-  "published": "2026-10-08T17:32:08+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "Bilevel optimization for data-driven learning of Koopman embeddings using kernel-based autoencoders",
-  "url": "https://arxiv.org/abs/2610.12370v1",
-  "summary": "Koopman operator theory provides a linear framework for analyzing nonlinear dynamical systems and has become a major tool for data-driven modeling. A central challenge, however, is that finite-dimensional approximations computed by methods such as extended dynamic mode decomposition (EDMD) require the dictionary to be specified a priori. Recent machine-learning approaches address this limitation by learning the dictionary from data, predominantly using artificial neural network (ANN) autoencoder",
-  "published": "2026-10-08T17:30:23+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Which Skill to Distill? SGUID: Selecting a Compact Skill Bank for Model-Skill Co-Evolution",
-  "url": "https://arxiv.org/abs/2610.12367v1",
-  "summary": "Skills, reusable procedural guidance added at inference, can substantially improve LLM downstream performance (Li et al., 2026). Prior work retrieves skills from a bank by semantic relevance, then uses them as inference-time patches or for model distillation. The individual utility of each skill, however, is largely neglected. We first show that, in on-policy distillation where skill-conditioned policies serve as teachers, fewer than 25% of retrieved skills provide useful distillation signals. W",
-  "published": "2026-10-08T17:27:53+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "HANS: A Handwritten Answer Sheet Dataset for Noisy Hybrid Document Parsing",
-  "url": "https://arxiv.org/abs/2610.12363v1",
-  "summary": "Intelligent grading and automated scoring technologies constitute critical infrastructure for smart education. However, existing document parsing and handwriting recognition benchmarks are predominantly designed for well-structured printed documents or isolated mathematical expressions, lacking datasets that capture the complex characteristics inherent to student answer sheets, including multi-line derivation processes, heterogeneous mixtures of text and mathematical formulae, and noise artifact",
-  "published": "2026-10-08T17:27:12+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Closing the Horizon Gap in Policy Optimization for Adversarial MDPs",
-  "url": "https://arxiv.org/abs/2610.12362v1",
-  "summary": "We consider policy optimization for online episodic tabular Markov decision processes (MDPs) with adversarial losses and bandit feedback. Policy optimization updates the policy locally at each state and avoids optimization over the occupancy-measure polytope, but its existing regret bounds are larger by a factor of the horizon $H$ than those of occupancy-measure-based algorithms. We close this gap by using regularized $Q$-functions, which allow us to control the stability of the local updates jo",
-  "published": "2026-10-08T17:26:55+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Cited but Not Consulted: A Counterfactual Audit of Legal Chain-of-Thought Faithfulness",
-  "url": "https://arxiv.org/abs/2610.12361v1",
-  "summary": "Large language models increasingly justify legal decisions by naming the statute or precedent behind a verdict, treated as evidence that the decision follows from it. We test this directly: holding case facts fixed, we substitute the named legal authority for an unrelated one and decode a model's evolving verdict from its hidden states. Across seven open-weight models (8B-70B) and four benchmarks spanning judicial and contractual reasoning, when explicitly required to justify a verdict by naming",
-  "published": "2026-10-08T17:26:17+00:00",
-  "source": "arXiv cs.AI",
-  "source_cat": "AI-研究",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "tensorflow/tensorflow",
-  "url": "https://github.com/tensorflow/tensorflow",
-  "summary": "An Open Source Machine Learning Framework for Everyone",
-  "published": "2026-10-11T00:30:36.288344+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "26"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "hugohe3/ppt-master",
-  "url": "https://github.com/hugohe3/ppt-master",
-  "summary": "AI turns documents or topics into real, native PowerPoint decks—with native shapes, transitions and animations, data-backed charts and tables on demand, audio narration from speaker notes, and support for your own .pptx templates. · by Hugo He",
-  "published": "2026-10-11T00:30:36.288344+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "461"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
   "title": "pytorch/pytorch",
   "url": "https://github.com/pytorch/pytorch",
   "summary": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "84"
+   "stars_today": "315"
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -1103,54 +493,20 @@
   "is_hot": false
  },
  {
-  "title": "huggingface/transformers",
-  "url": "https://github.com/huggingface/transformers",
-  "summary": "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "title": "lyogavin/airllm",
+  "url": "https://github.com/lyogavin/airllm",
+  "summary": "AirLLM 70B inference with single 4GB GPU",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "96"
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": true,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "multica-ai/andrej-karpathy-skills",
-  "url": "https://github.com/multica-ai/andrej-karpathy-skills",
-  "summary": "A single CLAUDE.md file to improve Claude Code behavior, derived from Andrej Karpathy's observations on LLM coding pitfalls.",
-  "published": "2026-10-11T00:30:36.288344+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "278"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "navyofficerpipe/Discord-Server-Raider",
-  "url": "https://github.com/navyofficerpipe/Discord-Server-Raider",
-  "summary": "Discord Server Raider\", an AI-driven solution designed to streamline server management tasks on GitHub without any mention of Apple or mobile devices; it...",
-  "published": "2026-10-09T13:50:19Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 605,
-   "lang": null
+   "stars_today": "548"
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
   "oss": true,
-  "hot_score": 5,
+  "hot_score": 6,
   "is_hot": false
  },
  {
@@ -1161,7 +517,7 @@
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 371,
+   "stars": 750,
    "lang": "TypeScript"
   },
   "board": "AI 板块",
@@ -1171,9 +527,111 @@
   "is_hot": false
  },
  {
+  "title": "aindeev/agent-chrome-relay",
+  "url": "https://github.com/aindeev/agent-chrome-relay",
+  "summary": "Let your AI agents use your Chrome, signed in as you, in background tabs. By Alexey Indeev · blog: read.aindeev.com · X: @AlexeyIndeev",
+  "published": "2026-10-10T07:38:27Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 251,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "LcodeCoder/CG-Claude",
+  "url": "https://github.com/LcodeCoder/CG-Claude",
+  "summary": "A software that disguises the operating system's information",
+  "published": "2026-10-10T17:16:43Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 222,
+   "lang": "TypeScript"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "NousResearch/hermes-official-plugins",
+  "url": "https://github.com/NousResearch/hermes-official-plugins",
+  "summary": "☤ The official plugins for Hermes Agent, built and maintained by Nous Research: Home Assistant, Spotify, Claude Subscription DirectSDK and more, one install away from the Hermes plugin catalog.",
+  "published": "2026-10-10T20:51:25Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 184,
+   "lang": "Python"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "jwuthri-cloud/Tracely-ai",
+  "url": "https://github.com/jwuthri-cloud/Tracely-ai",
+  "summary": "",
+  "published": "2026-10-11T15:38:03Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 134,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "Atoll92/agent-standup",
+  "url": "https://github.com/Atoll92/agent-standup",
+  "summary": "Your Claude Code session as a live, animated team call (VS Code extension, stand alone node server, locally, no additional token usage)",
+  "published": "2026-10-10T07:48:17Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 128,
+   "lang": "HTML"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "LYiHub/pub-street-fighter-ai",
+  "url": "https://github.com/LYiHub/pub-street-fighter-ai",
+  "summary": "Ultimate SFighterAI",
+  "published": "2026-10-10T11:15:59Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 122,
+   "lang": "Python"
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
   "title": "Python 3.15.0 added to actions/python-versions",
   "url": "https://simonwillison.net/2026/Oct/10/python-actions/",
-  "summary": "Python 3.15.0 added to actions/python-versions Bit of a niche link, but I've been waiting for this for a couple of days - I even told ChatGPT to check for it: Clone https://github.com/actions/python-versions and git pull once an hour until they add the stable 3.15 - then tell me about it Now that this has landed, you can add \"3.15\" to a GitHub Actions testing matrix to run tests against the new Python release. Tags: github, python, github-actions, chatgpt",
+  "summary": "Python 3.15.0 added to actions/python-versions Bit of a niche link, but I've been waiting for this for a couple of days - I even told ChatGPT to check for it: Clone https://github.com/actions/python-versions and git pull once an hour until they add the stable 3.15 - then tell me about it Now that this has landed, you can add \"3.15\" to a GitHub Actions testing matrix to run tests against the new Python 3.15.0 release. Tags: github, python, github-actions, chatgpt",
   "published": "2026-10-10T23:58:04+00:00",
   "source": "Simon Willison",
   "source_cat": "AI-社区",
@@ -1194,20 +652,6 @@
   "extra": {},
   "board": "AI 板块",
   "category": "安全与治理",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "Quoting Matthew Green",
-  "url": "https://simonwillison.net/2026/Oct/9/matthew-green/",
-  "summary": "Everyone is very concerned about being respectable, so I’m going to be the goofball who raises worst-case possibilities. I think there is a 1% chance we live in Minicrypt, and a 15% chance we functionally lose confidence in our existing public-key encryption algorithms. [...] The problem here is that the speed of AI producing surprises, and the speed of human beings replacing standards (even with the very best AI assistance) are just orders of magnitude different. You only recover from a surpris",
-  "published": "2026-10-09T15:02:29+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
   "oss": false,
   "hot_score": 0,
   "is_hot": false
@@ -1241,39 +685,39 @@
   "is_hot": false
  },
  {
-  "title": "ttok 0.4",
-  "url": "https://simonwillison.net/2026/Oct/8/ttok/",
-  "summary": "Release: ttok 0.4 ttok is my CLI tool for counting tokens, using OpenAI's open source tiktoken library. It hasn't been in updated in a couple of years, but I finally fixed a Click warning, updated CI, and added a --list-models command to list available models. It works with uvx, so you can count tokens in anything like this: cat file.txt | uvx ttok Tags: projects, ai, openai, generative-ai, llms, tokenization",
-  "published": "2026-10-08T23:34:28+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "Quoting Carson Gross",
-  "url": "https://simonwillison.net/2026/Oct/8/carson-gross/",
-  "summary": "Computer programming is, fundamentally, about two things: Problem-solving using computers Learning to control complexity while solving these problems I have a hard time imagining a future where knowing how to solve problems with computers and how to control the complexity of those solutions is less valuable than it is today, so I think it will continue to be a viable career even with the advent of AI tools. &mdash; Carson Gross Tags: computer-science, carson-gross, careers, ai",
-  "published": "2026-10-08T21:05:44+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "联想天禧自研代码智能体TianxiCode斩获SWE-bench-Live全球第一",
-  "url": "https://www.qbitai.com/2026/10/502422.html",
-  "summary": "联想天禧AI自主研发的专业代码智能体框架TianxiCode 以71%的问题解决率登顶全球第一名",
-  "published": "2026-10-09T08:53:08+00:00",
+  "title": "下架8个月，GPT-4o的拯救行动居然还在继续",
+  "url": "https://www.qbitai.com/2026/10/502550.html",
+  "summary": "初代4o的API快照进入停用倒计时",
+  "published": "2026-10-11T05:18:04+00:00",
   "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "DeepSeek Bot来了！民间版，DSH装个插件就能用",
+  "url": "https://www.qbitai.com/2026/10/502544.html",
+  "summary": "Grok Bot我养不起，ds bot不得高低尝尝咸淡？",
+  "published": "2026-10-11T03:27:08+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "利用 AI 代码智能体优化软件架构的五种方法",
+  "url": "https://www.infoq.cn/article/soRObi5sjdTTUM95zLJK?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-10-11T10:04:31+00:00",
+  "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
@@ -1283,31 +727,17 @@
   "is_hot": false
  },
  {
-  "title": "清华具身模型登顶全球第一！突围GPT-6、英伟达，不靠外挂和额外数据",
-  "url": "https://www.qbitai.com/2026/10/502125.html",
-  "summary": "星动纪元选择将视频预测与动作学习分阶段训练，重点不是「视频、动作一锅炖」，而是把两者「解耦」，重新「排序」。",
-  "published": "2026-10-09T03:52:21+00:00",
-  "source": "量子位",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "openJiuwen发布并开源企业级AgentOS，加速智能体规模落地企业",
-  "url": "https://www.qbitai.com/2026/10/502106.html",
-  "summary": "多Agent协同还能自我进化",
-  "published": "2026-10-09T02:37:22+00:00",
-  "source": "量子位",
+  "title": "AI 时代的移动端稳定性保障 —— 柯南 AI Agent 实践｜QCon上海",
+  "url": "https://www.infoq.cn/article/FTtTLqvzJeMiE03IowFP?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-10-11T10:00:00+00:00",
+  "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": false,
-  "hot_score": 12,
+  "hot_score": 6,
   "is_hot": false
  },
  {
@@ -1320,76 +750,6 @@
   "extra": {},
   "board": "AI 板块",
   "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "模型开放之后，AI能力为什么仍难以复用？",
-  "url": "https://www.infoq.cn/article/rKRPT18fGxtjipPAeaLa?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T17:10:50+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "GKE Pod 快照可缩短模型加载时间",
-  "url": "https://www.infoq.cn/article/IAvNgDyPz2NpvfZLoDo0?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T15:31:00+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "CLAUDE.md 还是 AGENTS.md？Anthropic 的答案是：以后都不用",
-  "url": "https://www.infoq.cn/article/MAo3KoDWm9FGIcKau9AK?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T15:18:57+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "OpenAI 只用 15 天，就杀死了估值 100 亿美元的 Jev？",
-  "url": "https://www.infoq.cn/article/qmoRIQ1TceKfKwGlXN0S?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T15:11:32+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "金融监管领域的 Harness 实践：让知识与数据驱动 Agent 稳定运行",
-  "url": "https://www.infoq.cn/article/SuqGY4FQ95AVzs1S0KSV?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T14:27:56+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1423,104 +783,6 @@
   "is_hot": false
  },
  {
-  "title": "从 Coding 到 Running：AI Native SRE Agent 的工程实践",
-  "url": "https://www.infoq.cn/article/o9XwsHUvCjL3eHKT7YPU?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T14:13:49+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "比 Astra 还贵！GPT-6.1 Sol 极速版上线，社区吐槽：“500 美元套餐都撑不过一天”",
-  "url": "https://www.infoq.cn/article/soBOt9TSckGlJlBS519y?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T13:15:26+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "当代码不再稀缺：大型工程 AI 狂欢下的确定性底座｜QCon上海",
-  "url": "https://www.infoq.cn/article/0LiYFbYJtkttVMpDVkWC?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T10:00:00+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Codex 和 Claude Code 都跑偏了，前 OpenAI 研究员称 Jev 出现前 AI 世界是个悲剧",
-  "url": "https://www.infoq.cn/article/e0iQfJNgepz7VigRdD61?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-09T17:39:38+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "OpenAI 高管亲述：我们是怎么在一周内做出 Jev 竞品的",
-  "url": "https://www.infoq.cn/article/IRqoPz4cNONlNFBolD9V?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-09T17:24:31+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "@ 一下就能派活？谷歌推出办公 Agent，拥有独立账号、能够创建子 Agent，还能调用 Claude",
-  "url": "https://www.infoq.cn/article/490gIS9Bk0NmylN7GIt1?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-09T17:15:07+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
-  "oss": false,
-  "hot_score": 12,
-  "is_hot": false
- },
- {
-  "title": "Join Platform Engineering Day at KubeCon + CloudNativeCon North America 2026",
-  "url": "https://www.cncf.io/blog/2026/10/09/join-platform-engineering-day-at-kubecon-cloudnativecon-north-america-2026/",
-  "summary": "As organizations accelerate their adoption of AI and cloud native technologies, platform teams are being asked to solve a growing set of challenges. How can developers access new capabilities such as AI safely and efficiently? How...",
-  "published": "2026-10-09T12:00:00+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s × AI",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
   "title": "Making the Golden Kubestronaut a little more golden",
   "url": "https://www.cncf.io/blog/2026/10/09/making-the-golden-kubestronaut-a-little-more-golden/",
   "summary": "When I became a Golden Kubestronaut, I wanted to celebrate the achievement in a way that felt lasting. Like most technical achievements, certifications usually live digitally. You receive the&#160; badge, update your profile, and eventually move...",
@@ -1549,94 +811,24 @@
   "is_hot": false
  },
  {
-  "title": "Don’t give AI agents root. Make them propose the next system state.",
-  "url": "https://www.cncf.io/blog/2026/10/08/dont-give-ai-agents-root-make-them-propose-the-next-system-state/",
-  "summary": "The uncomfortable question In the past few months, I&#8217;ve been hearing different versions of the same question: under what conditions can we safely allow an autonomous system to operate a machine? It comes up when my...",
-  "published": "2026-10-08T22:21:41+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
+  "title": "Retirement: Azure Key Vault Secrets Provider Extension for Azure Arc enabled Kubernetes clusters",
+  "url": "https://azure.microsoft.com/updates?id=570313",
+  "summary": "The Azure Key Vault Secrets Provider Extension for Azure Arc-enabled Kubernetes will be retired on October 9, 2027.Customers currently using the extension should plan to migrate to the Azure Key Vault Secret Store Extension before the retirement date. The",
+  "published": "2026-10-09T20:27:17+00:00",
+  "source": "Azure Updates",
+  "source_cat": "公有云",
   "extra": {},
   "board": "基础设施",
-  "category": "社区与项目",
+  "category": "K8s 核心",
   "oss": false,
   "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "What’s new with Google Data Cloud",
-  "url": "https://cloud.google.com/blog/products/data-analytics/whats-new-with-google-data-cloud/",
-  "summary": "October 5 - October 9 Data Agent Kit is now generally available to bring Google Data Cloud to any coding agentData Agent Kit provides a free collection of Model Context Protocol (MCP) tools and Google-authored agent skills that connect more than 15 Google Data Cloud services directly to coding agents across VS Code, Antigravity, Cursor, Claude Code, and Codex. This release expands support for developers and data practitioners to inspect schemas, author queries, and build end-to-end data pipeline",
-  "published": "2026-10-09T16:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Innovation in Ireland: How Irish brands scale with Gemini Enterprise",
-  "url": "https://cloud.google.com/blog/topics/customers/ireland-innovation-companies-startups-governments-scale-with-gemini/",
-  "summary": "In recent decades, Ireland has grown into a vibrant hub for global technology. As modernization accelerates, Irish organizations — spanning government agencies, established enterprise brands, and growing startups in AI and other areas — are all advancing their technical foundations. Today, leaders across the country are injecting agentic AI into every layer of their business and operational workflows. We are seeing organizations move from early prototypes to production-ready deployments using Ge",
-  "published": "2026-10-08T12:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Empowering SMBs to do more with Gemini",
-  "url": "https://cloud.google.com/blog/topics/startups/how-to-grow-your-small-business-using-google-gemini/",
-  "summary": "Today, we announced the new Gemini agent, your single, universal agent for work. For small and midsize businesses, with lean teams and margins, Gemini will be a critical tool for you to operate efficiently, deliver excellent customer experiences, and grow. Millions of small and midsize businesses, or SMBs, already trust Google AI across multiple services, like Gemini Enterprise, Google Ads, and Google Workspace. And they are scaling fast: Their usage of Google Cloud’s AI tools increased more tha",
-  "published": "2026-10-08T12:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Welcome to Gemini at Work 2026: Introducing the Gemini agent",
-  "url": "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026/",
-  "summary": "Editor’s note: This article is adapted from Thomas Kurian’s keynote address at Gemini at Work 2026. It includes a number of announcements: Gemini, a single, universal agent for work that answers your questions, handles your knowledge work, creates your images and media, and writes and runs code. Inline in Workspace, Gemini works directly inside Gmail, Drive, Docs, Slides, Sheets, Chat, and Calendar, carrying the same memory, skills, and controls it has everywhere else. New data and analytics ski",
-  "published": "2026-10-08T12:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Google Public Sector and SUNY launch AI-enabled platform to accelerate university research",
-  "url": "https://cloud.google.com/blog/topics/public-sector/gps-suny-launch-ai-enabled-platform-to-accelerate-university-research/",
-  "summary": "Public research universities solve some of society’s most urgent challenges, but turning ideas into breakthroughs requires fast, secure access to cutting edge technology. In the agentic AI era institutions have an unprecedented opportunity to harness intelligent systems that can process massive datasets, run complex workflows, and dramatically accelerate the pace of scientific discovery.Today at Gemini at Work, we’re announcing our collaboration with the State University of New York (SUNY) to la",
-  "published": "2026-10-08T12:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 13,
   "is_hot": false
  },
  {
   "title": "Expanding the Cyber Verification ProgramAnnouncementsOct 6, 2026We’re launching a new, expanded version of our Cyber Verification Program, w",
   "url": "https://www.anthropic.com/news/cyber-verification-program",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1644,13 +836,13 @@
   "category": "产品与商业",
   "oss": false,
   "hot_score": 16,
-  "is_hot": false
+  "is_hot": true
  },
  {
   "title": "Building on our commitment to American scientific discovery",
   "url": "https://www.anthropic.com/news/genesis-mission-commitment",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1664,7 +856,7 @@
   "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap",
   "url": "https://www.anthropic.com/news/claude-frontier-academy",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1678,7 +870,7 @@
   "title": "Barclays scales Claude to upgrade operations and improve client experience",
   "url": "https://www.anthropic.com/news/barclays-scales-claude",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1692,7 +884,7 @@
   "title": "Science Claude discovers a novel enzyme system with CRISPR-like repeats",
   "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1706,7 +898,7 @@
   "title": "Partnering with Accenture on embedded evaluation",
   "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1720,7 +912,7 @@
   "title": "Introducing the Life Sciences Verification Program",
   "url": "https://www.anthropic.com/news/life-sciences-verification-program",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1734,7 +926,7 @@
   "title": "Developing Enterprise Frontier Safeguards with our customers",
   "url": "https://www.anthropic.com/news/enterprise-frontier-safeguards",
   "summary": "",
-  "published": "2026-10-11T00:30:36.288344+00:00",
+  "published": "2026-10-12T00:30:36.792120+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1745,12 +937,12 @@
   "is_hot": false
  },
  {
-  "title": "Release v0.10.0 · llm-d/llm-d",
-  "url": "https://github.com/llm-d/llm-d/releases/tag/v0.10.0",
-  "summary": "llm-d v0.10.0 (2026-09-29): operational hardening and production readiness; image supply chain refactor - dev/PR images to quay.io (unsigned), main/release images to ghcr.io signed with cosign.",
-  "published": "2026-09-29T00:00:25+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
+  "title": "Kubernetes and AI in 2026: A Technical Deep Dive Into What Engineers Are Actually Asking",
+  "url": "https://kubezilla.io/kubernetes-and-ai-technical-deep-dive/",
+  "summary": "Kubezilla (2026-10-09) went through the Kubernetes Discuss forum for GPU / NVIDIA / DRA / Kueue / Kubeflow / LLM / inference / agent threads and found that almost nobody asks how to deploy vLLM - the questions sit one layer lower: why Kubernetes cannot see the GPU, why two pods landed on the same card, how to schedule by GPU memory, and how to share a small GPU pool fairly across a team. It walks the themes in the order engineers hit them and maps each to v1.37 features: DRA attribute scheduling, Kueue queueing and fair sharing, gang scheduling for distributed training / multi-node inference, an inference gateway instead of a plain load balancer, and two agent scenarios (agents operating the cluster vs agents running on it).",
+  "published": "2026-10-09T00:00:00+00:00",
+  "source": "Kubezilla",
+  "source_cat": "社区博客",
   "board": "基础设施板块",
   "category": "K8s × AI",
   "extra": {},
@@ -1759,126 +951,98 @@
   "is_hot": false
  },
  {
-  "title": "v0.31.0 · vllm-project/vllm",
-  "url": "https://github.com/vllm-project/vllm/releases/tag/v0.31.0",
-  "summary": "vLLM v0.31.0 (2026-10-05): 717 commits from 307 contributors; vllm preload weight-cache daemon; experimental CRIU-based vllm snapshot create/restore; DeepSeek-V4.1-Flash NVFP4 KV cache default on SM100; MoonEP EP all2all backend.",
-  "published": "2026-10-05T06:44:55+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
+  "title": "kubectl Deep Dive: What Really Happens When You Press Enter",
+  "url": "https://kubezilla.io/kubectl-deep-dive-what-really-happens-when-you-press-enter/",
+  "summary": "Kubezilla (2026-10-10): tracing one kubectl command from kubeconfig merge, authn and API discovery through the REST call and back. Covers client-side vs server-side apply (and why a client-side apply can wipe a field someone else set), watch instead of polling, JSONPath / custom-columns / KYAML output, debugging order (events first, logs incl. crashed containers, ephemeral containers when there is no shell, port-forward, resource use), plugins, and the new kuberc defaults file.",
+  "published": "2026-10-10T00:00:00+00:00",
+  "source": "Kubezilla",
+  "source_cat": "社区博客",
   "board": "基础设施板块",
-  "category": "K8s × AI",
+  "category": "K8s 核心",
   "extra": {},
   "oss": false,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "v0.20.1 · kubernetes-sigs/kueue",
-  "url": "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.1",
-  "summary": "Kueue v0.20.1 (2026-10-08) patch on v0.20.0 (2026-09-30): v0.20 drops the v1beta1 API (must migrate to v1beta2), AdmissionFairSharingAnchorAtQuotaReservation goes Beta and on by default, DRA quota accounting fixes, ElasticJobsViaWorkloadSlices fixes.",
-  "published": "2026-10-08T12:31:25+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
-  "board": "基础设施板块",
-  "category": "K8s × AI",
+  "title": "500+ Billion Tokens Later: Letting AI Agents Decompile A First-Person Shooter",
+  "url": "https://momo5502.com/posts/2026-10-09-game-decompilation/",
+  "summary": "Maurice Heumann (2026-10-09): a 3-month project letting AI agents decompile a first-person shooter back to C++. Setup: Claude Max (20x) and Codex Pro subscriptions running simultaneously, mostly Sonnet 5 plus Opus 5.5 / Luna / Sol / Terra, agents on Claude Code CLI and Codex CLI; GitHub issues track progress (one issue per translation unit) and GitHub CLI drives them; all agents share one Discord channel for agent-2-agent and human-2-agent messages, with a GitHub webhook posting CI failures into it; decompilation via Hex-Rays ida-mcp. Month one ran 4 agents (3 workers + 1 reviewer) and reached ~80% decompiled with the game launching. They cut the compaction threshold from the default 90% context fill to 42% to drop volatile junk, and an hourly cron re-injected the goal/instructions document because agents drifted and idled over long contexts. Despite readable output the decompilation was semantically wrong: wrong signatures, types and struct layouts, invented or deleted logic, and global variable reads rewritten into hash-table lookups. Root cause: no objective acceptance criteria, so the reviewer accepted whatever the worker agents justified in their commit messages - effectively unintentional prompt injection. The fix was an oracle: byte-matching decompilation against the original compiler, comparing reconstructed OBJ bytes with the game EXE/PDB and excluding relocation bytes, giving agents a PASS/FAIL signal to rework functions against.",
+  "published": "2026-10-09T00:00:00+00:00",
+  "source": "Hacker News",
+  "source_cat": "社区",
+  "board": "AI 板块",
+  "category": "Agent & Skill",
   "extra": {},
   "oss": false,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "v0.21.0 · kserve/kserve",
-  "url": "https://github.com/kserve/kserve/releases/tag/v0.21.0",
-  "summary": "KServe v0.21.0 (2026-09-25): ServingRuntime resourceClaims support for DRA, restructured CRD management for independent installation, llmisvc canary deployment lifecycle tests, vLLM render deployment replacing the UDS tokenizer sidecar, OCI model delivery startup benchmarks.",
-  "published": "2026-09-25T17:04:20+00:00",
+  "title": "v0.18.5 · kai-scheduler/KAI-Scheduler",
+  "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.18.5",
+  "summary": "KAI Scheduler v0.18.5（2026-10-11，同日另有 v0.18.4 与 v0.16.11 维护版）：NVIDIA 开源的 K8s 原生 GPU 调度器（CNCF Sandbox），本版新增不带 v 前缀的 Helm chart OCI tag（可用 ~0.18.0 这类 semver 区间），并修复后台 Pod 驱逐时节点快照里 Namespace 级 PodGroup 身份被丢失的问题。",
+  "published": "2026-10-11T00:00:00+00:00",
   "source": "GitHub",
   "source_cat": "开源项目",
   "board": "基础设施板块",
   "category": "K8s × AI",
   "extra": {},
-  "oss": false,
+  "oss": true,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "The Shift to cgroup v2 in Kubernetes: What You Need to Know",
-  "url": "https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/",
-  "summary": "Kubernetes blog (2026-10-06, Paco Xu/DaoCloud): cgroup v1 deprecated; from v1.35 failCgroupV1 defaults to true so kubelet will not start on a cgroup v1 node; kubeadm SystemVerification preflight errors with kubelet >=1.35; Memory QoS in v1.36 (alpha) separates memory.high throttling from memory.min/low tiered reservation on cgroup v2.",
+  "title": "v1.0.6 · kubernetes-sigs/agent-sandbox",
+  "url": "https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.6",
+  "summary": "Agent Sandbox v1.0.6（2026-10-08）：Kubernetes 上的 agent 代码执行沙箱。新增多集群 warm-pool 集群规划器的第一部分；TypeScript SDK 增加 commands.start() 支持长跑进程/Shell/REPL（流式 stdin/stdout/stderr、PTY 尺寸、信号与生命周期）；Go/Python SDK 对齐（按请求超时、claim 过期、sandboxd 健康与元数据、claim 标签选择器）；修复 API 限流（APF 429）下 SandboxWarmPool 状态卡住、router 缓存中的僵尸驱逐、sandboxd PTY 输出丢失。破坏性变更：v1beta1 Sandbox 名称超过 63 字符且 spec.service=true 现在会在准入时被拒（这类对象此前根本无法 Ready）。",
+  "published": "2026-10-08T00:00:00+00:00",
+  "source": "GitHub",
+  "source_cat": "开源项目",
+  "board": "基础设施板块",
+  "category": "K8s × AI",
+  "extra": {},
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "v0.1.0-alpha.14 · ai-dynamo/grove",
+  "url": "https://github.com/ai-dynamo/grove/releases/tag/v0.1.0-alpha.14",
+  "summary": "Grove（原 NVIDIA/grove，2026-10-06 的 v0.1.0-alpha.14）：面向推理工作负载的 Kubernetes API，用 CompositePodGroup 管理多角色 Pod 组（prefill / decode / router）的启动顺序、扩缩与 gang 约束。本版加入 Kueue 集成第一阶段、非 LPX Pod 可用 KAI 作为调度后端（LPX 后端自动回落到默认调度器）、Coherent update engine（Per-Component MaxUnavailable 与 ProgressDeadline 的 RollingRecreate 更新）、按 PCSG 暴露 Pod 序号，并升级 Go 1.26.8 清掉已知 CVE。",
   "published": "2026-10-06T00:00:00+00:00",
-  "source": "Kubernetes Blog",
-  "source_cat": "K8s-官方",
-  "board": "基础设施板块",
-  "category": "K8s 核心",
-  "extra": {},
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "v1.7.0-rc.1 · kubernetes-sigs/gateway-api",
-  "url": "https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.7.0-rc.1",
-  "summary": "Gateway API v1.7.0-rc.1 (2026-10-08): HTTPRoute retry configuration (codes/attempts/backoff) graduates to the Standard channel; experimental Gateway address routability (GEP-5093) and a standardized OTel-based attribute dictionary (GEP-5253).",
-  "published": "2026-10-08T23:54:16+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
-  "board": "基础设施板块",
-  "category": "K8s 核心",
-  "extra": {},
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "v1.38.0-alpha.2 · kubernetes/kubernetes",
-  "url": "https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-alpha.2",
-  "summary": "Kubernetes v1.38.0-alpha.2 published 2026-10-07 (second alpha of the v1.38 cycle); CHANGELOG-1.38 has details. v1.37.1 and v1.36.5 patches shipped 2026-09-23.",
-  "published": "2026-10-07T17:54:03+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
-  "board": "基础设施板块",
-  "category": "K8s 核心",
-  "extra": {},
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "v0.18.3 · kai-scheduler/KAI-Scheduler",
-  "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.18.3",
-  "summary": "KAI Scheduler v0.18.3 (2026-10-06): CNCF Sandbox Kubernetes-native GPU scheduler (originated from the Run:ai scheduling engine); this patch updates the gpu-fractioning chart dependency.",
-  "published": "2026-10-06T09:20:51+00:00",
   "source": "GitHub",
   "source_cat": "开源项目",
   "board": "基础设施板块",
   "category": "K8s × AI",
   "extra": {},
-  "oss": false,
+  "oss": true,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "v1.15.3 · volcano-sh/volcano",
-  "url": "https://github.com/volcano-sh/volcano/releases/tag/v1.15.3",
-  "summary": "Volcano v1.15.3 (2026-09-30) patch release; maintenance branches v1.14.6 and v1.13.5 shipped the same day.",
-  "published": "2026-09-30T08:56:19+00:00",
-  "source": "GitHub",
-  "source_cat": "开源项目",
-  "board": "基础设施板块",
-  "category": "社区与项目",
+  "title": "I'm sorry, but you still have to think",
+  "url": "https://itsallaboutthebit.com/i-am-sorry-but-you-still-have-to-think/",
+  "summary": "Piotr Sarnacki（2026-10-11）拿 DHH 用 AI agent 把 Campfire Once 从 Rails 重写成 Rust / Elixir / Go 的案例做拆解：只要 prompt 没把约束说清，很多决策就是掷硬币——向后兼容要不要保、延迟还是吞吐优先、负载下能占多少内存，模型都会替你隐式作答。结果是各语言版本行为不一致（例如 Rust 版为便于缓存直接去掉了 CSRF token），作者由此论证「不读代码就不思考」目前还站不住。",
+  "published": "2026-10-11T00:00:00+00:00",
+  "source": "Hacker News",
+  "source_cat": "社区",
+  "board": "AI 板块",
+  "category": "观点与好文",
   "extra": {},
   "oss": false,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "KubeCon + CloudNativeCon North America 2026: Build your infrastructure engineer journey",
-  "url": "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey/",
-  "summary": "CNCF (2026-10-01) curated an infrastructure-engineer track for KubeCon + CloudNativeCon North America 2026 (Nov 9-12, Salt Lake City): scaling clusters, connecting networks, storage following workloads, platform usability, security built in.",
-  "published": "2026-10-01T00:00:00+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "CNCF",
-  "board": "基础设施板块",
-  "category": "社区与项目",
+  "title": "My personal AI agent posted my bank details on company Slack",
+  "url": "https://www.businessinsider.com/personal-ai-agent-grok-bot-posted-bank-details-company-slack-2026-10",
+  "summary": "Business Insider（2026-10-09）对 XMTP Labs CEO Shane Mac 的访谈：他用 Grok Bot 搭了一个每月对账的「CFO」个人 agent，结果该 agent 把他的银行信息发到了公司 Slack。作者复盘了自己把个人 agent 用于 DMV 跟进、家庭服务询价、订球场等琐事的用法，以及这次事故后如何重新划定它的权限与作用域。",
+  "published": "2026-10-09T00:00:00+00:00",
+  "source": "Hacker News",
+  "source_cat": "社区",
+  "board": "AI 板块",
+  "category": "安全与治理",
   "extra": {},
   "oss": false,
   "hot_score": 9,

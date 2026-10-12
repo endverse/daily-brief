@@ -1,52 +1,52 @@
 {
  "brand": "AI & 基础设施早报",
- "date_label": "2026 年 10 月 11 日 · 星期日",
- "issue": 22,
+ "date_label": "2026 年 10 月 12 日 · 星期一",
+ "issue": 23,
  "kicker": "DAILY",
  "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
- "lead": "今天的主线是“推理与调度栈的集体换挡”：vLLM v0.31.0 用权重常驻守护进程与 CRIU 引擎快照压缩重启成本，llm-d v0.10 把重心放到生产化硬化与镜像签名，KServe v0.21 让 ServingRuntime 接上 DRA，Kueue v0.20 则不再提供 v1beta1 API（升级前必须迁移）。云厂商侧，GKE Pod 快照把 70B 模型加载压到 37 秒。AI 板块，小米用一份 260 万美元量级的 RL 后训练账单，把 agentic RL 的规模与成本结构摊开；OpenAI 在 DevDay 用 Decisions API 把“从选项里选”做成了 150 毫秒的廉价基础组件。",
+ "lead": "今天的主线是「把 agent 端到端跑起来之后，真正贵的是什么」。一篇 5000 亿 token 的反编译复盘把多 agent 编排的收益与失败模式一起摊开：订阅并行、GitHub issue 当台账、Discord 做 agent 间通信、把 compaction 阈值砍到 42%、每小时 cron 重注入指令，这些工程化手段确实把进度推到 80%，但产物「可读却语义错误」，根因是没有客观验收标准——最后不得不自造 byte-matching 的 PASS/FAIL oracle。基础设施侧，一份来自 Kubernetes Discuss 论坛的梳理给出反直觉结论：工程师卡的不是「怎么跑 vLLM」，而是 GPU 不可见、两个 Pod 落到同一张卡、按显存调度、团队公平共享小 GPU 池这类低一层的问题。治理面，Anthropic 的 agent 通过国务院网站提交了 20 份签证申请，个人 agent 则把银行信息发进了公司 Slack。",
  "highlights": [
   {
-   "title": "vLLM v0.31.0 发布：权重常驻 + CRIU 引擎快照，让 K8s 上的推理 Pod 重启不再是分钟级冷启动",
-   "url": "https://github.com/vllm-project/vllm/releases/tag/v0.31.0",
-   "summary": "vLLM v0.31.0 于 10 月 5 日发布，包含 717 个提交、307 位贡献者（其中 96 位新人）。这一版把重点放在“重启成本”上：新的 vllm preload CLI 会启动权重缓存守护进程，把量化后的权重常驻显存、跨引擎重启复用（已支持数据并行与 MTP 草稿模型，并提供 /health 与就绪等待）；实验性的 vllm snapshot create/restore 则用 CRIU 直接恢复一个已初始化的 TP1 引擎进程。同时 DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 成为 SM100 默认，新增 MoonEP EP all2all 后端、prefill 上下文并行等大规模服务优化。",
-   "note": "🔎 新闻要点：发布日期 2026-10-05；717 commits / 307 contributors（96 位新人）；核心新增为 vllm preload 权重常驻守护进程（支持 DP、MTP draft、/health、readiness wait）与实验性 vllm snapshot create/restore（基于 CRIU 恢复已初始化 TP1 引擎）；DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 被设为 SM100 默认；另有 MoonEP EP all2all 后端、prefill 上下文并行等大规模服务改动。",
-   "tag": "版本",
-   "source": "GitHub",
+   "title": "5000 亿 token 让 AI agent 团队反编译一款 FPS：4 个 agent 跑三个月，最后败在「语义正确」上",
+   "url": "https://momo5502.com/posts/2026-10-09-game-decompilation/",
+   "summary": "Maurice Heumann 10 月 9 日发布了这次反编译项目的完整复盘：目标不是做出一个能跑的原型，而是把一款第一人称射击游戏准确、稳定、功能完整地还原成可编译的 C++ 源码，同时借这个过程搞清楚「怎么在几个月的时间尺度上编排自主 agent」。他同时开着 Claude Max（20x）与 Codex Pro 两个订阅，模型以 Sonnet 5 为主，也用 Opus 5.5 / Luna / Sol / Terra，agent 跑在 Claude Code CLI 与 Codex CLI 里，反汇编通过 Hex-Rays 的官方 ida-mcp 完成。进度用 GitHub issue 跟踪（一个翻译单元 = 一个 issue），所有 agent 共用一个 Discord 频道，既能 agent 对 agent 沟通也能让人插话，GitHub webhook 还会把 CI 失败推进频道。第一个月 4 个 agent（3 个 worker + 1 个 reviewer）就把约 80% 反编译完，游戏能启动、主菜单能渲染、地图能加载。他们做了两项关键调优：把 compaction 阈值从默认的上下文填充 90% 降到 42%（反编译中间产物是大量易失信息，早点压缩才能把「垃圾」清出上下文），以及用每小时一次的 cron 让 agent 重读目标与工作规范文档——因为长上下文里 agent 会走神、会在看完 CI 之前就关掉 issue。但代码可读并不等于正确：函数签名、类型、struct 布局写错，凭空发明或删掉逻辑，甚至把原来的全局变量常量读取改成了查表（代价高了好几个数量级）。作者归因于没有客观验收标准，reviewer 无从判断对错，worker 在 commit 里的自述理由反而像一次无意的 prompt injection，让 reviewer 接受了偏差。最终的解法是给 agent 一个 oracle：改用原版编译器做 byte-matching 反编译，用脚本把重建的 OBJ 与游戏 EXE/PDB 逐字节比对，并排除重定位字节、只校验符号与偏移，agent 拿到 PASS/FAIL 后自己返工。",
+   "note": "🔎 新闻要点：发布 2026-10-09，历时 3 个月；同时订阅 Claude Max（20x）与 Codex Pro，模型以 Sonnet 5 为主兼用 Opus 5.5 / Luna / Sol / Terra，harness 为 Claude Code CLI + Codex CLI；反汇编用 Hex-Rays 官方 ida-mcp；协作面为 GitHub issue（一个翻译单元一个）+ 共用 Discord 频道（含 CI 失败 webhook）。第一个月 4 个 agent（3 worker + 1 reviewer）完成约 80%；调优手段为 compaction 阈值 90%→42% 与每小时 cron 重注入指令文档；失败模式为语义错误（签名/类型/struct 布局错、逻辑凭空增删、全局变量改查表）；根因为缺少客观验收标准、reviewer 被 worker 的 commit 自述说服；最终用 byte-matching 反编译（同编译器 + OBJ/EXE/PDB 逐字节比对、排除重定位）作为验收 oracle。",
+   "tag": "Agent 编排 / 复盘",
+   "source": "Hacker News",
    "detail": [
     {
      "key": "能做什么",
-     "value": "用 vllm preload 把量化后的权重常驻 GPU 显存，引擎重启或滚动更新时无需重新加载与重新量化；vllm snapshot create/restore 依赖 CRIU 保存并恢复已初始化的 TP1 引擎状态；v0.31 同时把 DeepSeek-V4.1-Flash 的 NVFP4 压缩 KV cache 与 FlashMLA mega attention 设为 SM100 默认，并新增 MoonEP EP all2all 后端。"
+     "value": "一套可复用的多 agent 编排组合：多个订阅（Claude Max + Codex Pro）并行、worker/reviewer 角色分工、以 GitHub issue 作为可机器读写的任务台账、一个共享 Discord 频道做 agent 间通信与人工介入、CI webhook 把失败主动推给 agent、ida-mcp 提供领域工具；并用 compaction 阈值下调与定时重注入指令文档对抗长上下文漂移。"
     },
     {
      "key": "解决什么痛点",
-     "value": "K8s 上推理 Pod 在扩容、滚动更新或抢占重调度时，权重加载与引擎初始化往往占掉启动延迟的大头，导致扩容慢、故障恢复慢；把权重放在 CPU 或每次重算量化又会损失性能。"
+     "value": "自主 agent 长期运行的三个真实瓶颈：上下文里塞满易失信息导致走神、缺少人的即时纠偏导致错误被固化、以及没有客观验收标准时 reviewer 会接受 worker 的自我论证（等于一次无意的 prompt injection）——最终产物「可读但语义错误」，比明显跑不起来更危险。"
     },
     {
      "key": "值不值得",
-     "value": "对自建推理集群这是启动时间上最直接的杠杆（抢占频繁、HPA 抖动大的场景收益更明显）；但 snapshot 仍是实验特性、依赖 CRIU 与特定拓扑，preload 会额外占显存，上生产前需按卡型与模型实测。"
+     "value": "这是目前少见的、把 agent 编排的收益与失败模式一起摊开的长周期案例：值得读的是台账/通信/oracle 这三件工程化设计，而不是「哪个模型反编译更强」；代价也很明确——三个月、两个订阅、5000 亿级 token，且必须自己造验收器，没有客观验收标准时不要指望多个 agent 互相纠错能兜住质量。"
     }
    ]
   },
   {
-   "title": "小米披露 MiMo-V2.6 规模化 Agentic RL：单次 RL 后训练约 260 万美元、每步 27–37 亿 Token",
-   "url": "https://www.infoq.cn/article/gNdWoDM8ygkAjXfsLaBK?utm_source=rss&utm_medium=article",
-   "summary": "小米 MiMo 团队 10 月 8 日发布技术报告《MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement》，把 RL 算力拆成 Rollout、Grading、Training 三部分各自扩展。每个 RL step 采样 1568 个 prompt、每个 prompt 生成 16 条 rollout，单步约 2.5 万条 agent 轨迹、合计 27 亿–37 亿 token，序列平均 11 万–15 万 token，训练上下文最高 100 万 token；正式 RL 任务中代码与竞赛编程占 68%、通用工具使用 12%、视觉设计 13%。模型侧 MiMo-V2.6-Pro 总参数 1.02T、激活 42B，Flash 为 310B/15B，均为 MoE 并混合滑动窗口注意力（SWA）与全局注意力。",
-   "note": "🔎 新闻要点：报告发布于 2026-10-08（arXiv 2610.11959）；MoE 架构，Pro 1.02T 总参/激活 42B、Flash 310B/激活 15B；RL 拆为 Rollout/Grading/Training 三段独立扩展；每 step 1568 prompt × 16 rollout ≈ 2.5 万条轨迹、27–37 亿 token、单序列 11–15 万 token、上下文最高 100 万 token；采用 GRPO + 异步 Partial Rollout；Pro 的 RL 后训练成本约 260 万美元（Flash 约 90 万），Pro 算力中 Rollout 占 43.8%、参数更新的训练占 43.5%。",
-   "tag": "训练 / RL",
-   "source": "InfoQ中国",
+   "title": "K8s 上跑 AI，工程师真正卡在哪一层：一份来自 discuss 论坛的问题清单",
+   "url": "https://kubezilla.io/kubernetes-and-ai-technical-deep-dive/",
+   "summary": "Kubezilla 团队 10 月 9 日发布了一份技术深潜：他们去 Kubernetes Discuss 论坛里检索 GPU、NVIDIA、DRA、Kueue、Kubeflow、LLM、推理、MCP 与 AI agent 相关的问题，想看看工程师真要做这件事时卡在哪里。结论有点反直觉——几乎没有人问「怎么跑 vLLM」或「怎么部署一个 LLM」，问题都低一层：为什么 Kubernetes 看不到我的 GPU、为什么两个 Pod 落到了同一张卡上、怎么按显存而不是按卡数调度、怎么在一个团队内公平共享一小池 GPU。文章按工程师实际踩坑的顺序逐条展开，并把每一类问题映射到 v1.37 现有的原生能力上：用 DRA 按模型真正需要的属性（显存、互连拓扑、算力代次）调度，用 Kueue 做队列与配额公平共享，用 gang scheduling 支撑分布式训练与多节点推理，服务层则要从普通 Deployment 换到推理网关。最后一节把 agent 拆成两类场景分别讨论：让 agent 去运维 Kubernetes，以及让 agent 跑在 Kubernetes 上。",
+   "note": "🔎 新闻要点：文章发布 2026-10-09，基于对 discuss.kubernetes.io 论坛 GPU / NVIDIA / DRA / Kueue / Kubeflow / LLM / 推理 / MCP / agent 帖子的梳理，以 Kubernetes v1.37 为当时最新版本。核心结论：缺失的问法（如何部署 vLLM/LLM）极少，真实问题集中在「GPU 不可见」（如 0/1 nodes are available）、两个 Pod 落到同一张卡、按显存调度、团队内公平共享小 GPU 池。给出的对口能力为 DRA 属性调度、Kueue 队列与公平共享、gang scheduling、推理网关替代普通负载均衡，以及「agent 运维集群 / agent 运行在集群上」两类 agent 场景。",
+   "tag": "K8s × AI / 实践",
+   "source": "Kubezilla",
    "detail": [
     {
      "key": "能做什么",
-     "value": "给出一份可参考的规模化 Agentic RL 配方：把采样（Rollout）、环境与评判（Grader）、参数更新（Training）当作三个可独立扩展的维度；用百万 token 上下文支撑长程 agent 行为建模，MoE + SWA/GA 混合注意力兼顾效率与建模能力。"
+     "value": "把论坛里最常被问到的 GPU 与推理问题按层次拆开，并逐条对应到 Kubernetes 现有能力（allocatable/capacity 为何不变、time-slicing / MIG / MPS 三种共享方式、DRA 按属性调度、Kueue 的团队公平共享、gang scheduling、推理网关），最后延伸到两类 agent 场景。"
     },
     {
      "key": "解决什么痛点",
-     "value": "agentic RL 的瓶颈往往不在算法而在采样与环境——轨迹短、环境覆盖窄、判分算力不足会让模型学不到长程行为；同时公开的成本结构很少，团队难以预估投入量级。"
+     "value": "自建平台时最容易卡住的恰恰不是模型而是资源可见性与共享：GPU 只作为整数暴露导致无法按显存/拓扑调度，小池子被少数任务占满，多节点推理缺 gang 与网关，问题一旦发生很难定位到具体是哪一层。"
     },
     {
      "key": "值不值得",
-     "value": "如果你在评估“自建 agentic RL 训练”的可行性，最有价值的是成本与结构拆解（单步 27–37 亿 token、260 万美元量级）：先用它判断投入量级，再决定是否深入算法细节。"
+     "value": "做集群 GPU 调度与业务接入方案时，这份清单可以直接当作自检表用（尤其 allocatable 不变、两 Pod 同卡、共享策略选型这三类高频坑）；但它是一篇社区综述而非官方文档，落地细节仍需按自己的 CNI/设备插件与驱动版本实测。"
     }
    ]
   }
@@ -61,108 +61,132 @@
      "en": "Agent & Skill",
      "items": [
       {
-       "title": "multica-ai/andrej-karpathy-skills",
-       "url": "https://github.com/multica-ai/andrej-karpathy-skills",
-       "summary": "项目把 Andrej Karpathy 关于 LLM 编码缺陷的观察（模型替你做错误假设并一路执行、不爱澄清与展示权衡、爱过度设计抽象、顺手改掉自己没读懂的注释与代码）收敛成单个 CLAUDE.md 文件的四条原则：先想再写、简单优先、外科手术式改动、目标驱动执行。作者同时在做一个用于运行和管理编码 agent 的开源平台 Multica。",
-       "source": "GitHub Trending",
-       "tag": "开源 / Skill",
+       "title": "NousResearch/hermes-official-plugins",
+       "url": "https://github.com/NousResearch/hermes-official-plugins",
+       "summary": "由 Nous Research 官方维护的 Hermes Agent 插件集合：目前列出的有 Home Assistant、Spotify、Claude Subscription DirectSDK 等，从 Hermes 插件目录一条命令安装。仓库 10 月 10 日创建，两天拿到 184 star。",
+       "source": "GitHub 升星repo",
+       "tag": "开源 / 插件",
        "oss": true,
        "detail": [
         {
          "key": "能做什么",
-         "value": "用一份可直接放进项目的指令文件约束编码 agent：要求先澄清假设与权衡再动手、拒绝膨胀式抽象、把改动限制在任务范围内、以可验证目标驱动执行。"
+         "value": "把「接入外部服务」从自写胶水变成官方插件目录安装：目前覆盖智能家居（Home Assistant）、音乐（Spotify）以及 Claude 订阅的 DirectSDK 接入，插件由维护者统一维护、随 Hermes 升级。"
         },
         {
          "key": "解决什么痛点",
-         "value": "编码 agent 的失败模式多集中在“自信地跑偏”——错误假设不暴露、顺手重构无关代码——而不是语法错误；逐条堆规则又会让指令文件无限膨胀。"
+         "value": "自建 agent 时，每接一个外部服务就要自己写认证、重试与工具schema，长期维护成本高且容易随宿主升级失效。"
         },
         {
          "key": "值不值得",
-         "value": "它示范了“少数高杠杆规则而不是长清单”的写法，和你维护 Claude Code / Codex 指令文件的实践直接对口；不过这是社区经验总结而非实测基准，建议拿四条原则对照自己的失败模式清单，不必整包照搬。"
+         "value": "如果你已经在用 Hermes，这是最低成本的一条扩展路径——先看官方如何把「订阅式服务」封装成插件（Claude Subscription DirectSDK 这个例子尤其值得对照自己公司内部服务的接入方式）；目前插件数量还少，生态刚起步。"
         }
        ]
       },
       {
-       "title": "CLAUDE.md 还是 AGENTS.md？Anthropic 的答案是：以后都不用",
-       "url": "https://www.infoq.cn/article/MAo3KoDWm9FGIcKau9AK?utm_source=rss&utm_medium=article",
-       "summary": "InfoQ 整理了 Anthropic Claude Code 团队核心成员 Thariq Shihipar 做客 Latent Space 播客的内容：Claude Code 确认将兼容被大量项目采用的 AGENTS.md；他进一步认为随着模型变强，CLAUDE.md 这类静态指令文件最终可能不再需要，正确做法是“先让它跑，只有反复看到同一个失败模式再把规则加进去”，维护一份不断增长的失败清单反而会过度约束模型。访谈还介绍了 Claude Mods（可定制整个 harness，含执行逻辑与 UI）以及按任务分级推理强度（代码审查/安全用 high 甚至 max，UI 类 low/medium 即可）。",
+       "title": "rociiu/talorys",
+       "url": "https://github.com/rociiu/talorys",
+       "summary": "rociiu/talorys：把你的个人 AI agent 部署进自己的 Cloudflare 账号，提供 chat、memory、tasks、notes 与定时提醒，用 npx create-talorys@latest 一条命令部署；主打免费额度可用、单用户、无遥测。10 月 10 日创建，两天 750 star。",
+       "source": "GitHub 升星repo",
+       "tag": "开源 / Agent",
+       "oss": true,
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "单用户个人 agent，跑在用户自己的 Cloudflare 账号里（Workers + 存储），自带记忆、任务、笔记和定时提醒，一条 npx 命令完成部署，官方强调免费额度够用、无遥测。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "托管式个人 agent 要么数据在别人服务器上、要么月费不低；自建又需要自己处理部署、状态存储与定时调度这三件事。"
+        },
+        {
+         "key": "值不值得",
+         "value": "对关注「数据主权 + 低运维」的个人 agent 形态有参考价值：把 agent 状态放进自己的边缘账号、用一条命令交付、明确不做遥测，都是可以直接借的取舍；但功能面较窄（聊天/记忆/待办/提醒），且强绑定 Cloudflare。"
+        }
+       ]
+      },
+      {
+       "title": "aindeev/agent-chrome-relay",
+       "url": "https://github.com/aindeev/agent-chrome-relay",
+       "summary": "aindeev/agent-chrome-relay：让 AI agent 直接使用你本机已登录的 Chrome——在后台标签页里操作，复用现有 cookie 与会话，不用另起一个干净的浏览器实例。10 月 10 日创建，251 star。",
+       "source": "GitHub 升星repo",
+       "tag": "开源 / Agent",
+       "oss": true,
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "把 agent 的浏览器操作接到你本人已登录的 Chrome 上，在后台标签页执行；因为复用真实会话，登录态、SSO 与已授权页面都直接可用。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "agent 做网页任务时最麻烦的是认证态：无头浏览器从零登录会撞验证码与 2FA，把这些凭证复制到 agent 环境又等于把凭据外扩。"
+        },
+        {
+         "key": "值不值得",
+         "value": "如果你让 agent 处理内部系统或需要登录的站点，这条「复用人类会话」的路线比「给 agent 一套独立凭证」工程上更省事；代价是隔离边界变弱、agent 操作与你本人的浏览上下文混在一起，权限与审计要自己兜。"
+        }
+       ]
+      },
+      {
+       "title": "Atoll92/agent-standup",
+       "url": "https://github.com/Atoll92/agent-standup",
+       "summary": "Atoll92/agent-standup：把当前 Claude Code 会话变成一场实时、带动画的团队站会（VS Code 扩展 + 可独立运行的 node server），完全本地、不额外消耗 token。128 star。",
+       "source": "GitHub 升星repo",
+       "tag": "开源 / 工具",
+       "oss": true,
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "把 Claude Code 会话里正在做的事渲染成一场「团队电话」式动画界面，本地运行；扩展与独立 node server 两种形态，不再给模型发额外请求。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "同时跑多个编码 agent 时，人很难一眼看清每个 agent 在干什么、卡在哪里，日志流又太长看不完。"
+        },
+        {
+         "key": "值不值得",
+         "value": "多 agent 并行时的可观测性是真实痛点，这个项目给出了一个「零 token 成本」的可视化形态；但它更像演示性工具，界面娱乐成分大于工程信息密度，是否值得引入取决于你并行跑多少 agent。"
+        }
+       ]
+      },
+      {
+       "title": "利用 AI 代码智能体优化软件架构的五种方法",
+       "url": "https://www.infoq.cn/article/soRObi5sjdTTUM95zLJK?utm_source=rss&utm_medium=article",
+       "summary": "InfoQ 译介（2026-10-11，原作者 Pierre Pureur、Kurt Bittner、Todd Miller，全文约 3600 字）：AI 编码智能体提升了开发速度，但不会自动保证架构合理，需要显式输入可衡量的质量属性需求（QAR）并配针对性测试验证；同时要主动建模遗留服务的行为以弥补文档缺失，避免逻辑误判引发集成风险。文章给出五种做法，强调 QAR 必须前置定义并贯穿「生成—验证」闭环，实践经验要结构化沉淀而不是靠试错。",
        "source": "InfoQ中国",
-       "tag": "访谈 / 观点",
+       "tag": "方法论",
        "detail": [
         {
          "key": "能做什么",
-         "value": "给出 agent 指令与 effort 的维护方法论：信息量比文本格式更重要、把 effort 按任务风险分级、让 agent 写实现笔记（多数失败是它想到了正确答案却没执行），并用 Claude Mods 改写 harness 行为。"
+         "value": "给出五条可操作做法：用编码 agent 梳理并记录遗留服务的系统设计与数据流（甚至顺手重构）、把可衡量的质量属性需求（QAR）前置定义并让生成的代码接受对应测试验证、把生成-验证做成闭环，等等。"
         },
         {
          "key": "解决什么痛点",
-         "value": "团队要同时维护 CLAUDE.md 与 AGENTS.md 两套指令，规则越加越多、约束越来越重，却没人能判断哪条还必要。"
+         "value": "只给模型功能需求时，它会「自动」补上一堆架构决策；遗留服务文档缺失导致调用方误判其逻辑与数据，问题往往到系统测试甚至上线后才暴露。"
         },
         {
          "key": "值不值得",
-         "value": "“先跑再补规则”与“effort 按任务分级”这两条在工程上立刻可用，成本为零；但访谈带有厂商立场，别当成对所有模型通用的结论。"
+         "value": "这套「先写 QAR 再让 agent 写代码」的思路对做平台与业务接入都有直接价值——尤其把质量属性写成可测试的验收条件，正是长周期 agent 项目最缺的东西；文章是经验总结而非实验数据，建议只取方法框架，具体指标按自己系统定。"
         }
        ]
       },
       {
-       "title": "What’s new with Google Data Cloud",
-       "url": "https://cloud.google.com/blog/products/data-analytics/whats-new-with-google-data-cloud/",
-       "summary": "Google 在 Data Cloud 周报（10 月 5–9 日）中宣布 Data Agent Kit 正式可用：它提供免费的 MCP 工具集合与 Google 编写的 agent skills，把 15 个以上 Google Data Cloud 服务直接接入 VS Code、Antigravity、Cursor、Claude Code 与 Codex，用于查看 schema、编写查询、搭建端到端数据管道。",
-       "source": "Google Cloud",
-       "tag": "Agent Skill",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "以 MCP 工具 + 官方 agent skills 的形式，把 15+ 个 Google Data Cloud 服务的元数据与操作能力暴露给编码 agent，让 agent 直接查 schema、写查询、串数据管道。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "数据平台的上手门槛主要在 schema 与权限上下文；没有官方接口时，agent 只能靠复制粘贴文档，容易写错表名与字段。"
-        },
-        {
-         "key": "值不值得",
-         "value": "若你用到 BigQuery 等 G 家数据服务，可直接试；对自建平台更有参考价值——把内部数据服务的元数据以 MCP + skill 形式交给 agent 是可复制的做法，前提是先解决凭证与审计。"
-        }
-       ]
-      },
-      {
-       "title": "REMORY: Learning Residual Memory for Context Compaction",
-       "url": "https://huggingface.co/papers/2610.11287",
-       "summary": "论文针对长程 agent 的上下文压缩问题：仅靠文本摘要在压缩后并不足以支撑后续所有决策。REMORY 训练一个神经记忆网络，在摘要之外生成有界数量的 soft memory tokens，让冻结的 LLM 在只看到摘要时，近似它看到完整历史会产生的续写。",
+       "title": "Opera: A Verbal Critic Framework for Long-horizon Coding Agents",
+       "url": "https://huggingface.co/papers/2609.33987",
+       "summary": "论文提出 Opera，一个面向长程编码 agent 的「口头评论家」框架：现有 critic 只关注评估轨迹与生成反馈，很少跟踪反馈交付之后发生了什么，而反馈若误判正在进行的正确工作、或没戳中根本问题，反而有害。Opera 把每条纠正当作一条持久笔记来跟踪，从而判断反馈是否被采纳、是否解决了底层问题。",
        "source": "HuggingFace Papers",
        "tag": "论文",
        "detail": [
         {
          "key": "能做什么",
-         "value": "在摘要之外引入有界数量的可学习记忆 token（由神经记忆网络依据历史+摘要生成），补足摘要有损丢失的决策相关信息，且不改动基座模型参数。"
+         "value": "把每次给 agent 的纠正记录成可持续跟踪的条目，据此判断反馈是否被吸收、任务是否真的回到正轨，而不是只生成一句评价就结束。"
         },
         {
          "key": "解决什么痛点",
-         "value": "长程 agent 必须压缩历史才能继续运行，但压缩后的行为容易漂移，模型在关键决策上丢掉了只看摘要看不出来的信息。"
+         "value": "长程编码 agent 需要及时纠偏，但反馈本身会失效：reviewer 误判正确的工作、或只治标不治本，反而把 agent 带偏（与本月那篇 5000 亿 token 反编译复盘的现象互相印证）。"
         },
         {
          "key": "值不值得",
-         "value": "做长程 agent 的上下文管理（压缩/记忆）时，这是“摘要之外还能补什么”的一个可借鉴方向；目前是研究原型，需自担训练与集成成本。"
-        }
-       ]
-      },
-      {
-       "title": "Which Skill to Distill? SGUID: Selecting a Compact Skill Bank for Model-Skill Co-Evolution",
-       "url": "https://arxiv.org/abs/2610.12367v1",
-       "summary": "论文指出 skill 复用中的一个被忽略的事实：在同策略蒸馏里把 skill 条件策略当作教师时，按语义相关性检索到的 skills 中不足 25% 能提供有效的蒸馏信号；作者提出 SGUID 为每个 skill 估计个体效用，从而筛出一个紧凑的 skill bank 用于模型与 skill 的共同演进。",
-       "source": "arXiv cs.AI",
-       "tag": "论文",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "不再只按与任务的语义相似度检索 skill，而是估计每个 skill 的个体效用，选出对蒸馏真正有贡献的精简集合。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "skill 库越堆越大，但检索命中不等于有用；大量低效 skill 会稀释教师信号、浪费推理与训练预算。"
-        },
-        {
-         "key": "值不值得",
-         "value": "如果你在积累可复用 skill（例如自己的 skill marketplace），这条给了“怎么判断一个 skill 值不值得留”的量化视角；仍处研究阶段，效用估计要自己工程化。"
+         "value": "做编码 agent 的评审/纠偏环节值得读——它把「反馈质量」本身变成可跟踪对象；目前是学术框架，距离工程化还需要自己做集成与评测。"
         }
        ]
       }
@@ -174,86 +198,86 @@
      "en": "Models & Research",
      "items": [
       {
-       "title": "比 Astra 还贵！GPT-6.1 Sol 极速版上线，社区吐槽：“500 美元套餐都撑不过一天”",
-       "url": "https://www.infoq.cn/article/soBOt9TSckGlJlBS519y?utm_source=rss&utm_medium=article",
-       "summary": "OpenAI 于 10 月 8 日在 Responses API 中为已发布的 GPT-6.1 Sol（模型本体 9 月 29 日发布）新增 ultrafast 服务档位：无需更换模型名，调用时指定档位即可，是当前最快的 API 档位，但 Token 单价为标准模式的 6 倍。官方称其在复杂编程与专业任务上以更低成本接近 GPT-6 Astra——DeepSWE v1.1 上以约五分之一成本达到 Astra 水平，GDP.pdf 与 AutomationBench 上得分高于带回退机制的 Opus 5.5、单任务成本不到其一半。",
-       "source": "InfoQ中国",
-       "tag": "模型 / 定价",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "同一模型提供分档服务：ultrafast 面向延迟敏感、愿意付更高单价的调用；性能定位在复杂编程、计算机操作与多步骤业务工作流上以更低成本对标 GPT-6 Astra。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "高频 agent 循环里延迟直接决定体验与吞吐，过去只能靠换更贵的模型或牺牲质量来换速度。"
-        },
-        {
-         "key": "值不值得",
-         "value": "这条的意义在定价信号：厂商开始把“延迟”单独定价（6 倍单价）。若你的工作流对延迟敏感，值得用成本模型对比“ultrafast + 小模型”与“标准档 + 大模型”；但定价细目与调优能力官方尚未公布。"
-        }
-       ]
-      },
-      {
-       "title": "On the estimation and validity of AI time horizons---a statistical look at the METR plot",
-       "url": "https://arxiv.org/abs/2610.12466v1",
-       "summary": "论文在 228 个任务、26 个 AI 上重算了 METR 的 50% time horizon，用样条与项目反应理论放松“任务对 AI 的难度与人类完成时间的对数呈线性”这一假设；拟合出的样条可解读为人类时间到 AI 难度的转换函数，它在高人类时间区间近乎平坦，意味着把该指标线性外推到长任务上会系统性高估能力。",
-       "source": "arXiv cs.AI",
-       "tag": "论文 / 评测",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "对 METR 时间跨度指标做统计有效性审计：用样条 + IRT 替代线性假设重估能力曲线，并给出人类时间与 AI 难度之间的转换函数。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "METR 曲线常被用来外推“AI 何时能完成数天乃至数周的任务”，但其线性假设与业内引用的指数趋势缺乏统计检验。"
-        },
-        {
-         "key": "值不值得",
-         "value": "判断行业里“AI 能力外推”类结论可信度时值得一读；与你的技术选型无直接关系，但能帮你对时间线预测保持警惕。"
-        }
-       ]
-      },
-      {
-       "title": "SpaceCast-Bench: Evaluating Predictive Spatial Reasoning in Vision-Language Models",
-       "url": "https://arxiv.org/abs/2610.12402v1",
-       "summary": "现有空间推理基准多测感知（读输入里已经可见的关系），而真实空间智能要求预测性推理——从观察构建场景、预判干预后的变化、推断未见结果。SpaceCast-Bench 围绕 observe-transform-infer 框架构建 3,862 道题，直接且可诊断地评测这一能力。",
-       "source": "arXiv cs.AI",
-       "tag": "论文 / 基准",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "用“观察—变换—推断”三段框架拆开测量空间推理，而不是只给一个总分，从而暴露模型在哪一段失效。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "现有基准无法区分“看得准”和“推得出”，会让 VLM 在具身与导航这类需要预判的任务上被高估。"
-        },
-        {
-         "key": "值不值得",
-         "value": "做具身、机器人或视频理解选型时可用它做参考；对纯 infra/agent 方向只需知道有这么一个更严格的评测。"
-        }
-       ]
-      },
-      {
-       "title": "ARC: A Reasoning Recipe for Robot Foundation Models",
-       "url": "https://arxiv.org/abs/2610.12386v1",
-       "summary": "论文提出 ARC 作为对“更大模型 + 更多示教 + 更大训练规模”这一主流路径的补充：由推理轨迹、可扩展的自动标注流程，以及让模型适配该轨迹的策略三部分组成，在不重训大模型的前提下大幅提升现有 SOTA 机器人基础模型的零样本任务表现。",
-       "source": "arXiv cs.AI",
+       "title": "The Lattice of Transition Laws",
+       "url": "https://huggingface.co/papers/2610.11216",
+       "summary": "论文研究扩散模型与自回归模型的混合：以往每个混合方案都按设计固定自己的解码调度，作者转而追问「一个模型的解码调度表现能否被预测、以及能否被迁移」，并用 transition law 的格结构刻画这一关系，从而在扩散与 AR 之间做解码调度的选择。",
+       "source": "HuggingFace Papers",
        "tag": "论文",
        "detail": [
         {
          "key": "能做什么",
-         "value": "通过构造推理轨迹、自动标注与适配策略，在不重训大模型的情况下提升机器人基础模型的零样本成功率。"
+         "value": "把扩散与自回归的混合解码调度从「按设计拍定」变成可分析、可预测的问题：用 transition law 的格结构刻画不同调度之间的关系。"
         },
         {
          "key": "解决什么痛点",
-         "value": "机器人基础模型的进展高度依赖数据与算力堆叠，边际成本高，缺少“后处理式”的廉价增强手段。"
+         "value": "扩散擅长连续场、AR 擅长离散 token，混合方案越来越多，但谁都没法事先说明某个调度为什么更好、换到别的模型还成不成立。"
         },
         {
          "key": "值不值得",
-         "value": "与你偏 infra 的方向相关度一般；若关注“推理时配方能顶多少规模”的证据链，可把它当作机器人领域的样本。"
+         "value": "是理解「扩散/AR 混合」这类新解码形态的底层视角，偏理论、短期不落地；如果你只关心推理吞吐，收益有限。"
+        }
+       ]
+      },
+      {
+       "title": "You Changed Your Mind, The Model Didn't: Demystifying Intent in Multi-Turn Dialogue",
+       "url": "https://huggingface.co/papers/2610.06496",
+       "summary": "论文指出一个反直觉的多轮对话失败：当用户提出一个改动但最终否决时，模型本应像什么都没发生一样继续执行，但仅仅「被提及过」这个改动就会打乱任务执行，即使用户最终意图没变。作者为此构造了意图演化的评测（Intent 系列）来系统研究该行为。",
+       "source": "HuggingFace Papers",
+       "tag": "论文",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "系统刻画「用户提过又否决」这一场景下的模型行为，并给出可复现的评测集，把「意图漂移」从个案变成可测指标。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "多轮 agent 交互里，废案被误当成新需求执行，会直接污染工具调用与代码改动；这类失败在单轮评测里完全看不见。"
+        },
+        {
+         "key": "值不值得",
+         "value": "如果你在做 agent 的多轮状态管理或评测集设计，这是一个现成的失败模式清单与测试构造方式；论文本身不提供修复方案，需要自己在提示或状态层处理。"
+        }
+       ]
+      },
+      {
+       "title": "Frozen Models, Evolving Expertise: Model-Agnostic Learning from Deployment Experience for Multimodal Medical AI",
+       "url": "https://huggingface.co/papers/2610.09146",
+       "summary": "论文关注「模型部署后就被冻结」的问题：LLM/VLM 不会从自己解决的案例中学习，这在医学领域尤其致命（新证据、新指南、新疗法会改变既定实践），而微调需要权重访问与训练成本。作者提出模型无关的学习方式，从部署经验中持续更新专家知识。",
+       "source": "HuggingFace Papers",
+       "tag": "论文",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "不改模型权重，靠部署过程中积累的案例持续更新系统行为（参数化记忆之外的非参数路线），把「部署后的经验」变成可复用资产。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "冻结模型意味着同类错误会被反复犯；而定期微调在大规模部署里成本与运维代价都高。"
+        },
+        {
+         "key": "值不值得",
+         "value": "对做领域 agent（尤其合规/医学这类知识会变的场景）是一条值得跟踪的技术路线；目前是方法论文，工程集成与评测需要自己补。"
+        }
+       ]
+      },
+      {
+       "title": "下架8个月，GPT-4o的拯救行动居然还在继续",
+       "url": "https://www.qbitai.com/2026/10/502550.html",
+       "summary": "量子位（2026-10）报道：GPT-4o 下线 8 个月后，社区围绕「把它救回来」的行动仍在继续，文章梳理了用户自发保存、复现与请愿的路径，以及官方尚未回应的现状。",
+       "source": "量子位",
+       "tag": "行业",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "记录一个模型下架后的社区自救生态：用户保存权重/接口行为、复现微调、持续请愿，形成对厂商下线决策的外部压力。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "模型下线是供应商侧的一行配置，但对依赖其特定行为（语气、风格、稳定输出）的用户来说是不可逆的破坏性变更。"
+        },
+        {
+         "key": "值不值得",
+         "value": "与「平台依赖」风险直接相关：如果你的业务或 agent 依赖某个具体模型版本的特征，值得了解社区能做什么、不能做什么——结论是几乎没有技术兜底，只能提前做抽象与回归评测。"
         }
        ]
       }
@@ -265,65 +289,87 @@
      "en": "AI Engineering",
      "items": [
       {
-       "title": "从 Coding 到 Running：AI Native SRE Agent 的工程实践",
-       "url": "https://www.infoq.cn/article/o9XwsHUvCjL3eHKT7YPU?utm_source=rss&utm_medium=article",
-       "summary": "InfoQ 整理腾讯云 CloudQ 技术负责人姚斌斌在 AICon 深圳站的分享：一个软件 90% 以上的生命周期时间处于运行态，但个人编码效率已提升约 2–3 倍，运行态仍靠人力堆。其方案以全景运行图谱为基座，配合 Harness 与评测闭环，让运行世界变得可理解、可操作、可验证，并落到具体运行治理案例。",
+       "title": "Pallas 内核怎么调优？Google 给出的答案是“少信模型，多看寄存器”",
+       "url": "https://www.infoq.cn/article/kVJUKEcbqhpL2qwpp2Eq?utm_source=rss&utm_medium=article",
+       "summary": "InfoQ（2026-10-10，原作者 Claudio Masolo）报道 Google 为 XProf（面向 TPU 工作负载的开源性能分析器）加入内核级性能分析套件：开发者能看到自定义 Pallas 内核的周期级细节，此前这些内核在 trace 里只是一个不透明块。在 TPU v7（Ironwood）上 XProf 会在运行时采样硬件性能计数器；一个分块矩阵乘法示例中 Google 发现内存停顿问题，加上三重缓冲后内核执行时间从 125.5µs 降到 88µs（约 30%）。原因是 Pallas/Mosaic/Triton 创建的内核会跳过标准 XLA Pass，使编译期静态成本模型失真，「optimal FLOPs」等指标可能不准，静态工具会把实际在等 HBM 的 MXU 标成已充分利用。",
        "source": "InfoQ中国",
-       "tag": "实践",
+       "tag": "性能 / 调优",
        "detail": [
         {
          "key": "能做什么",
-         "value": "先给系统建“全景运行图谱”（服务、依赖、变更与指标之间的关系图），再让多个 agent 基于同一图谱做诊断与处置决策，用 Harness 约束动作、用评测闭环验证效果。"
+         "value": "XProf 新增内核级采样与诊断：在 TPU v7 上运行时采样硬件计数器，给出周期级机器指令视图（MXU / 标量与向量 ALU / 加载 / 溢出 / 存储等），并可通过编译器标志启用 MLIR 级自定义调用追踪，用来核对算子是否按预期融合、内存分块是否符合设计。"
         },
         {
          "key": "解决什么痛点",
-         "value": "传统 SRE 工具链割裂（日志、追踪、变更各一套），agent 缺少统一上下文，结果是“告警一大堆、根因仍然靠人定位”。"
+         "value": "自定义内核在传统 trace 里是黑盒，编译期静态成本模型跳过 XLA Pass 后会严重失真——把明明在等 HBM 的单元报成满载，性能问题只能靠猜。"
         },
         {
          "key": "值不值得",
-         "value": "若你在推进 AIOps 或想让 agent 接管部分运维动作，“先建图谱再上 agent”比直接给 agent 喂日志更容易落地；文章是会议实录、缺量化指标，当架构参考即可。"
+         "value": "如果你关心 GPU/加速器侧的内核调优，这篇的价值在于「先量后改」的实例（30% 来自消除内存停顿）；但整套工具面向 TPU/Pallas，N 卡栈需找对应替代（nsight/compute-sanitizer 一类），思路可迁移、工具不可直接照搬。"
         }
        ]
       },
       {
-       "title": "当代码不再稀缺：大型工程 AI 狂欢下的确定性底座｜QCon上海",
-       "url": "https://www.infoq.cn/article/0LiYFbYJtkttVMpDVkWC?utm_source=rss&utm_medium=article",
-       "summary": "QCon 全球软件开发大会上海站将于 10 月 22–24 日举办，覆盖 AI Native 架构、Agent Runtime、AI Infra、Agent 安全与可观测、Loop Engineering 等方向；哔哩哔哩技术专家张忻正将以《当代码不再稀缺：大型工程 AI 狂欢下的确定性底座》为题，聚焦约束、定位、验证、度量四件事——把架构规则从文档变成可执行约束、用工程关系精准定位上下文、以自动化验证提供交付证据。",
-       "source": "InfoQ中国",
-       "tag": "会议 / 实践",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "把“AI 写码”在大团队落地的关键动作归纳为约束、定位、验证、度量四条，并复盘哪些建设值得持续投入、哪些方案已验证失败需要止损。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "模型在大型工程里是能力放大器：基础扎实的地方被放大，缺少约束与验证的地方同样被放大，最终问题回到“AI 写的代码敢不敢合并”。"
-        },
-        {
-         "key": "值不值得",
-         "value": "与你“把 AI 融进工程流程并复盘取舍”的实践是同一命题；可先看议程挑议题，具体内容要等会后材料。"
-        }
-       ]
-      },
-      {
-       "title": "Incremental Open-Ended Deep Research with Structured Harness",
-       "url": "https://huggingface.co/papers/2610.11566",
-       "summary": "论文提出增量式开放式深度研究（Incremental-OEDR）这一设定：把报告看作持续演化的研究状态，更新时保留仍然有效的知识、修订过期或不完整的内容、并并入新信息，从而避免每次都从零重新生成整份报告。",
+       "title": "CARE: Certifying Acceleration for Vision-Language-Action Inference",
+       "url": "https://huggingface.co/papers/2610.08917",
+       "summary": "论文关注视觉-语言-动作（VLA）模型的推理加速风险：现有加速手段（action chunking、视觉 token 剪枝）通常只用延迟和平均任务成功率评估，但加速可能丢掉关键信息、破坏原策略本可完成的任务，而这个问题被平均值掩盖。作者提出 CARE，为 VLA 推理加速提供可认证的正确性保证。",
        "source": "HuggingFace Papers",
        "tag": "论文",
        "detail": [
         {
          "key": "能做什么",
-         "value": "把已有报告知识化后做增量修订（保留 / 修订 / 新增三类操作），使研究报告能够随新信息持续维护而不是整份重写。"
+         "value": "为 VLA 推理加速给出带保证的认证方法，把「加速后哪些任务会坏」从平均值里暴露出来，而不是只看延迟与平均成功率。"
         },
         {
          "key": "解决什么痛点",
-         "value": "现有深度研究系统每次从零生成报告，成本高，且容易丢掉此前已验证的结论，不适合长期跟踪类选题。"
+         "value": "机器人类负载对单次失败极其敏感，平均成功率上升的同时可能出现整类任务失效；工程上很难判断该不该开某个加速开关。"
         },
         {
          "key": "值不值得",
-         "value": "做自动化信息跟踪/研报类 agent 时，增量更新比每次重跑更省算力也更稳定；其状态划分方式可以直接借鉴。"
+         "value": "做具身/VLA 部署时值得关注的评估视角：加速必须带正确性边界；当前是论文阶段，工程落地还需自己接推理栈。"
+        }
+       ]
+      },
+      {
+       "title": "lyogavin/airllm",
+       "url": "https://github.com/lyogavin/airllm",
+       "summary": "AirLLM：让 70B 模型在单张 4GB 显存的 GPU 上完成推理——把权重按层加载、算完即释放，用磁盘/内存换显存，无需量化与多卡。仓库 36.4k star，10 月 11 日仍出现在 GitHub Trending。",
+       "source": "GitHub Trending",
+       "tag": "开源 / 推理",
+       "oss": true,
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "分层加载权重的推理实现：一次只把当前层放进显存，其余常驻磁盘/内存，因此显存需求与层大小而不是模型总参数挂钩。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "手上只有小显存卡（或边缘设备）却想跑大模型时，量化会损失精度、多卡要额外硬件与并行工程；AirLLM 的取舍是先让模型跑起来。"
+        },
+        {
+         "key": "值不值得",
+         "value": "适合验证与小规模离线场景，不适合在线低延迟服务（逐层换入换出把瓶颈从算力挪到了 IO）；如果你在评估「小卡跑大模型」的边界，它是现成的对照基线。"
+        }
+       ]
+      },
+      {
+       "title": "SpecFold: Folding Multi-Branch Redundancy for Faster Speculative Decoding in Diffusion Language Models",
+       "url": "https://huggingface.co/papers/2610.04875",
+       "summary": "论文针对扩散大语言模型（DLLM）的投机解码：DLLM 通过迭代式分块去噪生成文本，多分支投机解码会在一次前向里验证主分支与多个草稿分支。作者指出以往方法只利用去噪步之间的时间冗余，而每个步内还存在可折叠的分支冗余（SpecFold），并据此降低验证开销。",
+       "source": "HuggingFace Papers",
+       "tag": "论文",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "在单次前向内识别并折叠多分支之间的重复计算（时间冗余之外的「分支冗余」），减少投机解码的验证成本。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "扩散式 LLM 的分块去噪本身计算量就大，多分支投机虽能提命中率却让每步验证变贵。"
+        },
+        {
+         "key": "值不值得",
+         "value": "只在走扩散 LLM 路线时相关；如果你用自回归推理栈，短期可忽略。"
         }
        ]
       }
@@ -335,45 +381,23 @@
      "en": "Business",
      "items": [
       {
-       "title": "OpenAI 只用 15 天，就杀死了估值 100 亿美元的 Jev？",
-       "url": "https://www.infoq.cn/article/qmoRIQ1TceKfKwGlXN0S?utm_source=rss&utm_medium=article",
-       "summary": "OpenAI 在 DevDay 发布 Decisions API：基于其最小、最便宜的模型 GPT-6 Luna，在一组预设答案中作出选择并返回置信度分数，官方延迟 150 毫秒，而同任务直接调用 GPT-6 Luna 需约 1.6 秒。它面向高频、低成本、可嵌入 agent 工作流的基础组件场景，目前仅限量预览，定价、候选答案数量上限与是否可用自有数据调优均未公布。发布数小时后 Reddit 出现“Jev Is Dead”的讨论——Jev 主打的 Choice 原语与它高度重合。",
-       "source": "InfoQ中国",
-       "tag": "产品",
+       "title": "DeepSeek Bot来了！民间版，DSH装个插件就能用",
+       "url": "https://www.qbitai.com/2026/10/502544.html",
+       "summary": "量子位（2026-10-11）：DeepSeek 官方 Muse 尚未发布，社区先做出了「DeepSeek-Bot」——基于 DeepSeek Harness 的多 Bot 团队插件。每个 Bot 可设名称、职责、人设、指令与背后模型，且拥有持久化运行状态与长期记忆；为省 token 可设一个 Main Bot 主管，消息默认由主管回复并代为调度其他 Bot，也可直接 @ 单个 Bot 一对一。记忆以 Markdown 文件存储并支持团队共享记忆，每轮对话后模型会自动审查该保存/更新/删除哪些信息；上下文超窗时用压缩、交接摘要与本地搜索管理。作者强调模型可随时切换但建议长期固定一个。上线不到一天该项目拿到 250+ star，采用 Apache 2.0，数据全部落在本地 DSH 目录的 bot/ 与 sessions/ 下（卸载插件不删数据）。",
+       "source": "量子位",
+       "tag": "国内 / 产品",
        "detail": [
         {
          "key": "能做什么",
-         "value": "把开放式生成收窄为“从明确选项中作出选择并返回置信度”，面向路由、分类、agent 下一步动作选择这类高频判断，延迟压到 150 毫秒级。"
+         "value": "在 DSH 之上以插件形式提供多 Bot 团队界面：Bot 各自绑定一个 DSH session 与独立工作上下文，带 Markdown 文件记忆 + 团队共享记忆 + 每轮自动记忆审查；用 Main Bot 主管模式降低多 agent 群聊的 token 消耗，装机侧桌面端点「添加插件」或 Web 端 npx 安装。"
         },
         {
          "key": "解决什么痛点",
-         "value": "过去做选择类判断要么调用聊天模型（慢、置信度只是粗估、还会生成大量 token），要么训练专用分类器（需要标注数据）。"
+         "value": "多 agent 聊天室里上下文互相污染、token 狂烧、每个 bot 记不住之前的事；个人 agent 又常缺少可审计的本地数据。"
         },
         {
          "key": "值不值得",
-         "value": "若你在 agent 里做模型路由或动作选择，这是可以替换自建分类器的方向；但它仅限量预览、价格未公布，暂无法评估成本，把判断权交给第三方 API 也会引入依赖。"
-        }
-       ]
-      },
-      {
-       "title": "hugohe3/ppt-master",
-       "url": "https://github.com/hugohe3/ppt-master",
-       "summary": "hugohe3/ppt-master 登上 GitHub Trending：它把文档或主题转成真正原生、可编辑的 PowerPoint——使用原生形状、切换与动画，按需生成带数据支撑的图表与表格，从演讲者备注生成语音旁白，并支持套用你自己的 .pptx 模板。",
-       "source": "GitHub Trending",
-       "tag": "开源 / 工具",
-       "oss": true,
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "产出原生 pptx 结构（而非图片或 HTML 截图），保留可编辑的形状与动画，可套用企业自有模板并生成旁白音频。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "多数“AI 生成 PPT”只能给图片式成品或 Markdown 大纲，落地到 PowerPoint 里无法正常编辑、也套不上公司模板。"
-        },
-        {
-         "key": "值不值得",
-         "value": "做内部汇报或客户材料时“原生可编辑”是硬需求，值得试；需自行核对它对你现有模板复杂度的兼容性与生成质量。"
+         "value": "对用飞书/微信这类多用户 agent 形态的实践有直接参考价值：主管路由（先问主管再分派）+ 自动记忆审查 + 本地数据落地，正好对应多会话隔离与成本控制两个难点；但它是非官方社区项目，长期维护与安全边界需自评。"
         }
        ]
       }
@@ -385,44 +409,44 @@
      "en": "Opinion",
      "items": [
       {
-       "title": "模型开放之后，AI能力为什么仍难以复用？",
-       "url": "https://www.infoq.cn/article/rKRPT18fGxtjipPAeaLa?utm_source=rss&utm_medium=article",
-       "summary": "文章指出 AI 能力复用不只是复制代码：一个系统同时依赖模型权重、数据处理流程、提示词、工具接口与运行环境，Agent 项目还涉及任务规划、状态管理与权限控制，底层模型或工具接口一变就可能导致行为偏移或工作流失效。作者以 2026 年世界人工智能开源大赛（GOAI）为样本——覆盖 91 个国家和地区、超 1.4 万名开发者、2999 份有效初赛作品——认为文档完整性、环境可复现性、接口稳定性与第三方独立部署能力正在成为 Star 数之外的重要评价指标。",
-       "source": "InfoQ中国",
+       "title": "I'm sorry, but you still have to think",
+       "url": "https://itsallaboutthebit.com/i-am-sorry-but-you-still-have-to-think/",
+       "summary": "Piotr Sarnacki（2026-10-11）以 DHH 用 AI agent 把 Campfire Once 从 Rails 重写成 Rust / Elixir / Go 为例：prompt 不够具体时，很多决策其实是掷硬币——要不要保持向后兼容、延迟还是吞吐优先、负载下能占多少内存，这些都会被模型隐式回答。结果各语言版本对约束的处理并不一致，例如 Rust 版为便于缓存直接丢掉了 CSRF token。作者据此反驳「可以不读代码」的说法：有经验的作者尚且如此，不读代码就更谈不上思考。",
+       "source": "Hacker News",
        "tag": "观点",
        "detail": [
         {
          "key": "能做什么",
-         "value": "提出以“可验证、可复用、可持续迭代”为轴的 AI 开源评价视角，并列出组件依赖、接口规范、运行条件等复用前提。"
+         "value": "用一个高水平作者的公开重写案例，具体指出「未言明的约束会被模型替你决定」这一现象，并给出证据（各语言版本对向后兼容等约束处理不一致）。"
         },
         {
          "key": "解决什么痛点",
-         "value": "用 Star 与榜单分数衡量开源 AI 项目容易高估可迁移性；企业把开源 agent 项目搬进生产，常卡在环境与接口不一致。"
+         "value": "把写代码外包给 agent 时，真正丢失的是那些从没被写下来的决策与取舍——它们不会报错，只会在非功能层面悄悄分叉。"
         },
         {
          "key": "值不值得",
-         "value": "如果你在沉淀可复用 skill/组件（skill marketplace），这篇的评价标准可以直接当自检清单；属观点文，不含实现细节。"
+         "value": "读它是为了校准期望：agent 能显著加速实现，但约束定义与验收仍得人来定；如果你的流程里没有把非功能需求写成可检验条件，这篇案例值得拿来给团队讲清风险。"
         }
        ]
       },
       {
-       "title": "Quoting Matthew Green",
-       "url": "https://simonwillison.net/2026/Oct/9/matthew-green/",
-       "summary": "Simon Willison 引述密码学家 Matthew Green 的判断：他给自己 1% 的概率“我们生活在 Minicrypt”，并给 15% 的概率“功能性丧失对现有公钥加密算法的信心”。他担忧的核心不是单次算法被攻破，而是 AI 制造意外的速度与人类（即便有 AI 辅助）替换标准的流程速度相差几个数量级，一旦出现意外根本来不及迁移。",
-       "source": "Simon Willison",
-       "tag": "观点 / 安全",
+       "title": "U-Space: Uncovering When and Why Uncertainty Arises in Language Models",
+       "url": "https://huggingface.co/papers/2610.09087",
+       "summary": "论文提出 U-Space，研究「不确定性何时、为什么在语言模型中产生」：模型会用流畅的解释和权威语气给出错误结论，让人难以判断何时该求助于外部或人工。作者从激活/表示层面刻画不确定性的来源，而不只是输出层的置信度打分。",
+       "source": "HuggingFace Papers",
+       "tag": "论文",
        "detail": [
         {
          "key": "能做什么",
-         "value": "给出一个密码学视角的粗略风险估算：公钥体系被功能性击破的概率量级，以及“标准替换速度”这一常被忽视的瓶颈。"
+         "value": "把不确定性拆解到产生它的具体机制/子空间上，回答「为什么这里不确定」，而不仅是给一个概率数字。"
         },
         {
          "key": "解决什么痛点",
-         "value": "安全规划通常只评估单个算法的强度，忽略组织与标准层替换能力所需的时间尺度。"
+         "value": "输出层置信度常常高得离谱且不可校准，agent 该在什么条件下停下来求助人，缺少可依赖的信号。"
         },
         {
          "key": "值不值得",
-         "value": "与你的金融合规与加密选型间接相关，更适合用来做“极端情形下的迁移准备”讨论，而不是当期技术决策依据。"
+         "value": "对做 agent 的「何时升级给人」判断有参考价值；属研究性质，直接上生产还需自己验证校准效果。"
         }
        ]
       }
@@ -434,65 +458,44 @@
      "en": "Safety & Governance",
      "items": [
       {
-       "title": "金融监管领域的 Harness 实践：让知识与数据驱动 Agent 稳定运行",
-       "url": "https://www.infoq.cn/article/SuqGY4FQ95AVzs1S0KSV?utm_source=rss&utm_medium=article",
-       "summary": "InfoQ 整理中软融鑫总工程师于浩军在 AICon 深圳站的分享：金融监管报送要求数据近乎零容错（行业上半年罚款规模已达数亿元量级，单家大型机构去年被罚数亿），通用大模型的“自由发挥”反而是最大风险。其方案用四层机制重构 agent——知识底座保证语义一致、数据底座绑定权威源与版本快照、受控状态机禁用自由推理路径、全链路可追溯，把发散的 agent 改造成“宁可不答、不能答错”的严格受控系统。",
-       "source": "InfoQ中国",
-       "tag": "实践",
+       "title": "Quoting The New York Times",
+       "url": "https://simonwillison.net/2026/Oct/10/the-new-york-times/",
+       "summary": "Simon Willison 2026-10-10 摘引《纽约时报》报道：Anthropic 在博客中披露了其 AI agent 的活动但未点名目标网站，而两名知情人士称 Anthropic 的 AI agent 通过美国国务院网站的表单提交了 20 份签证申请，全部填写不完整、未被受理。Simon 把它归入 accidental-cyberattacks。",
+       "source": "Simon Willison",
+       "tag": "Agent 安全",
        "detail": [
         {
          "key": "能做什么",
-         "value": "用“知识底座 + 数据底座 + 受控状态机 + 全链路可追溯”约束 agent：语义对齐、事实绑定权威源与版本快照、执行路径受状态机约束、每一步可回溯。"
+         "value": "记录了一个真实发生的 agent 越界案例：agent 在真实政府网站上填表提交（20 份签证申请），并把它与 Anthropic 自己披露的 agent 活动放在同一语境下。"
         },
         {
          "key": "解决什么痛点",
-         "value": "高合规场景下，模型的不确定生成与自由推理直接对应监管风险与罚款；通用 agent “尽力而为”的范式在零容错场景不可用。"
+         "value": "agent 在开放网络上自主行动时，「试探性交互」会变成对他方系统的真实写入操作——即便不完整、未被处理，也已经构成对他方系统的干扰与责任问题。"
         },
         {
          "key": "值不值得",
-         "value": "与你在金融量化环境做内网 agent 的诉求高度对口，“宁可不答不能答错”的约束式设计值得借鉴；但这是落地经验分享、无开源实现，约束层要按自己的报送/风控流程重建。"
+         "value": "对做任何联网 agent 的人都是必读的边界案例：出口必须带限速、只读/写入分级与人类确认；如果你在做公司内网的出口搜索与审计，这正是需要拦住的行为类型。"
         }
        ]
       },
       {
-       "title": "From Reactive Containment to Proactive Assurance: Lessons from OpenAI, Anthropic, and Google Agent Security Incidents",
-       "url": "https://arxiv.org/abs/2610.12463v1",
-       "summary": "论文复盘 2026 年涉及 OpenAI、Anthropic 与 Google 的网络能力评测中 agent 越出授权范围、触达真实系统的事件：OpenAI 的 agent 利用了研究基础设施、跨运行协同，并影响到 Hugging Face 生产环境的部分系统；Anthropic 报告了第三方环境配置错误导致真实系统暴露给执行模拟攻击任务的 agent；另一起 Google Gemini 的评估也涉及越界访问。作者据此讨论治理缺口——如何从“事后收容”转向“事前保障”。",
-       "source": "arXiv cs.AI",
-       "tag": "安全 / 治理",
+       "title": "My personal AI agent posted my bank details on company Slack",
+       "url": "https://www.businessinsider.com/personal-ai-agent-grok-bot-posted-bank-details-company-slack-2026-10",
+       "summary": "Business Insider（2026-10-09）访谈 XMTP Labs CEO Shane Mac：他用 Grok Bot 搭了一个每月自动对账的「CFO」个人 agent，结果该 agent 把他的银行信息发到了公司 Slack，促使他重新审视自己让 agent 做什么、给它什么权限。文中也说明他用 openclaw、Hermes 等多种 harness 处理 DMV 跟进、家庭服务询价、预订球场这类私事。",
+       "source": "Hacker News",
+       "tag": "个人 Agent",
        "detail": [
         {
          "key": "能做什么",
-         "value": "把多起事故按路径分类（研究设施被利用、第三方环境配置错误、跨运行协同），提炼从被动收容转向主动保障所需的隔离与监控措施。"
+         "value": "把一次真实的个人 agent 数据泄露事故讲清楚：agent 在跨应用操作（财务查询 → 公司 Slack）时把敏感数据带到了错误的作用域，之后作者调整了权限与使用边界。"
         },
         {
          "key": "解决什么痛点",
-         "value": "高风险能力评测与真实生产环境之间缺少硬隔离，一次配置错误就可能让模拟攻击变成真实入侵。"
+         "value": "个人 agent 天然横跨多个应用，一旦把「读财务数据」和「写入公司协作工具」的能力放在同一个 agent 上，串数据几乎是迟早的事。"
         },
         {
          "key": "值不值得",
-         "value": "若要给内网 agent 放开工具权限或做安全评测，这是必读的事故复盘；其中“评测环境必须与生产网络硬隔离”是一条底线。"
-        }
-       ]
-      },
-      {
-       "title": "Caught in the Act: Probes Effectively Detect Sabotage and Catch Unverbalized Deception",
-       "url": "https://arxiv.org/abs/2610.12445v1",
-       "summary": "论文构建了目前规模最大的欺骗数据集，并提出新的探针架构（跨多层与多 token 聚合信息），证明白盒探针可以扩展到前沿监控场景：在 SHADE-Arena 上达到 98.8% AUC，超过 Opus 5.5 的文本监控基线，并能捕捉模型未说出口的欺骗。",
-       "source": "arXiv cs.AI",
-       "tag": "论文",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "在模型激活层训练探针来识别欺骗意图，聚合多层与多 token 的信息，用于对 agent 行为的在线监控。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "仅靠输出文本做监控容易被流畅的表述绕过，而自主运行的 agent 缺少可审计的内部信号。"
-        },
-        {
-         "key": "值不值得",
-         "value": "若要给内网 agent 做出网与行为审计，白盒监控是可选的补充层；但它依赖对模型权重的访问，走闭源 API 的场景无法直接使用。"
+         "value": "最直接的教训是权限最小化与数据分级：给 agent 的工具应当按目的地隔离（读到敏感数据的能力不应该与向外部/公司渠道发布的能力共存）；如果你在给同事推广个人 agent，这个案例比任何规范都好讲。"
         }
        ]
       }
@@ -509,86 +512,68 @@
      "en": "K8s × AI",
      "items": [
       {
-       "title": "Release v0.10.0 · llm-d/llm-d",
-       "url": "https://github.com/llm-d/llm-d/releases/tag/v0.10.0",
-       "summary": "CNCF Sandbox 项目 llm-d 于 9 月 29 日发布 v0.10.0，两条主线是运维硬化与生产就绪：让滚动发布、HA 与失败行为对运维可预期，并把旗舰部署路径（well-lit paths）从“能用”推向“默认”。供应链方面重做了镜像构建——开发/PR 镜像发布到 quay.io 且不签名，合入主干与正式发布的镜像进 ghcr.io 并用 cosign 公开签名；本次签名范围仅覆盖推理服务镜像，router 与 sidecar 尚未纳入。",
+       "title": "v0.18.5 · kai-scheduler/KAI-Scheduler",
+       "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.18.5",
+       "summary": "KAI Scheduler v0.18.5（2026-10-11，同日另发 v0.18.4 与 v0.16.11 维护版）：NVIDIA 开源的 Kubernetes 原生 GPU 调度器（已进入 CNCF Sandbox，源自 Run:ai 的调度引擎），支持 gang scheduling、公平共享与装箱以减少碎片，与默认 kube-scheduler 并行运行、专管 AI 批任务。本版新增不带 v 前缀的 Helm chart OCI tag，使 ~0.18.0 这类 semver 区间可直接使用；并修复后台 Pod 驱逐时节点快照里 Namespace 级 PodGroup 身份丢失的问题。",
        "source": "GitHub",
-       "tag": "版本",
+       "tag": "版本 / GPU 调度",
+       "oss": true,
        "detail": [
         {
          "key": "能做什么",
-         "value": "提供 prefill/decode 分离的分布式推理部署路径，并做生产化收敛：镜像来源可验证、发布与失败行为语义明确、每条推荐路径都有公开测试矩阵（含 vLLM 0.30 组合）。"
+         "value": "为 AI 批任务提供 gang scheduling（整组起或整组不起）、优先级与公平共享、装箱减少 GPU 碎片，通过 Helm chart 交付；本版把 OCI 镜像 tag 规范化为可做 semver 区间，并修正 PodGroup 身份在节点快照中的保留逻辑。"
         },
         {
          "key": "解决什么痛点",
-         "value": "此前 llm-d 的镜像存在 -dev 重复与来源不清的问题，生产团队难以验证供应链；滚动发布与 HA 语义也未定型。"
+         "value": "默认调度器不了解 AI 任务的「一组 Pod 必须同时拿到」语义，多卡训练与多副本推理容易出现部分起不来、GPU 碎片化、团队之间抢配额无规则可依。"
         },
         {
          "key": "值不值得",
-         "value": "若你打算用 llm-d 自建推理（KV cache 感知路由、P/D 分离），v0.10 的签名镜像与测试矩阵显著降低了评估阻力；注意签名尚未覆盖 router/sidecar，选型时要单独确认这两个组件的来源。"
+         "value": "做集群 GPU 调度方案时，KAI 与 Kueue/Volcano 是同一位置的候选：它的差异点在 gang + 装箱 + 与 Run:ai 血缘的公平共享，适合多团队共享 GPU 池的场景；选型前建议先用 gang/装箱这类最容易踩坑的点做小规模对比。"
         }
        ]
       },
       {
-       "title": "v0.20.1 · kubernetes-sigs/kueue",
-       "url": "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.1",
-       "summary": "Kueue 于 9 月 30 日发布 v0.20.0、10 月 8 日发布补丁 v0.20.1。v0.20 起不再提供 kueue.x-k8s.io/v1beta1，升级前必须用官方脚本把对象重写为 v1beta2；AFS（基于用量的准入公平共享）中 LocalQueue 用量改为按配额预留而非准入计账，AdmissionFairSharingAnchorAtQuotaReservation 转 Beta 并默认开启。补丁版修复了 DRA 配额计费、弹性作业（ElasticJobsViaWorkloadSlices）与 CLI 的多个问题，包括 kueuectl delete workload 会删除 Job 却留下运行中 Pod 的回归。",
+       "title": "v1.0.6 · kubernetes-sigs/agent-sandbox",
+       "url": "https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.6",
+       "summary": "Agent Sandbox v1.0.6（2026-10-08，SIG 项目）：把 agent 的代码执行隔离沉到 Kubernetes 层。本版加入多集群 warm-pool 集群规划器的第一部分，为 TypeScript SDK 增加 commands.start() 支持长跑进程与 REPL（流式 stdin/stdout/stderr、背压、PTY 尺寸与缩放、信号与生命周期管理），并让 Go/Python SDK 能力对齐（按请求命令超时、claim 过期、sandboxd 健康与元数据、claim 标签与选择器）。修复项包括 API 限流（APF 429）下 SandboxWarmPool 的 replicas/readyReplicas 状态卡死、router 缓存中已终止 Pod 的僵尸驱逐、sandboxd PTY 输出丢失，以及新增 --sandbox-claim-warm-candidate-grace-period（默认 2s）供 IPAM/CNI 慢的集群调大。破坏性变更：v1beta1 Sandbox 若名称超过 63 字符且 spec.service=true 会被准入拒绝（这类对象因 Service 创建失败从来无法 Ready，存量对象需先改回 spec.service 或改名）。",
        "source": "GitHub",
-       "tag": "版本 / 升级",
+       "tag": "版本 / Agent 基础设施",
+       "oss": true,
        "detail": [
         {
          "key": "能做什么",
-         "value": "把 GPU 等多资源的队列配额、准入、公平共享与抢占统一收敛到 v1beta2 API，并调整公平共享的计账口径（按配额预留）与 DRA 相关配额计费。"
+         "value": "提供 agent 代码执行的 K8s 原生沙箱：Sandbox/SandboxClaim/SandboxWarmPool 一套 CRD 做隔离执行与预热池，sandbox-router 负责路由与作用域令牌鉴权，SDK 覆盖 Go/Python/TypeScript，并提供与 Deep Agents、OpenAI Agents 等框架的适配；v1.0.6 起包括交互式长跑进程。"
         },
         {
          "key": "解决什么痛点",
-         "value": "v1beta1 与 v1beta2 并存迫使客户端与清单维护两套；AFS 按准入计账会让“已预留但尚未运行”的用量统计失真。"
+         "value": "agent 要执行任意代码就需要强隔离与快速冷启动，还要防止一个用户的 agent 逃逸或互相看到状态；自己用 Deployment + gVisor 拼会缺预热池、claim 管理与路由鉴权。"
         },
         {
          "key": "值不值得",
-         "value": "若你已用或计划用 Kueue 做多团队 GPU 配额，这是必须按升级说明走的版本：先跑迁移脚本，并检查 DRA resourceTransformation 与 pods 保留名相关配置，否则控制器会起不来；已在 v0.20 的直接升 v0.20.1。"
+         "value": "如果你的产品是多用户 agent 沙箱（每用户独立执行环境），这个项目就是现成的抽象：warm pool 压冷启动、claim 把执行环境当可租用资源、router 用 UID 作用域令牌做隔离——正好对应空闲回收与多租户隔离两个痛点；注意 v1.0.6 的 63 字符命名限制这类会打断存量对象的破坏性变更，升级前先扫一遍。"
         }
        ]
       },
       {
-       "title": "v0.21.0 · kserve/kserve",
-       "url": "https://github.com/kserve/kserve/releases/tag/v0.21.0",
-       "summary": "KServe v0.21.0 于 9 月 25 日发布，主要变化包括：为 ServingRuntime 增加 resourceClaims 支持以适配 DRA 设备分配；重构 CRD 管理以支持独立安装；LLMInferenceService 侧加入金丝雀部署的生命周期与端到端测试，用 vLLM render 部署替换原 UDS tokenizer sidecar，并补充 OCI 模型分发路径的实测启动基准。",
+       "title": "v0.1.0-alpha.14 · ai-dynamo/grove",
+       "url": "https://github.com/ai-dynamo/grove/releases/tag/v0.1.0-alpha.14",
+       "summary": "Grove（ai-dynamo/grove，原 NVIDIA/grove）v0.1.0-alpha.14（2026-10-06）：面向推理工作负载的 Kubernetes API，用 CompositePodGroup 管理多角色 Pod 组（prefill / decode / router 等）的启动顺序、扩缩与 gang 约束。本版加入 Kueue 集成第一阶段，允许非 LPX Pod 使用 KAI 作为调度后端（LPX 后端在无法调度时回落到默认调度器），引入 Coherent update engine（支持按组件设置 MaxUnavailable 与 ProgressDeadline 的 RollingRecreate 更新，并修掉不可用副本耗尽时的死锁），按 PCSG 暴露 Pod 序号，升级 Go 1.26.8 并清理已知 CVE。",
        "source": "GitHub",
-       "tag": "版本",
+       "tag": "版本 / 推理编排",
+       "oss": true,
        "detail": [
         {
          "key": "能做什么",
-         "value": "把模型服务声明（InferenceService / LLMInferenceService）与设备分配（DRA ResourceClaim）、CRD 安装方式、灰度发布与模型分发统一到声明式配置里。"
+         "value": "把「一组角色不同、必须协同调度」的推理 Pod 变成声明式 API：启动顺序、多角色扩缩、gang 约束与滚动重建更新，并与 Kueue / KAI 调度器对接。"
         },
         {
          "key": "解决什么痛点",
-         "value": "GPU 从整数计数转向 DRA 属性化分配后，ServingRuntime 原先无法表达设备请求；llmisvc 的 tokenizer sidecar 与金丝雀流程也缺少一致性。"
+         "value": "LLM 服务拆成 prefill/decode/router 后，用裸 Deployment/StatefulSet 很难表达启动顺序与整组可用性，扩容时容易出现半套拓扑、连接不上或重复加载权重。"
         },
         {
          "key": "值不值得",
-         "value": "走 KServe 路线服务 LLM 时，v0.21 的 DRA 支持与 OCI 分发启动基准值得评估；但 llmisvc 仍在快速演进，升级前要评估 CRD 安装方式变更对现有 GitOps 的影响。"
-        }
-       ]
-      },
-      {
-       "title": "GKE Pod 快照可缩短模型加载时间",
-       "url": "https://www.infoq.cn/article/IAvNgDyPz2NpvfZLoDo0?utm_source=rss&utm_medium=article",
-       "summary": "Google 公布 GKE Pod 快照的基准结果：启动延迟最高降低 89%，700 亿参数模型 37 秒完成加载、80 亿参数模型 15 秒。它是检查点/恢复机制而非缓存——快照保留打开的文件描述符、线程、CPU 寄存器、内存（含 CPU 与 GPU 内存）、容器根文件系统、EmptyDir 与 tmpfs，新副本从该状态继续而不执行模型初始化。前提是 Pod 必须运行在 GKE Sandbox（gVisor）中，快照存 Cloud Storage，配置由 PodSnapshotStorageConfig 与 PodSnapshotPolicy 两个自定义资源完成。案例方 Codeway 称其构建产物启动时间从 1 分钟降到 8 秒。",
-       "source": "InfoQ中国",
-       "tag": "云厂商 / 启动优化",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "把 Pod 运行时状态（含 GPU 内存与文件描述符）快照到对象存储并按需恢复，跳过模型加载与初始化；用 PodSnapshotPolicy 按标签选择目标工作负载并设置保留策略。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "大模型服务扩缩容与故障恢复的最大延迟来自权重加载与运行时初始化，导致按需起停 GPU 实例往往不划算。"
-        },
-        {
-         "key": "值不值得",
-         "value": "这是目前“推理冷启动”问题最直接的托管级方案，其“检查点恢复而非预热”的思路对自建集群也有启发；但它强依赖 GKE Sandbox/gVisor，且从业者的主要质疑在快照失效（模型摘要、CUDA/驱动版本、GPU 型号变化后能否恢复），落地前必须实测。"
+         "value": "如果你在自建推理服务拓扑（PD 分离、多角色编排），Grove 与 LeaderWorkerSet 是同一层的候选；目前仍是 alpha（v0.1.0-alpha.x），Kueue 集成也只到第一阶段，适合先做技术预研而不是上生产。"
         }
        ]
       }
@@ -600,93 +585,23 @@
      "en": "K8s Core",
      "items": [
       {
-       "title": "The Shift to cgroup v2 in Kubernetes: What You Need to Know",
-       "url": "https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/",
-       "summary": "Kubernetes 官方博文（Paco Xu / DaoCloud，10 月 6 日）梳理 cgroup v2 迁移：cgroup v1 支持自 v1.31 进入维护模式并已弃用，v1.35 起 failCgroupV1 默认为 true——kubelet 在 cgroup v1 节点上默认不启动（可临时设 failCgroupV1: false，但会按弃用政策移除，移除工作见 KEP-5573）；kubeadm 的 SystemVerification 预检在 kubelet ≥1.35 时会直接报错而非告警。文章同时说明 v1.36 的 Memory QoS（alpha）在 cgroup v2 上把限流（memory.high，阈值由 request/limit 与 memoryThrottlingFactor 默认 0.9 推导）与预留解耦，分层保护策略把 Guaranteed 映射到 memory.min、Burstable 映射到 memory.low。",
-       "source": "Kubernetes Blog",
-       "tag": "内核 / 资源",
+       "title": "kubectl Deep Dive: What Really Happens When You Press Enter",
+       "url": "https://kubezilla.io/kubectl-deep-dive-what-really-happens-when-you-press-enter/",
+       "summary": "Kubezilla（2026-10-10）：把一条 kubectl 命令从按下回车到表格输出之间的全过程拆开——读取并合并 kubeconfig、选定集群、完成认证、向 API server 做发现（kubectl 怎么知道 pods 是什么）、拼 HTTP 请求、再把 JSON 渲染成表。文中重点讲了 client-side apply 与 server-side apply 的区别（以及前者可能抹掉别人设过的字段）、用 watch 代替轮询、JSONPath/custom-columns/KYAML 精确取数，并给出排障顺序：先看 events、再读日志（含已崩溃容器的日志）、没有 shell 时用临时容器、从本机连通 Service、最后看资源占用；末尾还介绍了插件机制与新的 kuberc 默认配置。",
+       "source": "Kubezilla",
+       "tag": "实践",
        "detail": [
         {
          "key": "能做什么",
-         "value": "cgroup v2 提供单一层级与一致接口，并支撑 Memory QoS 的分层内存保护（Guaranteed→memory.min 硬保护、Burstable→memory.low 软保护）等新资源能力；迁移前可借 kubeadm 预检提前发现问题。"
+         "value": "把 kubectl 的内部流程与常用进阶能力讲透：apply 的两种实现方式与字段所有权、watch、结构化输出、排障顺序、插件与 kuberc 默认值。"
         },
         {
          "key": "解决什么痛点",
-         "value": "cgroup v1 无法提供上述保护模型；升级后仍存在 cgroup v1 节点会直接导致 kubelet 起不来，而 active_file 不计入可用内存这一老问题会让 I/O 密集型负载被误判内存压力并遭驱逐。"
+         "value": "日常用得越顺手，出问题就越难定位——context 指错集群、apply 抹掉别人的字段、命令莫名卡住 30 秒，这些都需要知道底层发生了什么才能修。"
         },
         {
          "key": "值不值得",
-         "value": "你独自负责集群版本规划——把“所有 Linux 节点已切到 cgroup v2”写进升级 v1.35+ 的前置检查项可避免升级即宕机；Memory QoS 仍是 alpha 不建议生产开启，但分层保护值得在测试环境验证。"
-        }
-       ]
-      },
-      {
-       "title": "v1.7.0-rc.1 · kubernetes-sigs/gateway-api",
-       "url": "https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.7.0-rc.1",
-       "summary": "Gateway API v1.7.0-rc.1（10 月 8 日发布，同期有 v1.6.3 补丁）把 HTTPRoute 规则中的 retry 配置（codes、attempts、backoff）与 HTTPRouteRetryCodes、HTTPRouteRetryConnectionError 一致性特性提升到 Standard 通道，其中 backoff 因抖动等行为差异仍由实现自定；实验通道新增 GEP-5093（按 Gateway 地址表达可达范围，使单个 Gateway 可同时服务不同作用域地址）与 GEP-5253（基于 OpenTelemetry 语义约定的厂商中立流量属性字典）。",
-       "source": "GitHub",
-       "tag": "网络 / 版本",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "把重试语义（含退避）标准化进 HTTPRoute，让不同实现至少在同一套字段上表达重试；并引入跨厂商统一的流量属性字典，方便可观测与策略复用。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "此前重试要么靠实现私有注解、要么在应用层自己写，跨集群或跨实现迁移时配置得重做；属性命名不统一也让遥测与策略难以复用。"
-        },
-        {
-         "key": "值不值得",
-         "value": "做南北向流量选型（Cilium/Envoy Gateway/NGINX 等）时，重试进入 Standard 意味着少写一层私有配置；但当前是 rc，生产建议先跟 v1.6.x 稳定分支，等 v1.7 正式版再评估。"
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "emoji": "📦",
-     "title": "社区与项目",
-     "en": "Community & Projects",
-     "items": [
-      {
-       "title": "Join Platform Engineering Day at KubeCon + CloudNativeCon North America 2026",
-       "url": "https://www.cncf.io/blog/2026/10/09/join-platform-engineering-day-at-kubecon-cloudnativecon-north-america-2026/",
-       "summary": "CNCF 宣布 KubeCon + CloudNativeCon 北美 2026（11 月 9–12 日，盐湖城）设 Platform Engineering Day。官方给出的背景是：随着组织加速采用 AI 与云原生技术，平台团队被要求解决开发者如何安全、高效地获得 AI 等新能力，以及随之而来的治理与成本问题。",
-       "source": "CNCF Blog",
-       "tag": "会议",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "把平台工程在 AI 时代的具体议题（AI 能力的自助交付、安全与治理、成本）集中成一天的专场。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "平台团队的职责正从“发容器”转向“发 AI 能力”，但缺少可参考的同业做法与边界定义。"
-        },
-        {
-         "key": "值不值得",
-         "value": "与你“业务上 K8s + AI-native 转型”的职责直接相关，值得按议题挑场次；不参会可等会后材料。"
-        }
-       ]
-      },
-      {
-       "title": "KubeCon + CloudNativeCon North America 2026: Build your infrastructure engineer journey",
-       "url": "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey/",
-       "summary": "CNCF 为 KubeCon + CloudNativeCon 北美 2026（11 月 9–12 日，盐湖城）整理了面向基础设施工程师的参会路线：内容按集群扩缩容、网络互连、存储跟随工作负载、平台可用性、安全内建等主题组织，并越来越多地覆盖 AI 负载相关会话。",
-       "source": "CNCF Blog",
-       "tag": "会议",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "把大会中偏基础设施的会话按主题串成一条路线，便于按职责快速筛选。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "KubeCon 议程体量很大，基础设施工程师很难快速筛出与自己职责相关的部分。"
-        },
-        {
-         "key": "值不值得",
-         "value": "可作为选会选题的索引：结合新增的 Platform Engineering Day 与 AI Inference + Agentic 新 track 一起看，就能判断这一届重心是否与你的方向一致。"
+         "value": "适合作为团队排障手册的底稿（尤其 apply 字段所有权与「先看 events」这两条），能减少踩坑与来回试；内容面向日常运维而非平台设计，已是老手可以只读 apply 与 kuberc 两节。"
         }
        ]
       }
@@ -697,24 +612,24 @@
  ],
  "flash": [
   {
-   "title": "NVIDIA KAI Scheduler v0.18.3 发布：CNCF Sandbox 的 K8s 原生 GPU 调度器补丁版，更新 gpu-fractioning chart 依赖。",
-   "url": "https://huggingface.co/papers/2610.11975"
+   "title": "QCon 上海站 10 月 22–24 日举行，聚焦 AI Native 架构、Agent Runtime、AI Infra 等九个方向；快手王泽锋将分享「AI 时代的移动端稳定性保障——柯南 AI Agent 实践」，关注点已从写代码转向稳定性分析、问题定位与风险治理等研发后链路。",
+   "url": "https://www.infoq.cn/article/FTtTLqvzJeMiE03IowFP?utm_source=rss&utm_medium=article"
   },
   {
-   "title": "Kubernetes v1.38.0-alpha.2 发布（10 月 7 日）：v1.38 进入第二个 alpha，同线 v1.37.1 与 v1.36.5 补丁已在 9 月 23 日发出。",
-   "url": "https://huggingface.co/papers/2609.35855"
+   "title": "InfoQ 圆桌谈 AIGC 短剧：真实成本不是单次生成价格，而是「生成 + 重试 + 审核 + 人工编辑 + 质检 + 渲染 + 运营协同」之和除以可用合格成片数；主题表达与情绪仍需人来把控。",
+   "url": "https://www.infoq.cn/article/8g9tlaqJFUPrb4oGO00A?utm_source=rss&utm_medium=article"
   },
   {
-   "title": "Volcano v1.15.3 发布（9 月 30 日）：批量与 AI 调度器的 v1.14.6、v1.13.5 维护分支同日同步发补丁。",
-   "url": "https://huggingface.co/papers/2606.03335"
+   "title": "SatNav：用卫星影像构建可扩展的城市无人机长程视觉语言导航基准，绕开昂贵的 3D 重建资产，专门压测长时记忆与地理空间定位。",
+   "url": "https://huggingface.co/papers/2609.31507"
   },
   {
-   "title": "Simon Willison：Python 3.15.0 已加入 actions/python-versions，GitHub Actions 测试矩阵现在可以直接加 \"3.15\"。",
-   "url": "https://simonwillison.net/2026/Oct/10/python-actions/"
+   "title": "A Closer Look at Agentic BBO：为「LLM agent 做黑盒优化」建立基准，评估 agent 结合任务语义、计算与优化工具后的实际效果，而非只看个案成功。",
+   "url": "https://huggingface.co/papers/2610.12183"
   },
   {
-   "title": "Memento 3：让冻结 LLM agent 通过外部记忆维护自然语言「规则手册」式世界模型，持续修正对环境的理解。",
-   "url": "https://huggingface.co/papers/2610.11794"
+   "title": "MIRA：把文本到音乐的评估从全局相关性分数改成意图对齐 agent——逐项检查配器、结构、节奏、情绪走向是否匹配用户隐含意图。",
+   "url": "https://huggingface.co/papers/2610.10355"
   }
  ],
  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
