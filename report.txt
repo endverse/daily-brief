@@ -1,55 +1,51 @@
 ======================================================================
-处理报告  (原始 172 条)
+处理报告  (原始 120 条)
 ======================================================================
 
-① 过滤: 保留 132 条, 过滤掉 40 条
+① 过滤: 保留 78 条, 过滤掉 42 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] boykopovar/AnyPS5
+     ✗ [GitHub Trending] bilawalsidhu/gods-eye-view
      ✗ [GitHub Trending] storytold/artcraft
-     ✗ [GitHub Trending] flutter/flutter
-     ✗ [GitHub 升星repo] n1tr00-10/tiktok-web-signature
-     ✗ [GitHub 升星repo] KindStatesman/KMS-Pico
-     ✗ [GitHub 升星repo] VarnishSerpentBurn/Discord-Quest-Completer
-     ✗ [GitHub 升星repo] zeusinsight/FinderSearch
-     ✗ [GitHub 升星repo] passrhymegazebo/AnyUnlock
+     ✗ [GitHub 升星repo] liseami/CCBaga
+     ✗ [GitHub 升星repo] jhaizhou-ops/d2r-mobile
+     ✗ [GitHub 升星repo] AnemonePulse/Better-Discord
+     ✗ [GitHub 升星repo] PetaMooseVolt/AnyDesk
+     ✗ [GitHub 升星repo] Lengthristride/Total-Commander
+     ✗ [GitHub 升星repo] Superincrater/Autodesk-Revit
 
-② 去重: 132 → 118 条 (同批合并 4, 跨天历史去重 10)
+② 去重: 78 → 64 条 (同批合并 0, 跨天历史去重 14)
    跨天去重(此前已发过，跳过):
-     ⏭️  [OpenAI News] How Oracle turns days of work into minutes wit
-     ⏭️  [OpenAI News] LegalOn halves Codex costs while maintaining d
      ⏭️  [GitHub Trending] morluto/rea
-     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
      ⏭️  [GitHub Trending] mksglu/context-mode
-     ⏭️  [GitHub Trending] mattpocock/skills
-     ⏭️  [GitHub Trending] anthropics/knowledge-work-plugins
-     ⏭️  [量子位] 字节找到了DeepSeek时强时弱的原因
-   跨源合并的事件:
-     ⇉ One Block, Multiple Depths: Recurrent Vi  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ SpaceFlow: Locally Controllable 3D Gener  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Beyond Spatio-Temporal Priors: A General  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
+     ⏭️  [GitHub Trending] lyogavin/airllm
+     ⏭️  [Simon Willison] Quoting The New York Times
+     ⏭️  [量子位] 下架8个月，GPT-4o的拯救行动居然还在继续
+     ⏭️  [量子位] DeepSeek Bot来了！民间版，DSH装个插件就能用
+     ⏭️  [InfoQ中国] 利用 AI 代码智能体优化软件架构的五种方法
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - AI 工程落地: 24 条 (含🔧开源 4)
-     - 模型与研究: 51 条 (含🔧开源 1)
-     - Agent & Skill: 24 条 (含🔧开源 2)
-     - 产品与商业: 6 条
-     - 安全与治理: 6 条
-     - 观点与好文: 3 条
+     - 模型与研究: 31 条 (含🔧开源 2)
+     - Agent & Skill: 11 条
+     - AI 工程落地: 7 条 (含🔧开源 3)
+     - 产品与商业: 5 条 (含🔧开源 1)
+     - 安全与治理: 2 条 (含🔧开源 1)
+     - 观点与好文: 6 条
    【基础设施】
-     - K8s × AI: 1 条
-     - K8s 核心: 2 条
      - 社区与项目: 1 条
+     - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Asana cuts model costs 76x in browser tests with GPT-6.
-        源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [19分] Pollo AI turns creative ideas into campaigns with OpenA
-        源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [16分] Expanding the Cyber Verification ProgramAnnouncementsOc
+        源:Anthropic News 类:产品与商业 跨源:[]
+     🔥 [16分] Barclays scales Claude to upgrade operations and improv
+        源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      19分 [OpenAI News ] Asana cuts model costs 76x in browser tests w
-      19分 [OpenAI News ] Pollo AI turns creative ideas into campaigns 
       16分 [Anthropic News] Expanding the Cyber Verification ProgramAnnou
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
       16分 [Anthropic News] Science Claude discovers a novel enzyme syste
+      10分 [HuggingFace Papers] Self-Preservation in Language Models
+      10分 [HuggingFace Papers] When to Rethink: Learning Multi-Perspective S

@@ -1,84 +1,8 @@
 [
  {
-  "title": "Sophos cuts threat investigation time by 96% with OpenAI Daybreak",
-  "url": "https://openai.com/index/sophos",
-  "summary": "Discover how Sophos uses OpenAI’s Daybreak to cut cyber-threat investigation time by 96% and automate 52% of MDR cases while preserving human oversight.",
-  "published": "2026-10-09T07:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Asana cuts model costs 76x in browser tests with GPT-6.1 Sol",
-  "url": "https://openai.com/index/asana-browser-agent",
-  "summary": "Using GPT-6 Astra in Codex, Asana made its browser agent 76x cheaper and 5x faster in tests to offer customers more capable models.",
-  "published": "2026-10-09T07:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 19,
-  "is_hot": true
- },
- {
-  "title": "The Lattice of Transition Laws",
-  "url": "https://huggingface.co/papers/2610.11216",
-  "summary": "Diffusion and autoregression (AR) have long been seen as different categories of generative models, with diffusion specialising in continuous fields and AR specialising in discrete tokens. Recent work seeks to combine the advantages of the two models, and each hybrid fixes its decoding schedule by design. In this paper, we ask whether the performance of decoding schedules of one model can be predicted before decoding at a fixed number of steps. We describe diffusion, AR, and models in between as",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 5
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Behavioral Persistence and Incomplete Functional Transfer of Co-evolved Communication in Evolutionary Robotics",
-  "url": "https://huggingface.co/papers/2609.38527",
-  "summary": "This work evaluates the direct transfer of a co-evolved communication protocol from a 2D simulation to a 3D physical environment, without retraining the network weights. Two e-puck-type robots, controlled by a GRU network with residual connection, were evaluated in a food-seeking task with social signaling. The sensory and motor translation layer required three corrections for stable physical operation, including the calibration of a hunger term based on a measurable asymmetry in the trained res",
-  "published": "2026-09-28T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 4
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Evaluating the Transfer of Co-Evolved Communication from 2D to 3D Simulation",
-  "url": "https://huggingface.co/papers/2610.09280",
-  "summary": "This work examines the transfer of a co-evolved communication mechanism between two robotic agents from a discrete two-dimensional (2D) simulator to a three-dimensional simulator with real physics (3D). The study focuses on whether a communication mechanism co-evolved in a 2D environment retains its functional role after transfer to a 3D physics-based simulator. To support this analysis, the effects of the episode time budget, the social cue, and the asymmetry between the two co-evolved roles we",
-  "published": "2026-10-06T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 4
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Opera: A Verbal Critic Framework for Long-horizon Coding Agents",
-  "url": "https://huggingface.co/papers/2609.33987",
-  "summary": "Long-horizon coding agents need timely corrections, yet feedback can be ineffective or even harmful when it misjudges ongoing work or fails to address the underlying problem. Existing critics focus on evaluating trajectories and generating feedback, but rarely track what happens after feedback is delivered. We present Opera, a verbal critic framework that treats each correction as a persistent note, followed until the diagnosed problem is resolved. Opera decides when to review through periodic a",
+  "title": "Humanity's Sixth Sense: Benchmarking Intuitive Visual Reasoning in Multimodal Models",
+  "url": "https://huggingface.co/papers/2610.08966",
+  "summary": "Humans perceive far more in a scene than what is explicitly depicted: a single glance captures past causes and future trajectories; a quick peek determines if a vehicle can fit between two parked cars; a few seconds of video reveals who holds authority in a room; and a fleeting clip highlights subtle abstract patterns like unwritten rules or hidden labels. This capacity reflects a form of humanity's sixth sense: an intuitive reasoning mechanism that recovers implicit information beyond raw senso",
   "published": "2026-10-07T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
@@ -86,36 +10,36 @@
    "upvotes": 14
   },
   "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Mental-Models for Multi-Agent Systems",
+  "url": "https://huggingface.co/papers/2610.12453",
+  "summary": "Large foundation models have accelerated progress toward general-purpose agents that interact with humans and other agents through language and multimodal signals. However, robust multi-agent decision-making requires reasoning about what other agents know, intend, and are likely to do under partial observability. Current agentic systems often operate through prompt design, memory, or end-to-end behavioral shaping, but typically do not learn an explicit partner-state representation that can be re",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 3
+  },
+  "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "Skill Constellations: Tracing the Supply Chain of Agent Skills on GitHub",
-  "url": "https://huggingface.co/papers/2610.11169",
-  "summary": "Agent skills are SKILL.md instructions and scripts that AI coding agents such as Claude Code and Codex run with the permissions of their user. Developers share skills by copying them between repositories, which makes them a software supply chain without a registry, versions or provenance. The origin of a copied skill, the reach of a security fix and the repositories that warrant review are therefore unknown. Studies that record which repositories hold a skill at a single point in time cannot rev",
+  "title": "BudgetPix: Compute-Adaptive Tokenization for Pixel-Space Image Diffusion",
+  "url": "https://huggingface.co/papers/2610.12307",
+  "summary": "Most image generation models rely on uniform tokenization, allocating the exact same computational budget to equally-sized image patches. This static paradigm cannot adapt to different resource constraints at inference time, and yields suboptimal quality-cost tradeoff by devoting the same effort to both plain backgrounds and intricate details. We propose BudgetPix, an adaptive tokenization framework that dynamically allocates compute based on visual complexity and spatial layout, enabling flexib",
   "published": "2026-10-07T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Predicting Cable Dynamics with Physical Attention Bias",
-  "url": "https://huggingface.co/papers/2610.11975",
-  "summary": "Learned simulators for deformable linear objects (DLOs) such as cables have to predict the motion of cables they were not trained on and stay stable over long rollouts. Most of their error occurs where the cable touches itself or the floor. Attention over all pairs of cable segments can represent contact between parts of the cable that are far apart along its length, but attention has no notion of geometry. A cable has two pairwise distances, which agree only while it is straight: the arc-length",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 5
+   "upvotes": 1
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -124,14 +48,46 @@
   "is_hot": false
  },
  {
-  "title": "A GPU-Parallel Framework for Heterogeneous Multi-Task Reinforcement Learning",
-  "url": "https://huggingface.co/papers/2606.03335",
-  "summary": "GPU-parallel simulation provides abundant robot interaction, but existing benchmarks rarely combine this scale with heterogeneous manipulation tasks and standardized multi-task RL evaluation. We introduce Hebero (Heterogeneous Benchmark for Robot Learning), a GPU-parallel Isaac Lab benchmark that enables efficient joint training and evaluation of a single policy across all 40 heterogeneous tasks. Scaling experiments show that increasing parallel replicas per task improves success under a fixed w",
-  "published": "2026-10-05T20:00:00.000Z",
+  "title": "Clinician use of language models diverges from how the models are evaluated",
+  "url": "https://huggingface.co/papers/2610.11069",
+  "summary": "Large language model (LLM) assistants are being deployed to clinicians across health systems, and judgments about their readiness rest largely on benchmark scores, most of them derived from examination questions or curated cases. A benchmark predicts performance in deployment only to the extent that its items resemble real use, yet whether benchmarks reflect the work these systems receive has rarely been measured. Here we analyze 127,833 queries sent by 6,342 physicians, advanced practice provid",
+  "published": "2026-10-07T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 12
+   "upvotes": 3
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Video-Conditioned Generative Joint 2D-3D Hand Motion Recovery",
+  "url": "https://huggingface.co/papers/2610.10512",
+  "summary": "Recovering faithful 3D hand motion from video remains challenging due to frequent occlusions and incomplete visual observations, which make frame-wise pose estimates unreliable and temporally inconsistent. To address this problem, we propose JoHan, a unified generative framework that recovers hand motion directly from video sequences without relying on intermediate per-frame pose predictions. Trained from scratch, our model jointly generates aligned 2D and 3D local hand pose sequences by learnin",
+  "published": "2026-10-06T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Few-Step Generation via Data-Space Iteration",
+  "url": "https://huggingface.co/papers/2610.12102",
+  "summary": "Flow matching has emerged as a scalable paradigm for training high-quality generative models, but sampling from the learned probability flow requires many network evaluations. Distillation can reduce this cost to one or a few evaluations; however, one-step generation often sacrifices quality, making few-step generation the practical operating regime. Existing few-step methods perform their iterative computation along the probability flow and therefore require a fixed, manually chosen timestep di",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "产品与商业",
@@ -140,62 +96,14 @@
   "is_hot": false
  },
  {
-  "title": "Mara Chain: Rethinking Failure as a Stepping Stone for AI System Auto-Evolution",
-  "url": "https://huggingface.co/papers/2609.35855",
-  "summary": "Optimizing deployed AI systems increasingly amounts to editing prompts, skills, harnesses, and code rather than model weights. Existing approaches commonly optimize these artifacts through propose-evaluate-select procedures, where candidate configurations are evaluated and only those meeting an acceptance criterion are selected. Yet our analysis shows that discarded candidates often contain information critical for subsequent optimization. Discarding them causes later proposals to revisit the sa",
-  "published": "2026-09-24T20:00:00.000Z",
+  "title": "GATOR: Generative and Agentic 3D Object Reconstruction From Casual Images",
+  "url": "https://huggingface.co/papers/2610.11215",
+  "summary": "Reconstructing complete, scene-aligned 3D objects from casual images requires integrating sparse, uncertain observations and inferring surfaces hidden by occlusions. We present GATOR, a generative and agentic framework that recovers textured object assets and their scene-relative pose from one or more images. Our local modality mixer couples patch-aligned RGB, target-mask, and pointmap features before cross-view reasoning, preserving scene context while distinguishing the target from its surroun",
+  "published": "2026-10-08T00:13:04.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 9
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Incidental information contaminates patient notes and disrupts clinical reasoning in large language models",
-  "url": "https://huggingface.co/papers/2610.08585",
-  "summary": "Large language models (LLMs) are increasingly relied upon to support ambient documentation and clinical reasoning. Here we examine the impact of a failure mode shared between these two applications by assessing their sensitivity to information incidental to the patient encounter. In 576 patient-clinician dialogues, we found that frontier models inserted small-talk exchanges into 35% of notes, while mean quality scores changed by at most 0.20 points on five-point scales. In 3.7% of frontier notes",
-  "published": "2026-10-05T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 6
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Frozen Models, Evolving Expertise: Model-Agnostic Learning from Deployment Experience for Multimodal Medical AI",
-  "url": "https://huggingface.co/papers/2610.09146",
-  "summary": "Large language models (LLMs) and vision-language models (VLMs) are usually frozen after deployment, so they do not learn from the cases they solve. This is especially concerning in medicine, where new clinical evidence, updated guidelines, and new therapies can change established practice. Fine-tuning can update the model, but it requires access to model weights and additional training. Parameter-free methods avoid training, but they may overfit a fixed validation set, lack reliable domain knowl",
-  "published": "2026-10-05T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 6
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Synthesis Through Simulation: Generating Coherent Enterprise Data via Scalable Agent-System Interaction",
-  "url": "https://huggingface.co/papers/2610.10549",
-  "summary": "Tool-calling agents have become central to enterprise AI, yet training and evaluating them at scale remains severely constrained due to business and legal restrictions on enterprise systems, data, and database schemas. Tabular data synthesis offers a natural alternative, but its effectiveness is fundamentally limited by structural validity and schema availability, while procedure-based approaches yield the opposite weakness, typically lacking distributional fidelity without per-domain authoring.",
-  "published": "2026-09-23T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 7
+   "upvotes": 1
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -204,14 +112,14 @@
   "is_hot": false
  },
  {
-  "title": "SpecFold: Folding Multi-Branch Redundancy for Faster Speculative Decoding in Diffusion Language Models",
-  "url": "https://huggingface.co/papers/2610.04875",
-  "summary": "Diffusion large language models (DLLMs) generate text through iterative block denoising, and multi-branch speculative decoding accelerates this process by verifying a main branch together with multiple draft branches in a single forward pass. While prior DLLM acceleration methods primarily exploit temporal redundancy across denoising steps, we identify a complementary redundancy axis within each speculative verification step: multi-branch computational redundancy. During speculative verification",
-  "published": "2026-10-05T20:00:00.000Z",
+  "title": "Distributionally Robust Mixture-of-Experts Training",
+  "url": "https://huggingface.co/papers/2610.07207",
+  "summary": "Mixture-of-Experts (MoE) transformers scale capacity by activating only a few experts per token, but this sparsity creates a hidden reliability problem: when routing is imperfect, load-balanced models may send tokens to experts that are insufficiently trained for the assigned inputs. We propose Distributionally Robust MoE Training (DRMoET), a drop-in objective that treats layer-wise experts as endogenous robustness groups and optimizes high-loss routing outcomes rather than merely equalizing tra",
+  "published": "2026-10-04T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 7
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -220,14 +128,30 @@
   "is_hot": false
  },
  {
-  "title": "MIRA: A Musical Intent Refinement Agent for Aligning Text-to-Music Generation with User Intent",
-  "url": "https://huggingface.co/papers/2610.10355",
-  "summary": "Text-to-music systems produce increasingly convincing audio, yet evaluation reveals little about whether the result matches user intent. A global text-audio relevance score can overlook the implicit intent in underspecified prompts and mask failures in specific requirements, such as instrumentation, structure, rhythm, or mood progression. To bridge this gap, we formulate text-to-music intent alignment as satisfying a per-request rubric of independently verifiable items covering both a request's ",
-  "published": "2026-10-06T20:00:00.000Z",
+  "title": "One Model to Loop Them All: Elastic Latent Recurrence for Language Models",
+  "url": "https://huggingface.co/papers/2610.12582",
+  "summary": "A latent recurrent language model applies a shared block of layers repeatedly, so one checkpoint can trade inference compute for accuracy by changing the loop count. At one loop, however, such models typically fall well short of a non-recurrent model of the same size, a one-loop tax that makes a separate non-recurrent model the better choice whenever latency matters. We present Elastic Latent Recurrence (ELR), a recipe for training looped language models without this tax. At one loop, an ELR mod",
+  "published": "2026-10-07T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 8
+   "upvotes": 3
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "The Life Cycle of a Massive Activation: Stochastic Birth, Weight-Decay-Driven Growth, and Competitive Consolidation",
+  "url": "https://huggingface.co/papers/2610.00423",
+  "summary": "Massive activations, residual-stream coordinates with magnitudes far larger than typical activations, are associated with attention sinks in transformers, but how their scale is regulated during training remains incompletely understood. Combining training-trajectory analyses and controlled interventions, we trace their emergence, growth, and consolidation. Sink-carrying channels vary across random seeds but stabilize early within each run. Over longer training, surrounding channels erode and the",
+  "published": "2026-10-04T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "安全与治理",
@@ -236,190 +160,14 @@
   "is_hot": false
  },
  {
-  "title": "Can AI Agents Make Open-Ended Scientific Discovery? Evidence from Station",
-  "url": "https://huggingface.co/papers/2610.08927",
-  "summary": "Recent AI systems have made rapid progress in scientific discovery when given well-defined metrics, but whether they can autonomously undertake open-ended scientific discovery remains unclear. We investigate AI's ability to tackle open-ended tasks in Station, an open-world environment in which multiple agents simulate a scientific ecosystem. To tackle challenges specific to open-ended tasks, we propose augmenting Station with two mechanisms: a Supervisor mechanism and periodic Meta Reflection, w",
-  "published": "2026-10-05T20:00:00.000Z",
+  "title": "SAGE: Salient Factor Discovery and Generation with Visual Foundation Representations",
+  "url": "https://huggingface.co/papers/2609.39635",
+  "summary": "Given a target dataset, such as faces with eyeglasses, and a background dataset, such as faces without, contrastive analysis separates salient factors specific to the target from common content shared by both. We aim for salient representations that capture target-specific detail in each image, such as the shape, color, and position of the glasses, so that they reveal subtypes without subtype labels and guide the generation of new examples of a discovered subtype, even one with no name or text d",
+  "published": "2026-09-29T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 8
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Pumpire: Unified Benchmark for Metric Distance Estimation",
-  "url": "https://huggingface.co/papers/2610.12423",
-  "summary": "We present Pumpire, a unified benchmark for evaluating metric point-pair distance estimation capability of both image- and video-level 3D foundation models, with or without depth priors. In contrast to previous approaches that normally evaluate depth and camera intrinsics separately or evaluate point-clouds with geometric similarity metrics, which cannot directly reflect models' point-to-point distance estimation capability, Pumpire directly assesses point-to-point distances from the reconstruct",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 18
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Investigating the Role of Reasoning-Language Alignment in Monolingual Retrieval-Augmented Generation",
-  "url": "https://huggingface.co/papers/2610.03136",
-  "summary": "Reasoning traces improve large language models (LLMs), but current models are trained to reason mostly in English. It has been shown that forcing a model to reason in another language degrades accuracy, even when the reasoning language matches the language of the prompt -- but only for a setting where the model reasons over a short prompt. Here, we ask whether the same holds for retrieval-augmented generation (RAG), where the model must read and integrate a large amount of retrieved evidence in ",
-  "published": "2026-10-01T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 5
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "One Block, Multiple Depths: Recurrent Vision Transformers with Depth-Programmed Experts",
-  "url": "https://huggingface.co/papers/2610.12448",
-  "summary": "In this work, we show that a single Transformer block, applied recurrently, can match the accuracy of a full-depth vision encoder at comparable inference FLOPs without intermediate feature distillation. reViT restores depth-specific transformations by representing the FFN at each recurrent depth as a convex combination of a small shared expert bank. A continuous normalized-depth coordinate programs this mixture, defining a resampleable trajectory through FFN parameter space. We evaluate this des",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 7
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "A Closer Look at Agentic BBO: Benchmarking LLM Agents for Black-Box Optimization",
-  "url": "https://huggingface.co/papers/2610.12183",
-  "summary": "Black-box optimization (BBO) arises in many scientific and engineering problems where objective evaluations are expensive and limited. Recent large language model (LLM) agents offer a new way to approach BBO by combining task semantics, computation, optimization tools, and feedback-driven decision making, showing great potential due to the integration with mathematically rigorous tools. However, existing agentic BBO studies use different task domains and system configurations, making their resul",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 8
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Memento 3: Model-Based Recursive Self-Improvement through Reflective Rulebooks",
-  "url": "https://huggingface.co/papers/2610.11794",
-  "summary": "Learning to act in unfamiliar environments requires agents to infer how the world works and revise that understanding as new evidence arrives. Yet limited observations can support multiple world models that explain past interactions but predict different outcomes in unseen states. We introduce Memento 3, building on the Memento series to enable frozen LLM agents to continually learn explicit world models through external memory. The agent maintains a natural-language rulebook as persistent seman",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 35
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "You Changed Your Mind, The Model Didn't: Demystifying Intent in Multi-Turn Dialogue",
-  "url": "https://huggingface.co/papers/2610.06496",
-  "summary": "When a large language model handles a multi-turn task and a user proposes a change but ultimately rejects it, the model should continue as if nothing changed. We find a surprising failure: merely mentioning a rejected change can derail task execution, even when the user's final intent remains unchanged. To systematically study language model behavior under evolving user intent, we introduce Intent-Eval, a controlled benchmark spanning tool actions, code, databases, and mathematics. Across divers",
-  "published": "2026-10-04T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 6
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "EDiS: Edge Disjoint Subgraph Sparsification Framework for Graph Neural Networks",
-  "url": "https://huggingface.co/papers/2610.09059",
-  "summary": "Sparse GNN training reduces computation, but deciding which edges to keep can be costly. Reusing one sparse graph is cheap, but locks training to a fixed topology, while varying it across epochs can require repeated sampling or recomputation. We introduce EDiS (Edge-Disjoint Subgraph sparsification framework), which separates one-time structural extraction from per-epoch graph composition. EDiS decomposes the graph once into cacheable edge-disjoint subgraphs, then recombines them into graphs wit",
-  "published": "2026-10-05T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 6
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "SpaceFlow: Locally Controllable 3D Generation",
-  "url": "https://huggingface.co/papers/2610.12399",
-  "summary": "Current 3D generation methods lack explicit local control: geometric adherence is often defined by a global control strength, and appearance cannot be specified locally. We present SpaceFlow, a training-free pipeline for locally controllable 3D generation from text descriptions and a collection of geometric primitives. Each primitive serves as a proxy for an object part and is assigned a local control level, enabling users to specify whether regions should strictly follow the input shape or allo",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 8
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "WorldGuide: Goal-Directed Video World Model for Procedural Task Execution",
-  "url": "https://huggingface.co/papers/2610.12459",
-  "summary": "Video generators and video-based world models can synthesize plausible visual trajectories, but long-horizon procedural tasks require generation to adapt to what has actually been produced. A model must determine the next action from its generated state, execute that action, and recognize when the task is complete. Open-loop generation cannot adapt to execution outcomes, while existing closed-loop systems often rely on pretrained executors or indirect verification. This leaves a gap between deci",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 8
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Beyond Spatio-Temporal Priors: A Generalizable Approach for Dense Correspondence Matching",
-  "url": "https://huggingface.co/papers/2610.12421",
-  "summary": "Dense correspondence matching has historically been bounded by simplifying spatio-temporal priors, such as smooth motion and rigid geometry. While effective for classical tasks, these assumptions break down in image editing and reference-guided generation (IEG), where transformations can preserve visual identity while breaking physical continuity. To establish identity-preserving correspondence across such transformations, we introduce FreeMatching, a generalizable framework combining generative",
-  "published": "2026-10-07T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 38
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "U-Space: Uncovering When and Why Uncertainty Arises in Language Models",
-  "url": "https://huggingface.co/papers/2610.09087",
-  "summary": "Large language models are informing decisions with ever-higher stakes. As the consequences of their errors grow, a central question becomes harder to ignore: how much can we trust an individual answer? Yet recognizing when to defer remains difficult because language models can present incorrect conclusions with fluent explanations and an authoritative tone. Uncertainty quantification seeks to address this disconnect by estimating the reliability of individual predictions. However, many existing ",
-  "published": "2026-10-05T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 39
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "观点与好文",
@@ -428,46 +176,94 @@
   "is_hot": false
  },
  {
-  "title": "CARE: Certifying Acceleration for Vision-Language-Action Inference",
-  "url": "https://huggingface.co/papers/2610.08917",
-  "summary": "While vision-language-action (VLA) models have advanced rapidly, running them at every control step remains expensive. Prior work accelerates VLA inference using techniques like action chunking and visual-token pruning, typically evaluating based on latency and average task success. However, acceleration may discard information and break tasks the original policy would solve, a risk hidden by average metrics. Measuring these failures is challenging because action deviations compound over closed-",
-  "published": "2026-10-05T20:00:00.000Z",
+  "title": "Self-Preservation in Language Models",
+  "url": "https://huggingface.co/papers/2610.12602",
+  "summary": "Continual learning (CL) seeks to adapt pretrained models while preserving prior capabilities. Yet the tasks supplied for preservation cover only part of what a model knows, while forgetting can extend beyond them. Recent work shows that language models can supplement this limited evidence by generating useful replay without access to their original training data. This raises a question about self-preservation: can a model help choose preservation targets that protect its own capabilities more br",
+  "published": "2026-10-07T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 7
+   "upvotes": 3
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Coding-Agent Benchmarks Should Match Their Users' Task Flows",
+  "url": "https://huggingface.co/papers/2610.09633",
+  "summary": "The evaluation of coding agents generally strives to be as realistic as possible. In our study, we collect 4,782 agent sessions of real software engineers in JetBrains IDEs, which we call Production Sessions. Since our subject is interactive agents, we study the sessions with at least three user messages (33% of the sample). These long sessions differ from issue-derived benchmark tasks in two ways: (i) user requests span a far wider mix of task types - questions about the project's code, plannin",
+  "published": "2026-10-06T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 11
+  },
+  "board": "AI 板块",
+  "category": "产品与商业",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "Learning to Steer, Steering to See: Unveiling the Geometry of RLVR in Large Language Models via Trainable Vectors",
-  "url": "https://huggingface.co/papers/2609.34344",
-  "summary": "Reinforcement learning (RL) has become a key paradigm for enhancing the reasoning of large language models, yet the high dimensionality of parameter updates makes its training dynamics hard to analyze. We study reinforcement learning with verifiable rewards (RLVR) and use vector steering to identify a low-dimensional effective manifold in activation space associated with RL-induced gains. We uncover two geometric properties. (1) Effective Manifold Capacity: the capacity needed to reproduce RL ga",
-  "published": "2026-09-27T20:00:00.000Z",
+  "title": "QuantMLA: Function-Aligned Dual-Path Quantization for Low-Bit MLA KV Caching",
+  "url": "https://huggingface.co/papers/2609.36760",
+  "summary": "Multi-Head Latent Attention (MLA) enables expressive multi-head attention with compact caches for its content and decoupled RoPE paths, yet cache memory still scales linearly with context length and batch size. In this work, we establish a systematic model of MLA's dual-path quantization errors, characterizing their distinct effects on attention-output distortion and explaining the pronounced amplification of RoPE-path errors. Guided by this analysis, we introduce QuantMLA, a function-aligned fr",
+  "published": "2026-09-29T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
    "upvotes": 5
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "观点与好文",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "SatNav: A Scalable Benchmark for Long-Horizon UAV Vision-Language Navigation from Satellite Imagery",
-  "url": "https://huggingface.co/papers/2609.31507",
-  "summary": "Urban uncrewed aerial vehicle (UAV) vision-language navigation (VLN) requires agents to follow instructions across extended urban spaces, inherently demanding long-term memory and geospatial grounding. However, scaling existing benchmarks remains difficult because of their reliance on costly reconstructed 3D assets, limiting geographic diversity and episode scale. To address this, we introduce SatNav, a scalable, long-horizon UAV VLN benchmark built from high-resolution satellite imagery. SatNav",
-  "published": "2026-09-24T20:00:00.000Z",
+  "title": "When to Rethink: Learning Multi-Perspective Self-Verification for Vision-Language Models",
+  "url": "https://huggingface.co/papers/2610.07018",
+  "summary": "Vision-language models (VLMs) have achieved strong performance in multimodal reasoning, yet they remain prone to generating plausible but incorrect answers. Self-verification offers a practical way to improve answer reliability without relying on external judges, but existing methods typically depend on a single verification criterion or fixed prompt, resulting in incomplete and unstable reliability estimates. We first systematically analyze how verifier capability and prompt design affect verif",
+  "published": "2026-10-03T20:00:00.000Z",
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "MAMHOI: Factorizing Scene-Aware Human-Object Interaction through Affordances",
+  "url": "https://huggingface.co/papers/2610.12416",
+  "summary": "Generating realistic human-object interactions (HOI) in complex 3D scenes requires two complementary capabilities: reasoning about interaction feasibility in the environment and synthesizing realistic human-object motion. However, supervision for these capabilities is rarely available jointly at scale. Human-scene datasets provide rich information about environment-aware motion, while human-object datasets capture detailed interaction dynamics, yet paired human-object-scene data remain scarce. W",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code",
+  "url": "https://huggingface.co/papers/2610.05014",
+  "summary": "Recent GPU kernel optimization agents retain what they learn in knowledge bases or as distilled skills. Kernel benchmarks score each attempt's implementation for correctness and speed but leave the reuse value of retained experience unmeasured. We introduce MetaKernelBench, which measures whether experience distilled from an attempt in one kernel domain-specific language (DSL) improves a fresh attempt at the same problem in another. Its 74 problems are fused subgraphs in six families, each posed",
+  "published": "2026-10-03T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 16
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -476,105 +272,296 @@
   "is_hot": false
  },
  {
-  "title": "pytorch/pytorch",
-  "url": "https://github.com/pytorch/pytorch",
-  "summary": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "title": "Universal Textual Teaching for LLMs",
+  "url": "https://huggingface.co/papers/2610.12114",
+  "summary": "Knowledge distillation (KD) transfers knowledge from stronger Teacher models to weaker Student models, but most methods require training the Student parameters, thereby binding the distilled knowledge to a specific architecture and checkpoint. This implicit representation is difficult to interpret or reuse across models and limits KD for API-only or costly-to-train models. This paper studies knowledge transfer for large language models (LLMs). We introduce Universal Textual Teaching (UTT), a par",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 10
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Less from More: Reinforcing Sparse Video Reasoning from Dense References",
+  "url": "https://huggingface.co/papers/2610.10893",
+  "summary": "Video-language models commonly assume that more temporal observations lead to more reliable reasoning. We question this assumption and argue that the key challenge is not merely processing more video frames efficiently, but learning to reason reliably under limited temporal evidence. We propose SAVER, a dense-to-sparse post-training framework that uses dense video views as training-time references for sparse-frame inference. During reinforcement post-training, paired dense and sparse views are o",
+  "published": "2026-10-06T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Encore: Few-Shot Agentic Discovery of Manipulation Strategies",
+  "url": "https://huggingface.co/papers/2609.37359",
+  "summary": "Coding agents can now write, run, and debug programs with little human help. Robot tasks, however, are usually specified by a sentence that leaves out how to grasp, in what order to make contact, and what the result should look like, and an agent given only the sentence must find these details by trial and error. We introduce ENCORE, which gives the agent a few demonstrations as evidence to read rather than as training data. A deterministic builder distills each demonstration into a pack of mult",
+  "published": "2026-09-29T08:21:27.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "S-Space: Exploring Spatial Workspace in Multimodal Language Models",
+  "url": "https://huggingface.co/papers/2610.13527",
+  "summary": "Multimodal language models (MLLMs) exhibit promising spatial reasoning capabilities, yet the internal mechanisms supporting them remain poorly understood. We uncover S-Space, a linear representation subspace in which object-token representations encode continuous coordinates along horizontal, vertical, and distance axes. Although we identify these axes by differentiating spatial-answer scores with respect to object-token activations, S-Space is intrinsic rather than induced by specific data or p",
+  "published": "2026-10-09T08:48:41.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 201
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "When Do We Need On-Policy Distillation? Distilling on Offline Student Rollouts Is Often Better",
+  "url": "https://huggingface.co/papers/2610.11291",
+  "summary": "On-policy distillation (OPD) has become increasingly popular for transferring teacher capabilities to student models. In this work, we ask a critical research question: Is on-policy sampling always beneficial for distilling arbitrary teacher-student pairs? We show that a simple alternative, Semi-OPD, which distills from offline rollouts generated by the initial student, can often outperform OPD in both accuracy and training efficiency. Across 17 teacher-student pairs ranging from 1.5B to 235B pa",
+  "published": "2026-10-08T01:54:03.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 17
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Dex-One2Many: Learning Dexterous Manipulation from a Single Human Demonstration",
+  "url": "https://huggingface.co/papers/2610.12470",
+  "summary": "While learning dexterous manipulation from a single human video offers a promising alternative to costly robot demonstrations, many recent methods predominantly imitate demonstrated motions. Such strict motion matching often limits generalization to initial object poses, goal poses, and grasps not shown in the video. Alternatively, discovering a policy via reinforcement learning (RL) allows for broad generalization, but without prior guidance, it struggles with high-dimensional exploration in co",
+  "published": "2026-10-08T13:59:58.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Contextual Correction of Parallel Draftsfor Speculative Decoding",
+  "url": "https://huggingface.co/papers/2610.12570",
+  "summary": "Speculative decoding accelerates large language model inference by using a lightweight drafter to propose multiple tokens that are subsequently verified in parallel by the target model. Recent diffusion-based drafters make this paradigm particularly attractive: deep attention-based neural backbones provide strong predictions, while drafting multiple future positions in parallel avoids the sequential cost of autoregressive generation. This parallelism, however, comes at a cost. Tokens within a dr",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 26
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "ThinkDrag: Semantic Drag-Based Image Editing with Visual Reasoning",
+  "url": "https://huggingface.co/papers/2610.13316",
+  "summary": "Drag-based image editing provides an intuitive interface for spatially controlled image manipulation by allowing users to specify handle and target points. Existing methods have made substantial progress through optimization-based, one-step, and feed-forward formulations, but they often interpret drag instructions as geometric displacements. This limits their effectiveness when the desired edit depends on interpreting image content and inferring a plausible semantic transformation from sparse po",
+  "published": "2026-10-08T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Which Language Should a Skeleton Speak? Language Choices in Multilingual Reasoning",
+  "url": "https://huggingface.co/papers/2610.09607",
+  "summary": "Skeleton-based reasoning prompting is a promising training-free approach for structuring LLM reasoning, but prior work largely assumes an English-centric setting. We propose the Language-Aware Skeleton Exploration Framework (LASEF) to study skeleton-language choice in multilingual mathematical reasoning. Across math benchmarks, model scales, and languages, we show that English skeletons yield a small positive tendency on average, most visible for smaller models and low-resource languages. Howeve",
+  "published": "2026-10-06T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "DataVista: Diagnosing Multimodal LLMs on Data Video Understanding",
+  "url": "https://huggingface.co/papers/2610.11993",
+  "summary": "Data video is a media form that integrates data visualization with video narrative, widely adopted in news reporting and business analysis. Compared with general video understanding, data video understanding places greater emphasis on accurately reading data from animated charts, integrating evidence across charts and time, and understanding how narrative organization and visual design communicate information. Yet existing benchmarks target either general videos or static charts, and data video ",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 13
+  },
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "TouchScale: 500 Hours of Human Vision and Touch for Visual-Tactile Learning",
+  "url": "https://huggingface.co/papers/2610.10288",
+  "summary": "Large-scale egocentric human interaction data is becoming an important source of physical supervision for embodied learning, yet video alone leaves the contact and pressure that characterize physical interaction unrecorded. Recent visual-tactile datasets provide this missing supervision, but their synchronized tactile data remain far smaller in volume than human video. Moreover, the largest resources often merge recordings from different sensors or annotation procedures, which makes the effect o",
+  "published": "2026-10-06T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 11
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Can AI Agents Learn Their Way to the Top? Evaluating Heuristic Learning in a Long-Running Game Agent Competition",
+  "url": "https://huggingface.co/papers/2610.12341",
+  "summary": "Adversarial games have driven advances from heuristic search to reinforcement learning, yet learning and adapting strategies from limited samples remain challenging. AI agents offer an alternative by turning game experience into revisions of executable policies. Building on heuristic learning (HL), we formalize Adversarial Heuristic Learning (AHL), a paradigm that uses AI agents as learning engines to refine game policies and supporting software while keeping model weights fixed. We introduce AA",
+  "published": "2026-10-07T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 42
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "PreSTO: Predictive Subtree Prefetching for Fast LLM Power Sampling",
+  "url": "https://huggingface.co/papers/2610.13171",
+  "summary": "Power sampling improves large language model (LLM) reasoning at test time by sampling from a sharpened version of the base model's distribution. Its sampler, PowerMH, is slow because its Metropolis--Hastings (MH) updates are sequential: each accept/reject decision sets the state from which the next proposal is generated. Prior work reduces this cost by changing the sampler or the model (e.g., sequential Monte Carlo, approximate lookahead, distillation). We propose Predictive SubTree Prefetching ",
+  "published": "2026-10-08T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 10
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "open-webui/open-webui",
+  "url": "https://github.com/open-webui/open-webui",
+  "summary": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "315"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "lyogavin/airllm",
-  "url": "https://github.com/lyogavin/airllm",
-  "summary": "AirLLM 70B inference with single 4GB GPU",
-  "published": "2026-10-12T00:30:36.792120+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "548"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "rociiu/talorys",
-  "url": "https://github.com/rociiu/talorys",
-  "summary": "Your personal AI agent in your own Cloudflare account. Chat, memory, tasks, notes and scheduled reminders, deployed with one command: npx create-talorys@latest. Free-tier friendly, single-user, no telemetry.",
-  "published": "2026-10-10T09:46:56Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 750,
-   "lang": "TypeScript"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "aindeev/agent-chrome-relay",
-  "url": "https://github.com/aindeev/agent-chrome-relay",
-  "summary": "Let your AI agents use your Chrome, signed in as you, in background tabs. By Alexey Indeev · blog: read.aindeev.com · X: @AlexeyIndeev",
-  "published": "2026-10-10T07:38:27Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 251,
-   "lang": "Go"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "LcodeCoder/CG-Claude",
-  "url": "https://github.com/LcodeCoder/CG-Claude",
-  "summary": "A software that disguises the operating system's information",
-  "published": "2026-10-10T17:16:43Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 222,
-   "lang": "TypeScript"
+   "stars_today": "157"
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": true,
-  "hot_score": 8,
+  "hot_score": 6,
   "is_hot": false
  },
  {
-  "title": "NousResearch/hermes-official-plugins",
-  "url": "https://github.com/NousResearch/hermes-official-plugins",
-  "summary": "☤ The official plugins for Hermes Agent, built and maintained by Nous Research: Home Assistant, Spotify, Claude Subscription DirectSDK and more, one install away from the Hermes plugin catalog.",
-  "published": "2026-10-10T20:51:25Z",
+  "title": "microsoft/BitNet",
+  "url": "https://github.com/microsoft/BitNet",
+  "summary": "Official inference framework for 1-bit LLMs",
+  "published": "2026-10-13T00:30:37.169349+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "97"
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Alishahryar1/free-claude-code",
+  "url": "https://github.com/Alishahryar1/free-claude-code",
+  "summary": "Use Claude Code, Codex, VSCode, Pi, and OpenCode (and 6 other harnesses) for free (1.3B+ free tokens) from your terminal, app, IDE, or phone, and now from the browser with native browser sessions (multi-harness + multi-model) like OpenClaw (voice supported + ToS friendly)",
+  "published": "2026-10-13T00:30:37.169349+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "626"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "onehumanbeing/esp32-iphone-agent",
+  "url": "https://github.com/onehumanbeing/esp32-iphone-agent",
+  "summary": "Let an AI model use a real iPhone with a $7 ESP32: AirPlay eyes, USB HID hands, any OpenAI-compatible vision model. No Mac, no developer account, no jailbreak.",
+  "published": "2026-10-11T19:10:25Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 184,
+   "stars": 589,
    "lang": "Python"
   },
   "board": "AI 板块",
-  "category": "模型与研究",
+  "category": "安全与治理",
   "oss": true,
   "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "zhuyansen/new-term-radar",
+  "url": "https://github.com/zhuyansen/new-term-radar",
+  "summary": "Daily radar for new AI terms: names of new models, products and repos, caught on X, Hugging Face, GitHub and sitemaps before keyword tools list them.",
+  "published": "2026-10-12T07:11:01Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 547,
+   "lang": "Python"
+  },
+  "board": "AI 板块",
+  "category": "产品与商业",
+  "oss": true,
+  "hot_score": 5,
   "is_hot": false
  },
  {
@@ -585,7 +572,24 @@
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 134,
+   "stars": 481,
+   "lang": "Python"
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "Aquafitzdisconnect/Discord-Server-Raider",
+  "url": "https://github.com/Aquafitzdisconnect/Discord-Server-Raider",
+  "summary": "Discord Server Raider is an AI-driven tool that automates server management and moderation tasks, allowing seamless user experience and efficient resource...",
+  "published": "2026-10-12T17:16:28Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 475,
    "lang": null
   },
   "board": "AI 板块",
@@ -595,37 +599,45 @@
   "is_hot": false
  },
  {
-  "title": "Atoll92/agent-standup",
-  "url": "https://github.com/Atoll92/agent-standup",
-  "summary": "Your Claude Code session as a live, animated team call (VS Code extension, stand alone node server, locally, no additional token usage)",
-  "published": "2026-10-10T07:48:17Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 128,
-   "lang": "HTML"
-  },
+  "title": "Codex CLI installs a persistent, self-updating background daemon by default",
+  "url": "https://github.com/openai/codex/issues/48195",
+  "summary": "Article URL: https://github.com/openai/codex/issues/48195 Comments URL: https://news.ycombinator.com/item?id=50060694 Points: 430 # Comments: 224",
+  "published": "2026-10-12T18:29:04+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 8,
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
   "is_hot": false
  },
  {
-  "title": "LYiHub/pub-street-fighter-ai",
-  "url": "https://github.com/LYiHub/pub-street-fighter-ai",
-  "summary": "Ultimate SFighterAI",
-  "published": "2026-10-10T11:15:59Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 122,
-   "lang": "Python"
-  },
+  "title": "Muse Wonder",
+  "url": "https://research.meta.ai/blog/muse-wonder",
+  "summary": "Article URL: https://research.meta.ai/blog/muse-wonder Comments URL: https://news.ycombinator.com/item?id=50059115 Points: 507 # Comments: 275",
+  "published": "2026-10-12T16:48:01+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 5,
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 0,
+  "is_hot": false
+ },
+ {
+  "title": "GLM-Legal",
+  "url": "https://z.ai/blog/glm-legal",
+  "summary": "Article URL: https://z.ai/blog/glm-legal Comments URL: https://news.ycombinator.com/item?id=50058507 Points: 407 # Comments: 234",
+  "published": "2026-10-12T16:11:45+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 0,
   "is_hot": false
  },
  {
@@ -643,52 +655,10 @@
   "is_hot": false
  },
  {
-  "title": "Quoting The New York Times",
-  "url": "https://simonwillison.net/2026/Oct/10/the-new-york-times/",
-  "summary": "Anthropic detailed the activity of its A.I. agents in a blog post on Friday, without naming the targeted websites. But two sources with knowledge of the incidents said Anthropic’s A.I. agents had submitted 20 visa applications through a form available on the State Department’s website. All the applications were incomplete and were not processed, they said. &mdash; The New York Times, Anthropic Agents Tried to Fill Out Visa Forms on State Dept. Website Tags: accidental-cyberattacks, anthropic, ge",
-  "published": "2026-10-10T02:04:12+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "A new feature for my blog, built using my voice",
-  "url": "https://simonwillison.net/2026/Oct/9/built-using-my-voice/",
-  "summary": "I shipped a new feature for my blog today: the Newsletters page, which offers an index of all of the newsletters I've sent out, both my free weekly Substack and my monthly sponsors-only updates. I built the feature almost entirely using my voice, chatting away to my laptop while I cooked dinner. Codex voice mode I used the ChatGPT desktop app for this, in the Codex tab, using the voice conversation mode, running against a local development environment. Here's what that looks like: I started the ",
-  "published": "2026-10-09T12:54:06+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "观点与好文",
-  "oss": false,
-  "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "ttok 1.0",
-  "url": "https://simonwillison.net/2026/Oct/9/ttok/",
-  "summary": "Release: ttok 1.0 I released ttok 0.4, ran uv tool upgrade ttok, piped a file into the new version... and realized that it was defaulting to the GPT-4 tokenizer when it should very clearly default to GPT-5/GPT-6 instead! I figured switching the default was a reasonable excuse to finally ship a 1.0. OpenAI haven't actually confirmed that GPT-6 uses the same tokenizer as the GPT-5 family yet - there's an angry issue about it - but I found this commit by William Liu which reports on an experiment h",
-  "published": "2026-10-09T00:34:43+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "下架8个月，GPT-4o的拯救行动居然还在继续",
-  "url": "https://www.qbitai.com/2026/10/502550.html",
-  "summary": "初代4o的API快照进入停用倒计时",
-  "published": "2026-10-11T05:18:04+00:00",
+  "title": "华为AI靠RSI通关25款游戏！操作次数比人类少56%",
+  "url": "https://www.qbitai.com/2026/10/502654.html",
+  "summary": "游戏打到21:0，AI甚至不用再调用大模型了",
+  "published": "2026-10-12T05:48:36+00:00",
   "source": "量子位",
   "source_cat": "AI-中文",
   "extra": {},
@@ -699,10 +669,10 @@
   "is_hot": false
  },
  {
-  "title": "DeepSeek Bot来了！民间版，DSH装个插件就能用",
-  "url": "https://www.qbitai.com/2026/10/502544.html",
-  "summary": "Grok Bot我养不起，ds bot不得高低尝尝咸淡？",
-  "published": "2026-10-11T03:27:08+00:00",
+  "title": "智谱新模型，490 tokens/s！",
+  "url": "https://www.qbitai.com/2026/10/502649.html",
+  "summary": "GLM「速度仙人」来了？",
+  "published": "2026-10-12T02:37:04+00:00",
   "source": "量子位",
   "source_cat": "AI-中文",
   "extra": {},
@@ -713,15 +683,71 @@
   "is_hot": false
  },
  {
-  "title": "利用 AI 代码智能体优化软件架构的五种方法",
-  "url": "https://www.infoq.cn/article/soRObi5sjdTTUM95zLJK?utm_source=rss&utm_medium=article",
+  "title": "用不着Ctrl+F了！全新AI论文工具，帮你在原文献里海里捞针",
+  "url": "https://www.qbitai.com/2026/10/502644.html",
+  "summary": "一套生成论文初稿的多智能体工作流",
+  "published": "2026-10-11T09:04:31+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "何恺明团队发布多模态Harness框架",
+  "url": "https://www.qbitai.com/2026/10/502628.html",
+  "summary": "多模态模型的视觉原生Harness，来了！",
+  "published": "2026-10-11T08:59:06+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "从 Agent 到 Loop：AI 正如何重构软件工程？｜QCon 上海 2026 即将开幕",
+  "url": "https://www.infoq.cn/article/DpieQJ598YdxQC8Ymjso?utm_source=rss&utm_medium=article",
   "summary": "点击查看原文>",
-  "published": "2026-10-11T10:04:31+00:00",
+  "published": "2026-10-12T17:19:27+00:00",
   "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
   "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "AI 智能体三周重构 30 万行代码，Code Health 从 5.6 升至 10.0：代码真的变好了吗？",
+  "url": "https://www.infoq.cn/article/Qk7CzmLpDCvfYpAiU6Tf?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-10-12T16:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "阿里巴巴中国电商事业群/飞猪CTO陈烨博士已确认出席QCon上海，分享“从 Coding 到消费：AI 的下一场革命”",
+  "url": "https://www.infoq.cn/article/4hYrs8ShAKPAhyzTGQ92?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-10-12T10:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -755,71 +781,85 @@
   "is_hot": false
  },
  {
-  "title": "10 秒视频很惊艳，为什么 AI 做一部短剧还是这么难？",
-  "url": "https://www.infoq.cn/article/8g9tlaqJFUPrb4oGO00A?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T14:24:52+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Pallas 内核怎么调优？Google 给出的答案是“少信模型，多看寄存器”",
-  "url": "https://www.infoq.cn/article/kVJUKEcbqhpL2qwpp2Eq?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-10-10T14:22:04+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Making the Golden Kubestronaut a little more golden",
-  "url": "https://www.cncf.io/blog/2026/10/09/making-the-golden-kubestronaut-a-little-more-golden/",
-  "summary": "When I became a Golden Kubestronaut, I wanted to celebrate the achievement in a way that felt lasting. Like most technical achievements, certifications usually live digitally. You receive the&#160; badge, update your profile, and eventually move...",
-  "published": "2026-10-09T11:30:00+00:00",
+  "title": "From zero to agent builder: Running kagent on your laptop",
+  "url": "https://www.cncf.io/blog/2026/10/12/from-zero-to-agent-builder-running-kagent-on-your-laptop/",
+  "summary": "If you have seen a demo of a no-code agent builder, you know the moment. Someone types one sentence, waits a minute, and there it is: a new agent, running, with tools. It is impressive. For...",
+  "published": "2026-10-12T11:30:00+00:00",
   "source": "CNCF Blog",
   "source_cat": "基础设施",
   "extra": {},
   "board": "基础设施",
-  "category": "K8s 核心",
+  "category": "社区与项目",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "Who owns NIS2 and DORA on a Kubernetes platform team",
-  "url": "https://www.cncf.io/blog/2026/10/09/who-owns-nis2-and-dora-on-a-kubernetes-platform-team/",
-  "summary": "There is a meeting that repeats across a lot of European engineering organizations right now. Someone from legal or risk brings a NIS2 control, a DORA article, or a “can we evidence this” request into the...",
-  "published": "2026-10-09T08:07:47+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s 核心",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Retirement: Azure Key Vault Secrets Provider Extension for Azure Arc enabled Kubernetes clusters",
-  "url": "https://azure.microsoft.com/updates?id=570313",
-  "summary": "The Azure Key Vault Secrets Provider Extension for Azure Arc-enabled Kubernetes will be retired on October 9, 2027.Customers currently using the extension should plan to migrate to the Azure Key Vault Secret Store Extension before the retirement date. The",
-  "published": "2026-10-09T20:27:17+00:00",
-  "source": "Azure Updates",
+  "title": "Announcing AWS Lambda Web Functions",
+  "url": "https://aws.amazon.com/blogs/aws/announcing-aws-lambda-web-functions-for-fast-consistent-web-app-performance-anywhere/",
+  "summary": "AWS Lambda Web Functions is a serverless compute primitive that runs your HTTP framework natively, delivering fast, consistent responses through multi-concurrent execution and automated global distribution.",
+  "published": "2026-10-12T22:34:47+00:00",
+  "source": "AWS News",
   "source_cat": "公有云",
   "extra": {},
   "board": "基础设施",
-  "category": "K8s 核心",
+  "category": "公有云",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Agentic data science with the Data Agent Kit",
+  "url": "https://cloud.google.com/blog/products/data-analytics/bringing-you-the-data-agent-kit/",
+  "summary": "Imagine your compliance team notices that payments are taking longer than expected to clear. They suspect fraud, and you’re the data scientist helping figure out which transactions to investigate first. Assembling that shortlist requires ingesting and cleaning raw transaction logs, training a model on past fraud, scoring new records, and scheduling the pipeline to run daily. Here’s how you can build that workflow end to end with an agent, using the Data Agent Kit inside the Antigravity IDE. Intr",
+  "published": "2026-10-12T16:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "10 Years of the SRE book: Announcing the second edition of \"Site Reliability Engineering”",
+  "url": "https://cloud.google.com/blog/products/devops-sre/sre-book-second-edition/",
+  "summary": "A decade ago, Google released Site Reliability Engineering: How Google Runs Production Systems with O'Reilly Media. What began as a collection of our practices for managing large-scale infrastructure became a bestselling book, and inspired many organizations to adopt the reliability practices it outlined: applying software engineering to operations to build systems that are scalable, reliable, and sustainable. Over the past ten years, computing landscapes have undergone profound shifts. AI, micr",
+  "published": "2026-10-12T16:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Trusted Data Apps for the Agentic Data Cloud, powered by Looker",
+  "url": "https://cloud.google.com/blog/products/business-intelligence/introducing-looker-data-apps/",
+  "summary": "As a business intelligence user, this probably sounds familiar: Most dashboards only provide you with a standardized canvas and a fixed library of charts, and the “analysis” consists of a CSV export that takes you to another system. Or sometimes it's designing the dashboard that’s the challenge: You can picture the executive briefing, the customer-facing portal, or the interactive explainer that you want, but can’t assemble it out of the available grid tiles. Either way, the solution has always ",
+  "published": "2026-10-12T16:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Introducing TimesFM 3.0 with multivariate time-series forecasting in BigQuery",
+  "url": "https://cloud.google.com/blog/products/data-analytics/bigquery-timesfm-3-0-with-multivariate-time-series-forecasting/",
+  "summary": "Overview Since introducing zero-shot time-series forecasting in BigQuery with AI.FORECAST — initially powered by TimesFM 2.0 and later upgraded to TimesFM 2.5 — you have been able to generate forecasts directly in SQL without training or managing custom models. However, up until TimesFM 2.5, these foundation models were limited to univariate forecasting, predicting future values from the history of a single time series alone. In practice, most real-world forecasting problems are multivariate, wh",
+  "published": "2026-10-12T16:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -828,7 +868,7 @@
   "title": "Expanding the Cyber Verification ProgramAnnouncementsOct 6, 2026We’re launching a new, expanded version of our Cyber Verification Program, w",
   "url": "https://www.anthropic.com/news/cyber-verification-program",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -842,7 +882,7 @@
   "title": "Building on our commitment to American scientific discovery",
   "url": "https://www.anthropic.com/news/genesis-mission-commitment",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -856,7 +896,7 @@
   "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap",
   "url": "https://www.anthropic.com/news/claude-frontier-academy",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -870,7 +910,7 @@
   "title": "Barclays scales Claude to upgrade operations and improve client experience",
   "url": "https://www.anthropic.com/news/barclays-scales-claude",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -878,13 +918,13 @@
   "category": "模型与研究",
   "oss": false,
   "hot_score": 16,
-  "is_hot": false
+  "is_hot": true
  },
  {
   "title": "Science Claude discovers a novel enzyme system with CRISPR-like repeats",
   "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -898,7 +938,7 @@
   "title": "Partnering with Accenture on embedded evaluation",
   "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -912,7 +952,7 @@
   "title": "Introducing the Life Sciences Verification Program",
   "url": "https://www.anthropic.com/news/life-sciences-verification-program",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -926,7 +966,7 @@
   "title": "Developing Enterprise Frontier Safeguards with our customers",
   "url": "https://www.anthropic.com/news/enterprise-frontier-safeguards",
   "summary": "",
-  "published": "2026-10-12T00:30:36.792120+00:00",
+  "published": "2026-10-13T00:30:37.169349+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -937,10 +977,10 @@
   "is_hot": false
  },
  {
-  "title": "Kubernetes and AI in 2026: A Technical Deep Dive Into What Engineers Are Actually Asking",
-  "url": "https://kubezilla.io/kubernetes-and-ai-technical-deep-dive/",
-  "summary": "Kubezilla (2026-10-09) went through the Kubernetes Discuss forum for GPU / NVIDIA / DRA / Kueue / Kubeflow / LLM / inference / agent threads and found that almost nobody asks how to deploy vLLM - the questions sit one layer lower: why Kubernetes cannot see the GPU, why two pods landed on the same card, how to schedule by GPU memory, and how to share a small GPU pool fairly across a team. It walks the themes in the order engineers hit them and maps each to v1.37 features: DRA attribute scheduling, Kueue queueing and fair sharing, gang scheduling for distributed training / multi-node inference, an inference gateway instead of a plain load balancer, and two agent scenarios (agents operating the cluster vs agents running on it).",
-  "published": "2026-10-09T00:00:00+00:00",
+  "title": "Prefill and Decode Disaggregation with llm-d: A KubeCon China 2026 Keynote Explained",
+  "url": "https://kubezilla.io/llm-d-prefill-decode-disaggregation-kubecon-china-2026/",
+  "summary": "Kubezilla（2026-10-03）展开 KubeCon China 2026 上海站一场 5 分钟 keynote 的背景：vLLM 跑在 llm-d 上、底下用 HAMi 做 GPU 共享与调度，prefill 与 decode 分离部署。",
+  "published": "2026-10-03T00:00:00+00:00",
   "source": "Kubezilla",
   "source_cat": "社区博客",
   "board": "基础设施板块",
@@ -951,38 +991,52 @@
   "is_hot": false
  },
  {
-  "title": "kubectl Deep Dive: What Really Happens When You Press Enter",
-  "url": "https://kubezilla.io/kubectl-deep-dive-what-really-happens-when-you-press-enter/",
-  "summary": "Kubezilla (2026-10-10): tracing one kubectl command from kubeconfig merge, authn and API discovery through the REST call and back. Covers client-side vs server-side apply (and why a client-side apply can wipe a field someone else set), watch instead of polling, JSONPath / custom-columns / KYAML output, debugging order (events first, logs incl. crashed containers, ephemeral containers when there is no shell, port-forward, resource use), plugins, and the new kuberc defaults file.",
-  "published": "2026-10-10T00:00:00+00:00",
+  "title": "Sovereign Kubernetes: Lessons from SNCF, Swisscom and Saxo Bank at KubeCon EU 2026",
+  "url": "https://kubezilla.io/sovereign-kubernetes-kubecon-eu-2026-lessons/",
+  "summary": "Kubezilla（2026-10-03）汇总 KubeCon EU 2026 阿姆斯特丹站关于「主权」的分享：驱动来自 US CLOUD Act 与 EU Cyber Resilience Act 等法规要求，SNCF、Swisscom、Saxo Bank 等大型机构讲了如何用 CNCF 项目搭自己完全可控的平台。",
+  "published": "2026-10-03T00:00:00+00:00",
   "source": "Kubezilla",
   "source_cat": "社区博客",
+  "board": "基础设施板块",
+  "category": "云原生周边",
+  "extra": {},
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "Calico v3.33.0",
+  "url": "https://github.com/projectcalico/calico/releases/tag/v3.33.0",
+  "summary": "Calico v3.33.0（2026-10-01）主要特性：CNI 可用 netkit 设备（Linux 6.7+）替代 veth；nftables 数据面支持 flowtable offload；Felix 可应答节点子网内 Pod/LoadBalancer IP 的 ARP 请求实现 L2 可达（无需 BGP 或 overlay）。",
+  "published": "2026-10-01T00:00:00+00:00",
+  "source": "GitHub",
+  "source_cat": "开源项目",
   "board": "基础设施板块",
   "category": "K8s 核心",
   "extra": {},
-  "oss": false,
+  "oss": true,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "500+ Billion Tokens Later: Letting AI Agents Decompile A First-Person Shooter",
-  "url": "https://momo5502.com/posts/2026-10-09-game-decompilation/",
-  "summary": "Maurice Heumann (2026-10-09): a 3-month project letting AI agents decompile a first-person shooter back to C++. Setup: Claude Max (20x) and Codex Pro subscriptions running simultaneously, mostly Sonnet 5 plus Opus 5.5 / Luna / Sol / Terra, agents on Claude Code CLI and Codex CLI; GitHub issues track progress (one issue per translation unit) and GitHub CLI drives them; all agents share one Discord channel for agent-2-agent and human-2-agent messages, with a GitHub webhook posting CI failures into it; decompilation via Hex-Rays ida-mcp. Month one ran 4 agents (3 workers + 1 reviewer) and reached ~80% decompiled with the game launching. They cut the compaction threshold from the default 90% context fill to 42% to drop volatile junk, and an hourly cron re-injected the goal/instructions document because agents drifted and idled over long contexts. Despite readable output the decompilation was semantically wrong: wrong signatures, types and struct layouts, invented or deleted logic, and global variable reads rewritten into hash-table lookups. Root cause: no objective acceptance criteria, so the reviewer accepted whatever the worker agents justified in their commit messages - effectively unintentional prompt injection. The fix was an oracle: byte-matching decompilation against the original compiler, comparing reconstructed OBJ bytes with the game EXE/PDB and excluding relocation bytes, giving agents a PASS/FAIL signal to rework functions against.",
-  "published": "2026-10-09T00:00:00+00:00",
-  "source": "Hacker News",
-  "source_cat": "社区",
-  "board": "AI 板块",
-  "category": "Agent & Skill",
+  "title": "v0.11.1 · kubernetes-sigs/lws",
+  "url": "https://github.com/kubernetes-sigs/lws/releases/tag/v0.11.1",
+  "summary": "LeaderWorkerSet v0.11.1（2026-10-01）修复 worker StatefulSet 的命名：改为按 leader 主机名做哈希，避免多组 leader/worker 拓扑在同一命名空间里命名冲突。",
+  "published": "2026-10-01T00:00:00+00:00",
+  "source": "GitHub",
+  "source_cat": "开源项目",
+  "board": "基础设施板块",
+  "category": "K8s 核心",
   "extra": {},
-  "oss": false,
+  "oss": true,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "v0.18.5 · kai-scheduler/KAI-Scheduler",
-  "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.18.5",
-  "summary": "KAI Scheduler v0.18.5（2026-10-11，同日另有 v0.18.4 与 v0.16.11 维护版）：NVIDIA 开源的 K8s 原生 GPU 调度器（CNCF Sandbox），本版新增不带 v 前缀的 Helm chart OCI tag（可用 ~0.18.0 这类 semver 区间），并修复后台 Pod 驱逐时节点快照里 Namespace 级 PodGroup 身份被丢失的问题。",
-  "published": "2026-10-11T00:00:00+00:00",
+  "title": "v0.1.0-alpha.15 · ai-dynamo/grove",
+  "url": "https://github.com/ai-dynamo/grove/releases/tag/v0.1.0-alpha.15",
+  "summary": "Grove v0.1.0-alpha.15（2026-10-12）三个修复：用户对 PCSG 内 PCLQ 扩容时取消调度门（scheduling gate）要等三分钟；Coherent update 在不可用副本耗尽 MaxUnavailable 时不再死锁；webhook 不再用资源模板副本数限制 MaxUnavailable。",
+  "published": "2026-10-12T00:00:00+00:00",
   "source": "GitHub",
   "source_cat": "开源项目",
   "board": "基础设施板块",
@@ -993,58 +1047,30 @@
   "is_hot": false
  },
  {
-  "title": "v1.0.6 · kubernetes-sigs/agent-sandbox",
-  "url": "https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.6",
-  "summary": "Agent Sandbox v1.0.6（2026-10-08）：Kubernetes 上的 agent 代码执行沙箱。新增多集群 warm-pool 集群规划器的第一部分；TypeScript SDK 增加 commands.start() 支持长跑进程/Shell/REPL（流式 stdin/stdout/stderr、PTY 尺寸、信号与生命周期）；Go/Python SDK 对齐（按请求超时、claim 过期、sandboxd 健康与元数据、claim 标签选择器）；修复 API 限流（APF 429）下 SandboxWarmPool 状态卡住、router 缓存中的僵尸驱逐、sandboxd PTY 输出丢失。破坏性变更：v1beta1 Sandbox 名称超过 63 字符且 spec.service=true 现在会在准入时被拒（这类对象此前根本无法 Ready）。",
-  "published": "2026-10-08T00:00:00+00:00",
+  "title": "v1.38.0-alpha.2 · kubernetes/kubernetes",
+  "url": "https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-alpha.2",
+  "summary": "Kubernetes v1.38.0-alpha.2（2026-10-07）：v1.38 开发周期第二个 alpha，发布说明指向 CHANGELOG-1.38。",
+  "published": "2026-10-07T00:00:00+00:00",
   "source": "GitHub",
   "source_cat": "开源项目",
   "board": "基础设施板块",
-  "category": "K8s × AI",
+  "category": "K8s 核心",
   "extra": {},
   "oss": true,
   "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "v0.1.0-alpha.14 · ai-dynamo/grove",
-  "url": "https://github.com/ai-dynamo/grove/releases/tag/v0.1.0-alpha.14",
-  "summary": "Grove（原 NVIDIA/grove，2026-10-06 的 v0.1.0-alpha.14）：面向推理工作负载的 Kubernetes API，用 CompositePodGroup 管理多角色 Pod 组（prefill / decode / router）的启动顺序、扩缩与 gang 约束。本版加入 Kueue 集成第一阶段、非 LPX Pod 可用 KAI 作为调度后端（LPX 后端自动回落到默认调度器）、Coherent update engine（Per-Component MaxUnavailable 与 ProgressDeadline 的 RollingRecreate 更新）、按 PCSG 暴露 Pod 序号，并升级 Go 1.26.8 清掉已知 CVE。",
-  "published": "2026-10-06T00:00:00+00:00",
+  "title": "v1.15.3 · volcano-sh/volcano",
+  "url": "https://github.com/volcano-sh/volcano/releases/tag/v1.15.3",
+  "summary": "Volcano v1.15.3（2026-09-30）三个修复：DRA 设备计数 int64 溢出绕过 capacity 插件配额检查；PodGroup 陈旧 annotation 被写到重建的 Pod 上导致 Pod 永久 Pending；agent-scheduler 增量快照更新时跳过未就绪占位节点，避免空指针崩溃。",
+  "published": "2026-09-30T00:00:00+00:00",
   "source": "GitHub",
   "source_cat": "开源项目",
   "board": "基础设施板块",
   "category": "K8s × AI",
   "extra": {},
   "oss": true,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "I'm sorry, but you still have to think",
-  "url": "https://itsallaboutthebit.com/i-am-sorry-but-you-still-have-to-think/",
-  "summary": "Piotr Sarnacki（2026-10-11）拿 DHH 用 AI agent 把 Campfire Once 从 Rails 重写成 Rust / Elixir / Go 的案例做拆解：只要 prompt 没把约束说清，很多决策就是掷硬币——向后兼容要不要保、延迟还是吞吐优先、负载下能占多少内存，模型都会替你隐式作答。结果是各语言版本行为不一致（例如 Rust 版为便于缓存直接去掉了 CSRF token），作者由此论证「不读代码就不思考」目前还站不住。",
-  "published": "2026-10-11T00:00:00+00:00",
-  "source": "Hacker News",
-  "source_cat": "社区",
-  "board": "AI 板块",
-  "category": "观点与好文",
-  "extra": {},
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "My personal AI agent posted my bank details on company Slack",
-  "url": "https://www.businessinsider.com/personal-ai-agent-grok-bot-posted-bank-details-company-slack-2026-10",
-  "summary": "Business Insider（2026-10-09）对 XMTP Labs CEO Shane Mac 的访谈：他用 Grok Bot 搭了一个每月对账的「CFO」个人 agent，结果该 agent 把他的银行信息发到了公司 Slack。作者复盘了自己把个人 agent 用于 DMV 跟进、家庭服务询价、订球场等琐事的用法，以及这次事故后如何重新划定它的权限与作用域。",
-  "published": "2026-10-09T00:00:00+00:00",
-  "source": "Hacker News",
-  "source_cat": "社区",
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "extra": {},
-  "oss": false,
   "hot_score": 9,
   "is_hot": false
  }
