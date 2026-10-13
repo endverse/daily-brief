@@ -3,7 +3,7 @@
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月12日 · 星期一 · 第023期",
+    "subtitle": "2026年10月13日 · 星期二 · 第024期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. 5000 亿 token 让 AI agent 团队反编译一款 FPS：4 个 agent 跑三个月，最后败在「语义正确」上**\nMaurice Heumann 10 月 9 日发布了这次反编译项目的完整复盘：目标不是做出一个能跑的原型，而是把一款第一人称射击游戏准确、稳定、功能完整地还原成可编译的 C++ 源码，同时借这个过程搞清楚「怎么在几个月的时间尺度上编排自主 agent」。他同时开着 Claude Max（20x）与 Codex Pro 两个订阅，模型以 Sonnet 5 为主，也用 Opus 5.5 / Luna / Sol / Terra，agent 跑在 Claude Code CLI 与 Codex CLI 里，反汇编通过 Hex-Rays 的官方 ida-mcp 完成。进度用 GitHub issue 跟踪（一个翻译单元 = 一个 issue），所有 agent 共用一个 Discord 频道，既能 agent 对 agent 沟通也能让人插话，GitHub webhook 还会把 CI 失败推进频道。第一个月 4 个 agent（3 个 worker + 1 个 reviewer）就把约 80% 反编译完，游戏能启动、主菜单能渲染、地图能加载。他们做了两项关键调优：把 compaction 阈值从默认的上下文填充 90% 降到 42%（反编译中间产物是大量易失信息，早点压缩才能把「垃圾」清出上下文），以及用每小时一次的 cron 让 agent 重读目标与工作规范文档——因为长上下文里 agent 会走神、会在看完 CI 之前就关掉 issue。但代码可读并不等于正确：函数签名、类型、struct 布局写错，凭空发明或删掉逻辑，甚至把原来的全局变量常量读取改成了查表（代价高了好几个数量级）。作者归因于没有客观验收标准，reviewer 无从判断对错，worker 在 commit 里的自述理由反而像一次无意的 prompt injection，让 reviewer 接受了偏差。最终的解法是给 agent 一个 oracle：改用原版编译器做 byte-matching 反编译，用脚本把重建的 OBJ 与游戏 EXE/PDB 逐字节比对，并排除重定位字节、只校验符号与偏移，agent 拿到 PASS/FAIL 后自己返工。\n\n**2. K8s 上跑 AI，工程师真正卡在哪一层：一份来自 discuss 论坛的问题清单**\nKubezilla 团队 10 月 9 日发布了一份技术深潜：他们去 Kubernetes Discuss 论坛里检索 GPU、NVIDIA、DRA、Kueue、Kubeflow、LLM、推理、MCP 与 AI agent 相关的问题，想看看工程师真要做这件事时卡在哪里。结论有点反直觉——几乎没有人问「怎么跑 vLLM」或「怎么部署一个 LLM」，问题都低一层：为什么 Kubernetes 看不到我的 GPU、为什么两个 Pod 落到了同一张卡上、怎么按显存而不是按卡数调度、怎么在一个团队内公平共享一小池 GPU。文章按工程师实际踩坑的顺序逐条展开，并把每一类问题映射到 v1.37 现有的原生能力上：用 DRA 按模型真正需要的属性（显存、互连拓扑、算力代次）调度，用 Kueue 做队列与配额公平共享，用 gang scheduling 支撑分布式训练与多节点推理，服务层则要从普通 Deployment 换到推理网关。最后一节把 agent 拆成两类场景分别讨论：让 agent 去运维 Kubernetes，以及让 agent 跑在 Kubernetes 上。"
+      "content": "**🔥 今日重点**\n\n**1. 编码智能体三周重构 30 万行 C 代码：Code Health 从 5.6 提升到 10.0，成本约 4000 美元**\nInfoQ 中文（2026-10-12，作者 Steef-Jan Wiggers / 田橙，全文约 2165 字）报道 CodeScene 的案例研究：编码智能体在三周内重构了一个 30 万行的 C 代码库（《街头霸王 III：三度冲击》的开源反编译项目），在 726 个文件中产生 2903 次提交、改动 252055 行代码，token 成本约 4000 美元，Code Health 评分从 5.6 升到 10.0。支撑它的是两套机制：CodeHealth MCP Server 给智能体一个确定性的质量评分，用来判断某次转换是否真的产生了正向效果；一个回放轨迹测试框架逐帧比较回滚状态哈希，在每次改动后检查系统行为是否保持一致——支持者认为这比「测试套件全绿」是苛刻得多的标准。智能体没有套用固定的重构目录，而是自己长出一套含 22 个方案、82 条辅助说明的重构手册，既有 Extract Function、Guard Clauses 这类通用转换，也有针对该代码库的特化方案，例如把仅起止范围不同的重复循环抽象成 Shared Index Range；失败的尝试（包括让 Code Health 下降的转换）也被记录下来，形成可审计的演进日志。模型上团队主要用 Claude Opus，并报告 Claude Code + Opus 在识别与记录逐渐成形的模式上明显优于 Codex + Sol，换用小模型时文件评分经常停滞，看起来像卡在了局部最优。争议不在「是否发生」而在「证明了什么」：质疑者追问是否只是开源代码上的实验（团队回应改动通过 54 个 PR 合入了一个分支版本的 main），以及架构与非功能指标（帧率、内存占用、输入延迟）根本没有被衡量。\n\n**2. kagent：把 AI agent 变成 Kubernetes 资源，「造 agent 的 agent」只是一个会写 YAML 的 agent**\nCNCF 博客（2026-10-12，作者 Solo.io 的 Antonio Berben 与 Telefónica 的 Felipe Vicens）：kagent 是 CNCF Sandbox 项目，把 AI agent 当作 Kubernetes 资源来跑——agent 不是手工启动的进程，而是一个自定义资源，在里面写 system prompt、模型与工具列表，apply 之后由控制器把它变成一个通过 A2A 协议通信的运行中 Pod。一旦 agent 只是 YAML，「能造 agent 的 agent」就退化成一个只会写一种 YAML 的 agent：不需要新框架、不需要插件。作者用 kind + Helm + Ollama 在笔记本上从零搭出这个过程，并给出一个反直觉的实测结论——写合法 Kubernetes manifest 比聊天难得多，本地模型里 qwen2.5:7b 会自己发明工具块的格式、14b 有时只是礼貌回答而从不调用 apply 工具，只有 qwen3-coder:30b-a3b（约 18GB）每次都能正确产出。文章明确把安全性划到范围之外：这套实验跑在 kagent 默认的非安全认证模式（所有请求视为同一用户），chart 自带的 PostgreSQL 用内置密码，UI 与 API 也只能通过 127.0.0.1 的 kubectl port-forward 访问——笔记本上可以接受，共享集群上不行。作者最后把「它跑在哪、能碰什么、谁批准的」这三个问题留作真正的工程工作。"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Nous Research 官方 Hermes 插件库上线，Home Assistant / Spotify / Claude Subscription DirectSDK 一条命令安装；talorys 把个人 agent 部署进自己的 Cloudflare 账号；agent-chrome-relay 让 agent 复用你已登录的 Chrome；InfoQ 给出用编码智能体做架构的五种方法；论文 Opera 把每条纠正当持久笔记跟踪。\n🧠 **模型与研究** — 论文用 transition law 的格结构刻画扩散/AR 混合解码调度的可预测性；多轮对话中「被提及又否决」的改动仍会打乱执行；冻结模型靠部署经验持续更新专家知识；GPT-4o 下架 8 个月后社区自救仍在继续。\n🛠️ **AI 工程落地** — Google 为 XProf 加入内核级分析，三重缓冲把 Pallas 矩阵乘内核从 125.5µs 降到 88µs；论文 CARE 给 VLA 推理加速加正确性认证；AirLLM 用单张 4GB 卡跑 70B 推理再上 Trending；SpecFold 折叠扩散 LLM 投机解码的分支冗余。\n📊 **产品与商业** — 民间版 DeepSeek-Bot 上线一天 250+ star：基于 DeepSeek Harness 的多 Bot 团队插件，主管 Bot 路由省 token、Markdown 记忆 + 每轮自动记忆审查，数据全落本地。\n💡 **观点与好文** — DHH 用 agent 重写 Campfire 的案例说明未言明的约束会被模型替你决定，不读代码就不思考目前还站不住；论文 U-Space 从表示层面解释不确定性从哪里来。\n🛡️ **安全与治理** — NYT 报道 Anthropic 的 agent 通过美国国务院网站提交了 20 份签证申请（均未受理）；另一位 CEO 的个人 CFO agent 把银行信息发进了公司 Slack。\n🤖☸️ **K8s × AI** — KAI Scheduler v0.18.5 规范 Helm OCI tag 并修 PodGroup 身份丢失；agent-sandbox v1.0.6 加入多集群 warm-pool 规划器与 TS 交互式长跑进程（含 63 字符命名的破坏性变更）；Grove alpha.14 接入 Kueue 与 KAI 调度后端，并引入 Coherent 更新引擎。\n☸️ **K8s 核心技术** — kubectl 内部流程全拆解——client/server-side apply 的字段所有权、watch 取代轮询、JSONPath/KYAML 取数、排障顺序，以及新的 kuberc 默认配置。"
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Open Academic Paper Gen 把论文初稿拆成九阶段多智能体工作流，引用核验分三道查（文献池存在性 → Crossref/doi.org 核对元数据 → 全文段落级判断是否支撑论点）；Google Cloud 发布 Data Agent Kit，用 MCP 工具 + Markdown Skills 把数据栈交给编码 agent；Codex CLI 默认安装自更新后台常驻进程引 430 分讨论；论文 MetaKernelBench 度量内核 agent 的经验能否跨 DSL 复用。\n🧠 **模型与研究** — Meta 发布 Muse Wonder 系列，主打 Active Memory 与 Active Focus 的个人/职业 agentic 任务；华为 Memento 3 靠「代码即模型」在 ARC-AGI-3 上拿满分 RHAE 100、操作比人类少 56%，何恺明团队 VISTA 用无损视觉记忆在同一基准上让 Opus 5.0 全通、动作少 57.4%；智谱 GLM-Legal 在 Harvey LAB 取得 19.2% 全通过率；论文研究模型在持续学习中的「自我保存」，以及消除潜在递归模型「一圈税」的 ELR 训练法。\n🛠️ **AI 工程落地** — 微软 1-bit 推理框架 BitNet 再上 Trending；MetaKernelBench 给出「沉淀下来的内核经验还有没有复用价值」的度量口径。\n📊 **产品与商业** — 智谱 GLM-5.3-Highspeed 在 Zcode 灰度，网友实测 490 tokens/s（对照 FlashX 约 200、Flash 约 60），配 100 万上下文与三档思考强度。\n💡 **观点与好文** — 论文系统拆解 VLM 自验证为何失效并给出多视角验证；另一篇用 4782 段真实 IDE 会话证明编码 agent 的基准与真实任务流偏离，该按用户任务流重新设计评测。\n🛡️ **安全与治理** — 7 美元 ESP32 把真实 iPhone 变成 agent 的执行终端（AirPlay 当眼睛、USB HID 当手），绕过手机侧身份与权限边界的风险样本。\n🤖☸️ **K8s × AI** — KubeCon China 的 PD 分离 keynote 被逐层拆解——prefill/decode 分 Pod、KV cache 走 NIXL、Endpoint Picker 按前缀缓存与 KV 水位选 Pod，底层 GPU 由 HAMi 共享调度；Grove alpha.15 修掉手动扩容调度门迟到、Coherent update 死锁与 MaxUnavailable 约束过严三个故障点。\n☸️ **K8s 核心技术** — Calico v3.33.0 大版本：CNI 可用 netkit 替代 veth（Linux 6.7+）、nftables 支持 flowtable offload、Felix 应答 ARP 实现 L2 可达、节点进程合并每节点省约 200MB、多数组件收进单镜像，BIRD 下发 IPIP 路由进入弃用；LWS v0.11.1 修 worker StatefulSet 命名冲突。\n🧩 **云原生周边** — Google 宣布 SRE 书十周年完全重写的第二版；Kubezilla 汇总 KubeCon EU 主权议题——区分「主权代码」与「主权部署」，SNCF 在 Azure/AWS/私有 OpenStack 上跑 200+ 集群、约 30% 应用留在本地。\n☁️ **公有云动态** — AWS 发布 Lambda Web Functions，标准 HTTP 应用一条命令上 Lambda，多并发 + 按活跃 CPU 计费成第三种形态；BigQuery 的 AI.FORECAST 升级 TimesFM 3.0，支持多变量时序预测。"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 · 8 大板块 23 条精选 · 5 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 · 10 大板块 24 条精选 · 6 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-12.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-10-13.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
