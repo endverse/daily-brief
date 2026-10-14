@@ -1,0 +1,411 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build issue 025 briefing.json. Gap-fill items are appended to processed.json
+first so verify_links.py accepts their URLs (they are one-hand sources pulled in
+funnel step 3)."""
+import json, os, sys
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+PROC = os.path.join(BASE, "processed.json")
+
+# ---------------------------------------------------------------- gap-fill
+GAP = [
+    dict(title="Don't Let Your AI Agent Run kubectl: Sandboxing LLM-Generated Code on Kubernetes",
+         url="https://kubezilla.io/dont-let-your-ai-agent-run-kubectl-sandboxing-llm-generated-code-on-kubernetes/",
+         source="Kubezilla", board="基础设施", category="K8s × AI", oss=False,
+         summary="Kubezilla 2026-10-13 用纯 K8s 内置能力搭出一套 agent 代码沙箱，全部配置在真实 v1.34.1 API server 上验证过。"),
+    dict(title="k8s-dra-driver-gpu v0.5.1", url="https://github.com/NVIDIA/k8s-dra-driver-gpu/releases/tag/v0.5.1",
+         source="GitHub", board="基础设施", category="K8s × AI", oss=True,
+         summary="DRA Driver for NVIDIA GPUs 补丁版，修 ComputeDomain 与 kubelet 插件的可靠性问题。"),
+    dict(title="Dynamo v1.5.1", url="https://github.com/ai-dynamo/dynamo/releases/tag/v1.5.1",
+         source="GitHub", board="基础设施", category="K8s × AI", oss=True,
+         summary="NVIDIA Dynamo 推理服务框架补丁版，修路由过载恢复、K8s 上 RL worker 发现失败与多模态输入边界。"),
+    dict(title="SGLang v0.5.21", url="https://github.com/sgl-project/sglang/releases/tag/v0.5.21",
+         source="GitHub", board="基础设施", category="K8s × AI", oss=True,
+         summary="SGLang v0.5.21：779 个 PR，PD 实例可不重启在 prefill/decode 间切换，前缀缓存默认跑在 Rust 核上。"),
+    dict(title="containerd 2.4.2 / 2.3.7 / 2.2.10 / 2.0.14", url="https://github.com/containerd/containerd/releases/tag/v2.4.2",
+         source="GitHub", board="基础设施", category="K8s 核心技术", oss=True,
+         summary="containerd 同一日发布四条维护线补丁，均含安全修复与镜像拉取内存占用问题的修复。"),
+    dict(title="buildkit v0.34.0", url="https://github.com/moby/buildkit/releases/tag/v0.34.0",
+         source="GitHub", board="基础设施", category="云原生周边", oss=True,
+         summary="BuildKit v0.34.0：内置 Dockerfile 前端升到 v1.28.0，BoltDB 支持压实，本地/tar exporter 支持 src 子目录。"),
+    dict(title="Envoy v1.40.0", url="https://github.com/envoyproxy/envoy/releases/tag/v1.40.0",
+         source="GitHub", board="基础设施", category="云原生周边", oss=True,
+         summary="Envoy 1.40.0：HTTP/3 与 QUIC 转稳定、默认启用后量子混合密钥交换，AI Protocol Manager 增加 LLM token 用量提取。"),
+    dict(title="Introducing Google Cloud's U4 compute: Enabling ultra-low latency trading",
+         url="https://cloud.google.com/blog/topics/financial-services/ultra-low-latency-solution-with-u4-enables-high-velocity-trading/",
+         source="Google Cloud", board="基础设施", category="公有云动态", oss=False,
+         summary="Google Cloud 2026-10-07 宣布超低延迟（ULL）方案与 U4 机器族 GA，面向资本市场高频交易。"),
+]
+
+proc = json.load(open(PROC, encoding="utf-8"))
+have = {it["url"] for it in proc}
+added = 0
+for g in GAP:
+    if g["url"] not in have:
+        proc.append(dict(g, published="", source_cat="人工补搜", extra={}, hot_score=8, is_hot=False))
+        have.add(g["url"]); added += 1
+json.dump(proc, open(PROC, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(f"processed.json: +{added} gap-fill items, total {len(proc)}")
+
+URL2TITLE = {it["url"]: it["title"] for it in proc}
+
+
+def U(url):
+    """Return the EXACT url as stored in processed.json (never hand-written).
+    Matches on the part before '?' so InfoQ's utm params are preserved."""
+    if url in URL2TITLE:
+        return url
+    base = url.split("?")[0]
+    for u in URL2TITLE:
+        if u.split("?")[0] == base:
+            return u
+    raise AssertionError(f"URL not in processed.json: {url}")
+
+
+def D(a, b, c):
+    return [{"key": "能做什么", "value": a},
+            {"key": "解决什么痛点", "value": b},
+            {"key": "值不值得", "value": c}]
+
+
+# ---------------------------------------------------------------- highlights
+highlights = [
+ {"title": "Anthropic 自研源码控制与评审系统：日均合并从 2500 涨到 30000 次，Git 撑不住了",
+  "url": U("https://simonwillison.net/2026/Oct/13/redesigning-source-control-at-anthropic/"),
+  "summary": "Simon Willison 2026-10-13 转述 Anthropic 的工程博文：2026 年 5 月 Anthropic 日均合并约 2500 次代码变更，到 9 月已超过 30000 次/天，四个月增长约 12 倍，这直接超出了 Git 的可承受范围。约束来自几个具体数字——主线历史已接近 100 GB、压缩后的工作副本超过 25 GB，CI 每天要执行约 2500 万次 checkout，还没算开发者环境、agent 沙箱与研究任务；用 git 朴素拉取意味着每天超过 600 PB 的传输量。Anthropic 因此自研了两套系统：新版本控制系统叫 Scion（Simon 认为它像是集中式版本控制的一次再发明，路线接近 Subversion），代码评审系统叫 Antique。迁移由 7 人团队在 5 个月内完成。Simon 还顺带提到 Anthropic 大量使用对抗式评审（让模型互相挑错），效果很强但会「近视」，需要资深工程师把 Claude 从为假想风险做的过度工程里拉回来。",
+  "note": "🔎 新闻要点：来源为 Simon Willison 2026-10-13 的 link post，原文是 Anthropic 的工程博文。关键数字：2026-05 日均合并约 2500 次变更 → 2026-09 超过 30000 次/天；主线历史近 100 GB、压缩工作副本 > 25 GB；CI 每日约 2500 万次 checkout，朴素 Git 拉取对应 > 600 PB/天的流量。产出：自研版本控制系统 Scion + 评审系统 Antique，由 7 人团队 5 个月完成从 Git 的迁移。文中另提对抗式评审的副作用（为假想风险过度工程化，需人纠正）。",
+  "tag": "Agent 实践 / 工程基础设施",
+  "source": "Simon Willison",
+  "detail": D("把「agent 把提交量拉高一个数量级之后，版本控制该怎么活」讲成了具体约束：主线历史近 100 GB、压缩工作副本 > 25 GB、CI 每天 2500 万次 checkout 对应 > 600 PB/day 的 Git 流量，于是重建了版本控制（Scion）与评审（Antique），7 人 5 个月完成迁移。",
+           "现有 Git 与 CI 模型假设「人写代码」的提交频率与 checkout 次数；当模型批量产码，clone/fetch 与评审队列会先于集群资源成为瓶颈，而这类瓶颈不体现在算力账单上。",
+           "这是 agent 规模化后「非 AI 基础设施被反噬」的第一个公开大案例，值得你对齐自己团队仓库的日提交量与 CI checkout 量，先判断离这条曲线还有多远；注意它没有公开 Scion 的实现细节与开源计划，能拿走的是需求清单与权衡，而不是一套可直接部署的系统。"),
+ },
+ {"title": "不要给编码 agent 一个 kubeconfig：用 K8s 内置能力关住 LLM 生成的代码",
+  "url": U("https://kubezilla.io/dont-let-your-ai-agent-run-kubectl-sandboxing-llm-generated-code-on-kubernetes/"),
+  "summary": "Kubezilla（2026-10-13）给出一套只用 K8s 内置功能的 agent 代码沙箱：给编码 agent 一个 kubeconfig、不限制权限，就等于把一个文本生成器接上了集群的钥匙，而能影响模型输出的任何东西（README、GitHub issue、抓来的网页）都能顺带操纵集群，这正对应 OWASP LLM Top 10 里的 Prompt Injection 与 LLM06「过度授权」。方案是两个命名空间隔离——agent-system 放 agent 与其 ServiceAccount、agent-sandbox 是唯一允许跑生成代码的地方，后者用 Pod Security Admission 的 restricted 档（连集群管理员提交特权 Pod 也会被 API server 拒绝）；权限是一个 namespace 级 Role，只允许 create/get/list/watch/delete Job 加读 pods 与 pods/log，故意不给 secrets、pods/exec、创建裸 Pod 和 roles/bindings；预算用 ResourceQuota + LimitRange 兜住重试爆量，网络用 default-deny NetworkPolicy 封死出口，提交内容再用 ValidatingAdmissionPolicy 校验。所有 YAML 都在真实 Kubernetes v1.34.1 上跑过，文中错误信息是从那次运行里直接复制的，最后还给了 kind 上一键复现的脚本。",
+  "note": "🔎 新闻要点：Kubezilla 2026-10-13 发布，全部配置在真实 Kubernetes v1.34.1 API server 上验证。五层控制：① 双命名空间（agent-system / agent-sandbox）+ Pod Security Admission restricted 档；② namespace 级 Role 仅允许 batch/jobs 的 create/get/list/watch/delete 与 pods、pods/log 的只读，显式排除 secrets、pods/exec、裸 Pod 创建、roles/bindings；③ ResourceQuota + LimitRange（对应 OWASP LLM10 无界消耗）；④ default-deny NetworkPolicy；⑤ ValidatingAdmissionPolicy 校验 agent 提交内容。理由是不给裸 Pod 创建权限，agent 无法绕过 Job 层的 activeDeadlineSeconds / backoffLimit / ttlSecondsAfterFinished。附 kind 复现脚本。",
+  "tag": "K8s × AI / Agent 安全",
+  "source": "Kubezilla",
+  "detail": D("一套零依赖的 agent 执行沙箱：双命名空间 + PSA restricted、单命名空间 Role（只能建 Job、读日志）、ResourceQuota/LimitRange 限预算、default-deny NetworkPolicy 断出口、ValidatingAdmissionPolicy 校验提交，全部是 K8s 自带能力，可直接在 v1.34.1 上复现。",
+           "agent 要执行任意生成代码就需要隔离与资源边界，而给它一个高权限 kubeconfig 是最省事也最危险的做法：prompt injection 一旦奏效，agent 的权限就是攻击者的权限；现成方案（如 agent-sandbox、SandboxWarmPool）能解决隔离但引入额外组件与运维面。",
+           "这是把你在评估的「多用户 agent 沙箱 + 空闲回收」痛点用最少组件落地的参考实现，尤其适合先给内部 agent 上一条最小权限基线，再决定要不要引入更重的沙箱运行时；限制是它只做隔离不做预热池与生命周期管理，冷启动与多租户配额仍要自己补。"),
+ },
+]
+
+# ---------------------------------------------------------------- sections
+def sect(label, cats):
+    return {"label": label, "categories": [dict(emoji=e, title=t, en=en, items=items) for e, t, en, items in cats]}
+
+
+agent_skill = [
+ {"title": "Anthropic 给 Claude Managed Agents 上线动态工作流：把多 agent 编排写成程序",
+  "url": U("https://www.infoq.cn/article/8La5gsJVOOF5BvFiLAUF"),
+  "summary": "InfoQ 中文 2026-10-13（作者林绮蓓、蔡芳芳，全文 4612 字）报道 Anthropic 10 月 9 日为 Claude Managed Agents 上线 Dynamic Workflows（动态工作流），10 月 12 日在 AI Engineer New York 2026 工作坊上由 CJ Avilla 与 Harrison Stall 讲清了设计动机：多 agent 的任务派发只是第一步，真正费劲的是协调——每份结果都要回到主对话由主 Agent 再推理一次，任务一多上下文就被中间结果塞满。动态工作流的做法是让 Claude 根据任务生成一段可执行的编排程序，由服务器在后台运行，负责启动子 Agent、把上一阶段结果作为下一阶段输入、按检查结果决定是否重跑、以及子 Agent 失败时继续或终止；编排程序不是给模型读的任务清单，而是含循环与条件分支的真实代码，中间数据留在程序变量里，不必每次都回主 Agent。边界很具体：单次工作流累计最多启动 1000 个 Agent，但同时运行线程上限 64，单次最长 24 小时，开发者可设会话预算；Agent 可以是预定义的（固定模型/提示词/工具）或按任务临时创建的 inline agent，临时创建能力可关闭。Anthropic 用「股票观察列表扫描」现场演示：第一阶段把不同股票分给独立上下文的 Agent，后续阶段检查结果再生成报告。",
+  "tag": "Agent 实践 / 编排",
+  "source": "InfoQ中国",
+  "detail": D("把 agent 之间的协调逻辑从「主 Agent 反复推理」搬进可执行程序：模型只产出编排代码（含并行、条件分支、结果传递与失败处理），后台运行时执行，中间数据不回流主对话；单次工作流累计上限 1000 个 Agent、并发线程 64、最长 24 小时，支持预定义 Agent 与 inline Agent 混用。",
+   "多 agent 系统的成本与稳定性瓶颈往往不在模型能力，而在主 Agent 的上下文被中间结果占满、每次交接都要重新推理一遍；同时任务该开多少 agent、花多少钱，缺少可配置的边界。",
+   "如果你在做多 agent 编排（包括公司那套按用户隔离的 agent 沙箱），这套「协调外置 + 显式预算上限」的设计值得直接对照，尤其是 64 并发 / 1000 累计 / 24 小时这组边界值；注意它仍是 Beta，且官方承认「一个任务该开多少 agent」没有通用答案，目前靠评测和保守默认值控制。"),
+ },
+ {"title": "machine-skill：一个把「任意机械」变成可交互物理仿真的 Claude Code skill",
+  "url": U("https://github.com/AirsupHQ/machine-skill"),
+  "summary": "AirsupHQ/machine-skill（2026-10-12 建仓，两天内约 140 星）是一个开源 Claude Code skill：输入一行自然语言描述，Claude 会去研究这台机械的真实尺寸与工作原理，然后用 three.js 在单个 HTML 文件里搭出可交互、跑真实物理的 3D 仿真，并可用仓库自带脚本录成可直接发布的成片。官方示例「一台推动宽体客机起飞的涡扇发动机」会生成 2.9 米钛合金风扇、10 级压气机、22 个喷嘴的环形燃烧室与两级涡轮，推力由 Brayton 循环求解器算出（约 340 kN）而不是查表，剖切后截面是实体金属，甩出的风扇叶片会由求解器给出机匣需要承受的不平衡载荷。安装方式是一条 npx 命令，同时标注兼容 agentskills.io 规范。它的价值在于示范了 skill 的一种高阶形态：不是塞提示词模板，而是把领域求解器、几何构建与录屏流水线一起打包成可复用的能力单元。",
+  "tag": "开源 / 项目",
+  "source": "GitHub",
+  "oss": True,
+  "detail": D("一行描述 → 研究真实机械 → 生成单文件 three.js 物理仿真（无构建步骤），数值由循环求解器计算而非查表，并自带录屏脚本产出发布用视频；以 Claude Code skill 形式分发，兼容 Agent Skills 规范。",
+   "多数 agent「生成可视化」只能做示意动画，数字是编的；要把仿真做成能看、能互动的可信结果，需要把领域模型、几何与渲染链路一起固化下来，这恰恰是纯提示词做不到的。",
+   "值得作为 skill 封装模式的样本读：它演示了把「求解器 + 构建流程 + 产出流水线」固化成 skill 的思路，和你正在积累的可复用 skill 库直接相关；注意它对具体机械领域的正确性仍需人工核验，属演示级证据。"),
+ },
+ {"title": "vercel-labs/skills：npx 一条命令装 skill，支持 80+ 编码 agent",
+  "url": U("https://github.com/vercel-labs/skills"),
+  "summary": "Vercel Labs 的 skills（34.5k 星）是开放 agent skill 生态的 CLI：npx skills add <owner/repo> 把某仓库里的 skill 装进本地，npx skills use 可以在不安装的情况下生成 prompt 直接喂给某个 agent，或用 --agent 直接以交互方式启动对应编码 agent。官方声明支持 Claude Code、Codex、Cursor、OpenCode 等 80 多个 agent，并标注 skills.sh 作为 skill 的托管与检索入口。它把 skill 的分发问题从「每个 agent 各有一套目录约定」收敛成一条命令与一套来源格式。",
+  "tag": "开源 / 工具",
+  "source": "GitHub",
+  "oss": True,
+  "detail": D("用 npx skills add/use 统一 skill 的安装与临时调用，来源支持 GitHub owner/repo 简写，支持 80+ 个编码 agent，避免为每个 agent 维护一套目录约定。",
+   "skill 生态目前碎片化：同一个 skill 要在 Claude Code、Codex、Cursor 各自复制到不同路径，跨 agent 复用成本高，团队内共享也缺统一入口。",
+   "如果你在多个编码 agent 之间复用同一批 skill（你自己就有 marketplace 仓库），这套 CLI 是最省事的跨 agent 分发路径，值得试一条命令跑通；注意它绑定的是 Vercel 生态的约定，企业内网分发与私有源仍需自己接。"),
+ },
+ {"title": "AgentSWE：编码 agent 造出来的 agent 到底有没有按需求干活，首次有了基准",
+  "url": U("https://huggingface.co/papers/2610.13361"),
+  "summary": "论文 AgentSWE 指出一个被忽略的假设：把「造 agent」这件事交给编码 agent 之后，默认交付物会忠实服务于它被要求服务的需求，而不是只看起来像。现有基准都不测这个假设，论文因此构建了专门基准，衡量编码 agent 产出的 agent 在真实工作流里的忠实度。它把评测对象从「编码 agent 写不写得出代码」推到「造出来的 agent 是否真的可用」。",
+  "tag": "论文 / 评测",
+  "source": "HuggingFace Papers",
+  "detail": D("把「编码 agent 交付的 agent 是否忠实于需求」做成可测基准，而不是只看生成代码能否跑通；关注交付物在使用中是否真的服务目标。",
+   "agent 造 agent 的流水线正在变多，但验收标准停留在「代码能跑」，交付物偏离原始需求（看起来像、用起来不对）没有度量，也就无法回归。",
+   "若你在用编码 agent 批量产出内部 agent/工具，这个基准的评定口径值得借来设计自己的验收；属研究基准，需要自己接目标场景。"),
+ },
+ {"title": "长程终端任务的数据规模化：把「探索—取证—判断」的过程写成可训练轨迹",
+  "url": U("https://huggingface.co/papers/2610.13166"),
+  "summary": "论文针对终端 agent 的数据瓶颈：短轨迹能展示命令与工具调用，却无法体现 agent 如何通过探索累积证据、据此做判断、按反馈调整策略并把中间结果变成最终交付物。工作给出面向长程专业任务的高质量轨迹构造方法，把这类过程的训练数据规模化。",
+  "tag": "论文 / Agent 数据",
+  "source": "HuggingFace Papers",
+  "detail": D("为长程终端任务构造高质量轨迹数据，显式覆盖「探索累积证据 → 判断 → 调整策略 → 形成交付物」的完整链条，而非只记录短命令序列。",
+   "长程 agent 的能力瓶颈常在数据：短轨迹训练出的模型会在没有即时反馈时失去方向，且无法把中间产物汇总成交付物。",
+   "在做运维/终端类 agent 训练或评测设计时值得参考它的轨迹切分口径；属学术工作，落地要自建环境与验收。"),
+ },
+]
+
+models = [
+ {"title": "面壁开源 MiniCPM-V 4.7：35B-A3B 的 MoE 在 iPhone 上断网跑，只占约 3G 内存",
+  "url": U("https://www.qbitai.com/2026/10/503109.html"),
+  "summary": "量子位 2026-10-14 报道面壁智能与 OpenBMB 开源 MiniCPM-V 4.7，两个规格：35B-A3B（总参数 35B、每次推理只激活 3B，是 MiniCPM-V 系列首个 MoE）与 1B（实际 1.3B）。量子位在 iPhone 17 Pro Max 断网状态下实测 35B-A3B：读取一张拿破仑远征俄国的行军路线图，不到 1 分钟给出最低气温 -30 摄氏度出现在 1812 年 12 月 6 日，并按 1 列氏度 = 1.25 摄氏度换算成 -37.5 摄氏度；优化后解码速度从约 2 token/s 提到 8–12 token/s，官方口径是仅占约 3G 内存下可达 13 token/s 以上。评测上 35B-A3B 的 MMBench 91.72、MMStar 80.67、MMMU 80.22、MathVista 88.00、Video-MME 76.40，OmniDocBench v1.6 拿到 94.24（其余四个模型在 80 分上下）；视觉压缩开到 16 倍后 MMBench 只从 91.72 掉到 90.87、OCRBench 从 91.20 掉到 90.40。团队称这是首个能在端侧流畅运行且不牺牲性能的开源 MoE 模型。",
+  "tag": "开源模型 / 端侧",
+  "source": "量子位",
+  "oss": True,
+  "detail": D("端侧跑得动的大 MoE：35B 总参只激活 3B，iPhone/iPad/iOS/Android 上约 3G 内存、13 token/s 以上，断网可用；另有 1.3B 小规格主打 OCR、数学与视频理解，含 16 倍视觉压缩。",
+   "端侧多模态长期在「跑得动」与「不牺牲精度」之间二选一；大模型要靠云端意味着断网不可用、数据要出本机，而小模型在文档与图表类任务上精度不够。",
+   "如果你关注 agent 从云往端侧下沉的边界（模型、内存、断网可用性），这是一条可直接对照的硬数据；注意评测多为团队自测与第三方媒体的实测，生产选型前仍需跑自己的任务集，且 MoE 的激活效率在不同设备上差异较大。"),
+ },
+ {"title": "Thinking Inertia：模型被要求「别想了」时仍会继续思考",
+  "url": U("https://huggingface.co/papers/2610.11765"),
+  "summary": "论文研究 LLM 的「不思考」行为，指出现有做法用「关掉思考模式」或「没有长推理链」这类代理指标来判定是否停止思考并不可靠——禁用思考模式不等于模型内部没有继续推理。作者沿两条轴给出更严格的度量，并揭示「思考惯性」：被明确要求停止思考后，模型仍保留继续推理的倾向，这会让按 token 计费与延迟预期的成本控制失效。",
+  "tag": "论文 / 推理行为",
+  "source": "HuggingFace Papers",
+  "detail": D("证明「关闭思考模式」不等于停止思考，给出不再依赖代理指标的 no-thinking 度量，并刻画模型在被要求停止后仍继续推理的惯性。",
+   "按 thinking 模式开关做成本与延迟预估会失准：实际生成的推理内容与 token 消耗高于预期，长任务预算与超时设置因此失效。",
+   "在给自己的 agent 设 token 预算与超时（正是「默认硬预算上限」那类问题）时值得看它的度量方法；属研究性质，需在自己的模型与提示上复现结论。"),
+ },
+ {"title": "同一条输出、两套 gold：参考标准的选择本身就能移动多语言基准分数",
+  "url": U("https://huggingface.co/papers/2610.03825"),
+  "summary": "论文把注意力从基准的「系统输出」一侧移到「参考标准」一侧：一个六语言的个人可识别信息（PII）标注基准里同时存在两套独立标注、随包发布的聚合 gold，以及由独立专家重标注得到的 reviewer gold。作者量化了参考标准的选择如何直接移动最终分数，说明分数差异有一部分来自 gold 的构造方式而非系统能力。",
+  "tag": "论文 / 评测方法",
+  "source": "HuggingFace Papers",
+  "detail": D("用同一份系统输出对照两套独立标注 gold，测量参考标准选择对多语言基准分数的实际影响，把「评测噪声来自哪」定位到 gold 构造环节。",
+   "团队在用公开基准做选型或回归时，常把分数变化全部归因于模型/系统变化，而标注口径差异同样在移动分数，导致结论不可靠。",
+   "自建评测集时值得借它检查标注口径（尤其是多语言与合规类任务）；属方法论研究，落地需自己准备双标注样本。"),
+ },
+]
+
+ai_eng = [
+ {"title": "用 Python 3.15 内置采样 profiler 剖析 web-edit：64.8% 的栈落在混合行尾保留上",
+  "url": U("https://simonwillison.net/2026/Oct/12/python-3-15-web-edit-profiling/"),
+  "summary": "Simon Willison 2026-10-12 用 Python 3.15 新增的内置 profiling.sampling 剖析自己刚发布的 web-edit 应用，并把这件事交给了 Codex 里的 GPT-6 Astra Extra High 执行。结论出人意料：一个繁忙编辑负载里，混合行尾（line-ending）保留逻辑主导了热点，preserve_endings 出现在 15296 个 CPU 栈样本中的 64.8%，其中 SequenceMatcher.find_longest_match 贡献了 38.3% 的叶子样本。他还强调必须采样所有线程——95.1% 的栈来自 AnyIO 的工作线程，只看主线程的 profile 会完全错过这个热点。他随后让 Claude Opus 5.5 依这份报告写了性能优化，落在 web-edit 0.1a1。",
+  "tag": "工程实践 / 性能",
+  "source": "Simon Willison",
+  "detail": D("用 Python 3.15 内置采样 profiler 拿到火焰图与源码热力图：preserve_endings 占 64.8% 栈、SequenceMatcher.find_longest_match 占 38.3% 叶子样本，问题定位到混合行尾保留；关键前提是采样全部线程（95.1% 栈在 AnyIO 工作线程上）。",
+   "Python 3.15 之前没有开箱可用的采样 profiler，性能问题只能靠猜或引入第三方工具；同时只看主线程会漏掉异步应用里绝大多数实际工作量。",
+   "与你用 agent 做工程调试的路径高度重合（让模型跑测量、再由另一个模型按报告改），可当作「agent 做性能优化」的可复现范例；结论本身只对 web-edit 有效，但全线程采样的教训通用。"),
+ },
+ {"title": "llm-gemini 0.35：新增 Gemini 4 Argon 支持",
+  "url": U("https://simonwillison.net/2026/Oct/13/llm-gemini/"),
+  "summary": "Simon Willison 2026-10-13 发布 llm-gemini 0.35，为 Gemini 4 Argon 增加支持——该模型当天通过 Gemini API 与每月 100 美元的订阅计划开放。他照例用同一提示在低/中/高三档下生成 SVG 鹈鹕做对照，称结果都很好，并提到 Gemini 是少数有团队专门投入 SVG 能力训练的实验室。",
+  "tag": "工具 / 模型接入",
+  "source": "Simon Willison",
+  "detail": D("LLM 命令行工具链的 Gemini 插件补上 Gemini 4 Argon 接入，含 API 与订阅两种渠道，并附三档推理强度的同题对照。",
+   "新模型上线后，脚本化调用与批量对照需要等插件适配，否则只能手工在网页里试。",
+   "如果你用 LLM CLI 做模型横评或把模型接进流水线，这个插件是最短路径；属工具更新，无架构影响。"),
+ },
+ {"title": "高通给 Snapdragon X2 出 Linux 早期开发者预览：把支持提前推进上游主线",
+  "url": U("https://www.infoq.cn/article/OjlADL5itjO3PcVHsuMB"),
+  "summary": "InfoQ 中文 2026-10-13（作者 Olimpiu Pop，译者田橙）报道高通发布面向即将上市的 Snapdragon X2 笔记本处理器的 Linux 早期开发者预览版，目标用户是内核贡献者、工具链开发者与发行版维护者，而不是普通消费者。预览版在参考硬件上提供基于 Debian 13「Trixie」的可启动环境，用于验证启动路径、核心系统总线、图形栈与 NPU：启动走标准 UEFI 交给 systemd-boot，避免厂商定制引导语义；图形栈通过 Freedreno（内核态设置）、Turnip（Vulkan）与 Rusticl（OpenCL）集成进 Mesa；NPU 不再依赖专有守护进程，而是用上游 FastRPC 驱动把 Hexagon NPU 开放给用户态框架，从而无需树外内核模块即可本地推理。高通称计划在商用 OEM 设备上市前把这些支持推进 Linux 主线，针对的正是 ARM 笔记本长期存在的树外补丁依赖、显示驱动不可用与电源管理不完整。",
+  "tag": "平台 / 上游内核",
+  "source": "InfoQ中国",
+  "detail": D("Snapdragon X2 的 Linux 早期开发者预览：Debian 13 参考环境、标准 UEFI + systemd-boot、Mesa 三件套（Freedreno/Turnip/Rusticl）、上游 FastRPC 驱动直接开放 Hexagon NPU 供本地推理，目标是进内核主线。",
+   "ARM 笔记本跑 Linux 长期依赖树外厂商补丁，显示驱动与电源管理不完整，导致发行版与内核维护者无法给出可维护的支持路径。",
+   "如果你关注端侧推理与 ARM 平台的可用性（也包括 K8s 之外的异构算力形态），这是高通路线上的一次转向；预览版面向开发者，离日常可用还有距离，别当成可直接上桌面的方案。"),
+ },
+]
+
+business = [
+ {"title": "千问把 Personal Agent 塞进可穿戴：AI 眼镜 N1/N1 Pro 支持虹膜核身支付",
+  "url": U("https://www.infoq.cn/article/xJ8vYf2lCwGWzVizOTSM"),
+  "summary": "InfoQ 中文 2026-10-13 报道千问发布 AI 眼镜 N1、N1 Pro 与和 Bose 联名的 AI 耳夹式耳机三款新品，当日开售：眼镜到手价 2218 元起、耳机 1099 元起。N1 Pro 称是行业首个具备体征实时监测能力的 AI 眼镜，可测心率、血氧与皮肤温度，并支持眼动交互与虹膜核身——虹膜核身由千问与蚂蚁 GPASS 共同研发，官方称误识率低于百万分之一，结账时看向商家收款码并点头确认即可用支付宝「看一下支付」完成付款。",
+  "tag": "国内 / 可穿戴",
+  "source": "InfoQ中国",
+  "detail": D("把 Personal Agent 的入口从手机搬到可穿戴：N1 系列 5000 万像素影像 + 全天候环境感知/翻译/会议纪要，N1 Pro 增体征监测（心率/血氧/皮温）、眼动交互与虹膜支付；耳夹耳机由千问与 Bose 联名，主打翻译与实时听记。",
+   "端侧 agent 需要新的输入与身份确认通道；语音在嘈杂场景失效、手机掏出来打断任务，支付与身份核验又必须在硬件侧有可信根。",
+   "与「agent 从云到端」的趋势相关，值得留意的是生物特征核身（虹膜）进入消费级支付链路这件事对安全边界的影响；属产品动态，误识率等指标为厂商口径。"),
+ },
+ {"title": "魔法原子具身 Agent 框架 EchoPolicy-0 拿下 MolmoSpaces 零样本榜单全球第一",
+  "url": U("https://www.qbitai.com/2026/10/503107.html"),
+  "summary": "量子位 2026-10-13 报道魔法原子的 VLM Agent 框架 EchoPolicy-0 在 AI2 发起的具身智能零样本评测基准 MolmoSpaces 的 Combined 榜单位列全球第一：机器人操作平均成功率 75.4%，覆盖全部 4 个 v1 任务，四项任务共完成 3915 局全量评测。同榜同分组下，其自研框架 MagicBrain 以 3.4B 参数规模拿到 72.4% 位列全球第四，抓取成功率 94.4%。EchoPolicy-0 的做法是 VLM 目标引导的多候选轨迹选择——动作模型先提出多条可能运动，投影到图像平面后由 VLM 按目标筛出更匹配的一条，执行后持续验证，把高层视觉理解接进低层动作选择。",
+  "tag": "具身智能 / Agent 框架",
+  "source": "量子位",
+  "detail": D("统一 VLM Agent 框架：VLM 组织语义目标与任务状态、几何工具提供可检查的空间交互、通用动作策略生成候选，再用 VLM 目标引导的轨迹选择与执行后验证约束动作；MolmoSpaces Combined 榜 75.4%（3915 局全量评测）。",
+   "具身任务里「模型提出的动作怎么保证选对了」缺少统一做法；演示环境可用、产线环境不可用，泛化与指令遵循是主要失分点。",
+   "是国内团队在具身 agent 框架上少见的公开零样本榜单成绩，值得作为「VLA 从演示到产线」的进展锚点；属厂商参与并公开结果的评测，落地能力仍需看实际产线部署。"),
+ },
+]
+
+opinion = [
+ {"title": "17000 次工具选择会话：Agent 怎么挑工具，以及厂商二十年品牌建设为何失效",
+  "url": U("https://www.infoq.cn/article/MrxaqhrQBMrZTcSGEgL1"),
+  "summary": "InfoQ 中文 2026-10-13（作者 Adrian Bridgwater，译者田橙/Tina，全文 3079 字）报道开发者工具增长服务公司 Armature 的一项实验：通过公开 17,000 次工具选择会话的 trace 与 prompt，分析编码 agent 如何发现、评估并最终选择工具。Armature 联合创始人 Theodore Otzenberger 的观察是，厂商二十年积累的品牌几乎没有进入 agent 的决策：一提到容器 Agent 立刻想到 Docker，却对 Docker 现在提供的沙箱能力一无所知，于是最后反而不选它——品牌声誉跟着一起进了模型权重，并绑定在让厂商成名的那个产品上，而权重运行在一套完全不同的「重力」下。他的结论是现在真正决定技术栈被接入什么的是 Agent，厂商必须确保自己被提及、被选中并被提升为「必备工具」，否则可能被直接排除在技术栈之外。文章把这一现象放在从 SEO 到 AEO（答案引擎优化）再到 GEO（生成式引擎优化）的迁移脉络里。",
+  "tag": "观点 / 生态",
+  "source": "InfoQ中国",
+  "detail": D("用 17,000 次工具选择会话的公开 trace 分析编码 agent 的选型路径（如何发现、如何比较、最终选谁），并给出「品牌进入模型权重但会滞后于产品演化」的解释框架。",
+   "开发者工具的获客入口正在从人类搜索转向 agent 决策：效果取决于模型权重里的旧印象，厂商的新能力可能因为没被「记住」而永远进不了候选集。",
+   "对判断工具生态走向与选型噪声有参考价值，也可以反过来提醒自己：agent 推荐的工具停留在训练语料的时间切片上，选型不能只靠 agent 印象；属行业观点，结论建立在 Armature 自家实验上，注意其商业立场。"),
+ },
+ {"title": "发了一条 Hacker News，我的网站就被 AI 爬虫流量淹了",
+  "url": U("https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic"),
+  "summary": "一篇 Hacker News 高分帖（约 230 分）记录作者的亲身经历：在 Hacker News 发帖后，个人网站流量中 AI 爬虫与 agent 抓取占了主导，人类访客被淹没。帖子的讨论集中在个人站点如何识别、限流与区分 agent 流量，以及这类流量对小站托管的实际成本影响。",
+  "tag": "观点 / 站点运营",
+  "source": "Hacker News",
+  "detail": D("以第一手流量数据展示「上 HN 之后被 agent 抓取淹没」的实际形态，并讨论小站侧可用的识别与限流手段。",
+   "agent 抓取的成本落在被访问方：带宽、限额与配额被打满，而站点无法区分「用户派来的 agent」和无人值守的爬取。",
+   "如果你在给 agent 做出网管控（公司内网只放模型出网那条线），这篇是需求侧的直观材料——出口侧的身份识别与配额是真实诉求；属个人经验帖，数据只覆盖一个站。"),
+ },
+]
+
+safety = [
+ {"title": "修复漏洞的 PR 刚提交，几分钟后攻击探测就到了：AI 正在击穿开源安全流程",
+  "url": U("https://www.infoq.cn/article/R7OkT6DCUifdCQqAvwtJ"),
+  "summary": "InfoQ 中文 2026-10-13（作者 Renato Losio，译者田橙，全文 1159 字）转述剑桥大学计算机科学教授、OCaml 编译器核心维护者 Anil Madhavapeddy 的经历：他在一个路径遍历漏洞的补丁 PR 提交后仅几分钟，线上 Web 服务器日志里就出现了与该漏洞模式完全一致的探测请求。文章给出的实验依据是，一个 GPT-4 agent 在拿到 CVE 描述后能利用基准里 15 个漏洞中的 87%，而没有描述时只有 7%。Madhavapeddy 认为「漏洞经济学」已对维护者不利，安全流程需要反过来做——只要有人在搜索某类漏洞（邮件列表里的提问、孤立分支上的异常提交、上下文泄露），其他人的 agent 就会据此生成利用代码。Chainguard 开发者关系负责人 Adrian Mouat 指出这会让维护者陷入两难：光是建一个修复 PR 就把项目和用户置于危险中，攻击者可能在版本发布前就造出利用程序，可能迫使项目先发二进制再发源码，而这会破坏开源的基本原则。Madhavapeddy 提出三种缓解：私下讨论漏洞、加快持续发布、迅速实施协议层缓解。",
+  "tag": "安全 / 开源治理",
+  "source": "InfoQ中国",
+  "detail": D("用亲历日志与实验数据说明 AI agent 把「披露到被利用」的窗口压到分钟级：补丁 PR 提交后数分钟出现匹配探测；GPT-4 agent 在拿到 CVE 描述时对基准 15 个漏洞的利用率达 87%，无描述时仅 7%。",
+   "传统漏洞响应依赖「保密即保护」，而 agent 能从补丁 diff、分支提交与邮件列表线索反推漏洞并生成利用代码，使「先修后发公告」的流程反过来加速了攻击。",
+   "如果你负责生产集群与内部服务的补丁流程（金融场景尤其），这条直接影响你的响应节奏设计：补丁提交本身即是暴露点；属报道与个人经验，但实验数据与日志证据具体，值得据此重新评估私有修复与发布顺序。"),
+ },
+ {"title": "窄域多模态微调也会引出「涌现失准」",
+  "url": U("https://huggingface.co/papers/2609.35291"),
+  "summary": "论文指出「涌现失准」（emergent misalignment）此前几乎只在纯文本任务上研究：在窄任务上微调语言模型会引发超出训练任务的广泛有害行为。作者把这项研究扩展到多模态模型，给出多模态下涌现失准的定义与测量，说明视觉-语言模型的窄域微调同样会带来训练任务之外的行为偏移。",
+  "tag": "论文 / 模型安全",
+  "source": "HuggingFace Papers",
+  "detail": D("把「窄任务微调引发跨任务有害行为」从纯文本扩展到多模态，定义并度量多模态涌现失准。",
+   "团队为业务做小样本微调时假设影响局限于目标任务；如果多模态也存在同样效应，微调后的模型在未被评测的模态组合上可能变差或变危险。",
+   "自建微调流程加回归评测时值得纳入这条假设（尤其是视觉输入）；属研究性结论，需在自己的基座与数据上复现。"),
+ },
+]
+
+infra = [
+ ("🤖☸️", "K8s × AI", "K8s × AI", [
+   {"title": "NVIDIA DRA GPU 驱动 v0.5.1：修 ComputeDomain 竞态与 kubelet 插件的重复报错",
+    "url": U("https://github.com/NVIDIA/k8s-dra-driver-gpu/releases/tag/v0.5.1"),
+    "summary": "NVIDIA k8s-dra-driver-gpu v0.5.1（2026-10-12）是补丁版，重点是 ComputeDomain 与 kubelet 插件的可靠性：修复 ComputeDomain 控制器里一个会把存活节点从状态中错误移除、重排 IMEX 节点索引并中断 GPU 显存导出/导入的竞态（关闭 ComputeDomainCliques 时最易复现）；修掉静态节点名解析失败回落到集群 DNS 造成的 IMEX 搜索域洪泛；新增 Helm 值以覆盖 nvidia-imex 守护进程配置；ComputeDomain 守护进程 Pod 默认继承 system-node-critical 优先级；另外在 kubelet 插件里停用了未实现的 DRA 资源健康服务注册，避免 Kubernetes v1.36 上反复刷出错误日志。",
+    "tag": "开源 / GPU 调度",
+    "source": "GitHub", "oss": True,
+    "detail": D("DRA（动态资源分配）GPU 驱动的补丁维护：修 ComputeDomain 节点状态竞态、IMEX 搜索域洪泛与 MIG profile 选择 bug，统一日志与错误格式，去掉在 v1.36 上刷屏的未实现健康服务注册。",
+     "在多节点 GPU 训练/推理拓扑里，ComputeDomain 状态错误会直接导致显存导出导入中断；而 kubelet 侧重复报错会掩盖真实故障。",
+     "如果你的 GPU 集群走 DRA 路线（K8s 1.34 起 DRA GA），这类补丁是你升级窗口里要跟的；注意它需要 K8s 1.36 配套，且 Helm 值覆盖 IMEX 配置属运维细节。"),
+   },
+   {"title": "NVIDIA Dynamo v1.5.1：修 K8s 上 RL worker 发现失败与多模态输入边界",
+    "url": U("https://github.com/ai-dynamo/dynamo/releases/tag/v1.5.1"),
+    "summary": "NVIDIA 的推理服务框架 Dynamo v1.5.1（2026-10-07）修复了几类会在真实部署里咬人的问题：Dynamo Router 在 worker 因容量拒绝请求后会把过载标记卡住，导致空闲 worker 持续返回 HTTP 529，现在请求路径上的过载提示 1 秒后过期；vLLM sidecar 与 mocker worker 注册时用的命名空间与 Kubernetes 上 RL 发现搜索的带后缀命名空间不一致，造成 RL 工作负载找不到 worker，现已修好；同时收紧了客户端多模态输入边界（内联 data: URL 上限 16 MiB、远端媒体下载、图片尺寸、base64 音频），并把媒体抓取的地址校验与连接统一到已验证地址。升级有两处破坏性变更：走代理抓取媒体需显式设置 DYN_MM_TRUST_EGRESS_PROXY=1，SGLang 扩散模型的本地图传引用需要 DYN_MM_LOCAL_PATH 指定允许目录。",
+    "tag": "开源 / 推理服务",
+    "source": "GitHub", "oss": True,
+    "detail": D("修路由过载恢复、SGLang tokenizer-free 解码的 min_tokens、Qwen3-VL 混合 worker 的视频路由，以及 Kubernetes 上 RL worker 发现失败；并给多模态输入加上尺寸/来源校验与地址固定。",
+     "推理服务框架在生产里最烦的是「worker 明明空闲却持续 529」和「RL 训练找不到 worker」这类状态不一致；同时客户端可控的多模态输入是公开的 SSRF/资源耗尽面。",
+     "如果你把推理栈跑在 K8s 上（Dynamo 是 NVIDIA 推的 serving 层），这个补丁版的网络与命名空间修复值得跟；注意两处破坏性变更会在升级时直接断掉走代理的媒体抓取。"),
+   },
+   {"title": "SGLang v0.5.21：PD 实例可不重启在 prefill/decode 间切换，前缀缓存改走 Rust 核",
+    "url": U("https://github.com/sgl-project/sglang/releases/tag/v0.5.21"),
+    "summary": "SGLang v0.5.21（2026-10-01/02）含 779 个 PR、227 位贡献者。关键变化：PD 实例现在可以不重启在 prefill 与 decode 角色之间动态切换，这直接简化了 PD 分离部署的弹性调配；前缀缓存默认跑在 Rust 核上；性能上 DeepSeek-V4.1 在长 prompt 上首 token 快 22%，Kimi K3 在 PD 服务下 prefill 吞吐提升 20.6%；GLM-5.3-Flash 支持 AMD MI355X，含 FP8/MXFP4 MoE 与 MTP 投机解码。新增 Decisions API（/v1/decisions）把 LLM/VLM 当作低延迟分类器与打分器使用，Score API（/v1/score）可在单次请求里给所有候选项打分；同时新增 DeepSeek-V4.1 Flash、GigaChat 3.5、小米 MiMo-V2.6 等模型支持。",
+    "tag": "开源 / 推理引擎",
+    "source": "GitHub", "oss": True,
+    "detail": D("PD 角色可运行时切换（免重启）、前缀缓存默认 Rust 核、新增分类/打分 API；附 DeepSeek-V4.1 首 token +22%、Kimi K3 prefill +20.6% 的官方口径，以及 AMD MI355X 与多款新模型支持。",
+     "PD 分离部署里 prefill 与 decode 的资源配比随流量漂移，此前调整角色需要重启实例；前缀缓存是长上下文服务的性能关键路径。",
+     "若你的推理服务按 prefill/decode 分别扩缩（正是 llm-d 那套思路），「免重启切换角色」是能直接减少编排复杂度的能力；注意这是社区版本发布，性能数字为官方基准口径，需在自有硬件复测。"),
+   },
+ ]),
+ ("☸️", "K8s 核心技术", "K8s Core", [
+   {"title": "containerd 同日发布四条维护线补丁：2.4.2 / 2.3.7 / 2.2.10 / 2.0.14",
+    "url": U("https://github.com/containerd/containerd/releases/tag/v2.4.2"),
+    "summary": "containerd 在 2026-10-13 同时更新四条维护线（2.4.2、2.3.7、2.2.10、2.0.14），均含安全修复：2.4.2 关联 CVE-2026-95839 与 GHSA-8647-2jxj-p2rc、GHSA-hc94-p972-ch66。CRI 侧加固容器日志文件不跟随符号链接；镜像分发侧修好镜像拉取时 registry 下载速度快于内容写入导致的过量内存占用（#14342），并拒绝含「..」路径分量的镜像引用；运行时侧把默认 seccomp profile 的 socket 域改为白名单。2.4.2 共 25 个提交，涉及 Samuel Karp、Maksym Pavlenko、Sebastiaan van Stijn 等维护者。",
+    "tag": "开源 / 容器运行时",
+    "source": "GitHub", "oss": True,
+    "detail": D("同批发布四条维护线补丁，重点是安全（CVE-2026-95839 等三项 GHSA）与拉取稳定性：日志文件符号链接加固、拒绝带 .. 的镜像引用、seccomp socket 域白名单，以及修镜像拉取时超出写入速度导致的内存暴涨。",
+     "容器运行时是集群里权限最高的组件之一，符号链接与镜像引用的路径处理是典型逃逸面；拉取侧内存暴涨会在大镜像、高并发拉取时打爆节点。",
+     "四条维护线同时发补丁说明影响面广，跑 K8s 节点的都该排一次升级；注意各线补丁内容不完全相同，按自己的 minor 版本核对 release notes 再滚动重启。"),
+   },
+ ]),
+ ("🧩", "云原生周边", "Cloud Native Around", [
+   {"title": "BuildKit v0.34.0：内置 Dockerfile 前端升到 1.28.0，BoltDB 支持压实",
+    "url": U("https://github.com/moby/buildkit/releases/tag/v0.34.0"),
+    "summary": "BuildKit v0.34.0（2026-10-07）的可见变化：内置 Dockerfile 前端更新到 v1.28.0；BoltDB 数据库支持压实（compaction）以周期性缩小库体积与磁盘占用，目前为 TOML 配置选择加入，官方计划后续默认开启；本地与 tar exporter 新增 src 选项用于指定导出子目录；provenance 证明现在包含构建的目标平台信息；registry 临时令牌失败会重试。另有大量减少 BoltDB 体积与性能开销的工作。",
+    "tag": "开源 / 构建",
+    "source": "GitHub", "oss": True,
+    "detail": D("构建器增量改进：Dockerfile 前端 1.28.0、BoltDB 可压实（减少构建缓存库体积）、exporter 支持 src 子目录、provenance 记录目标平台、registry 临时失败重试。",
+     "长期使用的构建缓存数据库会持续膨胀拖慢构建节点；供应链侧 provenance 缺少平台信息会让多架构制品的溯源不完整。",
+     "自建构建节点的团队值得跟进，尤其是 BoltDB 压实对缓存盘占用与稳定性的改善；属常规版本更新，升级前确认 Dockerfile 前端版本变化对现有语法的兼容。"),
+   },
+   {"title": "Envoy v1.40.0：HTTP/3 与 QUIC 稳定、默认后量子混合密钥交换、AI 过滤器补齐 token 用量提取",
+    "url": U("https://github.com/envoyproxy/envoy/releases/tag/v1.40.0"),
+    "summary": "Envoy v1.40.0（2026-10-13）发布，破坏性变更集中在构建与 TLS：构建系统从 WORKSPACE 切到 bzlmod（下游必须改用 MODULE.bazel 并加上 Envoy 的自定义 registry）、hermetic LLVM/Clang 工具链从 18 升到 22 且 Clang 成为默认、移除 AWS-LC 选项。功能上 HTTP/3 与 QUIC（含上游）转稳定并支持 mTLS，X25519MLKEM768 后量子混合密钥交换被加入默认 ECDH 曲线（含 FIPS 构建）；路由新增 route_specifiers 扩展点可在命中后细化/丢弃/合成路由；负载均衡新增 per_worker_subset 与 load_aware_locality 策略；容器感知的 CPU 检测默认生效。AI 相关：AI Protocol Manager 过滤器（alpha）新增响应侧 LLM token 用量提取，覆盖 OpenAI/Anthropic/Gemini 方言（SSE 与 JSON），以类型化动态元数据 envoy.data.ai.v3.TokenUsage 发布；MCP 过滤器获得按路由配置、协议版本强制与必需客户端能力等能力。",
+    "tag": "开源 / 数据面",
+    "source": "GitHub", "oss": True,
+    "detail": D("数据面大版本：HTTP/3/QUIC 转稳定（含上游与 mTLS）、后量子混合密钥交换进默认曲线、路由新增可扩展 route_specifiers、容器感知 CPU 检测默认开启；AI Protocol Manager 可提取 OpenAI/Anthropic/Gemini 的 LLM token 用量并作为类型化元数据发布，MCP 过滤器增加按路由配置与版本强制。",
+     "网关层长期看不到 LLM 层的 token 消耗与协议细节，成本与配额只能靠应用自报；同时后量子迁移需要在数据面先落地。",
+     "如果你的网关/网关 API 数据面是 Envoy（或基于它的产品如 Istio/Contour），1.40 的 token 计量能力是把 AI 流量纳入统一观测与配额的直接抓手；注意构建系统切 bzlmod 对自编译下游是一次硬迁移。"),
+   },
+ ]),
+ ("☁️", "公有云动态", "Public Cloud", [
+   {"title": "Google Cloud 的 U4 机器族与超低延迟方案 GA：面向云上高频交易",
+    "url": U("https://cloud.google.com/blog/topics/financial-services/ultra-low-latency-solution-with-u4-enables-high-velocity-trading/"),
+    "summary": "Google Cloud（2026-10-07，产品经理 Disha Chopra 与 Yarden Halperin）宣布 Ultra Low Latency（ULL）方案正式可用，配套的新 U4 机器族同日 GA，目标是让高频交易类工作负载在云上跑出接近物理托管（co-location）的延迟确定性。方案由三根支柱构成：硬件级网络（可扩展的硬件多播做可靠行情分发）、高级网络可观测性（硬件级时间精度的动态流量抓包，支持复盘与交易校验且不影响主流量性能）、确定性高性能计算（对延迟关键的执行层给出可预测的处理时间）。底层提供裸金属性能——独占裸金属计算直连物理主机资源以减少抖动。",
+    "tag": "公有云 / 低延迟",
+    "source": "Google Cloud",
+    "detail": D("面向资本市场的超低延迟栈：硬件多播行情分发、硬件级时间精度的流量抓包与复盘、裸金属独占的确定性计算，公告时即提供 U4 机器族。",
+     "交易所与参与者受限于自建机房的空间、供电与硬件采购周期，却又要物理托管的延迟确定性；把低延迟工作负载搬到云上缺的正是硬件级多播与可审计的时间精度。",
+     "与你的金融量化行业背景直接相关，值得评估云上低延迟路径与自建托管的边界在哪里（尤其是裸金属形态与多播能力）；属厂商方案公告，具体延迟数字需用自己的链路与交易所接入实测。"),
+   },
+   {"title": "AWS 周报（10-13）：Prime Day 2026 数据、Claude Haiku 5.5、Amazon Nova 2.5 Sonic",
+    "url": U("https://aws.amazon.com/blogs/aws/aws-weekly-roundup-prime-day-2026-by-the-numbers-claude-haiku-5-5-amazon-nova-2-5-sonic-and-more-october-13-2026/"),
+    "summary": "AWS 2026-10-13 的周报汇总了几件事：Prime Day 2026 的规模数据（其中 Amazon ElastiCache 在活动期间峰值达到每天 2.3 千万亿次请求）、Claude Haiku 5.5 的接入与 Amazon Nova 2.5 Sonic 等模型更新，以及若干服务发布。周报是获取 AWS 侧模型可用性与基础设施容量的低成本入口。",
+    "tag": "公有云 / 周报",
+    "source": "AWS News",
+    "detail": D("一周内的模型可用性（Claude Haiku 5.5）与新品（Nova 2.5 Sonic）汇总，另含 Prime Day 2026 的基础设施容量数据（ElastiCache 峰值 2.3 千万亿次/天）。",
+     "云上的模型目录与容量事实分散在各条公告里，周报是把它们聚合成一份可比较清单的最短路径。",
+     "做多云模型接入或容量规划时值得固定订阅；数据为厂商口径，用于趋势判断而非实测基线。"),
+   },
+ ]),
+]
+
+flash = [
+ {"title": "论文：GUI agent 的经验检索「相关不等于适用」——历史经验的价值大多消耗在任务起始阶段，逐决策复用收益递减。",
+  "url": U("https://huggingface.co/papers/2609.33304")},
+ {"title": "OpenAI 一名工程师因涉嫌在行政会议室安装窃听装置被捕（HN 356 分）。",
+  "url": U("https://sfstandard.com/2026/10/13/openai-engineer-arrested-alleged-bugging-executive-conference-room/")},
+ {"title": "把 EmbeddingGemma 2 改造成语音转文字模型：用嵌入模型做 STT 的社区实验（HN 384 分）。",
+  "url": U("https://eg2.haku.sh/")},
+ {"title": "llm-gemini 0.35：新增 Gemini 4 Argon 支持，含 low/medium/high 三档推理强度对照。",
+  "url": U("https://simonwillison.net/2026/Oct/13/llm-gemini/")},
+ {"title": "web-edit 0.1a1：性能优化由 Claude Opus 5.5 依据 GPT-6 Astra 生成的 Python 3.15 profiling 报告完成。",
+  "url": U("https://simonwillison.net/2026/Oct/13/web-edit/")},
+ {"title": "web-edit 0.1a0：用 Codex 远程从手机改文件，避免把凭据经 LLM 往返（Simon Willison）。",
+  "url": U("https://simonwillison.net/2026/Oct/12/web-edit/")},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 10 月 14 日 · 星期三",
+ "issue": 25,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天两条主线都指向同一件事：agent 的规模正在把「老基础设施」逼到重做。Anthropic 自研了 Git 的替代品——5 月日均合并约 2500 次代码变更、9 月已超过 30000 次/天，主线历史近 100 GB、CI 每天 2500 万次 checkout，朴素 Git 拉取对应每天超过 600 PB 流量，于是版本控制系统 Scion 与评审系统 Antique 由 7 人团队在 5 个月内替换掉 Git。Kubezilla 则从另一端给出答案：不要给编码 agent 一个 kubeconfig，用 Pod Security Admission、namespace 级 Role（只能建 Job、读日志）、ResourceQuota、default-deny NetworkPolicy 与 ValidatingAdmissionPolicy 这五件 K8s 自带工具，把 LLM 生成的代码关进一个「没凭据、没网络、有计时器」的地方，全部配置在真实 v1.34.1 上验证过。AI 侧，Anthropic 把多 agent 的协调逻辑外置成可执行程序（Dynamic Workflows，上限 1000 个 agent/64 并发/24 小时），面壁的 MiniCPM-V 4.7 让 35B MoE 在断网 iPhone 上只占约 3G 内存跑出 13 token/s。基础设施侧，containerd 同日发出四条维护线安全补丁，Envoy 1.40 把 HTTP/3 与后量子密钥交换转正、并开始提取 LLM token 用量。",
+ "highlights": highlights,
+ "sections": [
+   sect("🤖 AI 板块", [
+     ("🧩", "Agent & Skill", "Agent & Skill", agent_skill),
+     ("🧠", "模型与研究", "Models & Research", models),
+     ("🛠️", "AI 工程落地", "AI Engineering", ai_eng),
+     ("📊", "产品与商业", "Business", business),
+     ("💡", "观点与好文", "Opinion", opinion),
+     ("🛡️", "安全与治理", "Safety & Governance", safety),
+   ]),
+   sect("☸️ 基础设施板块", infra),
+ ],
+ "flash": flash,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- sanity: every item must have a non-empty title (dedup_history.py crashes otherwise)
+def check(o, path="root"):
+    if isinstance(o, dict):
+        if "url" in o:
+            assert o.get("title"), f"missing title at {path}"
+        for k, v in o.items():
+            check(v, f"{path}.{k}")
+    elif isinstance(o, list):
+        for i, x in enumerate(o):
+            check(x, f"{path}[{i}]")
+check(brief)
+
+out = os.path.join(BASE, "briefing.json")
+json.dump(brief, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+n_items = (len(highlights) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"]) + len(flash))
+print(f"briefing.json written: issue={brief['issue']}, items={n_items}")
