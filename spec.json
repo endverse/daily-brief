@@ -1,33 +1,33 @@
 {
-  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：{date}(如 2026年09月19日 · 星期六)、{issue}(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
-  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
-  "header": {
-    "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026年10月13日 · 星期二 · 第024期",
-    "template": "indigo",
-    "icon": "myai_colorful"
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年10月14日 · 星期三(如 2026年09月19日 · 星期六)、025(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. Anthropic 自研源码控制与评审系统：日均合并从 2500 涨到 30000 次，Git 撑不住了**\nSimon Willison 2026-10-13 转述 Anthropic 的工程博文：2026 年 5 月 Anthropic 日均合并约 2500 次代码变更，到 9 月已超过 30000 次/天，四个月增长约 12 倍，这直接超出了 Git 的可承受范围。约束来自几个具体数字——主线历史已接近 100 GB、压缩后的工作副本超过 25 GB，CI 每天要执行约 2500 万次 checkout，还没算开发者环境、agent 沙箱与研究任务；用 git 朴素拉取意味着每天超过 600 PB 的传输量。Anthropic 因此自研了两套系统：新版本控制系统叫 Scion（Simon 认为它像是集中式版本控制的一次再发明，路线接近 Subversion），代码评审系统叫 Antique。迁移由 7 人团队在 5 个月内完成。Simon 还顺带提到 Anthropic 大量使用对抗式评审（让模型互相挑错），效果很强但会「近视」，需要资深工程师把 Claude 从为假想风险做的过度工程里拉回来。\n\n**2. 不要给编码 agent 一个 kubeconfig：用 K8s 内置能力关住 LLM 生成的代码**\nKubezilla（2026-10-13）给出一套只用 K8s 内置功能的 agent 代码沙箱：给编码 agent 一个 kubeconfig、不限制权限，就等于把一个文本生成器接上了集群的钥匙，而能影响模型输出的任何东西（README、GitHub issue、抓来的网页）都能顺带操纵集群，这正对应 OWASP LLM Top 10 里的 Prompt Injection 与 LLM06「过度授权」。方案是两个命名空间隔离——agent-system 放 agent 与其 ServiceAccount、agent-sandbox 是唯一允许跑生成代码的地方，后者用 Pod Security Admission 的 restricted 档（连集群管理员提交特权 Pod 也会被 API server 拒绝）；权限是一个 namespace 级 Role，只允许 create/get/list/watch/delete Job 加读 pods 与 pods/log，故意不给 secrets、pods/exec、创建裸 Pod 和 roles/bindings；预算用 ResourceQuota + LimitRange 兜住重试爆量，网络用 default-deny NetworkPolicy 封死出口，提交内容再用 ValidatingAdmissionPolicy 校验。所有 YAML 都在真实 Kubernetes v1.34.1 上跑过，文中错误信息是从那次运行里直接复制的，最后还给了 kind 上一键复现的脚本。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧩 **Agent & Skill** — Anthropic 给 Managed Agents 上线动态工作流：把多 agent 编排写成可执行程序，边界是累计 1000 个 agent / 64 并发 / 24 小时；machine-skill 用一行描述生成跑真实物理的仿真；vercel-labs/skills 一条 npx 命令跨 80+ 编码 agent 装 skill。\n🧠 **模型与研究** — 面壁开源 MiniCPM-V 4.7：35B-A3B 在断网 iPhone 上只占约 3G 内存、13 token/s；论文 Thinking Inertia 证明「关掉思考模式」不等于停止推理；同一份输出换一套 gold 就能移动多语言基准分数。\n🛠️ **AI 工程落地** — Python 3.15 内置采样 profiler 定位 web-edit 热点（64.8% 栈在混合行尾保留，95.1% 栈来自工作线程），优化由另一个模型照报告完成；高通把 Snapdragon X2 的 Linux 支持提前推进上游主线，NPU 走上游 FastRPC。\n📊 **产品与商业** — 千问 AI 眼镜 N1 Pro 支持体征监测与虹膜核身支付（官方称误识率低于百万分之一）；魔法原子 EchoPolicy-0 以 75.4% 操作成功率拿下 MolmoSpaces 零样本榜单全球第一。\n💡 **观点与好文** — Armature 用 17000 次工具选择会话说明 agent 选型让厂商二十年品牌建设失效；一篇 HN 记录发帖后个人站被 AI 爬虫流量淹没。\n🛡️ **安全与治理** — 补丁 PR 提交后数分钟就出现匹配探测：拿到 CVE 描述时 GPT-4 agent 对基准 15 个漏洞的利用率达 87%，无描述时只有 7%。\n🤖☸️ **K8s × AI** — DRA GPU 驱动 v0.5.1 修 ComputeDomain 竞态与 kubelet 重复报错；Dynamo v1.5.1 修 K8s 上 RL worker 发现失败；SGLang v0.5.21 的 PD 角色可免重启切换并默认用 Rust 前缀缓存。\n☸️ **K8s 核心技术** — containerd 同一天发布四条维护线补丁（含 CVE-2026-95839），并修镜像拉取时下载快于写入导致的内存暴涨。\n🧩 **云原生周边** — BuildKit v0.34.0 支持 BoltDB 压实；Envoy 1.40.0 把 HTTP/3 与 QUIC 转稳定、默认启用后量子混合密钥交换，并开始按 OpenAI/Anthropic/Gemini 方言提取 LLM token 用量。\n☁️ **公有云动态** — Google Cloud 的 U4 机器族与超低延迟方案 GA，面向云上高频交易；AWS 周报汇总 Prime Day 2026 容量数据、Claude Haiku 5.5 与 Nova 2.5 Sonic。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 · 10 大板块 25 条精选 · 6 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-10-14.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
+ "header": {
+  "title": "📰 AI & 基础设施早报",
+  "subtitle": "2026年10月14日 · 星期三 · 第025期",
+  "template": "indigo",
+  "icon": "myai_colorful"
+ },
+ "cover_image": "/Users/endverse/daily_brief_cover.png",
+ "blocks": [
+  {
+   "type": "markdown",
+   "content": "**🔥 今日重点**\n\n**1. Anthropic 自研源码控制与评审系统：日均合并从 2500 涨到 30000 次，Git 撑不住了**\nSimon Willison 2026-10-13 转述 Anthropic 的工程博文：2026 年 5 月 Anthropic 日均合并约 2500 次代码变更，到 9 月已超过 30000 次/天，四个月增长约 12 倍，这直接超出了 Git 的可承受范围。约束来自几个具体数字——主线历史已接近 100 GB、压缩后的工作副本超过 25 GB，CI 每天要执行约 2500 万次 checkout，还没算开发者环境、agent 沙箱与研究任务；用 git 朴素拉取意味着每天超过 600 PB 的传输量。Anthropic 因此自研了两套系统：新版本控制系统叫 Scion（Simon 认为它像是集中式版本控制的一次再发明，路线接近 Subversion），代码评审系统叫 Antique。迁移由 7 人团队在 5 个月内完成。Simon 还顺带提到 Anthropic 大量使用对抗式评审（让模型互相挑错），效果很强但会「近视」，需要资深工程师把 Claude 从为假想风险做的过度工程里拉回来。\n\n**2. 不要给编码 agent 一个 kubeconfig：用 K8s 内置能力关住 LLM 生成的代码**\nKubezilla（2026-10-13）给出一套只用 K8s 内置功能的 agent 代码沙箱：给编码 agent 一个 kubeconfig、不限制权限，就等于把一个文本生成器接上了集群的钥匙，而能影响模型输出的任何东西（README、GitHub issue、抓来的网页）都能顺带操纵集群，这正对应 OWASP LLM Top 10 里的 Prompt Injection 与 LLM06「过度授权」。方案是两个命名空间隔离——agent-system 放 agent 与其 ServiceAccount、agent-sandbox 是唯一允许跑生成代码的地方，后者用 Pod Security Admission 的 restricted 档（连集群管理员提交特权 Pod 也会被 API server 拒绝）；权限是一个 namespace 级 Role，只允许 create/get/list/watch/delete Job 加读 pods 与 pods/log，故意不给 secrets、pods/exec、创建裸 Pod 和 roles/bindings；预算用 ResourceQuota + LimitRange 兜住重试爆量，网络用 default-deny NetworkPolicy 封死出口，提交内容再用 ValidatingAdmissionPolicy 校验。所有 YAML 都在真实 Kubernetes v1.34.1 上跑过，文中错误信息是从那次运行里直接复制的，最后还给了 kind 上一键复现的脚本。"
   },
-  "cover_image": "/Users/endverse/daily_brief_cover.png",
-  "blocks": [
-    {
-      "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. 编码智能体三周重构 30 万行 C 代码：Code Health 从 5.6 提升到 10.0，成本约 4000 美元**\nInfoQ 中文（2026-10-12，作者 Steef-Jan Wiggers / 田橙，全文约 2165 字）报道 CodeScene 的案例研究：编码智能体在三周内重构了一个 30 万行的 C 代码库（《街头霸王 III：三度冲击》的开源反编译项目），在 726 个文件中产生 2903 次提交、改动 252055 行代码，token 成本约 4000 美元，Code Health 评分从 5.6 升到 10.0。支撑它的是两套机制：CodeHealth MCP Server 给智能体一个确定性的质量评分，用来判断某次转换是否真的产生了正向效果；一个回放轨迹测试框架逐帧比较回滚状态哈希，在每次改动后检查系统行为是否保持一致——支持者认为这比「测试套件全绿」是苛刻得多的标准。智能体没有套用固定的重构目录，而是自己长出一套含 22 个方案、82 条辅助说明的重构手册，既有 Extract Function、Guard Clauses 这类通用转换，也有针对该代码库的特化方案，例如把仅起止范围不同的重复循环抽象成 Shared Index Range；失败的尝试（包括让 Code Health 下降的转换）也被记录下来，形成可审计的演进日志。模型上团队主要用 Claude Opus，并报告 Claude Code + Opus 在识别与记录逐渐成形的模式上明显优于 Codex + Sol，换用小模型时文件评分经常停滞，看起来像卡在了局部最优。争议不在「是否发生」而在「证明了什么」：质疑者追问是否只是开源代码上的实验（团队回应改动通过 54 个 PR 合入了一个分支版本的 main），以及架构与非功能指标（帧率、内存占用、输入延迟）根本没有被衡量。\n\n**2. kagent：把 AI agent 变成 Kubernetes 资源，「造 agent 的 agent」只是一个会写 YAML 的 agent**\nCNCF 博客（2026-10-12，作者 Solo.io 的 Antonio Berben 与 Telefónica 的 Felipe Vicens）：kagent 是 CNCF Sandbox 项目，把 AI agent 当作 Kubernetes 资源来跑——agent 不是手工启动的进程，而是一个自定义资源，在里面写 system prompt、模型与工具列表，apply 之后由控制器把它变成一个通过 A2A 协议通信的运行中 Pod。一旦 agent 只是 YAML，「能造 agent 的 agent」就退化成一个只会写一种 YAML 的 agent：不需要新框架、不需要插件。作者用 kind + Helm + Ollama 在笔记本上从零搭出这个过程，并给出一个反直觉的实测结论——写合法 Kubernetes manifest 比聊天难得多，本地模型里 qwen2.5:7b 会自己发明工具块的格式、14b 有时只是礼貌回答而从不调用 apply 工具，只有 qwen3-coder:30b-a3b（约 18GB）每次都能正确产出。文章明确把安全性划到范围之外：这套实验跑在 kagent 默认的非安全认证模式（所有请求视为同一用户），chart 自带的 PostgreSQL 用内置密码，UI 与 API 也只能通过 127.0.0.1 的 kubectl port-forward 访问——笔记本上可以接受，共享集群上不行。作者最后把「它跑在哪、能碰什么、谁批准的」这三个问题留作真正的工程工作。"
-    },
-    {
-      "type": "hr"
-    },
-    {
-      "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Open Academic Paper Gen 把论文初稿拆成九阶段多智能体工作流，引用核验分三道查（文献池存在性 → Crossref/doi.org 核对元数据 → 全文段落级判断是否支撑论点）；Google Cloud 发布 Data Agent Kit，用 MCP 工具 + Markdown Skills 把数据栈交给编码 agent；Codex CLI 默认安装自更新后台常驻进程引 430 分讨论；论文 MetaKernelBench 度量内核 agent 的经验能否跨 DSL 复用。\n🧠 **模型与研究** — Meta 发布 Muse Wonder 系列，主打 Active Memory 与 Active Focus 的个人/职业 agentic 任务；华为 Memento 3 靠「代码即模型」在 ARC-AGI-3 上拿满分 RHAE 100、操作比人类少 56%，何恺明团队 VISTA 用无损视觉记忆在同一基准上让 Opus 5.0 全通、动作少 57.4%；智谱 GLM-Legal 在 Harvey LAB 取得 19.2% 全通过率；论文研究模型在持续学习中的「自我保存」，以及消除潜在递归模型「一圈税」的 ELR 训练法。\n🛠️ **AI 工程落地** — 微软 1-bit 推理框架 BitNet 再上 Trending；MetaKernelBench 给出「沉淀下来的内核经验还有没有复用价值」的度量口径。\n📊 **产品与商业** — 智谱 GLM-5.3-Highspeed 在 Zcode 灰度，网友实测 490 tokens/s（对照 FlashX 约 200、Flash 约 60），配 100 万上下文与三档思考强度。\n💡 **观点与好文** — 论文系统拆解 VLM 自验证为何失效并给出多视角验证；另一篇用 4782 段真实 IDE 会话证明编码 agent 的基准与真实任务流偏离，该按用户任务流重新设计评测。\n🛡️ **安全与治理** — 7 美元 ESP32 把真实 iPhone 变成 agent 的执行终端（AirPlay 当眼睛、USB HID 当手），绕过手机侧身份与权限边界的风险样本。\n🤖☸️ **K8s × AI** — KubeCon China 的 PD 分离 keynote 被逐层拆解——prefill/decode 分 Pod、KV cache 走 NIXL、Endpoint Picker 按前缀缓存与 KV 水位选 Pod，底层 GPU 由 HAMi 共享调度；Grove alpha.15 修掉手动扩容调度门迟到、Coherent update 死锁与 MaxUnavailable 约束过严三个故障点。\n☸️ **K8s 核心技术** — Calico v3.33.0 大版本：CNI 可用 netkit 替代 veth（Linux 6.7+）、nftables 支持 flowtable offload、Felix 应答 ARP 实现 L2 可达、节点进程合并每节点省约 200MB、多数组件收进单镜像，BIRD 下发 IPIP 路由进入弃用；LWS v0.11.1 修 worker StatefulSet 命名冲突。\n🧩 **云原生周边** — Google 宣布 SRE 书十周年完全重写的第二版；Kubezilla 汇总 KubeCon EU 主权议题——区分「主权代码」与「主权部署」，SNCF 在 Azure/AWS/私有 OpenStack 上跑 200+ 集群、约 30% 应用留在本地。\n☁️ **公有云动态** — AWS 发布 Lambda Web Functions，标准 HTTP 应用一条命令上 Lambda，多并发 + 按活跃 CPU 计费成第三种形态；BigQuery 的 AI.FORECAST 升级 TimesFM 3.0，支持多变量时序预测。"
-    },
-    {
-      "type": "grey",
-      "content": "共 2 条重点 · 10 大板块 24 条精选 · 6 条快讯 · 数据源覆盖 72 小时"
-    }
-  ],
-  "button": {
-    "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-10-13.html"
+  {
+   "type": "hr"
   },
-  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
+  {
+   "type": "markdown",
+   "content": "**📌 今日看点**\n\n🧩 **Agent & Skill** — Anthropic 给 Managed Agents 上线动态工作流：把多 agent 编排写成可执行程序，边界是累计 1000 个 agent / 64 并发 / 24 小时；machine-skill 用一行描述生成跑真实物理的仿真；vercel-labs/skills 一条 npx 命令跨 80+ 编码 agent 装 skill。\n🧠 **模型与研究** — 面壁开源 MiniCPM-V 4.7：35B-A3B 在断网 iPhone 上只占约 3G 内存、13 token/s；论文 Thinking Inertia 证明「关掉思考模式」不等于停止推理；同一份输出换一套 gold 就能移动多语言基准分数。\n🛠️ **AI 工程落地** — Python 3.15 内置采样 profiler 定位 web-edit 热点（64.8% 栈在混合行尾保留，95.1% 栈来自工作线程），优化由另一个模型照报告完成；高通把 Snapdragon X2 的 Linux 支持提前推进上游主线，NPU 走上游 FastRPC。\n📊 **产品与商业** — 千问 AI 眼镜 N1 Pro 支持体征监测与虹膜核身支付（官方称误识率低于百万分之一）；魔法原子 EchoPolicy-0 以 75.4% 操作成功率拿下 MolmoSpaces 零样本榜单全球第一。\n💡 **观点与好文** — Armature 用 17000 次工具选择会话说明 agent 选型让厂商二十年品牌建设失效；一篇 HN 记录发帖后个人站被 AI 爬虫流量淹没。\n🛡️ **安全与治理** — 补丁 PR 提交后数分钟就出现匹配探测：拿到 CVE 描述时 GPT-4 agent 对基准 15 个漏洞的利用率达 87%，无描述时只有 7%。\n🤖☸️ **K8s × AI** — DRA GPU 驱动 v0.5.1 修 ComputeDomain 竞态与 kubelet 重复报错；Dynamo v1.5.1 修 K8s 上 RL worker 发现失败；SGLang v0.5.21 的 PD 角色可免重启切换并默认用 Rust 前缀缓存。\n☸️ **K8s 核心技术** — containerd 同一天发布四条维护线补丁（含 CVE-2026-95839），并修镜像拉取时下载快于写入导致的内存暴涨。\n🧩 **云原生周边** — BuildKit v0.34.0 支持 BoltDB 压实；Envoy 1.40.0 把 HTTP/3 与 QUIC 转稳定、默认启用后量子混合密钥交换，并开始按 OpenAI/Anthropic/Gemini 方言提取 LLM token 用量。\n☁️ **公有云动态** — Google Cloud 的 U4 机器族与超低延迟方案 GA，面向云上高频交易；AWS 周报汇总 Prime Day 2026 容量数据、Claude Haiku 5.5 与 Nova 2.5 Sonic。"
+  },
+  {
+   "type": "grey",
+   "content": "共 2 条重点 · 10 大板块 25 条精选 · 6 条快讯 · 数据源覆盖 72 小时"
+  }
+ ],
+ "button": {
+  "text": "📖 阅读今日早报全文",
+  "url": "https://endverse.github.io/daily-brief/2026/2026-10-14.html"
+ },
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
