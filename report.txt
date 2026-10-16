@@ -1,51 +1,54 @@
 ======================================================================
-处理报告  (原始 136 条)
+处理报告  (原始 203 条)
 ======================================================================
 
-① 过滤: 保留 99 条, 过滤掉 37 条
+① 过滤: 保留 162 条, 过滤掉 41 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] bilawalsidhu/gods-eye-view
      ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub Trending] storytold/artcraft
-     ✗ [GitHub Trending] xtool-org/xtool
-     ✗ [GitHub 升星repo] jhaizhou-ops/d2r-mobile
-     ✗ [GitHub 升星repo] PS5Dev/Byepervisor-Reborn
-     ✗ [GitHub 升星repo] overdriveps5/overdrive-releases
-     ✗ [GitHub 升星repo] threerocks/sweety-handdraw-video
+     ✗ [GitHub Trending] NationalSecurityAgency/ghidra
+     ✗ [GitHub 升星repo] ahwootech/BRUTAL
+     ✗ [GitHub 升星repo] Supermedo/uncharted_pc
+     ✗ [GitHub 升星repo] StoopwenpueNq/jackie-fmri-sim
+     ✗ [GitHub 升星repo] 0xProbabillity/house-control
+     ✗ [GitHub 升星repo] MyLuxy/overdrive
+     ✗ [GitHub 升星repo] ctresb/leis
 
-② 去重: 99 → 89 条 (同批合并 1, 跨天历史去重 9)
+② 去重: 162 → 152 条 (同批合并 2, 跨天历史去重 8)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] morluto/rea
+     ⏭️  [GitHub Trending] anthropics/claude-plugins-official
+     ⏭️  [GitHub Trending] JuliusBrussee/caveman
+     ⏭️  [GitHub Trending] obra/superpowers
      ⏭️  [GitHub Trending] mksglu/context-mode
-     ⏭️  [GitHub Trending] cathrynlavery/diagram-design
-     ⏭️  [GitHub Trending] lyogavin/airllm
-     ⏭️  [AWS News] Announcing AWS Lambda Web Functions
-     ⏭️  [Google Cloud] Agentic data science with the Data Agent Kit
-     ⏭️  [Google Cloud] 10 Years of the SRE book: Announcing the secon
-     ⏭️  [Google Cloud] Introducing TimesFM 3.0 with multivariate time
+     ⏭️  [GitHub Trending] affaan-m/ECC
+     ⏭️  [Google Cloud] What’s new with Google Data Cloud
+     ⏭️  [Anthropic News] Introducing the Anthropic Cyber Mission
    跨源合并的事件:
-     ⇉ Redesigning source control at Anthropic  ← ['Hacker News', 'Simon Willison']
+     ⇉ Your Transformer Is Secretly Elastic  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ VASPO: Self-Distillation with Privileged  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 41 条 (含🔧开源 1)
-     - AI 工程落地: 13 条 (含🔧开源 2)
-     - Agent & Skill: 26 条 (含🔧开源 7)
-     - 产品与商业: 6 条 (含🔧开源 1)
-     - 安全与治理: 1 条
+     - 模型与研究: 66 条 (含🔧开源 2)
+     - 观点与好文: 5 条 (含🔧开源 1)
+     - 安全与治理: 11 条 (含🔧开源 1)
+     - Agent & Skill: 30 条 (含🔧开源 5)
+     - AI 工程落地: 21 条 (含🔧开源 4)
+     - 产品与商业: 14 条
    【基础设施】
-     - K8s × AI: 1 条
-     - 社区与项目: 1 条
+     - 云原生周边: 2 条
+     - K8s × AI: 2 条
+     - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Redesigning source control at Anthropic
-        源:Simon Willison 类:AI 工程落地 跨源:['Hacker News', 'Simon Willison']
-     🔥 [16分] Higgsfield takes AI video from 1 minute to over 10
+     🔥 [19分] How Third Moment Research runs 10,000 agents for 36+ ho
         源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [17分] Tree Appreciator
+        源:Simon Willison 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      19分 [Simon Willison] Redesigning source control at Anthropic
+      19分 [OpenAI News ] How Third Moment Research runs 10,000 agents 
+      17分 [Simon Willison] Tree Appreciator
+      16分 [OpenAI News ] Amp puts AI agents to work beyond code with O
       16分 [OpenAI News ] Higgsfield takes AI video from 1 minute to ov
       16分 [Anthropic News] Expanding the Cyber Verification ProgramAnnou
-      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      16分 [Anthropic News] Science Claude discovers a novel enzyme syste
