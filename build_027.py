@@ -1,0 +1,511 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build issue 027 briefing.json.
+
+Gap-fill items (funnel step 3: releases.atom + CNCF feed) are appended to
+processed.json first so verify_links.py accepts their URLs.
+"""
+import json, os
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+PROC = os.path.join(BASE, "processed.json")
+
+# ---------------------------------------------------------------- gap-fill
+GAP = [
+    dict(title="LeaderWorkerSet v1.0.0", url="https://github.com/kubernetes-sigs/lws/releases/tag/v1.0.0",
+         source="GitHub", board="基础设施", category="K8s × AI", oss=True,
+         summary="kubernetes-sigs LWS v1.0.0（2026-10-16）：DisaggregatedSet 支持 fractional rollout window、更新期间扩缩容（KEP-1022）、独立可扩缩子角色（KEP-960）、maxGroupRestarts/restartBackoff 组恢复边界（KEP-820）、podTerminationPolicy: Parallel（KEP-956）；原生 gang scheduling 仍是 alpha。"),
+    dict(title="containerd 2.3.7", url="https://github.com/containerd/containerd/releases/tag/v2.3.7",
+         source="GitHub", board="基础设施", category="K8s 核心技术", oss=True,
+         summary="containerd 2.3.7（2026-10-13）LTS 补丁版：含 CVE-2026-95839 等安全修复与四项硬化（容器日志不跟随符号链接、拒绝含 .. 的镜像引用、seccomp 默认配置允许列表化 socket 域、解包时过滤 ID-mapping 标签）。"),
+    dict(title="Istio 1.31.2", url="https://github.com/istio/istio/releases/tag/1.31.2",
+         source="GitHub", board="基础设施", category="K8s 核心技术", oss=True,
+         summary="Istio 1.31.2（2026-10-15）安全补丁：修 AuthorizationPolicy over HTTP/2 方法大小写绕过（CVSS 7.4）与 ambient 模式 istiod 崩溃（7.7），并修 Envoy OAuth2 / api_key_auth 过滤器在无 :path 的 CONNECT 请求上崩溃；同时让 istioctl 校验 istiod 证书。"),
+]
+
+proc = json.load(open(PROC, encoding="utf-8"))
+have = {it["url"] for it in proc}
+added = 0
+for g in GAP:
+    if g["url"] not in have:
+        proc.append(dict(g, published="", source_cat="人工补搜", extra={}, hot_score=9, is_hot=False))
+        have.add(g["url"]); added += 1
+json.dump(proc, open(PROC, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(f"processed.json: +{added} gap-fill items, total {len(proc)}")
+
+URL2TITLE = {it["url"]: it["title"] for it in proc}
+
+
+def U(url):
+    """Return the EXACT url stored in processed.json (never hand-written)."""
+    if url in URL2TITLE:
+        return url
+    base = url.split("?")[0]
+    for u in URL2TITLE:
+        if u.split("?")[0] == base:
+            return u
+    raise AssertionError(f"URL not in processed.json: {url}")
+
+
+def D(a, b, c):
+    return [{"key": "能做什么", "value": a},
+            {"key": "解决什么痛点", "value": b},
+            {"key": "值不值得", "value": c}]
+
+
+# ---------------------------------------------------------------- highlights
+highlights = [
+ {"title": "FDE-Gym：把「AI 交付的最后一公里」做成 95 个真实客户任务——最强配置只解决 14 个",
+  "url": U("https://huggingface.co/papers/2610.22350"),
+  "summary": "FDE-Gym 是一个针对 forward-deployed engineer（FDE，前向交付工程师）的交付型基准：95 个端到端交付任务取自 20 个客户场景、覆盖 18 个行业，由行业专家从真实交付项目改编。评测环境模拟客户系统与「有脚本的利益相关方」，agent 要与客户对话、在类生产系统上操作，最终交付按「客户自己的业务指标改善幅度」打分——0 分为系统无变化、1 分为参考解，并对交互（消息、试跑、等待时间）扣分。论文评测了来自 7 家供应商的 13 种模型配置：在需要自己挖出未言明约束的真实设定下，最佳配置平均分 0.56，95 个任务里只有 14 个达到「分数 ≥0.8 且无事故」的解决标准。瓶颈被定位为「发现未言明的约束」，但信息发现本身不足以解释差距：即便只看最佳配置已从客户处拿全所有关键事实的 23 个任务，也只有 10 个达到 0.8 以上的归一化业务提升。作者同时开放了一个在线平台，让人类按同一套标准练习 FDE 技能。",
+  "note": "🔎 新闻要点：95 个端到端交付任务 / 20 个客户场景 / 18 个行业，由行业专家改编自真实项目；打分 = 客户业务指标改善（0 = 系统无变化，1 = 参考解），并对消息、试跑、等待时间扣分；评测 13 种模型配置（7 家供应商）；真实设定下最佳平均分 0.56、95 个任务只解决 14 个（≥0.8 且无事故）；在最佳配置拿全关键事实的 23 个任务中仅 10 个达 0.8+；瓶颈为「发现未言明的约束」；提供人类可用的在线练习平台。",
+  "tag": "Agent 评测",
+  "source": "HuggingFace Papers",
+  "detail": D("把「交付」而不是「解题」变成可打分对象：任务来自真实客户项目，agent 必须与有脚本的客户对话、在可修改的类生产系统上操作，得分直接绑定客户业务指标的改善幅度（0—1 归一化），并对无谓交互（发消息、试跑、等待）扣分；同一套评分标准也开放给人类练习 FDE 技能。",
+           "现有 agent 基准都是「需求写清楚的题」（issue、spec、工单），而真实交付里需求是模糊的、约束是没人说出口的、系统是活的；用这类基准选出来的能力无法预测实际项目能不能交出去，于是团队反复经历「demo 好看、交付难落地」。",
+           "你关注 agent/skill 在真实业务里的落地效果，这份基准的结论比分数更值得看——瓶颈是「挖出没人言明的约束」而非模型能力，且信息给全后业务指标仍上不去；可以直接拿它的打分口径（绑定业务指标 + 交互成本）设计内部 agent 评估；限制是分数强依赖脚本化的客户环境，向自家业务的迁移度需自评。"),
+ },
+ {"title": "LeaderWorkerSet v1.0.0 GA：DisaggregatedSet 支持分角色独立扩缩，gang scheduling 仍是 alpha",
+  "url": U("https://github.com/kubernetes-sigs/lws/releases/tag/v1.0.0"),
+  "summary": "kubernetes-sigs 的 LeaderWorkerSet（LWS）于 2026-10-16 发布 v1.0.0，主线是把「一个 leader + N 个 worker 作为一组」这套多节点推理 / 训练编排抽象的发布协调与扩缩补齐。rollout 窗口改为按各角色副本数按比例推进，允许新批次在旧批次完全 Ready 之前启动，同时不突破配置的 maxSurge / maxUnavailable 预算（#907）；滚动更新期间仍可扩容，并可选地在更新完成前缩容（KEP-1022）。新增「可独立扩缩的子角色」：把同一角色拆成共享同一 workload 配置的扩缩池与路由池，组标识支持 Ordinal 与 Hash 两种（KEP-960）。原生 gang scheduling（KEP-666）修了 PodGroup 生命周期与组大小更新处理，组重建与改大小的 rollout 不再把负载卡死，但该集成仍是 alpha 且需显式开启。组恢复新增边界：maxGroupRestarts 限制每个副本组的自动重建次数、restartBackoff 限制重建频率（KEP-820）；podTerminationPolicy: Parallel 让 leader 与 worker 并发终止，Sequential 仍为默认（KEP-956）；控制器配置 API 毕业为 config.lws.x-k8s.io/v1，v1alpha1 弃用但继续支持。",
+  "note": "🔎 新闻要点：2026-10-16 发布 v1.0.0；fractional rollout window 按角色副本比例推进（#907）；KEP-1022 更新期间扩缩容；KEP-960 独立可扩缩子角色（Ordinal / Hash）；KEP-666 原生 gang scheduling 生命周期修复（alpha、opt-in）；KEP-820 maxGroupRestarts / restartBackoff；KEP-956 podTerminationPolicy: Parallel（Sequential 仍为默认）；配置 API → config.lws.x-k8s.io/v1（v1alpha1 deprecated）；破坏性默认变更 #1169——未配 rollingUpdateConfiguration 的 DisaggregatedSet 角色变为 maxSurge 0 / maxUnavailable 1。",
+  "tag": "K8s × AI / 工作负载 GA",
+  "source": "GitHub",
+  "oss": True,
+  "detail": D("给多节点推理 / 训练这层「成组工作负载」补齐发布与扩缩语义：rollout 按角色副本比例推进、更新期间可扩可缩、一个角色可拆成独立扩缩的扩缩池与路由池（Ordinal / Hash 组标识）、组自动重建有次数与退避上限、leader 与 worker 可并发终止；原生 gang scheduling 修复了组重建和改大小时的卡死。",
+           "多角色推理拓扑（prefill / decode / router 等）用裸 Deployment / StatefulSet 表达不了启动顺序与整组可用性；此前滚动更新要么整组一起动、要么新批次起不来，扩容与更新互相打架，组重建卡死也很定位。",
+           "你自建推理服务或承载多节点负载时，LWS 1.0 是「1 leader + N worker」这层抽象里最主流的选择，GA 后配置 API 进 v1 更稳；升级前必须先看那条破坏性默认值变更，并把原生 gang scheduling 当 alpha 对待（需显式开启、别放关键路径）。"),
+ },
+]
+
+# ---------------------------------------------------------------- AI 板块
+agent_skill = [
+ {"title": "LEASH：用弱模型隐状态的不确定性决定「何时交给强模型」，OSWorld 上比随机升级高 6.55–11.94 分",
+  "url": U("https://huggingface.co/papers/2610.22280"),
+  "summary": "长程 computer-use 任务里每一步都跑前沿模型太贵、小模型单独跑又常失败，weak-to-strong 升级是折中方案，难点在「何时升级」需要一个每步都能廉价获取的不确定性信号。LEASH 是免训练框架，三层：先用初始任务不确定性做早期路由，再用步级不确定性决定运行时升级；交接之后用一个 shadow observer 继续监督强模型——因为强模型通常以黑盒 API 形式提供，暴露不出内部状态。不确定性信号来自弱模型自身隐状态与它过去成功 / 失败轨迹隐状态的比较（越像失败轨迹越不确定），并且复用动作生成时已经产生的激活，不需要额外前向传播、也不需要专门训练监控器。在 OSWorld 上、四种当代模型底座下，LEASH 一致优于单独跑弱模型，并在匹配升级率的前提下比随机升级高 6.55—11.94 分。",
+  "tag": "Agent 调度",
+  "source": "HuggingFace Papers",
+  "detail": D("在「弱模型默认跑、只在必要时升级到强模型」这条线上，给了一个免训练的三层方案：初始任务不确定性做早期路由 → 步级不确定性做运行时升级 → shadow observer 在交接后继续监督；不确定性复用动作生成时已有的隐状态，不需要额外前向或训练监控器。",
+           "全用前沿模型逐步跑 computer-use 成本不可接受，而小模型单独跑长程任务会失败；现有升级策略要么靠固定规则、要么随机交接，等于把贵的算力花在不该花的地方，而且黑盒强模型交接后没人监督。",
+           "你在评估多用户 agent 沙箱与成本控制时，这种「廉价不确定性信号 + 分层升级」是直接可借用的思路，尤其它复用已有激活、不引入额外推理开销；限制是实验只在 OSWorld 上做、不确定性强依赖弱模型的隐状态可读（走闭源 API 的弱模型用不了）。"),
+ },
+ {"title": "MAI-Gym：GUI agent 的评测、数据采集与在线 RL 训练合成一个平台，训出 9B 模型在 OSWorld-Verified 拿 76.2%",
+  "url": U("https://huggingface.co/papers/2610.20939"),
+  "summary": "GUI agent 的在线 RL 卡在交互环境成本高、真实训练任务稀缺。MAI-Gym 是开源一体化平台，用一个共享 rollout 流水线统一移动端、桌面与网页环境的 GUI agent 评测、数据采集与在线 RL 训练，保证评测与训练下的 agent 行为口径一致，支持十套既有基准并扩展到 20,000 个并行环境实例；同时能自动合成多样的 GUI 应用与有难度的任务，包括可重置的 mocked 应用、带执行校验任务验证器的连贯跨应用世界。团队用它训出统一 9B agent MAI-Gym-9B，在 10B 以下的开源 GUI agent 里取得 MobileWorld 78.4%、OSWorld-Verified 76.2%；关键迁移结果是在 mocked 抢票应用里做 RL 能迁到真实应用，真机任务成功率从 28.8% 提到 48.1%。框架、合成技能、mocked 应用、2000 个已验证任务与模型权重均已放出。",
+  "tag": "开源 / GUI Agent 训练",
+  "source": "HuggingFace Papers",
+  "oss": True,
+  "detail": D("用一条共享 rollout 流水线把 GUI agent 的评测、数据采集与在线 RL 训练打通（移动 / 桌面 / 网页），支持十套基准、可扩到 20,000 并行环境；并能自动合成可重置的 mocked 应用与跨应用任务、带执行校验的验证器；用它在 9B 规模上训出 MobileWorld 78.4% / OSWorld-Verified 76.2% 的开源 SOTA，并证明 mocked 应用里的 RL 能迁移到真机（28.8% → 48.1%）。",
+           "GUI agent 的在线 RL 受限于交互环境昂贵与真实训练任务稀缺，评测与训练环境口径还不一致，导致训出来的能力难以复现或迁移；真机环境又贵到无法大规模试错。",
+           "你关心 agent 落地与训练成本结构，这份工作最值得看的是「mocked 环境里练、真机上涨」的迁移路径与 2 万并行实例的工程规模；限制是面向 GUI 操作类 agent，且真机迁移只在抢票这一个场景上验证过（单场景、28.8%→48.1% 的绝对值仍不高）。"),
+ },
+ {"title": "Pi 1.0 推出 Harness「Pi Durable」并把 MCP 装进核心：工具搜索 + 渐进披露控制上下文，Code Mode 在 QuickJS 沙箱里写 JS 编排工具",
+  "url": U("https://www.infoq.cn/article/hQOHf1ZXoBs7uMpWJQss"),
+  "summary": "Pi 迎来今年规模最大的一次更新：项目升级到 1.0，Code Mode 与原生 MCP 进入稳定版，同一天推出全新 Harness「Pi Durable」（架构前后经历八轮迭代；MCP 协议过去一年也经历了六七轮调整）。Pi 一年来是最直言不讳的 MCP 批评者，官网曾写着「不支持 MCP」，批评其臃肿、浪费 token；此次接入但不把工具名、参数、说明一次性塞进上下文，而是用工具搜索与渐进式披露按需加载。与 MCP 同期进入稳定版的 Code Mode 允许 agent 在 QuickJS 沙箱中编写并运行 JavaScript：并行调用工具、过滤 / 去重 / 计算，只把真正有用的结果送回模型，大量中间数据留在沙箱里，从而降低 token 消耗与上下文负担；它还支持在 JS 循环内部直接调用 System 1 小模型（如 Jev）做逐条判断，前沿模型只看分类汇总结果。Pi Durable 负责持久化用户消息、模型回复、工具执行结果与任务状态，进程崩溃后从中断处继续——可安全重放的操作重跑、可能产生重复副作用的不重跑；有开发者估计它可直接替代自己一半的代码。",
+  "tag": "Agent Harness",
+  "source": "InfoQ中国",
+  "detail": D("分两块：Pi Durable 接管长时 agent 运行的状态持久化（消息、模型回复、工具结果、任务状态），崩溃后从断点续跑，且区分「可安全重放」与「有重复副作用」的操作；MCP 侧用工具搜索 + 渐进式披露按需加载而非全量注入，Code Mode 则让 agent 在 QuickJS 沙箱里写 JavaScript 来并行编排工具、过滤中间数据，甚至在小循环里调用 System 1 小模型做逐条判断。",
+           "agent 崩溃后要人再输一次「继续」，工具结果与流式输出丢失；MCP 全量塞进上下文导致 token 浪费与上下文污染；中间数据（比如 200 条评论）未经处理就进入前沿模型的上下文，成本和噪声都不可控。",
+           "你正在积累 agent 编排与 skill 实践，Pi Durable 的「断点续跑 + 副作用安全重放」与 Code Mode 的「沙箱内编排、只回结果」是两个能直接借用的模式；注意 Pi 团队的自我批评仍然成立——agent 涉及设计与架构时经常只在局部堆叠代码，长时无人运行后谁来保证代码库没被改烂是它自己也没答案的问题。"),
+ },
+ {"title": "AWS 团队开源 Pizza Bot：让 agent 在后台干活、用收件箱界面回收结果",
+  "url": U("https://www.infoq.cn/article/aMgWFmwZ2HoZDtw1g0MQ"),
+  "summary": "亚马逊云科技的一个开发团队开源了 Pizza Bot，一款自托管应用程序，让 AI 智能体在后台运行任务并通过收件箱式界面返回结果：智能体可以执行定时任务或 Webhook 触发的任务，把任务委派给专门的工作节点，并在需要时暂停下来等待人工批准。",
+  "tag": "开源 / Agent 应用",
+  "source": "InfoQ中国",
+  "oss": True,
+  "detail": D("自托管的后台 agent 应用：定时任务与 Webhook 触发，把工作委派给专门的工作节点（worker），结果统一回到收件箱式界面，并支持在需要人工判断时暂停等待批准。",
+           "后台 agent 通常是「跑完就不知道去哪了」——任务状态散落在日志与通知里，人在环审批也没有统一入口；同时把全部逻辑塞进一个 agent 会让长任务既难排障也难扩。",
+           "同类「agent 收件箱 + worker 委派 + 人工审批」的形态，正好对应你评估的多用户 agent 沙箱路由与会话隔离问题，可作为最小实现参考；限制是它定位为通用后台任务容器，没有多租户隔离与配额治理的设计，生产使用需自行补齐。"),
+ },
+ {"title": "3DCodeVerse：把 3D 内容变成可执行可验证的代码，harness 在人类成对评测中对 Claude Design 胜率 90%",
+  "url": U("https://arxiv.org/abs/2610.22341v1"),
+  "summary": "3DCodeVerse 是一个研究生态，目标是让 coding agent 能规模化产出可编辑、可验证的 3D 内容。它先构建 3DCodeVerse-2M：从开源数据收集、把专用表示转换、再用 coding agent 生成新程序，得到大规模可独立执行的 3D 代码数据集，每个程序打包源码、运行所需资产，以及已有的描述与验证记录。再给出 3DCodeVerse Harness——一个多 agent 有向无环图框架，用执行检查、空间测量与视觉反馈在生成过程中无人类反馈地自动评估并修订程序。实验显示在该数据集上微调能显著提升开源模型的 3D 编码能力；当两者都由 Claude Opus 5.5 使用时，该 harness 在成对人工评测中对 Claude Design（3D Object）取得 90% 胜率。",
+  "tag": "论文 / 代码生成",
+  "source": "arXiv cs.AI",
+  "detail": D("两件产物：一套 2M 量级、可独立执行且带描述与验证记录的 3D 代码数据集；一个多 agent DAG harness，用执行检查、空间测量与视觉反馈在无人反馈下自动评估和修订生成的 3D 程序。",
+           "3D 内容生成此前多是「一次成型的资产」，难以编辑与验证；把 3D 写成代码后，缺的是大规模可执行语料与能自动判断「渲染出来对不对」的验证循环。",
+           "你在意的「agent 产出物如何验收」这条线，它给的正是「可执行 + 空间测量 + 视觉反馈」三重自动验证的组合，可作为自建 agent 验收环的对照；限制是领域局限在 3D 内容，且 90% 胜率来自人类成对评测、任务分布单一。"),
+ },
+ {"title": "ruvnet/ruflo：自称「原始 agent harness」，主打多智能体蜂群、自适应记忆与 Claude Code / Codex / Hermes 集成",
+  "url": U("https://github.com/ruvnet/ruflo"),
+  "summary": "GitHub Trending 项目 ruflo（作者 ruvnet）自称「the original agent harness」：用来部署多智能体蜂群、协调自治工作流、构建对话式 AI 系统，列出的能力包括自适应记忆、自学习、联邦与向量 RAG 集成，并声称原生集成 Claude Code、Codex、Hermes 等多个客户端。",
+  "tag": "开源 / Agent 框架",
+  "source": "GitHub Trending",
+  "oss": True,
+  "detail": D("一个 agent harness / 多智能体框架：部署多智能体蜂群、协调自治工作流、构建对话式系统，自带自适应记忆、自学习与联邦 / 向量 RAG 集成，并宣称原生挂接 Claude Code、Codex、Hermes 等客户端。",
+           "多智能体编排与记忆通常要自己拼装：向量库、记忆层、任务编排与客户端集成各一套，重复建设且难以迁移。",
+           "可当同类开源 agent harness 的对照项来扫一眼（尤其它把 Hermes 也列进集成），但仓库自述的成分多于可验证的机制说明，选型前建议只按代码与 issue 活跃度判断，别按 README 判断。"),
+ },
+]
+
+models = [
+ {"title": "四个 Gemini 4 Argon agent 打通《我的世界》：27 小时写 2783 个程序击败末影龙，死亡 605 次",
+  "url": U("https://arxiv.org/abs/2610.22319v1"),
+  "summary": "论文把四个 Gemini 4 Argon agent 放进沙盒化的 Minecraft 生存世界，只给一个目标——击败末影龙。每个 agent 通过开源库 Mineflayer 操作一个玩家，队员之间用游戏内聊天与共享记忆协作；没有人分配角色、也没有人写游戏逻辑，规划、写程序、调试全部由 agent 自己完成，研究者只能在实时面板上观察、必要时暂停。团队从随机生成、Easy 难度的世界出发，共写了 2783 个程序，用 27 小时 14 分击败末影龙，期间死亡 605 次。作者称这是首个仅用标准 Mineflayer 库、无预先探图、无人类编写的游戏专用工具的端到端自主通关；任务要求团队在超过一天的时间里跨数千个相互依赖的步骤维持连贯计划，而真实世界的软件工程与企业级任务需要同样的长程编码与多 agent 协调能力。",
+  "tag": "长程多 agent",
+  "source": "arXiv cs.AI",
+  "detail": D("把「长程多 agent 协作」放到一个可观测沙盒里做端到端验证：四个 agent 通过游戏内聊天与共享记忆协调，自己写代码、自己调试，跨 2783 个程序、27 小时 14 分完成一个有明确终点的复杂任务。",
+           "长程自主运行的能力很难在短任务基准上体现——计划是否连贯、记忆是否可共享、失败后能否互相恢复，这些只有跑到数千步、跨天量级才暴露。",
+           "你关注 agent 长时运行的边界，这个结果最有用的是「代价口径」：通关要 2783 个程序、605 次死亡、27 小时，说明长程自主的失败成本仍是数量级问题；限制是环境为游戏沙盒、单次运行、无对照基线，不能直接外推到生产任务。"),
+ },
+ {"title": "苹果用 4 台 Mac Studio 跑 816B 的 Muse Spark Open：36+ tokens/s，靠 RDMA over Thunderbolt 组集群",
+  "url": U("https://machinelearning.apple.com/research/mlx-distributed-inference"),
+  "summary": "Apple ML Research 2026-10-15 发布技术博客，讲如何在 Mac Studio 上本地与分布式运行大型 LLM：示例是近万亿参数的前沿模型 Muse Spark Open（816B，MoE），在 4 台 M5 Ultra Mac Studio 组成的集群上以 36+ tokens/s 解码（8,192 token 上下文），高于人均阅读速度。集群通过 RDMA over Thunderbolt 驱动互联，文章报告了流水线并行（2 台）与张量并行（2 台 / 4 台）三种并行方案；单机上限为最多 512GB 统一内存。同篇还对比了 M5 Ultra 与上代 M3 Ultra（M5 的 GPU Neural Accelerator 支持专用矩阵乘），并评测 Mistral Medium 3.5（128B）、Qwen 3.8（27B）等开放权重模型。",
+  "tag": "本地推理",
+  "source": "Hacker News",
+  "detail": D("用新版 MLX + RDMA over Thunderbolt 把多台 Mac Studio 组成推理集群，在 4 台 M5 Ultra 上跑 816B 的 MoE 模型，解码 36+ tokens/s（8K 上下文），并给出流水线并行与张量并行两种拓扑的对比数据。",
+           "前沿规模模型此前基本只能在数据中心 GPU 上跑；想在本地、私有环境里实验最新模型的人，缺的是「统一内存 + 高速互联 + 可用并行方案」的完整可复现路径。",
+           "如果你要评估「本地 / 私有环境跑大模型」的成本与边界，这篇给的是可复算的数字（4 台机器、816B、36+ t/s、512GB 单机上限）与互联方案；限制是绑定 Apple silicon 与 Thunderbolt RDMA，与你在建的 K8s GPU 集群是两条不同路线，更适合当端侧 / 私有实验的对照。"),
+ },
+ {"title": "OpenGCUA 首个版本开源：把「通用电脑使用」全栈打开，OSWorld-v2 平均分 +19.6、步数 −53%",
+  "url": U("https://huggingface.co/papers/2610.22200"),
+  "summary": "OpenGCUA 试图把通用 computer-use agent（GCUA）的全栈开放出来，首个版本的核心设计是代码执行：让中间结果决定后续操作，模型可以直接把自己已有的编程能力用在电脑交互上；另一个机制是 harness-to-model decision transfer，把一部分观察与任务状态决策从固定的 harness 规则移交给模型。在 OSWorld-v2 上，完整配置让八个被测模型（含 GPT-6 Astra 与 Claude Opus 5）的任务分全部提升，平均部分分 +19.6，报告的任务步数相对批量 GUI-only 执行平均减少 53.0%。作者同时放出实现与提示词、八个模型的评测轨迹，以及面向真实设备的 harness 与跨设备 SDK 的初步版本。",
+  "tag": "开源 / Computer Use",
+  "source": "HuggingFace Papers",
+  "oss": True,
+  "detail": D("开源的 computer-use 全栈：以代码执行作为核心动作原语（中间结果驱动后续操作），并把部分「观察什么、任务处于什么状态」的决策从固定 harness 规则移交给模型；在 OSWorld-v2 上八个模型全部涨分，平均部分分 +19.6、步数减少 53%，并附带真实设备 harness 与跨电脑 / 手机 / 浏览器的 SDK 雏形。",
+           "前沿的 computer-use 系统（如 GPT-6 Astra 那套）基本都是闭源的，外部无法系统研究其设计；而「纯 GUI 操作」路线步数多、token 贵，模型已有的编程能力被浪费。",
+           "你做多用户 agent 沙箱时，「代码执行优先 + harness 决策交给模型」和「跨设备 SDK」这两点都可直接对照；限制是评测主要在 OSWorld-v2 这类基准上，真实设备部分仍是初步版本，端到端可靠性需自测。"),
+ },
+ {"title": "PathFM：用 flow matching 直接生成整条轨迹，补上时间序列基础模型缺的依赖结构",
+  "url": U("https://huggingface.co/papers/2610.22358"),
+  "summary": "现有时间序列基础模型大多预测边际分位数（marginal quantiles），把未来轨迹内部的依赖结构留成未定义——对累计需求、峰值负载、事件时点这类轨迹级量而言，点预测与边际分位分数都反映不出差异。PathFM 改为基于轨迹的预测模型，用 flow matching 生成完整的未来路径，并把模型蒸馏到一到两步、在多路径采样间共享历史注意力缓存，使一条序列生成多条路径的耗时大致等于向分位模型查询一次；蒸馏后的采样器也让直接优化校准损失变得可行。在既有基准 fev-bench 与 TIME 上边际精度有竞争力，并新增 Forecast Path Score Bench（fps-bench）——在 fev-bench 任务上加入 energy 与 variogram 分数及下游指标，PathFM 在该基准上的聚合路径分高于全部被评测的外部基线；在混沌系统实验里，其流模型能维持长期变异性，而强基线迅速坍缩。",
+  "tag": "论文 / 预测",
+  "source": "HuggingFace Papers",
+  "detail": D("不做边际分位数，而是用 flow matching 直接生成完整未来轨迹（可一次出多条路径），并通过蒸馏到 1–2 步 + 共享历史注意力缓存把成本压到「一次分位查询」量级；同时提出 fps-bench，用 energy / variogram 分数量化轨迹级质量。",
+           "金融与运营场景里真正关心的常是轨迹级量（累计、峰值、时点），而主流预测模型只给边际分位，路径之间的相关性无从约束；点误差与边际分位分数又不足以暴露这个问题，导致回测好看、下游风险算错。",
+           "你在金融量化行业，这类「轨迹级而非边际」的预测口径与 fps-bench 的评估设计值得细看（峰值负载、累计量正是风险与容量规划要用的量）；限制是它仍在通用时序基准上评估，未见与金融高频 / 多资产场景的实测，落地前需用自己的数据复现。"),
+ },
+ {"title": "Anthropic 在新加坡开设办公室并与新加坡政府签 MOU（亚太第五个办公室）",
+  "url": U("https://www.anthropic.com/news/singapore-office-opening"),
+  "summary": "Anthropic 2026-10-14 宣布在新加坡开设办公室——这是它在亚太地区的第五个办公室，同时与新加坡数字发展与信息部（MDDI）签署 MOU，签署场合为新加坡国际网络周，由 Anthropic 联合创始人 Ben Mann 与该部常任秘书 Kai Fong Chng 签署，数字发展与信息部长 Josephine Teo 与 Anthropic 亚太政策负责人 Michael Sellitto 见证。文中称新加坡是 Anthropic 最活跃的市场之一，Claude 已在 GovTech Singapore、Grab、DBS 等机构与企业的服务中使用，MOU 覆盖 AI 安全等合作方向。",
+  "tag": "行业动态",
+  "source": "Anthropic News",
+  "detail": D("Anthropic 在新加坡设立实体办公（亚太第五个办公室）并与新加坡 MDDI 签署 AI 安全等方向的 MOU，公开锚定了 GovTech Singapore、Grab、DBS 等在用的客户名单。",
+           "模型厂商在亚太的服务与合规支持此前主要远程提供；对金融与政府类客户，本地团队与政府层面的合作框架直接影响采购与合规路径。",
+           "对你所在金融行业的模型采购与合规判断有参考价值（DBS 这类同业的采用路径值得关注），但本身是商务与政策动作，没有技术内容，快速浏览即可。"),
+ },
+ {"title": "Anthropic 更新使用政策：新增「欺骗性活动」章节，明确高风险健康 / 金融用例与自主物理动作的控制，11 月 12 日生效",
+  "url": U("https://www.anthropic.com/news/2026-usage-policy-update"),
+  "summary": "Anthropic 发布 2026 版使用政策（2026-10-08 公布、11 月 12 日生效），大部分改动是澄清既有规则，但有几处实质变化：针对过去一年观察到的影响力行动、武器开发与监控类滥用模式给出新示例；澄清对健康、金融等高风险用例的要求；新增对 Claude 被用于「自主执行物理动作」的控制；并加入针对对模型辱骂行为的条款。此外新设「欺骗性活动」章节——此前已有条款禁止国家媒体、政府宣传机构与商业公司用 Claude 运营虚假账号网络和捏造新闻站点，但限制范围过窄，此次予以扩展；完整依据是新近发布的情报威胁报告。",
+  "tag": "政策 / 治理",
+  "source": "Anthropic News",
+  "detail": D("更新后的使用政策把过去一年的滥用观察写进条款：新增欺骗性活动章节（虚假账号网络、捏造新闻站点）、澄清健康与金融等高风险用例要求、为「自主执行物理动作」加控制、并覆盖对模型的滥用行为；11 月 12 日生效。",
+           "模型能力变强后，既有条款只覆盖显式场景，代理式、长时运行的用法（自主执行、批量内容生产）落在规则缝里；同时高风险行业缺明确的可接受边界，采购方无法据此做合规判断。",
+           "你所在行业属于政策明确点名的高风险方向（金融），这份更新值得对一遍条款、特别是「自主执行物理动作」与高风险用例的措辞；限制是它只是厂商政策更新，具体合规结论仍需与本公司法务口径对照。"),
+ },
+]
+
+engineering = [
+ {"title": "远程 KV cache 分层的反直觉实测：命中比重算还慢——p99 从 3.96s 涨到 17.3s，修完后 83.32s 落到 0.67s",
+  "url": U("https://huggingface.co/papers/2610.21500"),
+  "summary": "论文在 8×B300 节点、prefill 上下文并行（PCP8）的分离式部署上，实测给 GLM-5.3（FP8 MoE + MLA）加一层跨引擎共享的远程 KV tier（LMCache + Valkey 存储）：开启后中位 TTFT 不变，但 16k-token 的 p99 从 3.96 s 涨到 17.3 s。在隔离引擎上重放生产请求流发现：远程命中耗时 0.88 s，而重算 prompt 只要 0.31 s；同步加载更把命中密集的流变成不稳定队列——p99 83.32 s，而 GPU 只有 7% 繁忙。作者用两项成本模型解释：命中只有在带宽超过 B* = sR（该模型与该 GPU 上为 2.53 GB/s）时才划算；且每次命中存在固定引擎开销 T0 ≈ 0.33 s，意味着约 17k token 以下的 prompt 在任何带宽下都赢不过重算。据此做了四件事：把 MLA KV store 按 PCP rank 分片（并证明原有 minimum-over-ranks 查找会返回最长已缓存前缀、给出不会让集合通信失步的加载协议）；按 rank 分区远程 tier（每 rank 一个 server 实例、互不协调），GET 带宽提升 6.3 倍到 10.76 GB/s；给分片存储加异步加载；修三个导致无界停顿的客户端 bug。在命中密集流上（98.5% 的 prompt token 由远程 tier 提供），p99 从 83.32 s 降到 0.67 s。",
+  "tag": "推理基础设施",
+  "source": "HuggingFace Papers",
+  "detail": D("给出远程 KV cache 分层的定量判据与改造方案：命中划算的带宽门槛 B* = sR（2.53 GB/s）、每命中固定开销 T0 ≈ 0.33 s，并配套 MLA KV store 按 PCP rank 分片、远程 tier 按 rank 分区（GET 带宽 6.3× 到 10.76 GB/s）、异步加载与客户端 bug 修复，把命中密集流的 p99 从 83.32 s 压到 0.67 s。",
+           "长上下文推理里「跨引擎共享 KV cache」被当作标准降本手段，实际却在某些配置下让 p99 恶化 4 倍以上、甚至把命中密集流变成 GPU 仅 7% 繁忙的不稳定队列——缓存命中率这个指标完全掩盖了问题。",
+           "你自建推理服务或选型推理网关时，这两个判据（命中带宽门槛、每命中固定开销）可以直接拿来做开关决策，避免「上了缓存反而更慢」；结论基于 GLM-5.3 + 8×B300 + LMCache/Valkey 这一具体组合，换模型、换互联后 B* 与 T0 必须自己重测，不能照搬。"),
+ },
+ {"title": "把 LLM 能力当平台基础设施而不是应用层业务：零售库存平台的幻觉率从 15% 降到 1.5%",
+  "url": U("https://www.infoq.cn/article/xQLd004RGWrzFhwqBOyC"),
+  "summary": "一家大型零售企业的库存准确性平台把基于 LLM 的多智能体系统投产后，第一个月末约 15% 的智能体返回结果是幻觉——听起来言之凿凿但毫无事实依据；六个月后降到 1.5%，关键不是换更强的基座模型，而是把大模型能力从「应用层业务问题」改成「平台基础设施」来治理：对 Gemini、GPT 等基座模型做统一路由与治理，该平台层目前服务数十个应用团队，覆盖库存审计、补货审查、差异分诊等场景。平台梳理出三类只在生产暴露的故障：LLM API 限流（原型阶段不会遇到）、上下文问题（推荐了不合适商品时，根因几乎都是输入模型的数据而非模型本身）、以及幻觉。文中特别强调三点：幻觉是输出问题而不是程序 bug——不抛异常、传统健康检查全过，下游据此执行很久后才被发现；没有按请求归属统计用量时，每月账单只有服务商给出的一行总金额，无法区分是哪个应用、哪个团队、哪个场景产生的开销，成本优化只能靠猜；P99 延迟与错误率正常时，输出质量仍在静默变差。配套 GitHub 代码库刻意不加隐藏抽象层，用 Ollama 跑本地 llama3.1、以 LiteLLM 对接，可端到端本地运行、无 API 费用。",
+  "tag": "平台工程",
+  "source": "InfoQ中国",
+  "detail": D("一份把 LLM 能力平台化的工程复盘：统一路由与治理多家基座模型（Gemini、GPT 等），按请求归属统计 token 用量，建立能看见「输出质量」而非只看延迟 / 错误的监控，并把幻觉、限流、上下文数据问题统一在平台层处理；附可本地端到端运行的参考代码库。",
+           "把大模型当应用层业务问题时，每个团队各自踩同一批坑：限流到生产才出现、输入数据质量无人治理、幻觉不抛异常导致监控全绿、账单只有一行总额无法归因，成本与质量都无法定位。",
+           "你正在做公司 AI-native 转型与平台侧建设，这篇的三个故障面（幻觉是输出问题、token 用量必须按请求归属、质量需独立于延迟监控）可以直接用来给平台设计定验收项；限制是它是单案例复盘，代码库为演示级（本地 Ollama），生产化仍需自己补齐权限、配额与审计。"),
+ },
+ {"title": "手淘 TEKO「写—验—修」闭环：AI 生成 100 个用例综合可执行率只有 6.4%，自主性 = 判据 × 信号",
+  "url": U("https://www.infoq.cn/article/t3XbHewuN37fsodaprUC"),
+  "summary": "阿里巴巴淘天集团高级测试开发专家泠乐将在 QCon 上海分享手淘 TEKO 的「写—验—修」自主闭环实践。诊断出两个呈乘法关系的堵点：判据缺失——AI 不知道「什么算对」，需求、技术方案、基建规范、团队约束都散在文档里无法被消费，于是 AI 只能追求「看起来能跑通」；信号缺失——AI 拿不到「对不对」的客观反馈，看不见屏幕、读不到运行时、点不动按钮、没法把 App 拉到目标状态。团队量化过：AI 生成 100 个用例，环境搭建 60% × 数据构造 50% × 执行 40% × 工具自动化率 70%，综合可执行率只有 6.4%，其中任一项为零则自主性为零。TEKO 的解法是同时补两根柱子：判据侧把质量能力做成可在任意研发环节调用的 Skill，让验收条件成为在链路上逐级传递、逐级细化的结构化数据（需求文档→需求验收条件；技术方案 + 基建规范 + 团队约束→技术验收条件；代码 diff + context7 + 领域知识→风险点与配套用例；构建产物→单测 / 白盒 / UI 自动化用例），并把验收条件回喂给生码环节，称之为 AI 原生的 TDD；信号侧把 App 从「只能被人看的交付物」改造成能被 agent 寻址、观测、驱动、复现的可编程环境，用终端环境全局切面 + SDK 可测性基线 + CI 卡口治理可测性。",
+  "tag": "AI 工程落地",
+  "source": "InfoQ中国",
+  "detail": D("把「验收条件」做成随研发链路逐级细化的结构化数据对象（需求→技术→风险点与用例→单测 / 白盒 / UI），并把可调用的质量能力封装为 Skill 而非平台；信号侧把待测 App 改造成 agent 可寻址、可观测、可驱动的可编程环境，形成「生成、执行、观测、判断、修复、复跑」全程无人的闭环，线上 Crash 与舆情还能自动转成回归用例。",
+           "AI 把代码生产速度放大了，验证能力没有同步：判据不在系统里（AI 只能追求「看起来能跑通」），反馈信号也拿不到（看不见屏幕、点不动按钮），两者相乘让可执行率掉到 6.4%；再多招测试也解决不了。",
+           "你在做 agent/skill 落地实践，这篇最值得抄的是两个结构：把验收条件做成链路传递的数据对象，以及把质量能力做成 Skill 而非平台（避免平台化过重）；限制是内容来自 QCon 演讲预告，具体实现细节与收益数字要等现场版材料。"),
+ },
+ {"title": "Google Cloud：生物科技的 agent 设计模式——把「数小时 GPU 仿真」当工具，而不是轻量 API 调度",
+  "url": U("https://cloud.google.com/blog/topics/healthcare-life-sciences/architecting-scalable-agentic-biotech-workloads/"),
+  "summary": "Google Cloud 文章指出，现在生产系统里大多数 AI agent 是轻量调度器：解析提示、调一次 API、取一条记录、交回控制，执行快、无状态、便宜。生物科技不是这种模型——折叠蛋白靶点、筛选 5 万个化合物配体库、评估构效关系（SAR），都是持续数分钟乃至数小时、有状态、GPU 密集的仿真，跨专用基础设施运行。文章据此给出一个面向「高算力、受治理」agent 的设计模式。",
+  "tag": "架构",
+  "source": "Google Cloud",
+  "detail": D("给出一种针对「高算力、有状态、长时运行」任务的 agent 架构模式：不再把 agent 当轻量调度器，而是让长时 GPU 仿真成为 agent 可调用的工作单元，并配套治理（谁发起、跑多久、成本归属）。",
+           "通用 agent 架构默认「工具调用很快、无状态、便宜」，一旦工具是数小时的 GPU 仿真，超时、重试、状态保存、并发配额与成本归因全部失效，agent 会重跑昂贵作业或丢结果。",
+           "你在设计 agent 平台时可以把「工具时长的量级」当架构分界线：短工具走调度器模式，长时 GPU 作业需要另一套状态与配额设计；这篇是设计模式文章（面向生物科技），没有公开基准数字，价值在架构判断而非实测数据。"),
+ },
+ {"title": "Visko 把实时世界模型搬上 Google Cloud TPU：30 天从启动到生产交接",
+  "url": U("https://cloud.google.com/blog/products/media-entertainment/how-visko-streams-real-time-world-models-on-google-cloud-tpus/"),
+  "summary": "Google Cloud 技术深潜：AI 创业公司 Visko 与 Google Cloud 的 TPU 工程师合作，把其连续流式的 Live World Model「Orbis」部署到 Cloud TPU 上，从项目启动到生产交接只用了 30 天。文章强调实时视频世界模型在生产上的瓶颈不是平均吞吐，而是突发（burst）——即时的负载尖峰决定了体验，而不是稳态均值。",
+  "tag": "推理部署",
+  "source": "Google Cloud",
+  "detail": D("记录一次从零到生产交接只用 30 天的实时世界模型部署：把连续流式的生成模型跑在 Cloud TPU 上，并给出「实时生成类负载的瓶颈是突发而非平均吞吐」的工程结论。",
+           "实时视频 / 世界模型类服务的用户体验由最坏时刻决定，只看平均吞吐的容量规划会在突发时直接掉帧；而这类连续生成的负载形态与常规请求式推理差异很大。",
+           "你在做推理基础设施与容量规划时，「看突发而不是看均值」这条结论可以直接用在 SLO 与扩容策略上；限制是它是厂商与客户合作案例、绑定 TPU 与 GKE 生态，缺少可复算的基准数据。"),
+ },
+]
+
+business = [
+ {"title": "库克：苹果智能接入阿里千问大模型，10 月底在中国发布测试版（不含 Siri AI）",
+  "url": U("https://www.qbitai.com/2026/10/503640.html"),
+  "summary": "10 月 15 日苹果董事会执行主席蒂姆·库克在上海走访并接受采访，谈及 Apple Intelligence 时表示苹果智能及相关阿里千问大模型确已获得批准，将在十月晚些时候发布测试版本，首批功能包括实时翻译、书写工具、照片清除工具，但 Siri AI 这次不包括在内。",
+  "tag": "国内动态",
+  "source": "量子位",
+  "detail": D("苹果智能在中国市场与阿里千问模型对接并获批，10 月晚些时候发测试版，首批上线的功能是实时翻译、书写工具与照片清除，Siri AI 暂不包含。",
+           "苹果的端侧 / 云侧 AI 能力在中国市场需要本地模型伙伴才能落地，此前长期缺位。",
+           "属于产品与商业动态、无技术细节，知道「国内 Apple Intelligence 走千问、先上翻译与写作类工具」即可，是否影响你所在行业的端侧方案可后续再看。"),
+ },
+ {"title": "量子位智库发布 Agent 落地报告：拆解企业智能化六大断点并给出全链路破局框架",
+  "url": U("https://www.qbitai.com/2026/10/503614.html"),
+  "summary": "量子位智库发布 Agent 落地报告，主题是「Agent 究竟该如何深入业务毛细血管」，拆解企业智能化过程中的六大断点，并给出覆盖全链路的破局框架。",
+  "tag": "报告 / 国内",
+  "source": "量子位",
+  "detail": D("一份面向企业 Agent 落地的行业报告：把落地阻力拆成六大断点，并给出对应的全链路框架。",
+           "企业做 agent 时普遍卡在「试点能跑、进入业务就断」的环节，缺少按断点归类的问题清单。",
+           "你正在公司推 AI-native 转型，这类断点清单可当自查表用；但它是智库报告而非工程实测，建议只取问题分类与检查维度，别把里面的评估数字当结论。"),
+ },
+ {"title": "Google Cloud：Gemini agent 对创业公司意味着什么",
+  "url": U("https://cloud.google.com/blog/topics/startups/what-the-gemini-agent-means-for-startups/"),
+  "summary": "Google Cloud 面向创业公司的文章：在 Gemini at Work 2026 上发布的 Gemini agent 被设计成单一通用 agent，既能当个人助理，也能作为团队中的专职成员；文章主张小团队把运维开销与基础设施管线交给它，以把时间留给核心产品。",
+  "tag": "产品",
+  "source": "Google Cloud",
+  "detail": D("把此前发布的 Gemini agent 定位成「一个通用 agent 同时扮演个人助理与团队成员」，面向小团队降低运维与基础设施管线的人力占用。",
+           "小团队人手紧，运营开销与基础设施琐事直接挤占产品开发时间。",
+           "属于厂商面向创业公司的定位文章，技术信息少；你若在评估公司内部的 agent 产品形态，可只关注它「单一通用 agent 扮演多角色」的产品假设是否成立。"),
+ },
+ {"title": "前华为小艺大模型负责人创业，押注「主动式物理 AI」",
+  "url": U("https://www.qbitai.com/2026/10/503446.html"),
+  "summary": "量子位报道：前华为小艺大模型负责人创业，方向押注「主动式物理 AI」——即让模型主动感知并作用于物理世界、而非被动应答。",
+  "tag": "国内动态",
+  "source": "量子位",
+  "detail": D("一位大模型团队负责人出走创业，方向定位在「主动式物理 AI」（模型主动感知与作用于物理世界）。",
+           "当前多模态与具身方向多数仍是被动应答与单轮控制，主动感知并行动的范式缺少成体系的工程路径。",
+           "与你的 K8s / AI-native 主线关联较弱，属行业人事与方向动态，快速扫过即可。"),
+ },
+]
+
+opinion = [
+ {"title": "Claude Code 团队怎么做代码评审：Claude 写自己 90% 的代码，6→9 月合并 PR 翻倍而回滚占比降 40%+",
+  "url": U("https://claude.dev/blog/solving-code-review-at-anthropic/"),
+  "summary": "Claude Code 团队（作者 Addy Osmani、Morgan Westlee Lunt、Qing Wang，发布于 2026-10-15）回答「agent 以这个产量产出代码，还怎么评审」。文中给出两个数字：6 月到 9 月，Claude Code 代码库的合并 PR 数量增加了一倍以上，而需要回滚的占比下降了 40% 以上；前提是团队此前已经做到高覆盖率与深度评审。他们的做法不是取消评审，而是把大部分「读代码」的活交给机器，只优化到「不抬高回滚率与事故率的最小人工评审时间」，并维持「you land it, you own it」（你合入，你负责）。文中也提到 Claude 写了 Claude Code 自身约 90% 的代码。",
+  "tag": "工程实践",
+  "source": "Hacker News",
+  "detail": D("一套在 agent 高产量代码下维持质量的评审流程：已具备高覆盖率与深度评审后，把大部分代码阅读交给机器，只保留「不抬高回滚率与事故率的最小人工评审时间」，并保留「谁合入谁负责」的责任制。",
+           "agent 产出的代码量远超人工评审的阅读带宽，传统逐行评审成为瓶颈；而简单取消评审又会抬高回滚与事故，团队在两个极端之间没有可操作的中间点。",
+           "你在推 AI-native 研发时，这两个可验证指标（合并 PR 数、回滚占比）比任何方法论口号都实用，可直接作为流程改造的观测口径；限制是案例来自单一团队、且高度依赖已有的测试覆盖与 CI 强度，缺少这两样时不能照搬。"),
+ },
+ {"title": "Linus 用 Claude Code 改 Linux 内核：补丁把读取吞吐提升 23 倍，bug 却由人类审查者揪出",
+  "url": U("https://www.infoq.cn/article/hRw4BZQQUW14sqYMo5F6"),
+  "summary": "Linus Torvalds 使用 Claude Code 编写 Linux 页面缓存修复补丁，用来解决一个困扰开发者两年多的内核性能问题，该补丁在一项基准测试中把读取吞吐量提升了 23 倍。但补丁尚未合入，人类内核审查者就凭借专业直觉揪出了连 AI 和 Linus 都没能发现的 bug——InfoQ 的结论是这再次证明人类代码审查仍是不可或缺的最终防线。",
+  "tag": "AI Coding",
+  "source": "InfoQ中国",
+  "detail": D("一个高价值参照案例：AI 辅助写出的内核补丁在基准里带来 23 倍读取吞吐提升，但仍在人类审查环节被拦下——说明当前 AI 编码的产出需要用人工审查作为最终防线。",
+           "围绕 AI 编码的讨论常在两个极端：要么宣称接管一切，要么全盘否定；缺的是「AI 能做出真实高价值改动，但缺陷检测仍要靠人」这种带具体数字的中间证据。",
+           "对你的 AI-native 转型判断直接有用：AI 编码的收益（23×性能修复）与风险（未合入即被人类拦下）在同一条记录里，可作为「哪些环节可以让 AI 上、哪些必须留人」的内部论据；限制是单一案例、无复现实验，不能据此推断成功率。"),
+ },
+ {"title": "黄仁勋谈中国 AI 公司：算力非常受限，但它们在拼命把事情做成",
+  "url": U("https://www.infoq.cn/article/HC8SAgaZmHc6sfwp9gc9"),
+  "summary": "InfoQ 整理黄仁勋与 Lex Fridman 的对谈：谈到 Lex 拜访过的中国 AI 公司时，黄仁勋认为算力短缺正在迫使它们设计出效率更高的架构——「它们受到的限制非常、非常大」，但仍在融资、推进业务，「拼命把事情做成」。对谈还包括他回忆如何联系台积电（翻黄页、反复打电话、最终给张忠谋写长信），以及他为什么看重张忠谋会明确说「这件事我们做不了」这类边界与诚信的细节。",
+  "tag": "行业观点",
+  "source": "InfoQ中国",
+  "detail": D("一段关于资源约束与架构效率的从业者判断：算力受限会逼迫团队转向更高效的架构设计；同一场对谈里还有他对合作选择（「你真正选择的不是买什么，而是和谁一起做」）的具体表述。",
+           "在算力供给受限的环境里做 AI 业务，团队容易陷入「先等资源」的思路，而缺少「约束驱动架构创新」的对照观点。",
+           "内容以观点与轶事为主，与你关注的 K8s×AI 技术栈无直接关系；其中「约束逼出效率」这一条可作为判断国内模型与推理优化路线的背景，不必花时间细读全文。"),
+ },
+]
+
+safety = [
+ {"title": "弱到强的验证器加固：先用 hacker-fixer 循环自动找漏洞，已被 Terminal Bench 官方仓库采用",
+  "url": U("https://huggingface.co/papers/2610.15924"),
+  "summary": "agent 环境用程序化验证器把复杂结果转成奖励，而验证器本身可以被攻击成给作弊 agent 满分（没完成任务也拿全分），导致评测失真、训练失准。论文提出可扩展、全自动的 weak-to-strong 验证器加固方法：先搭一个 agent 无法直接修改的隔离验证器沙箱，再用 hacker-fixer 循环找出并修复剩余的验证器漏洞。该方法应用于 Terminal Bench、KernelBench 与 SETA，显著降低这些 agent 环境中的攻击成功率；其设计随加固预算扩展，循环迭代次数越多防御越强，并优于静态、非迭代的基线。作者提到该 hacker-fixer 循环的早期版本已被官方 Terminal Bench 仓库采用，用于审计其环境中的 exploit。",
+  "tag": "论文 / 安全",
+  "source": "HuggingFace Papers",
+  "detail": D("把「验证器会不会被刷」做成自动加固流程：隔离验证器沙箱（agent 无法直接改）+ hacker-fixer 循环（一个角色找漏洞、一个角色修），随迭代次数增加防御线性增强；已在 Terminal Bench、KernelBench、SETA 上降低攻击成功率。",
+           "agent 环境的奖励来自程序化验证器，一旦被找到捷径，作弊 agent 不完成任务也能拿满分，评测失真会同时污染 RL 训练方向——而且环境数量和难度增长时，人工修验证器跟不上。",
+           "你要给内部 agent 评估搭 harness 时，这套「沙箱 + 自动找捷径」的思路值得直接纳入设计，特别是「验证器本身是攻击面」这一点常被忽略；限制是当前只覆盖三类代码 / 终端类环境，且加固效果以攻击成功率下降衡量，不代表验证器已无捷径。"),
+ },
+ {"title": "CATCH：用连续对抗训练让「诚实」在模型与任务间可迁移",
+  "url": U("https://arxiv.org/abs/2610.22292v1"),
+  "summary": "论文指出即便经过对齐训练，LLM 仍会出现不诚实行为，例如输出与已知知识矛盾、或在上下文中没有依据的说法。作者提出 Continuous Adversarial Training for Consistent Honesty（CATCH），灵感来自一种用于稳健拒答有害查询的方法：训练模型向诚实答案靠近、同时远离不诚实方向，目标是让诚实在不同任务与模型之间具备可迁移性。",
+  "tag": "论文 / 对齐",
+  "source": "arXiv cs.AI",
+  "detail": D("一种面向「诚实」的连续对抗训练方法：推动模型向诚实答案靠近、远离不诚实方向，目标是让诚实属性跨任务与跨模型可迁移，而不是只修某类具体的不诚实行为。",
+           "对齐训练后模型仍会在上下文无依据时编造或与已知知识冲突，而现有方法多针对单一不诚实模式，换任务就退化，缺少可迁移性。",
+           "属对齐研究，与你当前主线的直接关联较弱，但有两点可留意：把「不诚实」当成一个可定向移动的方向、以及可迁移性评估——如后续要在内部做模型可信度验收，这套思路可作参考；限制是论文级工作，尚无论文之外的落地验证。"),
+ },
+ {"title": "zgsfsec/Full-Chain-Sentinel-System：全流程渗透测试 Agent 系统（开源）",
+  "url": U("https://github.com/zgsfsec/Full-Chain-Sentinel-System"),
+  "summary": "GitHub 上升项目「全链哨兵」：一个全流程渗透测试 Agent 系统，定位为安全服务的渗透测试辅助工具，仓库明确标注禁止用于非法攻击。",
+  "tag": "开源 / 安全 Agent",
+  "source": "GitHub 升星repo",
+  "oss": True,
+  "detail": D("把渗透测试流程 agent 化的开源系统：以 agent 串起从信息收集到验证的全流程渗透测试辅助工作。",
+           "渗透测试流程长、步骤多且高度依赖经验，人工执行成本高、过程难以标准化记录。",
+           "与你的 agent 落地兴趣相关（是「agent 串长流程」的又一实例），可作为红队 agent 的能力对照；限制是仓库信息量少、无公开评测，且用途受法律约束，只适合了解形态。"),
+ },
+ {"title": "Google Cloud 更新边界安全：agent 作为新的非人类身份，需要 secure-by-default 护栏",
+  "url": U("https://cloud.google.com/blog/products/identity-security/introducing-new-scalable-perimeter-options-with-vpc-service-controls/"),
+  "summary": "Google Cloud 文章认为 agent 代表云运营的根本变化：它可以代表用户或自主行动、做非确定性决策、以前所未有的速度与规模跨项目请求数据；因为 agent 是一类独特的非人类身份（NHI），需要专门的 secure-by-default 护栏。文章指出传统人工运维的网络边界挡不住机器速度的攻击，而为了不阻断连接而过度宽松的边界会放大风险，因此推出 VPC Service Controls 的新可扩展边界选项。",
+  "tag": "安全 / 身份",
+  "source": "Google Cloud",
+  "detail": D("把 agent 明确归类为一种新的非人类身份（NHI），并配套 secure-by-default 的边界选项（VPC Service Controls 新增可扩展 perimeter），用于按身份约束 agent 跨项目的数据访问。",
+           "agent 自主、非确定性地跨项目取数据，传统以「人 + 静态网络边界」设计的控制不再成立：宽松边界放大风险，严格边界又常阻断正常业务。",
+           "你在设计公司内部 agent 平台的权限与网络隔离时，这个「agent = NHI、需要默认收紧的独立身份策略」的判断值得纳入方案（与你关心的内网出口审计 / DLP 方向一致）；限制是具体能力绑定 GCP，其他平台需自行等价实现。"),
+ },
+]
+
+# ---------------------------------------------------------------- 基础设施板块
+k8s_ai = [
+ {"title": "Nirmata Runtime for Kyverno：把策略执行从准入控制下沉到内核，专治 agent 的运行时行为",
+  "url": U("https://www.cncf.io/blog/2026/10/15/extending-kubernetes-policy-enforcement-to-runtime-security-for-ai-workloads/"),
+  "summary": "CNCF 博客介绍 Nirmata Runtime for Kyverno（开源）：Kyverno 的准入控制只能回答「这份 spec 看起来对不对」，回答不了 pod 跑起来之后「它是否在做 spec 说的事」——而对自主 AI agent 与非确定性 LLM 应用，事故大多住在这个缝里（启动后再拉二段载荷、没人收紧的 sidecar 开始连未批准目标、没有任何配置策略预料到的进程被执行）。作者主张控制要跑在负载下面（内核）而不是旁边（sidecar / agent / 用户态代理），因为旁路的控制在负载自身被攻陷时可以被看见、拖慢或绕过。实现上按 pod 把 BPF-LSM 程序挂到 bprm_check_security 与 file_open、把 cgroup 范围的 eBPF 程序挂到 egress 路径，五种行为全部在内核内同步判定：被阻止的 exec 在进程运行前返回 -EPERM，被阻止的连接不会完成，决策与执行之间没有可竞态的窗口。策略语言沿用 Kyverno 的 CEL，RuntimePolicy 用同样的 podSelector / namespaceSelector 定位负载，并支持从 ConfigMap 或 HTTP 源按刷新间隔取实时值；报告沿用 OpenReports。",
+  "tag": "开源 / K8s 运行时安全",
+  "source": "CNCF Blog",
+  "oss": True,
+  "detail": D("把 Kyverno 的策略执行从准入控制延伸到内核运行时：按 pod 挂 BPF-LSM（bprm_check_security、file_open）与 cgroup 范围 eBPF（egress），在内核内同步允许 / 拒绝 exec 与网络连接，策略仍用 CEL、负载定位方式与 Kyverno 一致，报告沿用 OpenReports，准入与运行时可共用一套策略语言。",
+           "准入控制只能校验 spec 声明，管不住运行时行为；而 agent 的行为有一部分是模型在运行时生成的——镜像可以审、运行时的行为没法预先审，于是二段载荷、越界 egress、意料外的进程执行都落在策略盲区里。",
+           "你做 agent 平台的多租户隔离与网络管控时，这是「把策略执行点从旁路挪到内核」的现成开源实现，和你关注的 Agent Sandbox + 网络策略方向互补（一个管执行环境，一个管运行时行为）；限制是 eBPF / LSM 要求较新内核与相应权限，且项目较年轻，需先在小集群验证稳定性。"),
+ },
+ {"title": "Reflection 的 Beam 在 GKE 上 Day 0 支持：llm-d + NVIDIA Dynamo 带来 5 倍性能",
+  "url": U("https://cloud.google.com/blog/topics/ai-infrastructure/day-0-support-with-5x-perf-for-reflection-beam-on-google-cloud/"),
+  "summary": "Google Cloud 与 Reflection 联合发布：Reflection 当天放出首个开放权重模型 Beam，面向前沿软件工程与长时 agentic 任务，采用宽松的 Apache 2.0 许可，发布时即提供 BF16、FP8 与 NVFP4 三种 checkpoint；官方称它在 500B 参数级别刷新了推理效率标准，解复杂推理与编码问题的推理算力效率比前代高 3–4 倍。GKE 侧提供 Day 0 支持，配合 llm-d 与 NVIDIA Dynamo 取得 5 倍性能提升。",
+  "tag": "K8s × AI / 推理栈",
+  "source": "Google Cloud",
+  "oss": False,
+  "detail": D("给出「新开放权重模型 + K8s 原生推理栈」的一条完整落地方案：模型侧是 500B 级别的 Beam（Apache 2.0，BF16 / FP8 / NVFP4 三种精度），服务侧是 GKE 上的 llm-d 与 NVIDIA Dynamo，官方口径 5 倍性能提升。",
+           "新模型发布后到能在自有集群上跑起来通常有数周到数月的适配期；大模型在集群上的服务效率又高度依赖推理栈（路由、KV cache 感知调度、PD 分离）的成熟度。",
+           "你正在建 K8s 集群并关注推理栈选型，这条的价值在于把 llm-d + Dynamo 这套组合与一个具体模型绑在一起给出性能口径；注意 5 倍与 3–4 倍都是厂商与其合作方口径、绑定 GKE，自建集群上需自行复测。"),
+ },
+]
+
+k8s_core = [
+ {"title": "containerd 2.3.7（LTS 线）补丁：修 1 个 CVE + 3 个 GHSA，并做四项硬化",
+  "url": U("https://github.com/containerd/containerd/releases/tag/v2.3.7"),
+  "summary": "containerd 于 2026-10-13 发布 2.3 线第七个补丁版 2.3.7，含安全修复与更新：安全侧列为 CVE-2026-95839 以及 GHSA-5p7c-hggf-c748、GHSA-8647-2jxj-p2rc、GHSA-hc94-p972-ch66。功能侧以硬化为主：CRI 不再跟随容器日志文件的符号链接；镜像分发拒绝含「..」路径分量的镜像引用；Runtime 把默认 seccomp profile 的 socket 域改为允许列表；Snapshotters 在解包时过滤镜像注解里的 ID-mapping 标签。2.3 是被建议追求稳定与更长支持周期的用户所停留的 LTS 线。",
+  "tag": "开源 / 容器运行时",
+  "source": "GitHub",
+  "oss": True,
+  "detail": D("一次以安全与硬化为主的运行时补丁：修 1 个 CVE 与 3 个 GHSA，并在日志符号链接、镜像引用路径、seccomp socket 域允许列表、解包时 ID-mapping 标签过滤四处做收紧。",
+           "容器运行时是集群的公共依赖，日志符号链接可被用于越权读写、镜像引用里的路径分量与 ID-mapping 标签可能被用来绕过隔离，这些点一旦被利用影响面覆盖整个节点。",
+           "你的集群必须跟这类补丁：属于低风险升级但覆盖 CRI 与解包链路的安全边界，建议纳入日常补丁节奏并把「日志符号链接不跟随」「镜像引用拒绝 .. 」当作回归检查项；注意 2.3 是 LTS 线（更长支持周期），与 2.4 线的取舍按你的支持策略定。"),
+ },
+ {"title": "Istio 1.31.2 安全补丁：修 4 枚 CVE——含 AuthorizationPolicy over HTTP/2 方法大小写绕过（CVSS 7.4）",
+  "url": U("https://github.com/istio/istio/releases/tag/1.31.2"),
+  "summary": "Istio 于 2026-10-15 发布 1.31.2，属安全修复版（对应 ISTIO-SECURITY-2026-007）。Istio 侧两枚：GHSA-w44g-8m76-8gc5（CVSS 7.4，High）——AuthorizationPolicy 的 method 规则可通过改变 HTTP/2 方法大小写被绕过；GHSA-7p2q-4xvg-vxc6（CVSS 7.7，High）——ambient 模式下，当某个 ServiceEntry 或其他服务占用了一个 IP 寻址 waypoint 的地址时 istiod 会崩溃。Envoy 侧两枚：GHSA-8vc2-jrm4-835w（CVSS 7.5）——OAuth2 HTTP 过滤器在收到没有 :path 头的 CONNECT 请求时未认证远程崩溃；GHSA-47vj-9r25-wv5j（CVSS 6.5）——api_key_auth 过滤器在同一条件下崩溃。此外修复 istioctl 在通过 service account token 连接 XDS 时跳过 istiod 证书校验的问题：istioctl 现在会用 istio-ca-root-cert ConfigMap 里的 Istio 根证书与预期服务名校验服务端。",
+  "tag": "开源 / 服务网格",
+  "source": "GitHub",
+  "oss": True,
+  "detail": D("修复四枚 CVE（Istio 两枚 7.4 / 7.7、Envoy 两枚 7.5 / 6.5），其中授权绕过与 istiod 崩溃属高危；同时补上 istioctl 连接 XDS 时的 istiod 证书校验，避免调试工具成为信任链缺口。",
+           "授权策略被绕过意味着按 method 管控的访问控制实际不生效；ambient 模式下 istiod 崩溃影响整个数据面配置下发；无 :path 的 CONNECT 请求能让 OAuth2 / api_key_auth 过滤器远程崩溃，这些都不是配置问题而是必须升级才能消除的缺陷。",
+           "你在建集群并可能引入服务网格，这类授权绕过与 istiod 崩溃应直接排进升级窗口（1.31.2 属低风险补丁版）；同时注意 istioctl 新增加证书校验后，用自定义 --xds-address / --authority 的调试流程可能需要调整。"),
+ },
+ {"title": "GKE 上线 Wiz Runtime Sensor 插件（预览）：把运行时威胁检测内置进集群",
+  "url": U("https://cloud.google.com/blog/products/identity-security/wiz-sensor-for-gke-turnkey-threat-detection-for-kubernetes/"),
+  "summary": "Google 宣布 GKE 的 Wiz Runtime Sensor 插件进入预览，为 Kubernetes 提供交钥匙的威胁检测：这是内置集成，主打低接触部署；背景是 AI 时代攻击速度加快——过去需要数周才能利用的东西现在可能几分钟内就被利用，而针对静态制品的常规漏洞扫描能抓基础配置问题，却无法发现正在进行的攻击。",
+  "tag": "运行时安全",
+  "source": "Google Cloud",
+  "detail": D("把运行时威胁检测做成 GKE 的内置插件（预览），以低接触方式部署，用于发现「正在发生」的攻击而非制品静态扫描能发现的问题。",
+           "漏洞扫描只看静态制品，运行时被利用的过程（二段载荷、可疑进程与连接）看不见；而攻击窗口已被 AI 压缩到分钟级，人工巡检节奏跟不上。",
+           "你在为集群设计安全与可观测方案时，可把「运行时检测」与「制品扫描」当作两层能力来规划（你偏好的分层保护思路与此一致）；限制是它绑定 GKE 与 Wiz，自建集群需另找等价实现并自测误报率。"),
+ },
+]
+
+community = [
+ {"title": "生产环境运行 n8n on EKS：从单容器 + SQLite 到 workers / PostgreSQL / Redis 的迁移实践",
+  "url": U("https://www.cncf.io/blog/2026/10/16/deploying-maintaining-and-migrating-production-n8n-on-eks/"),
+  "summary": "CNCF 博客一篇关于 n8n 的运维实践：n8n 很容易试用但难以承受生产流量——单容器 + SQLite 跑 demo 没问题，生产完全是另一回事，需要 workers、webhook processors、PostgreSQL、Redis 等一整套组件；文章讲的是在 EKS 上部署、维护与迁移生产 n8n 的具体做法。",
+  "tag": "工作负载 / 运维",
+  "source": "CNCF Blog",
+  "detail": D("一份把工作流自动化平台 n8n 从「单容器 + SQLite 的 demo 形态」搬到 EKS 生产形态的实践记录：拆出 workers 与 webhook 处理、引入 PostgreSQL 与 Redis，并覆盖维护与迁移环节。",
+           "自托管的工作流 / 自动化工具常以单容器形态起步，一旦接入真实业务流量，队列、并发与状态存储都会成为瓶颈，而缺少可参照的标准化部署与迁移路径。",
+           "与你关注的工作负载接入（把业务系统搬上 K8s）直接同类：拆组件、外置状态、处理 webhook 峰值这些决策在小工具与核心业务上是一样的；限制是它是社区实践文章，非基准测试，容量数字需自测。"),
+ },
+ {"title": "Nepal 进入 CNCF Golden Kubestronaut 地图：首位、也是最年轻的一位",
+  "url": U("https://www.cncf.io/blog/2026/10/16/putting-nepal-on-the-cncf-golden-kubestronaut-map/"),
+  "summary": "CNCF 博客：作者分享自己成为首位、也是最年轻的尼泊尔 Golden Kubestronaut（集齐多项 K8s 认证的「金」级认证者）的经历——包括动机与取得该认证实际需要付出什么。",
+  "tag": "社区",
+  "source": "CNCF Blog",
+  "detail": D("一篇认证路径的个人经验分享：Golden Kubestronaut（集齐多项 K8s 认证）的准备过程与其实际要求。",
+           "K8s 认证体系路径长、信息分散，缺少「实际要投入什么」的第一手描述。",
+           "如果你在给团队做 K8s 认证规划，可当投入产出的参照；与集群技术本身无关，快速浏览即可。"),
+ },
+]
+
+public_cloud = [
+ {"title": "Azure Databricks 私有网络网关进入公共预览：让 serverless 计算接入 VNet",
+  "url": U("https://azure.microsoft.com/updates?id=576556"),
+  "summary": "Azure Databricks 的私有网络网关（Private network gateway）进入公共预览：让 serverless 计算能通过单一托管网关连接到虚拟网络（VNet）内的资源以及通过传递关系可达的网络。",
+  "tag": "公有云",
+  "source": "Azure Updates",
+  "detail": D("用单一托管网关把 Azure Databricks 的 serverless 计算接入 VNet 内资源与传递可达网络，省去为 serverless 单独打通网络的多段配置。",
+           "serverless 计算此前与企业 VNet 隔离，访问内部数据源需要额外网络改造；而 datasource 在私网内是金融等行业的常态要求。",
+           "你如果在多云或客户侧遇到 Databricks + 私网数据的场景，这条是直接相关的网络能力变更；纯 Azure 侧更新，与你自建 K8s 集群无关。"),
+ },
+]
+
+# ---------------------------------------------------------------- flash
+flash = [
+ {"title": "Claude 参与解开 ECDSA 曲线参数来源之谜（HN 627 分、259 条讨论）。", "url": U("https://www.anthropic.com/research/ecdsa-curve-origins")},
+ {"title": "Mercor 的劳动力指数：美国 90% 的工作时长花在 AI 基准覆盖不佳的任务上。", "url": U("https://www.mercor.com/research/labor-index/benchmark-map/")},
+ {"title": "SimForcing：把仿真的运动先验蒸馏进真实域机器人世界模型。", "url": U("https://huggingface.co/papers/2610.06598")},
+ {"title": "LLM 自主发现量子电路新最优结构（arXiv）。", "url": U("https://arxiv.org/abs/2610.22367v1")},
+ {"title": "训练推理模型产出多样化的科研想法（arXiv）。", "url": U("https://arxiv.org/abs/2610.22324v1")},
+ {"title": "Copy-Paste Language Models：一种直接拼装语言模型的方法（HF Papers）。", "url": U("https://huggingface.co/papers/2610.19247")},
+ {"title": "Cloud CISO Perspectives：新 Gemini Notebook 帮助 CISO 与政策制定者准备后量子迁移。", "url": U("https://cloud.google.com/blog/products/identity-security/cloud-ciso-perspectives-new-gemini-notebook-can-help-cisos-policymakers-prepare-for-pqc/")},
+ {"title": "OpenAI 推出 Rosalind 学术计划，把 GPT-Rosalind 带到学术研究实验室。", "url": U("https://openai.com/index/introducing-the-rosalind-academic-plan")},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 10 月 17 日 · 星期六",
+ "issue": 27,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天的主线是「agent 干得越久、跑得越远，工程约束就越硬」。AI 侧，FDE-Gym 把「前向交付」做成 95 个真实客户任务：最强配置平均分 0.56、只解决 14 个，瓶颈被定位为「发现没人言明的约束」；Apple 用 4 台 Mac Studio 跑 816B 的 Muse Spark Open，解码 36+ tokens/s；Pi 1.0 把曾经公开拒绝的 MCP 装进核心，同时推出长时运行 Harness「Pi Durable」。基础设施侧，LeaderWorkerSet v1.0.0 让「1 leader + N worker」这层多节点编排抽象支持分角色独立扩缩；一篇实测给出反直觉结论——远程 KV cache 命中比重算还慢，改完才把 p99 从 83.32 s 压到 0.67 s；安全上是密集的补丁日：Istio 1.31.2 修四枚 CVE（含 7.4 的授权绕过），containerd 2.3.7 带 1 个 CVE 与一组硬化。",
+ "highlights": highlights,
+ "sections": [
+   {"label": "🤖 AI 板块", "categories": [
+      {"emoji": "🧩", "title": "Agent & Skill", "en": "Agent & Skill", "items": agent_skill},
+      {"emoji": "🧠", "title": "模型与研究", "en": "Models & Research", "items": models},
+      {"emoji": "🛠️", "title": "AI 工程落地", "en": "AI Engineering", "items": engineering},
+      {"emoji": "📊", "title": "产品与商业", "en": "Business", "items": business},
+      {"emoji": "💡", "title": "观点与好文", "en": "Opinion", "items": opinion},
+      {"emoji": "🛡️", "title": "安全与治理", "en": "Safety & Governance", "items": safety},
+   ]},
+   {"label": "☸️ 基础设施板块", "categories": [
+      {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8s × AI", "items": k8s_ai},
+      {"emoji": "☸️", "title": "K8s 核心技术", "en": "K8s Core", "items": k8s_core},
+      {"emoji": "📦", "title": "社区与项目", "en": "Community & Projects", "items": community},
+      {"emoji": "☁️", "title": "公有云动态", "en": "Public Cloud", "items": public_cloud},
+   ]},
+ ],
+ "flash": flash,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# ---------------------------------------------------------------- sanity
+bad = []
+def check(it, where):
+    if not it.get("title"):
+        bad.append(f"missing title @ {where}")
+    if not it.get("url"):
+        bad.append(f"missing url @ {where}")
+    if where != "flash" and not it.get("detail"):
+        bad.append(f"missing detail: {str(it.get('title'))[:40]}")
+    if where != "flash" and not it.get("summary"):
+        bad.append(f"missing summary: {str(it.get('title'))[:40]}")
+
+for h in brief["highlights"]:
+    check(h, "highlight")
+for s in brief["sections"]:
+    for c in s["categories"]:
+        for it in c["items"]:
+            check(it, f"{s['label']}/{c['title']}")
+for f in brief["flash"]:
+    check(f, "flash")
+assert not bad, bad
+
+n_items = len(brief["highlights"]) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"]) + len(brief["flash"])
+json.dump(brief, open(os.path.join(BASE, "briefing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(f"briefing.json written: {n_items} links ({len(brief['highlights'])} highlights + "
+      f"{sum(len(c['items']) for s in brief['sections'] for c in s['categories'])} section items + {len(brief['flash'])} flash)")
