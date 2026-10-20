@@ -1,37 +1,38 @@
 ======================================================================
-处理报告  (原始 79 条)
+处理报告  (原始 122 条)
 ======================================================================
 
-① 过滤: 保留 55 条, 过滤掉 24 条
+① 过滤: 保留 85 条, 过滤掉 37 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] cursor/plugins
-     ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub Trending] android/skills
+     ✗ [GitHub Trending] withmarbleapp/os-taxonomy
      ✗ [GitHub Trending] Kruk2/jasna
-     ✗ [GitHub 升星repo] ly05010419/MacNativeGames
-     ✗ [GitHub 升星repo] aicodeking/leanrea
-     ✗ [GitHub 升星repo] xiaoyang111222/cn-math-taxonomy
-     ✗ [GitHub 升星repo] Maroonplocord/Movavi-Converter
+     ✗ [GitHub 升星repo] humblemuzzu/dumbtv
+     ✗ [GitHub 升星repo] interplains/zero-breach
+     ✗ [GitHub 升星repo] justrach/nanoui
+     ✗ [GitHub 升星repo] VictorTaelin/uniichat
+     ✗ [GitHub 升星repo] bitwarden-app312/.gitp3d
+     ✗ [GitHub 升星repo] arc-tool/.github
 
-② 去重: 55 → 48 条 (同批合并 0, 跨天历史去重 7)
+② 去重: 85 → 78 条 (同批合并 0, 跨天历史去重 7)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] anthropics/claude-plugins-official
      ⏭️  [GitHub Trending] anomalyco/opencode
-     ⏭️  [GitHub Trending] ruvnet/ruflo
      ⏭️  [GitHub Trending] akitaonrails/ai-memory
+     ⏭️  [GitHub Trending] ruvnet/ruflo
      ⏭️  [GitHub Trending] stablyai/orca
      ⏭️  [GitHub Trending] HKUDS/CLI-Anything
+     ⏭️  [GitHub Trending] anthropics/claude-code
      ⏭️  [Anthropic News] Introducing the Anthropic Cyber Mission
    (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 安全与治理: 4 条
-     - 模型与研究: 24 条 (含🔧开源 2)
-     - 产品与商业: 7 条 (含🔧开源 2)
-     - Agent & Skill: 5 条
      - AI 工程落地: 8 条 (含🔧开源 2)
+     - 模型与研究: 42 条 (含🔧开源 5)
+     - Agent & Skill: 17 条 (含🔧开源 4)
+     - 产品与商业: 7 条 (含🔧开源 1)
+     - 安全与治理: 2 条 (含🔧开源 1)
    【基础设施】
+     - K8s × AI: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [16分] Expanding the Cyber Verification ProgramAnnouncementsOc
@@ -42,6 +43,6 @@
    打分Top5(参考):
       16分 [Anthropic News] Expanding the Cyber Verification ProgramAnnou
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      12分 [HuggingFace Papers] OpenGCUA: Toward a Fully Open Stack for Gener
+      14分 [GitHub 升星repo] AndreSzymanski15/ai-jailbreaks
+      12分 [HuggingFace Papers] Learning to Think and Explore in 3D World
       12分 [InfoQ中国     ] Meta 联手苹果推出全美最强开源模型，编码基测输给智谱、Kimi
-      11分 [GitHub 升星repo] Gathin23/tv-vibehack

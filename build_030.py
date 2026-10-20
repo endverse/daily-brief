@@ -1,0 +1,436 @@
+#!/usr/bin/env python3
+"""Build briefing.json for issue 030 (2026-10-20). URLs are looked up from processed.json."""
+import json
+
+P = json.load(open("processed.json", encoding="utf-8"))
+BY = {}
+for it in P:
+    BY.setdefault(it["url"].split("?")[0], []).append(it["url"])
+
+
+def U(frag):
+    """Return the exact URL as stored in processed.json, matched on the part before '?'."""
+    hits = [u for k, us in BY.items() for u in us if frag in k]
+    assert len(hits) == 1, f"{frag} -> {hits}"
+    return hits[0]
+
+
+def item(title, url, summary, tag, source, detail, oss=False):
+    d = {"title": title, "url": url, "summary": summary, "tag": tag, "source": source, "detail": detail}
+    if oss:
+        d["oss"] = True
+    return d
+
+
+def det(a, b, c):
+    return [{"key": "能做什么", "value": a}, {"key": "解决什么痛点", "value": b}, {"key": "值不值得", "value": c}]
+
+
+FLUX_URL = U("infoq.cn/article/4IPptJpXQqX5Lr77uBFZ")
+PILOT_URL = U("qbitai.com/2026/10/503935")
+
+flux_sum = ("DoorDash 把工程 agent 负载从开发者笔记本迁到自建 Flux 平台：2026 年单月自动化完成 130,000 个工程任务，"
+            "每周支撑 25,000+ 次自动代码评审、10,000+ 次触发调用，仓库里有 300+ 个可复用 Playbook。"
+            "平台由四个原语组成——云端 Sandbox（Firecracker microVM，预装仓库、工具链、密钥与运行时依赖）、内部 MCP 网关 Agent Gateway、"
+            "YAML 定义的 Playbook，以及 Slack/GitHub/Cron/CLI/会话五种触发面。官方给出的端到端 Sandbox 搭建（启动 microVM、clone 仓库、"
+            "装构建工具、配好 agent harness）p95 目标在 5 秒以内；应用中代码评审起家，后扩展到 CI 分流、值班、日常维护与工单驱动开发。")
+
+flux_note = ("🔎 新闻要点：单月 130,000 个工程任务、每周 25,000+ 次自动代码评审、300+ Playbook、每周 10,000+ 次触发；"
+             "四原语 = Sandbox / Agent Gateway(MCP) / Playbook / invocation surface；Firecracker microVM 隔离，p95 环境搭建 <5s；"
+             "Agent Gateway 提供范围受限权限 + 活动日志供审计与策略执行；Playbook 可把 agent 步骤与确定性代码混编；"
+             "起因是本地执行的算力上限、笔记本需在线、agent 继承开发者凭据且难以审计；Slack 集成已从私密频道改为公开 thread。")
+
+pilot_sum = ("清华 THUNLP 联合面壁智能、OpenBMB 开源 PilotDeck 2.0，把自己定位成「智能体操作系统」：以 WorkSpace（工作舱）为基本单位，"
+             "每个项目拥有独立的文件系统、记忆库与技能集，多项目并行时上下文物理隔离。记忆做成白盒——从生成、抽取、存储到调用全链路可见，"
+             "可逐条查看、手动改写、删除或固定；空闲时「Dream 模式」在后台归纳去重，弄丢细节可一键回滚。"
+             "Always-on 模式让 agent 在关掉窗口后继续推进长周期任务，并主动发现候选任务、把成果落地为本地文件加一份进展报告。"
+             "调度上按任务难度选模型（强模型决策、小模型干杂活），官方称复杂长任务成本下降近六分之五；"
+             "Workbuddy Bench 上用 Qwen3.6-35B-A3B 得 79.1 分，高于 Claude Code 的 77.3。"
+             "Web、CLI、企业微信、飞书四个入口共享同一套后端行为，可围绕现有工作流扩展工具与技能。")
+
+pilot_note = ("🔎 新闻要点：THUNLP + 面壁智能 + OpenBMB；Workspace 级隔离文件/记忆/技能；白盒记忆支持查看、修改、删除、固定；"
+              "Dream 模式空闲归纳去重 + 一键回滚；Always-on 常驻执行长周期任务并产出本地文件与总结；按难度路由模型，长任务成本降约 5/6；"
+              "Workbuddy Bench 79.1（Qwen3.6-35B-A3B）vs Claude Code 77.3；Web/CLI/企微/飞书同后端。")
+
+highlights = [
+    {"title": "DoorDash Flux：单月 13 万个工程任务跑在云端沙箱，p95 环境搭建 5 秒内",
+     "url": FLUX_URL, "summary": flux_sum, "note": flux_note, "tag": "Agent 平台", "source": "InfoQ 中国",
+     "detail": det(
+        "四个原语拼出的生产级 agent 平台：Firecracker microVM 做隔离执行环境，内部 MCP 网关做有界权限与审计，YAML Playbook 定义任务/工具/权限/校验边界，五种触发面（Slack、GitHub、Cron、CLI、会话接口）负责启动。" \
+        "Playbook 允许把 agent 驱动的步骤和确定性代码串在一条流水线里，需要可预测执行的地方用普通代码兜底；Slack 侧从私密频道改到公开 thread，让工程师能看到 agent 的执行过程与结果。",
+        "笔记本跑 agent 的三条硬限制：CPU/内存不够、设备必须在线、agent 继承开发者凭据而难以追踪它访问了哪些系统、代表谁操作。任务量一上来，"
+        "「谁在跑、跑了什么、凭什么权限」就无法回答，代码评审这种高频环节最先卡住。",
+        "做内部 agent 平台的可直接对照：130k 任务/月、25k 评审/周、p95 <5s 这组数字给出了容量与冷启动的基线；"
+        "值得抄的是「沙箱 + MCP 网关 + 声明式 Playbook + 多触发面」这层抽象，而不是具体实现。门槛在自建 microVM 池与网关治理成本，"
+        "中小团队更适合先接现成沙箱服务再补 Playbook 层。")},
+    {"title": "清华 PilotDeck 2.0 开源：工作舱隔离 + 白盒记忆，长任务成本降约 5/6",
+     "url": PILOT_URL, "summary": pilot_sum, "note": pilot_note, "tag": "Agent OS", "source": "量子位",
+     "detail": det(
+        "以 WorkSpace 为调度与隔离单位：每个工作舱自带文件系统、记忆库、技能集，互不共享检索空间；记忆可读可改可删可固定，"
+        "并有 Dream 模式在空闲期做归纳、提炼、去重与可回滚的整理；Always-on 让任务脱离聊天窗口在后台续跑，结束时输出本地文件与进展总结。"
+        "模型侧按任务难度路由，强模型只做决策、小模型承担执行性步骤。",
+        "多项目并行时最痛的两件事：上下文串台（写完后端架构再写文案，语气还是架构腔）和记忆黑盒（记错了关键参数，只能废掉整段对话重来）。"
+        "长周期任务还有「人一离开就停在半路等指令」的问题，以及强模型全流程跑导致 token 成本失控。",
+        "如果你的日常是同时推进多个仓库/多个项目，工作舱隔离 + 可编辑记忆这两点最值得试，成本项也有明确数字（约 5/6 降幅、79.1 vs 77.3）；"
+        "但要先确认它对你现有 CLI/编辑器工作流的侵入程度，以及 79.1 这个分数只来自单基准、单底座。")},
+]
+
+sections = [
+    {"label": "🤖 AI 板块", "categories": [
+        {"emoji": "🧩", "title": "Agent & Skill", "en": "Agent & Skill", "items": [
+            item("Librarian Agents：让 agent 提前把语料整理成可复用工作区，BrowseComp-Plus 高出 33 个百分点",
+                 U("huggingface.co/papers/2610.22273"),
+                 "长文档推理的两种常规解法都有短板：检索是被动的、在推理时才去捞，跨文档推理容易卡住；知识图谱这类预计算结构又依赖僵硬启发式。"
+                 "Librarian Agents 换了个方向——训练一个 builder agent，把原始文档改写成由合成文件与引用链接组成的层级文件系统，专门服务下游答题 agent。"
+                 "作者指出一个关键不对称：现代 agent harness（如 Claude Code）里的模型很会「在已有文件系统里找答案」，却几乎没被训练过「为将来的查询造一个可复用工作区」。"
+                 "他们把工作区构建建模成马尔可夫决策过程，用 RL 直接以下游答题准确率为奖励优化 builder 策略；"
+                 "在 BrowseComp-Plus 上比最强的检索与预计算基线高 33 个百分点，且构建成本可被后续重复查询摊薄。",
+                 "Agent 记忆", "HuggingFace Papers",
+                 det("把「整理语料」做成一个可训练的策略：builder agent 生成层级目录、合成文件与交叉引用，形成下游 agent 专用的工作区；用下游准确率作 RL 奖励，"
+                     "而不是用人工定义的检索结构质量。",
+                     "RAG 在推理时才检索，跨文档、跨章节的推理缺少全局结构；知识图谱预计算又贵且不贴合具体问法。中间缺的是「面向未来查询的主动整理」。",
+                     "做 agent 记忆/上下文工程的人值得读：它把「记忆整理」从 prompt 技巧变成可优化目标，33pp 的差距说明上限不低；"
+                     "但工作区构建有前置成本，只在同一语料被反复查询时才摊得平，一次性问答场景收益有限。"), True),
+            item("Lean4AgenticRL：用 Lean4 给工具调用与工作流阶段打多级奖励，LAR-27B 在 TerminalBench-2.1 到 77.3%",
+                 U("huggingface.co/papers/2610.22448"),
+                 "现有 agentic RL 基本只给最终结果奖励，对底层的工具调用、中层的 workflow 阶段几乎没有监督，训练效率低。"
+                 "Lean4AgenticRL 的做法是把多级过程奖励统一落在 Lean4 形式化模式里：先为每类问题构建「问题专属 workflow」以平衡 agent 自主性与可控性，"
+                 "再用 workflow 形式化与多级奖励标注，在通用 harness 中对 agent 行为逐层校验。"
+                 "训练用 workflow-stage-normalized GRPO，产出 LAR-9B/27B；LAR-27B 在 TerminalBench-2.1 得 77.3%，平均比底座模型高 9.89%，"
+                 "比已知同规模第二名高 5.07%。",
+                 "Agent RL", "HuggingFace Papers",
+                 det("把形式化方法接进开放式 agent RL：用 Lean4 描述问题专属 workflow，从而能对「工具调用对不对」「阶段目标达没达到」自动校验并生成分层奖励，"
+                     "再配合按阶段归一化的 GRPO 做训练。",
+                     "稀疏的结果奖励在长程任务里信噪比太低，agent 学到的是「碰巧成功」而不是「该在什么时候调什么工具」；过程奖励又难以自动化打分。",
+                     "自研 agent RL 的团队可以看它的奖励构造思路（形式化 spec → 自动校验 → 分层奖励），这是当前少见的可落地路径；"
+                     "门槛是要为每个任务域写 Lean4 workflow，跨域迁移成本高，77.3% 也仍是 TerminalBench 单基准。"), True),
+            item("EvoWeb：320 个累加需求测编码 agent，跨需求集成成为主要失分点",
+                 U("huggingface.co/papers/2610.16402"),
+                 "现有 Web 生成基准都朝「固定规格」开发，而真实开发是一串连续需求不断改同一个代码库。"
+                 "EvoWeb 构造 320 个累加请求、覆盖 32 个 Web 应用，按功能依赖图组织，agent 必须迭代修改持久化代码库，"
+                 "由多模态 Web agent 在真实浏览器里逐次验收：新功能、跨需求集成、以及此前已经实现的功能是否还在。"
+                 "评测不设固定停止条件，而是按用户容忍阈值积分轨迹可靠性。结果显示跨需求集成是最大难点，依赖越深/越多的后期请求正确率越低，运行时报错随请求累积上升。",
+                 "编码 Agent 评测", "HuggingFace Papers",
+                 det("用「累加请求 + 持久代码库 + 浏览器实测」三件套评编码 agent：每个请求都要在现有实现上加功能，同时回归旧功能，"
+                     "再用依赖图刻画任务难度。",
+                     "单轮 benchmark 高分不代表能维护代码库：真实工程里 agent 的失败多来自改 A 坏 B、需求越叠越乱，现有基准测不出来。",
+                     "如果你在选编码 agent 或做内部评测，这组「跨需求集成 + 回归」指标比 SWE-bench 类单任务更贴近日常；"
+                     "局限是只覆盖 Web 应用、32 个应用规模偏小，分数不宜直接当采购依据。"), True),
+        ]},
+        {"emoji": "🧠", "title": "模型与研究", "en": "Models & Research", "items": [
+            item("ACT3D：只给单张图，让模型自己决定走哪看哪，六个 3D 基准平均 53.2% 超过 Gemini 3.6 Flash",
+                 U("huggingface.co/papers/2610.21783"),
+                 "不喂多视角图、不喂视频、也不给 3D 表示，只保留 VLM 原生的单图输入：把 3D 场景当作环境，模型通过动作（如左移）与观察（渲染图）交互。"
+                 "每条 rollout 从第一人称视角与一个问题开始，模型可以反复推理、导航、重定向视角，再给最终答案。"
+                 "训练分两段：先做轨迹监督微调，再用「只看最终答案对错」的 RL 打奖励——不给任何关于该看哪个视角、该做什么动作的直接监督，"
+                 "探索策略完全靠交互是否提升正确率学出来。六个 3D 基准平均 53.2%，比底座 Qwen 高 22.0 个点、超过 Gemini 3.6 Flash，"
+                 "输入帧数还少 50–70%。",
+                 "空间推理", "HuggingFace Papers",
+                 det("把 3D 理解变成「主动探索」：模型以单图序列方式工作，通过动作改变视角，用 RL 只优化答案正确率来涌现探索策略，不依赖 3D 专用编码器或多视角输入。",
+                     "现有 3D VLM 靠堆视角/堆帧数换取信息，成本高且被动的；模型不会主动去补足看不清的部分。",
+                     "做机器人/空间智能或想在 VLM 上加「主动感知」的人值得读：帧数少 50–70% 这一点对推理成本有直接意义；"
+                     "但 53.2% 的绝对水平说明这类主动探索仍在早期，且需要可渲染的 3D 环境做训练。"), True),
+            item("VAST 开源 EdenLive：5B 模型在单张 RTX 5090 上 720P 实时生成，端到端延迟百毫秒级",
+                 U("qbitai.com/2026/10/504136"),
+                 "VAST 开源实时世界模型 EdenLive，官方说首次在「实时生成」前提下同时做到任意参考输入、任意画风生成与长时连续运行："
+                 "给简化场景或参考视频，再配目标首帧与提示词，就能沿参考的布局与运动持续生成写实或二次元等不同画风的画面。"
+                 "单张消费级 RTX 5090、720P 下 5B 模型生成速度超过 24FPS，从用户操作到画面出现的端到端延迟为百毫秒级。"
+                 "架构上把世界状态与渲染分开：交互规则与状态由上游交互系统维护，模型只负责按参考画面把变化实时画出来。",
+                 "世界模型", "量子位",
+                 det("实时视频生成模型：参考输入（场景/视频）+ 首帧 + 提示词控制画风与运动，支持长时连续运行；把状态维护与视觉渲染解耦，"
+                     "交互系统给状态，模型负责渲染。",
+                     "实时交互内容（游戏、仿真、虚拟拍摄）里，生成模型要么画质不够，要么延迟到无法交互，要么跑不动在消费级硬件上。",
+                     "关注实时生成/世界模型落地的人可以看：单卡 5090 + 720P + >24FPS + 百毫秒延迟是少见的硬件账单；"
+                     "但要判断它是「渲染层」而非「世界模拟器」——物理与规则仍由外部系统给，别按通用世界模型预期它。"), True),
+            item("OmniXRef：文本/图像/视频参考一起用，给视频编辑加统一参考库与 R²-RoPE",
+                 U("huggingface.co/papers/2610.22744"),
+                 "视频编辑的创作意图可能来自文本指令（「去掉这些人」）、图像参考（主体外观）或视频参考（镜头运动），现在这些信号通常各管一段。"
+                 "OmniXRef 用统一输入设计做「参考库」接口，并提出 R²-RoPE 以泛化到任意数量的参考；模型 OmniXRef-Model 用单流扩散 Transformer "
+                 "把源视频与来自 MLLM 的多模态上下文按交错序列一起处理。为补数据，作者用合成流水线造出 OmniXRef-Data，并按课程学习逐步提高任务复杂度与分辨率；"
+                 "同时提出 OmniXRef-Bench，覆盖相机、运动、内容、风格与视效五类参考属性迁移。",
+                 "视频生成", "HuggingFace Papers",
+                 det("一个可组合多种参考模态的视频编辑框架：参考库接口 + R²-RoPE 支持变长参考数量，单流 DiT 联合处理源视频与多模态上下文；附数据合成方案与参考视频编辑基准。",
+                     "现有工具里改主体外观要图参考、改运镜要视频参考、改内容要文本，三者不能叠加；参考数量一多位置编码就崩。",
+                     "做视频生成/编辑产品或评测的人值得跟：把「视频作为控制模态」单独建基准（Camera/Motion/Style/VFX）是补空白的工作；"
+                     "但论文层面只说超过任务专用基线与商业模型，没有给统一量化表，工程可用性还要看权重是否开放。"), True),
+            item("Embeddings Are Overpriced：冻结 16 MB 词表替掉 1.68 亿参数嵌入，笔记本 CPU 跑到 615–740 token/s",
+                 U("huggingface.co/papers/2610.22428"),
+                 "小模型里词表是最大的一块：Gemma 3 270M 的 2.68 亿参数中嵌入表占 1.68 亿，量化时嵌入又留在 16 位，压缩后仍占文件大头。"
+                 "作者把这张表换成一张冻结的 512 位码表（16 MB、零可训练参数），由预训练嵌入做 PCA 投影加符号二值化得到，"
+                 "然后用同样的 2.05B token 从头训练同形状模型做对照。学出来的表用 2.6 倍可训练参数只换来 0.20 nats 验证损失，"
+                 "而 LAMBADA、HellaSwag、PIQA 上冻结表更好或持平；换成三元 BitNet b1.58 主体后整个模型是 46 MB 文件，"
+                 "在笔记本 CPU 上以 62 MB 内存跑到 615–740 token/s，是 float 模型 8-bit GGUF 的 5–6 倍速度、七分之一内存。"
+                 "生僻词上冻结表反赢 1.7–2.3 nats，训练后还能以 3% 代价接纳一万个新词（学出来的表会崩 43%）。",
+                 "模型压缩", "HuggingFace Papers",
+                 det("用一个固定的 16 MB 二值码表替代可训练嵌入矩阵，靠 PCA + 符号二值化保留语义；配合三元权重主体，把端侧模型压到 46 MB 并显著提速。",
+                     "端侧/浏览器/嵌入式要跑语言模型时，参数大头在词表而不是主体，量化也压不动 16 位嵌入；同时新词扩展会破坏已训好的嵌入。",
+                     "做端侧推理、离线小模型或边缘部署的人可以直接试这个思路（成本极低，只需替换嵌入层并在自有语料重训）；"
+                     "限制是只验证到 270M 级模型，更大规模是否仍成立、多语言词表是否同样友好都未测。"), True),
+            item("Claude 半小时解开 P-256 曲线种子的出处：1997 年 8 月 16 日 01:52:34 UTC 的第 1842 个候选",
+                 U("qbitai.com/2026/10/503910"),
+                 "NIST 曲线 P-192/P-224/P-256/P-384/P-521 的公开种子自 2000 年进入 FIPS 186-2 后，始终没人能说清最初怎么选出来的，"
+                 "二十多年来密码学界只能靠猜。Anthropic 让内部研究模型接手，且没有把「可能是加薪玩笑口令」这条线索告诉它。"
+                 "模型的突破口是识别生成程序的规律：它测试了 34 种「伪随机数生成器 × 输出截取方式」的组合，发现四组种子各拆成五个 32 位整数后，"
+                 "20 个整数的最高位呈现特定模式，指向 lrand48——48 位状态、每步乘固定常数加常数后取低 48 位，输出只用高 31 位。"
+                 "以 P-256 为例，初始化时刻为 1997 年 8 月 16 日 01:52:34 UTC，跑生成器取第 1842 组候选，得到的正是以 C49D 开头的那串种子；另四组也一一对上。"
+                 "结论同时是安全利好：曲线不存在由此引入的隐藏后门；仍有候选被跳过的原因、B-163 种子等未解。",
+                 "AI 做研究", "量子位",
+                 det("用一个「穷举 + 规律识别」的可验证任务检验模型的研究能力：模型自行提出生成器假设、组合搜索（34 种生成器/截取方式），"
+                     "并把结果落到可复算的时间戳与候选序号上。",
+                     "逆向一个二十多年没定论的标准参数，人力的瓶颈在假设空间太大且每次验证都要重算；这类「结构化搜索 + 可验证结论」正是模型能压缩成本的地方。",
+                     "值得读的是方法论：模型给出的是可复算的具体答案（时刻 + 第 1842 组候选），不是叙述性推测——这也是判断「AI 做研究」是否可信的关键差别。"
+                     "对你没有直接工程收益，但可作为评估模型科研能力的样例。"), True),
+        ]},
+        {"emoji": "🛠️", "title": "AI 工程落地", "en": "AI Engineering", "items": [
+            item("Cloudflare 推 cf CLI：默认 JSON 输出、覆盖 3000+ API 操作，Wrangler 走 18 个月退场",
+                 U("infoq.cn/article/Ddda0DF68laqfoqa4Lju"),
+                 "Cloudflare 发布面向 agent 的开源 CLI「cf」：TypeScript 编写，默认输出 JSON 而非表格，带命令发现能力，配置用 cloudflare.config.ts。"
+                 "命令由 OpenAPI schema 经新的统一 API 生成管道 Forge 自动生成，因此能覆盖 3000 多个 API 操作，而 Wrangler 手写的只有约 280 条命令路径。"
+                 "官方理由是 Wrangler 由各产品团队各写一套，术语与模式无法统一（d1 info、hyperdrive get、workflows describe 风格各异），"
+                 "而 LLM 已经学会了 Wrangler 的行为，硬改会冲突，所以另起一个 agent 原生的 CLI。"
+                 "cf 公测结束后 Cloudflare 计划弃用 Wrangler，会发最后一个大版本并提供 18 个月维护期。",
+                 "Agent 工具链", "InfoQ 中国",
+                 det("从 API schema 直生成 CLI：3000+ 操作、结构化 JSON 默认输出、命令发现、TS 配置格式；同一套管道同时喂 API 文档与 SDK。",
+                     "给 agent 用的 CLI 要机器可解析（JSON）而不是给人看的表格，还要能自动发现子命令、避免 280 条手写命令各自为政的术语混乱。",
+                     "如果你的 agent 要操作云资源，这是一份「CLI 该怎么为 agent 设计」的现成参考（默认 JSON、schema 生成、命令发现）；"
+                     "但注意社区对 TypeScript 实现有争议（启动时间、依赖管理），且迁移期要同时维护两套命令。"), True),
+            item("阿里云 7 个样板间：全链路 2 小时压到 5 分钟，发布周期 40 天缩到 2 天",
+                 U("infoq.cn/article/2uG3W14THqtLhb5Vou51"),
+                 "阿里云 CTO 产研线公开了三个月的 AI 原生研发组织探索：不以「解决某个技术难题」为目标，而是把组织本身作为改造对象。"
+                 "唐洪把当前范式概括为「模型 + Harness + Context」，并提出三阶段路径：工具原生（个人用好 agent）→ 工作流原生（多步骤由 agent 贯通）→ 组织原生。"
+                 "推进方式是「北极星、留白、沙箱」：目标清晰、创新可跨岗位边界、试验不碰主干链路；过程指标只用于观测比较、不进考核。"
+                 "样板间入选标准是进生产、有可观测业务结果、具备复用可能；文中给到的局部成绩包括某项目全链路处理时长从 2 小时缩短到 5 分钟、"
+                 "另一项目两周完成几十个需求把发布周期从 40 天压到 2 天并整理出十几个生产级 Skill。",
+                 "研发组织", "InfoQ 中国",
+                 det("一份组织层面的实践复盘：7 个进入生产场景的样板间，配套北极星/留白/沙箱的推进机制，以及下一阶段收敛出的三个平台级方向"
+                     "（Harness 与「规范即代码」、工具/Skill/MCP 资产化、多 Agent 编排与 Agent 进组织）。",
+                     "AI 提效往往停在个人工具层：单点快一点，端到端没变；跨团队推广又会被考核指标和岗位边界卡住，最后只留下 demo。",
+                     "做 AI-native 转型推进的人值得读，尤其是「过程指标不进考核」「样板间要进生产」这两条组织设计；"
+                     "但这是自述型复盘，5 分钟/2 天这类数字没有对照组，别当基准值。"), False),
+            item("Gemini 里的 MCP Apps：把工具和实时 UI 配对，调整不再走模型回合",
+                 U("cloud.google.com/blog/topics/developers-practitioners/devs-guide-to-mcp-apps-in-gemini"),
+                 "Google Cloud 给出在 Gemini 里实现 MCP Apps 的开发者指南。MCP Apps 是开源的 MCP 扩展：把一个工具和一块实时 UI 配对，"
+                 "UI 在聊天流里的沙箱 iframe 中渲染，可全屏或侧栏展开，编辑在本地执行、工作区与助手保持同步。"
+                 "文章把企业助手分三代：第一代纯文本聊天返回静态 markdown、没有交互控件；第二代标准 MCP 工具能调实时 API 但输出静态文本，"
+                 "每次改动都要再走一轮模型；第三代交互式 MCP App 让调整在 widget 内完成而不消耗模型回合。"
+                 "平台侧由 Gemini 提供企业登录、受管数据访问与 Default Assistant，MCP server 由开发者托管在私有环境。",
+                 "MCP", "Google Cloud",
+                 det("用 MCP 扩展把「工具调用」升级成「工具 + 实时 UI」：沙箱 iframe 渲染、全屏/侧栏、本地即时编辑、与助手状态同步；配套企业登录与受管数据访问。",
+                     "纯文本助手做可视化、多步调整时，每次微调都要一次模型往返，慢且贵；标准 MCP 工具只返回静态文本，交互体验断层。",
+                     "在做企业内 agent 助手、且痛点是「多轮微调太慢」的，这套「工具+UI 配对」是当前最细的一份实现说明；"
+                     "门槛是绑定 Gemini 生态，MCP server 需自托管并处理鉴权。"), False),
+        ]},
+        {"emoji": "📊", "title": "产品与商业", "en": "Product & Business", "items": [
+            item("智谱 GLM-Legal 登顶 Vals AI 法律双榜：Harvey LAB 全通过率 19.2%，成本约为 Gemini 4 Argon 的 1/70",
+                 U("qbitai.com/2026/10/503965"),
+                 "智谱推出面向法律实务的 GLM-Legal，覆盖审合同、串联证据、跨境合规研究，输出可直接使用的成果文件。"
+                 "在 Vals AI 最新法律测评中，它以 19.2% 的任务全通过率与 86.23% 的准确率，拿下 Harvey LAB 与 LegalBench 双榜开放权重模型第一。"
+                 "Harvey LAB 的评分只有把一项任务的所有评分条件都满足才算通过，首版设了 1200 多项模拟律所工作任务、覆盖并购、知识产权、银行金融等 24 个法律业务领域；"
+                 "对照测试里，GLM-Legal 在成绩相近时比 Gemini 4 Argon 慢近 30 分钟，但 Gemini 的单项测试成本约为它的 70 倍。",
+                 "垂直模型", "量子位",
+                 det("面向法律工作流的垂直模型：不只答法条，而是接需求 + 客户材料，产出可审阅的交付物；在 Harvey LAB（全条件通过制）与 LegalBench 两个榜上均列开放权重第一。",
+                     "通用模型在法律任务上给的是「泛泛建议」：例如换供应商时只说要注意交接条款，不会把终止通知期从 60 天改到 30 天并补 90 天过渡支持、"
+                     "同时对齐已有成果归属约定。垂直模型把建议落成可执行的修改方案。",
+                     "如果公司有法务/合规场景（合同审查、跨境合规），这组「全通过率 + 成本比」的数据值得拿去和通用模型对比；"
+                     "但 19.2% 的全通过率本身说明严格条件下多数任务仍未全达标，只能当辅助而非替代。"), False),
+        ]},
+        {"emoji": "💡", "title": "观点与好文", "en": "Opinion & Reads", "items": [
+            item("Simon Willison 转的「编程讣告」：被拿走的是解谜的乐趣，不是写代码的能力",
+                 U("simonwillison.net/2026/Oct/19/my-obituary-for-programming/"),
+                 "Simon Willison 引了 Jeremy Scheff 的一篇短文：编程曾是「拿钱做逻辑谜题，越难越贵，普通人也做不了」，所以对喜欢解谜的人是最理想的职业。"
+                 "他的判断很干脆——如果你享受的是「把系统跑起来」，LLM 是源源不断的礼物；如果你享受的核心是亲自解决那些难题，损失是真实的。"
+                 "Willison 只加了这句分层，没有反驳也没有安慰。",
+                 "职业思考", "Simon Willison",
+                 det("一篇短评，把「AI 取代程序员」的笼统焦虑拆成两种人：以交付系统为乐的人受益，以解题过程为乐的人受损。",
+                     "讨论 AI 与编程职业时常把「写代码」当成一个整体能力，忽略动机差异，导致结论对谁都对不上。",
+                     "五分钟读完，用来校准自己在这条轴上的位置；不是技术文，没有可执行结论。"), False),
+            item("HN 238 分讨论：交付自己看不懂的 AI 代码，怎么办",
+                 U("news.ycombinator.com/item"),
+                 "Ask HN 帖「How to deal with shipping AI-written code you don't understand?」拿到 238 分，评论区给出几种现实做法："
+                 "让 LLM 只实现自己设计好的方案、不参与结构设计；也有人指出 LLM 写抽象层很差，能跑但难维护、后续改动代价更大；"
+                 "还有资深工程师说每周数千行新增/变更根本审不过来，只能照批 PR。",
+                 "工程实践", "Hacker News",
+                 det("一个高热度工程讨论串，集中呈现「AI 生成代码 + 人工评审」在真实团队里的失效点：设计权归谁、抽象质量、评审带宽。",
+                     "代码产出速度超过团队理解与评审速度，质量责任无处落地；这类问题在引入 agent 编码后普遍出现，但缺少公开的经验交换。",
+                     "值得扫一遍评论，尤其是「LLM 不设计抽象、只实现设计」这条共识；没有数据支撑，属于经验判断，别当结论引用。"), False),
+            item("Google Cloud 拆 LLM-as-judge 的五种偏差：换选项顺序就能翻转判决",
+                 U("cloud.google.com/blog/topics/consulting/three-ways-to-audit-your-llm-evaluators/"),
+                 "Google Cloud 指出「人主观所以要靠 AI 客观评测」是误解——LLM judge 同样有偏差：偏好更长、更自信的答案（即使事实错误）；"
+                 "调换两个选项顺序就可能翻转判决；语法与排版干净会给准确度加分而漏掉错误；识别正确产出很强，但检出错误、buggy 或不安全输出较弱；"
+                 "以及 egocentric bias，系统性高估自己生成的输出。文章给出三种审计 evaluator 的方式，核心论点是 judge 本身的质量也必须被测量。",
+                 "评测治理", "Google Cloud",
+                 det("一份 LLM-as-judge 的偏差清单与审计方法：位置偏差、冗长/自信偏差、格式偏差、错误检出弱、自产自评偏高，配套三种审计手段。",
+                     "团队把 judge 当无偏裁判直接用于上线门禁或模型选型，评测结论会被系统性偏差污染，且偏差方向稳定、不易自查。",
+                     "凡是用 LLM 打分做回归或选型的人都该过一遍，这五条能直接变成审计用例（换序、加长、加格式噪声、注入错误）；"
+                     "偏方法论、不含具体数值，落地要自己写对照实验。"), False),
+        ]},
+        {"emoji": "🛡️", "title": "安全与治理", "en": "Security & Governance", "items": [
+            item("Intact：按「元素是什么、从哪来」而非「它说了什么」隔离网页，注入攻击通过率 73.1% → 12.8%",
+                 U("huggingface.co/papers/2610.22697"),
+                 "agent 代替用户浏览网页时，把页面当截图或纯文本读入 LLM，等于让模型直接消费未经审查的第三方内容。"
+                 "浏览器本身有语义规则：一个元素能做什么取决于它是什么、来自哪里，而不是它写了什么；agent 把这些语义拍平了，"
+                 "于是注入的文本就能说服 LLM 用用户的权限去执行本无权限的操作。"
+                 "Intact 在未修改的浏览器上运行，构造 GenTree 表示以保留来源与网页语义，把页面逐元素喂给 LLM——判断某个元素时不带其他元素的文本；"
+                 "harness 只在当前元素的能力范围内执行，遇到第三方内容先问用户。在 1270 个真实网页上，GenTree 对第三方的归属判定是浏览器的 2.3 倍，"
+                 "而浏览器把 58.7% 的第三方元素误判成第一方；在 1091 个注入了攻击的页面上，只有 12.8% 的攻击能穿过 Intact 的 planner（且最多表现为一次征询同意），"
+                 "常规 planner 是 73.1%；隔离只影响 3.7% 任务的正常功能。",
+                 "Agent 安全", "HuggingFace Papers",
+                 det("把浏览器语义搬进 agent 输入层：GenTree 记录元素的能力与来源，逐元素喂给模型做单点决策，执行时按元素能力收权，第三方内容触发用户确认。",
+                     "屏幕/文本拍平让 prompt injection 有了攻击面：页面上一句「忽略之前指令」就能让 agent 用用户身份做事。只靠模型「抗注入」不成立。",
+                     "做浏览器 agent、RPA 或带网页访问的助手，这套「语义与来源隔离」比过滤器更根本，12.8% vs 73.1% 是少见的量化对照；"
+                     "限制是需改造 harness 接入 GenTree、逐元素决策会增加调用次数，3.7% 的功能损失也要评估。"), True),
+        ]},
+    ]},
+    {"label": "☸️ 基础设施板块", "categories": [
+        {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8s × AI", "items": [
+            item("AWS 拆 AI 负载下的 K8s 自动扩缩：调度器愿意用的节点，扩缩器不一定愿意建",
+                 U("cncf.io/blog/2026/10/19/how-ai-workloads-are-reshaping-kubernetes-autoscaling"),
+                 "CNCF 博客（AWS 工程师撰写）指出 K8s 十年来的分工是「调度器把 pod 放到已有节点、扩缩器在没有节点可放时加节点」，"
+                 "在算力同质化的年代这是合理设计。AI 负载打破了前提：典型症状是 pod 一直 pending，集群并非真的没容量，"
+                 "而是扩缩器愿意加的节点形状调度器不愿意用——扩缩器回答的是「要不要加节点」，真问题是「加的节点是不是对的形状」。"
+                 "文章梳理社区已解决与待解决的部分，并讨论扩缩器如何变成更懂调度器的伙伴；其中「预留容量（reservation）」一节指出从预留里扩容时，"
+                 "扩缩器不仅要判断是否增长，还要判断预留是否合适。",
+                 "扩缩容", "CNCF Blog",
+                 det("一份面向 GPU 集群的 autoscaling 分析：把「pending 但有余量」拆成调度器与扩缩器的形状错配，复盘 reservation、DRA 等机制如何补这个缝，并预测扩缩器向调度器感知演进。",
+                     "GPU 节点贵且形状不一（卡型、拓扑、MIG 切分），扩缩器按通用实例族加节点常加错形状，结果是「有钱也调度不上」，加速器空转。",
+                     "正在给 GPU 集群设计扩缩策略的人值得读，尤其是 reservation 与节点形状匹配这两段；但文章偏方向性梳理，没有具体调参值或实测数据。"), False),
+            item("给 agent 一个 kubeconfig 等于把集群钥匙交给文本生成器：用内置能力搭沙箱的完整配方",
+                 U("kubezilla.io/dont-let-your-ai-agent-run-kubectl"),
+                 "kubezilla 的实操文：凡是能影响模型输出的东西都能影响你的集群——它读的 README、GitHub issue、抓取的网页。"
+                 "文中引用 OWASP LLM Top 10 的第一位 prompt injection 与 LLM06 Excessive Agency，指出「agent 带 admin context 跑」就是教科书案例。"
+                 "解法是让 agent 写代码、但在一个没有凭据、没有网络、带超时的无聊地方执行，全部用 K8s 自带能力：两个 namespace（agent-system 与 agent-sandbox）"
+                 "避免生成的脚本读到旁边的 ConfigMap/Secret、Pod Security Admission 设 restricted（拒绝特权 pod、hostPath、hostNetwork、root、额外 capability、无 seccomp）、"
+                 "RBAC 只允许创建 Job 与读日志、ResourceQuota 与 LimitRange 防死循环吃满集群、ValidatingAdmissionPolicy 校验提交内容。"
+                 "所有配置都在真实 K8s v1.34.1 上跑过，文中错误信息是照抄运行结果；末尾附可在本机用 kind 跑的脚本。",
+                 "Agent 沙箱", "kubezilla",
+                 det("一套纯内置机制的最小沙箱：namespace 隔离 + PSA restricted + 最小 RBAC（只建 Job、只读日志）+ 配额/限额 + 准入策略校验，附 kind 复现脚本。",
+                     "让编码 agent 直接 kubectl 会把集群管理面暴露给不可信内容：一次注入就能删负载、读 Secret 或横向移动。而引入第三方沙箱平台又要额外运维。",
+                     "这是少见的「不加组件就能落地」的做法，v1.34.1 实测过，可以直接借来做内部 agent 的默认执行环境；"
+                     "限制是没有网络策略细节与镜像信任链，真上生产还要补 NetworkPolicy、Sandbox 运行时（gVisor/Kata）与审计。"), False),
+            item("Kyverno 往运行时走：eBPF + LSM 按 pod 拦进程、文件、协议，而不是只看 spec",
+                 U("cncf.io/blog/2026/10/15/extending-kubernetes-policy-enforcement-to-runtime-security"),
+                 "CNCF 博客介绍 Nirmata Runtime for Kyverno（开源）：准入控制只能回答「这份 spec 看着对吗」，"
+                 "回答不了「跑起来的进程是不是它声明的那样」——而自主 agent 与非确定性 LLM 应用的事故恰恰多发在这个缝里："
+                 "镜像启动后再拉二阶段载荷、网络权限没收敛的 sidecar 开始访问未批准目标、策略没预料到的进程被执行。"
+                 "它的设计前提是：任何「在工作负载旁边跑」的控制（sidecar、agent、用户态代理）都可能被工作负载自身看到、阻塞或绕开，"
+                 "而跑在下面的内核里、与 syscall 同指令执行的控制没有这个问题。实现上用 BPF-LSM 程序挂 syscall，"
+                 "用 cgroup 作用域的 eBPF 挂 egress，按 pod 生效，五类行为在内核内同步判决：按解析后的内核路径拒绝进程执行、按路径拒绝文件访问、"
+                 "按线上实际说的应用协议（而非目标端口）判断——伪装成 443 上的 HTTPS 的反向 shell 不会因为端口对就放行、DNS 观察与上报等。",
+                 "运行时安全", "CNCF Blog",
+                 det("把 Kyverno 的策略模型延伸到内核执行层：BPF-LSM + cgroup eBPF，按 pod 做进程/文件/协议级同步拦截，补准入控制管不到的运行时行为。",
+                     "AI 工作负载行为不确定，静态 spec 校验无法覆盖运行时；sidecar 型安全代理与被保护负载同层，可被绕过或拖死。",
+                     "对搭多租户 agent 平台或 GPU 集群安全基线的人有直接价值：把「按协议而非端口」这条判据加进 egress 策略能挡掉一批伪装外联；"
+                     "门槛是内核版本与 LSM 支持、每节点 DaemonSet 的运维成本，且项目较新、生态待验证。"), False),
+        ]},
+        {"emoji": "☸️", "title": "K8s 核心技术", "en": "K8s Core", "items": [
+            item("KEP-5945：DRA 加 skipNodeOperations，kubelet 不再为不需要的设备调 gRPC",
+                 U("kubernetes/enhancements/issues/5945"),
+                 "DRA 默认让 kubelet 在容器启动前调 node-local driver 准备设备、Pod 结束时清理。但有些控制器管理的资源两个调用都不需要，"
+                 "却仍要在每个节点上放一个 no-op driver；另一些只需准备、能自动清理。KEP-5945 往 ResourceSlice 里加 skipNodeOperations 字段，"
+                 "并把它带进 ResourceClaim 的分配结果；kubelet 只有在「claim 里同一 driver 的所有设备都标了跳过」时才跳过对应 gRPC 调用，"
+                 "driver 可以只跳过 NodeUnprepareResources，也可以两个都跳过。自定义分配器必须复制该字段，kubelet 才会照做。"
+                 "该 KEP 在 v1.37 以 DRAOptionalNodeOperations 门控进 Alpha（默认关），Beta 更新已于 9 月 28 日合入，目标 v1.38 默认开启、v1.40 转 Stable。",
+                 "DRA", "Kubernetes Enhancements",
+                 det("给 DRA 分配结果加一个「跳过节点操作」的声明位，kubelet 据此省掉 Prepare/Unprepare 的 gRPC 往返；粒度到 driver 级，需要 claim 内所有设备一致。",
+                     "为不需要准备的设备维护一个空转 driver，是纯运维负担；每 Pod 两次 gRPC 在节点上堆成可观测的启动/删除延迟。",
+                     "用 DRA 管 GPU/网卡/FPGA 并自研分配器的人要跟：这是 v1.38 默认开启的变更，自定义分配器不复制字段就会静默失效；"
+                     "对纯 CPU 集群无感知。"), True),
+            item("K8s PR 142913：PodFailurePolicy 的规则可以命名，Job 失败原因能指到具体规则",
+                 U("kubernetes/kubernetes/pull/142913"),
+                 "KEP-4443 的这部分改动解决一个很具体的排障问题：Job 用 PodFailurePolicy 时，多条规则都执行 FailJob 会产生同一个通用失败原因，"
+                 "上层控制器（如 JobSet）无法判断究竟是哪条规则触发的失败，也就无法决定要不要重试、怎么恢复。"
+                 "改动允许给规则命名，Job 的失败 condition 里就能带上对应规则名；没命名时回退到规则的索引，行为仍然可追溯。",
+                 "Job 可观测性", "Kubernetes PR",
+                 det("给 PodFailurePolicy 的规则加 name，并把命中的规则名写进 Job 的失败 condition，未命名时用索引兜底。",
+                     "多条 FailJob 规则共用同一失败原因，上层控制器与值班工程师都只能看到「Job 失败了」，无法区分是哪个条件触发、该不该重试。",
+                     "批量/训练/流水线类 Job 用 PodFailurePolicy 的团队值得跟，尤其是有 JobSet 或自研重试逻辑的；改动小、兼容，但要等版本发布。"), True),
+            item("K8s PR 142897：WebSocket 流式指标升 Beta，配套无 SPDY 回退的 e2e",
+                 U("kubernetes/kubernetes/pull/142897"),
+                 "KEP-4006 推进 Kubernetes 从 SPDY 迁向 WebSocket：apiserver 与 kubelet 的 WebSocket 流式指标从 Alpha 升到 Beta，"
+                 "覆盖经 apiserver stream translator 与 tunnel 处理的流式请求。配套 PR 142898 加了 exec/attach/port-forward 走 WebSocket 且不允许回退 SPDY 的 e2e 测试——"
+                 "允许回退的测试在 WebSocket 路径坏掉时也能通过，等于留下覆盖盲区；等稳定期过后这些测试计划提升为 conformance。",
+                 "K8s API 演进", "Kubernetes PR",
+                 det("把 WebSocket 流式请求的度量指标转正（apiserver 与 kubelet 两侧），并用「禁止 SPDY 回退」的 e2e 证明新协议路径独立可用。",
+                     "用 kubectl exec/attach 的客户端与服务端在迁移期都靠回退兜底，真实风险被掩盖；缺少指标也让问题难以定位。",
+                     "如果你的工具链里有自研 exec/port-forward 客户端或网关做流式代理，这是必须跟的迁移线；指标转正后可以先在监控里建基线再切流量。"), True),
+        ]},
+        {"emoji": "🧰", "title": "云原生周边", "en": "Cloud Native", "items": [
+            item("把碳排做成 OTel 的「一等信号」：SCI 语义约定要解决的是归属，不是测量",
+                 U("cncf.io/blog/2026/10/15/carbon-as-a-first-class-signal"),
+                 "CNCF 博客（作者为 Kepler 维护者、OTel 文档 approver）复盘 Observability Summit EU 的主题演讲：云原生系统默认可观测，"
+                 "指标、日志、链路都有，唯独「碳排放」这一维基本缺席。文章指出难点已经不是测不测得出——Kepler 这类工具能暴露 K8s 的能量指标，"
+                 "也有工具提供基础设施利用率与电网碳强度——而是能不能把它连到具体工作负载、服务与工程决策上。"
+                 "几个待解问题很具体：某负载优化后能耗下降，算不算更「碳高效」？如果它处理的请求翻倍呢？电网碳强度变了呢？共享基础设施的消耗怎么分摊到单个应用？"
+                 "作者的主张是把 SCI（软件碳强度）做成 OTel 语义约定，建立一套各方共用的碳遥测语言。",
+                 "可持续性", "CNCF Blog",
+                 det("一条标准化路径：用 OTel 语义约定承载 SCI，把能耗/碳强度与 workload、service 维度对齐，使碳数据能和现有指标、链路一起被查询与归因。",
+                     "现在能拿到节点级能耗，却无法回答「这个服务值不值得为省碳改架构」；共享基础设施的分摊没有共识口径，跨团队比较不成立。",
+                     "如果公司有 ESG/能耗报表或机房成本考核需求，值得跟这条标准化线（Kepler + OTel）；对个人技术选型暂无直接影响，属于方向性投入。"), False),
+        ]},
+        {"emoji": "🌱", "title": "社区与项目", "en": "Community", "items": [
+            item("LWKD 周报：十月 patch release 推迟到今天，SIG Autoscaling 新增 model-serving-signals 子项目",
+                 U("lwkd.info/2026/20261015"),
+                 "Last Week in Kubernetes Development（截至 10 月 11 日）记录了几件会影响升级节奏的事：十月 patch release 为纳入最新 Go 版本与 CVE 修复整体推迟一周到 10 月 20 日，"
+                 "cherry-pick 截止 10 月 16 日；v1.38.0-alpha.2 已于 10 月 7 日用 Go 1.27.1 构建，1.38 的 docs placeholder PR 截止 10 月 29 日。"
+                 "组织层面有两个信号：SIG Autoscaling 新增 model-serving-signals 子项目（把模型服务的信号纳入扩缩决策），SIG Apps 新增 workload-class 子项目；"
+                 "WG LTS 已关闭、文档归档到 archive/wg-lts。另记录 SIG Architecture 修正了开发者指南里 SPDY/WebSocket 客户端指引写反的问题。",
+                 "K8s 社区", "LWKD",
+                 det("一份每周开发进展摘要：发布日程（patch release 推迟、1.38 alpha、docs 截止）、SIG 组织变动（新增两个子项目、关闭 WG LTS）、值得读的 PR 与 KEP。",
+                     "K8s 的发布与治理信息分散在 sig-release、邮件列表与各 SIG 会议里，升级窗口与组织变动很难及时掌握。",
+                     "每周花十分钟扫一遍能避免踩发布窗口（这次 patch release 挪到今天）；model-serving-signals 这条对做推理平台的人尤其值得留意。"), False),
+        ]},
+    ]},
+]
+
+flash = [
+    {"title": "Agent2API/agent2api：把 agent 能力包成 API 的开源项目进 GitHub 升星榜。",
+     "url": U("github.com/Agent2API/agent2api")},
+    {"title": "kanaworksai-hue/audio-studio-mcp：音频处理走 MCP 协议暴露给 agent。",
+     "url": U("github.com/kanaworksai-hue/audio-studio-mcp")},
+    {"title": "Simon Willison 的 web-edit 0.1a2：给网页做就地编辑的实验工具。",
+     "url": U("simonwillison.net/2026/Oct/17/web-edit/")},
+    {"title": "Google 入选 2026 IDC MarketScape Agentic AI 平台领导者（厂商自述，无技术细节）。",
+     "url": U("cloud.google.com/blog/products/ai-machine-learning/google-named-leader-in-2026-idc-marketscape")},
+]
+
+lead = ("今天两条主线都在「agent 怎么真正跑起来」这一层。生产侧，DoorDash 把工程 agent 从笔记本搬进自建 Flux：单月 13 万个任务、"
+        "每周 2.5 万次自动评审，靠的是 Firecracker 沙箱 + 内部 MCP 网关 + 声明式 Playbook，p95 环境搭建压到 5 秒内；"
+        "开源侧，清华 THUNLP 的 PilotDeck 2.0 用「工作舱」隔离文件/记忆/技能，把记忆做成可查可改的白盒，长任务成本降约六分之五。"
+        "基础设施这边三篇实践指向同一个缺口——隔离与治理：kubezilla 用 PSA + 最小 RBAC + 准入策略在 v1.34.1 上搭 agent 沙箱，"
+        "Kyverno 生态把策略从准入推进到内核（eBPF + LSM），AWS 则拆了「扩缩器愿意加的节点形状」与「调度器愿意用的形状」为什么会错配。")
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 10 月 20 日 · 星期二",
+    "issue": 30,
+    "kicker": "DAILY",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": lead,
+    "highlights": highlights,
+    "sections": sections,
+    "flash": flash,
+    "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- assertions ---
+proc_urls = {it["url"] for it in P}
+seen = []
+for h in brief["highlights"]:
+    assert h["title"], "highlight title missing"
+    assert len(h.get("detail", [])) == 3, h["title"]
+    seen.append(h["url"])
+for s in brief["sections"]:
+    for c in s["categories"]:
+        for it in c["items"]:
+            assert it.get("title"), f"missing title in {c['title']}"
+            assert len(it.get("detail", [])) == 3, it["title"]
+            seen.append(it["url"])
+for f in brief["flash"]:
+    assert f["title"]
+    seen.append(f["url"])
+bad = [u for u in seen if u not in proc_urls]
+assert not bad, f"URLs not from processed.json: {bad}"
+
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("briefing.json written:", len(seen), "urls,", sum(len(s['categories']) for s in sections), "categories")
+print("highlights:", len(highlights), "items:", sum(len(c['items']) for s in sections for c in s['categories']), "flash:", len(flash))
