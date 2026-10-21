@@ -1,0 +1,471 @@
+#!/usr/bin/env python3
+"""Build briefing.json for issue 031 (2026-10-21). URLs are looked up verbatim
+from processed.json — never hand-typed."""
+import json, sys
+
+P = json.load(open('processed.json', encoding='utf-8'))
+
+def U(key):
+    hits = [it['url'] for it in P if key in it['url']]
+    hits = list(dict.fromkeys(hits))
+    if len(hits) != 1:
+        sys.exit(f"URL lookup for {key!r} matched {len(hits)}: {hits}")
+    return hits[0]
+
+def T(key):
+    """exact title from processed.json (keeps original wording)"""
+    for it in P:
+        if key in it['url']:
+            return it['title']
+    sys.exit(f"title lookup miss {key}")
+
+DATE_LABEL = "2026 年 10 月 21 日 · 星期三"
+ISSUE = 31
+
+lead = ("今天三条线都落在「agent 到底靠什么跑得住」上。推理侧，llm-d 1.0 把一组模型服务器收成一个端点："
+        "cache-aware 路由 + 分层 KV cache + 优先级流控，在 Ironwood TPU 上把 agentic coding 的 TTFT 中位数砍掉 85%、吞吐翻到 2.4 倍，"
+        "现场演示是 GKE 上 1000 个沙箱 agent 打同一个端点。harness 侧，今天几乎是一组「反直觉」论文日——"
+        "Harness-Delta 归因发现 harness 进化收益里 54% 其实是benchmark 过拟合，而 HarnessPro 用 Pareto 选型换来 +2.0pp 通过率与 -26.1% 单任务成本。"
+        "供应链侧，一篇对 6309 个公开 agent skill 的实测给出了难看的数字：一半带 shell 执行能力，13% 能碰凭证，而现有权限模型基本是摆设。"
+        "基础设施板块今天偏补丁日：BuildKit 因吊销 CA 会直接影响镜像拉取的 TLS 校验。")
+
+highlights = [
+ {
+  "title": "llm-d 1.0 发布：K8s 原生分布式推理栈，1000 个沙箱 agent 打一个端点，TTFT 降 85%、吞吐 2.4 倍",
+  "url": U("llm-d-1-0-an-open-source-stack"),
+  "summary": ("在 PyTorch Conference 上，Google 与 Red Hat、IBM 等共同发布 llm-d 1.0：一个 Kubernetes 原生的分布式 LLM 推理开源栈，"
+              "以 CNCF Sandbox 项目身份由 25 个组织、500 多名贡献者推进，把「PyTorch 侧用 vLLM/SGLang 跑模型」与「Kubernetes 侧做分布式与扩缩」两层接起来。"
+              "1.0 的取舍很明确：不再让 agent 流量走普通 round-robin Service，而是把整个机队收在单一 endpoint 后面——一个 router、一个 KV cache 索引、一套流控策略，"
+              "router 建在 Gateway API Inference 之上（GKE 上由 GKE Inference Gateway 托管，并能跨区域路由），按「哪个副本持有这段前缀 + 当前负载 + 预测延迟」选副本。"
+              "KV cache 溢出时不再丢前缀，而是经 vLLM OffloadingConnector、Mooncake 或 SGLang HiCache 下沉到主机内存，再落到 SSD 或 Managed Lustre，"
+              "prefill / decode / 多模态 encode 拆成独立池，由建在 LeaderWorkerSet 上的 DisaggregatedSet 管理，MoE 用 wide EP 跨节点铺开。"
+              "Keynote 的演示是 GKE 上 Agent Substrate 里的 1000 个沙箱 agent 同打一个 llm-d 端点，后端混跑 vLLM、SGLang 与 TPU/GPU 混合机队；"
+              "官方给出的 Ironwood TPU（TPU 7x）agentic coding 实测里，前缀感知路由加上主机内存卸载把 TTFT 中位数压低 85% 以上、总吞吐提到 2.4 倍（对比普通 Kubernetes Service）。"),
+  "note": ("🔎 新闻要点：llm-d 1.0 = 开源、K8s 原生、CNCF Sandbox；Google + Red Hat + IBM 共建，25 组织 500+ 贡献者；"
+           "核心机制 = cache-aware 路由（Gateway API Inference / GKE Inference Gateway 托管）+ 分层 KV cache（vLLM OffloadingConnector / Mooncake / SGLang HiCache → 主机内存 → SSD / Managed Lustre）+ 优先级流控；"
+           "prefill / decode / 多模态 encode 分离为独立池，DisaggregatedSet 建在 LeaderWorkerSet 上；wide EP 支撑大 MoE 跨节点；"
+           "演示负载 = GKE Agent Substrate 上 1000 个沙箱 agent → 单一 llm-d 端点（vLLM + SGLang + TPU/GPU 混合）；"
+           "Ironwood TPU agentic coding：TTFT 中位数 -85%+，总吞吐 2.4x vs 普通 K8s Service（2026-10 数据）；组件可组合，engine / model / cluster 可自留。"),
+  "tag": "K8s × AI",
+  "source": "Google Cloud Blog",
+  "detail": [
+   {"key": "能做什么", "value": "把一组模型服务器变成协调的 serving pool：单一 endpoint 前挂一个 router、一个 KV cache 索引与一套流控；router 追踪哪些副本持有哪段前缀，并按负载与预测延迟选副本，会话上下文尽量留在原地；prefill、decode、多模态 encode 各跑独立池，MoE 走 wide EP 跨节点；KV cache 溢出按主机内存→SSD/Lustre 分层下沉，避免前缀被驱逐后重算。能力是分层的，可以只取需要的零件，保留自己的推理引擎、模型和集群。"},
+   {"key": "解决什么痛点", "value": "agent 流量的形状变了：多步、共享长前缀、成突发。放在普通 Service 后面，副本会重复 prefill 同一段 prompt、显存被重复状态挤满，一个突发 loop 就能把交互请求拖慢；而 KV cache 满时的驱逐风暴会让多轮、长上下文场景雪崩。1.0 针对的就是这三件事：上下文亲和、缓存分层、突发限流。"},
+   {"key": "值不值得", "value": "自建 K8s 推理平台目前最值得逐条读的上游实现：与 Gateway API Inference、LeaderWorkerSet 同源，非 GKE 也能装，Apache-2.0。门槛在于 PD 分离 + wide EP 的调参成本不低，托管形态（GKE Inference Gateway 的跨区域路由）绑 GCP；1.0 只是起点，接口还在快速演进，适合先拿非核心业务做对照实验。"}
+  ]
+ },
+ {
+  "title": "6309 个公开 agent skill 的攻击面实测：一半能执行 shell，13% 能碰凭证，权限模型近乎失效",
+  "url": U("2610.19264"),
+  "summary": ("这篇论文把「装一个 skill 等于授予一份指令权」这件事量化了：agent skill 本质是 markdown 文档，agent 把它当指令读进去，然后用当前会话的权限执行，"
+              "所以「安装」本身就是一次授权动作，而授权范围在安装时几乎不可见。作者用两阶段方法测：整包静态分析 + 依赖来源核查，再加插桩沙箱里的真实执行与独立的模型侧 trace 评估，"
+              "样本是两个市场的 6309 个 listing，且选样不以任何先验风险信号为条件。结果一半的语料带 shell 执行能力证据，35% 能读文件、31% 能写文件、31% 能对外发起网络连接、13% 能访问凭证，"
+              "十个里有七个至少带一项提权能力。他们同时指出权限模型基本是摆设：skill 可以在自己的 frontmatter 里声明「预批准的工具有哪些」，但那是取消确认提示，不是限制可达范围；"
+              "6061 个 frontmatter 可解析的 listing 里只有 770 个声明了任何内容，而且这套词汇表连「凭证访问 / 环境变量访问」都表达不了。"),
+  "note": ("🔎 新闻要点：样本 6309 个 listing（两个公开 agent skill 市场），执行选样不按风险信号预筛；"
+           "证据比例 = shell 执行约 50%、文件读 35%、文件写 31%、网络外联 31%、凭证访问 13%，70% 至少一项提权能力；"
+           "6061 个 frontmatter 可解析的 listing 中仅 770 个做了声明；声明语义 = 取消确认提示而非限制能力，且词汇表无法表达凭证/环境访问；"
+           "方法 = 整包静态分析 + 依赖 provenance 检查 + 插桩沙箱执行 + 独立模型评估 trace。"),
+  "tag": "Agent Skill",
+  "source": "HuggingFace Papers",
+  "detail": [
+   {"key": "能做什么", "value": "给出一套可复用的两阶段攻击面测绘方法：先做整个 skill bundle 的静态分析（文件、脚本、声明）与依赖来源核查，再把样本放进插桩沙箱真实执行，把执行 trace 交给独立模型做评估；产出的是「这个 skill 实际能拿到多大授权」的量化画像，而不是“看起来危不危险”的判断。"},
+   {"key": "解决什么痛点", "value": "skill 的安装决策发生在信息最少的时候：用户看到的是一个 README 和一句描述，看不到它后续会起 shell、读 ~/.aws/credentials 或往外发数据。现有的 frontmatter 预批准列表只关掉确认弹窗，反而把「人看一眼」这道最后防线也拿走了。"},
+   {"key": "值不值得", "value": "如果要在公司里建内部 skill marketplace 或做安装前审核，这篇是应当直接引用的基线证据，扫描思路（静态 + provenance + 沙箱行为）可以直接工程化。局限也要看清：样本是两个公开市场，结论是供给侧分布，不能替代对单个内部 skill 的风险判定；沙箱执行只能覆盖被触发的路径。"}
+  ]
+ },
+]
+
+def item(title, url, summary, detail, tag=None, source=None, oss=False):
+    d = {"title": title, "url": url, "summary": summary}
+    if tag: d["tag"] = tag
+    if source: d["source"] = source
+    if oss: d["oss"] = True
+    d["detail"] = [{"key": k, "value": v} for k, v in detail]
+    return d
+
+ai_sections = [
+ {"label": "🤖 AI 板块", "categories": [
+  {"emoji": "🧩", "title": "Agent & Skill", "en": "AGENT & SKILL", "items": [
+    item("wshobson/agents：跨 7 种 harness 的 agent 插件市场，4.1 万星",
+         U("wshobson/agents"),
+         ("一个把 agent 能力做成「可安装插件」的聚合仓，覆盖面是它最大的特点：同一套 marketplace 同时给 Claude Code、Codex、Cursor、OpenCode、GitHub Copilot、"
+          "Google Antigravity 和 Pi 供插件。仓库已积累 41,249 星，最近一次推送在 2026-10-19，说明维护是活的。它的定位不是某个 agent 的实现，"
+          "而是把「同一份技能/工作流描述」路由到不同 harness 的分发层——目前社区里这类多 harness 兼容层还很少。"),
+         [("能做什么", "以插件市场（marketplace）的形式分发 agent 能力：一份清单同时对接 Claude Code、Codex、Cursor、OpenCode、Copilot、Antigravity、Pi 七种 harness，install 后即成为对应 agent 的子命令/技能。"),
+          ("解决什么痛点", "同一套团队工作流换 harness 就要重写一遍，插件生态各自为政；跨工具的团队没法共享一份能力清单。"),
+          ("值不值得", "可以直接对照它看「多 harness 兼容层」的清单格式与命名约定，给自己团队的 skill 分发做参考；但它更像聚合与索引，单个插件的工程质量要各自抽查，41k 星里有多少是收藏性质需要自己判断。")],
+         tag="技能市场", source="GitHub Trending", oss=True),
+
+    item("headroom：在进 LLM 之前压掉工具输出，coding agent 省 20% token、JSON 省 60–95%",
+         U("headroomlabs-ai/headroom"),
+         ("headroom 打的位置很具体：不是压对话历史，而是在工具输出、日志、文件内容、RAG chunk 进入上下文之前先压一遍。官方给的数字是 coding agent 整体 token 少 20%，"
+          "JSON 类内容少 60–95%，并声称答案不变。交付形态有三种——库、代理（proxy）、MCP server，所以既能嵌进自己的 agent 代码，也能不改代码套在模型调用前面。"
+          "仓库 76,755 星，2026-10-21 仍有推送。"),
+         [("能做什么", "在上下文入口做内容级压缩：对工具返回、日志、文件、检索片段做结构化裁剪与摘要，保留可回答问题的字段；以 library / proxy / MCP server 三种形态接入，MCP 形态对现有 agent 几乎零改动。"),
+          ("解决什么痛点", "agent 的成本大头往往不是对话，而是工具输出——一次 kubectl describe、一份 JSON API 响应就吃掉几千 token，且大部分字段与当前问题无关；粗暴截断又会丢关键行。"),
+          ("值不值得", "对跑长会话、多工具调用的自建 agent 平台值得先做一次 A/B：20% 的整体节省意味着账单上的实数，JSON 场景更狠。风险在于压缩本身可能吃掉异常堆栈、CRLF、单位等细节，生产上要按任务类型配策略并保留原文可回溯。")],
+         tag="上下文工程", source="GitHub Trending", oss=True),
+
+    item("graphify：用 /graphify skill 把代码库+文档+SQL+PDF 变成可查询知识图谱，13 万星",
+         U("Graphify-Labs/graphify"),
+         ("graphify 是一个以 skill 形式交付的代码理解工具：给 Claude Code、Cursor、Codex、Gemini CLI 用，把代码库连同文档、SQL schema、配置、PDF 一起解析成可查询的知识图谱。"
+          "它的技术主张很明确——本地确定性 AST 解析、每条边都有解释、不用向量库。仓库 130,231 星，近一次推送 2026-10-20，是目前这类「代码知识图谱 skill」里体量最大的一个。"),
+         [("能做什么", "把仓库、文档、SQL、配置文件、PDF 统一解析成实体—关系图，边带来源解释；查询走图而非向量相似度，结果是确定性的、可复现的，也能回答跨文件调用链这类结构问题。"),
+          ("解决什么痛点", "纯向量检索答不了「谁调用了这个函数、改这个 schema 会影响哪些服务」，语义相似度也解释不了为什么命中；而图数据库方案通常要额外维护一套索引和 schema。"),
+          ("值不值得", "对「agent 读大代码库」这个场景值得试：确定性 AST + 无边不可解释，比向量库更容易做审计和回归。代价是要接受它自己的解析覆盖面（语言、构建系统），超大 monorepo 的建图时间与内存要先估；13 万星里应有一部分是榜单效应，建议拿自己仓库实测一次命中率。")],
+         tag="代码知识图谱", source="GitHub Trending", oss=True),
+
+    item("腾讯测试 Agent 的记忆工程：把「一次性交付」做成「越测越准」的闭环",
+         U("ZyjObqGawfurPFLBQONd"),
+         ("QCon 上海这场分享来自腾讯 IEG 品质管理部的赵旭峰，主题是端到端测试 Agent 从记忆到持续学习。他们的问题定义很工程化："
+          "测试脚本随版本和界面变化就要重写，前置、重试、异常恢复各写一套，用例难复用；失败往往只留一行 fail，没有前后帧和埋点，定位靠人反复复现；踩过的坑留在个人脑子里，换人换模块就归零。"
+          "他们的解法是先设计稳定的数据结构（知识库、脚本、执行产物三层），再设计 Agent 行为：让 AI 自主探索界面把模糊需求结构化，自动生成脚本与执行计划，"
+          "失败时基于截图、报告、埋点等证据自动归因、升版重试，跨机协同把经验沉淀成可复用的能力。提纲里还专门讨论了长上下文与外置记忆的职责边界，"
+          "以及成功路径、失败经验、负向知识三种记忆的不同价值；他们坦承 Agent 目前做不到 100% 自闭环，复杂问题仍需 human-in-loop。"),
+         [("能做什么", "把 Agent 工作流建立在三层产物上（知识库 / 脚本 / 执行产物），而不是靠堆提示词：模糊需求由 agent 探索界面后结构化，脚本与执行计划自动生成，失败后按证据归因并升版重试；记忆按生命周期分层，检索、调度、动态上下文构建都由数据驱动，经验在调用反馈中持续修订。"),
+          ("解决什么痛点", "测试自动化长期是一次性投入：界面一改脚本全废、失败无证据只能人肉复现、经验无法跨人跨模块复用；同类问题反复出现却分不清是环境、工具还是业务缺陷。"),
+          ("值不值得", "做 agent 工程化的人值得看它的分层记忆设计与「结构优先于提示词」的判断——这套结构可以直接迁移到其他 agent 场景（不只是测试）。注意它是大会演讲的提纲级材料，具体指标没有公开，落地细节要自己补；human-in-loop 仍是必需项。")],
+         tag="Agent 落地", source="InfoQ 中国"),
+
+    item("HarnessPro：harness 自进化不再只涨分，用 Pareto 选型换到 +2.0pp 与 -26.1% 单任务成本",
+         U("2610.26770"),
+         ("HarnessPro 针对的是 harness 递归自我改进（RSI）的老问题：分数涨了，执行成本也跟着涨。它做的是 label-free 的 harness 进化——候选 harness 用 LLM 生成的测试来评，"
+          "不碰 ground truth 与官方测试；专门的 agent 负责诊断执行轨迹、按不同的性能-成本偏好规划改动并实现。最终不只交一个 harness，而是用归一化加权平方距离选出 cost 优先（lite）、"
+          "均衡（medium）、性能优先（heavy）三档，供不同部署预算使用；被选中的 harness 进入下一轮迭代。在 Terminal-Bench 2、SWE-Bench Pro、ProgramBench 上，"
+          "GPT-5.5 + Codex 组合下 heavy 模式相对 RHO 平均通过率 +2.0 个百分点、单任务成本 -26.1%，换成 GLM-5.2 + Claude Code 结论同样成立。"),
+         [("能做什么", "把 harness（提示词、技能、工具、编排代码）的进化做成预算可控的多目标优化：agent 自己诊断轨迹、提出改动、实现候选，用 LLM 生成的测试做无标签评估，再按性能/成本偏好输出 lite/medium/heavy 三档 harness。"),
+          ("解决什么痛点", "现有 harness RSI 只优化分数，导致越进化越贵；而生产上真正要选的是「这个预算下最好的 harness」，不是单点最优分数。"),
+          ("值不值得", "跑自建 agent 评测/持续调优的团队值得读：它把「harness 进化」从追求 SOTA 变成给部署预算做选型。局限是无标签测试的判别力决定上限，且它优化的是特定 benchmark 族（终端、SWE、编程），迁移到私有业务要重建测试生成器。")],
+         tag="Harness 进化", source="arXiv cs.AI", oss=True),
+
+    item("HERA：harness 与环境共同进化，让 agent 学会「这活干不了」——拒答准确率 61.7%→83.3%",
+         U("2610.06563"),
+         ("HERA 处理的是 agentic abstention：agent 在工具环境里越来越能干，却常常识别不出任务本身不可行。已有做法通常把模型或 harness 固定在给定任务集上优化，"
+          "换一批失败模式就失效。HERA 由两部分组成：一条流水线用受控环境变更把可解任务改造成「必须拒答」的不可行任务，自动生成可验证的可行/不可行配对；"
+          "一个共进化过程用上一轮的失败驱动 harness 适配，并针对暴露出的弱点生成新的执行环境与任务。在留出任务上，进化出的 harness 把拒答准确率从 61.7% 提到 83.3%，"
+          "同时把可行任务完成率从 68.3% 提到 76.7%；这个 harness 还能零改动迁移到另外 19 个模型上，平均带来 15.3 个百分点的拒答提升。"),
+         [("能做什么", "自动构造「可行 / 不可行」成对任务（对可解任务做受控环境变异，使其只能靠拒答通过），再让 harness 与任务生成器共同进化：弱点在哪就生成哪类环境，harness 随即适配。"),
+          ("解决什么痛点", "靠固定任务集训出来的 agent，遇到没见过的失败模式就硬做，浪费 token 还产出错误结论；而「该停手」这个判断既没有数据也没有评测。"),
+          ("值不值得", "做长任务 agent 或自动化流水线的人值得引用：它把「识别不可行」变成可训练、可评测的目标，而且进化出的 harness 能跨模型迁移（+15.3pp），说明收益更多在编排层而非权重。限制是任务构造依赖可控环境，真实业务里「不可行」的判定标准要先自己定义清楚。")],
+         tag="Agent 可靠性", source="HuggingFace Papers", oss=True),
+
+    item("StopLoss：给 agent 装一个「止损单」，判失败的成本比通用裁判低 1–2 个数量级",
+         U("2610.25525"),
+         ("coding agent 会一直干那些注定过不了验证的活，而叫一个前沿模型盯着看本身就很贵。StopLoss 从已完成的轨迹和验证器结果里学「失败识别」：用小模型给最近几步工具调用打分，"
+          "阈值在成功轨迹上校准，一旦判定大概率失败就提前终止，执行器本身不用改。在 GPT 系 SWE-rebench 轨迹上训练，用 SWE-bench Verified 与 SWE-bench Pro 子集评测、"
+          "配 GPT 与 Claude 执行器，结果是把失败预测从接近随机提到有信号的水平，而每次检查的成本比任何被测通用裁判低 1–2 个数量级。"
+          "收益是实打实的：相对「每单都跑完」，Verified 上每解决一单的成本降 4.5% 且保住 99% 的成功轨迹，更贵的 Pro 子集最多降 31%，换 Qwen3-8B 做骨干能到 48%。"),
+         [("能做什么", "用最终验证结果给轨迹中段的局部窗口打标签，微调一个小模型对最近工具步骤做一次前向打分，再用成功轨迹校准的阈值决定是否中止；作为外挂监控器，不改执行器与 harness。"),
+          ("解决什么痛点", "失败的 run 会烧完全部预算才被验证器判死；用前沿模型做在线裁判则在每一次检查上都付高价，等于用贵模型省钱模型的钱。"),
+          ("值不值得", "任何跑大规模 SWE/CI 类 agent 的团队都能直接受益：4.5%–48% 的成本下降，代价是一个小模型的推理与一套阈值校准流程。前提是你有稳定的验证器信号——没有可编程判定的任务（开放式写作、探索类）它无从训练。")],
+         tag="Agent 成本", source="HuggingFace Papers", oss=True),
+
+    item("Harness-Delta 归因：harness 进化的收益里 54% 是 benchmark 过拟合，14% 只是多花了推理算力",
+         U("2610.22466"),
+         ("这篇是给「harness 进化」泼冷水的那一类研究，方法值得记住：Harness-Delta Attribution（HDA）把一个进化收益拆成三块——产物驱动的过拟合、测试时算力扩张能解释的部分、"
+          "以及剩下的残差（即泛化改进的上界）。作者把 HDA 用在 11 个执行模型与 3 个 harness 进化框架上，覆盖数学、编程、创造性、agentic 四类任务；"
+          "在 21 个 search-set 收益统计显著的设置里，过拟合与测试时扩展平均各解释 54% 与 14%，两者合计在 14 个设置里超过一半。"
+          "更关键的是 search-set 上的提升经常迁移不到留出任务，所以“进化出更好的 harness”多数时候更像是在拟合评测集。"),
+         [("能做什么", "提供一套归因协议：同一批进化结果，分别估计「artifact 过拟合」「测试时算力扩张」「残差泛化」三部分占比，从而给出泛化改进的上界，而不是只看 search-set 分数。"),
+          ("解决什么痛点", "harness/技能不断迭代后分数上涨，团队无法判断这是能力提升还是把评测集背下来了；把算力堆上去也能涨分，收益归因完全混在一起。"),
+          ("值不值得", "做 agent 评测、或打算上线「自动优化 harness」流水线的人必读——它给了一个可操作的自检：留出集迁移率才是真信号。代价是 HDA 需要多次重跑与对照，成本不低；结论也只覆盖它选的 21 个设置，不宜外推成「harness 进化都没用」。")],
+         tag="评测方法", source="HuggingFace Papers", oss=True),
+  ]},
+
+  {"emoji": "🛠️", "title": "AI 工程落地", "en": "AI ENGINEERING", "items": [
+    item("Alaya-DFlash2：推测解码让 GLM-5.3 长文解码提速 3.41 倍（8×H200 实测）",
+         U("mJ5udryLFwjov1pk4Dsq"),
+         ("九章云极为 GLM-5.3 做的推测解码方案：一个能并行起草的草稿模型，加一套路径选择机制，让长上下文下仍然猜得准。TP=8、8×H200、单并发时解码 288.2 tokens/s，"
+          "原生自回归是 84.5 tokens/s，3.41 倍；总输出吞吐从 78.95 升到 236.47 tokens/s。4 并发吞吐 506.56 tokens/s（2.24 倍），64 并发 608.71 对 420.13（+44.9%）。"
+          "接受长度在 1k/2k/8k/16k/32k 五档分别为 4.74/4.97/5.28/5.50/5.39，8k 以上稳在 5.28+，11 类任务里接受长度全部高于 RedHat-DSpark。"),
+         [("能做什么", "在长上下文里保持草稿接受长度的推测解码：并行起草 + 路径选择，让每轮验证平均通过 5 个以上候选 token，从而摊薄主模型的自回归步数。"),
+          ("解决什么痛点", "长文档场景的首 token 快、后续 token 慢——每生成一个 token 都要重算整段上下文，交互体验与吞吐同时被拖住。"),
+          ("值不值得", "自建推理服务、且长上下文占比高的场景值得按这套口径复现（8 卡 TP=8 单并发到 64 并发）。注意这是对特定模型（GLM-5.3）的定制方案，换模型要重训草稿模型；低并发收益最大，高并发时增益回落到 44.9%。")],
+         tag="推理加速", source="InfoQ 中国"),
+
+    item("Snowflake Agent Observability：用 OTel GenAI 语义约定把 agent 的成本、质量、延迟串起来",
+         U("4FreCLUUQb4W4AXUhXo5"),
+         ("Snowflake Observe 即将私有预览的 Agent Observability，思路是把「agent 没报错但答得烂」这类问题变成可查询的遥测。数据采集走兼容 OpenTelemetry 的 SDK，"
+          "遵循 GenAI 语义约定，捕获提示词、模型生成、检索操作、工具调用、token 用量与会话 ID，已验证支持 LangChain、Anthropic Agents SDK 与 OpenAI Agents SDK，"
+          "也接受自定义框架经 OTLP 上报。界面侧有 Agent Explorer 跨 trace/会话搜索调试，指标侧统计延迟、错误、成本，"
+          "并在生产流量上跑在线 LLM-as-judge 评估幻觉、护栏失效与低质量响应，评估结果与 span/trace 关联。"),
+         [("能做什么", "以 OTel GenAI 语义约定统一采集 agent 的 prompt/生成/检索/工具调用/token/会话，在线跑 LLM-as-judge 并把评估结果回挂到具体 span，支持用 API 程序化查询遥测。"),
+          ("解决什么痛点", "多步工作流里质量是从哪一步开始掉、成本是被谁推高的，传统 APM 看不出来；而 agent 遥测比普通请求长、span 多、数据量大，采样一开就丢证据。"),
+          ("值不值得", "关注点在「评估与成本归因」而不是又一个 tracing UI，值得对照它的字段设计（尤其把 eval 结果挂 span 这一点）。但它是 Snowflake 内的付费能力，且还在私有预览；自建栈可以先照 OTel GenAI 约定把埋点做对，避免被单一厂商锁住。")],
+         tag="可观测性", source="InfoQ 中国"),
+
+    item("300 位工程负责人调查：AI 生成代码让每周调试时间涨到 16.9 小时，79% 说发布并没变快",
+         U("ywvgVDVLsSU7r47Jk6lq"),
+         ("Undo 委托 Coleman Parkes 调研了 300 名负责关键业务软件交付的高级工程负责人（多数用 C/C++）。结论是瓶颈从写代码转移到了调试与理解："
+          "团队平均每周写代码 9.8 小时，却要花 16.9 小时处理开发期或生产环境暴露的故障，占周工时的 42%。35% 的 AI 生成代码在团队还没完全理解前就进了生产；"
+          "80% 的受访者说代码智能体在复杂代码库的疑难问题上不行，约三分之一团队只在简单代码库里用 agent 做理解与调试。"
+          "81% 的团队近六个月至少发生过一次影响用户的生产事故，93% 至少经历过一次幻觉导致的错误根因诊断。79% 认为 agent 确实加速了代码生成，但整体发布周期并没有更快。"),
+         [("能做什么", "给出 AI 编码在关键业务代码库上的真实成本结构：写码 9.8h vs 调试 16.9h、42% 工时、35% 未理解即上线、81% 半年内出过事故。"),
+          ("解决什么痛点", "多数 AI 编码收益报告只算生成速度，不算调试、理解与事故成本，导致管理层对 ROI 判断失真。"),
+          ("值不值得", "给「要不要全面推 AI 编码」这类决策提供反方数据，尤其适合金融这类关键业务代码库。局限也明显：样本 300、以 C/C++ 为主、由一家做 AI 根因分析的公司资助，方向性结论要打折看。")],
+         tag="行业调查", source="InfoQ 中国"),
+
+    item("DeepInfer：DeepSeek 生产推理框架开源，只放离线推理，KV cache 与 PD 分离要自己补",
+         U("deepseek-ai/DeepInfer"),
+         ("DeepInfer 是支撑 DeepSeek 大规模线上服务的推理框架，这次开源的是离线推理部分，目前只支持 DeepSeek-V4.1-Flash。特性清单相当硬："
+          "FlashMLA / DeepGEMM / DeepEP / TileKernels 等自研 kernel，Attention DP 与 balanced CP，MoE 的 EP + EPLB，DSpark 与置信度调度的验证（草稿长度默认 5），"
+          "解码器 SWA 有界重放（默认只保留尾部 140 token），零开销的异步批调度，batch-invariant 推理与确定性采样（仅 NVIDIA）。硬件支持 NVIDIA SM100 与华为昇腾 950。"
+          "官方明确列出「本版本不含」的部分：KV cache 系统、VE/Prefill/Decode 分离、DP 副本间负载均衡。HN 上 2107 分、822 条评论。"),
+         [("能做什么", "一套面向 DeepSeek 系模型的高性能离线推理实现：自研 kernel 栈 + EP/EPLB 的 MoE 并行 + 推测解码 + 异步调度 + batch 无关的确定性输出，并同时支持 SM100 GPU 与昇腾 950 NPU。"),
+          ("解决什么痛点", "MoE 大模型推理的显存墙与调度开销；评测/复现场景里 batch 组成不同导致输出漂移，无法做确定性回归。"),
+          ("值不值得", "看它就是在看 DeepSeek 线上推理的工程取舍（尤其 SWA 有界重放、置信度调度验证、batch-invariant 这三点），对自建推理栈有直接参考价值。但它是离线框架且缺 KV cache / PD 分离 / 副本负载均衡，不能直接当在线服务用；模型只支持 V4.1-Flash，硬件门槛也高。")],
+         tag="推理引擎", source="Hacker News", oss=True),
+  ]},
+
+  {"emoji": "🧠", "title": "模型与研究", "en": "MODELS & RESEARCH", "items": [
+    item("MemT-1.0：把记忆做进模型计算里，128K 历史下推理快 1.86 倍、持久化存储省 66 倍",
+         U("2610.26825"),
+         ("MemT-1.0 的主张是让记忆成为基础模型的内在能力，而不是外挂检索。它在 Metis 基础上用 Gated DeltaNet-2 加一套稳定的 token 级记忆更新机制，"
+          "再用 Mixture-of-Storage 扩展原生记忆容量；训练走 continued pre-training + post-training 两阶段，用了 34B token 数据，并配套训练/推理基础设施。"
+          "开源了 Nano 与 Flash 两个规模。在 128K 历史长度下，Nano 端到端推理约快 1.86 倍，持久化存储相比全上下文 KV cache 少 66 倍；"
+          "参数化记忆基线上平均更好，与检索增强方法基本持平，同时较大程度保住了通用能力，把检索到的过程性经验内化后 agentic 任务成功率也有提升。"),
+         [("能做什么", "把「记住历史」变成模型自身计算的一部分：Gated DeltaNet-2 + token 级稳定更新负责在生成中维护记忆，Mixture-of-Storage 负责扩容量，从而不再依赖外部向量库或超长 KV cache。"),
+          ("解决什么痛点", "长历史的两条常规路都贵：全上下文 KV cache 显存爆炸、外部检索又要维护索引且丢过程性经验。"),
+          ("值不值得", "做长会话 agent、或在意「记忆能不能不开检索就成立」的团队值得跟。它是模型架构层面的工作，落地要换底座模型；128K 下的 1.86x 与 66x 存储优势很实，但通用能力只是「较大程度保住」，关键业务仍需自测。")],
+         tag="模型架构", source="HuggingFace Papers", oss=True),
+
+    item("物理 RSI 的观测性缩放律：18 个操作任务上，高分不等于早收益，能力之间互相卡桶",
+         U("2610.26848"),
+         ("这篇系统研究了物理场景下递归自我改进（RSI）的机制、缩放与泛化。作者提出 PhysRSI-eval，用五轴——首次尝试表现、效率、成功率、预算、从失败中的改进——"
+          "在固定交互预算下评 18 个操作任务的不同 VLM。实验引出「物理木桶假说」：不同能力卡住的是改进的不同环节。"
+          "五轴还能把公开榜均分接近的系统区分开，并显示高分并不伴随早期或高效的增益。作者从两个角度做观测性缩放：用公开能力预测 VLM agent 的相对表现，"
+          "以及用早期物理反馈预测后续进展。工作区干预实验给出的结论是：去掉历史会降低后段成功率，冻结的工作区在没见过的布局上依然有用，跨任务三个案例更早成功——场景适配与可复用经验可以并存。"),
+         [("能做什么", "用五轴指标给 agent 的「自我改进能力」画像，并给出两个预测器：用公开能力预测相对表现、用早期反馈预测后续进步；配套工作区干预实验区分「场景适配」与「可复用经验」。"),
+          ("解决什么痛点", "只看平均成功率无法区分「一上来就对」和「反复试错才成」，也无法解释为什么某些系统在别处就崩；改进究竟沉淀在哪，缺乏可测量的抓手。"),
+          ("值不值得", "做具身/操作类 agent 评测的人值得精读五轴定义与干预设计；做通用 agent 的可以借用「改进速率 vs 首次成功率」这个视角。限制是任务域窄（18 个操作任务）、依赖仿真，工业现场的可迁移性未验证。")],
+         tag="评测", source="HuggingFace Papers", oss=True),
+
+    item("MiniMax M3.1 Flash：价格是 Opus 5.5 的 1/88，Agent 与 AA 榜单双第一",
+         U("7Twa7KBWIzi8JGOdVwCK"),
+         ("10 月 19 日 MiniMax 发布 M3.1 Flash，卖点不只是便宜：在 Agent 榜与 Artificial Analysis 榜上都冲到第一，成为国产模型在 agent 赛道的位置标记。"
+          "此前在开发者社区引发关注的匿名模型 Space Bunny 被确认是它的早期版本，9 月 23 日上线后长期居 OpenCode 调用榜第二、OpenRouter 调用量一度第一。"
+          "官方叙事也随之变化：Flash 级模型不再只承担简单问答与代码补全，而要进复杂编程、电脑操作与多步 agent 任务，报道口径给出的价格对比是「比 Opus 5.5 便宜 88 倍」。"),
+         [("能做什么", "低成本档位上的 agent/编码模型：主打多步任务执行、长程任务与工具调用的性价比，在匿名期就以速度与 3D 输出见长（40 分钟生成可玩的简易 Minecraft）。"),
+          ("解决什么痛点", "agent 场景的成本被几十上百步的调用放大，「便宜但常走弯路」反而更贵——真正的痛点是单位完成任务成本。"),
+          ("值不值得", "值得在 agent 流水线上做一次实测替换：如果榜首成绩能在自己的任务分布上兑现，成本结构会明显改善。但榜单第一与私有任务强相关度有限，先用小流量 A/B，别直接替换关键链路。")],
+         tag="模型发布", source="InfoQ 中国"),
+
+    item("StartLux 决策模型登顶 Decision Index：27B Instant 得分 69.12，超过 Jev 托管版约 27%",
+         U("bROfcYFpijQQVBz4NqDi"),
+         ("决策模型是一类专门给 AI 系统「给判断」的模型：不生成一段话，而是接收当前状态与候选选项，直接输出各选项概率，供 agent 或程序决定下一步。"
+          "10 月 16 日的 Hugging Face Decision Index 0.3.2 榜上，中国团队 StartLux 的 27B Instant 以 69.12 分在 174 个参评条目中排第一，公开基准 72.88、同类私有 64.82、新领域私有 61.41 三部分均第一。"
+          "团队自己的评测里，StartLux-Decision-27B-AutoThink 拿 73.37，Jev 托管版是 57.96。值得注意的是差距不完全来自「多想」：同为 27B 的 Instant 版本不生成显式推理也拿到 72.83，"
+          "与 AutoThink 只差 0.54；2B Instant 的 59.14 也已经略高于 Jev 托管版。AutoThink 的价值体现在 DecisionPivot 这类「关键条件变了要不要改答案」的任务上。"),
+         [("能做什么", "提供 Instant（单次前向直接出概率）与 AutoThink（按初始置信度决定是否追加推理）两条路线，并用 RLCD² 约束不必要的推理开销；0.8B–27B 五个规模上 Instant 均超过同规模最强第三方。"),
+          ("解决什么痛点", "agent 频繁做任务路由、权限判断、工具选择，但通用 LLM 给的概率不可靠、也无法判断「这条要不要多想一会」。"),
+          ("值不值得", "如果你的 agent 需要低成本、高频的判断层（路由/准入/工具选择），这类专用决策模型值得实测；小模型 59.14 分说明可以塞在边缘或高 QPS 侧。注意榜单是新领域私有测试为主，自己业务分布上的校准仍需重做。")],
+         tag="决策模型", source="InfoQ 中国"),
+
+    item("Claude Opus 5.5 与 Sonnet 5.5 进入 Google Antigravity，面向 Google Cloud 客户开放",
+         U("claude-opus-55-and-claude-sonnet-55"),
+         ("Google Cloud 把 Anthropic 的 Opus 5.5 与 Sonnet 5.5 接进 Antigravity，供 Google Cloud 客户在自己的项目里直接用。官方定位是「按任务选模型」："
+          "Opus 5.5 面向复杂工作，Sonnet 5.5 走更轻的路径，两者都在同一个 agent 开发环境里可用。这一动作延续了 Google 强调的开放生态叙事——"
+          "Antigravity 里同时提供 Gemini 与 Claude 两个家族。"),
+         [("能做什么", "在 Antigravity 的 agent 开发环境里直接调用 Opus 5.5 / Sonnet 5.5，与 Gemini 系列并列，按任务难度切换模型。"),
+          ("解决什么痛点", "团队已经按 GCP 组织与计费体系运作，再引入第三方模型往往卡在采购与网关两处。"),
+          ("值不值得", "对已在 GCP 上的团队是省事的一次选择：计费与权限沿用现有体系，模型选择进到 IDE 层。但它是渠道层面的变化，不改变模型本身能力；是否值得切换仍取决于自家任务上的实测。")],
+         tag="模型接入", source="Google Cloud Blog"),
+
+    item("用集合级 RL 训出的 8B 模型，在「创意效用」上超过 Claude Opus 4.8 与 GPT-6 Astra",
+         U("2610.22324"),
+         ("这篇做的是文档驱动的想法生成，关注点从「单个想法好不好」转向「一组想法是否既好又互不相同」。方法是集合级强化学习：模型一次生成 K 张结构化 idea card，"
+          "每张都必须扎根于输入论文，整组联合打分，且每个想法的质量按其与前面已写想法的距离加权——这样就教会模型主动避开自己刚说过的方向。"
+          "在无污染的基准上，训出的 8B 模型在「创意效用」（质量与多样性的合成指标）上超过 Claude Opus 4.8 与 GPT-6 Astra；四位专家的先导人评认为其组合与 Opus 4.8 一样有前景、独特想法略多；"
+          "让编码 agent 对这些想法做概念验证实验时，success@k 与 Opus 4.8 相当。"),
+         [("能做什么", "把「多样性」写进奖励：一次生成一组想法，质量按与前任的距离加权，从而在保证可落地的前提下抑制同质化；小模型在特定任务上可以超过大模型。"),
+          ("解决什么痛点", "自动科研/头脑风暴的产出高度同质，用户拿到十个换汤不换药的想法；单点质量优化无法解决这个问题。"),
+          ("值不值得", "做研究辅助、方案生成类产品的团队值得看这个奖励设计（距离加权是最容易复用的部分）。局限是任务域窄（文档驱动 idea card）、人评只有 4 位专家，8B 超过 Opus 4.8 的结论不宜直接外推到通用写作。")],
+         tag="研究", source="HuggingFace Papers", oss=True),
+  ]},
+
+  {"emoji": "📊", "title": "产品与商业", "en": "PRODUCT & BUSINESS", "items": [
+    item("OpenAI 收购 Orchestra Bio，把 AI 运营带进生命科学研发流程",
+         U("openai-to-acquire-orchestra-bio"),
+         ("OpenAI 宣布收购 Orchestra Bio，目标是把 AI 驱动的运营能力带进生命科学的研发环节，帮生物医药团队加快药物开发。官方表述集中在「运营 + 研发流程」这一层，"
+          "没有披露交易金额与团队规模。这是 OpenAI 在企业侧继续向垂直行业纵深的一步，方向与其近期在科研、政务的落地一致。"),
+         [("能做什么", "把模型能力包成生命科学研发的运营层：帮 biopharma 团队处理研发流程中的协调、文档与运营工作。"),
+          ("解决什么痛点", "生物医药研发的瓶颈常在流程与合规文档，不在模型本身；通用 API 无法直接嵌进这类工作流。"),
+          ("值不值得", "行业跟踪用：说明 OpenAI 正在买垂直行业的流程 know-how，而不是只卖 API。对自建平台的团队没有直接技术输入，价值在于判断「模型厂商会不会下沉到你的业务层」。")],
+         tag="收购", source="OpenAI News"),
+
+    item("Anthropic 向全球 1 万名科学家免费开放 Claude",
+         U("expanding-support-for-scientists"),
+         ("Anthropic 扩大对科研人员的支持：全球 1 万名科学家可以从今天起免费用 Claude，面向经过验证的 principal investigator 等科研角色。"
+          "这是继其科研资助、生命科学验证计划之后，又一项把模型能力直接输送给学术侧的动作，规模从前期的项目制扩到万人级。"),
+         [("能做什么", "给通过验证的科研人员提供免费 Claude 额度，用于文献、数据分析与写作等研究环节。"),
+          ("解决什么痛点", "学术团队采购模型预算有限，试用门槛高。"),
+          ("值不值得", "政策/生态层面的信号：Anthropic 在用免费额度换科研场景的采用与数据反馈。对工程侧没有直接可用的东西。")],
+         tag="生态", source="Anthropic News"),
+
+    item("一家连锁加盟商用 ChatGPT Work 把现金对账时间砍掉 94%",
+         U("ted-taylor-restaurant"),
+         ("OpenAI 的客户案例：一位同时经营 Schlotzsky's 与 Cinnabon 的独立加盟商，用 ChatGPT Work 把菜单改价时间缩短 95%，并搭出一条预计能释放 10 万美元现金流的工作流；"
+          "现金对账环节的时间下降 94%。案例的规模很小（单加盟商），但给出的都是可量化的运营指标，而不是「提效」这类空话。"),
+         [("能做什么", "把门店运营里的重复流程（改价、对账、报表）交给通用 agent 处理，输出可执行的结果而非建议。"),
+          ("解决什么痛点", "小微连锁没有 IT 团队，SaaS 又覆盖不到这种零散流程。"),
+          ("值不值得", "看点是 94%/95% 这类指标出现在「非技术用户 + 通用 agent」的组合上，可作为 agent 产品在 SMB 场景的天花板参考。单案例、无方法论，不可当基准。")],
+         tag="客户案例", source="OpenAI News"),
+  ]},
+
+  {"emoji": "💡", "title": "观点与好文", "en": "ESSAYS", "items": [
+    item("一位首席架构师的 5 条 Agent 编程反常识原则：骨架自己搭、主 Agent 禁改代码、看不懂就扔",
+         U("tgqMEJsqXfX6YzAcOiAR"),
+         ("这场播客对话里，首席架构师 Carlos Kelkboom 给出的五条原则都跟主流用法相反：第一，代码骨架自己搭——先定目录、关键文件与函数签名，再让 agent 动手；"
+          "第二，主 Agent 禁止直接改代码与文件，它只负责对话、检索、确认意图，由执行 Agent 动手；第三，生成的代码看不懂就扔掉重来，执行结果隔离在 Git worktree 里，"
+          "一旦偏离预期结构就整段舍弃；第四，尽量让 agent 一次完成较大的任务，避免反复小改把代码打成补丁堆；第五，多个 agent 并行探索不同方案，再由第四个 agent 比较结果只合并好的部分。"
+          "他真正担心的是协作层：开发者越来越习惯先问 agent，PR 讨论变少，与用户沟通、理解需求、推演架构的过程被跳过，于是「能很快做出 demo」和「能把软件长期做好」被混为一谈。"),
+         [("能做什么", "一套可执行的人机分工约定：人定骨架与结构，主 agent 只做理解与检索，执行 agent 在隔离 worktree 里产出，看不懂的产出直接丢弃重来，多 agent 并行探索后择优合并。"),
+          ("解决什么痛点", "agent 会悄悄换掉部署脚本、同一功能在代码库里实现五遍、需要大改时只会打补丁；同时 PR 讨论与需求理解被跳过，团队失去对系统的整体认知。"),
+          ("值不值得", "带团队用 agent 写生产代码的人值得照抄其中两条：骨架先行的约束、以及「看不懂就扔」的止损纪律。它是经验性主张而非实证研究，第五条的并行方案会显著抬高 token 成本，需要按团队预算取舍。")],
+         tag="工程观点", source="InfoQ 中国"),
+
+    item("发假统计、被 LLM 引用：一套把自家数据铺满全网的实操",
+         U("publish-stats-get-cited"),
+         ("peec.ai 的这篇复盘讲了一个正在成型的现象：发布带具体数字的「统计页」，内容做得像研究，就会被各类 LLM 答案引用，进而带来流量与品牌曝光。"
+          "作者把自己的实操路径写了出来——造统计、让页面看起来可引用、等待被抓取与引用。HN 上 315 分、180 条评论，讨论集中在「这是 SEO 的新形态还是信息污染」。"
+          "对做 RAG/agent 的人来说，这篇的价值在反方向：它演示了检索语料被低成本污染的具体手法。"),
+         [("能做什么", "演示一条「统计页 → 被抓取 → 被 LLM 引用」的链路，以及什么样的页面结构更容易被答案引擎选中。"),
+          ("解决什么痛点", "内容方在答案引擎时代失去点击，需要新的可见性路径。"),
+          ("值不值得", "从防御角度看值得一读：如果你的 RAG 依赖开放 web，这就是投毒的操作手册，需要来源白名单与可核查出处。方法论本身是灰色操作，不建议照做。")],
+         tag="信息生态", source="Hacker News"),
+  ]},
+
+  {"emoji": "🛡️", "title": "安全与治理", "en": "SECURITY & GOVERNANCE", "items": [
+    item("Anthropic：把蒸馏攻击的得手率压下去 90% 以上",
+         U("distillation-defenses"),
+         ("Anthropic 披露其反蒸馏工作的进展：非法蒸馏让模型厂商能在不建立相应防护的前提下复制前沿能力，他们通过一组检测与响应措施把蒸馏发生率降低了 90% 以上。"
+          "文章口径把这个问题的性质从「知识产权」扩到「安全护栏被绕过」——复制走的往往是没有对齐的部分。"),
+         [("能做什么", "从账号行为、请求模式等信号识别蒸馏式抓取，并配合处置手段把发生率压下来（官方称 >90%）。"),
+          ("解决什么痛点", "蒸馏方拿到的能力不带护栏，模型厂商的合规承诺被对手绕过。"),
+          ("值不值得", "自建模型服务的人可以对照它的检测维度自查账号风控；对使用者而言最实际的影响是「异常高并发、结构化抽取式调用」更容易被限流或封禁。")],
+         tag="模型安全", source="Anthropic News"),
+
+    item("CyberArena：让两个 agent 在同一沙箱里同时攻防，12 个前沿模型打了 466 场",
+         U("2610.19005"),
+         ("现有 agent 安全评测多是把 agent 放在静态靶标前单方面打分，很快饱和且不符合真实对抗。CyberArena 改成对称的多轮攻防：两个 agent 在隔离沙箱里按同一套规则同时扮演攻击者与防守者，"
+          "服务在对抗中持续变化，考验的是发现、利用与修补漏洞的速度与精度。为维持新鲜度，另有一条自动化 agent 流水线不断生成、评审、验证新环境。"
+          "作者用动力学模型把对局映射成攻防与领域能力的多维分数，12 个前沿模型、40 个挑战、466 场比赛的评测能把模型能力明显分开。"),
+         [("能做什么", "提供一个动态、对称、可持续产出的攻防基准：两个 agent 同场同时攻防，用动力学模型把对局转成多维能力分数，并用 agent 流水线自动造新环境。"),
+          ("解决什么痛点", "静态靶标评测会饱和，也测不出「一边修一边被打」时的表现。"),
+          ("值不值得", "做 agent 安全评估或红队流程的团队值得参考它的对抗式评测设计；但它是仿真沙箱内的能力测量，不能直接当成真实攻防水平，环境自动生成的覆盖面也要单独审计。")],
+         tag="安全评测", source="HuggingFace Papers", oss=True),
+
+    item("「策略不是能力」：同一批 5.3 万条 prompt 标两遍，安全基准的分数能差 23 倍",
+         U("2610.25060"),
+         ("这篇用一次工业部署的「意外」做了严格的对照实验：同一批约 53k 条 prompt 在两个运营定义下各标一遍（「这是不是在请求有害内容」与「审核员会不会拦」），"
+          "用它们训练十套架构、代码库、优化器族都相同的护栏模型，分两个规模。结论有三层：护栏自己的训练语料里已经含 benchmark（JailbreakBench-benign 88%、OR-Bench-hard 82% 出现在训练池）；"
+          "去污染后，安全基准按其分数有多少由标签定义决定而剧烈分层——架构与优化器固定时，十套模型在 HarmBench-copyright 上跨度 0.99、在 WildGuard-benign 上只有 0.043，相差 23 倍；"
+          "并且 0.03% 的参数就能把某个基准分数推过整个区间（HarmBench-copyright 0-100、OR-Bench-hard 过拒率 3.4-56.4%）。"),
+         [("能做什么", "把「安全基准分数」拆成标签定义贡献与模型能力贡献，并量化二者的比例；给出训练集污染检查与参数敏感性检验的具体做法。"),
+          ("解决什么痛点", "团队拿护栏模型去跑公开安全榜，得到的分数可能主要在测「你按哪种定义标的」，而不是模型有多安全。"),
+          ("值不值得", "做模型准入、合规评估的人必读：它说明安全基准必须绑定义、必须查去污染。局限是实验基于单一厂商的一次部署与固定架构，其它任务上的迁移幅度需自行验证。")],
+         tag="评测方法", source="HuggingFace Papers", oss=True),
+  ]},
+ ]},
+]
+
+infra_sections = [
+ {"label": "☸️ 基础设施板块", "categories": [
+  {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8S × AI", "items": [
+    item("TorchTPU 开源：TPU 成为 PyTorch 的原生后端，Transformers v5 里 device_map=\"tpu\" 即可",
+         U("torchtpu-is-now-open-source"),
+         ("PyTorch Conference 2026 上，Google 宣布 TorchTPU 开源——它对 TPU 的原生 PyTorch 栈，TPU 由此与 GPU、CPU 并列成为 PyTorch 的一等后端。"
+          "TorchTPU 与 Meta 的 PyTorch 团队共同开发，目标是现有 PyTorch 负载几乎不改代码就能跑在 TPU 上：可以先用 eager 模式调试，再切 torch.compile 提升利用率、降显存占用，"
+          "并自带标准分布式原语。生态侧，vLLM、SGLang、llm-d、TorchTitan、Ray、TorchRec、Hugging Face、LiteRT 都已接入；"
+          "Hugging Face 的 Transformers v5 里部署到 TPU 只需 device_map=\"tpu\"，Diffusers 原生支持 eager、torch.compile 与张量并行，并建了 nightly CI 在 TPU 上跑 Transformers 全套测试。"),
+         [("能做什么", "把 TPU 变成 PyTorch 的原生后端：同一份代码 eager 调试、torch.compile 上生产，分布式原语开箱可用；上游推理引擎（vLLM/SGLang/llm-d）与训练栈（TorchTitan/Ray/TorchRec）都已对接，Hugging Face Hub 上的开源权重可以直接跑。"),
+          ("解决什么痛点", "TPU 之前的实际成本是「换框架」：模型要改、工具链要重建、CI 要另建一套，硬件多样性带来的议价能力被迁移成本吃掉。"),
+          ("值不值得", "做推理/训练平台选型时，这是把 TPU 纳入候选的现实前提——尤其 llm-d 的混合 TPU/GPU 机队需要它才有意义。门槛在于仍然强绑 Google Cloud 的 TPU 供给，且 nightly CI 覆盖的是 Transformers 套件而非你的模型；先拿一个非核心模型验证数值一致性再扩大。")],
+         tag="AI 基础设施", source="Google Cloud Blog", oss=True),
+  ]},
+
+  {"emoji": "☸️", "title": "K8s 核心技术", "en": "KUBERNETES CORE", "items": [
+    item("BuildKit v0.34.1：因吊销 eMudhra 中间 CA，镜像拉取/推送的 TLS 校验会直接失败",
+         U("buildkit/releases/tag/v0.34.1"),
+         ("BuildKit 0.34.1（2026-10-20）是一个纯安全版本，功能上相对 0.34.0 没有变化。改动只有一条但影响面很广：用 Go 1.26.10 重新构建，"
+          "以处理 CVE-2026-111943——把 8 张已吊销的 eMudhra 中间 CA 证书加入拒绝列表（DV/OV/EV TLS 各两张 G3B/G3C，另两张代码签名），原因是这些中间证书的私钥已被攻破。"
+          "直接后果是：如果某个镜像仓库的 TLS 证书链依赖这些中间证书，拉取与推送会在证书校验阶段失败，受影响的仓库必须换成不含这些中间证书的新证书链。"),
+         [("能做什么", "把已泄密的 eMudhra 中间 CA 拉进拒绝列表，阻断用这些中间证书签发的证书链；对 BuildKit 自身无功能改动。"),
+          ("解决什么痛点", "中间 CA 私钥泄漏后，攻击者可以为任意域名签发「合法」证书；不主动拒绝就等于继续信任一条已经失守的链。"),
+          ("值不值得", "建集群/搭 CI 的直接影响项：升级后如果镜像拉不动，先查仓库证书链是否用了 G3B/G3C 中间证书，而不是怀疑网络。反过来，如果仓库方依赖这些中间证书且短期换不了，升级就会打断镜像流水线——这一步要在维护窗口里做并准备好回滚判断。")],
+         tag="构建", source="GitHub Releases", oss=True),
+  ]},
+
+  {"emoji": "🌐", "title": "云原生周边", "en": "CLOUD NATIVE", "items": [
+    item("Nirmata Runtime for Kyverno：用 BPF-LSM 把策略从准入推进到运行时，专治 agent 的「未定行为」",
+         U("extending-kubernetes-policy-enforcement"),
+         ("这篇 CNCF 博客把准入控制的边界讲清楚了：准入只回答「这个 spec 看起来对不对」，回答不了「跑起来的负载是否在做 spec 说的事」，而 agent 与 LLM 应用正好活在后者——"
+          "它们的部分行为由模型在运行时生成，部署时无法审计。Nirmata Runtime for Kyverno 的做法是用 eBPF + LSM 在内核里执行策略："
+          "把 BPF-LSM 程序挂到 bprm_check_security 与 file_open，按 pod 挂 cgroup 级 eBPF 到 egress 路径，拦截与判定同步发生（exec 返回 -EPERM 时进程还没起，被拒的连接不会完成）。"
+          "策略语言沿用 Kyverno 的 CEL，RuntimePolicy 用 podSelector/namespaceSelector 选目标，可对网络、协议、文件打开逐项 allow/deny，并支持从 ConfigMap 或 HTTP 源按刷新周期取值；"
+          "所有策略默认 monitor 模式，先看 WouldDeny 反向信号再切 enforce，报告沿用 OpenReports。"),
+         [("能做什么", "在 pod 级对五类行为做内核态强制：进程执行、文件打开、网络目的地址、协议、以及凭据路径访问；策略用 CEL 写、按 selector 选目标、支持外部值源，默认 monitor 模式并提供 WouldDeny 反事实计数。"),
+          ("解决什么痛点", "准入控制管不到运行时；而跑在负载旁边的东西（sidecar、userspace 代理）在负载被攻陷时可以被看见、拖慢甚至绕过。agent 的 prompt 注入、供应链依赖、越权工具调用都发生在 spec 之后。"),
+          ("值不值得", "做 agent 沙箱、多租户隔离的集群时值得作为「第二道边界」评估：它把 Kyverno 的策略语言延伸到运行时，运维心智不用重建。注意它要求内核支持 BPF-LSM，节点内核版本与发行版要先核对；这是 Nirmata 的开源产品而非 CNCF 项目，长期维护与社区规模需自行判断。")],
+         tag="运行时安全", source="CNCF Blog", oss=True),
+  ]},
+
+  {"emoji": "☁️", "title": "公有云动态", "en": "PUBLIC CLOUD", "items": [
+    item("Amazon ECS Gateway：给 ECS 服务一个账号级的全托管入口",
+         U("ecs-gateway"),
+         ("AWS 推出 Amazon ECS Gateway，把容器负载的入口网络做成一个账号级资源：它动态为你预置并管理所需的底层基础设施，且创建出来的资源都落在你自己的账号里。"
+          "定位上这是 ECS 侧的托管 ingress，省掉自己拼 ALB + 目标组 + 安全组的那套样板，同时保留「资源在我账号内」的可见性与审计路径。"),
+         [("能做什么", "一个账号级资源统管 ECS 服务的 ingress：按需自动创建并维护负载均衡器等底层资源，资源归属调用方账号。"),
+          ("解决什么痛点", "容器入口的那套样板（监听器、目标组、健康检查、安全组）容易配错且难以跨团队统一。"),
+          ("值不值得", "自建 K8s 的人可以当作对照：托管云在把「入口」抽象成平台资源，而 K8s 侧对应的是 Gateway API + 控制器。若你同时跑 ECS 与 EKS，这个抽象能减少一层手工维护；纯 K8s 集群没有直接收益。")],
+         tag="托管网络", source="AWS News"),
+
+    item("GDC air-gapped 大更新：Gemini 企业搜索、开源权重模型、新 IaaS 栈全部进离网环境",
+         U("new-innovations-in-google-distributed-cloud"),
+         ("Google Distributed Cloud air-gapped 这一轮更新把「离网环境只能跑旧栈」这个前提拿掉了：Gemini 企业搜索、开源权重模型支持、开箱即用的 ISV 应用、"
+          "新一代加速基础设施都可在主权/离网环境中直接部署。基础设施侧换上了新的 IaaS 栈（计算、网络、安全一并提升），让 agentic 负载与传统负载跑在同一套底座上；"
+          "合作伙伴市场扩到 Teradata、Solo.io、Mattermost 等，意味着分析型负载与协作工具也能留在数据所在处。这套组合对「数据不能出内网、但又想用前沿模型」的组织是少见的完整答案。"),
+         [("能做什么", "在一个完全离网的主权环境里提供四件事：Gemini 驱动的多模态企业搜索、开源权重模型运行能力、新的 IaaS 栈（计算/网络/安全）、以及可在本地部署的 ISV 应用市场。"),
+          ("解决什么痛点", "受数据主权、国防或关键基础设施约束的组织，过去只能在「把数据送公有云」和「自建一套要数月的 AI 栈」之间选。"),
+          ("值不值得", "对「内网隔离、只让模型出网」这类架构是直接对标的商业方案：它把搜索、模型、加速卡、ISV 打包进主权边界内。代价是全托管的封闭栈、采购与场地成本高，且离网升级节奏受厂商交付约束——自建团队更适合把它当需求清单来对照。")],
+         tag="主权云", source="Google Cloud Blog"),
+  ]},
+ ]},
+]
+
+flash = [
+ {"title": "dominikmartn/harp：把多个 Claude Code / Codex agent 并排放在一个侧栏里，告诉你哪个需要你。", "url": U("dominikmartn/harp")},
+ {"title": "vercel-labs/fx0：轻量设计 agent，描述一个页面就写成一个 HTML 文件。", "url": U("vercel-labs/fx0")},
+ {"title": "商汤大装置：日均 6 万亿 token 服务背后的推理效能做法。", "url": U("qbitai.com/2026/10/504188")},
+ {"title": "传 Claude 新模型曝光：能跳出思维定势，修 bug 治标也治本。", "url": U("qbitai.com/2026/10/504314")},
+ {"title": "llm-d 仓库同步打出 v1.0.0 release（2026-10-20）。", "url": U("llm-d/releases/tag/v1.0.0")},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": DATE_LABEL,
+ "issue": ISSUE,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": lead,
+ "highlights": highlights,
+ "sections": ai_sections + infra_sections,
+ "flash": flash,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# sanity: every item has a title
+def check(o):
+    if isinstance(o, dict):
+        if 'url' in o and 'summary' in o:
+            assert o.get('title'), f"missing title: {o.get('url')}"
+            assert o.get('detail') or o in flash, f"missing detail: {o.get('title')}"
+        for v in o.values(): check(v)
+    elif isinstance(o, list):
+        for v in o: check(v)
+check(brief)
+
+json.dump(brief, open('briefing.json','w',encoding='utf-8'), ensure_ascii=False, indent=1)
+n = len(highlights) + sum(len(c['items']) for s in brief['sections'] for c in s['categories']) + len(flash)
+print("items:", n, "| highlights:", len(highlights))

@@ -1,48 +1,53 @@
 ======================================================================
-处理报告  (原始 122 条)
+处理报告  (原始 198 条)
 ======================================================================
 
-① 过滤: 保留 85 条, 过滤掉 37 条
+① 过滤: 保留 148 条, 过滤掉 50 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] withmarbleapp/os-taxonomy
-     ✗ [GitHub Trending] Kruk2/jasna
-     ✗ [GitHub 升星repo] humblemuzzu/dumbtv
-     ✗ [GitHub 升星repo] interplains/zero-breach
-     ✗ [GitHub 升星repo] justrach/nanoui
+     ✗ [GitHub 升星repo] pengchujin/aerial-tv
+     ✗ [GitHub 升星repo] ELY-Open-Source/ElyOffice
+     ✗ [GitHub 升星repo] stackedlol/ascii-sharks
      ✗ [GitHub 升星repo] VictorTaelin/uniichat
-     ✗ [GitHub 升星repo] bitwarden-app312/.gitp3d
-     ✗ [GitHub 升星repo] arc-tool/.github
+     ✗ [GitHub 升星repo] UniXNU/UniXNU
+     ✗ [GitHub 升星repo] Hugo-Dz/spritefusion-sprite-normals
+     ✗ [GitHub 升星repo] timhengc/mai-shen-zai-ci
+     ✗ [GitHub 升星repo] typecraft-dev/oma-cast
 
-② 去重: 85 → 78 条 (同批合并 0, 跨天历史去重 7)
+② 去重: 148 → 137 条 (同批合并 3, 跨天历史去重 8)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] anomalyco/opencode
-     ⏭️  [GitHub Trending] akitaonrails/ai-memory
-     ⏭️  [GitHub Trending] ruvnet/ruflo
+     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
      ⏭️  [GitHub Trending] stablyai/orca
-     ⏭️  [GitHub Trending] HKUDS/CLI-Anything
-     ⏭️  [GitHub Trending] anthropics/claude-code
-     ⏭️  [Anthropic News] Introducing the Anthropic Cyber Mission
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] DietrichGebert/ponytail
+     ⏭️  [GitHub Trending] ruvnet/ruflo
+     ⏭️  [GitHub Trending] anomalyco/opencode
+     ⏭️  [GitHub Trending] msitarzewski/agency-agents
+     ⏭️  [GitHub Trending] anthropics/knowledge-work-plugins
+     ⏭️  [GitHub Trending] vllm-project/vllm
+   跨源合并的事件:
+     ⇉ MemT-1.0: Towards Memory-Native Evolutio  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Where is Physical RSI capability from? A  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - AI 工程落地: 8 条 (含🔧开源 2)
-     - 模型与研究: 42 条 (含🔧开源 5)
-     - Agent & Skill: 17 条 (含🔧开源 4)
-     - 产品与商业: 7 条 (含🔧开源 1)
-     - 安全与治理: 2 条 (含🔧开源 1)
+     - 产品与商业: 15 条
+     - AI 工程落地: 13 条 (含🔧开源 2)
+     - Agent & Skill: 27 条 (含🔧开源 4)
+     - 模型与研究: 65 条 (含🔧开源 5)
+     - 安全与治理: 11 条
+     - 观点与好文: 1 条
    【基础设施】
-     - K8s × AI: 2 条
+     - K8s × AI: 4 条
+     - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] Expanding the Cyber Verification ProgramAnnouncementsOc
+     🔥 [19分] OpenAI acquires Orchestra Bio
+        源:OpenAI News 类:产品与商业 跨源:[]
+     🔥 [19分] Funding better evaluations of AI’s impact on wellbeingW
         源:Anthropic News 类:产品与商业 跨源:[]
-     🔥 [16分] Barclays scales Claude to upgrade operations and improv
-        源:Anthropic News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
-      16分 [Anthropic News] Expanding the Cyber Verification ProgramAnnou
-      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      14分 [GitHub 升星repo] AndreSzymanski15/ai-jailbreaks
-      12分 [HuggingFace Papers] Learning to Think and Explore in 3D World
-      12分 [InfoQ中国     ] Meta 联手苹果推出全美最强开源模型，编码基测输给智谱、Kimi
+      19分 [OpenAI News ] OpenAI acquires Orchestra Bio
+      19分 [Anthropic News] Funding better evaluations of AI’s impact on 
+      18分 [HuggingFace Papers] Where is Physical RSI capability from? An Obs
+      17分 [HuggingFace Papers] MemT-1.0: Towards Memory-Native Evolution
+      16分 [Google Cloud] Claude Opus 5.5 and Claude Sonnet 5.5 are now
