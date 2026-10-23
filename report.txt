@@ -2,51 +2,52 @@
 处理报告  (原始 216 条)
 ======================================================================
 
-① 过滤: 保留 167 条, 过滤掉 49 条
+① 过滤: 保留 163 条, 过滤掉 53 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] strelov1/freehire
-     ✗ [GitHub 升星repo] pengchujin/aerial-tv
+     ✗ [GitHub Trending] php/php-src
+     ✗ [GitHub Trending] fastapi/fastapi
+     ✗ [GitHub Trending] Meloong-Git/PCL
      ✗ [GitHub 升星repo] ikow/php2shell-poc
-     ✗ [GitHub 升星repo] eness/php2shell-CVE-2026-109618-CVE-2026-109619-Po
      ✗ [GitHub 升星repo] 9bie/php2shell-bypass-aslr-exp
-     ✗ [GitHub 升星repo] cs-tool-s/.github
-     ✗ [GitHub 升星repo] val-tools/.github
-     ✗ [GitHub 升星repo] rbl-tools/.github
+     ✗ [GitHub 升星repo] eness/php2shell-CVE-2026-109618-CVE-2026-109619-Po
+     ✗ [GitHub 升星repo] oosexgang/hackios-xnu-kernel
+     ✗ [GitHub 升星repo] wesbos/3d-model-anything
 
-② 去重: 167 → 156 条 (同批合并 3, 跨天历史去重 8)
+② 去重: 163 → 154 条 (同批合并 4, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
-     ⏭️  [GitHub Trending] vllm-project/vllm
-     ⏭️  [GitHub Trending] stablyai/orca
-     ⏭️  [GitHub Trending] headroomlabs-ai/headroom
      ⏭️  [GitHub Trending] DietrichGebert/ponytail
-     ⏭️  [GitHub Trending] akitaonrails/ai-memory
+     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
      ⏭️  [GitHub Trending] Graphify-Labs/graphify
-     ⏭️  [GitHub 升星repo] dominikmartn/harp
+     ⏭️  [GitHub Trending] supabase/supabase
+     ⏭️  [Hacker News] OpenShell – A safe, private runtime for fleets
    跨源合并的事件:
-     ⇉ Joints, Camera, Action! Co-Generating 3D  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Looped Uniform Diffusion Language Models  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Quant-Arena: Benchmarking LLM Agents for  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Think Harder Where It Matters: Item-Leve  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Multimodal Embodied Agents: A Unified Ca  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 68 条 (含🔧开源 4)
-     - 安全与治理: 9 条 (含🔧开源 1)
-     - Agent & Skill: 32 条 (含🔧开源 1)
-     - 产品与商业: 13 条 (含🔧开源 1)
-     - AI 工程落地: 25 条 (含🔧开源 6)
-     - 观点与好文: 2 条
+     - 模型与研究: 59 条 (含🔧开源 2)
+     - AI 工程落地: 24 条 (含🔧开源 4)
+     - 安全与治理: 15 条
+     - Agent & Skill: 34 条 (含🔧开源 3)
+     - 产品与商业: 13 条
+     - 观点与好文: 1 条
    【基础设施】
+     - 社区与项目: 1 条
      - K8s × AI: 6 条
      - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Terminal X matches senior investor judgment 88.6% with 
         源:OpenAI News 类:Agent & Skill 跨源:[]
-     🔥 [19分] OpenAI acquires Orchestra Bio
-        源:OpenAI News 类:产品与商业 跨源:[]
+     🔥 [18分] Multimodal Embodied Agents: A Unified Capability-centri
+        源:HuggingFace Papers 类:产品与商业 跨源:['HuggingFace Papers', 'arXiv cs.AI']
 
    打分Top5(参考):
       19分 [OpenAI News ] Terminal X matches senior investor judgment 8
-      19分 [OpenAI News ] OpenAI acquires Orchestra Bio
-      19分 [Anthropic News] Funding better evaluations of AI’s impact on 
+      18分 [HuggingFace Papers] Multimodal Embodied Agents: A Unified Capabil
       16分 [OpenAI News ] Patch the Planet: global response coordinatio
-      16分 [HuggingFace Papers] On the Tip of the Tongue: First-Token Cueing 
+      16分 [Google Cloud] Claude Opus 5.5 and Claude Sonnet 5.5 are now
+      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
