@@ -1,47 +1,49 @@
 ======================================================================
-处理报告  (原始 198 条)
+处理报告  (原始 168 条)
 ======================================================================
 
-① 过滤: 保留 164 条, 过滤掉 34 条
+① 过滤: 保留 147 条, 过滤掉 21 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] php/php-src
-     ✗ [GitHub Trending] Renhuai123/ziwei-doushu
-     ✗ [GitHub Trending] OpenBMB/VoxCPM
-     ✗ [GitHub Trending] nodejs/node
-     ✗ [GitHub 升星repo] oosexgang/hackios-xnu-kernel
-     ✗ [GitHub 升星repo] assetnote/php2shell-scanner
-     ✗ [GitHub 升星repo] oosexgang/hackios-xnu-userland
-     ✗ [GitHub 升星repo] david-silvalab1993i0/Roblox-Aimbot-Smooth-Tracking
+     ✗ [GitHub Trending] pollen-robotics/microduck
+     ✗ [GitHub Trending] jbiaojerry/ebook-treasure-chest
+     ✗ [GitHub 升星repo] JustAResearcher/gpu-unlock-ada
+     ✗ [GitHub 升星repo] ivarvong/lantern
+     ✗ [GitHub 升星repo] songjianyang/xss-audit
+     ✗ [GitHub 升星repo] mirkobrombin/raven
+     ✗ [GitHub 升星repo] EgorBo/BlazingFastDotnet
+     ✗ [GitHub 升星repo] xMazaki/unbloat-android-tv
 
-② 去重: 164 → 160 条 (同批合并 1, 跨天历史去重 3)
+② 去重: 147 → 141 条 (同批合并 1, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] cloudflare/security-audit-skill
      ⏭️  [GitHub Trending] NVIDIA/OpenShell
+     ⏭️  [GitHub Trending] luongnv89/claude-howto
+     ⏭️  [GitHub Trending] pbakaus/impeccable
      ⏭️  [量子位] 谁在给OpenAI供应具身数据？
    跨源合并的事件:
      ⇉ What Makes a Good Unmasking Policy? A Co  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - AI 工程落地: 19 条 (含🔧开源 3)
-     - 产品与商业: 14 条
-     - 安全与治理: 16 条 (含🔧开源 1)
-     - 模型与研究: 67 条 (含🔧开源 3)
-     - Agent & Skill: 35 条 (含🔧开源 3)
-     - 观点与好文: 3 条
+     - AI 工程落地: 17 条 (含🔧开源 2)
+     - 产品与商业: 15 条 (含🔧开源 1)
+     - 安全与治理: 14 条
+     - 模型与研究: 58 条 (含🔧开源 2)
+     - Agent & Skill: 31 条 (含🔧开源 7)
+     - 观点与好文: 2 条
    【基础设施】
-     - K8s × AI: 5 条
+     - K8s × AI: 3 条
      - 社区与项目: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [16分] Rapidly scaling online storage to serve over 1 billion 
         源:OpenAI News 类:AI 工程落地 跨源:[]
-     🔥 [16分] Patch the Planet: global response coordination as agent
-        源:OpenAI News 类:安全与治理 跨源:[]
+     🔥 [16分] Introducing the Anthropic Cyber MissionWe’re launching 
+        源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
       16分 [OpenAI News ] Rapidly scaling online storage to serve over 
-      16分 [OpenAI News ] Patch the Planet: global response coordinatio
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
       16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
+      15分 [HuggingFace Papers] What Makes a Good Unmasking Policy? A Control
