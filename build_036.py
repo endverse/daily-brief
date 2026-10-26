@@ -1,0 +1,237 @@
+#!/usr/bin/env python3
+"""Build issue 036 (2026-10-26): append gap-fill sources to processed.json, emit briefing.json."""
+import json, sys
+
+PROC = "processed.json"
+proc = json.load(open(PROC))
+
+GAPFILL = [
+    {"title": "Release v1.0.0", "url": "https://github.com/llm-d/llm-d/releases/tag/v1.0.0",
+     "summary": "llm-d v1.0.0 (2026-10-20): multi-tenant QoS flow control, router HA, DisaggregatedSet coordinated rollouts, router config API v1, DRA/DRANET topology guide.",
+     "published": "2026-10-20T02:30:10+00:00", "source": "GitHub Releases", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "Kubernetes-sigs LeaderWorkerSet v1.0.0", "url": "https://github.com/kubernetes-sigs/lws/releases/tag/v1.0.0",
+     "summary": "LWS v1.0.0 (2026-10-16): fractional rollout window, scaling during rollouts (KEP-1022), independently scalable sub-roles (KEP-960), bounded group recovery, parallel pod termination, config API v1.",
+     "published": "2026-10-16T14:26:34+00:00", "source": "GitHub Releases", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "Extending Kubernetes policy enforcement to runtime security for AI workloads", "url": "https://www.cncf.io/blog/2026/10/15/extending-kubernetes-policy-enforcement-to-runtime-security-for-ai-workloads/",
+     "summary": "Nirmata Runtime for Kyverno uses eBPF and Linux Security Modules (BPF-LSM on bprm_check_security and file_open, cgroup-scoped eBPF egress) to enforce exec/open/network/protocol/dns policy in-kernel for AI workloads.",
+     "published": "2026-10-15T00:00:00+00:00", "source": "CNCF Blog", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "Kubernetes GPU Guide 2026: Scheduling, Sharing, Monitoring, and Running AI workloads", "url": "https://kubezilla.io/kubernetes-gpu-guide/",
+     "summary": "A 2026 guide (verified against Kubernetes 1.37.1 / NVIDIA GPU Operator) comparing exclusive, MIG, time-slicing, MPS and DRA GPU sharing on Kubernetes, plus DCGM/Prometheus monitoring and a production readiness checklist.",
+     "published": "2026-10-25T00:00:00+00:00", "source": "Kubezilla", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s 核心技术", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "Filtering and reducing AI agent telemetry with the OpenTelemetry Collector", "url": "https://www.cncf.io/blog/2026/10/22/filtering-and-reducing-ai-agent-telemetry-with-the-opentelemetry-collector/",
+     "summary": "How to shape Claude Code's OpenTelemetry native agent telemetry in the Collector: drop api_request log events, delete tool_parameters, hash session.id/user.id, strip metric dimensions (300 series to 12) and drop successful tool.execution spans.",
+     "published": "2026-10-22T00:00:00+00:00", "source": "CNCF Blog", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "云原生周边", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "GitOps on Kubernetes: Argo CD vs Flux", "url": "https://kubezilla.io/gitops-kubernetes-argo-cd-vs-flux/",
+     "summary": "Side-by-side comparison of Argo CD and Flux (both CNCF Graduated in late 2022) as GitOps controllers for Kubernetes, with decision criteria.",
+     "published": "2026-10-25T00:00:00+00:00", "source": "Kubezilla", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s 核心技术", "oss": False, "hot_score": 0, "is_hot": False},
+]
+
+have = {it["url"] for it in proc}
+added = 0
+for g in GAPFILL:
+    if g["url"] not in have:
+        proc.append(g); have.add(g["url"]); added += 1
+json.dump(proc, open(PROC, "w"), ensure_ascii=False, indent=2)
+print(f"processed.json: {len(proc)} items (+{added} gap-fill)")
+
+IDX = {it["url"]: it for it in proc}
+
+def U(u):
+    assert u in IDX, f"URL not in processed.json: {u}"
+    return u
+
+# ---------- content ----------
+H1 = {
+ "title": "llm-d v1.0.0：Router 配置 API 转 v1，多租户 QoS 收进 flowControl，prefill/decode 成组滚动升级",
+ "url": U("https://github.com/llm-d/llm-d/releases/tag/v1.0.0"),
+ "summary": "llm-d 于 10 月 20 日发布 1.0.0，两条主线是多租户服务质量与零停机运维。流量控制收敛到 flowControl 配置下，含优先级与公平性调度、概率准入器、按程序的公平分配与 turn-priority 打分，配合受控降载，让延迟敏感的在线请求和突发型 agent 负载共用同一推理集群而不互相饿死。运维侧 Router 支持主备热切换与安全滚动，DisaggregatedSet 把 prefill 与 decode 副本当作一个逻辑单元管理：协调滚动、锁步升级、readiness 以 Pod 快照为门、原生 revision 路由。Router 配置 API 转 v1，Responses API 支持 previous_response_id；agent 侧加入 session-state-producer 插件与会话亲和，把多轮对话留在缓存上下文旁。生态上集成 ai-dynamo/modelexpress 做 P2P 权重加载，新增 llm-d-api-extensions 与 llm-d-pd-utils（GPU 拓扑发现、网络基准、preflight 诊断），同时弃用自建推理镜像——RoCM 构建弃用，改取上游 vLLM 官方镜像。",
+ "note": "🔎 新闻要点：版本 = v1.0.0（2026-10-20）；多租户 QoS = flowControl 统一优先级/公平/概率准入/受控降载；零停机 = Router 主备热切 + 安全滚动，DisaggregatedSet 统一 prefill/decode 的滚动、锁步升级与 revision 路由；API 稳定 = router 配置 v1、Responses API 支持 previous_response_id；DRA = 新增 DRA/DRANET 拓扑感知加速器指南；新增组件 = llm-d-api-extensions、llm-d-pd-utils；集成 = ai-dynamo/modelexpress（P2P 权重加载）；弃用 = 自建推理镜像（llm-d-rocm 弃用，转向上游 vLLM/SGLang/TRT-LLM 镜像）。",
+ "tag": "推理编排", "source": "GitHub Releases", "oss": True,
+ "detail": [
+  {"key": "能做什么", "value": "把 K8s 上的分布式推理拆成三层可配能力：① 流量层——优先级 + 公平 + 概率准入 + turn-priority 打分的流控与受控降载；② 拓扑层——DisaggregatedSet 把 prefill/decode 当一个单元做协调滚动、锁步升级、按 revision 路由，readiness 以 Pod 快照为门；③ 接入层——Router 配置 API v1、Responses API 的 previous_response_id、会话亲和插件把多轮 agent 请求钉在缓存附近，另配 llm-d-pd-utils 做 GPU 拓扑发现与网络基准。"},
+  {"key": "解决什么痛点", "value": "一张 GPU 池同时跑在线推理与突发 agent 负载时，K8s 的 request/limit 分不出优先级，过载只能全体变慢；PD 分离后 prefill 与 decode 副本各自滚动会出现半套拓扑（版本错配、就绪不同步），而扩容窗口与滚动更新窗口互斥。"},
+  {"key": "值不值得", "value": "可作为他集群里 AI 推理层的参考实现：1.0 意味着 router 配置 API 稳定、能按 release-1.0 规划升级；代价是 1.0 同时弃用自建镜像，镜像供应链必须换成上游 vLLM/SGLang/TRT-LLM，且 DisaggregatedSet 与 DRA 指南依赖较新的 K8s（DRA GA 在 1.34+）。"}
+ ]}
+
+H2 = {
+ "title": "LeaderWorkerSet v1.0.0：DisaggregatedSet 支持滚动中扩容与独立扩缩的子角色，原生 gang 调度仍是 alpha",
+ "url": U("https://github.com/kubernetes-sigs/lws/releases/tag/v1.0.0"),
+ "summary": "kubernetes-sigs/lws 于 10 月 16 日发布 1.0.0，把这套「一组 Pod 当一个可复制单元」的 API 推上稳定版。DisaggregatedSet 新增分数式滚动窗口：各角色按副本数比例推进，新批次可以在旧批次完全 Ready 前启动，从而吃满 maxSurge/maxUnavailable 预算、又不会让某个角色跑得太远；滚动期间仍允许扩容，可选的下缩让运维或 autoscaler 在更新结束前先腾容量（KEP-1022）。角色可拆成共享同一份 workload 配置、独立扩缩与路由的 sub-role（KEP-960，支持 Ordinal 与 Hash 组身份），并新增 maxGroupRestarts/restartBackoff 限制组的反复重建（KEP-820）、podTerminationPolicy: Parallel 并行终止 leader 与 worker（KEP-956）。控制器配置升到 config.lws.x-k8s.io/v1，v1alpha1 保留但弃用；破坏性变更是不带 rollingUpdateConfiguration 的 DisaggregatedSet 角色默认变成 maxSurge 0 / maxUnavailable 1。",
+ "note": "🔎 新闻要点：版本 = v1.0.0（2026-10-16）；滚动 = 分数式 rollout 窗口按副本比例推进、滚动期间允许扩容（KEP-1022）；拓扑 = sub-role 独立扩缩与路由（KEP-960，Ordinal/Hash）；可靠性 = maxGroupRestarts/restartBackoff（KEP-820）、Parallel Pod 终止（KEP-956）、原生 gang 调度修复仍为 alpha 且需显式开启（KEP-666）；API = controller config 升 v1、v1alpha1 弃用；破坏性 = 未配置 rollingUpdateConfiguration 的 role 默认 maxSurge 0 / maxUnavailable 1。",
+ "tag": "工作负载 API", "source": "GitHub Releases", "oss": True,
+ "detail": [
+  {"key": "能做什么", "value": "在 K8s 原生 API 层表达「leader + N worker 为一组」以及 PD 分离这类多角色拓扑：一组 Pod 一起调度、一起重建、共享拓扑约束；1.0 补上滚动窗口按副本比例分配、滚动中扩容、sub-role 独立扩缩、组重建次数封顶与并行 Pod 终止，并把控制器配置固化为 v1。"},
+  {"key": "解决什么痛点", "value": "多角色推理/训练在滚动更新时容易半套拓扑——prefill 已升级、decode 还未就绪，流量打到混合版本上；扩缩与更新互斥导致高峰不能扩容；一次失败重建还可能无限循环重建整组。"},
+  {"key": "值不值得", "value": "自建多节点推理拓扑可以直接用 DisaggregatedSet 替掉自研编排控制器；但原生 gang scheduling 仍是 alpha、要 feature gate，落地前先对齐 K8s 版本与调度器（Kueue / Volcano）的 PodGroup 语义，并注意 1.0 的默认滚动参数变更。"}
+ ]}
+
+SECTIONS = [
+ {"label": "🤖 AI 板块", "categories": [
+   {"emoji": "🧠", "title": "模型与研究", "en": "MODELS & RESEARCH", "items": [
+     {"title": "HyperDrone：批量渲染比同行走快 20 倍，消费级 GPU 上百万 FPS 的四旋翼仿真直接 sim2real 上 Crazyflie",
+      "url": U("https://huggingface.co/papers/2610.28950"),
+      "summary": "HyperDrone 把多旋翼动力学与新的光追引擎 HyperLux 全部放在 GPU 上，批量渲染速度比现有最强的四旋翼批量仿真器快 20 倍以上，最高保真设置下在消费级显卡上仍能跑到百万帧每秒。HyperLux 支持 Nvidia OptiX、Vulkan、Apple Metal 与 WebGPU 四种后端，可输出 RGB、深度、语义/实例分割、表面法线与光流，并带反射、真实光照、运动模糊、抗锯齿与 PBR。作者用纯仿真训练了一个视觉偏航控制策略，直接迁到带摄像头的 Crazyflie 小四旋翼上、全程机载推理运行。",
+      "tag": "论文", "source": "arXiv", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "一个 GPU 原生的批量仿真器：动力学 + 多后端光追渲染，一次并行产出 RGB/深度/分割/法线/光流多种观测，保真度可调，用来在仿真里规模化生成具身智能训练数据。"},
+       {"key": "解决什么痛点", "value": "sim2real 的瓶颈常在渲染吞吐——高保真渲染慢，快渲染又缺足够观测模态，导致策略过拟合仿真外观；百万 FPS 级别的批量数据生成能显著压低单位训练样本的算力成本。"},
+       {"key": "值不值得", "value": "对做具身/机器人策略训练的人是可直接试的仿真基座（开源、多后端、消费级卡可跑）；但目前演示是单机单任务（偏航控制）的 sim2real，复杂任务与多机协同未验证。"}
+      ]},
+     {"title": "WeVisOne-VL：微信开源统一视觉感知 VLM，用 <OBJ> token + 轻量像素解码器把检测/分割/matting 收进一个模型",
+      "url": U("https://huggingface.co/papers/2610.31329"),
+      "summary": "WeVisOne-VL（WeChat Vision All-in-One）用结构化 next-token prediction 把目标级与像素级感知统一到一个 VLM 里，支持检测、指代定位、计数、OCR、分割与 matting，定位粒度可从点、框一直到 mask 与 alpha matte。架构上通过一个特殊 <OBJ> token 把轻量像素解码器接进 VLM，用常规 token 预测产出实例级像素输出；训练是三阶段课程式 SFT 再接混合任务 RL。论文称在 30 多个 benchmark 上目标级与像素级任务均领先，并保持对「目标不存在」查询的拒答能力，模型已开源。",
+      "tag": "开源模型", "source": "arXiv", "oss": True,
+      "detail": [
+       {"key": "能做什么", "value": "一个模型同时给框、mask、alpha matte 三种粒度的结果，靠 <OBJ> token 把像素解码器挂在 VLM 上；三阶段课程 SFT + 混合任务 RL 训练，并显式训练对不存在目标的拒答。"},
+       {"key": "解决什么痛点", "value": "生产里做「检测 + 分割 + 抠图」通常要串三四个模型，各自有阈值与坐标对齐问题；统一模型省掉级联误差，也让「按用户指定粒度输出」成为一次调用。"},
+       {"key": "值不值得", "value": "如果业务侧要做多模态质检/文档/电商场景的细粒度感知，这是当前少见的开源全粒度方案；但论文没给延迟与显存数字，工程化前需自己压测，且拒答能力在开放域上的边界仍要验证。"}
+      ]},
+     {"title": "扩散语言模型的算力账：同样长度输出，写故事比改语法多 3 倍前向，答错比答对更贵",
+      "url": U("https://huggingface.co/papers/2610.25835"),
+      "summary": "扩散语言模型一次前向可写多个 token，且生成时自己决定花多少次前向，所以同样长度的两个输出成本可能差很多。作者在两个扩散模型、10 个任务上分析：每 token 需要的前向次数强烈依赖任务——从输入复制或轻改很便宜，开放式写作很贵，DiffusionGemma 写故事每 token 的前向次数是语法纠错的三倍以上。解释力最强的两个输出属性是「相对输入有多少新内容」与「词在该任务里的稀有度」；带思考过程的回答也一样，复述自己推理的部分便宜、新增内容贵。多语言上，分词更碎的语种每 token 还要更多前向，等于在「token 更多」之外再付一次成本；成本还与正确性相关——同一道数学题答错比答对花更多前向。",
+      "tag": "推理成本", "source": "arXiv", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "把扩散 LM 的推理成本拆成可预测的因子：任务类型、输出相对输入的新颖度、词稀有度、语种分词效率，并用「每 token 前向次数」而不是 token 数做统一刻度。"},
+       {"key": "解决什么痛点", "value": "按 token 计价/估算容量的做法在扩散模型上会系统性低估：同样长度输出，成本可差 3 倍以上，长文生成与低资源语种的预算会直接爆。"},
+       {"key": "值不值得", "value": "做推理容量规划或成本归因时值得用这个刻度重算一遍，尤其是打算上扩散 LM 的团队；但结论来自两个模型十项任务的观察，不是通用定律，数字别外推。"}
+      ]}
+   ]},
+   {"emoji": "🧩", "title": "Agent & Skill", "en": "AGENT & SKILL", "items": [
+     {"title": "TradingAgents v0.7.0：多智能体交易框架可直接跑在自己的 ChatGPT Plus/Pro 订阅上，回测按决策后首个收盘价结算",
+      "url": U("https://github.com/TauricResearch/TradingAgents"),
+      "summary": "TradingAgents 是 Tauric Research 的多智能体交易框架（LangGraph 编排，GitHub 约 11.4 万星），按真实交易公司分工拆成分析师团队、研究员多空辩论、交易员、风控与组合经理多层，每层可编排不同模型。10 月发布的 v0.7.0 加了三点：可以用自己的 ChatGPT Plus/Pro 订阅跑、回测统一按每个决策后的第一个收盘价结算、启动时提示有新版本且每个 GitHub release 附 wheel。此前 v0.5.2 起回测只允许看到各分析日期之前已公布的数据，v0.6.0 起支持按模型层级分别指定 provider。",
+      "tag": "多智能体", "source": "GitHub Trending", "oss": True,
+      "detail": [
+       {"key": "能做什么", "value": "把一次投研流程拆成分层 agent：基本面/情绪/新闻/技术分析师并行出报告，研究员做多空辩论，交易员给决策，风控与组合经理复核，最终产出带配置与回测的报告；现版本可按模型层级分别选 provider，并用订阅制账号跑。"},
+       {"key": "解决什么痛点", "value": "量化研究里 agent 回测最容易踩前视偏差与成本失真：回测按决策后首个收盘价结算、只喂分析日之前已发布的数据，是让结论可复核的两个硬约束；多 agent 分工也让每步的推理与数据来源可追溯。"},
+       {"key": "值不值得", "value": "金融量化场景里它是少有的把「分层 agent + 日期保真回测」都写进代码的框架，适合拆开看编排与结算口径；但它本身不构成策略，回测正确性仍取决于数据源，且 11 万星更多反映热度不是业绩。"}
+      ]},
+     {"title": "claude-seo：26 个子 skill + 19 个子 agent 的 Claude Code 插件，1077 个测试全过",
+      "url": U("https://github.com/AgriciDaniel/claude-seo"),
+      "summary": "claude-seo 是一个 MIT 许可的 Claude Code 插件，把 SEO 审计拆成 26 个子 skill 与 19 个专职子 agent，覆盖技术 SEO、E-E-A-T、Schema、GEO/AEO（AI 搜索引用）、agent readiness（Lighthouse Agentic Browsing、WebMCP、llms.txt）、外链、本地与电商 SEO、Google API 与 PDF/Excel 报告，另有 9 个可选扩展接实时 SEO 数据。仓库约 2.08 万星，README 标注 1077 个测试通过，Python 实现。",
+      "tag": "Skill 工程", "source": "GitHub Trending", "oss": True,
+      "detail": [
+       {"key": "能做什么", "value": "一个可直接对照的 skill 工程样本：把一个领域拆成 26 个可独立调用的子 skill 与 19 个子 agent，各自有输入输出边界，再由主流程路由；配套 1077 个测试与 CI，说明 skill 是可以被单测覆盖的代码资产。"},
+       {"key": "解决什么痛点", "value": "单文件巨型 prompt 一旦超过几千字就开始互相干扰、无法增量维护，也没法定位「哪一步判断错了」；子 skill 拆分 + 子 agent 隔离让每步可测、可替换。"},
+       {"key": "值不值得", "value": "值得当成 skill 仓库的结构参考（分层、命名、测试覆盖、可选扩展），不必关心 SEO 领域本身；注意它的测试大量是针对产物格式与规则匹配，不代表 agent 判断质量。"}
+      ]},
+     {"title": "Heartbeat Thinking：把「边听边干」做成心跳式并行推理，语音 agent 工具覆盖率 +16pp、末响应延迟降 36.4%",
+      "url": U("https://huggingface.co/papers/2610.26233"),
+      "summary": "工具型语音 agent 常在用户说完后才开始干活，即使关键信息在句子前段就已出现。Heartbeat Thinking 的做法是周期性发起新的 Thinker 调用，读取最新部分转写与「已完成推理 + 工具结果」的共享记录，同时允许进行中的调用与已派发的工具跑完，从而不会像截断式方案那样把参数还没集齐的工具调用砍掉。在 SpeechFCEval、FDBench v3 与 AudioCRAG 上，它的投机式工具覆盖或检索复用优于 SHANKS 式窗口基线；FDBench v3 上工具覆盖率提升 16 个百分点、末响应平均延迟下降 36.4%，但对最终任务质量的影响依 benchmark 而异。",
+      "tag": "语音 agent", "source": "arXiv", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "在语音流式输入下做投机执行：心跳式周期调用读取部分转写 + 已完成结果，让工具调用在用户说完前就发出去，且允许跨语音更新继续执行而不是被中断重建。"},
+       {"key": "解决什么痛点", "value": "语音交互里「说完了才开始想」把整段延迟暴露给用户；而简单投机又会因转写更新截断工具参数，反而白跑。"},
+       {"key": "值不值得", "value": "对做实时语音 agent 的人是少见的、带量化收益的调度设计（+16pp 覆盖、-36.4% 延迟）；但收益集中在延迟与覆盖率，最终答案质量并不稳定提升，评测集的领域也偏窄。"}
+      ]}
+   ]},
+   {"emoji": "🛠️", "title": "AI 工程落地", "en": "ENGINEERING", "items": [
+     {"title": "Cerebras 拆解 3 万亿参数模型怎么铺到 59 片晶圆：4bit 权重、每片 44GB 片上内存、晶圆间 RDMA 每跳 2 微秒",
+      "url": U("https://www.cerebras.ai/blog/how-we-deploy-trillion-parameter-frontier-models-on-cerebras"),
+      "summary": "Cerebras 用开源模型 Kimi K3（约 3 万亿参数、93 层，其中 69 层线性注意力 + 24 层全注意力）做示例，讲清万亿参数模型如何摊到多片 WSE-3T 上。单片晶圆片上内存 44GB，3T 参数按 4bit 存约 1.5TB，折算每层约 16GB：dense（全注意力）层要为每个活跃请求的所有 token 存 KV cache，所以一片只放一层、剩余 SRAM 全给 KV；线性注意力层只保留固定大小状态，可以两片放一层，于是 69/2≈35 片 + 24 片 = 59 片晶圆。晶圆间走流水线，只传激活，用 RDMA over Ethernet，约 2 微秒一跳，目标是在多万亿参数模型上跑到 1000–2000+ tokens/s。",
+      "tag": "推理部署", "source": "Cerebras", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "给出万亿参数模型的显存/切片算法：按层算 payload，按层类型（有无 KV cache）决定每片放几层，再把层间通信压到只传激活；同时用 8bit KV cache 与 4bit 权重量化控制占用。"},
+       {"key": "解决什么痛点", "value": "单卡 80–192GB 显存放不下万亿参数，跨节点通信又成为延迟主项；把模型按层切到 59 片、只传激活，是把「通信瓶颈」换成「片上带宽」的一条路。"},
+       {"key": "值不值得", "value": "价值在方法论而不是可复制的部署：显存/层数/通信的算法对任何大规模推理规划都通用，但落地强绑定 Cerebras 晶圆与编译器，无法搬到 GPU/K8s 集群；要拿来校核自家 TP/PP 切分策略时注意粒度不同。"}
+      ]}
+   ]},
+   {"emoji": "📊", "title": "产品与商业", "en": "PRODUCT", "items": [
+     {"title": "Anthropic 拿 5% 股份设公共福利基金：估值每涨 50% 再追加 2%，且刻意用 LLC 而不是 501(c)(3)",
+      "url": U("https://www.anthropic.com/news/public-benefit-fund"),
+      "summary": "Anthropic 宣布把一部分公司股份承诺给新的 Anthropic Public Benefit Fund——一个全资持有、结构上会随公司成长而加码的实体。经股东批准后先承诺 5% 股份，之后公司价值每较基线增长 50%，董事会可再追加 2%。基金选 LLC 而非 501(c)(3) 是为了在捐赠、直接分配等形式间灵活切换，并明确持有的 Anthropic 股权不用于游说或政治献金。文中还提到公司此前已承诺 2 亿美元研究并应对 AI 对劳动力市场的影响。",
+      "tag": "治理结构", "source": "Anthropic", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "把「公司成长 ↔ 公共资金」做成线性挂钩：5% 起步、每 50% 估值增长追加 2%，用 LLC 保留在传统公益、直接发放给特定人群、劳动力市场干预之间切换的自由度。"},
+       {"key": "解决什么痛点", "value": "常规企业慈善靠年度预算与创始人意愿，规模不随公司价值变化；而把股权放进独立实体，也让「公共利益」这件事在法律形态上先落地。"},
+       {"key": "值不值得", "value": "属于治理与资本结构层面的行业动态，对集群/推理方案没有直接影响；值得留意的是「AI 收益如何被制度化分配」开始出现具体财务结构，而不是口号。"}
+      ]}
+   ]},
+   {"emoji": "🛡️", "title": "安全与治理", "en": "SAFETY", "items": [
+     {"title": "LLM-Attack Suite：拆分式 LLM 的隐私红队框架，加上训练梯度后 token 恢复率 94.2%→97.4%、整文档恢复 13.7%→37.8%",
+      "url": U("https://huggingface.co/papers/2610.22722"),
+      "summary": "拆分式 LLM 把输入文本留在客户端、只把中间表示发给服务器，而攻击者可以从这些消息重建原文。LLM-Attack Suite 把「攻击者看到哪些消息、知道哪些权重、用哪个数据集与恢复指标」这些选择记录下来，让不同评测可复现、可比较、可扩展：兼容的攻击复用已记录的消息，预测结果单独保存用于独立打分，还要求防御必须提供一份未防御的对照基线才算通过，并列出尚未被测的攻击。在受控 GPT-2 实验里，加入训练时返回的梯度使 token 恢复率从 94.20% 升到 97.38%、整文档精确恢复率从 13.71% 升到 37.77%。",
+      "tag": "隐私红队", "source": "arXiv", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "统一拆分/分布式 LLM 的隐私评测口径：记录攻击者能力与数据集，复用消息做可比攻击，分离「实现正确性」与「攻击有效性」两类结论，并强制要求未防御对照基线。"},
+       {"key": "解决什么痛点", "value": "各家论文的攻击者假设不同，隐私结论无法互比；更实际的是——训练期返回的梯度本身就是额外信道，很多拆分式方案没把它算进威胁模型。"},
+       {"key": "值不值得", "value": "对把敏感数据放在客户端、只把中间表示出网的架构（金融数据尤其相关）是一次明确的威胁模型补课：token 级恢复已接近饱和（94%→97%），真正的数字是整文档恢复从 13.7% 跳到 37.8%；但实验基于 GPT-2 规模，结论要按自家模型重测。"}
+      ]}
+   ]}
+ ]},
+ {"label": "☸️ 基础设施板块", "categories": [
+   {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8S × AI", "items": [
+     {"title": "Kyverno 把策略从准入推到内核：BPF-LSM 挂 bprm_check_security 与 file_open，按 Pod 的 eBPF 管出口并识别应用层协议",
+      "url": U("https://www.cncf.io/blog/2026/10/15/extending-kubernetes-policy-enforcement-to-runtime-security-for-ai-workloads/"),
+      "summary": "Nirmata（Kyverno 的创建者）在 CNCF 博客介绍 Nirmata Runtime for Kyverno：准入控制只能回答「这份 spec 看起来对不对」，回答不了「跑起来后这个负载在干什么」，而这正是自主 agent 与非确定性 LLM 应用出事故的地方。实现方式是用 eBPF 与 Linux Security Modules 把 BPF-LSM 程序直接挂到 bprm_check_security 与 file_open，并按 Pod 挂 cgroup 范围的 eBPF 程序管出口，五类行为同步在内核判定：exec（按解析后的内核路径拒绝进程执行）、open（按路径拒绝文件访问）、network（按目标拒绝出口）、protocol（按线路上真实应用协议拒绝，不看端口——伪装成 443 的反向 shell 不放行）、dns（观察并上报解析）。设计前提是任何跑在工作负载旁边的控制面（sidecar、agent、用户态代理）都可能被攻陷绕过，只有内核里与系统调用同步执行的拦截才不参与投票。",
+      "tag": "运行时安全", "source": "CNCF Blog", "oss": True,
+      "detail": [
+       {"key": "能做什么", "value": "把 Kyverno 的策略语义延伸到运行时：复用同一套策略定义，在内核层拦 exec/open/出口；出口按应用层协议而非端口判定，并可按 Pod 绑定，DNS 解析只观察与上报。"},
+       {"key": "解决什么痛点", "value": "agent 类负载的 spec 是静态的、行为是动态的：镜像拉起二阶段载荷、sidecar 连了没人批过的目的地、跑了配置策略没预料到的进程——这些都在准入之后发生，准入策略天然看不见。"},
+       {"key": "值不值得", "value": "和他正在做的多租户 agent 沙箱直接相关：把「策略」从准入扩展到运行时，是沙箱外的第二道闸；但同一节点若已有 Cilium 这类 eBPF 数据面，需先验证 LSM hook 与 cgroup 程序的共存、以及内核版本要求（BPF-LSM 需 5.7+），且这是 Nirmata 主导的实现，成熟度尚需评估。"}
+      ]},
+     {"title": "GPU 上 K8s 的四条共享路线对照：MIG 硬件隔离、time-slicing 无隔离、MPS 仍 experimental、DRA 需 1.34.2+",
+      "url": U("https://kubezilla.io/kubernetes-gpu-guide/"),
+      "summary": "一篇按 Kubernetes 1.37.1 与 NVIDIA GPU Operator 核对的 GPU 指南，把 K8s 上的 GPU 共享拆成四条路线做对照：独占（默认，一个容器一张卡，隔离最硬，适合训练与延迟敏感推理）；MIG（Ampere 及更新的数据中心卡上按固定算力/显存/缓存切片，隔离强但切片尺寸固定）；time-slicing（共享显存、无隔离，一个进程崩会波及同卡其他用户，device plugin 里已稳定，适合开发/CI/突发轻任务）；MPS（仅整卡、不能与 MIG 同用，按客户端限内存与算力，在 device plugin 里仍是 experimental）；DRA（需 K8s 1.34.2+ 及对应驱动配置，属性可表达，但隔离程度取决于驱动）。指南另附 DCGM Exporter + Prometheus 指标、GPU Pending/节点无 nvidia.com/gpu/驱动版本错配/MIG 布局卡住等故障排查，以及生产就绪清单。",
+      "tag": "GPU 调度", "source": "Kubezilla", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "一张四方案对照表（隔离强度、显存上限、硬件要求、成熟度、适用场景）+ 故障到原因的排查清单 + DCGM/Prometheus 监控与配额、升级检查项，用 2026 年 10 月的版本核对过。"},
+       {"key": "解决什么痛点", "value": "设备插件把 GPU 当匿名整数，80GB 整卡与 5GB MIG 切片都计作 1，多租户下既不能申请半卡也无法公平计量；选错共享方式（例如用 time-slicing 跑多租户推理）会把隔离问题留到生产才暴露。"},
+       {"key": "值不值得", "value": "他正在定 GPU 方案，这张表 + 故障清单可以直接当验收项用（尤其「MIG 尺寸固定」「MPS 仍 experimental」「DRA 要 1.34.2+」这三条会直接影响选型）；但它是教程型内容，具体参数仍以官方文档与自家卡型为准。"}
+      ]}
+   ]},
+   {"emoji": "☁️", "title": "云原生周边", "en": "CLOUD NATIVE", "items": [
+     {"title": "把 Claude Code 的 agent 遥测砍到能存：一次小任务 181 条记录 289KB，指标 300 条时序压回 12 条",
+      "url": U("https://www.cncf.io/blog/2026/10/22/filtering-and-reducing-ai-agent-telemetry-with-the-opentelemetry-collector/"),
+      "summary": "作者给 Claude Code 一个「修两个失败测试」的小任务，在全部内容开关打开的情况下，一次运行产生 181 条遥测记录与 289KB JSON；真正需要的只是六类信息：按模型算成本（claude_code.cost.usage）、按类型看 token 与缓存（claude_code.token.usage）、哪些工具失败（tool_result 的 success）、人是否拒绝 agent 的修改（tool_decision）、延迟在哪（llm_request span 的 ttft_ms）、什么报错（api_error 的 error_class）。做法是用 OTel Collector 把同一份输入扇出到 raw 与 optimized 两条管道做对照：日志删掉 api_request 事件（约占四分之一记录）、删掉 tool_parameters 等六个属性、对 session.id/user.id 做 SHA256 取前 16 位、错误信息截到 256 字符；指标删掉 session.id 等六个维度后，25 个会话的 300 条时序变回 12 条，再用 2 秒窗口合并会话并做 delta→cumulative，总量与原始管道相差不到 0.5%；链路丢掉成功的 tool.execution 子 span，省掉约五分之一字节。",
+      "tag": "可观测性", "source": "CNCF Blog", "oss": False,
+      "detail": [
+       {"key": "能做什么", "value": "一套可复制的 Collector 裁剪顺序：先定义「哪六个问题必须有答案」，再按信号删事件、删属性、哈希身份、限长错误、合并时序并转累计；raw/optimized 双管道同源对比，能直接量出省下的存储。"},
+       {"key": "解决什么痛点", "value": "agent 遥测默认按「调试单次运行」设计：工具内容同时进 trace 与 log、指标带上 session/user/account 等高基数字段，一个团队一天几百个会话就会把时序与存储打爆。"},
+       {"key": "值不值得", "value": "公司要做多用户 agent 平台与审计/DLP 时，这套「只留能答问题的字段」的裁剪顺序可直接复用，且哈希身份比删字段更适合保留可追踪性；限制是所有会话必须经过同一个 Collector（负载均衡后要放网关层），且合并时序隐去了单会话细粒度。"}
+      ]}
+   ]}
+ ]}
+]
+
+FLASH = [
+ {"title": "Google Research：把基础模型推到结核病筛查一线，生成式模型做胸片分诊", "url": U("https://research.google/blog/bringing-foundational-models-to-the-front-lines-of-tb-screening/")},
+ {"title": "HN 热帖：一个十年前的 CNN 在皮肤癌诊断上打赢前沿 LLM", "url": U("https://lynchlab.net/llm-skin-cancer")},
+ {"title": "GitOps 选型对照：Argo CD 与 Flux 的功能差异与决策口径（两者 2022 年末先后毕业）", "url": U("https://kubezilla.io/gitops-kubernetes-argo-cd-vs-flux/")},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 10 月 26 日 · 星期一",
+ "issue": 36,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天的共同点是「把自研胶水换掉」。推理侧，llm-d 在 10 月 20 日发 1.0：多租户流控收进 flowControl、Router 主备热切、DisaggregatedSet 把 prefill/decode 当一个单元做锁步滚动，Router 配置 API 同时转 v1；四天前 LeaderWorkerSet 也发 1.0，DisaggregatedSet 支持滚动中扩容、独立扩缩的 sub-role 与组重建封顶——两件加起来，K8s 上跑分布式推理的编排层不再需要自己写控制器。AI 侧最有料的是 Cerebras 的部署拆解：3 万亿参数的 Kimi K3 铺到 59 片 WSE-3T 晶圆，dense 层一片一层、留 44GB 片上内存给 KV cache，线性注意力层两片一层，晶圆间只传激活、RDMA 每跳约 2 微秒。观测与安全是另一条线：CNCF 给出把 Claude Code 遥测（一次小任务 181 条记录、289KB）压到「只留能答六个问题的字段」的具体 Collector 管道，指标 300 条时序收缩到 12 条；Kyverno 则把策略从准入推到内核，BPF-LSM 按 Pod 拦 exec/open/出口，出口按应用层协议而非端口判定。K8s 核心今天没有新增量——containerd、Envoy、Istio、Cilium 的补丁都已在 10-21 至 10-24 各期覆盖，板块因此只留 K8s×AI 与云原生周边。",
+ "highlights": [H1, H2],
+ "sections": SECTIONS,
+ "flash": FLASH,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- assertions: every item has a non-empty title and every URL is machine-copied ---
+def check(items, where):
+    for it in items:
+        assert it.get("title"), f"missing title in {where}: {it}"
+        assert it["url"] in IDX, f"URL not machine-copied in {where}: {it['url']}"
+        assert it["url"] == IDX[it["url"]]["url"]
+check(brief["highlights"], "highlights")
+for s in brief["sections"]:
+    for c in s["categories"]:
+        assert c["items"], f"empty category {c['title']}"
+        check(c["items"], c["title"])
+check(brief["flash"], "flash")
+
+json.dump(brief, open("briefing.json", "w"), ensure_ascii=False, indent=1)
+n = sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print(f"briefing.json written: {len(brief['highlights'])} highlights, {n} section items, {len(brief['flash'])} flash")

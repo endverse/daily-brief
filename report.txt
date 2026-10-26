@@ -1,39 +1,36 @@
 ======================================================================
-处理报告  (原始 168 条)
+处理报告  (原始 118 条)
 ======================================================================
 
-① 过滤: 保留 147 条, 过滤掉 21 条
+① 过滤: 保留 84 条, 过滤掉 34 条
    过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] debpalash/VoiceStudio
      ✗ [GitHub Trending] pollen-robotics/microduck
-     ✗ [GitHub Trending] jbiaojerry/ebook-treasure-chest
-     ✗ [GitHub 升星repo] JustAResearcher/gpu-unlock-ada
-     ✗ [GitHub 升星repo] ivarvong/lantern
+     ✗ [GitHub Trending] Renhuai123/ziwei-doushu
+     ✗ [GitHub Trending] JetBrains/thinkrail
+     ✗ [GitHub Trending] coollabsio/coolify
+     ✗ [GitHub 升星repo] mizorewww/gdirect
+     ✗ [GitHub 升星repo] designfuchen/word-atlas
      ✗ [GitHub 升星repo] songjianyang/xss-audit
-     ✗ [GitHub 升星repo] mirkobrombin/raven
-     ✗ [GitHub 升星repo] EgorBo/BlazingFastDotnet
-     ✗ [GitHub 升星repo] xMazaki/unbloat-android-tv
 
-② 去重: 147 → 141 条 (同批合并 1, 跨天历史去重 5)
+② 去重: 84 → 79 条 (同批合并 0, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
-     ⏭️  [GitHub Trending] NVIDIA/OpenShell
-     ⏭️  [GitHub Trending] luongnv89/claude-howto
+     ⏭️  [HuggingFace Papers] Toward Recursive Self-Improvement in Physical 
+     ⏭️  [GitHub Trending] makecindy/cindy
+     ⏭️  [GitHub Trending] Nutlope/hallmark
      ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [量子位] 谁在给OpenAI供应具身数据？
-   跨源合并的事件:
-     ⇉ What Makes a Good Unmasking Policy? A Co  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - AI 工程落地: 17 条 (含🔧开源 2)
-     - 产品与商业: 15 条 (含🔧开源 1)
-     - 安全与治理: 14 条
-     - 模型与研究: 58 条 (含🔧开源 2)
-     - Agent & Skill: 31 条 (含🔧开源 7)
-     - 观点与好文: 2 条
+     - AI 工程落地: 6 条
+     - 产品与商业: 9 条 (含🔧开源 1)
+     - 模型与研究: 37 条 (含🔧开源 1)
+     - 安全与治理: 4 条
+     - Agent & Skill: 22 条 (含🔧开源 5)
    【基础设施】
-     - K8s × AI: 3 条
-     - 社区与项目: 1 条
+     - K8s × AI: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [16分] Rapidly scaling online storage to serve over 1 billion 
@@ -46,4 +43,4 @@
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
       16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      15分 [HuggingFace Papers] What Makes a Good Unmasking Policy? A Control
+      14分 [Simon Willison] Introducing Kimi K3.1 Pro
