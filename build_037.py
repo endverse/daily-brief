@@ -1,0 +1,296 @@
+#!/usr/bin/env python3
+"""Build issue 037 (2026-10-27): append gap-fill sources to processed.json, emit briefing.json."""
+import json
+
+PROC = "processed.json"
+proc = json.load(open(PROC))
+
+GAPFILL = [
+    {"title": "Observability patterns for AI agents on Amazon EKS",
+     "url": "https://aws.amazon.com/blogs/containers/observability-patterns-for-ai-agents-on-amazon-eks/",
+     "summary": "AWS blog (2026-10-21): two production observability patterns for AI agents on EKS - decentralized (Strands SDK auto-instrumentation exporting OTLP straight to Langfuse) vs centralized (agents + Bifrost LLM gateway spans through a shared OpenTelemetry Collector), with traceparent correlation, OTel GenAI semantic conventions, Bedrock inference, ArgoCD delivery.",
+     "published": "2026-10-21T00:00:00+00:00", "source": "AWS News", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "Measuring developer experience on an Amazon EKS developer platform",
+     "url": "https://aws.amazon.com/blogs/containers/measuring-developer-experience-on-an-amazon-eks-developer-platform/",
+     "summary": "AWS blog (2026-10-26): how to measure an internal EKS developer platform with the four DORA metrics; cites State of Platform Engineering Report Vol.4 (29.6% of platform teams measure nothing, 24.2% cannot tell whether metrics improved, DORA adopted by 40.8%) and ESG data (71% of leading platform adopters accelerated time to market vs 28% of less mature ones).",
+     "published": "2026-10-26T00:00:00+00:00", "source": "AWS News", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "云原生周边", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "KAI-Scheduler v0.16.14",
+     "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.16.14",
+     "summary": "KAI-Scheduler v0.16.14 (2026-10-26): binder no longer panics on nil data when updating an existing GPU-sharing ConfigMap (#2505). v0.18.6 (2026-10-15): score/sort nodes without per-worker score maps, keep replacement subgroups in the job's required topology domain, scheduler deletes only failed BindRequests.",
+     "published": "2026-10-26T11:04:05+00:00", "source": "GitHub Releases", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s × AI", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "Envoy v1.38.9",
+     "url": "https://github.com/envoyproxy/envoy/releases/tag/v1.38.9",
+     "summary": "Envoy v1.38.9 (2026-10-26): distroless image now ships the patched ca-certificates 20250419~deb12u2 so it no longer trusts the compromised eMudhra intermediate CAs; the 1.38.8 distroless image still shipped the unpatched bundle. Source-security-only release.",
+     "published": "2026-10-26T23:41:15+00:00", "source": "GitHub Releases", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "K8s 核心技术", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "四分之一PR是“AI垃圾”！Linux基金会发布新报告：AI写代码快了52%，开源维护者却更累了",
+     "url": "https://www.infoq.cn/article/9TSuUDxrUSGS26XTA2yB?utm_source=rss&utm_medium=article",
+     "summary": "InfoQ 中文 (2026-10-25) 对 LF Research《Navigating Open Source Software Development in the Generative AI Era》的报道：代码编写耗时降 52%，约 25% 的 PR 是低质量 AI slop（大型项目 31%）。",
+     "published": "2026-10-25T00:00:00+00:00", "source": "InfoQ中国", "source_cat": "AI-社区",
+     "extra": {}, "board": "AI 板块", "category": "AI 工程落地", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "Backstage 1.55 新增脚手架任务恢复功能，并移除已废弃的目录 API",
+     "url": "https://www.infoq.cn/article/hilBQCk7QcvclfrgZbSf?utm_source=rss&utm_medium=article",
+     "summary": "InfoQ 中文 (2026-10-26)：Backstage 1.55 新增 scaffolder.taskRecovery，支持从最后完成步骤恢复任务；同时移除废弃 catalog API、搜索迁到 Elasticsearch 8。",
+     "published": "2026-10-26T00:00:00+00:00", "source": "InfoQ中国", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "云原生周边", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "Terraform Google Cloud 8.0 发布：告别“永久 Diff”，代价是破坏性升级",
+     "url": "https://www.infoq.cn/article/qJB2DapLThovtxzyOtKW?utm_source=rss&utm_medium=article",
+     "summary": "InfoQ 中文 (2026-10-26)：Terraform Google Cloud Provider 8.0 GA，backend_service 与 global_forwarding_rule 的默认 load_balancing_scheme 由 EXTERNAL 改为 EXTERNAL_MANAGED，并删除 IAP/notebooks/ML Engine/BeyondCorp 等已下线资源。",
+     "published": "2026-10-26T00:00:00+00:00", "source": "InfoQ中国", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "云原生周边", "oss": False, "hot_score": 0, "is_hot": False},
+    {"title": "opentelemetry-collector v0.164.0",
+     "url": "https://github.com/open-telemetry/opentelemetry-collector/releases/tag/v0.164.0",
+     "summary": "OpenTelemetry Collector v1.70.0/v0.164.0 (2026-10-26): mdatagen supported_platforms, otlp_http error messages now report the rewritten destination URL, OpAMP raw-config redaction for non-empty literal env defaults.",
+     "published": "2026-10-26T14:54:44+00:00", "source": "GitHub Releases", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "云原生周边", "oss": True, "hot_score": 0, "is_hot": False},
+    {"title": "Google Kubernetes Engine release notes (2026-10-26)",
+     "url": "https://docs.cloud.google.com/kubernetes-engine/docs/release-notes",
+     "summary": "GKE release notes 2026-10-26: C4D bare metal machine types (c4d-standard-384-metal, c4d-highcpu-384-metal, c4d-highmem-384-metal) GA on GKE 1.36+; autoscaler/NAP/custom ComputeClass support from 1.37.0-gke.4713000.",
+     "published": "2026-10-26T00:00:00+00:00", "source": "Google Cloud", "source_cat": "基础设施-补搜",
+     "extra": {}, "board": "基础设施", "category": "公有云动态", "oss": False, "hot_score": 0, "is_hot": False},
+]
+
+have = {it["url"] for it in proc}
+added = 0
+for g in GAPFILL:
+    if g["url"] not in have:
+        proc.append(g); have.add(g["url"]); added += 1
+json.dump(proc, open(PROC, "w"), ensure_ascii=False, indent=2)
+print(f"processed.json: {len(proc)} items (+{added} gap-fill)")
+
+IDX = {it["url"]: it for it in proc}
+
+def U(u):
+    assert u in IDX, f"URL not in processed.json: {u}"
+    return u
+
+# ---------------- highlights ----------------
+H1 = {
+ "title": "GPT-6.1 Terra 发布：$1/$5 定价卡在中端，官方把卖点压在视觉推理与 computer use",
+ "url": U("https://simonwillison.net/2026/Oct/26/gpt-61-terra/"),
+ "summary": "OpenAI 10 月 26 日发布 GPT-6.1 Terra，替代 GPT-5.6 Terra 的位置，官方措辞是「快速、高效」，把详细视觉推理与精确 computer use 放在最前面，同时强调写作更自然，场景举的是写提案、读技术图纸、填表与剪视频。价格是每百万输入 token 1 美元、输出 5 美元，约为 GPT-5.6 Terra 与 GPT-6.1 Sol 的一半，是 GPT-6 Luna 的十倍左右——Simon Willison 把它类比成 Anthropic 产品线里的 Sonnet，不上不下最难选。他用 pelican 测试给出 max 推理档的成本：11.3161 美分、耗时 4 分 11 秒，并做了 Astra/Sol/Terra/Luna 四档同题对照。OpenAI 的 Ted Sanders 在 Hacker News 补充口径：Terra 在技术沟通上强于 Astra 与 Sol，视觉与 computer use 相近但快得多，其余多数能力略差，适合要「比 Luna 聪明、比 Sol 便宜」的 API 场景。",
+ "note": "🔎 新闻要点：发布日 = 2026-10-26；定位 = 替代 GPT-5.6 Terra 的中端档，官方强调视觉推理 + computer use + 更自然的写作；价格 = $1/M 输入、$5/M 输出（≈ GPT-6.1 Sol 的一半、GPT-6 Luna 的 10 倍）；实测 = max 推理档单张 pelican 11.3161 美分 / 4 分 11 秒，另附 Astra/Sol/Terra/Luna 四档对照；官方人员口径 = 技术沟通优于 Astra/Sol，视觉与 computer use 相近但更快，其余多数能力略弱。",
+ "tag": "模型发布", "source": "Simon Willison", "oss": False,
+ "detail": [
+  {"key": "能做什么", "value": "一个中端多模态模型：视觉推理与 computer use 是主卖点（读技术图纸、填表单、剪视频、批量跑重复性界面操作），写作更自然；价格 $1/$5 每百万 token，处在 Sol 之下一半、Luna 十倍的位置，等于给「贵模型跑不起、便宜模型不够聪明」的中间档补了一个选项。"},
+  {"key": "解决什么痛点", "value": "computer use 这类任务是高频、重复、错了也无所谓的场景，用 Sol 跑成本压不住、用 Luna 又经常看不懂界面；Terra 的价格带正好落在这类自动化任务的 ROI 区间，也让订阅用户在撞额度时有个更省的档位。"},
+  {"key": "值不值得", "value": "如果他在做 agent 的 computer-use 或截图理解链路，这是目前性价比最值得先压测的一档（官方自己也承认只在视觉/computer use/沟通上接近前沿，其余弱）；但用户画像里没有明确的模型采购需求，判断依据应放在「同一 harness 下比 Sol 便宜一半是否掉点」，别信官方措辞。"}
+ ]}
+
+H2 = {
+ "title": "Linux 基金会报告：AI 让写代码快 52%，同时把 25% 的 PR 变成维护者的负担",
+ "url": U("https://www.infoq.cn/article/9TSuUDxrUSGS26XTA2yB?utm_source=rss&utm_medium=article"),
+ "summary": "LF Research 10 月 20 日发布《Navigating Open Source Software Development in the Generative AI Era》（Red Hat 赞助，Futurewei、OpenSSF、LF AI & Data 支持），调查生成式 AI 对开源开发与维护的双向影响。效率侧：受访者估计代码编写平均耗时下降 52%，六类开发活动都有节省，连提案讨论这类沟通工作也降了约 19%。代价在维护端：维护者估计收到的 PR 里约 25% 属于低质量「AI slop」，大型项目升到 31%；59% 的维护者称贡献量在增长（大型项目 69%），但新增贡献并不都能转化为项目价值。21% 的受访者明确说复杂任务用 AI 反而更费时间，说明提效并没有线性传导到整体工程效率；省下的时间去向是技术债 66%、新功能 63%、学习 58%。",
+ "note": "🔎 新闻要点：发布方 = LF Research（Red Hat 赞助），2026-10-20；效率 = 代码编写耗时 −52%、提案讨论 −19%、六类活动均有节省；质量 = 约 25% 的 PR 为低质量 AI slop，大型项目 31%；贡献量 = 59% 维护者见增长（大型项目 69%）；反例 = 21% 称复杂任务反而更费时；时间去向 = 技术债 66%、新功能 63%、学习 58%。",
+ "tag": "行业研究", "source": "InfoQ中国", "oss": False,
+ "detail": [
+  {"key": "能做什么", "value": "给出了一套可引用的一手调查数字：52% 的编码耗时下降对 25% 的低质量 PR 占比，把「AI 提效」和「维护成本」放进同一张表；还给出节省时间的三个去向（技术债 66%、新功能 63%、学习 58%）和复杂任务的反向数据（21% 更费时）。"},
+  {"key": "解决什么痛点", "value": "团队引入 AI 编码后最常见的争议是「到底快了没有」——单点 benchmark 都好看，但 PR 数量暴涨、review 排队、维护者被低质量贡献淹没这类二阶效应没人量化；这份报告把这些副作用做成了可对标的比例。"},
+  {"key": "值不值得", "value": "对他推公司 AI-native 转型是现成的说服材料：可以拿 25%/31% 这组数去论证「AI 生成代码必须配 review 与 CI 门禁，否则省下的时间从审查端赔回去」；注意这是受访者自估而非平台客观统计，引用时要把口径写清楚。"}
+ ]}
+
+# ---------------- sections ----------------
+def item(title, url, summary, tag, source, oss, detail):
+    return {"title": title, "url": U(url), "summary": summary, "tag": tag,
+            "source": source, "oss": oss, "detail": detail}
+
+SECTIONS = [
+ {"label": "🤖 AI 板块", "categories": [
+   {"emoji": "🧠", "title": "模型与研究", "en": "MODELS & RESEARCH", "items": [
+     item("TWIG：把每个权重写成一条离散决策路径，剪枝/量化/低秩/码本变成同一个对象的编辑",
+          "https://huggingface.co/papers/2610.31931",
+          "论文提出 TWIG（Tree-structured Weights with Inherited Gates）：每个权重是一条小决策路径的终点——符号、2 的幂次移位、零门、共享表索引——同组权重共享路径上半段，每个决策只存一次、只施加一次。三条推论：任意已训练网络都能写成 TWIG；当决策限定为 2 的幂时，权重层退化为几乎只由连线与加法器构成的电路，适合流片即定权重的芯片；剪枝、量化、低秩分解、码本与权重共享都变成同一对象的编辑，一个优化器可在全网范围挑选。作者还指出「选决策」等价于一个高阶 Boltzmann 机的基态问题，正是退火机与量子优化器针对的问题类。",
+          "论文", "arXiv", False, [
+     {"key": "能做什么", "value": "一个统一的权重表示：把「符号 + 2 的幂移位 + 零门 + 共享表索引」组成树，权重是叶子、决策是内部节点并被所有下层权重继承；于是压缩手段不再各带格式，剪枝/量化/低秩/码本/权重共享都退化成对同一棵树的编辑，且幂次移位版本能直接映射成加法器电路。"},
+     {"key": "解决什么痛点", "value": "现在每种压缩方法自带格式与求解器，混用要重训或反复转换；固定权重芯片又要为每个权重单独做常数乘法器。把表示统一后，同一优化器能跨方法挑最优组合，硬件侧也不再需要逐权重的乘法单元。"},
+     {"key": "值不值得", "value": "对关心推理成本与专用加速器的人是值得读的表示层思路，但它没给端到端训练/推理实测，落地要自建编译链与量化工具；短期更现实的价值是理解「权重量化正在往共享决策收敛」这条趋势。"}]),
+     item("On-Policy Self-Training：只给话题描述，模型自己出题自己教自己",
+          "https://huggingface.co/papers/2610.32770",
+          "OPST 把 on-policy 自蒸馏重构成自训练框架：输入只有粗粒度的话题描述，模型自己合成问答对与带特权推理过程的示范，不需要任何人工题目、标准答案或更强教师。作者报告它在多个文本基准与 VQA 上都能稳定自提升，且未参与自训练的领域能力不退化，据此认为基座模型里存在可被放大的潜在能力。",
+          "论文", "arXiv", False, [
+     {"key": "能做什么", "value": "一条不依赖外部监督的后训练路径：由模型按话题自建课程（自生成问答 + 特权推理轨迹），再对这些合成数据做 on-policy 蒸馏；论文在文本与多模态（VQA）上验证了跨域提升且不遗忘。"},
+     {"key": "解决什么痛点", "value": "现有 on-policy 自蒸馏仍要 ground-truth 问答或人工策划的题集，数据成本卡住了小团队；OPST 把监督信号压到「一句话话题」，等于把后训练的数据依赖降到接近零。"},
+     {"key": "值不值得", "value": "如果他要给内部模型做领域后训练（金融语料不能外流），这条路线值得跟——不需要外部教师也不用人出题；风险是自生成数据的质量漂移与评测污染，论文没给「自训练多轮后是否退化」的长程证据。"}]),
+     item("Speculative Diffusion 的两个旋钮：扩散步数与接受松紧可以同时调，Pareto 前沿能推得更远",
+          "https://huggingface.co/papers/2610.31819",
+          "论文把扩散 LLM 当作投机解码的草稿模型，指出这里有两个可调参数：扩散步数（effort）与对 verifier 分布的接受松紧（leniency）——传统投机解码是无损的，但放宽接受准则后本身就变成有损加速。作者联合扫描两个参数绘出完整 Pareto 前沿，结果显示联合调参比只用单步扩散草稿能覆盖更大的速度-质量空间，也就是 dLLM 的加速不必只沿「少走几步、掉质量」一条轴。",
+          "论文", "arXiv", False, [
+     {"key": "能做什么", "value": "把「扩散草稿」与「投机解码」两个加速手段放进同一个调速面板：扩散步数控制草稿质量与成本，接受准则控制验证的严格度，二者联合可画出速度-质量 Pareto 前沿，供部署时按 SLA 取点。"},
+     {"key": "解决什么痛点", "value": "以往 dLLM 加速只有「减少扩散步数」这一个旋钮，质量掉得不可控；而标准投机解码坚持无损，无法利用「略降质量换大幅提速」的档位。两个旋钮一起调才有连续可选的折中点。"},
+     {"key": "值不值得", "value": "对做推理服务调优的人有直接参考价值（怎样在给定质量门槛下把吞吐拉满），但成立前提是他真的在服务 dLLM；用自回归模型的话这篇只能当方法论读。"}])
+   ]},
+   {"emoji": "🧩", "title": "Agent & Skill", "en": "AGENT & SKILL", "items": [
+     item("NVIDIA 开源 SkillSpector：31,132 个 skill 里 26.1% 含漏洞、5.2% 疑似恶意",
+          "https://github.com/NVIDIA/SkillSpector",
+          "NVIDIA 开源 SkillSpector（Apache 2.0），一个在安装前扫描 agent skill 的安全工具：输入可以是 Git 仓库、URL、zip、目录或单文件，覆盖 17 类 71 种漏洞模式——prompt injection、数据外泄、提权、供应链、过度授权、系统提示泄露、内存投毒、工具误用、失控 agent、反拒答、危险代码 AST、污点追踪、YARA 签名、MCP 最小权限与 MCP 工具投毒。静态分析之后可选接 LLM 语义评估，输出终端/JSON/Markdown/SARIF 四种格式与 0-100 风险分，并支持用 glob 规则或指纹基线压制已知误报。它引用的研究数据集里，被分析的 31,132 个 skill 中 26.1% 含漏洞、5.2% 表现出明显恶意意图。工具属于 NVIDIA Verified Skills 流水线：扫描、评估、签名之后才发布到 skills 目录，也能作为 Pi 与 OpenCode 扩展在 agent 会话内直接扫。",
+          "开源工具", "GitHub", True, [
+     {"key": "能做什么", "value": "装 skill 之前的把关工具：静态规则（71 模式/17 类）+ 可选 LLM 语义复核 + OSV.dev 的实时 CVE 查询（带离线兜底），给出 0-100 风险分、严重度标签与 SARIF 报告，可用基线压制已知误报、只报新增问题；也能以 MCP 形式挂进 Pi / OpenCode 在会话内扫。"},
+     {"key": "解决什么痛点", "value": "Claude Code、Codex、Gemini CLI 的 skill 默认凭信任执行、几乎无人审查，一个 prompt injection 式的 skill 就能把环境变量或私钥带走；26.1%/5.2% 这组数字说明这不是理论风险，而人工逐个读 SKILL.md 不现实。"},
+     {"key": "值不值得", "value": "对他在做 skill marketplace 这件事几乎是必看：可以拿它当 CI 门禁，也可以借它的 17 类分类法反推自己 skill 的审查清单；限制是静态规则会漏掉语义级后门，LLM 复核有成本，且对非 Python/Node 生态覆盖有限。"}]),
+     item("Kolab：用 115 小时真实录屏测人机协作，前沿模型普遍高估自己被采纳的程度",
+          "https://huggingface.co/papers/2610.21109",
+          "Kolab 用 115 小时以上的屏幕录制，记录 50 名来自 40 种职业的专业人士与 agent 协作完成长周期真实任务的全程，并采集了他们对协作质量与输出质量的判断。结果显示前沿模型（agentic 与非 agentic）都系统性高估自己与专家的协作效果，也难以区分高质量与低质量协作，给更长的上下文并不能稳定改善这些判断。作者据此把两件事列为协作型 agent 必须过、而自动化 benchmark 从不测的关口：预测专家会采纳、修改还是拒绝自己的贡献，以及不看即时反馈也能判断协作质量。",
+          "论文", "arXiv", False, [
+     {"key": "能做什么", "value": "一个以真实职业工作流为底的人机协作 benchmark：50 人 / 40 种职业 / 115 小时录屏，任务同时包含「预测专家如何处置我的贡献」与「判断协作满意度与输出质量」两类标注，可直接用来评估 agent 的协作自知能力。"},
+     {"key": "解决什么痛点", "value": "现有 agent benchmark 几乎全在测自动化（一次做对），而真实工作里人是边看边改的；一个在 SWE-bench 上很强的 agent 完全可能不知道自己的产出会被专家改掉一半，团队据此做验收就会错判。"},
+     {"key": "值不值得", "value": "对做企业内 agent 交付的人和做 agent 评测的人是少见的真实工作流数据；限制是样本只有 50 人、跨行业但每行业很浅，且协作质量靠自评，别把结论当成绝对排名。"}]),
+     item("花椒把 Agent 做到 30 个之后的复盘：公共内核与业务侧必须拆开，验收标准要自己攒",
+          "https://www.infoq.cn/article/O7lcxqKD2avRPbNoMmtg?utm_source=rss&utm_medium=article",
+          "花椒直播 CTO、超序 AI 创始人封冰清复盘了企业 Agent 从 0 到约 30 个应用的过程：起点是产研自动化，希望团队通过 AI Coding 打通需求、设计、开发、测试的完整链路，但真正做起来才发现上游需求必须足够清晰，产品团队自己也得管 Skill、Prompt、模型与执行环境。规模化之后，运行时、执行环境、权限与统计在每个 Agent 里反复出现，于是他们不断拆分平台职责，把公共内核与业务侧边界划清楚。文章的核心判断是企业要持续积累自己的业务方法、系统连接、权限规则与验收标准，让模型与工具保持可替换，并用实际交付结果而不是 demo 判断投入价值。",
+          "实践复盘", "InfoQ中国", False, [
+     {"key": "能做什么", "value": "一份企业级 agent 平台的分层经验：产研自动化切入 → 发现需求质量是前置条件 → 抽出运行时/执行环境/权限/统计为公共内核 → 业务侧只保留业务方法与验收标准，最终撑起约 30 个 agent 应用。"},
+     {"key": "解决什么痛点", "value": "企业做 agent 最常见的两个坑：一是每个 agent 各写一套运行时与权限，规模一上来维护成本爆炸；二是把「能 demo」当成「能交付」，没有验收标准就无法判断投入是否值得。花椒的应对是把这两件事都收进平台层。"},
+     {"key": "值不值得", "value": "对他在公司做多用户 agent 产品有直接借鉴：公共内核（运行时/权限/统计）与业务验收标准分离，正好对得上他「多用户 × 多会话隔离」的架构痛点；但这是单家企业的经验叙述，没有给出并发量、成本或失败率的具体数字。"}]),
+     item("Google Cloud 把 IAM 做成 Agent Skills 与 MCP 工具：权限求值交给后端，不让模型自己推理",
+          "https://cloud.google.com/blog/products/identity-security/scale-agents-securely-with-iam-helper-agent-skills-and-mcp-tools/",
+          "Google Cloud 10 月 27 日发布 IAM Helper，把 IAM 能力包装成 agent 可直接调用的 Agent Skills 与 MCP 工具，底层接 Policy Intelligence 与 Privileged Access Manager（PAM）。它的设计取向是把策略求值、权限排障这类编排推给云后端执行，而不是让 LLM 自己在上下文里推理权限关系，既省 token 也避免 agent 为了跑通流水线而被过度授权。官方给的使用场景是 agent 自动开云资源、写 Terraform、部署微服务时不再被权限阻塞卡住。",
+          "Agent 工具", "Google Cloud", False, [
+     {"key": "能做什么", "value": "一套 agent 原生的 IAM 编排层：把「差什么权限、该怎么补、能不能临时提权」做成可被 agent 调用的 skill 与 MCP 工具，后端接 Policy Intelligence（策略分析）与 PAM（临时提权），agent 只需按流程调用而不必理解策略语言。"},
+     {"key": "解决什么痛点", "value": "agent 以机器速度开资源时，任何一次权限缺失都要人介入排查，CI/CD 反而更慢；而图省事给 agent 一个大权限账号，就把最小权限原则废掉了。把求值推给后端能同时解决「卡住」和「过度授权」。"},
+     {"key": "值不值得", "value": "如果他的 agent 要在 GCP 上写 Terraform、开资源，这是官方给的合规路径，值得对着设计自己的权限模型；限制是强绑定 GCP IAM，自建 K8s 集群里的 RBAC 还得另做一套等价物。"}])
+   ]},
+   {"emoji": "🛠️", "title": "AI 工程落地", "en": "ENGINEERING", "items": [
+     item("Faros AI 数据：PR 合并量 +98% 的同时审查时间 +91%，AI Coding 的瓶颈已转到审查与集成",
+          "https://www.infoq.cn/article/b32Mw2zaPrxyJ6ChePD5?utm_source=rss&utm_medium=article",
+          "文章引用的 Faros AI 研究覆盖 1 万多名开发者、1255 个软件工程团队的工作流数据（版本控制、代码审查、任务管理、CI/CD）：PR 合并数量增加 98%，代码审查时间同时增加 91%，而 AI 采用率与企业级交付指标之间没有显著相关性。这组反差说明瓶颈发生了转移——代码生成变快之后，审查、测试、集成跟不上，单点提效被稀释。文中还提到网易智企 10 月 26 日发布的 CodeWave SDD「AI 软件交付团队」，用需求分析师、架构师、开发、测试多个 Agent 分工跑完需求到发布，官方称经 100 多家企业项目验证可带来 3～5 倍产能，但作者也点明单点环节的 20%–30% 提升在整体经营口径下会被稀释到个位数。",
+          "工程数据", "InfoQ中国", False, [
+     {"key": "能做什么", "value": "给出两组可对标的度量：Faros AI 的「PR 合并 +98% / 审查 +91%」说明产出与审查成本同步膨胀；网易 CodeWave 的「3～5 倍产能」是厂商在多 Agent 编排路线上的自报数据，配 100+ 企业验证的说法。"},
+     {"key": "解决什么痛点", "value": "管理层看 AI Coding 常只看「写代码快了」，看不到审查队列、返工与集成成为新瓶颈；这组数据把瓶颈位置量化出来，可以直接用来设计「提效收益该投到哪里」的决策。"},
+     {"key": "值不值得", "value": "Faros 那组数字值得作为他给团队做度量的参照（尤其若要向公司证明 AI-native 转型的真实收益）；CodeWave 的部分是低代码厂商的产品叙事，3～5 倍需自证，读的时候把两者分开。"}]),
+   ]},
+   {"emoji": "📊", "title": "产品与商业", "en": "PRODUCT", "items": [
+     item("Anthropic 递交 S-1：拟上 Nasdaq，代码 ANT，股数与价格区间未定",
+          "https://www.anthropic.com/news/s1-sec",
+          "Anthropic PBC 于 10 月 26 日向 SEC 递交 Form S-1 注册声明，拟在 Nasdaq 全球精选市场上市 Class A 普通股，交易代码 ANT；发行股数与价格区间尚未确定，承销商为高盛与摩根士丹利。注册声明尚未生效，公司强调在生效前不得销售证券。",
+          "公司动态", "Anthropic News", False, [
+     {"key": "能做什么", "value": "一份将首次公开 Anthropic 收入结构、算力采购承诺、客户集中度与亏损口径的注册文件；目前只有封面级信息（交易所、代码 ANT、承销商），招股书正文待补。"},
+     {"key": "解决什么痛点", "value": "此前外界对 Anthropic 的财务只有 FT 转述与融资传闻（10 月 16 日那期写过 Q1–Q3 收入 48/115/168 亿美元），S-1 会把口径钉死，也是判断「前沿模型公司能否自我供血」的第一手材料。"},
+     {"key": "值不值得", "value": "作为行业跟踪值得等招股书正文（尤其算力承诺与毛利率）；对他手上的 K8s/agent 工程决策没有直接影响，不必在公告阶段花时间。"}]),
+   ]},
+   {"emoji": "💡", "title": "观点与好文", "en": "OPINION & READS", "items": [
+     item("Raschka 放出 11 小时视频课：从预训练 LLM 出发，用 PyTorch 手写推理模型",
+          "https://magazine.sebastianraschka.com/p/building-reasoning-models",
+          "Sebastian Raschka 把《Build Reasoning Model (From Scratch)》配套成视频课：8 集、11 小时以上，从一个预训练 LLM 开始，在 Python/PyTorch 里从零实现评测、推理时扩展（inference-time scaling）、强化学习与蒸馏。他的理由是现在几乎所有当代 LLM 都是推理模型或带推理模式，而手写一遍仍是理解机制最有效的方式。",
+          "课程", "Ahead of AI", False, [
+     {"key": "能做什么", "value": "一条完整的动手路径：评估 → 推理时扩展 → RL 后训练 → 蒸馏，全部从一个已预训练的 LLM 起步用 PyTorch 实现，8 集 11 小时，配套他 2025 年那本 from-scratch 书的代码。"},
+     {"key": "解决什么痛点", "value": "推理模型的资料多半停在概念层（CoT、test-time scaling 讲得很抽象），工程侧想知道 GRPO/蒸馏到底怎么落到代码里的人，缺一条能跑通的最小实现。"},
+     {"key": "值不值得", "value": "想真正搞懂后训练与推理时扩展的人可以按视频跟做一遍；纯做 K8s/平台侧的话价值有限，除非要给团队做内部分享。"}]),
+   ]},
+   {"emoji": "🛡️", "title": "安全与治理", "en": "SAFETY", "items": [
+     item("只靠「通过/拒绝」的二元反馈就能完美重建生物特征模板，与模板保护机制无关",
+          "https://huggingface.co/papers/2610.25118",
+          "论文指出生物特征认证的接口本身会泄露几何信息：只用认证成功/失败的二元反馈，就能重建受保护的模板，且可做到数值精度上的完美重建——无论采用哪种模板保护机制。作者还给出分布感知的查询高效攻击，把基于分数的系统所需查询数减少 5 倍，并把预训练人脸扩散先验接进几何二元攻击，再省 5 倍查询。结论是模板保护只保护了存储，认证过程仍然暴露了足够重建的几何约束。",
+          "论文", "arXiv", False, [
+     {"key": "能做什么", "value": "两类攻击：① 只凭 accept/reject 二元反馈的几何重建（首次实现），② 分布感知的查询高效重建，把所需查询数降低 5 倍；两者结合（加入人脸扩散先验）再降 5 倍，最终可以数值精度重建模板。"},
+     {"key": "解决什么痛点", "value": "行业普遍认为「模板加密/不可逆变换 + 只返回二值结果」就足够安全，论文证明认证协议本身是侧信道，攻击者不需要拿到模板库也能反推出原始生物特征。"},
+     {"key": "值不值得", "value": "对做身份认证、风控或生物识别接入的人是必须知道的安全边界（限流与查询审计比模板加密更关键）；限制是 preprint、实验以人脸为主，指纹/虹膜只做了推演。"}]),
+   ]},
+ ]},
+ {"label": "☸️ 基础设施板块", "categories": [
+   {"emoji": "🤖☸️", "title": "K8s × AI", "en": "K8S × AI", "items": [
+     item("EKS 上 AI agent 的两套可观测性架构：SDK 直连后端 vs 共享 OTel Collector",
+          "https://aws.amazon.com/blogs/containers/observability-patterns-for-ai-agents-on-amazon-eks/",
+          "AWS 10 月 21 日的工程博客给出 EKS 上 AI agent 的两套生产级可观测性架构，并把它们并排部署在同一个集群里用真实查询跑通。去中心化版：Strands Agents SDK 自带 OpenTelemetry 埋点，每个 agent 把 span 直接 OTLP 导出到 Langfuse，链路上没有共享 Collector，故障域小但配置散落在每个 agent 里。中心化版：agent 与 Bifrost 网关的 span 先汇到共享 OTel Collector 做批处理、采样、属性增强，再统一出口，改后端不动 agent。整条链路是 EKS Auto Mode 承载 agent/网关/观测栈、Bifrost 把 OpenAI 兼容请求路由到 Bedrock 并附带 token 与成本属性（官方基准 5000 QPS 下自开销低于 60 微秒）、ArgoCD 做 GitOps 交付；trace 靠 traceparent 头跨进程串联，字段遵循 OTel GenAI 语义约定。",
+          "落地架构", "AWS News", False, [
+     {"key": "能做什么", "value": "两套可直接照抄的 EKS 架构：① 去中心化——Strands SDK 自动instrument LLM 调用/工具调用/推理步骤，agent 直连 Langfuse；② 中心化——所有 span 经共享 OTel Collector 批处理、采样、加属性后统一出口。两者共用 traceparent + OTel GenAI 语义约定，切换不改 agent 代码。"},
+     {"key": "解决什么痛点", "value": "传统 APM 只能告「服务是否健康」，答不了「为什么这次幻觉」「哪些工具调用烧掉了 token 预算」「多步推理在哪断的」；agent 一次请求 30 秒、单会话烧穿额度、静默选错工具这类问题，没有 LLM 调用 trace + 工具 span + 成本归因就完全查不到。"},
+     {"key": "值不值得", "value": "对他做多用户 agent 平台直接可用：agent 少时直连省一个组件，规模上来后 Collector 才是统一采样与接第二个后端的着力点——这与「每用户一个 agent 沙箱」的拓扑正好互补；限制是示例绑定 AWS（EKS Auto Mode + Bedrock + Bifrost），换成自建集群时要替换网关与计算层。"}]),
+     item("KAI-Scheduler v0.16.14：修 binder 更新 GPU 共享 ConfigMap 时的 nil panic",
+          "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.16.14",
+          "KAI-Scheduler 10 月 26 日发 v0.16.14，只修一处：binder 在更新已存在的 GPU 共享 ConfigMap 时不再因 nil 数据 panic（#2505）。10 月 15 日的 v0.18.6 则让节点打分不再为每个 worker 建 score map，修了替换子组必须留在作业所需拓扑域内、以及调度器只删失败的 BindRequest（binder 跳过终态请求、丢弃重复 reconcile 事件、重试期间保留 reservation）。",
+          "GPU 调度", "GitHub Releases", True, [
+     {"key": "能做什么", "value": "两个稳定性补丁：v0.16.14 消除 GPU 共享 ConfigMap 更新时的 binder panic（会导致调度链路整体卡住）；v0.18.6 把逐 worker 的 score map 去掉以降低大集群打分开销，并保证替换子组留在同一拓扑域、BindRequest 只删失败的。"},
+     {"key": "解决什么痛点", "value": "用 KAI 做 GPU 分片共享（time-slicing / MPS 风格）时，ConfigMap 是分配状态的载体，一旦 binder 在这里 panic，后续 Pod 会挂起而队列看起来正常，属于典型的「看不出错在哪」的故障；拓扑域被破坏则会让多机训练任务拿不到同组 GPU。"},
+     {"key": "值不值得", "value": "已经在跑 KAI-Scheduler 的集群应该跟（纯 bugfix，无 API 变更）；如果还在选型阶段，这条只说明项目在活跃维护，不构成选型理由。"}]),
+   ]},
+   {"emoji": "☸️", "title": "K8s 核心技术", "en": "KUBERNETES CORE", "items": [
+     item("Envoy v1.38.9：distroless 镜像补上证书包，1.38.8 其实还信任被攻破的 eMudhra 中间 CA",
+          "https://github.com/envoyproxy/envoy/releases/tag/v1.38.9",
+          "Envoy 10 月 26 日发 v1.38.9（同步 v1.37.11），只做一件事：distroless 镜像改用打过补丁的 ca-certificates 20250419~deb12u2，不再信任 eMudhra 被攻破的中间 CA。关键在于上一版——10 月 23 日的 1.38.8 distroless 镜像仍带着未修补的证书包，也就是说 1.40.1 那轮 CA 清理在 distroless 变体上并没有生效。",
+          "网络", "GitHub Releases", True, [
+     {"key": "能做什么", "value": "把 distroless 变体的根证书包升到 20250419~deb12u2，剔除 eMudhra 被攻破的中间 CA；属于纯安全修复，无配置变更。"},
+     {"key": "解决什么痛点", "value": "集群里用 envoy distroless 镜像做网关/边车时，镜像自带的 CA bundle 决定它信任谁；如果仍是旧 bundle，中间 CA 泄露带来的伪造证书风险对内部 mTLS 与上游 TLS 都成立，而常规的「升级到 1.40.1」并不覆盖 distroless 变体。"},
+     {"key": "值不值得", "value": "值得检查：凡是跑 envoy distroless（尤其网关）的集群应确认镜像 tag 至少到 1.38.9/1.37.11；同时说明镜像变体（distroless vs debug）在安全补丁上会不同步，选型时要把这条纳入升级流程。"}]),
+   ]},
+   {"emoji": "☁️", "title": "云原生周边", "en": "CLOUD NATIVE", "items": [
+     item("Backstage 1.55 给脚手架加任务恢复：从最后完成的步骤续跑，但要求 action 幂等",
+          "https://www.infoq.cn/article/hilBQCk7QcvclfrgZbSf?utm_source=rss&utm_medium=article",
+          "Backstage 1.55 为崩溃或超时的软件模板任务加了自动恢复：新增 scaffolder.taskRecovery 配置段，开启后从最后完成的步骤续跑，任务到达终态前保留任务密钥，并持久化已完成步骤的输出供后续读取。代价是被恢复的任务可能重复执行某个动作，官方要求 action 具备幂等性或使用检查点；工作区序列化需要单独的 provider 模块，内置数据库 provider 有 50 MB 上限、只适合开发环境。该版本还移除了一批已废弃的 catalog API（含 catalog.enableRelationsCompatibility）、把搜索迁到 Elasticsearch 8，升级面较大。",
+          "开发者门户", "InfoQ中国", False, [
+     {"key": "能做什么", "value": "脚手架任务的断点续跑：scaffolder.taskRecovery 开关 + 从最后完成步骤恢复 + 任务密钥保留 + 步骤输出持久化；另把搜索后端迁到 Elasticsearch 8、清掉废弃 catalog API。"},
+     {"key": "解决什么痛点", "value": "模板任务跑到一半崩了或超时，过去只能整条重跑——对已经建了一半仓库、改过权限的流程既不安全也难排查（社区从 2025 年就在追这个能力）。"},
+     {"key": "值不值得", "value": "维护内部开发者门户的团队值得升级，但要预留改造量：50 MB 的内置 DB provider 只够开发，生产得挂 GCP/外部存储模块；任务恢复要求每个 action 幂等，现有自定义 action 需要逐个审。"}]),
+     item("Terraform Google Cloud 8.0 GA：负载均衡默认值改为 EXTERNAL_MANAGED，一批资源被删",
+          "https://www.infoq.cn/article/qJB2DapLThovtxzyOtKW?utm_source=rss&utm_medium=article",
+          "Terraform Google Cloud Provider 8.0 正式可用，破坏性变更集中在两处：google_compute_backend_service 与 google_compute_global_forwarding_rule 的默认 load_balancing_scheme 从 EXTERNAL 改为 EXTERNAL_MANAGED，没显式写该字段的配置会被计划成改动（从经典 LB 换成外部应用 LB）；同时把若干无序属性从 list 改为 set 以消除永久 diff。资源侧删掉了 google_iap_brand/google_iap_client（IAP OAuth Admin API 关闭）、3 个 google_notebooks_*（转 google_workbench_instance）、google_ml_engine_model、BeyondCorp 的应用连接/连接器/网关（转 Security Gateway），google_vertex_ai_schedule 由 google_colab_schedule 替代。官方建议先升到最新 7.x、清完弃用告警再上 8.0。",
+          "IaC", "InfoQ中国", False, [
+     {"key": "能做什么", "value": "大版本对齐 GCP 现状：默认走外部应用负载均衡（EXTERNAL_MANAGED）、list→set 消除永久 diff、清掉一批已下线服务的资源，并给出 7.x → 8.0 的升级路径。"},
+     {"key": "解决什么痛点", "value": "不设 load_balancing_scheme 的模块在 8.0 下会突然计划出 LB 替换；长期存在的「每次 plan 都有 diff」也被 list→set 根治。但反过来，任何依赖经典 LB 行为的模块必须显式写 EXTERNAL 才能保持原样。"},
+     {"key": "值不值得", "value": "管理 GCP 基础设施代码的团队要当成一次迁移项目来做：先 7.x 清弃用告警，再分批升 8.0，重点扫 backend_service / global_forwarding_rule 与 IAP、notebooks、BeyondCorp 相关模块；纯 K8s 侧不受影响。"}]),
+     item("平台团队怎么量自己的价值：DORA 四项 + 一组不太好看的采用率数据",
+          "https://aws.amazon.com/blogs/containers/measuring-developer-experience-on-an-amazon-eks-developer-platform/",
+          "AWS 10 月 26 日的博客讲怎么在 EKS 开发者平台上度量开发者体验，答案是 DORA 四项：部署频率、变更前置时间、变更失败率、失败恢复时间。文中引用的 State of Platform Engineering 报告 Vol.4 显示，29.6% 的平台团队完全不度量、24.2% 度量了也判断不出是否改善，合计超过一半在「盲飞或白收集」；DORA 以 40.8% 成为最常用框架。另一组 ESG 数据是成熟平台采用者中 71% 显著加快了上市时间，不成熟者只有 28%。",
+          "平台工程", "AWS News", False, [
+     {"key": "能做什么", "value": "把「内部平台值不值」变成可量化的四件事（部署频率、变更前置时间、变更失败率、失败恢复时间），并给出从 EKS 侧采集这些信号的口径（部署/回滚/事故/合并事件）。"},
+     {"key": "解决什么痛点", "value": "平台团队最常见的处境是做了很多事但拿不出证据：29.6% 完全不度量、24.2% 度量了也不知道有没有改善，于是预算评审时只能讲感受。"},
+     {"key": "值不值得", "value": "他在独自推公司 K8s 集群建设，这套指标正好能用来向上面证明平台收益（71% vs 28% 的对比很适合放进汇报）；但要注意 40.8% 的 DORA 采用率意味着它已是通用语言，差异化得靠自己的基线数据。"}]),
+   ]},
+   {"emoji": "☁️", "title": "公有云动态", "en": "Public Cloud", "items": [
+     item("GKE 把 C4D 裸金属机型转 GA：单机 384 vCPU，1.37 起能接自动扩缩与 ComputeClass",
+          "https://docs.cloud.google.com/kubernetes-engine/docs/release-notes",
+          "GKE 10 月 26 日把 C4D 裸金属机型（c4d-standard-384-metal、c4d-highcpu-384-metal、c4d-highmem-384-metal）转 GA：1.36 及以上的 Standard 集群可以创建裸金属节点池；到 1.37.0-gke.4713000 起，裸金属节点还能接集群自动扩缩、节点自动供给与自定义 ComputeClass（含使用自定义 ComputeClass 的 Autopilot 集群），更早版本只能手工扩缩节点池。",
+          "机型", "Google Cloud", False, [
+     {"key": "能做什么", "value": "384 vCPU 级别的裸金属节点进入 GKE 常规节点池，且能被 autoscaler / NAP / ComputeClass 当作普通节点管理，不必再为裸金属单独做扩缩脚本。"},
+     {"key": "解决什么痛点", "value": "需要大核数、低虚拟化开销或独占硬件的负载（高性能数据库、大并行文件系统、部分 HPC/AI 预处理）过去在托管 K8s 上要么用普通 VM 要么自管裸金属；裸金属进 Autopilot/ComputeClass 后，调度与扩缩回到声明式。"},
+     {"key": "值不值得", "value": "自建 K8s 的话这条只作云厂商能力对照（裸金属 + 托管扩缩是托管服务的差异点）；若公司在评估 GKE 承载量化计算负载，C4D 裸金属值得进选型清单。"}]),
+   ]},
+ ]},
+]
+
+FLASH = [
+ {"title": "Fanatics 用 OpenAI 做「Shop the Look」：约 3 万件 MLB 商品测试互动率 +10%", "url": U("https://openai.com/index/fanatics-streamline-fan-experience")},
+ {"title": "Codex Ultrafast 把 OpenAI 内部事故调查从小时级压到分钟级", "url": U("https://openai.com/index/openai-cut-incident-investigation")},
+ {"title": "CodeRabbit 用 GPT-6.1 Sol 做安全审查 agent，跨复杂代码库排查风险", "url": U("https://openai.com/index/gpt-6-1-sol-coderabbit-code-security")},
+ {"title": "OpenTelemetry Collector v1.70.0/v0.164.0：otlp_http 报错改报实际目标 URL，OpAMP 原样配置脱敏", "url": U("https://github.com/open-telemetry/opentelemetry-collector/releases/tag/v0.164.0")},
+ {"title": "QCon 上海 2026 收官：1200+ 从业者、70 家企业 140 位讲者，主线是 AI 怎么进生产系统", "url": U("https://www.infoq.cn/article/0C1Wgt7N9NzM6KjHSFeA?utm_source=rss&utm_medium=article")},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 10 月 27 日 · 星期二",
+ "issue": 37,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天的主线是「档位在重排、瓶颈在搬家」。模型侧，OpenAI 用 GPT-6.1 Terra 把中端价位补齐——$1/$5 每百万 token，约为 Sol 的一半，卖点压在视觉推理与 computer use；同一天 Anthropic 递交 S-1，拟以 ANT 上 Nasdaq。工程侧的信号更值得看：Linux 基金会调查给出代码编写快 52% 对 25% 低质量 PR 的反差，Faros AI 的 1 万名开发者数据则是 PR 合并 +98%、审查 +91%——提效没有消失，只是从写代码挪到了审查与集成。安全这条线有两条硬结论：NVIDIA 的 SkillSpector 在 3.1 万个 skill 里测出 26.1% 含漏洞、5.2% 疑似恶意；一篇论文证明只靠认证的「通过/拒绝」二元反馈就能完美重建生物特征模板。基础设施今天偏安静：K8s 核心只有 Envoy 给 distroless 镜像补证书包（1.38.8 其实还信任被攻破的 eMudhra 中间 CA），K8s×AI 侧最实用的是 AWS 那篇 EKS agent 可观测性架构，把「SDK 直连后端」与「共享 OTel Collector」两套摆在一起讲了取舍。",
+ "highlights": [H1, H2],
+ "sections": SECTIONS,
+ "flash": FLASH,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- assertions ---
+def check(items, where):
+    for it in items:
+        assert it.get("title"), f"missing title in {where}: {it}"
+        assert it["url"] in IDX, f"URL not machine-copied in {where}: {it['url']}"
+        assert it["url"] == IDX[it["url"]]["url"]
+        if where != "flash":
+            assert len(it.get("detail", [])) == 3, f"detail must have 3 rows: {it['title'][:40]}"
+            for d in it["detail"]:
+                assert d.get("key") and d.get("value"), f"bad detail row: {it['title'][:40]}"
+
+check(brief["highlights"], "highlights")
+for s in brief["sections"]:
+    for c in s["categories"]:
+        assert c["items"], f"empty category {c['title']}"
+        check(c["items"], c["title"])
+check(brief["flash"], "flash")
+for h in brief["highlights"]:
+    assert h.get("note"), "highlight needs note"
+
+json.dump(brief, open("briefing.json", "w"), ensure_ascii=False, indent=1)
+n = sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print(f"briefing.json written: {len(brief['highlights'])} highlights, {n} section items, {len(brief['flash'])} flash")
