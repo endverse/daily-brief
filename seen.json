@@ -1,96 +1,4 @@
 {
-  "u:https://cloud.google.com/blog/products/containers-kubernetes/reduce-your-agents-costs-with-gke-agent-sandbox|t:gkeagentsandbox把agent代码执行隔离沉到k8s层官方称降本75": {
-    "first_seen": "2026-09-27",
-    "title": "GKE Agent Sandbox：把 agent 代码执行隔离沉到 K8s 层，官方称降本 75%"
-  },
-  "u:https://www.anthropic.com/news/claude-discovers-novel-enzyme-system|t:anthropic生命科学实验室claudeagent发现类crispr的新酶系": {
-    "first_seen": "2026-09-27",
-    "title": "Anthropic 生命科学实验室：Claude agent 发现类 CRISPR 的新酶系统"
-  },
-  "gh:kubernetes-sigs/agent-sandbox": {
-    "first_seen": "2026-09-27",
-    "title": "kubernetes-sigs/agent-sandbox：SIG-Apps 的 agent 沙箱标准"
-  },
-  "u:https://opensource.googleblog.com/2025/11/unleashing-autonomous-ai-agents-why-kubernetes-needs-a-new-standard-for-agent-execution.html|t:kubernetes为何需要一套agent执行新标准": {
-    "first_seen": "2026-09-27",
-    "title": "Kubernetes 为何需要一套 agent 执行新标准"
-  },
-  "u:https://cloud.google.com/blog/products/databases/announcing-postgresql-for-agents-in-alloydb|t:alloydb推出「面向agent的postgresql」为agent突发查询做": {
-    "first_seen": "2026-09-27",
-    "title": "AlloyDB 推出「面向 agent 的 PostgreSQL」：为 agent 突发查询做工作负载隔离"
-  },
-  "u:https://cloud.google.com/blog/topics/developers-practitioners/agent-factory-recap-agent-harnesses-shifting-left-and-autonomous-coding|t:agentfactory回顾agentharness左移与自主编码": {
-    "first_seen": "2026-09-27",
-    "title": "Agent Factory 回顾：agent harness、左移与自主编码"
-  },
-  "u:https://huggingface.co/papers/2609.30199|t:explorationbench在可验证的『异星世界』里度量ai的探索能力": {
-    "first_seen": "2026-09-27",
-    "title": "ExplorationBench：在可验证的『异星世界』里度量 AI 的探索能力"
-  },
-  "u:https://huggingface.co/papers/2609.30233|t:codingagents自动求解广义任务与运动规划tamp": {
-    "first_seen": "2026-09-27",
-    "title": "Coding Agents 自动求解广义任务与运动规划（TAMP）"
-  },
-  "u:https://openai.com/index/proaction|t:openai案例proaction用codex把销售提升60%每周省75+小时": {
-    "first_seen": "2026-09-27",
-    "title": "OpenAI 案例：Proaction 用 Codex 把销售提升 60%、每周省 75+ 小时"
-  },
-  "u:https://www.infoq.cn/article/tfaxkqvewoopfeuqmlky?utm_source=rss&utm_medium=article|t:gpt56cyber代理多次突破虚拟机限制": {
-    "first_seen": "2026-09-27",
-    "title": "GPT-5.6-Cyber 代理多次突破虚拟机限制"
-  },
-  "u:https://www.qbitai.com/2026/09/497624.html|t:笔记本跑7000亿参数glm无gpussd当显存的colibrì火爆github": {
-    "first_seen": "2026-09-27",
-    "title": "笔记本跑 7000 亿参数 GLM：无 GPU、SSD 当显存的 Colibrì 火爆 GitHub"
-  },
-  "u:https://arxiv.org/abs/2609.30266v1|t:研究llmagent能轻易篡改自己的执行trace": {
-    "first_seen": "2026-09-27",
-    "title": "研究：LLM agent 能轻易篡改自己的执行 trace"
-  },
-  "u:https://huggingface.co/papers/2609.29647|t:agentkernel把治理下沉为agent的『可信原生操作系统』": {
-    "first_seen": "2026-09-27",
-    "title": "AgentKernel：把治理下沉为 agent 的『可信原生操作系统』"
-  },
-  "u:https://www.infoq.cn/article/4gr5zt9gzoyiwf2f6lvr?utm_source=rss&utm_medium=article|t:wso2发布agentmanager应对企业『aiagent泛滥』": {
-    "first_seen": "2026-09-27",
-    "title": "WSO2 发布 Agent Manager，应对企业『AI Agent 泛滥』"
-  },
-  "u:https://cloud.google.com/blog/topics/startups/the-three-things-todays-hottest-startups-are-looking-for-in-their-ai-stack|t:gemini38livewithliveavatar在googlecloud正式": {
-    "first_seen": "2026-09-27",
-    "title": "Gemini 3.8 Live with Live Avatar 在 Google Cloud 正式可用"
-  },
-  "u:https://cloud.google.com/blog/products/containers-kubernetes/gke-agentic-migration|t:gkeagenticmigrationai辅助的eks→gke迁移插件带确定性护": {
-    "first_seen": "2026-09-27",
-    "title": "GKE agentic migration：AI 辅助的 EKS→GKE 迁移插件，带确定性护栏"
-  },
-  "u:https://www.qbitai.com/2026/09/497425.html|t:谷歌tpu跑kimi比英伟达gpu快57%用的还是deepseek推理框架": {
-    "first_seen": "2026-09-27",
-    "title": "谷歌 TPU 跑 Kimi 比英伟达 GPU 快 57%，用的还是 DeepSeek 推理框架"
-  },
-  "u:https://www.cncf.io/blog/2026/09/24/observability-day-where-the-community-comes-together-at-kubecon-cloudnativecon-north-america-2026|t:observabilityday将在kubecon+cloudnativecon": {
-    "first_seen": "2026-09-27",
-    "title": "Observability Day 将在 KubeCon + CloudNativeCon 举办"
-  },
-  "u:https://www.anthropic.com/news/wellbeing-research-grants|t:anthropic资助更好地评估ai对人类福祉的影响": {
-    "first_seen": "2026-09-27",
-    "title": "Anthropic：资助更好地评估 AI 对人类福祉的影响"
-  },
-  "u:https://deepmind.google/blog/introducing-gemini-38-live-with-live-avatar|t:gemini38livewithliveavatar发布deepmind": {
-    "first_seen": "2026-09-27",
-    "title": "Gemini 3.8 Live with Live Avatar 发布（DeepMind）"
-  },
-  "gh:zhaoxuya520/reverse-skill": {
-    "first_seen": "2026-09-27",
-    "title": "zhaoxuya520/reverse-skill：逆向/渗透/安全技能路由包登上 GitHub Trending"
-  },
-  "gh:win4r/museai-skills": {
-    "first_seen": "2026-09-27",
-    "title": "win4r/MuseAI-Skills：muse.ai 68 个技能与运行环境非官方存档"
-  },
-  "u:https://www.cncf.io/blog/2026/09/25/security-slam-2026-fall-edition|t:cncfsecurityslam2026秋季场开启": {
-    "first_seen": "2026-09-27",
-    "title": "CNCF Security Slam 2026 秋季场开启"
-  },
   "u:https://www.anthropic.com/news/claude-discovers-novel-enzyme-system|t:anthropicclaude参与发现带crispr式重复序列的全新酶系统": {
     "first_seen": "2026-09-28",
     "title": "Anthropic：Claude 参与发现带 CRISPR 式重复序列的全新酶系统"
@@ -3610,5 +3518,85 @@
   "u:https://www.infoq.cn/article/0c1wgt7n9nzm6kjhsfea?utm_source=rss&utm_medium=article|t:qcon上海2026收官1200+从业者70家企业140位讲者主线是ai怎么进生": {
     "first_seen": "2026-10-27",
     "title": "QCon 上海 2026 收官：1200+ 从业者、70 家企业 140 位讲者，主线是 AI 怎么进生产系统"
+  },
+  "u:https://huggingface.co/papers/2610.33024|t:同一套skill强模型涨311分弱模型跌88分论文把「skill适配」做成一个m": {
+    "first_seen": "2026-10-28",
+    "title": "同一套 skill，强模型涨 31.1 分、弱模型跌 8.8 分：论文把「skill 适配」做成一个 meta-skil"
+  },
+  "u:https://www.cncf.io/blog/2026/10/26/isolation-security-scale|t:kagentv10+agentsubstrateagent沙箱变成声明式k8s对": {
+    "first_seen": "2026-10-28",
+    "title": "kagent v1.0 + Agent Substrate：agent 沙箱变成声明式 K8s 对象，Actor 只在会"
+  },
+  "u:https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation|t:genie4首个原生生成音频的实时世界模型底层换gemini38先给受信测试者": {
+    "first_seen": "2026-10-28",
+    "title": "Genie 4：首个原生生成音频的实时世界模型，底层换 Gemini 3.8，先给受信测试者"
+  },
+  "u:https://cloud.google.com/blog/products/ai-machine-learning/gemini-robotics-embodied-reasoning-2-is-now-available-on-google-cloud|t:geminiroboticser2上googlecloud机器人「高层大脑」可以": {
+    "first_seen": "2026-10-28",
+    "title": "Gemini Robotics ER 2 上 Google Cloud：机器人「高层大脑」可以直接调云上推理"
+  },
+  "u:https://huggingface.co/papers/2610.34577|t:验证该放在哪一层17种harness设计横评独立评审是唯一「又便宜又准」的档": {
+    "first_seen": "2026-10-28",
+    "title": "验证该放在哪一层：17 种 harness 设计横评，独立评审是唯一「又便宜又准」的档"
+  },
+  "u:https://huggingface.co/papers/2610.33861|t:rege把上一次的执行记录压成guidance准确率+99pp构建token省9": {
+    "first_seen": "2026-10-28",
+    "title": "ReGE：把上一次的执行记录压成 guidance，准确率 +9.9pp、构建 token 省 98%"
+  },
+  "u:https://arxiv.org/abs/2610.35767v1|t:简单harness打败手写rcaagentpr@16577%对1653%规定流程": {
+    "first_seen": "2026-10-28",
+    "title": "简单 harness 打败手写 RCA agent：PR@1 65–77% 对 16–53%，规定流程反而跳过决定性证据"
+  },
+  "u:https://huggingface.co/papers/2610.32004|t:crmagentbench555个有状态任务+可执行契约16个系统严格成功率64": {
+    "first_seen": "2026-10-28",
+    "title": "CRM-Agent-Bench：555 个有状态任务 + 可执行契约，16 个系统严格成功率 64%–84%"
+  },
+  "gh:nightly-labs/openbot": {
+    "first_seen": "2026-10-28",
+    "title": "openbot：给 Codex / Claude / Grok 各开一个工作区，把「多 agent 团队」做成本地桌面"
+  },
+  "u:https://huggingface.co/papers/2610.34241|t:自建推理的四个层级冷前缀首token694秒vs高复用28秒委派给量化小模型并不": {
+    "first_seen": "2026-10-28",
+    "title": "自建推理的四个层级：冷前缀首 token 69.4 秒 vs 高复用 2.8 秒，委派给量化小模型并不省钱"
+  },
+  "u:https://www.anthropic.com/news/expanding-partnership-gsa|t:anthropic与gsa扩约政府买claude全线打4折覆盖直销与云市场": {
+    "first_seen": "2026-10-28",
+    "title": "Anthropic 与 GSA 扩约：政府买 Claude 全线打 4 折，覆盖直销与云市场"
+  },
+  "u:https://azure.microsoft.com/updates?id=577260|t:foundry把claude计费并入azurecostmanagement多云账": {
+    "first_seen": "2026-10-28",
+    "title": "Foundry 把 Claude 计费并入 Azure Cost Management：多云账单终于能归因"
+  },
+  "u:https://openai.com/index/oracle-apps-in-chatgpt|t:openai与oracle扩约oracle业务应用与agent直接进chatgp": {
+    "first_seen": "2026-10-28",
+    "title": "OpenAI 与 Oracle 扩约：Oracle 业务应用与 agent 直接进 ChatGPT"
+  },
+  "u:https://www.infoq.cn/article/nrukjexfuufoicsjvybb?utm_source=rss&utm_medium=article|t:投研agent两年演进删掉387条信源白名单与网页清洗器改用带来源与时序的搜索a": {
+    "first_seen": "2026-10-28",
+    "title": "投研 Agent 两年演进：删掉 387 条信源白名单与网页清洗器，改用带来源与时序的搜索 API"
+  },
+  "u:https://arxiv.org/abs/2610.35835v1|t:「不可剥夺的人类在环」十个前沿模型都会抓otp绕过审批ihitl需要可信设备": {
+    "first_seen": "2026-10-28",
+    "title": "「不可剥夺的人类在环」：十个前沿模型都会抓 OTP 绕过审批，I-HITL 需要可信设备"
+  },
+  "u:https://openai.com/index/check-point-daybreak|t:checkpoint用daybreak把漏洞情报更快变成客户侧防护": {
+    "first_seen": "2026-10-28",
+    "title": "Check Point 用 Daybreak 把漏洞情报更快变成客户侧防护"
+  },
+  "u:https://cloud.google.com/blog/products/infrastructure/bringing-google-tpus-to-oracle-cloud-infrastructure|t:tpu卖到oci2027年起部署oci成为google之外首个提供tpu的超大规": {
+    "first_seen": "2026-10-28",
+    "title": "TPU 卖到 OCI：2027 年起部署，OCI 成为 Google 之外首个提供 TPU 的超大规模云"
+  },
+  "u:https://kubernetes.io/blog/2026/10/27/announcing-workload-conformance-wg|t:k8s新设workloadconformance工作组补上「负载运行时行为」这块": {
+    "first_seen": "2026-10-28",
+    "title": "K8s 新设 Workload Conformance 工作组：补上「负载运行时行为」这块没人测的空白"
+  },
+  "u:https://www.cncf.io/blog/2026/10/27/over-500-golden-kubestronauts-the-evolving-standard-for-cloud-native-mastery|t:goldenkubestronaut超570人认证从「考过几张证」转向领域深度分": {
+    "first_seen": "2026-10-28",
+    "title": "Golden Kubestronaut 超 570 人：认证从「考过几张证」转向领域深度分层"
+  },
+  "u:https://azure.microsoft.com/updates?id=578358|t:azureblob每区域每订阅存储账户上限从250提到1000ga": {
+    "first_seen": "2026-10-28",
+    "title": "Azure Blob 每区域每订阅存储账户上限从 250 提到 1,000（GA）"
   }
 }

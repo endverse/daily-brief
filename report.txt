@@ -1,49 +1,47 @@
 ======================================================================
-处理报告  (原始 129 条)
+处理报告  (原始 185 条)
 ======================================================================
 
-① 过滤: 保留 91 条, 过滤掉 38 条
+① 过滤: 保留 145 条, 过滤掉 40 条
    过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] HKUDS/DeepTutor
      ✗ [GitHub Trending] JetBrains/thinkrail
-     ✗ [GitHub Trending] pollen-robotics/microduck
-     ✗ [GitHub Trending] debpalash/VoiceStudio
-     ✗ [GitHub 升星repo] designfuchen/word-atlas
-     ✗ [GitHub 升星repo] KillaBoi/StealMyBitcoin-PoC
-     ✗ [GitHub 升星repo] mizorewww/gdirect
-     ✗ [GitHub 升星repo] unclebob/ub-mode
-     ✗ [GitHub 升星repo] DrWhax/unfairplay
+     ✗ [GitHub Trending] togg53192-cmd/jailbreaks
+     ✗ [GitHub 升星repo] kargulstudio/calender-app-design
+     ✗ [GitHub 升星repo] DLSS-5-Swaper-New/.github
+     ✗ [GitHub 升星repo] andriu-kun/-wildrig-multi
+     ✗ [GitHub 升星repo] NyxFoundation/nyxis
+     ✗ [GitHub 升星repo] free-cracks/Adobe-Acrobat-Pro
 
-② 去重: 91 → 82 条 (同批合并 3, 跨天历史去重 6)
+② 去重: 145 → 142 条 (同批合并 0, 跨天历史去重 3)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] Nutlope/hallmark
-     ⏭️  [GitHub Trending] TauricResearch/TradingAgents
-     ⏭️  [GitHub Trending] makecindy/cindy
      ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [GitHub Trending] Panniantong/Agent-Reach
-     ⏭️  [GitHub Trending] multica-ai/andrej-karpathy-skills
-   跨源合并的事件:
-     ⇉ GPT-6.1 Terra  ← ['Hacker News', 'Simon Willison']
+     ⏭️  [GitHub Trending] makecindy/cindy
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 安全与治理: 9 条 (含🔧开源 1)
-     - 模型与研究: 37 条 (含🔧开源 1)
-     - 产品与商业: 7 条
-     - Agent & Skill: 18 条 (含🔧开源 8)
-     - AI 工程落地: 9 条 (含🔧开源 1)
+     - 模型与研究: 61 条
+     - 产品与商业: 14 条
+     - 安全与治理: 15 条 (含🔧开源 1)
+     - AI 工程落地: 18 条 (含🔧开源 4)
+     - Agent & Skill: 28 条 (含🔧开源 8)
      - 观点与好文: 1 条
    【基础设施】
+     - K8s × AI: 3 条
+     - K8s 核心: 1 条
      - 社区与项目: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [25分] GPT-6.1 Terra
-        源:Simon Willison 类:模型与研究 跨源:['Hacker News', 'Simon Willison']
      🔥 [19分] Greptile takes bug detection beyond code review with GP
+        源:OpenAI News 类:安全与治理 跨源:[]
+     🔥 [19分] GPT-6.1 Sol helps CodeRabbit strengthen security across
         源:OpenAI News 类:安全与治理 跨源:[]
 
    打分Top5(参考):
-      25分 [Simon Willison] GPT-6.1 Terra
       19分 [OpenAI News ] Greptile takes bug detection beyond code revi
       19分 [OpenAI News ] GPT-6.1 Sol helps CodeRabbit strengthen secur
-      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
-      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
+      17分 [Simon Willison] GPT-6.1 Terra
+      16分 [OpenAI News ] Retell uses OpenAI models to help power 100M 
+      16分 [OpenAI News ] Introducing GPT-6.1 Terra
