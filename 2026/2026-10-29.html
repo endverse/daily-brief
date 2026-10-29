@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 10 月 29 日 · 星期四</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 039 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 10 月 29 日 · 星期四</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天两条线都指向「边界」：一条是 Anthropic 被外部 AI Agent 用不到 12 小时打穿，入口不是模型而是行政/销售采购的第三方 SaaS——泄露面在连接面而非推理面；另一条是 GKE 把网络身份从 Pod label 里摘出来，绕开 Cilium 65,536 身份上限，做到单集群 300 沙箱/秒、200k agent 基准下 500 次激活/秒、挂起恢复 &lt;500ms，这正好是「按会话起停沙箱」路线缺的那块数据面拼图。模型侧是纯价格战：Gemini 4 Carbon 用 59 分登顶智能指数并主打安全基准，GPT-6.1 Terra 把 $1/$5 档的 Terminal-Bench 从 21.5% 拉到 50.3%，蚂蚁把 560B/激活 25B 的基座以 MIT 开源。工程上最值得看的两篇是 Instagram 把仓库改成「AI 原生」（UI 代码 -50%、每会话 token -33%）和 Google 用 CI + 评估证据把 skill 当产品发版；K8s 侧则有 Volcano v1.16 的 NamespaceQueue/fairshare 与四条补丁线同日发版。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/mFXr0u4z0XftUGUg5Wm7?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">一支 AI Agent 用不到 12 小时打进 Anthropic 内部系统：拿到 Slack 讨论、薪酬与会议记录</a></h2>
+    <p>《华盛顿邮报》看到的 Cathedral 报告草稿称，其研究人员把 AI Agent 跑起来不到 12 小时，就找到了进入 Anthropic 内部数据与消息系统的路径；入口不是模型本身，而是 Anthropic 用于行政与销售的第三方商业软件漏洞。报告称拿到的是会议记录、薪酬与 offer 细节，以及讨论自家先进模型的 Slack 消息；Anthropic 确认被访问的是销售、人力、IT 系统中的「有限数据」，包括部分客户与合作方商务联系人、基础用户账户记录，但客户与 Claude 的对话、模型回复、源码与模型权重均未被访问。Anthropic 说监控系统在 Cathedral 提交报告前就已发现部分活动，当天关闭了访问权限，并停用涉事商业软件直到供应商确认修复；同时反驳 Cathedral 夸大了「国家安全影响」、未完整披露其在系统中的全部活动，因此不算完全遵守漏洞奖励计划规则。Cathedral 由 DOGE 前成员创立，估值 14 亿美元、累计融资 1.6 亿美元；审阅过发现的 Cognition CISO Alex Stamos 评价「他们发现了一个很严重的问题」，并指出把第三方应用接入内部系统是「所有人都面临的巨大问题」。</p>
+    <div class="note">🔎 新闻要点：攻击方 = Cathedral（DOGE 前成员创立，估值 14 亿美元、融资 1.6 亿美元）；耗时 = 不到 12 小时；入口 = 行政/销售用第三方商业软件漏洞；据报告草稿取到 = 会议记录、薪酬与 offer 细节、讨论 Anthropic 先进模型的 Slack 消息；Anthropic 口径 = 销售/人力/IT 系统「有限数据」（部分客户与合作方商务联系人、基础账户记录），客户对话、模型回复、源码、模型权重未涉及；处置 = 监控系统先于报告发现、当天关权限、停用软件直至供应商修复；分歧 = Anthropic 指其夸大国家安全影响且未完整披露活动；第三方评审 = Cognition CISO Alex Stamos 称「发现了很严重的问题」，问题在第三方应用接入的管理。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://cloud.google.com/blog/products/networking/gke-networking-dataplane-for-large-agentic-ai-workloads/" target="_blank" rel="noopener">GKE 把网络身份从 Pod label 里摘出来：单集群 3 万沙箱、200k agent 基准下 500 次激活/秒</a></h2>
+    <p>Google 披露 GKE Dataplane V2 为高密度 agent 沙箱做的改造：前沿实验室已经在要「一百万并发代码执行沙箱」量级，RL 场景下每分钟数千个隔离沙箱起停，而 Cilium/eBPF 的身份模型是「Pod label 映射成一个数字身份」，agent 框架给每个 Pod 打的高基数 label（agent-id、timestamp、claim-uid）会触发逐个身份生成，串行分配时会短暂卡住 Pod 创建，并撞上集群级 65,536 个网络身份的上限。改法是把「识别」与「功能」元数据分开：身份只按参与 selector 匹配的 label 计算，把时间戳、sandbox-name-hash 这类高基数元数据迁到 annotation，再用 label 排除过滤器（如 kube-system 里 cilium-config-emergency-override 配置 !agents.x-k8s.io/sandbox-name-hash）让数据面直接忽略，于是同类 agent 共用同一个 Cilium pod identity，不再线性增长。官方给出的数字是单集群 300 沙箱/秒、亚秒级启动；面向百万级空闲会话的 Agent Substrate 在 200,000 agent 基准中做到 500 次激活/秒、suspend/resume 均低于 500ms，并绕过 K8s 调度器限制。</p>
+    <div class="note">🔎 新闻要点：需求侧 = 前沿实验室要一百万并发代码执行沙箱，RL 场景每分钟数千沙箱起停；约束 = Cilium/eBPF 身份按 Pod label 生成，集群级上限 65,536，串行分配会暂停 Pod 创建；做法 = 身份只按 selector 相关 label 计算、高基数元数据迁 annotation、用 !agents.x-k8s.io/sandbox-name-hash 等排除过滤器（cilium-config-emergency-override）；结果 = 单集群 300 沙箱/秒、亚秒启动、峰值 3 万沙箱；Agent Substrate = 200,000 agent 基准 500 激活/秒、suspend/resume &lt;500ms，已可在现有 GKE 集群部署。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span><span class="sec-en">MODELS &amp; RESEARCH</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://deepmind.google/blog/gemini-4-carbon-our-next-frontier-model/" target="_blank" rel="noopener">Gemini 4 Carbon 发布：AA 智能指数 59 分登顶，安全基准 SEC-bench Pro 88.2%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DeepMind 10 月 28 日发布 Gemini 4 Carbon，在 Artificial Analysis Intelligence Index v5.0 上以 59 分排第一，主打网络安全与长程任务：SEC-bench Pro 找漏洞 88.2%、ExploitGym 利用 54.8%、CWE-bench 打补丁 71.0%，WebDev Arena 跳到 1768 分（第 4，+89 elo）。内部团队称它能连续跑数天做大规模代码库与底层系统的根因定位与修补，价格沿用 Argon 的 $2/百万输入、$10/百万输出，缓存输入按输入价 95% 折扣。发布节奏是分阶段：本周先给部分网络防御方，再通过 Fairwind 计划扩到受信伙伴，之后才上开发者与消费级产品面。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">前沿模型第一次把「找漏洞—利用—打补丁」三段安全基准同时刷到高位（88.2% / 54.8% / 71.0%），并在 WebDev Arena 1768 分；官方强调长程能力，可在同一任务上连续运行数天不放弃死路。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">安全团队的真实工作不是单轮问答，而是跨仓库的根因定位与补丁验证；Carbon 的定位是把这条长链条交给模型跑完，同时把「生成安全代码」和降低幻觉/伪造率做成内部指标。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得盯的是它的分阶段放开策略与安全基准，而不是榜单本身：做金融量化基础设施的人应关注它能否在受控环境做代码审计与 CVE 复核。限制是当前只给防御方与 Fairwind 伙伴，普通 API 用户拿不到，且基准均为官方口径、缺第三方复现。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">前沿模型</span><a class="src" href="https://deepmind.google/blog/gemini-4-carbon-our-next-frontier-model/" target="_blank" rel="noopener">Google DeepMind</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/10/505719.html" target="_blank" rel="noopener">GPT-6.1 Terra 上线：$1/$5 定价，Terminal-Bench 4.0 从 21.5% 拉到 50.3%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 发布 GPT-6.1 Terra，标准 API 价格较 GPT-5.6 Terra 直接砍半：输入 $1/百万 token、缓存输入 $0.05、输出 $5。官方成绩里最能说明问题的是 Terminal-Bench 4.0：max 档解决 50.3%，而 GPT-5.6 Terra 此前公布的是 21.5%；Agents&#x27; Last Exam 上 medium 档比上一代高 15 个百分点、单任务成本约为其三分之一，官方称表现与 GPT-6 Astra 相当而每 token 价格只有后者十分之一。内部高难事实性压测中，低推理强度下错误率从 53.6% 降到 16.7%，max 档 4.3%。Artificial Analysis 综合指数 max 档 48 分，仍排在 Claude Opus 5.5、Kimi K3.1 Pro、Gemini 4 Argon、Meta Muse Wonder 与 GPT-6.1 Sol 之后。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把「电脑操作 + 视觉推理」这一档能力的单价压到 $1/$5：原生支持屏幕理解、跨软件协同与写作，OSWorld 2.1、MMMU-Pro 均超过上一代，Terminal-Bench 4.0 从 21.5% 翻到 50.3%。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 做长任务的成本主要被输出 token 与重试吃掉；错误率从 53.6% 降到 16.7% 意味着同样任务少绕圈，配合缓存输入 95% 折扣，适合高频、低价值的桌面/终端类自动化。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对自建 agent 工作流的人是可以直接换的档位：同任务成本约为 Opus 5.5 的九分之一、速度更快，适合做批量终端与 UI 操作。限制是复杂编程与深度推理仍要上 Sol/Astra，且 48 分的综合指数说明它是「性价比档」而非能力上限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型发布</span><a class="src" href="https://www.qbitai.com/2026/10/505719.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/wIuu0NSaLSaqJJpXVExD?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">蚂蚁开源 Ling-3.1-flash-1019：base 560B/激活 25B、MIT 许可，AA 指数 44 分</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>蚂蚁百灵 10 月 28 日开源 Ling-3.1-flash-1019，同时放出基础模型 Ling-3.1-flash-base：混合线性 MoE 架构，总参数约 560B、每 token 激活约 25B，以 BF16 权重 + MIT 许可开放，可继续预训练与后训练。新版在 Artificial Analysis Intelligence Index v4.3.2 拿到 44 分（较上版 +3），复杂知识工作 AA-Briefcase 从约 1400 升到 1524 Elo，流程自动化 AutomationBench-AA 从 62% 升到 68%，CritPt 从 18% 升到 26%。在 8 个领域 47 项 benchmark 中，base 模型有 32 项超过 DeepSeek-V4-Pro-Base 与 MiMo-V2.5-Pro-Base。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">开源一个面向 Personal Agent 的长程模型族：560B MoE 只激活 25B，MIT 许可可商用改造；1019 版针对多步骤任务与工具调用做了后训练，同系列还有 Ling-3.1-flash-VL 补视觉。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">个人 agent 需要「围绕一个目标持续工作」，而多数开源中小模型只优化单轮问答；560B/25B 的稀疏比是为了在长序列与单步算力之间取平衡，直接对准跨会话记忆与任务调度这类产品需求。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得关注的是许可与 base 权重：MIT + BF16 意味着可私有化继续训练，适合把内部流程与工具链灌进去做领域适配。限制是 560B 总量即便只激活 25B，自建推理的显存与带宽门槛不低，且 44 分的智能指数仍落后闭源旗舰一档。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源模型</span><a class="src" href="https://www.infoq.cn/article/wIuu0NSaLSaqJJpXVExD?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span><span class="sec-en">AGENTS &amp; SKILLS</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/II91QKxeaEg7RuZR2rrf?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">「雇智能体」而不是写提示词：170 道题五轮测试才准上线，搭一个 20 分钟、被采用要 8-9 个月</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Snowflake 这篇文章把 agent 落地拆成招聘流程：先定「什么任务值得自动化」（音乐科技公司做 AI 生成曲目分类、车企按优先级框架筛用例），再写岗位说明书（能力、职责、谁对产出负责），最后才是数据入职。文中给出的硬数字很扎眼：搭一个 agent 大约 20 分钟，但从分散数据源收集资料并构建嵌入要花好几周；建一个 agent 约四周，让它真正被组织采用要 8-9 个月；一家车企用 170 道题对 agent 做五轮测试，部署标准是「表现要胜过人类，而不是接近人类」。Snowflake 自己的调研里，65% 的企业认为打破 AI 数据孤岛有挑战或非常有挑战，62% 认为让数据达到 AI 可用状态同样困难。组织上正在分化出三种角色——设计者（建流程与 agent）、控制者（监控执行、验证输出）、审计者（高风险流程独立核验），责任最终仍落在人身上。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出一套可照搬的 agent 上线框架：用例筛选 → 岗位说明书（能力/职责/责任人）→ 数据入职（结构化而非堆量）→ 分角色治理（设计者/控制者/审计者）→ 量化验收（如 170 题五轮、必须胜过人类基线）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大多数企业的 agent 停在试点，是因为只做了「提示词 + 工具」，没人回答治理、度量与纠错；文章的判断是差距不在技术而在管理——「我们拥有 agent」和「我们有效雇用了 agent」之间隔的是岗位与考核。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对要把 agent 推进生产的团队，这套框架的价值在于验收口径（胜过人类而非接近）与三角色分工，可以直接映射成内部 agent 平台的审批与审计功能。限制是案例匿名、无量化 ROI，且「8-9 个月采用周期」这类数字来自访谈而非统计。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 落地</span><a class="src" href="https://www.infoq.cn/article/II91QKxeaEg7RuZR2rrf?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/YmgmEh686wTClmj3PY8o?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">AWS 开源 Strands Decider 2B 与 Strands Box：2B 决策模型 + 内核级策略沙箱</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>亚马逊云科技开源两个 agent 组件：Strands Decider 2B 是 20 亿参数的「决策专用」模型，以 Qwen3.5-2B 为基座、把语言模型头换成给候选答案打分的指针头，用 rank-16 LoRA 微调，从预定义选项里选而不是生成长文本，覆盖模型路由、工具选择、分类、护栏与上下文管理。官方数据是 RTX 3090 上决策延迟中位 115ms、M3 MacBook 约 153ms，JevBench v19 检查点在 231 项公开任务上准确率 72.3%。Strands Box 处于开发者预览，把 OS 级隔离与开源策略语言 Dogwood 结合，覆盖 shell、Python、MCP 工具、文件系统与网络访问，规则可以写成「读过客户文件后禁止出站 HTTP」这类跨操作约束，且控制逻辑在模型之外，不依赖提示词服从。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Decider 2B 把「选哪个工具/走哪条路由」从大模型生成降级成 2B 模型打分，给出决策 + 置信度，本地可跑、权重与训练脚本全开源；Strands Box 在内核强制隔离之上加一层策略语言，按操作参数与历史放行或拒绝。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">用大模型做路由既贵又慢，还会为了「回答」而编造选项；用小模型做判别能把延迟压到百毫秒级。沙箱侧的痛点是提示词护栏不可验证，策略层把「不能做什么」变成可审计的规则而非叮嘱。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">两件事都直接可用：Decider 2B 适合嵌进 agent 的 router 环节省 token，Strands Box 的 Dogwood 策略与他关心的「agent 越权」是同一问题。限制是社区已反馈并发请求、Apple Silicon 兼容与冷启动延迟问题，Box 仍是 preview，生产前要自己压测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源 agent</span><a class="src" href="https://www.infoq.cn/article/YmgmEh686wTClmj3PY8o?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/topics/developers-practitioners/behind-the-scenes-two-months-later-how-we-ship-google-agent-skills-like-products/" target="_blank" rel="noopener">Google Agent Skills 像产品一样发版：21k star、170+ skill，每次改动必须带评估证据</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google 公开其 Agent Skills 仓库的工程化流程：两个月内 star 从 15,000 涨到 21,000，收录 Google 内部各团队 170+ 个 skill，并分发到多个 AI 平台。核心立场是「skill 是活产品而不是一次性文档」——文档解释概念给人看，skill 直接左右 agent 的推理循环、工具选择与执行路径，一句位置不当的话就能让 agent 调用非法参数、进死循环或烧 token，所以每次指令改动都是行为变更。落地成三条硬要求：语义化版本（任何行为变更必须显式升版）、确定性自动校验（linter/validator 在人和 AI 评审前先跑）、强制评估证据（每次改动附评估报告，与该 skill 上一版对比，新 skill 则与「没有这个 skill 的 agent」对比）。CI 流水线在提交时即触发，通过后才导出到 GitHub，另有一个 AI review agent 检查 skill 质量。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 skill 仓库做成产品发布流水线：语义化版本 + CI lint/链接检查 + 评估报告（有 skill vs 无 skill、新版本 vs 旧版本）+ AI review agent 审质量，全部在导出到公开仓库前卡住。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">skill 无法像代码那样靠类型检查兜底，未经评审的一句措辞就可能改变 agent 行为；团队规模一大，人工审 SKILL.md 就失效，必须靠确定性校验 + 评估基线把「行为变更」变成可测的东西。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">他自己就在维护 skill marketplace，这套门禁可以直接抄：给每个 skill 加版本号，改动必须附「有/无该 skill」的对比证据，AI review 只做二次筛。限制是评估套件本身要成本（要有可重复的任务集与判分），小规模仓库全量套用会偏重，可先只对高频 skill 上强制评估。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Skill 工程</span><a class="src" href="https://cloud.google.com/blog/topics/developers-practitioners/behind-the-scenes-two-months-later-how-we-ship-google-agent-skills-like-products/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/TusFJkx6F151otgzliu2?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Antigravity SDK 支持本地模型：架构师在云、构建者在本地，3400 个 token 只有 95 个上云</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>谷歌给 Antigravity SDK 加了本地模型支持，把「架构师-构建者」模式搬到混合环境：云端的高上下文 agent 只拿文件名与任务描述做拆解与策略，不接触源码；本地并行跑多个专长 agent 做复现漏洞、改补丁、审查候选补丁、跑回归测试，代码密集阶段全留在设备上。官方演示审计并修补三个有漏洞的 Python 模块，约 3400 个 token 里只有 95 个用于云端规划，其余 97.2% 在本地消耗，且没有源码上传。实现以 LiteRT 跑 Gemma 4 26B A4B 为主，也通过 LocalOpenAIAgentConfig 接 Ollama、LM Studio、vLLM 等 OpenAI 兼容本地推理服务；社区反馈提醒 24GB+ 显存或统一内存是门槛，且「本地占比 97.2%」不等于更快更便宜，应同时看补丁接受率、运行时间与能耗。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用两段式编排把敏感代码留在本地：云端 agent 只做规划（文件名+任务描述），本地 agent 执行修补与验证；可接 LiteRT/Gemma 4 26B，也可接 Ollama/LM Studio/vLLM 这类兼容服务，未上传源码。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业想让 agent 改代码，但把源码送云违反数据边界；纯本地又缺长上下文规划能力。架构师-构建者把「想」和「做」分到两侧，用 2.8% 的云 token 换全局规划。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对金融量化的代码保密场景是现成范式：规划上云、执行留本地，可量化「上云 token 占比」作为合规指标。限制是本地需 24GB+ 显存/统一内存，演示只覆盖 Python 审计修补，且 97.2% 本地占比不能证明端到端更快更省，需要自己测补丁接受率与实际耗时。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 编排</span><a class="src" href="https://www.infoq.cn/article/TusFJkx6F151otgzliu2?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span><span class="sec-en">AI ENGINEERING</span></div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/bXKVgLdpf7HONYHIi6Su?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Instagram 把 Android UI 迁到 Compose 改造成「AI 原生」代码库：UI 代码 -50%、每个 agent 会话 token -33%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Instagram Direct 把 Android UI 从旧 View 体系迁到 Jetpack Compose，目标不是单纯换框架，而是造一个 AI 编码代理更容易理解与修改的「AI 原生」代码库。工程师的核心判断是：AI 工具天然走阻力最小的路径，所以架构要保证这条路径产出正确、高质量的实现，让糟糕的设计代价高昂；同时尽量减少上下文依赖，优先用通用最佳实践而不是某仓库的私有知识。结果：UI 代码量减少 50%，每个 agent 会话 token 成本降低 33%，agent 执行时间缩短 35%，人与 agent 的交互轮次减少 32%。性能验证上他们只在整屏迁移完成后才可信对比，用功能开关做 Compose 与旧 UI 的 A/B，最终用 LazyColumn 替掉作为容器的 RecyclerView。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把「为 AI 编码代理优化仓库」落成可度量的工程动作：重划架构边界让最小阻力路径即正确路径、削减仓库私有上下文、用整屏迁移+功能开关做性能 A/B，换来 UI 代码 -50%、agent token -33%、执行时间 -35%、交互轮次 -32%。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 在遗留 UI 代码里会走捷径，产出隐蔽 bug 与技术债；零敲碎打地逐组件迁移又量不准性能。整屏迁移 + 运行时开关让「AI 改代码」与「可回归验证」同时成立。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">这套方法论不依赖 Compose：任何准备让 agent 大规模改代码的团队都可以先问「最小阻力路径会不会产出正确代码」。限制是收益数字来自单一 App 的单次大迁移，且需要团队先接受一次性的整屏改造投入。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">工程实践</span><a class="src" href="https://www.infoq.cn/article/bXKVgLdpf7HONYHIi6Su?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/0tgCLAMXFiFo0Dco5P9m?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">扩散语言模型做到 35B：Clover-35B-A3B 开源，680 tokens/s、SWE-bench Verified 73.6</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DiffuSpace（港大 NLP 实验室孔令鹏团队创立）10 月 28 日发布并开源 Clover-35B-A3B-Preview：MoE 架构，总参 350 亿、每 token 激活约 30 亿，整体生成速度 680 tokens/s。它不是从零训练，而是在 Qwen3.6-35B-A3B 的混合 GDN/Attention 骨干上加块级扩散生成，并把门控 Delta 网络做双向化改造，历史上下文用递归状态压缩、当前块内允许双向注意力。官方评测：SWE-bench Verified 73.6、Terminal-Bench 2.1 51.7、τ³ Overall 65.3；无人机空管 demo 里读取 20 条报文并画禁飞区耗时 7.32 秒，对照 Qwen3.5 为 62.3 秒；WindTunnel 49 项任务中位执行 1.52 秒，Jev + Mercury 2.5 组合为 3.21 秒。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用并行去噪替代逐 token 自回归：35B/激活 3B 的 MoE 每次并行更新一个文本块，官方称 680 tokens/s，且在 SWE-bench Verified 73.6、Terminal-Bench 2.1 51.7 上接近同规模自回归模型。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 任务的端到端耗时里，串行解码是硬开销；扩散模型把块内 token 并行化，在结构化信息抽取与多步工具任务上可能显著缩短墙钟时间（demo 中 8.5 倍差距）。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得试的是「生成顺序可变」的任务形态（报文解析、结构化抽取、补丁生成），而不是通用聊天。限制很明确：并非所有基准都领先（部分数学/代码仍落后），demo 耗时受配置与硬件影响，且 agent 真实耗时往往卡在工具调用而非解码速度。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">扩散模型</span><a class="src" href="https://www.infoq.cn/article/0tgCLAMXFiFo0Dco5P9m?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span><span class="sec-en">PRODUCTS &amp; BUSINESS</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/ejtljxPixrIuUsGYi5xa?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">大模型价格战进入「买量」阶段：Replit 1 亿美元合同拿 30% 折扣，Rippling 的 OpenAI 占比 16%→52%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>报道称 Replit 已把大部分 AI 支出从 Anthropic 转向 OpenAI：OpenAI 对一份年金额超 1 亿美元的合同给了 30% 以上折扣，而 Anthropic 在没有更高消费承诺的情况下不再续折扣。份额变化更直观：Rippling 把编程负载里 OpenAI 的占比从 16% 提到 52%，Anthropic 从 57% 降到 18%；DataCamp 称改用 OpenAI 后成本降了 80%–90%；一家资产超 70 亿美元的美国银行以每席位不到 7 美元的价格把 ChatGPT 扩到 500 人（常规价 20 美元以上）。同期两家厂商近几个月连续下调 API 价格，单款模型降幅最高 80%。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">展示了大客户采购的实际杠杆：合同折扣（30%+）、席位价（&lt;7 美元/人）、以及把默认模型写进产品（Replit Free Mode 底层跑 GPT-5.6 Luna）三条路径同时压单价。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业侧的真实痛点是「同一任务在不同模型间价差数倍」，而模型能力趋同时，采购结构（谁做默认、谁做长尾）直接决定成本；多模型路由让这种替换不再牺牲能力。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对做内部 AI 平台的人是成本结构参考：把默认模型与长尾模型分开采购、按任务分层路由，比单点砍 API 价更有效。限制是这些数字来自媒体报道与厂商自述，缺少同任务同质量的对照，且「逐底竞争不可持续」的担忧已在开发者社区出现。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">商业化</span><a class="src" href="https://www.infoq.cn/article/ejtljxPixrIuUsGYi5xa?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span><span class="sec-en">ESSAYS &amp; INSIGHT</span></div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Oct/28/github-octoverse-2026/" target="_blank" rel="noopener">GitHub Octoverse 2026：合并 PR 涨到 2.2 亿/月，commit 73.8 亿/月</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>GitHub 在 Universe 上公布 Octoverse 2026：2026 年合并 PR 不到一年翻三倍到每月 2.2 亿，commit 翻三倍多到每月 73.8 亿（大部分增长发生在下半年），新建仓库速率翻倍到每月 3030 万。报告新增按行业拆分，并单独统计「互操作或逆向工程」类仓库；方法论里用 LLM 从用户 profile 提取国家码来修正 VPN 偏差，用微调的多语言嵌入模型按 NAICS 给仓库分行业。Simon Willison 的定性是：这是 agentic engineering 对 GitHub 影响最直白的一张图。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出 agent 编码普及度的规模证据：合并 PR 2.2 亿/月、commit 73.8 亿/月、新仓库 3030 万/月，并新增行业与「互操作/逆向工程」维度的拆分。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">过去判断「AI 到底改变了多少工程产出」只能靠问卷；Octoverse 用平台侧计数给出趋势线，且公开了去偏方法（LLM 提国家码、嵌入模型分行业）。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">作为行业趋势的基线数字值得存一份：它说明评审与 CI 的瓶颈会比写代码更早到来。限制是计数不等于质量，PR 变小变多也可能只是 agent 拆分的产物，方法论本身依赖 LLM 分类，误差未量化。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">行业趋势</span><a class="src" href="https://simonwillison.net/2026/Oct/28/github-octoverse-2026/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span><span class="sec-en">SAFETY &amp; GOVERNANCE</span></div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/CxWoiprQltg8YXmwmghd?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">agent 代表你行动时如何不越权：Snowflake 用「身份 + 受限会话范围 + 数据策略」三层控住</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Snowflake 把 agent 治理拆成五个问题：agent 是谁、能做什么、能看到什么、能消耗多少、做过什么。识别层对托管入口自动识别 agent，外部 agent 则要求建 SERVICE_AGENT 用户（工作负载身份联合/密钥对/程序化令牌）或对委托 agent 在 OAuth 集成上设 IS_AGENTIC=TRUE；识别后策略可用 SYS_CONTEXT(&#x27;SNOWFLAKE$CURRENT&#x27;,&#x27;IS_AGENT_ACTIVATED&#x27;) 判断当前会话是否有 agent，审计侧看 QUERY_HISTORY.agent_type 与 ACCESS_HISTORY.agents_info。权限层新增「agent 受限会话范围」：与 RBAC 协同，只做减法，可禁写、禁 DDL、禁授权、禁存储过程，且不能授予用户本身没有的权限。数据层则让掩码策略在 agent 活跃时返回打码值，同一用户人看原文、agent 看 ****。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出可实现的 agent 权限模型：独立的 agent 身份（SERVICE_AGENT / IS_AGENTIC）、只减不增的会话权限上限、按 IS_AGENT_ACTIVATED 生效的掩码/行访问/聚合策略、单用户 AI 配额与 agent 维度的查询审计。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 继承用户全部权限、又可能把敏感数据汇总后传给别的工具或暴露给无权者；提示词里的「不要泄露」无法验证，必须把边界下沉到会话与数据层。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">这套分层（身份 → 会话上限 → 数据策略 → 配额 → 审计）可以平移到任何自建 agent 平台，尤其适合有数据分级要求的场景。限制是它绑定 Snowflake 的对象与函数，换栈要自己实现等价的上下文变量与策略挂钩。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">治理</span><a class="src" href="https://www.infoq.cn/article/CxWoiprQltg8YXmwmghd?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2610.37657v1" target="_blank" rel="noopener">给注意力头装「安全门」：HoS 把提示注入的 ASR 从 97% 压到 10%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文提出 Heads of Security（HoS）：不做微调、不改提示词，而是在模型里加一小组可学习的 per-head 注意力门，让每个头自己决定在可信 token 与不可信 token 之间怎么重新分配注意力，从而在架构层实现「指令-数据分离」。在 Llama-3.3-70B-Instruct 与 GPT-OSS-20B 上对比 SecAlign++（微调类 SOTA）与 ASIDE（同为架构类防御）：黑盒 RL-Hammer 攻击对 GPT-OSS-20B 达 97% 攻击成功率、对 SecAlign 85%，对 HoS 只有 10%；白盒攻击 Claudini 经自动搜索强化后，要在 HoS 上达到同等 ASR 需要 3 倍 FLOPs。HoS 在标准选择题基准上保持原始效用，而 SecAlign 与 ASIDE 在 few-shot 设置下会退化。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用一组学习到的注意力门在推理时区分可信指令与不可信内容，黑盒攻击 ASR 从 97%/85% 降到 10%，白盒攻击成本提高 3 倍，同时不牺牲基础模型在通用基准上的表现。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">提示注入的根因是模型把「数据」当「指令」读；提示词防御与微调防御都可被自适应攻击绕过或在 few-shot 下掉点，门控把边界放进注意力分配这一层。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对要把 agent 接外部网页/邮件/文档的场景是方向性证据：防御应在架构层而非提示层。限制是需要改模型内部结构并训练门控，只能用开源权重（Llama/GPT-OSS），闭源 API 无法施加，且评测集中在静态攻击集。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">提示注入</span><a class="src" href="https://arxiv.org/abs/2610.37657v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span><span class="sec-en">K8S × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/10/28/volcano-v1-16-released-namespacequeue-fairshare-and-a-broader-hypernode-ecosystem/" target="_blank" rel="noopener">Volcano v1.16 发布：NamespaceQueue 让租户自建层级队列，fairshare 把历史用量纳入调度</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Volcano v1.16.0 引入 NamespaceQueue 与 fairshare 插件：租户可以在自己的 namespace 内建层级队列，把配额与队列层级组织在管理员授权的资源池内；fairshare 把历史资源消耗带进同一队列下各 namespace 的调度决策，让团队间更公平。HyperNode 生态也扩了——用其他调度器的平台可以单独部署 HyperNode controller 做拓扑发现、管理 supernode 层级，再通过 HyperNode API 集成；推理服务可用新的 PodGroup 拓扑反亲和把实例分散到不同 supernode，降低同一故障域暴露。性能侧新增 Unschedulable Job Cache（默认关闭，用 feature gate 开），记录 Job 无法调度的原因并在阻塞条件变化前跳过重复检查，另有 DRA scoring、批量 Pod 派发的负载估计与 Kubernetes 1.36 支持。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把多租户配额从「集群管理员切队列」下放到 namespace 内自建层级队列，并在队列内按历史用量做公平分享；同时给推理负载提供跨 supernode 的拓扑反亲和与 DRA 打分。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大规模待调度积压时，重复的不可调度检查既浪费调度周期又挤占新 Job；多团队共用 GPU 池时，纯 FIFO 或静态配额会让某些 team 长期占坑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">自建 GPU 集群做多租户批处理的话，NamespaceQueue + fairshare 是能直接减少「配额谈判」的机制，Unschedulable Job Cache 对积压场景也有明确收益。限制是 cache 默认关闭、覆盖范围只到上游 predicates 与部分 capacity 插件，生产要按 feature gate 灰度。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">GPU 调度</span><a class="src" href="https://www.cncf.io/blog/2026/10/28/volcano-v1-16-released-namespacequeue-fairshare-and-a-broader-hypernode-ecosystem/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span><span class="sec-en">K8S CORE</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-alpha.3" target="_blank" rel="noopener">Kubernetes 同日放出 1.38.0-alpha.3 与四条补丁线：1.37.2 / 1.36.6 / 1.35.10 / 1.34.13</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>10 月 28 日 Kubernetes 一次发了五个版本：开发线 1.38.0-alpha.3，以及 1.37.2、1.36.6、1.35.10、1.34.13 四条受支持分支的补丁版本。按 K8s 的支持策略，这意味着 1.34 线仍在维护窗口内，1.38 的新特性已进入 alpha 迭代阶段。对自建集群而言，选版本时要同时看「哪条线还在补丁窗口」和「新 API 是否已进 alpha」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出当前版本矩阵：1.38 开发线 alpha.3 已出，1.37/1.36/1.35/1.34 四条线同日收补丁，可作为升级与选型的时间锚点。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">自建集群最怕选到「刚过维护窗口」的版本；同日多线补丁说明修复是并行回移的，跟着最新补丁号走能避免已知 CVE 与回归。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">计划上 1.37/1.38 的话，alpha.3 阶段适合先在测试集群跑 API 兼容性检查（尤其 CRD、DRA 与准入策略相关）。限制是本文只给版本事实，具体变更需读各版本 CHANGELOG。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">版本发布</span><a class="src" href="https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-alpha.3" target="_blank" rel="noopener">Kubernetes Releases</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/projectcalico/calico/releases/tag/v3.32.3" target="_blank" rel="noopener">Calico v3.32.3：eBPF 策略程序被内核 verifier 拒绝致节点 NotReady 等三十余项修复</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Calico v3.32.3（10 月 26 日）是一版以修复为主的补丁：eBPF 数据面里，当工作负载策略规则多到需要拆成多个程序时，内核 verifier 会以「unreachable insn」拒绝加载，节点因此报 NotReady，本版修掉了；同时修了 IPv6 eBPF conntrack 里过期的 NAT 反向条目不清理、eBPF NAT 下 API server service 与无关服务共用 NAT service ID 导致前端负载到错误后端、以及从自带 AS 号节点到使用全局 AS 的对端建立 node-to-node mesh BGP 失败。还有两条与 GitOps 直接相关：回滚了抑制空 source:{} / destination:{} 的改动（该改动让 ArgoCD 把策略永久判为 out of sync），以及 IP 池无空闲地址时 Pod 重建无法复用原地址的问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">修掉 eBPF 数据面在高策略量下的 verifier 拒绝与节点 NotReady、IPv6 conntrack NAT 过期、NAT service ID 冲突、BGP AS 不匹配、ArgoCD 永久 out-of-sync、IP 池耗尽时 Pod 无法重启等一批生产级问题。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">这些都不是新功能而是踩坑：策略一多节点直接 NotReady、GitOps 永远显示不同步、IP 池满时 Pod 起不来，都是自建集群里最难定位的一类故障。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 Calico eBPF 数据面 + ArgoCD 的集群建议直接升到 3.32.3，尤其是有大量 NetworkPolicy 的环境。限制是补丁版本仍需在自己环境验证 BGP 与 IPAM 行为，且 3.32 线之外的旧版本要另找对应补丁。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">CNI</span><a class="src" href="https://github.com/projectcalico/calico/releases/tag/v3.32.3" target="_blank" rel="noopener">Calico Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🌐</span><span class="sec-title">云原生周边</span><span class="sec-en">CLOUD NATIVE</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/databases/alloydb-omni-delivers-a-web-ui-for-cluster-observability/" target="_blank" rel="noopener">AlloyDB Omni 有了只读 Web UI：容器与 RHEL 部署可看硬件遥测、查询性能与配置项</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google 宣布 AlloyDB Omni 的 Web UI 在 RHEL 与容器部署上 GA，定位是生产可用的只读控制台：直接看硬件遥测、查询性能与配置 flag，用于排查集群健康与性能问题，替代此前只能靠命令行的情况。它的意义在混合部署场景——同一套 Postgres 兼容引擎跑在本地、边缘与多云时，运维界面终于和托管版对齐了一部分。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给自托管 AlloyDB Omni 提供只读观测台：硬件遥测、查询性能、配置 flag 一屏可见，覆盖 RHEL 与容器两种部署形态。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">把 Postgres 兼容库搬到本地/边缘后，排障退回命令行，看不到集群健康与慢查询的整体视图；托管版有的观测能力在自建侧缺失。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">只有在用 AlloyDB Omni 时才有意义；它是观测补齐而非能力升级。限制是只读、只覆盖单集群视角，跨集群与告警仍需外部监控栈。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">数据库</span><a class="src" href="https://cloud.google.com/blog/products/databases/alloydb-omni-delivers-a-web-ui-for-cluster-observability/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏛️</span><span class="sec-title">社区与项目</span><span class="sec-en">COMMUNITY</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/10/27/over-500-golden-kubestronauts-the-evolving-standard-for-cloud-native-mastery/" target="_blank" rel="noopener">Golden Kubestronaut 超过 570 人：认证体系从「考过几张证」转向领域深度分层</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CNCF 称自 2024 年 KubeCon Paris 推出 Kubestronaut 计划以来，已有 570 多名工程师达到更高的 Golden Kubestronaut 级别。这条新闻的价值在于认证口径的变化：Kubestronaut 原本是「把 CKA/CKAD/CKS 等一组认证考完」，Golden 级则在通过之外加了持续的社区贡献与深度要求，等于把「刷证」和「长期投入」分开。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把云原生认证从一次性考试变成分层：Kubestronaut 认基础广度，Golden 级叠加社区贡献与持续实践，形成可对外说明的深度标签。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">招聘侧难以用「考过 CKA」判断真实水平；认证贬值后需要一个能区分「考试型」与「长期实践型」的层级。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对个人品牌与团队能力盘点有点用，但不必为标签投入；真正有价值的是它隐含的信号——CNCF 在把认证往「持续贡献」上牵。限制是 Golden 级评审标准与通过率未公开。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">社区</span><a class="src" href="https://www.cncf.io/blog/2026/10/27/over-500-golden-kubestronauts-the-evolving-standard-for-cloud-native-mastery/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://github.com/istio/istio/releases/tag/1.32.0-rc.0" target="_blank" rel="noopener">Istio 1.32.0-rc.0 发布，1.31.3 / 1.30.7 / 1.29.10 同期发补丁</a></li>
+      <li><a href="https://github.com/envoyproxy/envoy/releases/tag/v1.40.2" target="_blank" rel="noopener">Envoy v1.40.2 发布，1.39.6 / 1.38.9 / 1.37.11 跟进</a></li>
+      <li><a href="https://azure.microsoft.com/updates?id=577689" target="_blank" rel="noopener">Azure Container Apps 日志目的地从 Log Analytics 迁到 Azure Monitor（需手动迁移）</a></li>
+      <li><a href="https://cloud.google.com/blog/products/containers-kubernetes/using-vpc-flow-logs-to-troubleshoot-gke-workloads/" target="_blank" rel="noopener">GKE 用 VPC Flow Logs 定位 Pod 间流量：临时 IP 需先做映射再排障</a></li>
+      <li><a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-amazon-polly-generative-engine-torchneuron-for-trainium-and-more-october-26-2026/" target="_blank" rel="noopener">AWS 周报：Polly 生成式引擎、Trainium 的 TorchNeuron 等</a></li>
+      <li><a href="https://cloud.google.com/blog/products/chrome-enterprise/step-in-to-a-new-dimension-with-xreal-aura-a-first-of-its-kind-wired-xr-glasses/" target="_blank" rel="noopener">XREAL AURA：基于 Android XR 的有线 XR 眼镜，面向企业</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
