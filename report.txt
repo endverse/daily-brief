@@ -1,37 +1,42 @@
 ======================================================================
-处理报告  (原始 185 条)
+处理报告  (原始 214 条)
 ======================================================================
 
-① 过滤: 保留 145 条, 过滤掉 40 条
+① 过滤: 保留 170 条, 过滤掉 44 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] HKUDS/DeepTutor
      ✗ [GitHub Trending] JetBrains/thinkrail
+     ✗ [GitHub Trending] HKUDS/DeepTutor
      ✗ [GitHub Trending] togg53192-cmd/jailbreaks
-     ✗ [GitHub 升星repo] kargulstudio/calender-app-design
-     ✗ [GitHub 升星repo] DLSS-5-Swaper-New/.github
-     ✗ [GitHub 升星repo] andriu-kun/-wildrig-multi
-     ✗ [GitHub 升星repo] NyxFoundation/nyxis
-     ✗ [GitHub 升星repo] free-cracks/Adobe-Acrobat-Pro
+     ✗ [GitHub Trending] hmjz100/LinkSwift
+     ✗ [GitHub Trending] ruvnet/RuView
+     ✗ [GitHub Trending] xiaolai/the-craft-of-selfteaching
+     ✗ [GitHub 升星repo] smithjohn78390/tongjiang-lab
+     ✗ [GitHub 升星repo] NotRexed/SkyboundTotk
 
-② 去重: 145 → 142 条 (同批合并 0, 跨天历史去重 3)
+② 去重: 170 → 164 条 (同批合并 2, 跨天历史去重 4)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] Nutlope/hallmark
      ⏭️  [GitHub Trending] pbakaus/impeccable
      ⏭️  [GitHub Trending] makecindy/cindy
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] nightly-labs/openbot
+   跨源合并的事件:
+     ⇉ Rare, Relevant, and Still Wrong: How Mem  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Timestral  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 61 条
-     - 产品与商业: 14 条
-     - 安全与治理: 15 条 (含🔧开源 1)
-     - AI 工程落地: 18 条 (含🔧开源 4)
-     - Agent & Skill: 28 条 (含🔧开源 8)
+     - Agent & Skill: 37 条 (含🔧开源 8)
+     - 模型与研究: 66 条 (含🔧开源 1)
+     - 产品与商业: 15 条
+     - 安全与治理: 13 条
+     - AI 工程落地: 23 条 (含🔧开源 4)
      - 观点与好文: 1 条
    【基础设施】
      - K8s × AI: 3 条
-     - K8s 核心: 1 条
-     - 社区与项目: 1 条
+     - 社区与项目: 2 条
+     - K8s 核心: 2 条
+     - 云原生周边: 1 条
+     - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Greptile takes bug detection beyond code review with GP
@@ -44,4 +49,4 @@
       19分 [OpenAI News ] GPT-6.1 Sol helps CodeRabbit strengthen secur
       17分 [Simon Willison] GPT-6.1 Terra
       16分 [OpenAI News ] Retell uses OpenAI models to help power 100M 
-      16分 [OpenAI News ] Introducing GPT-6.1 Terra
+      16分 [Google Cloud] Step into a new dimension with XREAL AURA, th
