@@ -1,52 +1,48 @@
 ======================================================================
-处理报告  (原始 214 条)
+处理报告  (原始 201 条)
 ======================================================================
 
-① 过滤: 保留 170 条, 过滤掉 44 条
+① 过滤: 保留 156 条, 过滤掉 45 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] JetBrains/thinkrail
      ✗ [GitHub Trending] HKUDS/DeepTutor
+     ✗ [GitHub Trending] JetBrains/thinkrail
+     ✗ [GitHub Trending] milind-soni/OpenMausBot
      ✗ [GitHub Trending] togg53192-cmd/jailbreaks
-     ✗ [GitHub Trending] hmjz100/LinkSwift
-     ✗ [GitHub Trending] ruvnet/RuView
-     ✗ [GitHub Trending] xiaolai/the-craft-of-selfteaching
      ✗ [GitHub 升星repo] smithjohn78390/tongjiang-lab
-     ✗ [GitHub 升星repo] NotRexed/SkyboundTotk
+     ✗ [GitHub 升星repo] valentderah/totk-pc-recomp
+     ✗ [GitHub 升星repo] HRuiCcc/RuiC-PoseAtlas
+     ✗ [GitHub 升星repo] Humpalumps/Ultra-Water
 
-② 去重: 170 → 164 条 (同批合并 2, 跨天历史去重 4)
+② 去重: 156 → 153 条 (同批合并 0, 跨天历史去重 3)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] Nutlope/hallmark
      ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [GitHub Trending] makecindy/cindy
      ⏭️  [GitHub Trending] nightly-labs/openbot
-   跨源合并的事件:
-     ⇉ Rare, Relevant, and Still Wrong: How Mem  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Timestral  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] thedotmack/claude-mem
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 37 条 (含🔧开源 8)
-     - 模型与研究: 66 条 (含🔧开源 1)
-     - 产品与商业: 15 条
-     - 安全与治理: 13 条
-     - AI 工程落地: 23 条 (含🔧开源 4)
-     - 观点与好文: 1 条
+     - 模型与研究: 63 条
+     - 安全与治理: 7 条
+     - Agent & Skill: 34 条 (含🔧开源 5)
+     - 产品与商业: 16 条
+     - AI 工程落地: 23 条 (含🔧开源 3)
    【基础设施】
-     - K8s × AI: 3 条
+     - K8s × AI: 4 条
      - 社区与项目: 2 条
      - K8s 核心: 2 条
      - 云原生周边: 1 条
      - 公有云: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [19分] Greptile takes bug detection beyond code review with GP
-        源:OpenAI News 类:安全与治理 跨源:[]
-     🔥 [19分] GPT-6.1 Sol helps CodeRabbit strengthen security across
-        源:OpenAI News 类:安全与治理 跨源:[]
+     🔥 [16分] Retell uses OpenAI models to help power 100M monthly ca
+        源:OpenAI News 类:模型与研究 跨源:[]
+     🔥 [16分] Step into a new dimension with XREAL AURA, the first-of
+        源:Google Cloud 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      19分 [OpenAI News ] Greptile takes bug detection beyond code revi
-      19分 [OpenAI News ] GPT-6.1 Sol helps CodeRabbit strengthen secur
-      17分 [Simon Willison] GPT-6.1 Terra
       16分 [OpenAI News ] Retell uses OpenAI models to help power 100M 
       16分 [Google Cloud] Step into a new dimension with XREAL AURA, th
+      16分 [Azure Updates] [Launched] Generally Available: Cost manageme
+      16分 [Anthropic News] Expanding our partnership with GSA to bring C
+      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
