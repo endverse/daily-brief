@@ -1,48 +1,52 @@
 ======================================================================
-处理报告  (原始 201 条)
+处理报告  (原始 184 条)
 ======================================================================
 
-① 过滤: 保留 156 条, 过滤掉 45 条
+① 过滤: 保留 147 条, 过滤掉 37 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] HKUDS/DeepTutor
-     ✗ [GitHub Trending] JetBrains/thinkrail
+     ✗ [GitHub Trending] pingdotgg/t3code
+     ✗ [GitHub Trending] Renhuai123/ziwei-doushu
      ✗ [GitHub Trending] milind-soni/OpenMausBot
-     ✗ [GitHub Trending] togg53192-cmd/jailbreaks
-     ✗ [GitHub 升星repo] smithjohn78390/tongjiang-lab
-     ✗ [GitHub 升星repo] valentderah/totk-pc-recomp
-     ✗ [GitHub 升星repo] HRuiCcc/RuiC-PoseAtlas
-     ✗ [GitHub 升星repo] Humpalumps/Ultra-Water
+     ✗ [GitHub Trending] HKUDS/DeepTutor
+     ✗ [GitHub Trending] bregman-arie/devops-exercises
+     ✗ [GitHub Trending] vorssaint/vorssaint-utils
+     ✗ [GitHub 升星repo] kevinraymond/florilegium
+     ✗ [GitHub 升星repo] Arjun-Ingole/hop
 
-② 去重: 156 → 153 条 (同批合并 0, 跨天历史去重 3)
+② 去重: 147 → 139 条 (同批合并 3, 跨天历史去重 5)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] pbakaus/impeccable
-     ⏭️  [GitHub Trending] nightly-labs/openbot
      ⏭️  [GitHub Trending] thedotmack/claude-mem
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] mattpocock/skills
+     ⏭️  [GitHub Trending] Donchitos/Claude-Code-Game-Studios
+     ⏭️  [GitHub Trending] pbakaus/impeccable
+     ⏭️  [Google Cloud] What’s new with Google Data Cloud
+   跨源合并的事件:
+     ⇉ Training Foundation Models with a Single  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Read, Allocate, Route: Role-Coupled Toke  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ dbreunig/nesformer  ← ['GitHub 升星repo', 'Simon Willison']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 63 条
-     - 安全与治理: 7 条
-     - Agent & Skill: 34 条 (含🔧开源 5)
-     - 产品与商业: 16 条
-     - AI 工程落地: 23 条 (含🔧开源 3)
+     - 模型与研究: 63 条 (含🔧开源 1)
+     - 安全与治理: 10 条 (含🔧开源 1)
+     - Agent & Skill: 28 条 (含🔧开源 7)
+     - AI 工程落地: 16 条 (含🔧开源 1)
+     - 产品与商业: 14 条
+     - 观点与好文: 2 条
    【基础设施】
-     - K8s × AI: 4 条
-     - 社区与项目: 2 条
+     - K8s × AI: 3 条
      - K8s 核心: 2 条
-     - 云原生周边: 1 条
-     - 公有云: 1 条
+     - 社区与项目: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] Retell uses OpenAI models to help power 100M monthly ca
-        源:OpenAI News 类:模型与研究 跨源:[]
-     🔥 [16分] Step into a new dimension with XREAL AURA, the first-of
-        源:Google Cloud 类:产品与商业 跨源:[]
+     🔥 [16分] dbreunig/nesformer
+        源:Simon Willison 类:观点与好文 跨源:['GitHub 升星repo', 'Simon Willison']
+     🔥 [16分] Expanding our partnership with GSA to bring Claude to a
+        源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      16分 [OpenAI News ] Retell uses OpenAI models to help power 100M 
-      16分 [Google Cloud] Step into a new dimension with XREAL AURA, th
-      16分 [Azure Updates] [Launched] Generally Available: Cost manageme
+      16分 [Simon Willison] dbreunig/nesformer
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
+      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
+      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
