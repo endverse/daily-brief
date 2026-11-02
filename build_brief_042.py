@@ -1,0 +1,365 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 042 from processed.json (URLs machine-copied)."""
+import json
+
+P = json.load(open("processed.json", encoding="utf-8"))
+
+
+def U(idx):
+    """Return the exact URL stored in processed.json for item idx."""
+    return P[idx]["url"]
+
+
+EMOJI = {
+    "🧠 模型与研究": "🧠",
+    "🧩 Agent & Skill": "🧩",
+    "🛠️ AI 工程落地": "🛠️",
+    "📊 产品与商业": "📊",
+    "💡 观点与好文": "💡",
+    "🛡️ 安全与治理": "🛡️",
+    "🤖☸️ K8s × AI": "🤖",
+    "☸️ K8s 核心技术": "☸️",
+    "🌐 云原生周边": "🌐",
+}
+
+
+def item(idx, title, summary, detail, tag=None, oss=False):
+    it = {"title": title, "url": U(idx), "summary": summary, "detail": detail}
+    it["source"] = P[idx]["source"]
+    if tag:
+        it["tag"] = tag
+    if oss or P[idx].get("oss"):
+        it["oss"] = True
+    assert it["title"] and it["url"], idx
+    return it
+
+
+highlights = [
+    {
+        "title": "DeepSeek 开源 Super-agent 底座：Router + Worker 两层，事件直通让 Router 少决策 30%",
+        "url": U(45),
+        "tag": "Agent 架构",
+        "source": P[45]["source"],
+        "note": "DeepSeek 公开了 Personal Agent 的底层架构思路，并放出原型仓库 dsh-superagent-prototype（TypeScript，7.2k star）。系统分两层：上层 Router 收消息、分任务、维护全局上下文，下层 Worker 各自执行；Worker 接过一个 GitHub PR 后可直接订阅后续评论，新评论不再经 Router 层层转发。配套机制有投机执行（群里讨论 Bug 就先去复现，找不到可行修复就保持安静）和异步 ReAct Loop（执行长任务时仍能响应新指令，已在 DeepSeek Harness 实现但默认关闭）。24 小时在线靠计算、状态、执行环境三者分离：计算在云端、会话状态独立保存、本地保留原工作环境，设备离线后任务仍能续跑。在约 300 条消息、20 项工作请求的模拟环境里每种配置重复 5 次，任务完成时间中位数 12.4 分钟、95 分位 15.7 分钟；传统单 Session 加 Subagent 方案 95 分位 29.5 分钟。消融显示取消事件直通后，Router 决策次数增加约 30%、读取缓存 token 增加约 37%。",
+        "summary": "DeepSeek 公开 Personal Agent 底座架构并开源原型 dsh-superagent-prototype：Router 统筹消息与任务、Worker 并行执行，Worker 可直接订阅后续事件；配投机执行与异步 ReAct Loop。模拟环境（300 条消息 / 20 项请求，重复 5 次）里任务完成时间中位数 12.4 分钟、95 分位 15.7 分钟，单 Session 方案 95 分位 29.5 分钟。",
+        "detail": [
+            {"key": "能做什么", "value": "Router（收消息/分任务/维护全局上下文）+ Worker（具体执行、可并行、直接订阅 PR 评论等后续事件）两层；投机执行让 agent 在没人下指令时先复现问题、无解则静默；异步 ReAct Loop 让执行长任务时仍能响应新指令；计算/状态/执行环境分离支持设备离线后续跑；另有监督 agent 检测死循环与偏离目标。"},
+            {"key": "解决什么痛点", "value": "人的注意力是瓶颈——DeepSeek 观察到一个人通常只能同时跟 3–5 个活跃 Session，跨 IM/GitHub/邮件的任务被拆散在不同会话里，上下文要人工搬运；消息洪泛、任务阻塞、异常恢复也都没有现成机制。"},
+            {"key": "值不值得", "value": "对做多用户 agent 平台/沙箱的人是最直接的一份架构参考：Router 常驻 + Worker 弹性，正好对上「每用户独立沙箱」的资源账。限制是它只是 prototype（TS 仓库），异步 ReAct 默认关闭，数据来自模拟环境而非生产；事件直通带来的 30% 决策下降值得在自己的路由层复现验证。"},
+        ],
+    },
+    {
+        "title": "Kubeflow Trainer v2.4.0-rc.0：OptimizationJob 把 Katib 的 HPO 收进 TrainJob 体系",
+        "url": U(85),
+        "tag": "K8s × AI",
+        "source": P[85]["source"],
+        "oss": True,
+        "note": "Kubeflow Trainer v2.4.0-rc.0 是 v2.4 的首个候选版本，核心是 OptimizationJob CRD 的 Phase 1：把超参优化（HPO）从 Katib 的 Experiment/Suggestion 体系迁到 TrainJob 的一等 API。该 CRD 提供 TrainJob 的 HPO、trial 间共享的模型/数据集初始化、通过 SDK 的推送式指标收集，以及与 SDK OptimizerClient 的集成。同一版本还修了一个破坏性行为：CRD 从 chart 的 crds/ 移到 templates/crd/ 后变成普通 release 资源，helm uninstall 会删掉四个 CRD，并连带 GC 集群里所有 TrainJob、TrainingRuntime、ClusterTrainingRuntime 和 OptimizationJob，而 README 一直承诺 CRD 会保留；现在四个 CRD 模板统一带 helm.sh/resource-policy: keep，由 crds.keep 控制、默认 true。",
+        "summary": "v2.4.0-rc.0 推出 OptimizationJob CRD 的 Phase 1，把 Katib 的 HPO 收进 TrainJob 体系：trial 间共享模型/数据集初始化、SDK 推送式指标、OptimizerClient 集成。同时用 helm.sh/resource-policy: keep 保住四个 CRD——此前 helm uninstall 会把集群里所有 TrainJob/OptimizationJob 一起 GC 掉。",
+        "detail": [
+            {"key": "能做什么", "value": "OptimizationJob CRD 专做 TrainJob 的超参优化，取代 Katib 的 Experiment/Suggestion 双对象；支持跨 trial 共享一次性的模型与数据集初始化（不用每个 trial 重下权重）、SDK 推送式指标收集（不再靠 sidecar 拉取）、OptimizerClient 统一调用；同一版本给四个 CRD 加了 helm.sh/resource-policy: keep。"},
+            {"key": "解决什么痛点", "value": "Katib 与 Trainer v2 是两套 API、两套控制器，做一次 HPO 要同时理解 Experiment/Suggestion 和 TrainJob；helm uninstall 删 CRD 会静默级联删除集群里全部训练任务，这是升级/回滚时最容易踩的坑。"},
+            {"key": "值不值得", "value": "在 K8s 上跑训练的平台值得跟：HPO 终于和 TrainJob 同一套 CRD 生命周期，配额、RBAC、清理逻辑可以统一。限制是 rc.0、Phase 1，Katib 的迁移路径和 v1 兼容性还没定；生产集群等 GA 再动，先在测试集群验证 CRD keep 行为。"},
+        ],
+    },
+]
+
+sections = []
+
+# ---------------- AI 板块 ----------------
+ai_cats = [
+    {
+        "label": "🧠 模型与研究",
+        "items": [
+            item(
+                10,
+                "EasyProver 不训练模型就证出 PutnamBench 669/672：递归 agent + 弹性 elaboration 服务",
+                "一套由递归 agent 组成的 Lean 证明系统，用现成前沿模型、不做额外训练，就解出 PutnamBench 669/672、IMO 2026 全部 6 道形式化题、NTP4VC 597/600 条验证条件、VERINA 189/189。因为基准接近饱和，团队另造 Aegis：把竞赛编程题转成真实实现上的验证任务（写安全 Rust、用 Aeneas 译成 Lean、生成规约、再用 kernel 检查的证明或反证标注），产出 2045 对差分验证的 Rust-Lean 程序与 11533 条候选规约。2000 条分层样本里证出 1054 条（52.7%），每题 30 分钟预算。",
+                [
+                    {"key": "能做什么", "value": "递归 agent + 隔离上下文 + 异步搜索 + 并行 tactic 探测 + 弹性 elaboration 服务；不训练模型，全靠 harness 编排把现成模型推到 669/672 PutnamBench、6/6 IMO 2026、597/600 NTP4VC、189/189 VERINA。"},
+                    {"key": "解决什么痛点", "value": "形式化验证的真实瓶颈不是模型会不会写证明，而是 Lean 的 elaboration 慢、上下文互相污染、搜索无法并行；Aegis 还补上「基准饱和」问题——现有题库已测不出差异，需要带实现级义务（定宽算术、显式失败、循环、类型转换）的新题。"},
+                    {"key": "值不值得", "value": "对 agent harness 设计有直接借鉴：隔离上下文 + 异步搜索 + 并行探测这套组合，和写代码 agent 的多会话架构同源，可迁移到代码验证/审计。限制是 52.7% 的 Aegis 通过率说明真实实现验证仍难，且 Lean 生态门槛高，短期难进金融业务链路。"},
+                ],
+            ),
+            item(
+                7,
+                "统一训练：把预训练、SFT、RL 写成同一个似然目标，训练生命周期变成「选数据、配比例、定顺序」",
+                "论文指出预训练/中训练/SFT/RL 的算法分野不是本质的：把 RL 目标推导成对模型自生成目标分布的最大似然拟合后，四个阶段可以收进同一个 likelihood-based 算法。作者实现了一个在单个 trainer 里混合静态数据与 RL 生成的系统，实验称统一训练在 accuracy-compute 权衡与任务覆盖上更好，同时不损通用能力，并为持续学习提供更好的起点。摘要未给出具体数字。",
+                [
+                    {"key": "能做什么", "value": "用「对模型自生成目标分布做最大似然拟合」把 RL 改写成似然问题，于是 pretrain/midtrain/SFT/RL 共享一个训练算法与一个 trainer，传统分阶段训练成为特例；工程上支持静态数据与 RL 生成在同一轮里按比例混合。"},
+                    {"key": "解决什么痛点", "value": "分阶段训练要在数据管线、loss、框架之间反复切换，每换一个阶段就换一套 infra 与超参；阶段边界本身也是人为设定的，容易在 SFT 阶段把预训练能力洗掉。"},
+                    {"key": "值不值得", "value": "概念上值得跟：如果成立，训练 infra 可以从「四套流水线」收敛成「一个数据配比调度器」，对自建训练平台的人省很多胶水。但目前是论文 + 实验，摘要没给规模与数字，也没有开源实现，离生产还有距离。"},
+                ],
+            ),
+            item(
+                26,
+                "AIR：调度该盯有效学习率而不是名义值，128B token MoE 上末端 loss 比 cosine 低约 0.01",
+                "论文指出 weight-normalized 训练相对 weight decay 的收益主要来自它诱导的有效学习率（ELR）轨迹，而不是归一化本身——把 ELR 轨迹对齐后，两种训练的 loss 动态基本重合。据此提出 AIR（仿射 + 1/√t 衰减），在有限训练步数内同时满足峰值与末端学习率约束。128B token 的 MoE 预训练上，AIR 在训练 loss、下游表现与超参鲁棒性上都优于 cosine，匹配累计学习率时末端 loss 低约 0.01；把同一 ELR 轨迹套到 weight decay 上能复现相同动态。",
+                [
+                    {"key": "能做什么", "value": "把「调度什么」从名义 LR 改成有效学习率 ELR；AIR 用理论推导的 1/√t 衰减加仿射调整，在固定训练时长内同时命中峰值与末端 LR；论文证明后期 ELR 调度是收益主来源，早前 LR 选择的影响会被共同的后段调度抹平。"},
+                    {"key": "解决什么痛点", "value": "WN 与 WD 谁更好一直靠经验对比，换了归一化方式就要重扫一遍学习率；调度器只能调名义 LR，无法控制模型实际看到的步长。"},
+                    {"key": "值不值得", "value": "对做预训练/继续训练的人是一个可换即用的调度器（改 loss 调度即可，不动模型结构），0.01 的末端 loss 在大模型上不算小。限制是只在 128B token MoE 上验证，小模型与微调场景收益未知，且需要按 ELR 重算 baseline 才公平。"},
+                ],
+            ),
+            item(
+                13,
+                "Youtu-Parsing-Omni：一个编码器 + 一套 schema，5B 模型把文档/图像/音频/视频解析成带时空坐标的记录",
+                "腾讯优图的多模态解析器，目标是把文档、图像、音频、视频统一转成「带空间与时间锚点」的结构化记录，给 agent 做可定位、可引用的感知层。Youtu-Omni-Encoder 从预训练语言模型初始化以强化文字读取，共享权重编码全部模态到统一时空坐标系，少量融合层让视频帧能 attend 同时刻音频。OmniSchema 统一 10 个解析任务的输出，配一套自演化的后训练（OSAD）。单个 5B checkpoint 在 OmniDocBench v1.6 拿到 96.96 Overall 的 SOTA，在 OmniParsingBench 以 75.08 均分开源权重第一，优势集中在音频与视频。",
+                [
+                    {"key": "能做什么", "value": "一个 5B 模型、一套 schema 覆盖 10 类解析任务（文档/图像/音频/视频），输出带时空坐标的结构化记录；共享权重编码器 + 视频帧对音频的跨模态 attention；OSAD 用参考模型给 token 级目标、每轮用训练后权重刷新参考，让解析器与监督共同演化。"},
+                    {"key": "解决什么痛点", "value": "RAG/agent 的多模态解析通常是文档一套 OCR、音频一套 ASR、视频再一套，坐标与时间轴对不齐，引用无法回溯到原始位置；换成多个模型也意味着多套部署与显存预算。"},
+                    {"key": "值不值得", "value": "对要做「证据可引用」的 agent 很实用：单 5B checkpoint 就能统一多模态并带坐标，部署成本比拼装流水线低。限制是中文文档之外的语种与表格复杂版式仍要看实测，且 OSAD 的自演化训练流程没有开源工具链，自训练门槛不低。"},
+                ],
+            ),
+        ],
+    },
+    {
+        "label": "🧩 Agent & Skill",
+        "items": [
+            item(
+                49,
+                "REA 把 Ghidra/Hopper/IDA 挂成 MCP 给编码 agent：20 万 star，DX-Ball 反编译对上 3205 条 x86 用例",
+                "开源项目 Reverse Engineer Anything（REA）在 GitHub 已超 20 万 star，用 MCP server 把 Ghidra、Hopper、IDA 三类逆向工具暴露给 Claude Code、Codex 等编码 agent，让 agent 查反汇编、看函数与交叉引用、追踪行为并反复对二进制验证假设；也支持 JavaScript/Electron 与 .NET 的静态分析，本地运行，不声称还原原始源码。展示案例包括追踪 Notion 的 Electron 剪贴板实现、从 DX-Ball 重建声音声像定位函数（匹配全部 3205 条原始 x86 用例、编译后函数 63 个字节全对）、从 Touhou 4 的 16 位代码恢复弹幕环角度计算。MIT 许可。",
+                [
+                    {"key": "能做什么", "value": "MCP server 把 Ghidra/Hopper/IDA 的工具面接进编码 agent：查询反汇编、函数与交叉引用、行为追踪、假设-验证循环；JS/Electron 与 .NET 走静态分析不需要原生引擎；MIT 许可，本地跑。"},
+                    {"key": "解决什么痛点", "value": "以前让 agent 做逆向，得自己教它装 Ghidra、写脚本、解析输出，每次会话重建上下文；REA 把工具调用标准化成 MCP，agent 能自己迭代假设。"},
+                    {"key": "值不值得", "value": "对安全/合规审计（尤其闭源依赖、供应链二进制）是现成能力，20 万 star 说明社区已验证可用性；HN 上的质疑也成立——收益主要来自 MCP 封装而非新算法，直接用 Ghidra 的 agent 也能做到一部分。注意法务边界：MIT 许可只覆盖工具，不覆盖你逆向的对象。"},
+                ],
+                tag="开源",
+                oss=True,
+            ),
+            item(
+                36,
+                "stack-diagram：一句描述生成带官方 logo 的架构图，做成 agent skill 而不是 SaaS",
+                "349 star 的 Python 项目，把「用一句话描述你的技术栈，输出一张带官方 logo 的架构图」做成 agent skill：由 agent 在本地生成图，而不是注册一个画图服务。定位是把架构图这件事塞进已有的编码会话里，省掉在绘图工具与代码之间来回搬。",
+                [
+                    {"key": "能做什么", "value": "输入一句技术栈描述，输出带官方 logo 的架构图；以 agent skill 形式分发，可被 Claude Code 等直接调用，本地执行不依赖外部账号。"},
+                    {"key": "解决什么痛点", "value": "架构图工具要么是 SaaS（图和数据都出网）、要么是手写 DSL（改一次要重画）；而多数架构图需求只是「把刚才聊的这堆组件画出来」。"},
+                    {"key": "值不值得", "value": "对经常要给同事解释集群拓扑的人是低成本尝试：skill 形态意味着图可以跟着代码会话走，且不出网（金融场景敏感）。限制是 349 star、单人项目，复杂布局与样式控制能力有限，正式文档仍要手调。"},
+                ],
+                tag="开源",
+                oss=True,
+            ),
+        ],
+    },
+    {
+        "label": "🛠️ AI 工程落地",
+        "items": [
+            item(
+                50,
+                "Grafana 把 agent 幻觉做成 SLO：30 天内 95% 对话算完成，剩下 5% 是错误预算",
+                "Grafana Labs 提出用 SRE 的评估 + SLO + 错误预算来衡量 agent 行为：先把「回答是否有据、是否完成请求、是否含毒性、是否泄露隐私、是否被提示注入」逐项做成 SLI（LLM-as-judge 或正则等确定性检查），再套 SLO——例如 30 天内 95% 的对话被判定完成用户请求，剩余 5% 就是明确容忍的错误预算。预算充足时可以继续调 prompt/模型，预算耗尽就转向修质量。文章强调不要造单一「agent 质量分」，因为质量是多维的；同时承认最大风险在测量本身：裁判模型持续错分会给出虚假的精确感。",
+                [
+                    {"key": "能做什么", "value": "把幻觉率、任务完成度、毒性、PII 泄露、注入成功率各自定义成 SLI，配 30 天窗口的 SLO 与错误预算；用错误预算消耗速度做发布闸门；区分离线评估（已知场景）与在线评估（真实交互）。"},
+                    {"key": "解决什么痛点", "value": "传统可观测性只能告诉你 agent 响应快、没报错、烧了多少 token，说不出答案对不对；而 agent 的退化是渐进的——模型/提示/检索一变，质量每天掉零点几个百分点，不会触发任何告警。"},
+                    {"key": "值不值得", "value": "对已上生产的 agent 平台是现成治理框架，比自造「质量分」更容易和现有 SLO 工具（Grafana 自身的 SLO 就是 SLI + 目标 + 窗口）打通。限制：目标值没有行业共识（85% 还是 99% 得自己定），裁判模型与评估集的正确性要单独验证，否则预算只是好看的假精度。"},
+                ],
+                tag="可观测性",
+            ),
+            item(
+                38,
+                "同一份应用让 9 个前端框架各建 5 次：SvelteKit、Gracile+Lit、Angular 的 agent 建站成本明显更高",
+                "Nolan Lawson 用一份固定的 Pokémon 应用（列表 + 搜索 + 过滤，接近维基而非 Figma）做基准：每个框架/元框架用官方 MCP 或 skill，让 agent 各建 5 次取中位，从建站成本、质量、可维护性三个维度比。按 Claude Code 的 API 报价计，SvelteKit、Gracile+Lit、Angular 明显更贵——SvelteKit 每次都要读 v3 迁移指南（太新，不在 Opus 5.5 训练数据里），Gracile 则要 clone 仓库或读组件源码。作者同时声明方差很大：React Router 的中位只比 Hono+htmx 贵约 1 美元，最便宜的 React Router 一次（2.82 美元）比最贵的 Hono+htmx（3.19 美元）还便宜。",
+                [
+                    {"key": "能做什么", "value": "一套可复现的「agent 建站成本」基准：固定应用规格 + 官方 MCP/skill + 每框架 5 次取中位 + 无障碍一致性测试套件，同时量成本、质量与可维护性，按 API 报价折算美元。"},
+                    {"key": "解决什么痛点", "value": "前端选型长期靠「体感」——框架说自己快、DX 好，都没有证据；进入 agent 写代码的时代，DX 的权重下降，真正影响成本的是「这个框架在训练数据里有多少、agent 认不认识它的 API」。"},
+                    {"key": "值不值得", "value": "对要选型或维护前端栈的人是个有用的新维度：框架成本不只体现在运行时，还体现在 agent 每次重建要读多少迁移文档。限制是单一应用形态（内容型、交互少）、方差大、Angular 有两次没跑出可测应用；结论应读成「趋势」而不是「排名」。"},
+                ],
+                tag="基准",
+            ),
+        ],
+    },
+    {
+        "label": "📊 产品与商业",
+        "items": [
+            item(
+                46,
+                "Momenta 系芯片公司新芯航途首发 X7 Ultra：700 TOPS、NPU 利用率 98.7%，用 R7 世界模型当跑分",
+                "新芯航途（XHEART）首次对外亮相，发布车规 SoC X7 Ultra：700 TOPS，NPU 采用超大核架构并提升核间互连带宽，为 LayerNorm/Softmax/Transpose 这类高频「配角算子」配专用引擎，AI 工具链做计算图融合与并行调度。官方口径：量化模型输出与 FP32 基准相似度超 99.99%，NPU 计算利用率 98.7%，对比行业旗舰内存带宽消耗降 80%、能效提升 100%；激光雷达专用加速器每秒处理 2000 万点，支持千线级点云。CPU 用 Arm v9 车规核（官方称 Arm v9 首次在中国落地），SoC 达 ASIL-B、集成 MCU 达 ASIL-D。",
+                [
+                    {"key": "能做什么", "value": "700 TOPS 车规 SoC：超大核 NPU + 专用算子引擎 + 计算图融合工具链，把内存搬运压下来（带宽 -80%、能效 +100% 的官方口径）；2000 万点/秒激光雷达加速器、摄像头链路流水线控制；Arm v9 车规 CPU；ASIL-B SoC + ASIL-D MCU 双安全等级。"},
+                    {"key": "解决什么痛点", "value": "端侧智驾芯片的真实瓶颈不是峰值算力，而是计算单元等数据、配角算子拖住主链路、传感器前端排队；只看实验室 TOPS 无法预测量产模型跑多快。"},
+                    {"key": "值不值得", "value": "值得当「评测方法论」看而非只看参数：用真实量产世界模型（Momenta R7）在结构/精度/体验三重约束下测芯片，比跑 APS 微基准更接近部署现实。与云侧 K8s 工作无直接关系，但 98.7% 利用率、带宽 -80% 这类指标是判断「端侧推理能不能塞下更大模型」的关键；数字均为厂商口径，需第三方复现。"},
+                ],
+                tag="硬件",
+            ),
+        ],
+    },
+    {
+        "label": "💡 观点与好文",
+        "items": [
+            item(
+                55,
+                "毕玄复盘 SREAgent：「给大模型补短板」撑不起垂类 Agent 的长期竞争力",
+                "贝联珠贯 CEO 毕玄以 SREAgent（面向企业 IT 的 AI 运维助手）为例，讲垂类 Agent 的竞争力怎么变。他的判断是：让 agent 长时间跑任务、熟练用通用工具，这些曾经的优势正在变成模型自身的能力，靠「补短板」只能拿到短期优势。真正的壁垒在脏活累活——每家企业的监控系统、数据来源、采集方式都不同，接入并建模需要一家家解决；SREAgent 3.0 让客户用自然语言描述需求、由系统生成对应 Skill 来降低接入门槛，但这类功能也容易被同行追上。更难复制的是「哪些日志有用、怎么结合业务建运行模型、模型怎么随业务自我演进」，最终检验标准是问题能否解决、运行是否可靠、行为是否受控。",
+                [
+                    {"key": "能做什么", "value": "一份来自一线产品的竞争力拆解：SREAgent 用监控数据与日志做故障排查定位，3.0 支持客户自然语言描述需求、系统生成 Skill 来降低数据接入门槛；作者把壁垒归到专有数据的采集/处理/业务建模/持续迭代四件事。"},
+                    {"key": "解决什么痛点", "value": "垂类 Agent 公司普遍被问「模型越来越强，为什么还需要你」；答案如果只是「我们会用工具、能跑长任务」，下一次模型升级就会被抹平。"},
+                    {"key": "值不值得", "value": "对在做多用户 agent 产品的人是很好的定位提醒：平台层能复制的是工具与 Skill 生成，不可复制的是数据接入与业务建模的沉淀。限制是全文为经验判断、无量化数据，且作者自己也说这类判断「一两个月就可能被打脸」。"},
+                ],
+                tag="访谈",
+            ),
+        ],
+    },
+    {
+        "label": "🛡️ 安全与治理",
+        "items": [
+            item(
+                0,
+                "OpenAI 认一个共享 robots.txt 信号：__usage_ai-training 一个 token 管所有厂商",
+                "OpenAI 宣布将遵守一个共享的 robots.txt 信号，让站点用同一份声明同时告知多家 AI 厂商「内容能否用于基础模型训练」，不必再为每家的爬虫名各写一条规则。规范草案在 User-Agent 字段里定义共享 token __usage_ai-training，组内仍用普通 Allow/Disallow 表达按路径的训练偏好，不引入新语法；Google 与 Microsoft 也表示支持。OpenAI 称将在「未来几个月」落地，具体实现细节后补，且新信号不替代 GPTBot/OAI-SearchBot 等现有爬虫控制——搜索收录与训练授权仍是两个独立开关。",
+                [
+                    {"key": "能做什么", "value": "robots.txt 里新增一个共享 User-Agent 组（__usage_ai-training），用现有 Allow/Disallow 语法表达「本路径可否用于训练」，一次声明对多个参与厂商生效；与产品级爬虫 token 并存，训练与搜索可分别授权。"},
+                    {"key": "解决什么痛点", "value": "站点现在要为 GPTBot、Google-Extended、ClaudeBot 等各写一套规则，厂商一多就没人维护；同一份偏好也无法保证各家一致执行。"},
+                    {"key": "值不值得", "value": "对自建站/文档站的人值得提前规划：这是 IETF 草案（draft-kelley-aipref）而非标准，OpenAI 尚未实现，现在改了也不生效；但方向明确——训练授权会从「按厂商逐个谈判」变成「按路径一次声明」。企业内网知识库不涉及爬虫，参考价值主要在对外文档站。"},
+                ],
+                tag="治理",
+            ),
+            item(
+                33,
+                "AiSOC：6.2k star 的开源 AI 安全运营中心，每个 agent 步骤都留可回放决策账本",
+                "开源项目 AiSOC 把告警融合、LLM agent 分诊、MITRE ATT&CK 调查串成一条流水线，并给 agent 的每一步写可回放的决策账本（replayable decision ledger）。可自托管、无需 API key 即可跑，MIT 许可，自带 MCP server 供 Claude、Cursor、Continue 调用。",
+                [
+                    {"key": "能做什么", "value": "告警融合 → LLM agent 分诊 → 按 MITRE ATT&CK 做调查；每一步决策落账本、可回放复现；自托管、无 API key 也能跑，附 MCP server 接编码 agent。"},
+                    {"key": "解决什么痛点", "value": "安全运营里 agent 给出的判断最难被审计——出了误判无法回溯它看了什么、为什么这么判；SOC 又普遍不能把告警数据发给外部 SaaS。"},
+                    {"key": "值不值得", "value": "对金融场景的合规诉求（数据不出网 + 决策可审计）是对路的组合：自托管 + 决策账本 + MCP。限制是 6.2k star 的社区项目、规则与检测内容深度未知，不能替代商业 SOC 平台；适合先做分诊层的旁路试点。"},
+                ],
+                tag="开源",
+                oss=True,
+            ),
+            item(
+                43,
+                "Anthropic 在 Opus 5.5 系统提示里加两句禁「复刻现有游戏」，Claude Code 的 issue 被原创开发者刷爆",
+                "博主 chasm 发现 Claude Code 开始拒绝复刻既有游戏，Anthropic 确认在 Opus 5.5 的系统提示里加了两句话，引导模型不要「重新创建属于别人的特定游戏」，允许原创游戏、特定类型游戏与使用用户自有素材的游戏。背景是 9 月 22 日 Opus 5.5 发布后，逆向/反编译/移植成本骤降：浏览器里能跑《GTA 5》《使命召唤》，破解 PS5 上跑起了《光环 2》与《塞尔达》，独立工作室 Alliance Arts 因此取消新作公开试玩，担心试玩被喂给 AI 抢先做出山寨版。禁令上线几天后，Claude Code 的 GitHub issue 被原创开发者刷屏——写到一半被判定「疑似复刻」而罢工。",
+                [
+                    {"key": "能做什么", "value": "Anthropic 在 Opus 5.5 系统提示层加了两条约束：可做原创游戏、类型化游戏、用自有素材的游戏；不得复刻已存在的特定游戏，改名或声称原创也不行。属于提示层软约束，非硬性拒绝策略。"},
+                    {"key": "解决什么痛点", "value": "代码能力跃升让「克隆一个可玩游戏」的成本降到一两个小时、一句提示词，直接冲击独立开发者与主机厂商的护城河；厂商需要在不改模型权重的前提下快速表态。"},
+                    {"key": "值不值得", "value": "对做 agent 产品的人是提示层治理的现成案例：软约束必然误伤（原创项目被拦）且必然可绕过（换模型、把任务拆成看不出上下文的纯技术请求）。若你的平台要在提示层加类似限制，得同时准备误判申诉与可解释的拒绝理由，否则就是现在这种 issue 刷屏。"},
+                ],
+                tag="治理",
+            ),
+        ],
+    },
+]
+
+for c in ai_cats:
+    c["title"] = c["label"]
+    c["emoji"] = EMOJI[c["label"]]
+sections.append({"label": "🤖 AI 板块", "categories": ai_cats})
+
+# ---------------- 基础设施板块 ----------------
+infra_cats = [
+    {
+        "label": "🤖☸️ K8s × AI",
+        "items": [
+            item(
+                86,
+                "K8s 上的 GPU 监控为什么比 CPU 难：DCGM Exporter 用 pod-resources API 把指标挂到 Pod 上",
+                "Kubezilla 的长文拆了 K8s GPU 监控的几个坑：Pod 申请到 nvidia.com/gpu: 1 只说明设备被分配，GPU 仍可能整段时间空转；也可能读数 100% 忙却几乎没做有效计算；过热降频或硬件错误往往只表现为训练任务卡住。推荐路径是 NVIDIA DCGM Exporter 以 DaemonSet 跑在每个 GPU 节点，读 DCGM 的健康与性能数据并以 Prometheus 格式暴露；关键在于它通过 kubelet 的 pod-resources API 把指标映射到 Pod，给每条指标打上 namespace/pod/container 标签，于是能问「我的训练任务那块 GPU 忙不忙」而不只是「7 号节点 3 号卡忙不忙」。装了 GPU Operator 时 DCGM Exporter 默认开启，只需打开 ServiceMonitor。",
+                [
+                    {"key": "能做什么", "value": "DCGM Exporter 作为 DaemonSet 暴露 GPU 利用率、显存、温度、功耗、XID 错误等指标；借 kubelet pod-resources API 把 device 映射回 namespace/pod/container 标签，实现按工作负载聚合与告警；GPU Operator 默认集成，开 ServiceMonitor 即可被 Prometheus 抓。"},
+                    {"key": "解决什么痛点", "value": "GPU 是集群里最贵的资源，但「Pod Running」不代表卡在干活：分配了不用的空闲卡、读数很高但有效计算很少、过热降频、静默 XID 错误，这些都不会进 kubelet 的 CPU/内存指标。"},
+                    {"key": "值不值得", "value": "如果集群要跑训练/推理，这是最低成本的可见性建设：一个 DaemonSet + 一组 Prometheus 规则，就能把 GPU 利用率、按 Pod 归因和 XID 告警补上，也是后续做 GPU 共享（MIG/time-slicing）与配额的前提。限制是文章停在监控层，没有给出多租户计费与 MIG 场景下的指标口径差异，这些要自己补。"},
+                ],
+                tag="实践",
+            ),
+        ],
+    },
+    {
+        "label": "☸️ K8s 核心技术",
+        "items": [
+            item(
+                87,
+                "Gateway API v1.7.0：HTTPRoute 重试进 Standard，XTelemetryPolicy 用 OTel 语义统一追踪",
+                "Gateway API v1.7.0 把 HTTPRoute 的重试配置（codes、attempts、backoff）连同 HTTPRouteRetryCodes、HTTPRouteRetryConnectionError 两个 conformance feature 一起提升到 Standard 通道；backoff 因实现差异（尤其 jitter）被标为 implementation-specific。新增实验性 API：按地址表达 Gateway 可路由范围的 GEP-5093、基于 OpenTelemetry 语义约定的 XTelemetryPolicy 分布式追踪、路由决策前执行的 listener 过滤器（GEP-5224）、BackendTLSPolicy 与前端 TLS 通过 caCertificateRefs 引用 ClusterTrustBundle（不必把 CA 拷进每个 namespace）、会话保持从 route-inline 与 BackendTrafficPolicy 迁到 XBackend。破坏性变更集中在实验通道，Go 升到 1.27、K8s 依赖升到 v0.37。",
+                [
+                    {"key": "能做什么", "value": "重试语义进 Standard（网关实现必须过 conformance）；XTelemetryPolicy 用 OTel 语义约定统一 Gateway 的追踪配置，不再依赖各厂商 CRD；ClusterTrustBundle 引用让 CA 分发走集群级对象；pre-routing filter 支持外置鉴权与载荷处理；地址级 routability 允许单个 Gateway 服务不同 scope 的地址。"},
+                    {"key": "解决什么痛点", "value": "重试以前是各实现的私有字段，换网关就要重写；追踪配置每家一个 CRD，指标与访问日志也没统一；CA 证书要靠 copy 进每个 namespace，轮换时极易漏。"},
+                    {"key": "值不值得", "value": "正在选型或已上 Gateway API 的集群值得跟：重试进 Standard 意味着可以按 conformance 结果选实现，XTelemetryPolicy 让追踪配置跟 OTel 走。限制是除重试外的新能力都在实验通道，生产要开 ExperimentalChannel 并接受 API 变动；v1.7.0 还改了 XBackend 的 port 字段，升级前先查 breaking changes。"},
+                ],
+                tag="发布",
+                oss=True,
+            ),
+            item(
+                88,
+                "metrics-server v0.9.1 重建镜像剔除 eMudhra 根证书：这周第四个被供应链问题波及的组件",
+                "metrics-server v0.9.1 的主要变更是重建 release 镜像，从 CA bundle 里剔除已不被信任的 eMudhra 根证书；同时把 Go 升到 1.26.10、Kubernetes 依赖升到 v0.36.5，Prometheus 相关依赖一并跟进。这已经是本周第四个因为证书信任问题需要重新出镜像的基础组件（此前是 envoy、calico、dynamo），共同点是代码没改、镜像必须重建。",
+                [
+                    {"key": "能做什么", "value": "重建镜像剔除 eMudhra 根证书，Go 1.26.10、K8s 依赖 v0.36.5；对使用 metrics-server 做 HPA 的集群，这是补信任链的最小升级。"},
+                    {"key": "解决什么痛点", "value": "根证书被吊销/不再信任后，镜像里残留的 CA 会让组件对外 TLS 校验失败或信任错误链；这类问题不体现在代码 diff 里，只看 release notes 很容易漏。"},
+                    {"key": "值不值得", "value": "跑 HPA 的集群建议尽快升级——它同时是「镜像里 baked-in CA 需要治理」的提醒：自建镜像应把 CA 做成可挂载的配置而不是烧进层里，否则每次根证书变动都要重发版。影响面限于 TLS 校验路径，升级风险低。"},
+                ],
+                tag="发布",
+                oss=True,
+            ),
+        ],
+    },
+    {
+        "label": "🌐 云原生周边",
+        "items": [
+            item(
+                89,
+                "OTel Collector v0.164.0：otlp_http 报错终于给出真实目标 URL，OpAMP 原始配置脱敏",
+                "OpenTelemetry Collector v0.164.0 修了两个排查体验问题：otlp_http exporter 在中间件克隆并改写请求 URL 时，4xx/5xx 错误信息里会报实际发出的地址，而不是配置里的占位 URL；OpAMP 扩展上报原始配置时，会脱敏未展开的环境变量字面默认值（如 ${env:NAME:-literal}），空默认值仍可见。另外 mdatagen 支持在组件元数据里声明 supported_platforms，生成的组件测试可按平台裁剪。",
+                [
+                    {"key": "能做什么", "value": "otlp_http 错误信息带真实目标 URL（多网关/多后端改写场景下能直接定位是哪个 endpoint 失败）；OpAMP 原始配置脱敏避免把默认值里的凭据写进上报；mdatagen 支持平台限定。"},
+                    {"key": "解决什么痛点", "value": "Collector 排障最难的是「报错里的 URL 不是你配的那个」——中间件改写后错误信息指错目标；OpAMP 上报原始配置则可能把字面默认值里的敏感串带出去。"},
+                    {"key": "值不值得", "value": "运维 Collector 的团队可以直接升：两个修复都针对真实排障痛点，无破坏性变更。价值不大但风险也小；如果不用 OpAMP 与多后端改写，收益主要是错误信息更准。"},
+                ],
+                tag="发布",
+                oss=True,
+            ),
+        ],
+    },
+]
+
+for c in infra_cats:
+    c["title"] = c["label"]
+    c["emoji"] = EMOJI[c["label"]]
+sections.append({"label": "☸️ 基础设施板块", "categories": infra_cats})
+
+flash = [
+    {"title": "InfoQ 视频：每天上千万次创建，Agent Sandbox 为什么会成为新算力形态（阿里云 凌敏）", "url": U(52)},
+    {"title": "ARTEX 与同类框架：Google Cloud 威胁情报拆解 agentic 攻击框架的落地形态", "url": U(61)},
+    {"title": "HackerBooks：把 HN 里被提到的书做成可检索书库（Show HN）", "url": U(37)},
+    {"title": "Azure SQL 托管实例公共预览：支持数据库级托管标识（含 FIC）", "url": U(63)},
+    {"title": "kornia：11.8k star 的几何计算机视觉库，面向 spatial AI", "url": U(32)},
+]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 11 月 2 日 · 星期一",
+    "issue": 42,
+    "kicker": "DAILY",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": "今天最值得读的是两份「把架构摊开」的材料。DeepSeek 公开了 Personal Agent 的底座：Router + Worker 两层，Worker 直接订阅后续事件、投机执行、异步 ReAct，模拟环境里 95 分位完成时间 15.7 分钟，单 Session + Subagent 方案是 29.5 分钟。基础设施侧，Kubeflow Trainer v2.4.0-rc.0 把 Katib 的 HPO 收进 OptimizationJob CRD，Gateway API v1.7.0 让 HTTPRoute 重试进 Standard。模型侧两个硬数字：EasyProver 不训练模型就证出 PutnamBench 669/672；AIR 调度在 128B token MoE 上把末端 loss 比 cosine 压低约 0.01。工程侧，Grafana 把 agent 幻觉做成 SLO 与错误预算，Nolan Lawson 用 9 个前端框架各建 5 次站，量出 agent 的建站成本差异。",
+    "highlights": highlights,
+    "sections": sections,
+    "flash": flash,
+    "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- assertions ---
+all_urls = {i["url"] for i in P}
+def walk():
+    for h in brief["highlights"]:
+        yield h
+    for s in brief["sections"]:
+        for c in s["categories"]:
+            assert c.get("title") and c.get("emoji"), c
+            for it in c["items"]:
+                yield it
+    for f in brief["flash"]:
+        yield f
+
+n = 0
+for it in walk():
+    n += 1
+    assert it.get("title"), it
+    assert it["url"] in all_urls, ("URL not from processed.json", it["url"])
+    if "detail" in it:
+        assert len(it["detail"]) == 3, it["title"]
+
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("items:", n, "highlights:", len(brief["highlights"]), "flash:", len(brief["flash"]))
