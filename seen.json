@@ -1,124 +1,4 @@
 {
-  "u:https://openai.com/index/practical-guide-building-gpt-6|t:openai发布gpt6家族落地指南从选型推理强度到skill与工具编排": {
-    "first_seen": "2026-10-03",
-    "title": "OpenAI 发布 GPT-6 家族落地指南：从选型、推理强度到 skill 与工具编排"
-  },
-  "u:https://www.infoq.cn/article/t5i2yv2z0lwibk36lter?utm_source=rss&utm_medium=article|t:deepseek开源华为昇腾全套基础设施组件与英伟达版接口一一对应": {
-    "first_seen": "2026-10-03",
-    "title": "DeepSeek 开源华为昇腾全套基础设施组件，与英伟达版接口一一对应"
-  },
-  "gh:google/skills": {
-    "first_seen": "2026-10-03",
-    "title": "Google 官方 Agent Skills 仓库：13 个技能覆盖 GKE / BigQuery / Cloud Ru"
-  },
-  "gh:panniantong/agent-reach": {
-    "first_seen": "2026-10-03",
-    "title": "Agent-Reach：一个 CLI 让 agent 读遍 Twitter / Reddit / YouTube / G"
-  },
-  "u:https://arxiv.org/abs/2610.02163v1|t:autocompact训练编码agent自己判断「何时压缩上下文保留什么」": {
-    "first_seen": "2026-10-03",
-    "title": "AutoCompact：训练编码 agent 自己判断「何时压缩上下文、保留什么」"
-  },
-  "gh:juliusbrussee/caveman": {
-    "first_seen": "2026-10-03",
-    "title": "caveman：让编码 agent「说穴居人话」，号称砍掉 65% token"
-  },
-  "u:https://huggingface.co/papers/2610.02202|t:scholarcatalyst评估模型「能否找到启发新研究的论文」的检索基准": {
-    "first_seen": "2026-10-03",
-    "title": "ScholarCatalyst：评估模型「能否找到启发新研究的论文」的检索基准"
-  },
-  "u:https://huggingface.co/papers/2609.36585|t:论文预训练transformer「想得太浅」一个rank8lora补上深度推理": {
-    "first_seen": "2026-10-03",
-    "title": "论文：预训练 Transformer「想得太浅」，一个 rank-8 LoRA 补上深度推理"
-  },
-  "u:https://huggingface.co/papers/2610.02142|t:论文关键词匹配式评测会「误判」小模型的工具调用能力": {
-    "first_seen": "2026-10-03",
-    "title": "论文：关键词匹配式评测会「误判」小模型的工具调用能力"
-  },
-  "u:https://huggingface.co/papers/2610.01428|t:论文llm的「泛化」应是稳定性而非准确率": {
-    "first_seen": "2026-10-03",
-    "title": "论文：LLM 的「泛化」应是稳定性，而非准确率"
-  },
-  "u:https://cloud.google.com/blog/products/databases/implementing-long-term-ai-agent-memory-in-alloydb-and-memorystore|t:googlecloudalloydb+valkey分层做agent长期记忆tok": {
-    "first_seen": "2026-10-03",
-    "title": "Google Cloud：AlloyDB + Valkey 分层做 agent 长期记忆，token 支出最多降 70%"
-  },
-  "u:https://cloud.google.com/blog/products/databases/spanner-queues-provide-native-transactional-messaging|t:googlecloud发布spannerqueues给agentic工作流的事务": {
-    "first_seen": "2026-10-03",
-    "title": "Google Cloud 发布 Spanner queues：给 agentic 工作流的事务级消息队列"
-  },
-  "gh:pbakaus/impeccable": {
-    "first_seen": "2026-10-03",
-    "title": "impeccable：一套让 AI harness「更懂设计」的设计语言"
-  },
-  "u:https://www.anthropic.com/news/claude-frontier-academy|t:anthropic投1亿美元办claudefrontieracademy计划培训": {
-    "first_seen": "2026-10-03",
-    "title": "Anthropic 投 1 亿美元办 Claude Frontier Academy，计划培训 1 万名工程师"
-  },
-  "u:https://openai.com/index/chatham-financial|t:openai案例chatham用codex把交易校验从30分钟压到4分钟以内": {
-    "first_seen": "2026-10-03",
-    "title": "OpenAI 案例：Chatham 用 Codex 把交易校验从 30 分钟压到 4 分钟以内"
-  },
-  "u:https://www.qbitai.com/2026/10/499991.html|t:丘成桐新论文致谢gpt和claude": {
-    "first_seen": "2026-10-03",
-    "title": "丘成桐新论文致谢 GPT 和 Claude"
-  },
-  "u:https://www.infoq.cn/article/erbea3dmd58rnpqp5d8s?utm_source=rss&utm_medium=article|t:zig作者andrewkelley专访为何禁止ai贡献把zig移出github": {
-    "first_seen": "2026-10-03",
-    "title": "Zig 作者 Andrew Kelley 专访：为何禁止 AI 贡献、把 Zig 移出 GitHub"
-  },
-  "u:https://huggingface.co/papers/2610.00348|t:needle用权重正交化做免训练的后门移除": {
-    "first_seen": "2026-10-03",
-    "title": "NEEDLE：用权重正交化做免训练的后门移除"
-  },
-  "gh:kutuyyy/leaked-system-prompt-ai": {
-    "first_seen": "2026-10-03",
-    "title": "Leaked-System-Prompt-AI：汇集各家 AI 产品的系统提示词"
-  },
-  "u:https://cloud.google.com/blog/products/containers-kubernetes/ai21-trains-its-models-on-ai-hypercomputer|t:ai21用googleaihypercomputer高优训练任务等待72小时降到": {
-    "first_seen": "2026-10-03",
-    "title": "AI21 用 Google AI Hypercomputer：高优训练任务等待 72 小时降到 12 小时"
-  },
-  "u:https://cloud.google.com/blog/products/containers-kubernetes/gke-cpu-startup-boost-faster-pod-starts-lower-costs|t:gkecpustartupboost不超配也能加速pod启动": {
-    "first_seen": "2026-10-03",
-    "title": "GKE CPU startup boost：不超配也能加速 Pod 启动"
-  },
-  "u:https://www.cncf.io/blog/2026/10/02/kubecon-cloudnativecon-north-america-2026-join-the-cloud-native-community-at-opentofu-day|t:kubeconna2026新增opentofuday聚焦「集群之外」的基础设施": {
-    "first_seen": "2026-10-03",
-    "title": "KubeCon NA 2026 新增 OpenTofu Day：聚焦「集群之外」的基础设施"
-  },
-  "u:https://bfl.ai/models/flux-3-image|t:flux3image发布blackforestlabs新图像模型登hn首页264": {
-    "first_seen": "2026-10-03",
-    "title": "FLUX 3 Image 发布（Black Forest Labs 新图像模型，登 HN 首页 264 分）"
-  },
-  "gh:staylamebro/backburner": {
-    "first_seen": "2026-10-03",
-    "title": "backburner：用 iPhone 帮 Mac 跑 27B 模型（USB-C 提速 + 更长上下文）"
-  },
-  "gh:jarrodwatts/intermission": {
-    "first_seen": "2026-10-03",
-    "title": "intermission：Claude Code 插件，Claude 干活时能打 Doom 死斗"
-  },
-  "u:https://www.qbitai.com/2026/10/500098.html|t:openjiuwenxrouter昇腾亲和的自演进模型路由实测省50%+toke": {
-    "first_seen": "2026-10-03",
-    "title": "openJiuwen X-Router：昇腾亲和的自演进模型路由，实测省 50%+ token"
-  },
-  "u:https://www.infoq.cn/article/07qzhlvynxsw1sfnv5nv?utm_source=rss&utm_medium=article|t:火山引擎发布语音内容编辑模型像改文字一样改语音": {
-    "first_seen": "2026-10-03",
-    "title": "火山引擎发布语音内容编辑模型：像改文字一样改语音"
-  },
-  "u:https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-application-developer-journey|t:kubeconna2026按角色给出参会路线图应用开发者版sre版": {
-    "first_seen": "2026-10-03",
-    "title": "KubeCon NA 2026 按角色给出参会路线图：应用开发者版 / SRE 版"
-  },
-  "u:https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-sre-journey|t:kubeconna2026sre参会路线图": {
-    "first_seen": "2026-10-03",
-    "title": "KubeCon NA 2026 SRE 参会路线图"
-  },
-  "u:https://arxiv.org/abs/2610.02204v1|t:rpg无需更新权重让具身agent自改进的框架": {
-    "first_seen": "2026-10-03",
-    "title": "RPG：无需更新权重，让具身 agent 自改进的框架"
-  },
   "gh:cloudflare/cloudflare-os": {
     "first_seen": "2026-10-04",
     "title": "Cloudflare 开源 cloudflare-os：把内部全员在用的 AI 生产力环境做成一套「操作系统」"
@@ -3238,5 +3118,85 @@
   "gh:kornia/kornia": {
     "first_seen": "2026-11-02",
     "title": "kornia：11.8k star 的几何计算机视觉库，面向 spatial AI"
+  },
+  "u:https://www.infoq.cn/article/vryq1f3c0f5uzholmip4?utm_source=rss&utm_medium=article|t:阿里云把云电脑做成「agent工位」好未来两周部署约1000个agent人可随时": {
+    "first_seen": "2026-11-03",
+    "title": "阿里云把云电脑做成「Agent 工位」：好未来两周部署约 1000 个 Agent，人可随时接管现场"
+  },
+  "u:https://developer.nvidia.com/blog/making-kubernetes-ai-ready-for-nvidia-vera-rubin-on-day-one|t:nvidia用aicr配方固化verarubin的k8s就绪状态drav050+": {
+    "first_seen": "2026-11-03",
+    "title": "NVIDIA 用 AICR 配方固化 Vera Rubin 的 K8s 就绪状态：DRA v0.5.0 + GPU Op"
+  },
+  "u:https://www.infoq.cn/article/pwwkdpofhisfw9acrkij?utm_source=rss&utm_medium=article|t:lecun新论文给「柏拉图表征假说」补上证明109亿参数jepa的跨模态对齐分超": {
+    "first_seen": "2026-11-03",
+    "title": "LeCun 新论文给「柏拉图表征假说」补上证明：1.09 亿参数 JEPA 的跨模态对齐分超过 Qwen2.5-72B"
+  },
+  "u:https://www.qbitai.com/2026/11/507082.html|t:gpt62astra开始灰度claudemythos55同日曝光20%请求被路由": {
+    "first_seen": "2026-11-03",
+    "title": "GPT-6.2 Astra 开始灰度、Claude Mythos 5.5 同日曝光：20% 请求被路由，Mythos 假"
+  },
+  "gh:justvugg/colibri": {
+    "first_seen": "2026-11-03",
+    "title": "colibri：纯 C 零依赖推理引擎，MoE 专家按需从磁盘流式加载，46.5k star"
+  },
+  "u:https://www.infoq.cn/article/wmlatgjudjwpkqhf4qgx?utm_source=rss&utm_medium=article|t:buildkite给ci加了三个mcp工具校验流水线yaml对比失败构建补web": {
+    "first_seen": "2026-11-03",
+    "title": "Buildkite 给 CI 加了三个 MCP 工具：校验流水线 YAML、对比失败构建、补 Webhook，密钥收到流"
+  },
+  "gh:max-sixty/worktrunk": {
+    "first_seen": "2026-11-03",
+    "title": "worktrunk：给并行 agent 一人一个 git worktree 的 CLI，10k star"
+  },
+  "gh:vercel-labs/agent-desktop": {
+    "first_seen": "2026-11-03",
+    "title": "agent-desktop：把 computer use 做成 CLI，agent 用命令行驱动本机桌面（Rust，9."
+  },
+  "u:https://www.infoq.cn/article/fckehkvfcloxg0jvakba?utm_source=rss&utm_medium=article|t:深空之序把fde的现场经验做成skill报关单从3小时压到5分钟单份成本70元降": {
+    "first_seen": "2026-11-03",
+    "title": "深空之序把 FDE 的现场经验做成 Skill：报关单从 3 小时压到 5 分钟，单份成本 70 元降到 10 元"
+  },
+  "u:https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-developer-plugin-now-available-in-antigravity-marketplace|t:googlecloud把开发者插件上架antigravitymarketplac": {
+    "first_seen": "2026-11-03",
+    "title": "Google Cloud 把开发者插件上架 Antigravity Marketplace：给编码 agent 补 IA"
+  },
+  "u:https://openai.com/index/qodo-codex-plugin|t:qodo用codex插件把公司编码规范带进评审目标是在开pr前拦下p0问题": {
+    "first_seen": "2026-11-03",
+    "title": "Qodo 用 Codex 插件把公司编码规范带进评审：目标是在开 PR 前拦下 P0 问题"
+  },
+  "u:https://www.infoq.cn/article/hjgtwfspaugnbj2juefj?utm_source=rss&utm_medium=article|t:百度搜索aiapi压到49元千次抢的是agent的默认检索入口": {
+    "first_seen": "2026-11-03",
+    "title": "百度搜索 AI API 压到 4.9 元/千次，抢的是 Agent 的默认检索入口"
+  },
+  "u:https://www.infoq.cn/article/wptnht7guarweyejjfv6?utm_source=rss&utm_medium=article|t:chatgptpro额度全面翻倍pro500相当于plus的50倍但撤降额被算进": {
+    "first_seen": "2026-11-03",
+    "title": "ChatGPT Pro 额度全面翻倍：Pro 500 相当于 Plus 的 50 倍，但撤降额被算进「升级」引发不满"
+  },
+  "u:https://www.infoq.cn/article/umvaawofbyxvwllvvjyy?utm_source=rss&utm_medium=article|t:企业agent的边界在哪飞猪用求解器算票价货拉拉灌物流知识江苏移动用harnes": {
+    "first_seen": "2026-11-03",
+    "title": "企业 Agent 的边界在哪：飞猪用求解器算票价、货拉拉灌物流知识、江苏移动用 Harness 兜底"
+  },
+  "u:https://cloud.google.com/blog/topics/threat-intelligence/llmjacking-monetizing-compromised-cloud-models|t:mandiant记录llmjacking单日盗刷超10万美元累计到100万美元已": {
+    "first_seen": "2026-11-03",
+    "title": "Mandiant 记录 LLMJacking：单日盗刷超 10 万美元、累计到 100 万美元，已出现 LLM Mixe"
+  },
+  "u:https://www.qbitai.com/2026/11/507225.html|t:openai重写modelspec第一条从「服从指令」改成「忠于人类意图」明确禁": {
+    "first_seen": "2026-11-03",
+    "title": "OpenAI 重写 Model Spec：第一条从「服从指令」改成「忠于人类意图」，明确禁止自我保存与囤算力"
+  },
+  "u:https://www.cncf.io/blog/2026/11/02/the-linkerd-story-the-people-behind-the-service-mesh-a-new-documentary-premieres-at-kubecon-cloudnativecon-north-america-2026|t:linkerd十周年纪录片在kubeconna首映servicemesh的口述史": {
+    "first_seen": "2026-11-03",
+    "title": "Linkerd 十周年纪录片在 KubeCon NA 首映：Service Mesh 的口述史，11 月 9 日盐湖城"
+  },
+  "u:https://simonwillison.net/2026/nov/2/llm|t:llm037默认模型换成gpt6luna价格减半新增llmopenaiendpo": {
+    "first_seen": "2026-11-03",
+    "title": "llm 0.37：默认模型换成 gpt-6-luna（价格减半），新增 llm openai endpoint add "
+  },
+  "u:https://openai.com/index/scaling-git-at-openai|t:openai介绍pando为codex规模的开发重建的git兼容后端": {
+    "first_seen": "2026-11-03",
+    "title": "OpenAI 介绍 Pando：为 Codex 规模的开发重建的 Git 兼容后端"
+  },
+  "u:https://simonwillison.net/2026/oct/31/datasette-llm|t:datasettellm01a9datasette的llm插件跟进新版api": {
+    "first_seen": "2026-11-03",
+    "title": "datasette-llm 0.1a9：Datasette 的 LLM 插件跟进新版 API"
   }
 }
