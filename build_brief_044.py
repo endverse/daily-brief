@@ -1,0 +1,414 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 044 (2026-11-04)."""
+import json, sys
+
+REPO = "/Users/endverse/code/endverse/daily-brief"
+
+# ---- 1) Gap-fill: append fresh K8s releases to processed.json ----
+proc_path = f"{REPO}/processed.json"
+proc = json.load(open(proc_path, encoding="utf-8"))
+gapfill = [
+  {
+    "title": "Capsule v0.15.2：Helm 增 OpenShift 开关，最低要求 K8s v1.36",
+    "url": "https://github.com/projectcapsule/capsule/releases/tag/v0.15.2",
+    "summary": "Capsule v0.15.2 是补丁版：Helm chart 新增 OpenShift 部署开关，修了默认 bool 指针的冗余问题，并把 prometheus client_golang 依赖升到 v1.25.0。官方明确兼容性只支持最新 minor 版本，要求 Kubernetes >= 1.36.0。Capsule 用轻量 CRD 把多个租户聚合进同一个 namespace 边界，是做集群内多租户隔离的常用方案。",
+    "published": "2026-10-26T00:00:00+00:00",
+    "source": "GitHub Releases", "source_cat": "基础设施",
+    "extra": {}, "board": "基础设施", "category": "K8s 核心",
+    "oss": True, "hot_score": 7, "is_hot": False
+  },
+  {
+    "title": "BuildKit v0.34.2：修两处安全漏洞，含控制 API 越权写宿主机 xattr",
+    "url": "https://github.com/moby/buildkit/releases/tag/v0.34.2",
+    "summary": "BuildKit v0.34.2 是安全发布：修了同 Git 源引用被解析两次时 resolver 缓存投毒导致的 daemon panic（GHSA-2fqp-xg6f-v7gj），以及恶意客户端借 BuildKit 控制 API 在状态目录外设置 extended attributes、可能提权的漏洞（GHSA-w26x-xg27-7qjc）。依赖 containerd v2 从 v2.4.1 升到 v2.4.2。",
+    "published": "2026-11-03T00:00:00+00:00",
+    "source": "GitHub Releases", "source_cat": "基础设施",
+    "extra": {}, "board": "基础设施", "category": "云原生周边",
+    "oss": True, "hot_score": 7, "is_hot": False
+  },
+]
+proc_urls0 = {it["url"] for it in proc}
+gapfill = [g for g in gapfill if g["url"] not in proc_urls0]
+proc.extend(gapfill)
+json.dump(proc, open(proc_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+print("appended gapfill (%d new), processed.json now %d" % (len(gapfill), len(proc)))
+
+# ---- 2) Build briefing.json ----
+def D(can, solve, worth):
+    return [{"key":"能做什么","value":can},{"key":"解决什么痛点","value":solve},{"key":"值不值得","value":worth}]
+
+brief = {
+  "brand": "AI & 基础设施早报",
+  "date_label": "2026 年 11 月 4 日 · 星期三",
+  "issue": 44,
+  "kicker": "DAILY",
+  "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+  "lead": "今天的线索是「把不可信的东西接进 agent 之前先想清楚」。安全侧连续两条都直指 agent 的数据面：Postman 被曝静默装 AI 插件并试图共享全部 API 流量（含密钥），MCP Tool Poisoning 研究首次用真实执行证明「工具描述被污染」会让多个框架失守——这两者对正在把 MCP server 和编码助手接进生产的人都是直接教训。K8s 侧 OpenKruise Agents v0.6.0 把多用户 agent 沙箱直接做成 K8s 上的开源运行时，Azure 则把 JWT 校验、MCP 网关和私有入口一并收进 Application Gateway for Containers 的公测。模型侧 LoL 让 Transformer 在推理时动态重排层顺序，CoworkOS/CUA-Master/SWE-Trail 继续把 agent 的长周期协作与训练数据做成方法论。",
+  "highlights": [
+    {
+      "title": "Postman 被曝静默安装 AI 插件并试图共享全部 API 数据，HN 977 分",
+      "url": "https://github.com/postmanlabs/postman-app-support/issues/14370",
+      "tag": "安全",
+      "source": "GitHub / Hacker News",
+      "note": "一位用户在 Postman 仓库 issue 中指出：客户端在未经明确同意的情况下自动安装 AI 插件，并试图把用户所有 API 请求数据（含密钥与请求体）共享到云端用于训练/分析。HN 讨论达 977 分、322 条评论，焦点是「AI 工具默认扩大数据访问面」——类比 Cursor、Copilot 等编码助手的默认行为。",
+      "summary": "一位用户在 Postman 仓库 issue 中指出：客户端在未经明确同意的情况下自动安装 AI 插件，并试图把用户所有 API 请求数据（含密钥、请求体）共享到云端用于训练/分析。讨论区（HN 977 分、322 评论）普遍把它当成「agent/AI 工具偷偷扩大数据访问面」的典型案例。对依赖 API key 跑 agent 的团队，直接教训是：任何带网络能力的 AI 客户端都可能默认上传请求上下文，需要在网络层或代理层做隔离，而不是信任客户端的隐私开关。",
+      "detail": D(
+        "Postman 桌面端被指静默安装 AI 插件并尝试把用户的全部 API 流量（含密钥与请求体）共享到云端；社区把它归为『AI 工具在用户无感知时扩大数据访问面』。",
+        "编码助手/API 客户端握着用户的全部请求上下文（key、token、请求体），一旦默认开启云端共享，等于把生产凭据批量外泄；而这类开关往往藏在深层设置、默认开启。",
+        "对正在给团队配 agent/编码助手的人，这条值得立刻做三件事：在代理或网络层拦截客户端对外共享、把含密钥的流量隔离到专用环境、审查所有 AI 客户端的默认数据策略。限制是它仍是 issue 中的个人报告，Postman 官方尚未给出完整回应。"
+      )
+    },
+    {
+      "title": "MCP Tool Poisoning：首个跨框架、带真实执行的测量研究",
+      "url": "https://arxiv.org/abs/2611.03555v1",
+      "tag": "Agent 安全",
+      "source": "arXiv",
+      "note": "论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，统一了此前分散的分类，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。",
+      "summary": "论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，统一了此前分散的分类，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。对正在把 MCP server 接进 agent 的团队，这是评估「不可信工具描述」风险的一手数据，比「模型会不会听坏话」的问卷式 benchmark 更接近真实攻击面。",
+      "detail": D(
+        "对 MCP 的工具投毒做跨框架、带真实工具执行的测量：工具描述、schema 字段与响应数据都是攻击方可控的未校验输入；论文用 25 类根因分类法量化多个框架的真实失守率。",
+        "此前 benchmark 只测模型是否遵从投毒指令，没确认工具是否真的被执行；这篇补上了『描述被污染 → agent 真的调用了危险工具』的端到端证据，说明风险在协议层而非单模型。",
+        "正把内部/第三方 MCP server 接进 agent 的团队，这条是必读：要在 agent 调用工具前对工具描述做来源校验与沙箱化执行，不能假定工具描述可信。限制是测量基于当时可用框架版本，且根因分类的覆盖面随新攻击面扩展。"
+      )
+    }
+  ],
+  "sections": [
+    {
+      "label": "🤖 AI 板块",
+      "categories": [
+        {
+          "label": "🧠 模型与研究", "title": "🧠 模型与研究", "emoji": "🧠", "en": "Models & Research",
+          "items": [
+            {
+              "title": "Library of Layers (LoL)：推理时动态重排 Transformer 层顺序",
+              "url": "https://huggingface.co/papers/2611.03526",
+              "summary": "LoL 提出一种新架构：不再像标准 Transformer 那样固定按相同顺序执行各层，而是维护一个全局「层库」，在推理时根据当前任务动态决定层的执行顺序。它只有一个超参（层库大小），用 transformer block 作为可复用基元，实验显示在不同任务上能自适应改变计算路径。",
+              "source": "HuggingFace Papers", "tag": "架构", "oss": False,
+              "detail": D(
+                "把各 transformer 层放进一个全局「层库」，推理时按当前输入动态决定层的执行顺序，而非固定层序；只有一个超参（层库大小），用已有 block 作基元。",
+                "标准 Transformer 对所有输入走同一套固定层序，LoL 让计算图随任务变化，更接近「程序员复用代码原语组合算法」的思路，可能对不同难度的 token 走不同深度。",
+                "做模型架构或推理优化的值得跟进，尤其关注它能否在不增参数的前提下降低某些任务的计算量。限制是论文尚未给出大规模训练与下游任务的完整对标，且动态层序对推理引擎的 kernel 调度是新的工程挑战。"
+              )
+            },
+            {
+              "title": "CoworkOS：把长周期「同事型」agent 的任务策略与执行管理分离",
+              "url": "https://huggingface.co/papers/2611.03178",
+              "summary": "CoworkOS 是面向真实工作自动化的通用 agent harness，把「任务策略」（做什么）与「执行管理」（怎么调度、监控、做决策）解耦。论文以 88 的 HF 热度，定位是让 agent 既交付复杂产物（软件、设计稿），又能在长周期内持续监控和决策；核心思路是模型负责决策、框架负责执行状态的长期跟踪。",
+              "source": "HuggingFace Papers", "tag": "Agent 框架", "oss": False,
+              "detail": D(
+                "把 agent 的「任务策略」与「执行管理」拆成两层：模型只负责决策，框架负责长周期的执行调度、状态跟踪与监控；目标是支撑跨多日的真实工作流而非一次性任务。",
+                "现有 agent 把策略与执行混在一起，遇到长周期、需要中途介入或状态持久化的任务容易失忆或失控；CoworkOS 主张用 harness 层承接这些工程负担。",
+                "正在设计多用户 agent 产品的人值得看它的分层模型——尤其「执行管理独立出来」这一点，和他公司 Daytona 沙箱的「长驻 agent 需要挂起/恢复」是同一类问题。限制是论文偏框架设计，缺少大规模生产落地的成本数据。"
+              )
+            },
+            {
+              "title": "CUA-Master：用开放世界递归自改进扩展 Computer-use Agent",
+              "url": "https://huggingface.co/papers/2611.03126",
+              "summary": "CUA-Master 提出嵌套双循环递归改进框架来扩展计算机操作 agent（CUA）：系统层面迭代改进「改进器」本身，任务层面让 agent 在开放环境中自主积累多样化交互数据。论文以 92 的 HF 热度，针对现有 CUA 数据多样性/可控性/可靠性不足、且缺乏迭代反馈的问题，用递归自改进突破自我生成经验的收益递减。",
+              "source": "arXiv", "tag": "Computer-use", "oss": False,
+              "detail": D(
+                "嵌套双循环：系统层迭代改进「改进器」（如何生成更好的训练信号），任务层让 CUA 在开放环境自主积累多样本交互数据；目标是突破自生成经验的收益递减。",
+                "现有 CUA 受限于数据多样性低、可控性差、缺迭代反馈，递归改进又常依赖自我生成的有限经验；CUA-Master 用开放世界递归扩容经验与能力。",
+                "做桌面/浏览器 GUI agent 的值得看它的数据自增殖路径；但开放世界递归自改进容易放大有害行为，生产部署前需要人工回环与护栏。限制是论文的方法论在私有环境的可复现性未充分验证。"
+              )
+            },
+            {
+              "title": "SWE-Trail：用历史轨迹引导编码 agent 的训练数据收集",
+              "url": "https://huggingface.co/papers/2611.02074",
+              "summary": "SWE-Trail 研究编码 agent 解决仓库 issue 的长轨迹（探索-编辑-验证）如何收集才能训出更好的模型。论文（HF 34 热度）指出常见的「每个 issue 独立采样多条轨迹再筛选」方法，随着采样数增多后期轨迹越来越冗余，而早期轨迹本可引导后续；它提出用历史轨迹引导后续采样，提升训练数据的信息量。",
+              "source": "HuggingFace Papers", "tag": "训练数据", "oss": False,
+              "detail": D(
+                "提出用已采样的轨迹去引导后续采样：早期轨迹作为「引导」减少后期冗余，提升编码 agent 训练数据的多样性与信息量，而非每条 issue 独立盲采。",
+                "编码 agent 轨迹（探索-编辑-验证）是昂贵的后训练数据，独立重复采样越多越冗余，浪费生成预算却换不来更多信号。",
+                "正在用 agent 轨迹训自己模型/微调的人值得借鉴其采样策略；限制是结论建立在特定仓库与任务集上，跨域泛化未充分验证。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "🧩 Agent & Skill", "title": "🧩 Agent & Skill", "emoji": "🧩", "en": "Agent & Skill",
+          "items": [
+            {
+              "title": "p-e-w/heretic：免训练的 LM 修改工具，去审查/降谄媚/去废话",
+              "url": "https://github.com/p-e-w/heretic",
+              "summary": "p-e-w/heretic 是训练无关的 LLM 修改工具：不改权重，而是在推理时注入方向向量移除审查、抑制谄媚与套话。GitHub Trending 单日 701 star，定位是给本地模型做「行为微调」的轻量手段，适合不想重训、只想改输出风格的开发者。",
+              "source": "GitHub Trending", "tag": "开源", "oss": True,
+              "detail": D(
+                "训练无关的 LM 行为修改：在推理时注入方向向量，移除审查、抑制谄媚与套话，不动权重文件。",
+                "重训或 LoRA 微调成本高、门槛高；很多开发者只想快速改掉模型的某些输出倾向，heretic 用轻量向量注入做到这点。",
+                "跑本地模型的可以当快速实验工具，适合做输出风格 A/B；限制是行为修改是粗粒度的方向注入，难以精确控制，且对强对齐模型的效果有限。"
+              )
+            },
+            {
+              "title": "Balanov/shim：零依赖本地优先 AI harness，任意模型+MCP+Agent Skills",
+              "url": "https://github.com/Balanov/shim",
+              "summary": "Balanov/shim 是极小的本地优先 AI harness：Go 实现、零依赖，支持任意模型、MCP 与 Agent Skills，提供自然语言 CLI。434 star，卖点是把 agent 运行环境收敛到一个轻量二进制里，适合想在本地/容器内跑多 agent 但不想引入重框架的团队。",
+              "source": "GitHub 升星repo", "tag": "开源", "oss": True,
+              "detail": D(
+                "单二进制、零依赖的本地优先 agent harness：接任意模型、支持 MCP 与 Agent Skills，自然语言 CLI 驱动。",
+                "现有 agent 框架依赖重、启动慢、容器化麻烦；shim 把运行环境压到一个二进制，便于在本地或容器里快速起多 agent。",
+                "做轻量 agent 原型的可以直接用；和他关注的多 agent 沙箱相比，它更偏「单机单 agent 的极小运行时」，隔离与多租户要靠外层容器补。限制是生态与插件成熟度不及大框架。"
+              )
+            },
+            {
+              "title": "spotify/portal-ai-plugins：Spotify 把内部 AI 能力做成可调用插件",
+              "url": "https://github.com/spotify/portal-ai-plugins",
+              "summary": "Spotify 开源 portal-ai-plugins：把内部 AI 能力以插件形式暴露，供编码 agent 调用。GitHub Trending 91 star，属于大厂把内部工具链做成 agent 可消费插件接口的典型动作。",
+              "source": "GitHub Trending", "tag": "生态", "oss": True,
+              "detail": D(
+                "Spotify 把内部 AI 能力封装成插件接口，供编码 agent 以统一方式调用。",
+                "企业内部有大量现成工具/API，散落在各处、没有 agent 友好的入口；插件化是把它们变成 agent 可调用的标准动作。",
+                "设计内部 agent 工具面的团队可参考其插件契约设计；限制是它偏 Spotify 自身场景，通用性需自己抽象。真正要抄的是「能力→插件→agent 可发现」这条链路。"
+              )
+            },
+            {
+              "title": "Usagi-org/ai-goofish-monitor：Playwright+AI 的闲鱼多任务监控",
+              "url": "https://github.com/Usagi-org/ai-goofish-monitor",
+              "summary": "Usagi-org/ai-goofish-monitor 用 Playwright 加 AI 做闲鱼多任务实时/定时监控与智能分析，带后台管理 UI，228 star。它是「agent 套壳 GUI 爬虫 + 大模型分析」的落地样例，对想做垂直场景监控的人有参考价值。",
+              "source": "GitHub Trending", "tag": "开源", "oss": True,
+              "detail": D(
+                "用 Playwright 驱动闲鱼网页做多任务实时/定时监控，AI 负责语义分析与筛选，配后台管理 UI。",
+                "垂直场景监控长期靠手工刷或脆弱的爬虫脚本；把 GUI 自动化 + 大模型分析组合，能降低对页面结构稳定性的依赖。",
+                "想做「agent 套壳垂直网站」的人可当参考实现；限制是强依赖闲鱼页面结构、反爬与登录态，生产化要解决账号与风控。思路可迁移到任意需要盯页面的业务监控。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "🛠️ AI 工程落地", "title": "🛠️ AI 工程落地", "emoji": "🛠️", "en": "AI Engineering",
+          "items": [
+            {
+              "title": "DistDebug-Bench：LLM agent 能诊断分布式系统 bug 吗？",
+              "url": "https://arxiv.org/abs/2611.03523v1",
+              "summary": "DistDebug-Bench 是评测 agent 在代码层诊断分布式系统故障的基准，从 11 个广泛使用项目的真实 bug 中精选 120 个高质量案例。它补上现有编码 benchmark 偏重小场景（自包含 Python 模块）的盲区，聚焦生产级软件最难的「跨组件、靠日志/状态定位根因」。",
+              "source": "arXiv", "tag": "评测", "oss": False,
+              "detail": D(
+                "从 11 个广泛使用项目的真实 bug 中精选 120 个案例，评测 agent 在代码层诊断分布式系统故障的能力，强调跨组件、靠日志与状态定位根因。",
+                "现有编码 benchmark 偏重自包含小模块，绕开了生产软件最难的分布式排障；DistDebug-Bench 把「真实根因定位」变成可量化基准。",
+                "正在用 agent 做运维/SRE 辅助的团队，这是衡量 agent 真实排障能力（而非玩具题）的参考；限制是 120 例仍偏样本集，且只评诊断不评修复闭环。"
+              )
+            },
+            {
+              "title": "OpenAI：ChatGPT 与 Codex 正在加速物理世界的工程设计",
+              "url": "https://openai.com/index/accelerating-engineering-for-the-physical-world",
+              "summary": "OpenAI 发文介绍 ChatGPT 与 Codex 如何加速 CAD、PCB 设计、仿真等物理世界工程工作流。文章强调 Codex 不只是写代码，而是贯穿设计-验证-迭代的助手，并举了在工程任务里用 agent 缩短从概念到原型周期的例子。",
+              "source": "OpenAI News", "tag": "工程", "oss": False,
+              "detail": D(
+                "把 ChatGPT/Codex 用于 CAD、PCB、仿真等工程工作流，定位为贯穿「设计—验证—迭代」的助手，而非单纯代码生成器。",
+                "物理世界工程（硬件/电路/仿真）长期依赖专用工具链与领域经验，LLM 难以直接介入；文章展示 agent 在流程节点上缩短概念到原型的周期。",
+                "做硬件/仿真相关工程的可以关注 agent 在专用工具链里的接入点；限制是文章以展示为主，缺少可复用的量化收益与人机分工细节，且 openai.com 正文在本环境需第三方转述佐证。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "📊 产品与商业", "title": "📊 产品与商业", "emoji": "📊", "en": "Products & Business",
+          "items": [
+            {
+              "title": "量子位：模型谁都买得到，拉开差距的是 AI 生产力系统",
+              "url": "https://www.qbitai.com/2026/11/507448.html",
+              "summary": "量子位文章观点：当各家大模型能力趋同、都能买到时，真正的竞争转向「AI 生产力系统」——把模型、工具、流程与企业知识串成可复用的工作流。文中强调单点调用模型已经不够，组织级的能力体现在把 agent 接入业务系统、沉淀 Know-how、形成闭环。",
+              "source": "量子位", "tag": "趋势", "oss": False,
+              "detail": D(
+                "核心判断：模型能力趋同且可采购，竞争焦点从「模型」转到「把模型+工具+流程+企业知识串成可复用工作流」的 AI 生产力系统。",
+                "单点调模型解决不了组织效率，真正差距在 agent 接入业务系统、沉淀 Know-how、形成数据/反馈闭环。",
+                "对正在推 AI-native 转型的团队，这是方向性判断而非操作指南；值得用来校准内部投入（重系统而非重模型）。限制是观点文，没有具体实施路径或 ROI 数据。"
+              )
+            },
+            {
+              "title": "AWS 周报：Bedrock 上 GPT-6.1 Terra、Step Functions 当 agent 工具",
+              "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-gpt-6-1-terra-on-bedrock-step-functions-as-agent-tools-and-more-november-2-2026/",
+              "summary": "AWS 周报（11/2）重点：已在 Bedrock 上线 GPT-6.1 Terra 模型；更值得关注的是 Step Functions（已编排 220+ AWS 服务）现在可以把工作流作为工具交给 agent 调用，团队已有的可信工作流无需重写即可被 agent 触发。",
+              "source": "AWS News", "tag": "云", "oss": False,
+              "detail": D(
+                "Bedrock 上线 GPT-6.1 Terra；Step Functions（已编排 220+ 服务）现在可作为工具交给 agent 调用，既有工作流无需重写即被 agent 触发。",
+                "agent 触达真实系统的边界长期靠手写胶水；把成熟编排层直接变成 agent 工具面，团队已有的可信流程即可被复用。",
+                "在多云/混合云里设计 agent 工具面的人值得参考「把既有编排当工具」的思路；限制是深度绑定 AWS Step Functions，跨云要自己抽象。GPT-6.1 Terra 的型号能力需另查评测。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "💡 观点与好文", "title": "💡 观点与好文", "emoji": "💡", "en": "Opinions & Essays",
+          "items": [
+            {
+              "title": "honnibal：『Astra 能读写权重改进 Qwen』的帖子有误导性",
+              "url": "https://honnibal.dev/blog/astra-read-write-misleading",
+              "summary": "honnibal（spaCy 作者）长文指出，近期刷屏的「GPT-6 Astra 能直接读写并改进 Qwen 权重」帖子有严重误导：demo 里模型处理的「权重」是文本化的浮点数字列表，离真正的权重空间编辑差得很远，且缺少可复现的评测。文章提醒不要被「模型能改模型」的叙事带偏。",
+              "source": "个人博客", "tag": "观点", "oss": False,
+              "detail": D(
+                "论证刷屏的「模型能读写并改进另一模型权重」demo 是误导：处理的只是文本化的浮点数字列表，并非在参数空间做有意义的编辑，且缺可复现评测。",
+                "『模型能改模型』的叙事传播快但易夸大；把「读文本化的数值」等同于「在权重空间做修改」会误导技术判断。",
+                "关注前沿模型能力的人值得读，用来建立对这类 demo 的鉴别框架；限制是文章针对特定帖子，不直接否定权重空间编辑的长期可能性，只是纠偏当前叙事。"
+              )
+            },
+            {
+              "title": "Simon Willison：Qwen 3.8 27B 在笔记本上也能「解读模型权重」",
+              "url": "https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/",
+              "summary": "Simon Willison 实测：热门论文 Sparks of Weight-Space Programming 称前沿模型（尤其 GPT-6 Astra）能原生读写神经网络原始权重；他在自己笔记本上的 Qwen 3.8 27B 上复现了类似效果——模型能读懂并改写一段机器学习的权重文本描述。他同时指出这是「文本层面的权重操作」，与真正的参数编辑仍有距离。",
+              "source": "Simon Willison", "tag": "实测", "oss": False,
+              "detail": D(
+                "实测论文 Sparks of Weight-Space Programming 的论断：模型能读懂并改写「权重」的文本化描述；他在 Qwen 3.8 27B 本地复现，验证小模型也能做这类文本层操作。",
+                "前沿模型能否『读写权重』是热议话题，但 demo 与真实参数编辑常被混为一谈；他用本地小模型复现，把讨论拉回「文本层面的权重操作」这一可验证层面。",
+                "做模型可解释性/权重分析的人值得看复现过程；限制是他也明确这是文本层操作，不等于在参数空间做有意义的修改，别据此判断模型已能自改权重。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "🛡️ 安全与治理", "title": "🛡️ 安全与治理", "emoji": "🛡️", "en": "Security & Governance",
+          "items": [
+            {
+              "title": "MCP Tool Poisoning：首个跨框架、带真实执行的测量研究",
+              "url": "https://arxiv.org/abs/2611.03555v1",
+              "summary": "论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。",
+              "source": "arXiv", "tag": "安全", "oss": False,
+              "detail": D(
+                "对 MCP 工具投毒做跨框架、带真实工具执行的测量：工具描述与响应数据都是攻击方可控的未校验输入；用 25 类根因分类法量化多框架真实失守率。",
+                "此前 benchmark 只测模型是否遵从投毒指令，没确认工具真被执行；这篇补上『描述被污染→agent 真的调用危险工具』的端到端证据。",
+                "正把 MCP server 接进 agent 的团队必读：调用前要对工具描述做来源校验与沙箱化执行，不能假定工具描述可信。限制是测量基于当时框架版本，新攻击面会扩展。"
+              )
+            },
+            {
+              "title": "VeriHarm-Bench：可验证地衡量 LLM 编码 agent 的有害成功",
+              "url": "https://arxiv.org/abs/2611.03575v1",
+              "summary": "VeriHarm-Bench 关注一个被忽视的失败模式：编码 agent 拿到 shell 权限后能写脚本、改权限、动系统配置，可能在「完成任务」的同时造成删文件、弱化访问控制等无意伤害。论文提出可验证地衡量这种「有害成功」（任务看似做成但带来副作用）的基准，覆盖非越狱场景下的良性输入。",
+              "source": "arXiv", "tag": "安全", "oss": False,
+              "detail": D(
+                "提出可验证地衡量编码 agent 的「有害成功」：agent 在良性输入下看似完成任务，却造成删文件、弱化访问控制等副作用。",
+                "现有安全评测只看「是否拒绝坏事」，忽略 agent 在『做成任务』同时带来的无意伤害——对给了 shell/文件权限的 agent 尤其危险。",
+                "给 agent 文件/命令权限的团队可用其思路设计安全护栏与回滚；限制是基准偏学术构造，真实多工具环境的累积副作用更难量化。"
+              )
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "☸️ 基础设施板块",
+      "categories": [
+        {
+          "label": "🤖☸️ K8s × AI", "title": "🤖☸️ K8s × AI", "emoji": "🤖", "en": "K8s × AI",
+          "items": [
+            {
+              "title": "OpenKruise Agents v0.6.0：给 K8s 上的 Agent Sandbox 补齐安全与自动化",
+              "url": "https://www.cncf.io/blog/2026/11/03/openkruise-agents-v0-6-0-leaping-ahead-in-agent-sandbox-security-and-automation/",
+              "summary": "OpenKruise Agents 是 OpenKruise 的子项目，提供运行在 K8s 上、可大规模管理的 Agent Sandbox 全生命周期能力。v0.6.0 重点补强安全与自动化：完善了 sandbox 的隔离边界、凭证与网络策略的默认加固，并加入更细的资源配额与自动回收机制，减少 agent 长驻占用。对正在做多用户 agent 沙箱（每个用户独立会话、上下文隔离）的团队，这是少数直接把「多租户 agent 运行时跑在 K8s 上」做成开源组件的实现之一。",
+              "source": "CNCF Blog", "tag": "Agent 运行时", "oss": False,
+              "detail": D(
+                "OpenKruise（CNCF 项目）的 Agents 子项目提供 K8s 上 Agent Sandbox 的全生命周期管理；v0.6.0 完善隔离边界、凭证与网络策略的默认加固，并加细粒度资源配额与自动回收。",
+                "多用户 agent 要在 K8s 上解决身份隔离、会话状态、资源回收三件事，自研成本高；OpenKruise Agents 把它做成开源组件，减少重复造轮子。",
+                "和他正在评估的『多用户 agent 沙箱』高度相关——尤其「会话隔离 + 自动回收 + 默认加固」正是 Daytona 类方案的痛点。限制是成熟度与社区规模不及商业方案，生产化前需实测多租户密度与故障域。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "☸️ K8s 核心技术", "title": "☸️ K8s 核心技术", "emoji": "☸️", "en": "K8s Core",
+          "items": [
+            {
+              "title": "Azure Application Gateway for Containers 公测：AuthPolicy 做集中式 JWT 校验",
+              "url": "https://azure.microsoft.com/updates?id=576382",
+              "summary": "Azure Application Gateway for Containers 公测 JWT 校验：通过 AuthPolicy 自定义资源集中验证 token 的签名、issuer、有效期与 audience，签名密钥从可信来源拉取。对跑在 AKS 上的多租户入口，这意味着认证策略可以声明式地挂在网关层，不必在每个后端服务里各写一套。",
+              "source": "Azure Updates", "tag": "入口网关", "oss": False,
+              "detail": D(
+                "通过 AuthPolicy CR 在网关层集中验证 JWT 的签名、issuer、有效期与 audience，密钥从可信源拉取，认证策略声明式挂在入口。",
+                "多租户入口的认证逻辑常散落在各后端服务，重复实现且易不一致；网关层统一 JWT 校验能把认证收口。",
+                "在 AKS 上跑多租户入口的团队可直接用，减少后端重复鉴权；限制是绑定 Azure Application Gateway for Containers，且公测阶段 API 可能变动。"
+              )
+            },
+            {
+              "title": "Azure Application Gateway for Containers 公测：MCPRoute 把 MCP server 收进稳定网关",
+              "url": "https://azure.microsoft.com/updates?id=576388",
+              "summary": "同一网关公测 MCP 路由：通过新的 MCPRoute 自定义资源把 MCP server 发布在稳定 hostname 和 path 后，统一接管 TLS、JWT 校验与 WAF。对想把内部 MCP 工具以受控方式暴露给 agent 的团队，这是把 MCP 入口纳入现有 ingress 安全边界的做法。",
+              "source": "Azure Updates", "tag": "MCP 网关", "oss": False,
+              "detail": D(
+                "新增 MCPRoute CR，把 MCP server 发布在稳定 hostname/path，统一接管 TLS、JWT 校验与 WAF。",
+                "MCP server 的暴露长期缺标准入口，常裸跑或各接各的；网关层统一 MCP 路由等于把 MCP 纳入既有 ingress 安全边界。",
+                "想把内部 MCP 工具受控暴露给 agent 的团队值得抄这个模式（稳定端点 + 统一鉴权 + WAF）。限制是绑定 Azure，自建有等价能力的可用 Envoy/Ingress 组合。"
+              )
+            },
+            {
+              "title": "Azure Application Gateway for Containers 公测：私有入口只走 Private Link",
+              "url": "https://azure.microsoft.com/updates?id=576393",
+              "summary": "公测的私有入口只允许通过审批过的 Azure Private Link 私有端点访问，把内部应用、共享服务与跨集群流量留在私网。对金融/合规场景，这意味着 agent 与后端服务的通信可以不暴露公网。",
+              "source": "Azure Updates", "tag": "私有网络", "oss": False,
+              "detail": D(
+                "私有入口仅允许经审批的 Private Link 私有端点访问，把内部应用、共享服务与跨集群流量限制在私网。",
+                "agent 与后端通信若走公网，攻击面与合规风险都高；私有入口把这条链路收进私网。",
+                "金融/合规场景尤其值得用——agent 与后端可不暴露公网。限制是绑定 Azure Private Link，混合云需另做私网互联。"
+              )
+            },
+            {
+              "title": "Capsule v0.15.2：Helm 增 OpenShift 开关，最低要求 K8s v1.36",
+              "url": "https://github.com/projectcapsule/capsule/releases/tag/v0.15.2",
+              "summary": "Capsule v0.15.2 补丁版：Helm chart 新增 OpenShift 部署开关，修默认 bool 指针冗余问题，升级 prometheus client_golang 到 v1.25.0。官方明确只支持最新 minor，要求 Kubernetes >= 1.36.0。Capsule 用轻量 CRD 把多租户聚合成 namespace 边界，是做集群内多租户隔离的常用方案。",
+              "source": "GitHub Releases", "tag": "多租户", "oss": True,
+              "detail": D(
+                "Capsule 用轻量 CRD 把多个租户聚合进同一 namespace 边界，实现集群内多租户隔离；v0.15.2 补 Helm 的 OpenShift 开关与依赖更新。",
+                "多用户 agent 沙箱同样需要『租户→隔离边界』模型；Capsule 是这条路线的成熟开源实现，比手搓 namespace 配额/策略省事。",
+                "规划多用户 agent 沙箱的团队可参考其「租户聚合成 namespace 边界」的模型。限制是要求 K8s >= 1.36.0（较新），旧集群需先升级；且它做的是租户边界而非按会话细粒度隔离。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "🌐 云原生周边", "title": "🌐 云原生周边", "emoji": "🌐", "en": "Cloud-Native Ecosystem",
+          "items": [
+            {
+              "title": "BuildKit v0.34.2：修两处安全漏洞，含控制 API 越权写宿主机 xattr",
+              "url": "https://github.com/moby/buildkit/releases/tag/v0.34.2",
+              "summary": "BuildKit v0.34.2 安全发布：修了同 Git 源引用被解析两次时 resolver 缓存投毒导致的 daemon panic（GHSA-2fqp-xg6f-v7gj），以及恶意客户端借 BuildKit 控制 API 在状态目录外设置 extended attributes、可能提权的漏洞（GHSA-w26x-xg27-7qjc）。依赖 containerd v2 升到 v2.4.2。",
+              "source": "GitHub Releases", "tag": "供应链", "oss": True,
+              "detail": D(
+                "修两处漏洞：Git 源引用重复解析导致的 resolver 缓存投毒 daemon panic，以及恶意客户端借控制 API 在状态目录外设 xattr 的提权风险；containerd v2 升到 v2.4.2。",
+                "BuildKit 常暴露在 CI/agent 触发的镜像构建场景，控制 API 若被不可信客户端触及，可能越权写宿主机文件系统。",
+                "在集群里跑镜像构建（含 agent 触发 build）的团队应升；限制是需重启 buildkitd，且 xattr 提权依赖特定挂载配置才可利用。"
+              )
+            }
+          ]
+        },
+        {
+          "label": "🏘️ 社区与项目", "title": "🏘️ 社区与项目", "emoji": "🏘️", "en": "Community & Projects",
+          "items": [
+            {
+              "title": "Fujifilm 把磁带产能提升 5 倍，AI 推动归档需求",
+              "url": "https://arstechnica.com/gadgets/2026/10/fujifilm-to-boost-tape-production-5x-as-ai-fuels-archiving-demand/",
+              "summary": "Ars Technica 报道 Fujifilm 将把磁带产能提升 5 倍，以应对 AI 训练/推理产生的海量冷数据归档需求。HN 讨论（361 分）聚焦「AI 泡沫式增长让最老的存储介质反而更值钱」——对做长期数据留存与成本规划的 infra 团队，这是存储选型的一个信号。",
+              "source": "Ars Technica / HN", "tag": "存储趋势", "oss": False,
+              "detail": D(
+                "Fujifilm 将磁带产能提升 5 倍，应对 AI 产生的海量冷数据归档需求；HN 讨论指向『AI 增长让磁带这类老存储介质重新吃香』。",
+                "AI 训练/推理产生大量需长期留存但低频访问的冷数据，成本与容量压力把归档存储重新推到台前。",
+                "做数据留存与成本规划的 infra 团队可把磁带/LTO 重新纳入冷层考量；限制是磁带的存取延迟与运维模型不适配热数据，且报道偏行业趋势而非技术对比。"
+              )
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flash": [
+    {"title": "纯语音 Personal Agent 来了：或许就是乔布斯心中的 Siri（量子位）", "url": "https://www.qbitai.com/2026/11/507419.html"},
+    {"title": "小米斩获乌镇峰会双料大奖：集团获杰出贡献奖、具身基座模型获领先科技奖（量子位）", "url": "https://www.qbitai.com/2026/11/507396.html"},
+    {"title": "Pixel-UMI：从传感化人类演示学环境感知的全身操作策略（arXiv）", "url": "https://arxiv.org/abs/2611.03647v1"}
+  ],
+  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
+}
+
+# ---- 3) Assert every URL is present in processed.json ----
+proc_urls = {it["url"] for it in proc}
+def check(where, items):
+    for it in items:
+        assert it["url"] in proc_urls, f"URL NOT in processed.json [{where}]: {it['url']}"
+        assert it.get("title"), f"EMPTY title [{where}]: {it.get('url')}"
+check("highlight", brief["highlights"])
+for sec in brief["sections"]:
+    for cat in sec["categories"]:
+        check(f"{sec['label']}/{cat['title']}", cat["items"])
+for f in brief["flash"]:
+    assert f["url"] in proc_urls, f"FLASH URL NOT in processed.json: {f['url']}"
+
+json.dump(brief, open(f"{REPO}/briefing.json","w",encoding="utf-8"), ensure_ascii=False, indent=2)
+print("briefing.json written; highlights=%d sections=%d flash=%d" % (
+  len(brief["highlights"]), len(brief["sections"]), len(brief["flash"])))

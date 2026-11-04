@@ -1,36 +1,41 @@
 ======================================================================
-处理报告  (原始 141 条)
+处理报告  (原始 207 条)
 ======================================================================
 
-① 过滤: 保留 102 条, 过滤掉 39 条
+① 过滤: 保留 155 条, 过滤掉 52 条
    过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] floci-io/floci
+     ✗ [GitHub Trending] anomalyco/hex
      ✗ [GitHub Trending] D4Vinci/Scrapling
-     ✗ [GitHub Trending] hyprwm/Hyprland
-     ✗ [GitHub Trending] FlashML-org/FreeToken
-     ✗ [GitHub Trending] pingdotgg/t3code
      ✗ [GitHub 升星repo] AssassinCreator/steam-stash-value-report-card
-     ✗ [GitHub 升星repo] ProsecutorList/monero-miner
-     ✗ [GitHub 升星repo] Bridgeyaprovide/roblox-game-copier
-     ✗ [GitHub 升星repo] rivetpelicanstir/total-commander
+     ✗ [GitHub 升星repo] Codeonshovel/microsoft-365
+     ✗ [GitHub 升星repo] Nucleusanwish/microsoft-office
+     ✗ [GitHub 升星repo] justrach/nanolight
+     ✗ [GitHub 升星repo] ShoreEvokerHeat/fl-studio
 
-② 去重: 102 → 97 条 (同批合并 0, 跨天历史去重 5)
+② 去重: 155 → 147 条 (同批合并 2, 跨天历史去重 6)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] thedotmack/claude-mem
-     ⏭️  [GitHub Trending] Donchitos/Claude-Code-Game-Studios
+     ⏭️  [GitHub Trending] vercel-labs/agent-desktop
+     ⏭️  [GitHub Trending] max-sixty/worktrunk
+     ⏭️  [GitHub Trending] JustVugg/colibri
      ⏭️  [GitHub Trending] shiyu-coder/Kronos
-     ⏭️  [GitHub Trending] kornia/kornia
-     ⏭️  [GitHub 升星repo] caru-ini/stack-diagram
-   (本批无跨源重复标题)
+     ⏭️  [GitHub Trending] Donchitos/Claude-Code-Game-Studios
+   跨源合并的事件:
+     ⇉ Library of Layers (LoL): Adaptively Orde  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 55 条 (含🔧开源 3)
-     - Agent & Skill: 23 条 (含🔧开源 7)
-     - AI 工程落地: 8 条 (含🔧开源 1)
-     - 安全与治理: 5 条
-     - 产品与商业: 5 条
+     - Agent & Skill: 30 条 (含🔧开源 2)
+     - 安全与治理: 14 条
+     - 模型与研究: 71 条 (含🔧开源 2)
+     - AI 工程落地: 13 条 (含🔧开源 2)
+     - 产品与商业: 11 条
+     - 观点与好文: 3 条 (含🔧开源 1)
    【基础设施】
-     - K8s 核心: 1 条
+     - K8s × AI: 1 条
+     - K8s 核心: 2 条
+     - 社区与项目: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [16分] Expanding our partnership with GSA to bring Claude to a
@@ -43,4 +48,4 @@
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
       16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
       16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      15分 [量子位         ] GPT-6.2 Astra开启灰测！Claude Mythos 5.5同日曝光
+      15分 [HuggingFace Papers] Library of Layers (LoL): Adaptively Ordering 
