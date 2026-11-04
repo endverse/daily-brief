@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 4 日 · 星期三</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>DAILY</span><span class="issue-badge">第 044 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 4 日 · 星期三</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的线索是「把不可信的东西接进 agent 之前先想清楚」。安全侧连续两条都直指 agent 的数据面：Postman 被曝静默装 AI 插件并试图共享全部 API 流量（含密钥），MCP Tool Poisoning 研究首次用真实执行证明「工具描述被污染」会让多个框架失守——这两者对正在把 MCP server 和编码助手接进生产的人都是直接教训。K8s 侧 OpenKruise Agents v0.6.0 把多用户 agent 沙箱直接做成 K8s 上的开源运行时，Azure 则把 JWT 校验、MCP 网关和私有入口一并收进 Application Gateway for Containers 的公测。模型侧 LoL 让 Transformer 在推理时动态重排层顺序，CoworkOS/CUA-Master/SWE-Trail 继续把 agent 的长周期协作与训练数据做成方法论。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://github.com/postmanlabs/postman-app-support/issues/14370" target="_blank" rel="noopener">Postman 被曝静默安装 AI 插件并试图共享全部 API 数据，HN 977 分</a></h2>
+    <p>一位用户在 Postman 仓库 issue 中指出：客户端在未经明确同意的情况下自动安装 AI 插件，并试图把用户所有 API 请求数据（含密钥、请求体）共享到云端用于训练/分析。讨论区（HN 977 分、322 评论）普遍把它当成「agent/AI 工具偷偷扩大数据访问面」的典型案例。对依赖 API key 跑 agent 的团队，直接教训是：任何带网络能力的 AI 客户端都可能默认上传请求上下文，需要在网络层或代理层做隔离，而不是信任客户端的隐私开关。</p>
+    <div class="note">一位用户在 Postman 仓库 issue 中指出：客户端在未经明确同意的情况下自动安装 AI 插件，并试图把用户所有 API 请求数据（含密钥与请求体）共享到云端用于训练/分析。HN 讨论达 977 分、322 条评论，焦点是「AI 工具默认扩大数据访问面」——类比 Cursor、Copilot 等编码助手的默认行为。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://arxiv.org/abs/2611.03555v1" target="_blank" rel="noopener">MCP Tool Poisoning：首个跨框架、带真实执行的测量研究</a></h2>
+    <p>论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，统一了此前分散的分类，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。对正在把 MCP server 接进 agent 的团队，这是评估「不可信工具描述」风险的一手数据，比「模型会不会听坏话」的问卷式 benchmark 更接近真实攻击面。</p>
+    <div class="note">论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，统一了此前分散的分类，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">🧠 模型与研究</span><span class="sec-en">Models &amp; Research</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.03526" target="_blank" rel="noopener">Library of Layers (LoL)：推理时动态重排 Transformer 层顺序</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>LoL 提出一种新架构：不再像标准 Transformer 那样固定按相同顺序执行各层，而是维护一个全局「层库」，在推理时根据当前任务动态决定层的执行顺序。它只有一个超参（层库大小），用 transformer block 作为可复用基元，实验显示在不同任务上能自适应改变计算路径。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把各 transformer 层放进一个全局「层库」，推理时按当前输入动态决定层的执行顺序，而非固定层序；只有一个超参（层库大小），用已有 block 作基元。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">标准 Transformer 对所有输入走同一套固定层序，LoL 让计算图随任务变化，更接近「程序员复用代码原语组合算法」的思路，可能对不同难度的 token 走不同深度。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做模型架构或推理优化的值得跟进，尤其关注它能否在不增参数的前提下降低某些任务的计算量。限制是论文尚未给出大规模训练与下游任务的完整对标，且动态层序对推理引擎的 kernel 调度是新的工程挑战。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">架构</span><a class="src" href="https://huggingface.co/papers/2611.03526" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.03178" target="_blank" rel="noopener">CoworkOS：把长周期「同事型」agent 的任务策略与执行管理分离</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CoworkOS 是面向真实工作自动化的通用 agent harness，把「任务策略」（做什么）与「执行管理」（怎么调度、监控、做决策）解耦。论文以 88 的 HF 热度，定位是让 agent 既交付复杂产物（软件、设计稿），又能在长周期内持续监控和决策；核心思路是模型负责决策、框架负责执行状态的长期跟踪。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 agent 的「任务策略」与「执行管理」拆成两层：模型只负责决策，框架负责长周期的执行调度、状态跟踪与监控；目标是支撑跨多日的真实工作流而非一次性任务。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有 agent 把策略与执行混在一起，遇到长周期、需要中途介入或状态持久化的任务容易失忆或失控；CoworkOS 主张用 harness 层承接这些工程负担。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正在设计多用户 agent 产品的人值得看它的分层模型——尤其「执行管理独立出来」这一点，和他公司 Daytona 沙箱的「长驻 agent 需要挂起/恢复」是同一类问题。限制是论文偏框架设计，缺少大规模生产落地的成本数据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 框架</span><a class="src" href="https://huggingface.co/papers/2611.03178" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.03126" target="_blank" rel="noopener">CUA-Master：用开放世界递归自改进扩展 Computer-use Agent</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CUA-Master 提出嵌套双循环递归改进框架来扩展计算机操作 agent（CUA）：系统层面迭代改进「改进器」本身，任务层面让 agent 在开放环境中自主积累多样化交互数据。论文以 92 的 HF 热度，针对现有 CUA 数据多样性/可控性/可靠性不足、且缺乏迭代反馈的问题，用递归自改进突破自我生成经验的收益递减。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">嵌套双循环：系统层迭代改进「改进器」（如何生成更好的训练信号），任务层让 CUA 在开放环境自主积累多样本交互数据；目标是突破自生成经验的收益递减。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有 CUA 受限于数据多样性低、可控性差、缺迭代反馈，递归改进又常依赖自我生成的有限经验；CUA-Master 用开放世界递归扩容经验与能力。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做桌面/浏览器 GUI agent 的值得看它的数据自增殖路径；但开放世界递归自改进容易放大有害行为，生产部署前需要人工回环与护栏。限制是论文的方法论在私有环境的可复现性未充分验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Computer-use</span><a class="src" href="https://huggingface.co/papers/2611.03126" target="_blank" rel="noopener">arXiv</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.02074" target="_blank" rel="noopener">SWE-Trail：用历史轨迹引导编码 agent 的训练数据收集</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>SWE-Trail 研究编码 agent 解决仓库 issue 的长轨迹（探索-编辑-验证）如何收集才能训出更好的模型。论文（HF 34 热度）指出常见的「每个 issue 独立采样多条轨迹再筛选」方法，随着采样数增多后期轨迹越来越冗余，而早期轨迹本可引导后续；它提出用历史轨迹引导后续采样，提升训练数据的信息量。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提出用已采样的轨迹去引导后续采样：早期轨迹作为「引导」减少后期冗余，提升编码 agent 训练数据的多样性与信息量，而非每条 issue 独立盲采。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">编码 agent 轨迹（探索-编辑-验证）是昂贵的后训练数据，独立重复采样越多越冗余，浪费生成预算却换不来更多信号。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正在用 agent 轨迹训自己模型/微调的人值得借鉴其采样策略；限制是结论建立在特定仓库与任务集上，跨域泛化未充分验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">训练数据</span><a class="src" href="https://huggingface.co/papers/2611.02074" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">🧩 Agent &amp; Skill</span><span class="sec-en">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/p-e-w/heretic" target="_blank" rel="noopener">p-e-w/heretic：免训练的 LM 修改工具，去审查/降谄媚/去废话</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>p-e-w/heretic 是训练无关的 LLM 修改工具：不改权重，而是在推理时注入方向向量移除审查、抑制谄媚与套话。GitHub Trending 单日 701 star，定位是给本地模型做「行为微调」的轻量手段，适合不想重训、只想改输出风格的开发者。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">训练无关的 LM 行为修改：在推理时注入方向向量，移除审查、抑制谄媚与套话，不动权重文件。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">重训或 LoRA 微调成本高、门槛高；很多开发者只想快速改掉模型的某些输出倾向，heretic 用轻量向量注入做到这点。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跑本地模型的可以当快速实验工具，适合做输出风格 A/B；限制是行为修改是粗粒度的方向注入，难以精确控制，且对强对齐模型的效果有限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源</span><a class="src" href="https://github.com/p-e-w/heretic" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/Balanov/shim" target="_blank" rel="noopener">Balanov/shim：零依赖本地优先 AI harness，任意模型+MCP+Agent Skills</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Balanov/shim 是极小的本地优先 AI harness：Go 实现、零依赖，支持任意模型、MCP 与 Agent Skills，提供自然语言 CLI。434 star，卖点是把 agent 运行环境收敛到一个轻量二进制里，适合想在本地/容器内跑多 agent 但不想引入重框架的团队。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">单二进制、零依赖的本地优先 agent harness：接任意模型、支持 MCP 与 Agent Skills，自然语言 CLI 驱动。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有 agent 框架依赖重、启动慢、容器化麻烦；shim 把运行环境压到一个二进制，便于在本地或容器里快速起多 agent。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做轻量 agent 原型的可以直接用；和他关注的多 agent 沙箱相比，它更偏「单机单 agent 的极小运行时」，隔离与多租户要靠外层容器补。限制是生态与插件成熟度不及大框架。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源</span><a class="src" href="https://github.com/Balanov/shim" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/spotify/portal-ai-plugins" target="_blank" rel="noopener">spotify/portal-ai-plugins：Spotify 把内部 AI 能力做成可调用插件</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Spotify 开源 portal-ai-plugins：把内部 AI 能力以插件形式暴露，供编码 agent 调用。GitHub Trending 91 star，属于大厂把内部工具链做成 agent 可消费插件接口的典型动作。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Spotify 把内部 AI 能力封装成插件接口，供编码 agent 以统一方式调用。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业内部有大量现成工具/API，散落在各处、没有 agent 友好的入口；插件化是把它们变成 agent 可调用的标准动作。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">设计内部 agent 工具面的团队可参考其插件契约设计；限制是它偏 Spotify 自身场景，通用性需自己抽象。真正要抄的是「能力→插件→agent 可发现」这条链路。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">生态</span><a class="src" href="https://github.com/spotify/portal-ai-plugins" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/Usagi-org/ai-goofish-monitor" target="_blank" rel="noopener">Usagi-org/ai-goofish-monitor：Playwright+AI 的闲鱼多任务监控</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Usagi-org/ai-goofish-monitor 用 Playwright 加 AI 做闲鱼多任务实时/定时监控与智能分析，带后台管理 UI，228 star。它是「agent 套壳 GUI 爬虫 + 大模型分析」的落地样例，对想做垂直场景监控的人有参考价值。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用 Playwright 驱动闲鱼网页做多任务实时/定时监控，AI 负责语义分析与筛选，配后台管理 UI。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">垂直场景监控长期靠手工刷或脆弱的爬虫脚本；把 GUI 自动化 + 大模型分析组合，能降低对页面结构稳定性的依赖。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">想做「agent 套壳垂直网站」的人可当参考实现；限制是强依赖闲鱼页面结构、反爬与登录态，生产化要解决账号与风控。思路可迁移到任意需要盯页面的业务监控。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">开源</span><a class="src" href="https://github.com/Usagi-org/ai-goofish-monitor" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">🛠️ AI 工程落地</span><span class="sec-en">AI Engineering</span></div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.03523v1" target="_blank" rel="noopener">DistDebug-Bench：LLM agent 能诊断分布式系统 bug 吗？</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DistDebug-Bench 是评测 agent 在代码层诊断分布式系统故障的基准，从 11 个广泛使用项目的真实 bug 中精选 120 个高质量案例。它补上现有编码 benchmark 偏重小场景（自包含 Python 模块）的盲区，聚焦生产级软件最难的「跨组件、靠日志/状态定位根因」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">从 11 个广泛使用项目的真实 bug 中精选 120 个案例，评测 agent 在代码层诊断分布式系统故障的能力，强调跨组件、靠日志与状态定位根因。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有编码 benchmark 偏重自包含小模块，绕开了生产软件最难的分布式排障；DistDebug-Bench 把「真实根因定位」变成可量化基准。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正在用 agent 做运维/SRE 辅助的团队，这是衡量 agent 真实排障能力（而非玩具题）的参考；限制是 120 例仍偏样本集，且只评诊断不评修复闭环。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">评测</span><a class="src" href="https://arxiv.org/abs/2611.03523v1" target="_blank" rel="noopener">arXiv</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/accelerating-engineering-for-the-physical-world" target="_blank" rel="noopener">OpenAI：ChatGPT 与 Codex 正在加速物理世界的工程设计</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 发文介绍 ChatGPT 与 Codex 如何加速 CAD、PCB 设计、仿真等物理世界工程工作流。文章强调 Codex 不只是写代码，而是贯穿设计-验证-迭代的助手，并举了在工程任务里用 agent 缩短从概念到原型周期的例子。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 ChatGPT/Codex 用于 CAD、PCB、仿真等工程工作流，定位为贯穿「设计—验证—迭代」的助手，而非单纯代码生成器。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">物理世界工程（硬件/电路/仿真）长期依赖专用工具链与领域经验，LLM 难以直接介入；文章展示 agent 在流程节点上缩短概念到原型的周期。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做硬件/仿真相关工程的可以关注 agent 在专用工具链里的接入点；限制是文章以展示为主，缺少可复用的量化收益与人机分工细节，且 openai.com 正文在本环境需第三方转述佐证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">工程</span><a class="src" href="https://openai.com/index/accelerating-engineering-for-the-physical-world" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">📊 产品与商业</span><span class="sec-en">Products &amp; Business</span></div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/11/507448.html" target="_blank" rel="noopener">量子位：模型谁都买得到，拉开差距的是 AI 生产力系统</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>量子位文章观点：当各家大模型能力趋同、都能买到时，真正的竞争转向「AI 生产力系统」——把模型、工具、流程与企业知识串成可复用的工作流。文中强调单点调用模型已经不够，组织级的能力体现在把 agent 接入业务系统、沉淀 Know-how、形成闭环。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">核心判断：模型能力趋同且可采购，竞争焦点从「模型」转到「把模型+工具+流程+企业知识串成可复用工作流」的 AI 生产力系统。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">单点调模型解决不了组织效率，真正差距在 agent 接入业务系统、沉淀 Know-how、形成数据/反馈闭环。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对正在推 AI-native 转型的团队，这是方向性判断而非操作指南；值得用来校准内部投入（重系统而非重模型）。限制是观点文，没有具体实施路径或 ROI 数据。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">趋势</span><a class="src" href="https://www.qbitai.com/2026/11/507448.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-gpt-6-1-terra-on-bedrock-step-functions-as-agent-tools-and-more-november-2-2026/" target="_blank" rel="noopener">AWS 周报：Bedrock 上 GPT-6.1 Terra、Step Functions 当 agent 工具</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>AWS 周报（11/2）重点：已在 Bedrock 上线 GPT-6.1 Terra 模型；更值得关注的是 Step Functions（已编排 220+ AWS 服务）现在可以把工作流作为工具交给 agent 调用，团队已有的可信工作流无需重写即可被 agent 触发。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Bedrock 上线 GPT-6.1 Terra；Step Functions（已编排 220+ 服务）现在可作为工具交给 agent 调用，既有工作流无需重写即被 agent 触发。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 触达真实系统的边界长期靠手写胶水；把成熟编排层直接变成 agent 工具面，团队已有的可信流程即可被复用。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在多云/混合云里设计 agent 工具面的人值得参考「把既有编排当工具」的思路；限制是深度绑定 AWS Step Functions，跨云要自己抽象。GPT-6.1 Terra 的型号能力需另查评测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">云</span><a class="src" href="https://aws.amazon.com/blogs/aws/aws-weekly-roundup-gpt-6-1-terra-on-bedrock-step-functions-as-agent-tools-and-more-november-2-2026/" target="_blank" rel="noopener">AWS News</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">💡 观点与好文</span><span class="sec-en">Opinions &amp; Essays</span></div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://honnibal.dev/blog/astra-read-write-misleading" target="_blank" rel="noopener">honnibal：『Astra 能读写权重改进 Qwen』的帖子有误导性</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>honnibal（spaCy 作者）长文指出，近期刷屏的「GPT-6 Astra 能直接读写并改进 Qwen 权重」帖子有严重误导：demo 里模型处理的「权重」是文本化的浮点数字列表，离真正的权重空间编辑差得很远，且缺少可复现的评测。文章提醒不要被「模型能改模型」的叙事带偏。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">论证刷屏的「模型能读写并改进另一模型权重」demo 是误导：处理的只是文本化的浮点数字列表，并非在参数空间做有意义的编辑，且缺可复现评测。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">『模型能改模型』的叙事传播快但易夸大；把「读文本化的数值」等同于「在权重空间做修改」会误导技术判断。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">关注前沿模型能力的人值得读，用来建立对这类 demo 的鉴别框架；限制是文章针对特定帖子，不直接否定权重空间编辑的长期可能性，只是纠偏当前叙事。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">观点</span><a class="src" href="https://honnibal.dev/blog/astra-read-write-misleading" target="_blank" rel="noopener">个人博客</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">14</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/" target="_blank" rel="noopener">Simon Willison：Qwen 3.8 27B 在笔记本上也能「解读模型权重」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Simon Willison 实测：热门论文 Sparks of Weight-Space Programming 称前沿模型（尤其 GPT-6 Astra）能原生读写神经网络原始权重；他在自己笔记本上的 Qwen 3.8 27B 上复现了类似效果——模型能读懂并改写一段机器学习的权重文本描述。他同时指出这是「文本层面的权重操作」，与真正的参数编辑仍有距离。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">实测论文 Sparks of Weight-Space Programming 的论断：模型能读懂并改写「权重」的文本化描述；他在 Qwen 3.8 27B 本地复现，验证小模型也能做这类文本层操作。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">前沿模型能否『读写权重』是热议话题，但 demo 与真实参数编辑常被混为一谈；他用本地小模型复现，把讨论拉回「文本层面的权重操作」这一可验证层面。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做模型可解释性/权重分析的人值得看复现过程；限制是他也明确这是文本层操作，不等于在参数空间做有意义的修改，别据此判断模型已能自改权重。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">实测</span><a class="src" href="https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/" target="_blank" rel="noopener">Simon Willison</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">🛡️ 安全与治理</span><span class="sec-en">Security &amp; Governance</span></div>
+    <div class="item">
+      <div class="num">15</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.03555v1" target="_blank" rel="noopener">MCP Tool Poisoning：首个跨框架、带真实执行的测量研究</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文对 Model Context Protocol（MCP）的工具投毒做首次跨框架测量，且用真实工具执行（而非只看模型是否遵从投毒指令）。作者建了 25 类的根因分类法，实测多个 agentic 框架在工具描述/响应数据被攻击方控制时的真实失守情况。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">对 MCP 工具投毒做跨框架、带真实工具执行的测量：工具描述与响应数据都是攻击方可控的未校验输入；用 25 类根因分类法量化多框架真实失守率。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前 benchmark 只测模型是否遵从投毒指令，没确认工具真被执行；这篇补上『描述被污染→agent 真的调用危险工具』的端到端证据。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正把 MCP server 接进 agent 的团队必读：调用前要对工具描述做来源校验与沙箱化执行，不能假定工具描述可信。限制是测量基于当时框架版本，新攻击面会扩展。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">安全</span><a class="src" href="https://arxiv.org/abs/2611.03555v1" target="_blank" rel="noopener">arXiv</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">16</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.03575v1" target="_blank" rel="noopener">VeriHarm-Bench：可验证地衡量 LLM 编码 agent 的有害成功</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>VeriHarm-Bench 关注一个被忽视的失败模式：编码 agent 拿到 shell 权限后能写脚本、改权限、动系统配置，可能在「完成任务」的同时造成删文件、弱化访问控制等无意伤害。论文提出可验证地衡量这种「有害成功」（任务看似做成但带来副作用）的基准，覆盖非越狱场景下的良性输入。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">提出可验证地衡量编码 agent 的「有害成功」：agent 在良性输入下看似完成任务，却造成删文件、弱化访问控制等副作用。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">现有安全评测只看「是否拒绝坏事」，忽略 agent 在『做成任务』同时带来的无意伤害——对给了 shell/文件权限的 agent 尤其危险。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">给 agent 文件/命令权限的团队可用其思路设计安全护栏与回滚；限制是基准偏学术构造，真实多工具环境的累积副作用更难量化。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">安全</span><a class="src" href="https://arxiv.org/abs/2611.03575v1" target="_blank" rel="noopener">arXiv</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖</span><span class="sec-title">🤖☸️ K8s × AI</span><span class="sec-en">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/11/03/openkruise-agents-v0-6-0-leaping-ahead-in-agent-sandbox-security-and-automation/" target="_blank" rel="noopener">OpenKruise Agents v0.6.0：给 K8s 上的 Agent Sandbox 补齐安全与自动化</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenKruise Agents 是 OpenKruise 的子项目，提供运行在 K8s 上、可大规模管理的 Agent Sandbox 全生命周期能力。v0.6.0 重点补强安全与自动化：完善了 sandbox 的隔离边界、凭证与网络策略的默认加固，并加入更细的资源配额与自动回收机制，减少 agent 长驻占用。对正在做多用户 agent 沙箱（每个用户独立会话、上下文隔离）的团队，这是少数直接把「多租户 agent 运行时跑在 K8s 上」做成开源组件的实现之一。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">OpenKruise（CNCF 项目）的 Agents 子项目提供 K8s 上 Agent Sandbox 的全生命周期管理；v0.6.0 完善隔离边界、凭证与网络策略的默认加固，并加细粒度资源配额与自动回收。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多用户 agent 要在 K8s 上解决身份隔离、会话状态、资源回收三件事，自研成本高；OpenKruise Agents 把它做成开源组件，减少重复造轮子。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和他正在评估的『多用户 agent 沙箱』高度相关——尤其「会话隔离 + 自动回收 + 默认加固」正是 Daytona 类方案的痛点。限制是成熟度与社区规模不及商业方案，生产化前需实测多租户密度与故障域。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">Agent 运行时</span><a class="src" href="https://www.cncf.io/blog/2026/11/03/openkruise-agents-v0-6-0-leaping-ahead-in-agent-sandbox-security-and-automation/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">☸️ K8s 核心技术</span><span class="sec-en">K8s Core</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=576382" target="_blank" rel="noopener">Azure Application Gateway for Containers 公测：AuthPolicy 做集中式 JWT 校验</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Azure Application Gateway for Containers 公测 JWT 校验：通过 AuthPolicy 自定义资源集中验证 token 的签名、issuer、有效期与 audience，签名密钥从可信来源拉取。对跑在 AKS 上的多租户入口，这意味着认证策略可以声明式地挂在网关层，不必在每个后端服务里各写一套。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">通过 AuthPolicy CR 在网关层集中验证 JWT 的签名、issuer、有效期与 audience，密钥从可信源拉取，认证策略声明式挂在入口。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多租户入口的认证逻辑常散落在各后端服务，重复实现且易不一致；网关层统一 JWT 校验能把认证收口。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在 AKS 上跑多租户入口的团队可直接用，减少后端重复鉴权；限制是绑定 Azure Application Gateway for Containers，且公测阶段 API 可能变动。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">入口网关</span><a class="src" href="https://azure.microsoft.com/updates?id=576382" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=576388" target="_blank" rel="noopener">Azure Application Gateway for Containers 公测：MCPRoute 把 MCP server 收进稳定网关</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>同一网关公测 MCP 路由：通过新的 MCPRoute 自定义资源把 MCP server 发布在稳定 hostname 和 path 后，统一接管 TLS、JWT 校验与 WAF。对想把内部 MCP 工具以受控方式暴露给 agent 的团队，这是把 MCP 入口纳入现有 ingress 安全边界的做法。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">新增 MCPRoute CR，把 MCP server 发布在稳定 hostname/path，统一接管 TLS、JWT 校验与 WAF。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">MCP server 的暴露长期缺标准入口，常裸跑或各接各的；网关层统一 MCP 路由等于把 MCP 纳入既有 ingress 安全边界。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">想把内部 MCP 工具受控暴露给 agent 的团队值得抄这个模式（稳定端点 + 统一鉴权 + WAF）。限制是绑定 Azure，自建有等价能力的可用 Envoy/Ingress 组合。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">MCP 网关</span><a class="src" href="https://azure.microsoft.com/updates?id=576388" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=576393" target="_blank" rel="noopener">Azure Application Gateway for Containers 公测：私有入口只走 Private Link</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>公测的私有入口只允许通过审批过的 Azure Private Link 私有端点访问，把内部应用、共享服务与跨集群流量留在私网。对金融/合规场景，这意味着 agent 与后端服务的通信可以不暴露公网。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">私有入口仅允许经审批的 Private Link 私有端点访问，把内部应用、共享服务与跨集群流量限制在私网。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 与后端通信若走公网，攻击面与合规风险都高；私有入口把这条链路收进私网。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">金融/合规场景尤其值得用——agent 与后端可不暴露公网。限制是绑定 Azure Private Link，混合云需另做私网互联。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">私有网络</span><a class="src" href="https://azure.microsoft.com/updates?id=576393" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/projectcapsule/capsule/releases/tag/v0.15.2" target="_blank" rel="noopener">Capsule v0.15.2：Helm 增 OpenShift 开关，最低要求 K8s v1.36</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Capsule v0.15.2 补丁版：Helm chart 新增 OpenShift 部署开关，修默认 bool 指针冗余问题，升级 prometheus client_golang 到 v1.25.0。官方明确只支持最新 minor，要求 Kubernetes &gt;= 1.36.0。Capsule 用轻量 CRD 把多租户聚合成 namespace 边界，是做集群内多租户隔离的常用方案。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Capsule 用轻量 CRD 把多个租户聚合进同一 namespace 边界，实现集群内多租户隔离；v0.15.2 补 Helm 的 OpenShift 开关与依赖更新。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多用户 agent 沙箱同样需要『租户→隔离边界』模型；Capsule 是这条路线的成熟开源实现，比手搓 namespace 配额/策略省事。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">规划多用户 agent 沙箱的团队可参考其「租户聚合成 namespace 边界」的模型。限制是要求 K8s &gt;= 1.36.0（较新），旧集群需先升级；且它做的是租户边界而非按会话细粒度隔离。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">多租户</span><a class="src" href="https://github.com/projectcapsule/capsule/releases/tag/v0.15.2" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🌐</span><span class="sec-title">🌐 云原生周边</span><span class="sec-en">Cloud-Native Ecosystem</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/moby/buildkit/releases/tag/v0.34.2" target="_blank" rel="noopener">BuildKit v0.34.2：修两处安全漏洞，含控制 API 越权写宿主机 xattr</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>BuildKit v0.34.2 安全发布：修了同 Git 源引用被解析两次时 resolver 缓存投毒导致的 daemon panic（GHSA-2fqp-xg6f-v7gj），以及恶意客户端借 BuildKit 控制 API 在状态目录外设置 extended attributes、可能提权的漏洞（GHSA-w26x-xg27-7qjc）。依赖 containerd v2 升到 v2.4.2。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">修两处漏洞：Git 源引用重复解析导致的 resolver 缓存投毒 daemon panic，以及恶意客户端借控制 API 在状态目录外设 xattr 的提权风险；containerd v2 升到 v2.4.2。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">BuildKit 常暴露在 CI/agent 触发的镜像构建场景，控制 API 若被不可信客户端触及，可能越权写宿主机文件系统。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在集群里跑镜像构建（含 agent 触发 build）的团队应升；限制是需重启 buildkitd，且 xattr 提权依赖特定挂载配置才可利用。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">供应链</span><a class="src" href="https://github.com/moby/buildkit/releases/tag/v0.34.2" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏘️</span><span class="sec-title">🏘️ 社区与项目</span><span class="sec-en">Community &amp; Projects</span></div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://arstechnica.com/gadgets/2026/10/fujifilm-to-boost-tape-production-5x-as-ai-fuels-archiving-demand/" target="_blank" rel="noopener">Fujifilm 把磁带产能提升 5 倍，AI 推动归档需求</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Ars Technica 报道 Fujifilm 将把磁带产能提升 5 倍，以应对 AI 训练/推理产生的海量冷数据归档需求。HN 讨论（361 分）聚焦「AI 泡沫式增长让最老的存储介质反而更值钱」——对做长期数据留存与成本规划的 infra 团队，这是存储选型的一个信号。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Fujifilm 将磁带产能提升 5 倍，应对 AI 产生的海量冷数据归档需求；HN 讨论指向『AI 增长让磁带这类老存储介质重新吃香』。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">AI 训练/推理产生大量需长期留存但低频访问的冷数据，成本与容量压力把归档存储重新推到台前。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做数据留存与成本规划的 infra 团队可把磁带/LTO 重新纳入冷层考量；限制是磁带的存取延迟与运维模型不适配热数据，且报道偏行业趋势而非技术对比。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">存储趋势</span><a class="src" href="https://arstechnica.com/gadgets/2026/10/fujifilm-to-boost-tape-production-5x-as-ai-fuels-archiving-demand/" target="_blank" rel="noopener">Ars Technica / HN</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://www.qbitai.com/2026/11/507419.html" target="_blank" rel="noopener">纯语音 Personal Agent 来了：或许就是乔布斯心中的 Siri（量子位）</a></li>
+      <li><a href="https://www.qbitai.com/2026/11/507396.html" target="_blank" rel="noopener">小米斩获乌镇峰会双料大奖：集团获杰出贡献奖、具身基座模型获领先科技奖（量子位）</a></li>
+      <li><a href="https://arxiv.org/abs/2611.03647v1" target="_blank" rel="noopener">Pixel-UMI：从传感化人类演示学环境感知的全身操作策略（arXiv）</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
