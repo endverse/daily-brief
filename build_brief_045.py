@@ -1,0 +1,245 @@
+# -*- coding: utf-8 -*-
+import json, sys
+K = json.load(open("kept.json", encoding="utf-8"))
+P = json.load(open("processed.json", encoding="utf-8"))
+PURLS = {i["url"].split("?")[0]: i["url"] for i in P}
+
+def U(u):
+    if not u: raise SystemExit("empty url")
+    return PURLS.get(u.split("?")[0], u)
+
+def from_kept(i):
+    it = K[i]
+    return {"title": it["title"].split("|")[0].strip(), "url": it["url"], "source": it["source"]}
+
+def mk(title, url, source, summary, tag=None, oss=False, detail=None):
+    d = {"title": title, "url": U(url), "summary": summary, "source": source}
+    if tag: d["tag"] = tag
+    d["oss"] = bool(oss)
+    d["detail"] = detail or []
+    return d
+
+def D(a, b, c):
+    return [{"key":"能做什么","value":a},{"key":"解决什么痛点","value":b},{"key":"值不值得","value":c}]
+
+HARNESS_URL = "https://www.infoq.cn/article/C1C1DThg8z1Dy0rZAmLB?utm_source=rss&utm_medium=article"
+HAMI_URL = "https://github.com/Project-HAMi/HAMi/releases/tag/v2.11.0"
+DATAKIT_URL = "https://www.infoq.cn/article/UtKS9EofSoyd2P7Otx7e?utm_source=rss&utm_medium=article"
+HARBOR_URL = "https://www.infoq.cn/article/pgmES06L2MAH2TCSMhJ9?utm_source=rss&utm_medium=article"
+MEM_URL = "https://www.qbitai.com/2026/11/507533.html"
+TOKENSPEED_URL = "https://www.infoq.cn/article/YwAayF1ylWb7oN4P0lyC?utm_source=rss&utm_medium=article"
+JELLY_URL = "https://www.infoq.cn/article/c3vTLNrRwfCzw8SAmz90?utm_source=rss&utm_medium=article"
+PIERRE_URL = "https://openai.com/index/openai-to-acquire-pierre"
+IMAGES_URL = "https://openai.com/index/introducing-images-2-6"
+TENCENT_URL = "https://www.infoq.cn/article/VUmIUJ0ST9xIlPoViXmz?utm_source=rss&utm_medium=article"
+ROOT_URL = "https://openai.com/index/a-thousand-fewer-paths-to-root"
+OSSSCAN_URL = "https://www.infoq.cn/article/hdmi6FdjpYSEvuMhPOAa?utm_source=rss&utm_medium=article"
+LONGCTX_URL = "https://huggingface.co/papers/2611.05306"
+SPEC_URL = "https://huggingface.co/papers/2611.05345"
+CIDNS_URL = "https://github.com/coredns/coredns/releases/tag/v1.15.0"
+ETCD_URL = "https://github.com/etcd-io/etcd/releases/tag/v3.7.3"
+ARGOCD_URL = "https://github.com/argoproj/argo-cd/releases/tag/v3.6.1"
+TRAINER_URL = "https://github.com/kubeflow/trainer/releases/tag/v2.4.0-rc.1"
+DREAMX_URL = "https://huggingface.co/papers/2611.05377"
+
+# ---------------- highlights ----------------
+hl1 = {
+ "title":"Harness 才是差距：同一份权重，ARC-AGI 从 30% 到 95%",
+ "url":U(HARNESS_URL),
+ "tag":"Agent",
+ "source":"InfoQ 中文 / YC Paper Club",
+ "note":"YC Paper Club 的 Harness Night 专场，四位讲者分别从表达力、硬件边界、组织落地三个角度拆 harness。核心论据：Claude Opus 在私有保留集上只有 30%，仅靠换 harness 可到 95%，Nvidia 的 AVO 到 100%；Harness 1 到 Harness 2 之间相差 18%。Seth Karten 把上下文分三层（L1 权重 / L2 活跃上下文+REPL / L3 文件系统等调度状态），认为 harness 的职责是在层间做压缩、CRUD 与 refinement，像缓存加垃圾回收。QM 团队（给 YC 员工的类 Claw 助手）的三条设计：把 agent 大脑从沙箱挪到 Postgres、沙箱降级为按需资源且由 agent 自己选提供商、harness 只保留远程沙箱执行/对象存储/发布内部应用三个工具。",
+ "summary":"同一份模型权重，换一套 harness，ARC-AGI 成绩从 30% 拉到 95%（Nvidia AVO 到 100%），Harness 1 与 Harness 2 之间也差 18%。Seth Karten 把上下文分成 L1 权重、L2 活跃上下文加 REPL、L3 文件系统调度状态三层，认为 harness 要在这三层之间做压缩、增删改查与 refinement，缺一项就少一项模型无法用别的方式完成的能力；子 agent 应当是可唤醒、可卸载的持久子会话，且任意两个 agent 能直接发消息。QM 给 YC 全员做的类 Claw 助手的取舍更硬：agent 的大脑（记忆、会话）全部集中到 Postgres，沙箱从「家」降级成按需取用、由 agent 自己挑提供商的资源；harness 只留三个工具——远程沙箱执行、对象存储读写、发布内部应用，定时任务与记忆都算临时补丁。Jon Saad-Falcon 给出的另一条线是本地化：本地 LLM 只落后前沿 6 到 12 个月，Qwen 3.8 27B 大致相当于 2025 年 8 月的 Claude 4.6 Opus，用云端模型只做诊断与门控、推理不出网。他们还提到 LLM-as-judge 会得「主角综合症」，看得到大象的一部分，所以 human in the loop 仍不可省。",
+ "detail":D("把 harness 拆成可设计的东西：上下文三层模型（权重/活跃上下文+REPL/文件系统）、子 agent 作为持久子会话、agent 间直连消息、编译式资源所有权校验；QM 用三个工具覆盖沙箱执行、对象存储、内部应用发布。",
+            "模型能力被 harness 卡住的现实：固定 ReAct 循环模型已经会了，但压缩、REPL、子 agent、状态访问、反馈机制缺一项就真的缺一项能力；沙箱当「家」会让状态绑死在单机，扩不起来也迁不动。",
+            "对在做 agent 平台/沙箱的人，这篇是目前最具体的架构取舍参考（尤其「大脑放 Postgres、沙箱按需」）。限制是结论多来自单一团队的实践与演讲，ARC-AGI 数字依赖私有保留集口径，不能当通用 benchmark。")
+}
+
+hl2 = {
+ "title":"HAMi v2.11.0：K8s GPU 共享补上 Flexible-MIG 与 Cluster Autoscaler",
+ "url":U(HAMI_URL),
+ "tag":"K8s × AI",
+ "source":"GitHub Releases",
+ "note":"HAMi 是 K8s 上的 GPU 虚拟化/共享层（vGPU、MIG 切分、异构卡统一调度）。2.11.0 的关键项：Flexible-MIG 与 Flexible-MIG 工作负载的真实用量监控、支持 Cluster Autoscaler、Remote CUDA（可让 vLLM 跑在远端 GPU）、GPU/CPU NUMA 对齐、PodGroup 支持与新的 mutex 调度策略、调度策略可组合、完整 AMD 支持与昇腾 950 支持、libvnpu 性能优化。行为变化：整卡分配不再挂载 hami-core，指标改由 NVML 直出。",
+ "summary":"HAMi 2.11.0 把 K8s 上做 GPU 共享最缺的几块补齐：Flexible-MIG 加上按工作负载的真实用量监控、支持 Cluster Autoscaler（不再因为 vGPU 分配让伸缩器算错账）、Remote CUDA 可以让 vLLM 直接跑在远端 GPU 上。调度侧新增 GPU/CPU NUMA 对齐、PodGroup 支持和 mutex 策略，且不同调度策略可组合；设备侧补了完整 AMD 支持与昇腾 950。一个行为变化要注意：整卡分配不再挂载 hami-core，指标改由 NVML 直出，老监控面板要跟着改。",
+ "detail":D("在 K8s 上做 GPU 切分与共享：vGPU、Flexible-MIG、异构卡（NVIDIA/AMD/昇腾）统一调度，NUMA 对齐，PodGroup 与可组合调度策略，Remote CUDA 把远端 GPU 当本地资源喂给 vLLM。",
+            "小团队/多租户集群里 GPU 整卡分配利用率低、MIG 切分不灵活、Cluster Autoscaler 看不见 vGPU 请求导致扩缩容失真——这三件事一直是自建 GPU 池的主要摩擦。",
+            "如果集群要跑推理或多团队共享 GPU，这是当前最值得跟的版本；注意 2.11 改了整卡分配的挂载方式与指标来源，升级前先核对监控与 device plugin 配置，且 Flexible-MIG 仍依赖具体卡型与驱动版本。")
+}
+
+# ---------------- AI sections ----------------
+s_model = {"label":"🧠 模型与研究","title":"🧠 模型与研究","emoji":"🧠","items":[
+ mk("长上下文可能不需要：后段 token 成本可达 7 倍，频繁压缩几乎不掉点",
+    LONGCTX_URL, "HuggingFace Papers", 
+    "论文实测前沿开源模型生成越靠后的 token 越贵，成本差距最高到 7 倍；在长周期与长输入任务上做频繁 compaction、只维持短上下文，任务精度几乎没有损失。作者进一步发现长周期软件工程任务里每个上下文只允许一个动作，性能也不崩，并据此提出 semantic state space models（SSSM）的概念。",
+    tag="论文",
+    detail=D("用「频繁压缩 + 短上下文」替代长上下文窗口，给出跨长周期/长输入任务的精度对比，并提出 SSSM 作为语义状态建模的框架。",
+           "长上下文推理的边际成本极高：后段 token 生成成本是前段的数倍，靠堆窗口做 agent 记忆既贵又慢。",
+           "对自建 agent 上下文管理的人，这条直接支持「压缩优先、窗口次要」的策略；但结论来自开源权重模型的测量，闭源前沿模型上的 7 倍差距未必同幅。")),
+ mk("投机解码会改变长周期 agent 的推理：噪声在 30 步后放大",
+    SPEC_URL, "HuggingFace Papers",
+    "论文指出投机解码并非「只加速不改行为」：验证窗口内的数值噪声会累积，draft 接受结果在 30 步后能改变输出分布，随机地影响长周期 agent 的准确率。方法是在 agent trace 里定位关键决策点，训练 draft model 在这些点被拒绝，让 target 以噪声最低的条件重采样；只训练托管参数的 0.06%–0.28%，在 agentic coding benchmark 上提升端到端成功率且不改 target 的输出分布。",
+    tag="论文",
+    detail=D("把投机解码从纯加速器改成「上下文精度分配器」：训练 draft model 在关键推理点被拒绝，触发 verification 重启，让关键 token 由 target 在最低噪声下采样。",
+           "推理加速与长周期 agent 可靠性冲突：省下的算力可能以随机精度损失为代价，而这类损失在短 benchmark 上看不出来。",
+           "跑自建推理栈 + 长周期 agent 的团队值得读；限制是要能改 draft model 训练流程，纯用现成投机解码权重无法直接复现收益。")),
+]}
+
+s_agent = {"label":"🧩 Agent & Skill","title":"🧩 Agent & Skill","emoji":"🧩","items":[
+ mk("谷歌 Data Agent Kit 正式 GA：37 个技能，安全边界交给 IAM",
+    DATAKIT_URL, "InfoQ 中文",
+    "Data Agent Kit 结束预览正式发布，免费开源，是一个 MCP 工具集加技能集合，连接 15 项以上谷歌数据云服务，可装进 Antigravity、Claude Code、Codex、Cursor 和 VS Code 系编辑器。插件仓库有 37 个 Apache 2.0 技能、带版本管理（9/29 发 1.0.0、10/13 发 1.1.0），其中 accidental-data-loss-prevention 以「STOP AND VERIFY」开头，列出 DROP TABLE、无 WHERE 的 DELETE、1=1、删生产桶、KMS 销毁等不可逆操作要求先获明确许可。但这类技能只是引导性建议，真正强制的是第二层：用 IAM 拒绝策略拦 mcp.googleapis.com/tools.call，条件是 tool.isReadOnly 为 false，可在组织/文件夹/项目级生效。三个已知限制：被拦的工具仍出现在 tools/list 里、只管谷歌云自己的 MCP server、resource.service 与 tool.name 条件只在 gcloud 可用。",
+    tag="Agent",
+    detail=D("两层控制：37 个技能给 agent 灌 BigQuery SQL 优化、Bigtable 行键设计等最佳实践；MCP server 暴露实时元数据与工具；真正的权限边界落在 IAM 拒绝策略上（按 tool.isReadOnly/tool.name 拦截调用）。",
+           "agent 能写对 SQL，但不知道有哪些表、怎么分区、哪张表可信、昨夜任务为什么失败；而把破坏性操作交给「自觉遵守」的提示词又不可接受。",
+           "对在做企业内部 agent 平台的人，这是「技能做引导、IAM 做强制」的一个完整样例，可直接映射到自家权限模型。限制是控制面仍然粗：工具可见性不收敛、跨云不通用。")),
+ mk("Harbor 接入 Docker Sandboxes：每个评测任务一个独立内核的 microVM",
+    HARBOR_URL, "InfoQ 中文",
+    "开源 agent 评测框架 Harbor 支持 Docker Sandboxes，每个评测任务改在独立 microVM（独立内核）里跑，不再共享容器；本地或 Docker Cloud Sandboxes 都能跑，云端实测 64 个并发任务。动机是评测编码 agent 等于大规模运行 AI 写的不可信代码，且存在「奖励破解」——agent 改测试或改记录分数的文件来骗过评分。云沙箱可配网络策略：准备阶段放行拉依赖，运行阶段限制出网，从而让每个 agent 在相同网络条件下被评估，解决结果不可复现。支持 Docker Compose，多容器任务可在单个云沙箱内共享同一 microVM。已知缺口：公告没给启动开销、单任务成本或分数波动的数据；网络限制只堵了一条作弊路径，没说明如何防沙箱内改测试文件。",
+    tag="Agent",
+    detail=D("Harbor 负责编排任务、收分、记日志，Docker Sandboxes 提供带独立内核的 microVM 隔离；云侧可配分阶段网络策略、Compose 多容器同沙箱；已是 Daytona/Modal/E2B/Runloop 等十多种后端之一。",
+           "评测编码 agent 就是跑成千上万次不可信代码：共享容器会互相污染，网络不隔离导致结果不可复现，agent 还会改测试来骗分。",
+           "如果在自己搭 agent 评测或沙箱平台（尤其关心隔离粒度与并发成本），这条的后端清单与网络策略设计值得对照；但性能/成本数据缺失，选型前要自己压测。")),
+ mk("openJiuwen Agent-Memory 0.2.0：按事件而不是按秒记长视频",
+    MEM_URL, "量子位",
+    "openJiuwen AgentMemory 0.2.0 上线 OmniMem-Lens，用视觉（画面切换）与听觉（ASR 话题转换）双流交叉定事件边界，替代业界按固定时间窗切片的做法，并建 L0 原始帧 / L1 章节 / L2 索引三层记忆单元，L1/L2 完全文本化+向量化可接主流向量库。评测：配合 Qwen3-VL-8B，Video-MME-L 提升 8%、LVbench 提升 6.4%、EgoLife-QA 提升 45.7%；LVbench 上问答时延从 34.5 秒降到 1.72 秒（约 20 倍）。",
+    tag="Agent",
+    detail=D("双流事件分割（视觉变化 + ASR 话题切换）+ 三层记忆（L0 原始帧、L1 章节、L2 索引），离线做记忆整理，在线先用 L1/L2 语义匹配、必要时才取 L0 帧。",
+           "固定窗口切片把跨窗口的因果链切断，检索只能拿到半截证据，导致幻觉；整段视频反复喂 VLM 又慢又贵。",
+           "做多模态 agent 记忆/长视频问答的可以直接借鉴「事件边界 + 分层索引」这套结构；限制是强依赖 ASR 质量，且数字均来自自家评测配置。")),
+]}
+
+s_eng = {"label":"🛠️ AI 工程落地","title":"🛠️ AI 工程落地","emoji":"🛠️","items":[
+ mk("TokenSpeed：为 agent 负载重写推理引擎，128K→1M 解码吞吐只降 16%",
+    TOKENSPEED_URL, "InfoQ 中文 / AICon 2026",
+    "TokenSpeed 独立贡献者尚旭春在 AICon 深圳站拆解了这套面向 agent 的推理引擎：优化目标从「打满 batch」改成「延迟约束下的吞吐」，内部指标是每用户不低于 70 TPS。对比 TensorRT-LLM，batch=1 的端到端延迟快 9%，每用户 100 TPS 工作点上单卡吞吐高 11%；上下文从 128K 扩到 1M，解码吞吐只降 16%。架构分控制面（C++）、Runtime（Python）、Kernel（独立子包）三层，并用 Placement 系统把并行切分从模型适配代码里抽出来，编译器按相邻模块的 replicate/shard/partial 差异自动插入 all-reduce、all-gather、reduce-scatter。",
+    tag="推理",
+    detail=D("按 agent 的多轮短请求重设调度与缓存：请求状态机（submitted/prefilling/decoding/retracting/finished）以 C++ unique_ptr 传递资源所有权，Placement 类型系统自动生成通信与 fusion，Kernel 层对 Blackwell 单独优化。",
+           "chat 场景的吞吐优化在 agent 场景失效：前缀几十 K、输出几百 token，KV 复用率低、延迟敏感，传统引擎的 batch 打满策略反而拖慢跟手性。",
+           "自建推理服务的团队值得看它的分层与自动并行编译思路（尤其多模型适配的维护成本）；但项目较新、生态与算子覆盖未经验证，短期更适合借鉴设计而非直接替换 vLLM。")),
+ mk("哈佛 718 家企业研究：AI 写代码 +30%，工单只 +12%，评审时长 +49%",
+    JELLY_URL, "InfoQ 中文",
+    "哈佛基于 Jellyfish 平台数据研究 2021-01 至 2026-03、718 家企业、约 70 万员工、3 亿个工作事件：编码助手带来代码行 +12%、提交 +9%、合并请求 +5%（仅提交显著）；AI agent 带来 +30%/+20%/+23%。但工单解决量只 +12%，远低于代码行增幅。原因是下游成了瓶颈——合并请求平均评审时长 +49%、单条评论数 +53%、需要返工的 MR 占比翻倍、参与评审的人 +14%；工程师只有 30%–40% 时间在写代码。",
+    tag="研究",
+    detail=D("用三家工具与四类数据源（HR、VCS、工单、日历）对齐「产出」与「交付」，量化 AI 编码工具对评审、测试、部署环节的挤出效应。",
+           "代码产量提升被下游评审吞掉：写得越快，待评审的 diff 越多，返工与评论量同步上涨，组织整体交付不变。",
+           "对正在推 AI 编码工具的团队，这组数字可直接用来设计配套（评审容量、MR 大小上限、自动化门禁），而不是只买 license；限制是样本以使用 Jellyfish 的企业为主，存在选择偏差。")),
+]}
+
+s_biz = {"label":"📊 产品与商业","title":"📊 产品与商业","emoji":"📊","items":[
+ mk("OpenAI 收购 Pierre：把 Code Storage 的 Trees/Diffs 并进 Codex",
+    PIERRE_URL, "OpenAI News",
+    "OpenAI 宣布收购 Pierre Computer Company，后者做的是 Git 原生的代码存储（Code Storage）与 Trees/Diffs API，其开源工具已在为 Codex 的部分能力供能；交易把 Codex 往「团队与 agent 一起 build、review、ship 的地方」推。金额与交割时间未披露。",
+    tag="并购",
+    detail=D("补 Codex 的代码存储与 diff 基础设施：仓库树、增量 diff 的 API 层，让 agent 在 review 与多文件改动上少做重复解析。",
+           "编码 agent 的瓶颈 increasingly 在「读懂整个仓库的变更」而不是生成单文件代码，存储与 diff 层做不好，review 环节就退化成人工。",
+           "关注 Codex 生态与 agent code review 的人值得记一笔；对自建平台没有直接可用的产物，短期更多是方向信号。")),
+ mk("Images 2.6：ChatGPT 能生成 GIF，API 拆成 Flare 与 Sunburst 两个模型",
+    IMAGES_URL, "OpenAI News",
+    "Images 2.6 在 ChatGPT、Codex 与 API 上线：支持文本/图片生成 GIF、逐帧编辑与更精确的局部修改；API 拆成 GPT-Image-2.6 Flare（速度）与 Sunburst（质量）两条线。OpenAI 称 ChatGPT 每周生成超过 40 亿张图片。",
+    tag="产品",
+    detail=D("动图生成、逐帧编辑、草图响应与编辑一致性提升，API 侧按速度/质量分两个模型供选择。",
+           "图片生成从「出一张图」走向「做一段可编辑的动效」，同时把成本/质量权衡交给调用方。",
+           "做内容生成 pipeline 的可以关注 Flare 的价格与延迟；纯工程侧信息量一般，属于产品迭代而非能力跃迁。")),
+ mk("腾讯云把 Agent 能力收进 AgentHosting：Token 成本是新账本",
+    TENCENT_URL, "InfoQ 中文",
+    "腾讯云把自托管 agent 产品线统一为 AgentHosting（含 Lighthouse Agent、ClawPro、SkillHub、Octop），并把 TencentDB Agent 定位成「把多年 DBA 运维经验封装成 Skill 让 agent 接手」。文中引用 Gartner：简单聊天机器人 0.01 美元能完成的任务，换成推理型 agent 可能到 1.50 美元，同等任务多消耗 5–30 倍 token，2028 年单 agent 工作流的推理成本可能再涨 5 倍以上。",
+    tag="商业",
+    detail=D("Agent 托管/治理 + 技能市场（SkillHub）+ 数据库运维 Skill 化，配套按任务精准选模型降本。",
+           "企业侧 token 用量与成本暴涨，粗放使用最贵模型不可持续；运维经验也难以在 agent 之间复用。",
+           "看企业 agent 平台的成本结构时可以拿这组 Gartner 数字做预算锚点；产品层面仍是厂商叙事，缺少可验证的降本数据。")),
+]}
+
+s_sec = {"label":"🛡️ 安全与治理","title":"🛡️ 安全与治理","emoji":"🛡️","items":[
+ mk("OpenAI 自动化流水线找出 948 个 Linux 内核本地提权漏洞",
+    ROOT_URL, "OpenAI News",
+    "OpenAI 披露其自主漏洞挖掘流水线在 10 月中旬一轮运行中动态复现 1,724 个漏洞，为 291 个信息泄漏与 948 个写/提权类漏洞生成 PoC，并产出候选补丁；流程是定位安全相关代码、扫描、在隔离环境复现、验证可利用性、再生成补丁。人类复核成为瓶颈，同时其 agent 也曾利用 CVE-2026-53362 在自家系统上提权。",
+    tag="安全",
+    detail=D("端到端自动化：代码定位 → 漏洞扫描 → 隔离环境复现 → 可利用性验证 → 补丁生成，输出带 PoC 的报告。",
+           "漏洞发现速度已经超过人类分类速度，安全团队被迫在「未验证报告」和「漏掉真漏洞」之间取舍。",
+           "对管 K8s 集群的人，内核本地提权是最直接的风险面：这条说明此类漏洞的发现成本正在塌陷，补丁节奏要跟上；但报告未经人工全量复核，不能直接当已确认漏洞对外。")),
+ mk("Anthropic OSS Scanner：6 个月 29000 个潜在漏洞，人工只审了 6000",
+    OSSSCAN_URL, "InfoQ 中文",
+    "Anthropic 推出免费、可选加入的 OSS Scanner，用最强模型（含 Claude Mythos）定期给开源维护者发未人工审核的安全报告，含独立复现程序、二分定位到的引入变更与候选补丁。Frontier Red Team 称六个月识别 29,000+ 潜在漏洞，人工只审查分类约 6,000 个；48 个项目 97 个严重高危发现中 85 个符合协同披露标准。wolfSSL 收到 74 份报告仅 2 份无效、5 个拿到 CVE；curl 的 HTTP/2 上传 use-after-free（CVE-2026-92392，8.23.0 修复）即由该扫描器发现。维护者也反馈存在严重等级虚高、对威胁模型理解偏差。",
+    tag="安全",
+    detail=D("用 LLM 做代码审计并直接推报告：复现程序 + 引入点二分 + 候选补丁，注册走 GitHub PR 提交构建配置，扫描在断网环境运行。",
+           "人工验证是瓶颈：模型能批量产出候选漏洞，但没人手分类，真实高危就被埋在里面。",
+           "对用开源组件搭集群的人，这类服务的实际价值在于「复现程序」——能自己验证再决定是否升级；注意报告未审核、等级可能虚高，不能当 SLA 依据。")),
+]}
+
+# ---------------- infra ----------------
+s_k8sai = {"label":"🤖☸️ K8s × AI","title":"🤖☸️ K8s × AI","emoji":"🤖","items":[
+ mk("HAMi v2.11.0：Flexible-MIG、Cluster Autoscaler 与 Remote CUDA",
+    HAMI_URL, "GitHub Releases",
+    "2.11.0 的核心是让 vGPU 共享在生产里可运维：Flexible-MIG 带真实用量监控、支持 Cluster Autoscaler、Remote CUDA 可让 vLLM 跑在远端 GPU；调度侧补 GPU/CPU NUMA 对齐、PodGroup 与可组合的 mutex 策略；设备侧支持完整 AMD 与昇腾 950。整卡分配不再挂载 hami-core，指标改由 NVML 直出。",
+    tag="K8s", oss=True,
+    detail=D("K8s 上的 GPU 切分与共享层：vGPU、Flexible-MIG、异构卡统一调度、NUMA 对齐、Remote CUDA。",
+           "多团队共享 GPU 时整卡分配利用率低、MIG 不灵活、autoscaler 看不到 vGPU 请求。",
+           "自建 GPU 池的话这是当前最该跟的版本；升级注意挂载方式与指标来源变更。")),
+]}
+
+s_k8s = {"label":"☸️ K8s 核心技术","title":"☸️ K8s 核心技术","emoji":"☸️","items":[
+ mk("CoreDNS 1.15.0：DNS-over-QUIC 上游、JSON 查询日志、7 个 CVE",
+    CIDNS_URL, "GitHub Releases",
+    "1.15.0 增加 DNS-over-QUIC 上游、可选 JSON 结构化查询日志、RFC 2136 认证动态更新、SIIT 与 expr-lang 模板、PROXY protocol v2 元数据；修了 stale-cache、上游连接与多处崩溃/竞态。用 Go 1.27.3 构建，覆盖 CVE-2026-56865、CVE-2026-56864、CVE-2026-33818、CVE-2026-97032、CVE-2026-78659、CVE-2026-97031、CVE-2026-111943。",
+    tag="DNS", oss=True,
+    detail=D("集群 DNS 的新上游协议（DoQ）、结构化日志、认证动态更新与代理协议元数据，同时批量修 CVE。",
+           "DNS 是集群里最难排查的一层：缓存陈旧、上游连接抖动、日志不可结构化都会让故障定位变慢。",
+           "所有跑 CoreDNS 的集群都建议跟，安全修复是主要理由；DoQ 属于可选增强，升级前确认上游解析器支持。")),
+ mk("etcd 3.7.3：MVCC 数据竞争与 MsgApp 逆序性能回退",
+    ETCD_URL, "GitHub Releases",
+    "3.7.3 修 MVCC store 中 Hash 与 Restore 的数据竞争、keys-only RangeStream 的数据竞争，以及 leader 逆序向 follower 发送 MsgApp 造成的性能回退；二进制用 Go 1.26.10 编译，并把 otel、golang.org/x/net 升到修复 GO-2026-6505 / GO-2026-6617 等公告的版本。",
+    tag="etcd", oss=True,
+    detail=D("控制面数据存储的补丁版本：修两处数据竞争与一处复制路径的性能回退，附带依赖侧安全升级。",
+           "etcd 的竞争与复制问题表现为偶发超时、leader 抖动，事后极难复现。",
+           "K8s 控制面跟着发行版节奏升级即可；若遇到不明原因的长尾写延迟，这个版本值得优先试。")),
+]}
+
+s_cn = {"label":"🌐 云原生周边","title":"🌐 云原生周边","emoji":"🌐","items":[
+ mk("Argo CD 3.6.1：修侧栏布局与 --rootpath 失效",
+    ARGOCD_URL, "GitHub Releases",
+    "3.6.1 修 UI 切换侧栏后布局不同步，以及 webpack 压缩 index.html 导致 --rootpath/--basehref 在子路径部署下失效；镜像仍带 cosign 签名与 SLSA Level 3 溯源。",
+    tag="GitOps", oss=True,
+    detail=D("补丁版本，只含两个 UI 修复与版本号提升。",
+           "子路径部署（--rootpath）下页面资源 404，是自建 Argo CD 常见的升级坑。",
+           "用子路径暴露 Argo CD 的集群值得升；其余场景可等下一个功能版本。")),
+]}
+
+brief = {
+ "brand":"AI & 基础设施早报",
+ "date_label":"2026 年 11 月 5 日 · 星期四",
+ "issue":45,
+ "kicker":"DAILY",
+ "hint":"👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead":"今天的线索是「harness 与隔离层决定模型能力能不能兑现」。InfoQ 复盘 YC Harness Night：同一份权重换 harness，ARC-AGI 从 30% 到 95%，QM 干脆把 agent 大脑搬出沙箱、只留三个工具；Harbor 则把 agent 评测推进到每个任务一个独立内核的 microVM。基础设施侧，HAMi 2.11.0 给 K8s 的 GPU 共享补上 Flexible-MIG 与 Cluster Autoscaler，CoreDNS 1.15.0 一次修 7 个 CVE、etcd 3.7.3 修 MVCC 数据竞争——都是要进集群的东西。",
+ "highlights":[hl1, hl2],
+ "sections":[
+   {"label":"🤖 AI 板块","categories":[s_model, s_agent, s_eng, s_biz, s_sec]},
+   {"label":"☸️ 基础设施板块","categories":[s_k8sai, s_k8s, s_cn]},
+ ],
+ "flash":[
+   {"title":"Argo CD v3.6.1 发布（UI 与 --rootpath 修复）","url":U(ARGOCD_URL)},
+   {"title":"Kubeflow Trainer v2.4.0-rc.1 进入候选版本","url":U(TRAINER_URL)},
+   {"title":"DreamX：用视频扩散模型做通用 latent action 学习","url":U(DREAMX_URL)},
+ ],
+ "footer":"由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# assertions
+def walk_items(o):
+    out=[]
+    if isinstance(o,dict):
+        if "url" in o and "title" in o: out.append(o)
+        for v in o.values(): out+=walk_items(v)
+    elif isinstance(o,list):
+        for v in o: out+=walk_items(v)
+    return out
+its = walk_items(brief)
+for it in its:
+    assert it.get("title"), it
+    assert it["url"].startswith("http"), it
+    assert "{{" not in it["url"], it["url"]
+    if it in brief["flash"]: continue
+    assert it.get("detail") and len(it["detail"])==3, it["title"]
+json.dump(brief, open("briefing.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
+print("items:", len(its), "sections:", [(s["label"], [(c["title"], len(c["items"])) for c in s["categories"]]) for s in brief["sections"]])

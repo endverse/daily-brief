@@ -1,51 +1,49 @@
 ======================================================================
-处理报告  (原始 207 条)
+处理报告  (原始 217 条)
 ======================================================================
 
-① 过滤: 保留 155 条, 过滤掉 52 条
+① 过滤: 保留 168 条, 过滤掉 49 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] floci-io/floci
-     ✗ [GitHub Trending] anomalyco/hex
+     ✗ [GitHub Trending] github/spec-kit
+     ✗ [GitHub Trending] JiaFeiMiao-K-Cat/DiscImageStudio
+     ✗ [GitHub Trending] MichaelCade/90DaysOfDevOps
      ✗ [GitHub Trending] D4Vinci/Scrapling
-     ✗ [GitHub 升星repo] AssassinCreator/steam-stash-value-report-card
-     ✗ [GitHub 升星repo] Codeonshovel/microsoft-365
-     ✗ [GitHub 升星repo] Nucleusanwish/microsoft-office
-     ✗ [GitHub 升星repo] justrach/nanolight
-     ✗ [GitHub 升星repo] ShoreEvokerHeat/fl-studio
+     ✗ [GitHub 升星repo] govijr/terminal-mac
+     ✗ [GitHub 升星repo] Minireel/HGhub
+     ✗ [GitHub 升星repo] brightsongwrath/personal-data-deletor-osint
 
-② 去重: 155 → 147 条 (同批合并 2, 跨天历史去重 6)
+② 去重: 168 → 161 条 (同批合并 4, 跨天历史去重 3)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] thedotmack/claude-mem
-     ⏭️  [GitHub Trending] vercel-labs/agent-desktop
      ⏭️  [GitHub Trending] max-sixty/worktrunk
-     ⏭️  [GitHub Trending] JustVugg/colibri
-     ⏭️  [GitHub Trending] shiyu-coder/Kronos
-     ⏭️  [GitHub Trending] Donchitos/Claude-Code-Game-Studios
+     ⏭️  [GitHub Trending] vercel-labs/agent-desktop
+     ⏭️  [GitHub Trending] garrytan/gstack
    跨源合并的事件:
-     ⇉ Library of Layers (LoL): Adaptively Orde  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Adversarial Speculative Reasoning Improv  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ You don't need long context  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ DreamX: Video Diffusion Model is a Unive  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Going Deeper With Memories  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 30 条 (含🔧开源 2)
-     - 安全与治理: 14 条
-     - 模型与研究: 71 条 (含🔧开源 2)
-     - AI 工程落地: 13 条 (含🔧开源 2)
      - 产品与商业: 11 条
-     - 观点与好文: 3 条 (含🔧开源 1)
+     - 安全与治理: 10 条
+     - 模型与研究: 71 条 (含🔧开源 1)
+     - Agent & Skill: 43 条 (含🔧开源 7)
+     - AI 工程落地: 23 条 (含🔧开源 2)
    【基础设施】
-     - K8s × AI: 1 条
-     - K8s 核心: 2 条
      - 社区与项目: 2 条
+     - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] Expanding our partnership with GSA to bring Claude to a
-        源:Anthropic News 类:产品与商业 跨源:[]
-     🔥 [16分] Introducing the Anthropic Cyber MissionWe’re launching 
-        源:Anthropic News 类:产品与商业 跨源:[]
+     🔥 [19分] OpenAI to acquire Pierre Computer Company, Inc.
+        源:OpenAI News 类:产品与商业 跨源:[]
+     🔥 [19分] DevRev delivers autonomous self-service with GPT-6.1 So
+        源:OpenAI News 类:Agent & Skill 跨源:[]
 
    打分Top5(参考):
+      19分 [OpenAI News ] OpenAI to acquire Pierre Computer Company, In
+      19分 [OpenAI News ] DevRev delivers autonomous self-service with 
+      16分 [OpenAI News ] Daybreak Red is now available in AWS GovCloud
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
-      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
-      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
-      15分 [HuggingFace Papers] Library of Layers (LoL): Adaptively Ordering 
