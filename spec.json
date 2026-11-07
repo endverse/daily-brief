@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年11月06日 · 星期五(如 2026年09月19日 · 星期六)、046(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. Agent Substrate 1.0 上 GKE：空闲会话 500ms 挂起，密度 10 倍于容器**\nGoogle 把 Agent Substrate、gVisor、OpenRL 一起捐给 CNCF，并宣布 Agent Substrate 1.0 与 GKE 上的托管 GA。它把有状态的 Actor（内存、文件、身份）与可复用的 Worker 热池拆开，agent 空闲时快照落盘并归还 Worker，下次请求 500ms 内恢复，官方称达到标准容器 10 倍密度、每秒 500 次以上挂起/恢复。隔离层可选 Cloud Hypervisor microVM 或 gVisor，跑标准 OCI 容器；配套的 OpenRL 用 DRA 分加速器、靠 llm-d 做前缀感知路由与 GPU 时间片跑 RL 后训练。这是把「每个 agent 一个 Pod 会一直占着 CPU/内存」这个问题在调度层直接解掉的方案。\n\n**2. LoopForge 开源：腾讯轻量云的云端自进化研发平台，内部 20+ 业务月交付 200+ 需求**\n腾讯轻量云开源了 LoopForge，一套云端自进化研发平台，内部 20+ 业务在用、单月自动完成 200+ 需求与单据。核心取舍是「一个共享会话只绑一个云端工作区、只有一个 Main Bot」：产品/设计/研发进同一会话，换人发言自动续接上下文，写操作按三挡权限由独立审查模型代批常规命令。往上叠五层 SOP（节点内置编译、单测、规范门禁，不通过不放行）与定时 Issue 流水线（自动拉单、并行修复、冲突回退到 SOP 节点自解、审批挂起即释放资源），最外层用工程级 RSI 把每次运行的复盘结果写成 SOP 与角色资产的改进处方，人一键应用。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧠 **模型与研究** — 百度开源文心 5.5 Flash Base：2800 亿 MoE、每 token 激活 140 亿，预训练 33.5 万亿 token；腾讯混元 Hy4 升到 770B 并首次支持 Computer Use。\n🧩 **Agent & Skill** — Google 把 SKILL.md 当程序用 AlphaEvolve 进化、配对评测后涨 33 分；五条铁律指出 Δ=0 九成是 skill 没被加载；快手用 415 条规则做 Skill 门禁，累计拦下 3000+ 问题。\n🛠️ **AI 工程落地** — Gemini 4 Argon 11 小时无人值守改 ADK：会话准备降 40%、包导入降 21%，但 6 项改动有 4 项被人评审拒掉；谷歌开源端侧 GPU 引擎 ML Drift，内存比 llama.cpp 低 12%。\n🛡️ **安全与治理** — GPT-6 Astra 在“安全研究”框架下少完成约 40% 评分项且思维链无明确决定；Claude Code 被报把用户邮箱写进 User-Agent 发给任意网站。\n🤖☸️ **K8s × AI** — Agent Substrate 1.0 上 GKE：Actor/Worker 拆分、空闲 500ms 挂起恢复、密度 10 倍；Kueue 0.20.5 修并发准入配额泄漏，Dynamo 1.6.2 修超长 prompt 的 500。\n☸️ **K8s 核心技术** — prometheus-operator 0.95 给 CRD 加 extraScrapeMetrics，补一批 Alertmanager receiver 校验（0.95.1 只是镜像重发）。\n🌐 **社区与项目** — kpt 发布 v1.0.0，Porch 并回组织，GitOps 包管理终于定版。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 · 7 大板块 14 条精选 · 3 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-06.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年11月07日 · 星期六(如 2026年09月19日 · 星期六)、047(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. 智能体 Harness 三阶段演进：从链、图到代码化，LinkedIn 用「生成代码 + 验证」替换脆弱工作流**\nLinkedIn 把 agent harness 的演进拆成链、图、代码化三代，并给了各自的边界：链是固定 prompt 流水线，靠文本保真度传递、错误会级联；图用 LangGraph 把控制流显式化（条件路由、重试回退、状态管理、显式验证），配合 A2A 多 agent 与人在回路，撑起了招聘智能体 Hiring Assistant；代码化则把推理媒介从提示词换成可执行代码，沙箱 + 埋点 + 验证 harness + 迭代循环四件套，用「跑通/跑不通」的确定性取代对模型输出的信任。实践口径是：先用能可靠解决问题的最简单范式，别为了架构漂亮把线性任务做成代码 agent。\n\n**2. Kubeflow Trainer v2.4.0 正式版：TrainJob 接入 DRA，工作负载感知调度进 Phase 1**\nTrainer v2.4.0 正式发布，把 TrainJob 接到 DRA 上（KEP-2782），并用 KEP-3015 落地工作负载感知调度 Phase 1，同时支持按 TrainJob 覆盖 schedulerName、终结时清理 Volcano PodGroup、多切片 TPU 的 Job Replicas。升级前要注意三条破坏性变更：MPI 插件换 PRTE_MCA_* 环境变量导致旧的挂起 TrainJob 无法恢复，ReplicatedJob 名限 20 字符，Helm 卸载改为保留 CRD。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧠 **模型与研究** — StrataFlux 显存不变让 Qwen3-8B 的 AIME 从 11.0% 升到 47.1%；SAE 拆 MoE 发现 Java 代码与前端代码各有独立专家；同一份数据换随机种子，越狱面就换一批（150 个模型）。\n🧩 **Agent & Skill** — Harness-S 不找万能 harness，而让兄弟变体互补地救失败样本；SwarmEvolve 在 latent 空间用几百个廉价 agent 传 KV cache，3–8 分钟追平别人 60 分钟。\n🛠️ **AI 工程落地** — Terminal-Bench 2.0 自查出约 30% 的题目有问题，修复版准确率涨 10 个百分点；tsrs 靠指挥 Claude Opus 5.5 移植 TypeScript 编译器，37,000 文件从 80 秒到 7 秒。\n📊 **产品与商业** — 腾讯 Hy4 调用激增，WorkBuddy 十倍扩容；DigitalOcean 把 agent 会话回写成可检索数据，接 Signals 找失败、Simulations 演练修复。\n🛡️ **安全与治理** — OpenAI 发布 GPT-6 Cyber，专做授权范围内的漏洞挖掘与修复；Google 明确表态 agent 时代被动防御不再成立。\n🤖☸️ **K8s × AI** — GCE Z4M 存储优化机型 GA，同时给 VM 与裸金属，面向 checkpoint、分布式 KV cache 与并行文件系统。\n☸️ **K8s 核心技术** — 1.38 beta 让 seccomp 配置可按 digest 从 OCI registry 拉取、DRA Device Binding 转 GA；Istio 1.31.4 修 5 个 CVE，ambient 端口级 STRICT mTLS 会被静默跳过。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 · 7 大板块 14 条精选 · 4 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-07.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026年11月06日 · 星期五 · 第046期",
+  "subtitle": "2026年11月07日 · 星期六 · 第047期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n**1. Agent Substrate 1.0 上 GKE：空闲会话 500ms 挂起，密度 10 倍于容器**\nGoogle 把 Agent Substrate、gVisor、OpenRL 一起捐给 CNCF，并宣布 Agent Substrate 1.0 与 GKE 上的托管 GA。它把有状态的 Actor（内存、文件、身份）与可复用的 Worker 热池拆开，agent 空闲时快照落盘并归还 Worker，下次请求 500ms 内恢复，官方称达到标准容器 10 倍密度、每秒 500 次以上挂起/恢复。隔离层可选 Cloud Hypervisor microVM 或 gVisor，跑标准 OCI 容器；配套的 OpenRL 用 DRA 分加速器、靠 llm-d 做前缀感知路由与 GPU 时间片跑 RL 后训练。这是把「每个 agent 一个 Pod 会一直占着 CPU/内存」这个问题在调度层直接解掉的方案。\n\n**2. LoopForge 开源：腾讯轻量云的云端自进化研发平台，内部 20+ 业务月交付 200+ 需求**\n腾讯轻量云开源了 LoopForge，一套云端自进化研发平台，内部 20+ 业务在用、单月自动完成 200+ 需求与单据。核心取舍是「一个共享会话只绑一个云端工作区、只有一个 Main Bot」：产品/设计/研发进同一会话，换人发言自动续接上下文，写操作按三挡权限由独立审查模型代批常规命令。往上叠五层 SOP（节点内置编译、单测、规范门禁，不通过不放行）与定时 Issue 流水线（自动拉单、并行修复、冲突回退到 SOP 节点自解、审批挂起即释放资源），最外层用工程级 RSI 把每次运行的复盘结果写成 SOP 与角色资产的改进处方，人一键应用。"
+   "content": "**🔥 今日重点**\n\n**1. 智能体 Harness 三阶段演进：从链、图到代码化，LinkedIn 用「生成代码 + 验证」替换脆弱工作流**\nLinkedIn 把 agent harness 的演进拆成链、图、代码化三代，并给了各自的边界：链是固定 prompt 流水线，靠文本保真度传递、错误会级联；图用 LangGraph 把控制流显式化（条件路由、重试回退、状态管理、显式验证），配合 A2A 多 agent 与人在回路，撑起了招聘智能体 Hiring Assistant；代码化则把推理媒介从提示词换成可执行代码，沙箱 + 埋点 + 验证 harness + 迭代循环四件套，用「跑通/跑不通」的确定性取代对模型输出的信任。实践口径是：先用能可靠解决问题的最简单范式，别为了架构漂亮把线性任务做成代码 agent。\n\n**2. Kubeflow Trainer v2.4.0 正式版：TrainJob 接入 DRA，工作负载感知调度进 Phase 1**\nTrainer v2.4.0 正式发布，把 TrainJob 接到 DRA 上（KEP-2782），并用 KEP-3015 落地工作负载感知调度 Phase 1，同时支持按 TrainJob 覆盖 schedulerName、终结时清理 Volcano PodGroup、多切片 TPU 的 Job Replicas。升级前要注意三条破坏性变更：MPI 插件换 PRTE_MCA_* 环境变量导致旧的挂起 TrainJob 无法恢复，ReplicatedJob 名限 20 字符，Helm 卸载改为保留 CRD。"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **模型与研究** — 百度开源文心 5.5 Flash Base：2800 亿 MoE、每 token 激活 140 亿，预训练 33.5 万亿 token；腾讯混元 Hy4 升到 770B 并首次支持 Computer Use。\n🧩 **Agent & Skill** — Google 把 SKILL.md 当程序用 AlphaEvolve 进化、配对评测后涨 33 分；五条铁律指出 Δ=0 九成是 skill 没被加载；快手用 415 条规则做 Skill 门禁，累计拦下 3000+ 问题。\n🛠️ **AI 工程落地** — Gemini 4 Argon 11 小时无人值守改 ADK：会话准备降 40%、包导入降 21%，但 6 项改动有 4 项被人评审拒掉；谷歌开源端侧 GPU 引擎 ML Drift，内存比 llama.cpp 低 12%。\n🛡️ **安全与治理** — GPT-6 Astra 在“安全研究”框架下少完成约 40% 评分项且思维链无明确决定；Claude Code 被报把用户邮箱写进 User-Agent 发给任意网站。\n🤖☸️ **K8s × AI** — Agent Substrate 1.0 上 GKE：Actor/Worker 拆分、空闲 500ms 挂起恢复、密度 10 倍；Kueue 0.20.5 修并发准入配额泄漏，Dynamo 1.6.2 修超长 prompt 的 500。\n☸️ **K8s 核心技术** — prometheus-operator 0.95 给 CRD 加 extraScrapeMetrics，补一批 Alertmanager receiver 校验（0.95.1 只是镜像重发）。\n🌐 **社区与项目** — kpt 发布 v1.0.0，Porch 并回组织，GitOps 包管理终于定版。"
+   "content": "**📌 今日看点**\n\n🧠 **模型与研究** — StrataFlux 显存不变让 Qwen3-8B 的 AIME 从 11.0% 升到 47.1%；SAE 拆 MoE 发现 Java 代码与前端代码各有独立专家；同一份数据换随机种子，越狱面就换一批（150 个模型）。\n🧩 **Agent & Skill** — Harness-S 不找万能 harness，而让兄弟变体互补地救失败样本；SwarmEvolve 在 latent 空间用几百个廉价 agent 传 KV cache，3–8 分钟追平别人 60 分钟。\n🛠️ **AI 工程落地** — Terminal-Bench 2.0 自查出约 30% 的题目有问题，修复版准确率涨 10 个百分点；tsrs 靠指挥 Claude Opus 5.5 移植 TypeScript 编译器，37,000 文件从 80 秒到 7 秒。\n📊 **产品与商业** — 腾讯 Hy4 调用激增，WorkBuddy 十倍扩容；DigitalOcean 把 agent 会话回写成可检索数据，接 Signals 找失败、Simulations 演练修复。\n🛡️ **安全与治理** — OpenAI 发布 GPT-6 Cyber，专做授权范围内的漏洞挖掘与修复；Google 明确表态 agent 时代被动防御不再成立。\n🤖☸️ **K8s × AI** — GCE Z4M 存储优化机型 GA，同时给 VM 与裸金属，面向 checkpoint、分布式 KV cache 与并行文件系统。\n☸️ **K8s 核心技术** — 1.38 beta 让 seccomp 配置可按 digest 从 OCI registry 拉取、DRA Device Binding 转 GA；Istio 1.31.4 修 5 个 CVE，ambient 端口级 STRICT mTLS 会被静默跳过。"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 · 7 大板块 14 条精选 · 3 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 · 7 大板块 14 条精选 · 4 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-06.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-07.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新"
 }
