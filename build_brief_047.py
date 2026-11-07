@@ -1,0 +1,355 @@
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 047 (2026-11-07)."""
+import json, sys
+
+PROC = json.load(open("processed.json", encoding="utf-8"))
+
+def U(key):
+    hits = [i["url"] for i in PROC if key in i["url"]]
+    if len(hits) != 1:
+        sys.exit("URL lookup %r -> %d hits: %s" % (key, len(hits), hits[:4]))
+    return hits[0]
+
+EMOJI = {
+    "🧠 模型与研究": "🧠", "🧩 Agent & Skill": "🧩", "🛠️ AI 工程落地": "🛠️",
+    "📊 产品与商业": "📊", "💡 观点与好文": "💡", "🛡️ 安全与治理": "🛡️",
+    "🤖☸️ K8s × AI": "🤖☸️", "☸️ K8s 核心技术": "☸️", "☸️ 云原生周边": "☸️",
+    "🏘️ 社区与项目": "🏘️", "☁️ 公有云动态": "☁️",
+}
+
+def it(key, title, summary, source, tag, detail, oss=False):
+    return {"title": title, "url": U(key), "summary": summary, "source": source,
+            "tag": tag, "oss": oss, "detail": detail}
+
+def d(can, pain, worth):
+    return [{"key": "能做什么", "value": can},
+            {"key": "解决什么痛点", "value": pain},
+            {"key": "值不值得", "value": worth}]
+
+highlights = [
+ {
+  "title": "智能体 Harness 三阶段演进：从链、图到代码化，LinkedIn 用「生成代码 + 验证」替换脆弱工作流",
+  "url": U("infoq.cn/article/B7tsA5tjD08k2gd0OtXd"),
+  "tag": "Agent & Skill",
+  "source": "InfoQ 中文（LinkedIn 工程团队）",
+  "note": (
+   "LinkedIn 工程团队梳理了 agent harness（围绕概率模型搭的结构化执行框架）的三个范式。第一代是「链」："
+   "他们早期的生成式 agent 用 LangChain 搭固定三步——路由（判断问题是否在范围内、交给哪个专家）、检索（必应/内部 API 建档案供 RAG）、"
+   "生成（过滤与综合）；完全依赖上一步的文本保真度，一个上游错误级联到底，且没有系统性识别和自动修复的机制。"
+   "第二代是「图」：用节点表示 LLM 调用/工具调用/验证，用边控制流程，把控制流变成显式可声明的东西，带来条件执行、重试回退、状态管理、"
+   "显式验证；多 agent 由顶层编排器管理，靠 A2A（ACP 已并入 A2A）做异步通信，人在回路（HITL）负责关键决策点；"
+   "LinkedIn 复用自家消息系统实现 FIFO 投递与持久重试来做长耗时任务编排，并把认知记忆做成一个独立 agent 供业务 agent 集成，"
+   "这套支撑了首个招聘智能体 Hiring Assistant。但它本质仍是人预先定义的工作流，状态空间一复杂，故障恢复、校验、边界处理都要手写，"
+   "流程定义与评测框架越写越脆。第三代是「代码」：让 coding harness 在沙箱里生成、执行、优化代码，靠「编译/运行通过与否」的确定性拿到紧反馈回路；"
+   "架构含四个组件——执行沙箱、埋点与日志、验证 harness（单测/断言/检查规则）、迭代优化循环。LinkedIn 用这套做了内部数据分析工具："
+   "把自然语言问题编译成声明式 SQL + 命令式 Python，在样本数据上执行，按隐私/可见性/合规规则校验输出并循环到满足全部条件，"
+   "省掉了定制提示词、工具、工作流图和评估调优的工作量，可审计性与可复现性也更好。文章最后给的原则是：把 LLM 输出当不可信输入、"
+   "把规划与执行解耦、把可观测性做进每一步、以及选「能可靠解决问题的最简单系统」——链适合线性任务（客服回复、文档摘要、内容审核），"
+   "图适合需要分支/重试/显式状态的流程，代码 harness 适合输出可被测试或编译验证的场景。"
+  ),
+  "summary": (
+   "LinkedIn 把 agent harness 的演进拆成链、图、代码化三代，并给了各自的边界：链是固定 prompt 流水线，靠文本保真度传递、错误会级联；"
+   "图用 LangGraph 把控制流显式化（条件路由、重试回退、状态管理、显式验证），配合 A2A 多 agent 与人在回路，撑起了招聘智能体 Hiring Assistant；"
+   "代码化则把推理媒介从提示词换成可执行代码，沙箱 + 埋点 + 验证 harness + 迭代循环四件套，用「跑通/跑不通」的确定性取代对模型输出的信任。"
+   "实践口径是：先用能可靠解决问题的最简单范式，别为了架构漂亮把线性任务做成代码 agent。"
+  ),
+  "detail": d(
+   "把 harness 抽象成三种可复用的执行范式，并给出每种的组件清单与适用边界；代码化范式的核心是「生成代码→沙箱执行→断言校验→失败重写」的闭环，"
+   "确定性验证替代了对自然语言输出的信任，LinkedIn 内部数据分析工具即按此把提问编译成 SQL + Python 并循环校验到合规。",
+   "自研 agent 平台最常见的两个坑：一是图工作流越写越复杂，故障恢复、校验和边界处理全要手写，流程定义和评测框架变成维护负担；"
+   "二是把 LLM 的自然语言输出直接喂给下游逻辑，出错无法定位。文章给的是「按复杂度选抽象」的判据，而不是又一套框架。",
+   "如果你在给公司搭多用户 agent 平台，这篇是少见的、带生产事故口径的分层判据——尤其适合用来论证「哪些会话该走代码沙箱、哪些留在固定流程」，"
+   "以及为什么验证 harness 要作为一等组件。局限是没有公开代码与量化对比，属于经验总结而非基准测试。"
+  ),
+ },
+ {
+  "title": "Kubeflow Trainer v2.4.0 正式版：TrainJob 接入 DRA，工作负载感知调度进 Phase 1",
+  "url": U("kubeflow/trainer/releases/tag/v2.4.0"),
+  "tag": "K8s × AI",
+  "source": "GitHub Releases",
+  "oss": True,
+  "note": (
+   "Kubeflow Trainer v2.4.0 从 rc 转正式。核心是把训练作业接进 Kubernetes 的新调度原语：KEP-2782 让 TrainJob 直接使用 DRA"
+   "（Dynamic Resource Allocation）申请设备，而不是靠扩展资源计数；KEP-3015 带来工作负载感知调度 Phase 1，"
+   "并允许按 TrainJob 覆盖 schedulerName，从而在同一集群里分别走默认调度器、Volcano 或 Kueue 管理的队列；"
+   "TrainJob 进入终结或挂起状态时会清理 Volcano 的 PodGroup，避免残留占配额。其余新增包括多切片 TPU 的 Job Replicas、"
+   "Prometheus 监控 overlay、slurm-bridge 调度文档，OptimizationJob 控制器以 alpha 特性门控上线（Phase 1 的 HPO API 在 rc.0 已引入）。"
+   "破坏性变更三条：MPI 插件改用 PRTE_MCA_* 环境变量，升级前创建且处于挂起状态的 MPI TrainJob（DeepSpeed、MLX 等）无法恢复，"
+   "因为新环境变量加不进已存在的不可变 JobSet，必须先等它们跑完或升级后重建；ReplicatedJob 名字长度限制到 20 字符；"
+   "Helm 卸载会保留 CRD（helm.sh/resource-policy: keep），不再连带 GC 掉集群里的 TrainJob。"
+  ),
+  "summary": (
+   "Trainer v2.4.0 正式发布，把 TrainJob 接到 DRA 上（KEP-2782），并用 KEP-3015 落地工作负载感知调度 Phase 1，"
+   "同时支持按 TrainJob 覆盖 schedulerName、终结时清理 Volcano PodGroup、多切片 TPU 的 Job Replicas。"
+   "升级前要注意三条破坏性变更：MPI 插件换 PRTE_MCA_* 环境变量导致旧的挂起 TrainJob 无法恢复，ReplicatedJob 名限 20 字符，"
+   "Helm 卸载改为保留 CRD。"
+  ),
+  "detail": d(
+   "TrainJob 用 DRA 申请设备（ResourceClaim 而非 nvidia.com/gpu 计数），可与 Kueue/Volcano 的队列、拓扑感知调度共存，"
+   "并支持按作业切换 schedulerName；OptimizationJob 控制器以 alpha 门控上线，把 HPO 收进 TrainJob 体系。",
+   "GPU 训练作业在共享集群里的两类老问题：一是多卡/多机按整数扩展资源申请，做不了「同一张卡切分给不同作业」和细粒度拓扑约束；"
+   "二是训练作业和推理、批处理抢同一套调度器，无法按队列做配额与优先级。v2.4 把这两个都交给 K8s 原生原语。",
+   "自建训练平台、且集群已在用 Kueue/Volcano 或打算上 DRA 的话，这是当前最值得跟的一个版本；只是 DRA 侧要求集群 1.34+ 的 DRA 驱动链路完整，"
+   "MPI 那条破坏性变更意味着升级窗口要排开正在跑的挂起作业。"
+  ),
+ },
+]
+
+sections = [
+ {"label": "🤖 AI 板块", "categories": [
+  {"label": "🧠 模型与研究", "items": [
+    it("arxiv.org/abs/2611.08363",
+       "StrataFlux：把主机内存和 SSD 当「额外精度层」，2-bit 权重下 AIME 从 11.0% 拉到 47.1%",
+       "针对低比特量化掉精度的老问题，StrataFlux 不放弃量化，而是把主机 RAM 与 SSD 里保存的高精度数据做成可按需流式回填的「精度层」："
+       "选择性精度流只传当前解码步真正需要的部分，传输与计算重叠，同一次取回的数据在后续解码步复用，生成不必等每次传输完成。"
+       "实测 2-bit Llama-3.1-8B 权重把 WikiText-2 困惑度从 9.46 降到 8.40，同时保持量化基座 95.4% 的吞吐（RTX 5090）；"
+       "2-bit 权重 + 2-bit KV 让 Qwen3-8B 的 AIME 2024/2025 从 11.0% 提到 47.1% 且显存不增；128K 上下文下 3-bit 权重 + 2-bit KV "
+       "做到与 vLLM 4-bit AWQ + 8-bit KV 相当的困惑度和速度，显存约省一半。",
+       "arXiv", "推理优化", d(
+        "在 GPU 显存之外开辟「精度层」：把高精度权重/KV 存主机内存与 SSD，按解码步选择性流式回填并与计算重叠，跨步复用；"
+        "覆盖 2–4 bit 权重与 2–3 bit KV，在独显和统一内存平台上都验证过。",
+        "量化省显存但掉精度、offload 高精度数据又卡生成——尤其 2-bit 量化下推理模型（数学、长链）能力塌到不可用，而买卡升级显存成本最高。",
+        "做私有化推理、显存受限又不想牺牲推理模型能力的场景值得细读，它说明「GPU 内精度不必是精度上限」；"
+        "但实现依赖 SSD 带宽与调度栈，工程复杂度不低，短期更适合当技术路线参考而不是直接替换 vLLM 的量化方案。"
+       )),
+    it("huggingface.co/papers/2611.08089",
+       "用 SAE 拆 MoE：Qwen3-30B-A3B 的专家分工细到「Java 代码」与「前端代码」各一个",
+       "以往判断 MoE 专家职责靠统计它在领域标注语料上被选中的频率，粒度粗且只记录「被选中」不记录「贡献」。"
+       "这项工作在 MoE 层输出上训练稀疏自编码器（SAE），利用「层输出 = 各专家输出的路由加权和、SAE 编码器是仿射变换」这一性质，"
+       "把每个 latent 的 pre-activation 精确分解到各专家头上，从而给每个专家算出它主要驱动的 latent 集合。"
+       "在 Qwen3-30B-A3B 的第 4、30、46 层上，贡献比门控集中得多，多数 latent 只有一到两个主导专家，"
+       "自动解读后发现分工远细于粗粒度领域：Java 代码与前端 Web 代码、几何与算术/多项式都各有独立专家，而粗领域占用的专家数极不均衡。",
+       "arXiv / HF Papers", "可解释性", d(
+        "给出一种把 MoE 层输出按专家精确归因的方法（仿射分解），得到每个专家的主导 latent 集合，并在 30B 级 MoE 上给出层内分工的实证。",
+        "MoE 容量大但「哪个专家管什么」长期说不清，导致剪枝、专家并行放置、路由改造都靠猜；按选择频率统计既粗又会误判。",
+        "做 MoE 推理部署或路由优化的可以看方法本身，它比「专家=领域」的直觉更能解释负载不均；不确定的是结论能否跨模型迁移，"
+        "论文只给了 Qwen3 一个家族的三层。"
+       )),
+    it("huggingface.co/papers/2610.34074",
+       "同样数据、同样安全训练，换个随机种子越狱面就变：150 个 1B 模型的对照实验",
+       "论文问了一个评测方法论问题：jailbreak benchmark 通常只测一个 checkpoint，并把「哪些越狱能打穿它」当作预训练数据与安全训练的属性。"
+       "作者对 25 组预训练数据配方各取 3 个随机种子训练 1B 基座，再对每个基座用 2 个种子做相同的安全后训练，共 150 个模型，"
+       "然后对同一批越狱提示各采 20 条回复。结果是：把「相同数据 + 相同安全训练」重跑一遍，模型会栽在不同的越狱上——"
+       "越狱成功率对随机种子敏感，单一 checkpoint 的结论不足以代表这条 pipeline 的安全水平。",
+       "HF Papers", "安全评测", d(
+        "用 25 配方 × 3 预训练种子 × 2 后训练种子 = 150 个 1B 模型的受控实验，量化越狱鲁棒性对随机种子的依赖，"
+        "每模型每提示采 20 条回复做统计。",
+        "安全评测与模型验收常以一个 checkpoint 的越狱成绩下结论，容易把随机方差当成 pipeline 的安全属性，"
+        "导致发布判断和红队结论不可复现。",
+        "做模型准入/安全评测体系时值得一看：它提示评测要按种子取分布而不是单点。但他只做到 1B 规模，"
+        "大模型上方差是否同样主导，需要自己在目标尺寸上复现一遍才有结论。"
+       )),
+  ]},
+  {"label": "🧩 Agent & Skill", "items": [
+    it("huggingface.co/papers/2611.04277",
+       "Harness-S：不追求「最好的 harness」，而是让兄弟 harness 互相补失败样本",
+       "论文先给出 harness 演进的三条经验规律：局部性（变体各自的修补只覆盖部分失败）、互补性（不同变体修的是不同失败）、"
+       "非平稳性（随着策略学习，某个 harness 变体的价值会变化）。据此提出 Harness-S：不再寻找一个普遍更优的 harness，"
+       "而是让多个兄弟 harness 分工「救」基座执行系统的失败样本，再把救回来的能力蒸馏进单一策略，"
+       "使其在原 harness 下仍然有效。配合方向性 harness 演进（directional harness evolution）生成专门化的变体。",
+       "HF Papers", "Agent 训练", d(
+        "把「harness 工程」形式化为可学习的对象：用多个 harness 变体采集互补的失败样本，蒸馏回单一策略，"
+        "结论是收益来自互补性而非某个万能 harness。",
+        "自研 agent 时常见做法是不断往 prompt/工具/流程里打补丁，越补越复杂且收益不叠加；也缺少判断「该改 harness 还是该训策略」的依据。",
+        "做 agent 训练或 harness 迭代的值得读，尤其「局部性/互补性/非平稳性」这三条可以直接当评估 harness 变体的检查项；"
+        "但属研究阶段，需要能改训练流程的团队才用得上。"
+       )),
+    it("huggingface.co/papers/2611.08483",
+       "SwarmEvolve：数百个廉价 agent 在 latent 空间里做进化搜索，3–8 分钟追平别人 60 分钟",
+       "LLM 引导的进化搜索（如 AlphaEvolve 一类）慢在每轮都要生成一大段文本思维链，为维持种群多样性还得反复生成。"
+       "SwarmEvolve 让每轮几百个低成本 agent 分成 swarm、各自从不同角度看问题，在 latent 空间里推理而不解码成文本，"
+       "通过传递 KV cache 共享信息；用隐藏状态向量之间的距离做新颖性过滤，交叉则靠一个 summarizer agent 接收全 swarm 的 KV cache 自然完成。"
+       "在数学发现与科学计算的 21 个问题上平均分最高，达到其他 SOTA 框架 60 分钟才能拿到的最好成绩只需中位数 3–8 分钟；"
+       "在若干问题上，用 Qwen3 8B 就超过了 AlphaEvolve 当初用前沿模型找到的解。",
+       "HF Papers", "Agent 搜索", d(
+        "以 KV cache 为通信介质的 agent swarm：latent 空间推理 + 距离度量的新颖性过滤 + summarizer 汇聚 KV 完成交叉，"
+        "省掉每轮的文本解码成本，21 个问题上把收敛时间从小时级压到分钟级。",
+        "进化式程序搜索的成本几乎全在「反复生成文本思维链」上，导致要么种群小、要么跑得慢，用前沿模型跑一次动辄一小时。",
+        "对做程序搜索/自动优化的团队有直接参考价值——省的是解码开销，换的是并发与迭代次数；"
+        "但需要能改推理栈（KV cache 传递不是标准 API），且效果在数学/科学计算类问题上验证，业务型任务未必同样成立。"
+       )),
+  ]},
+  {"label": "🛠️ AI 工程落地", "items": [
+    it("arxiv.org/abs/2611.08417",
+       "Terminal-Bench 2.0 自查发现约 30% 的题有问题，修完准确率涨 10 个百分点",
+       "论文提出「benchmark 维护债」：基准发布时校验得再好也会腐坏——模型变强后会给出被旧验证器拒绝的合法解，评测基础设施改动也会让题目内嵌假设失效，"
+       "于是分数与实际能力越离越远。作者给出一套持续校验流程（社区报告、任务工件、agent trace、自动 oracle 检查、人工闸门修复），"
+       "并对发布前已做过大量人工与 LM 辅助评审、红队的 Terminal-Bench 2.0 做审计：约 30% 的题被查出问题，修复版发布为 2.1。"
+       "修复直接改变结论：准确率上涨超过 10 个百分点，排行榜位次最多移动三名（整体排序仍高度相关，Spearman rho = 0.958）。"
+       "论文还证明资源预算本身就是测量规格的一部分：固定 wall-clock 时，延长时限能让 GPT-5.4 上 20 个百分点的 harness 差距消失，"
+       "GPT-5.4 mini 上 30 个百分点的差距缩到 5 个百分点。",
+       "arXiv", "Agent 评测", d(
+        "一套可复用的 agentic benchmark 持续校验流程，并用它审计 Terminal-Bench 2.0（约 30% 题目有问题），"
+        "量化修复对分数与排名的影响，同时把「时限/资源预算」纳入测量规格做敏感性分析。",
+        "内部拿 benchmark 选模型/选 harness 时，最容易踩的坑是题目本身失效或时限设死：分数差可能来自评测债和资源预算，而不是能力差。",
+        "如果公司在用 Terminal-Bench/SWE-bench 这类基准做 agent 选型，这篇的 30% 缺陷率和「延长时限抹平 20pp harness 差距」两个结论，"
+        "足以让你在下次评审时先质疑评测配置。可直接借鉴它的校验清单，成本不高。"
+       )),
+    it("infoq.cn/article/lGoA1ZSw6ojeh68GVlBl",
+       "tsrs：一个人指挥 Claude Opus 5.5 几周做出的 TypeScript 编译器 Rust 移植，单测 15,197 个全过",
+       "Cloudflare 联合 VoidZero 与 Owner.com 的 Max Schwenk 推出 tsrs——TypeScript 编译器的 Rust 移植，在 Oxc 工具链里孵化，"
+       "与 TypeScript 团队合作，并声明不是 fork（语言设计仍由 TS 团队掌控）。移植过程不是手写：Schwenk 称自己一行代码没写，"
+       "全程指挥以 Claude Opus 5.5 为核心的 agent，以 TypeScript 自身的 15,197 个一致性测试用例作为规格。"
+       "官方称相同类型检查线程数下速度最高提升 8 倍、内存降约 70%，且能编译成 @tsrs/wasm 在浏览器或 Workers 上跑检查；"
+       "Owner 37,000 文件的单体仓库，原本 TS 7.0 需 19 GiB 内存、80 秒，换成 tsrs 后 7 秒。"
+       "第三方基准测得 5.3 倍加速、内存降 72%，诊断结果一致、生成代码逐字节相同，但发现 tsrs 遇类型错误以退出码 2 结束而 tsc 返回 1，足以悄悄打挂 CI；"
+       "以 TS 7.1 beta 为基准时提升缩到 2.7 倍，说明 8 倍是相对旧版本的。目前仍是实验状态：不支持 watch 与语言服务器，--init/--showConfig 不可用。",
+       "InfoQ 中文", "AI 编码", d(
+        "一个由 agent 主导完成的真实大型移植：15,197 个一致性测试当规格、Rust 重写类型检查器、可编到 WASM，"
+        "带第三方可复现的加速与内存数字（5.3×/72%），以及退出码不一致这类兼容坑。",
+        "「AI 能不能做几万行级别的系统级移植」长期只有演示没有交付物；同时 TypeScript 类型检查在大型 monorepo 里确实是分钟级瓶颈，"
+        "Go 重写（tsgo）之外的路线值得看。",
+        "值得一读的理由不是让你换编译器，而是它给了「用测试集当规格 + agent 迭代」的一个工业规模样本，"
+        "可直接类比到内部工具迁移项目；生产上先别用——实验状态、退出码差异会破坏 CI，且团队应先在 TS 7 上再迁 tsrs。"
+       )),
+  ]},
+  {"label": "📊 产品与商业", "items": [
+    it("qbitai.com/2026/11/507967.html",
+       "腾讯 Hy4 调用激增，WorkBuddy 十倍扩容：Agent 能力称开源模型第一",
+       "11 月 5 日腾讯宣布，因 Hy4 调用量激增，办公智能体 WorkBuddy 已完成十倍扩容；官方强调 Hy4 的 Agent 能力在开源模型中排第一。"
+       "这条的实质是国产大模型在办公 agent 场景的负载侧信号——不是基准分数，而是接入产品后被迫扩容的实际并发。",
+       "量子位", "国产模型", d(
+        "Hy4 上线后在自有办公产品里承压，腾讯用十倍扩容回应；官方口径把 Agent 能力定位为开源模型第一。",
+        "模型发布后的真实检验不在榜单而在产品侧并发：扩容十倍说明办公 agent 类请求（多轮、带工具调用）的资源消耗远超预期。",
+        "可作国产模型选型的负载侧参考，但没给具体的 QPS、成本或失败率数字，判断价值有限；要真评估 Hy4 还是得自己跑 agent 任务集。"
+       )),
+    it("infoq.cn/article/upfROwtEl8R75H24D13J",
+       "DigitalOcean 推出 Agent Learning Services：把「会话回写」变成训练与评测数据",
+       "DigitalOcean 发布 Learning Services 与 Agent Data Services 公开预览，建立在自家 Inference Engine 与 Managed Agents 之上。"
+       "Learning Services 含三块：Insights 记录 agent 活动、Signals 识别失败与性能短板、Simulations 在部署前模拟真实对话测试改动；"
+       "Inference Router 按任务在成本与质量间选模型，并可对新模型重跑同一套评估用例。"
+       "Agent Data Services 托管并索引文档、音视频、日志与 agent 会话，通过统一目录做治理与访问控制，"
+       "并让 Signals 把会话写回数据底座，Optimizer 仅在客户授权下从中提取训练/测试数据。Insights、Signals 与 Evaluations 已公开预览，"
+       "Inference Router 优化与 Data Services 为私有预览。",
+       "InfoQ 中文", "Agent 平台", d(
+        "把生产 agent 的会话、工具调用与结果回写成可检索数据，再喂给失败识别（Signals）与部署前模拟（Simulations），"
+        "形成「记录→找失败→模拟修复→再上线」的闭环，托管在统一目录且带权限治理。",
+        "多数团队只把 agent trace 当日志存着，半年后没人说得清哪些工具调用真有效；检索端做得再好，没有结果回写就无法迭代。",
+        "如果你在给公司搭多用户 agent 平台，这套「回写+模拟」的产品形态比单个模型能力更值得抄思路；"
+        "但它绑在 DigitalOcean 云上、关键组件（Router/Data）还是私有预览，自建更现实的方式是照它的分层自己拼。"
+       )),
+  ]},
+  {"label": "🛡️ 安全与治理", "items": [
+    it("openai.com/index/introducing-gpt-6-cyber",
+       "GPT-6 Cyber：定位在「授权范围内」找可利用漏洞并给出修复的专用模型",
+       "OpenAI 发布 GPT-6 Cyber，一个面向网络安全的专用模型，能力定位是发现可利用漏洞并开发修复，"
+       "训练目标是让它在授权范围内作业而不是越界。官方给的信息集中在定位与用途（渗透测试/漏洞修复闭环），未公布基准分数与具体架构。"
+       "同期 OpenAI 还宣布与 Hacktron 合作做第三方漏洞挖掘与连接面测试。",
+       "OpenAI", "AI 安全", d(
+        "面向安全的垂直模型：把「找可利用漏洞 + 出修复」作为主任务，并在训练中约束在授权范围内行动。",
+        "通用模型做安全测试时容易越界或给出不可复现的结论，企业需要的是能进合规流程、有明确授权边界的专用能力。",
+        "关注点不是模型本身，而是「安全 agent 的授权边界怎么做」这个模式——你做内网 AI 出口审计/DLP 时，这一层的设计思路可以借鉴；"
+        "官方未给可验证的评测数字，短期难以评估实际能力。"
+       )),
+    it("cloud.google.com/blog/products/identity-security/helping-you-build-and-defend-at-machine-speed",
+       "Google：被动防御已不成立，agent 时代的防线要按「机器速度」重做",
+       "Google Cloud 在 Security Summit 上给出的判断是：既做前沿模型又运营全球威胁情报网，使其能同时看到模型怎么被造出来、攻击者怎么在野利用，"
+       "因此被动防御不再可行；放任自主系统无治理地进入既有工作流会导致严重安全事件。发布方向集中在把 agent 身份、访问控制与威胁情报接进防御链路，"
+       "让防御动作跟得上机器速度。",
+       "Google Cloud", "AI 治理", d(
+        "把 agent 当作需要独立身份与访问控制的主体纳入安全体系，并用自身威胁情报做前置检测，官方称目标是「在机器速度上构建与防御」。",
+        "企业正在把自主 agent 接进内部系统，但身份、权限、审计仍按人类账号设计，出问题时无法界定 agent 的行为边界。",
+        "方向上和你正在做的「内网 AI 出口审计 + DLP」同一条线，可用来对齐术语与架构分层；但通篇是战略口径，没有可落地的机制细节与数字。"
+       )),
+  ]},
+ ]},
+ {"label": "☸️ 基础设施板块", "categories": [
+  {"label": "🤖☸️ K8s × AI", "items": [
+    it("cloud.google.com/blog/products/compute/storage-optimized-z4m-machine-series-are-ga",
+       "GCE Z4M 机器系列 GA：为 checkpoint、分布式 KV cache 和并行文件系统做存储优化",
+       "Google 宣布 Storage-optimized Z4M 机器系列在 Compute Engine 上 GA，同时提供 VM 与裸金属实例。"
+       "定位是给 AI/ML 训练与推理做存储底座：checkpoint 写入、分布式 KV cache、并行文件系统——这类负载数据量大、需要大规模并行处理，"
+       "同时对存储与网络吞吐要求高。裸金属形态意味着可以直接跑自管的并行文件系统而不被虚拟化层挡住 IO。",
+       "Google Cloud", "AI 存储", d(
+        "存储优化机型同时提供 VM 与裸金属，面向 checkpoint、分布式 KV cache、并行文件系统等高吞吐场景，强调存储与网络带宽而非算力。",
+        "训练任务的实际瓶颈常从算力转到 checkpoint 落盘和 KV cache 换入换出；在云上买 GPU 机型做存储密集段落，性价比与 IO 都不对。",
+        "自建集群选存储节点/并行文件系统时，这条给了「云厂商怎么给 AI 负载切机型」的参照（本地对应的是高 IO NVMe + 高带宽网卡节点）；"
+        "但只在 GCE 可用，且没给具体带宽/IOPS 数字，参考价值偏架构而非参数。"
+       )),
+  ]},
+  {"label": "☸️ K8s 核心技术", "items": [
+    it("kubernetes/releases/tag/v1.38.0-beta.0",
+       "K8s v1.38.0-beta.0：seccomp 配置可从 OCI registry 按 digest 拉取，DRA Device Binding 转 GA",
+       "v1.38.0-beta.0 的 API 变更里最值得关注的是 alpha 的 SecurityProfileOCI：开启该特性门控后，Pod 可写 seccompProfile.type: OCI，"
+       "用 digest 固定 oci.ref 从 OCI registry 拉取 seccomp 配置，并可选 oci.baseProfile 叠加，等于把安全配置文件也纳入镜像分发链路。"
+       "调度侧，DRA 的 Device Binding Conditions（KEP-5007）在 1.38 转 GA，DRA 调度代码做了提速并修正语义化版本比较（忽略 build 信息）；"
+       "CompositePodGroup API 升到 scheduling.k8s.io/v1beta1，WAS 控制器 API 基础块转 beta（v1alpha3 类型保留为别名，"
+       "外部控制器需更新 Topology 元素类型）；StatefulSet 的 Recreate 更新策略转 beta。"
+       "清理项：移除 RecoverVolumeExpansionFailure 与 SupplementalGroupsPolicy 两个 GA 门控——组件不再接受对应 --feature-gates 参数，升级前要从配置里删掉。"
+       "另新增 kubeconfig 的 min-connection-pool-size 配置。",
+       "GitHub Releases", "K8s 版本", d(
+        "seccomp 配置 OCI 化（alpha）、DRA Device Binding GA、CompositePodGroup 进 v1beta1、StatefulSet Recreate 转 beta，"
+        "并移除两个已 GA 的特性门控，同时给 client-go 连接池加了可配置下限。",
+        "安全配置长期靠手工分发与逐节点落盘；DRA 生态在补齐「设备何时可绑定」的语义以便调度器做更准的判断；"
+        "升级时被移除的门控参数会让组件直接启动失败。",
+        "在给集群定 1.38 版本方案的话，这份 beta changelog 就是升级检查清单：先删 SupplementalGroupsPolicy 门控参数，再看 DRA 驱动是否已支持 Device Binding GA；"
+        "OCI seccomp 适合已经有 registry 治理的团队，属于长期方向。"
+       )),
+    it("istio/releases/tag/1.31.4",
+       "Istio 1.31.4 安全版：ambient 模式端口级 STRICT mTLS 被绕过（CVSS 8.2）",
+       "Istio 1.31.4 是纯安全补丁版本，对应 ISTIO-SECURITY-2026-009，共 5 个 CVE。最严重的一个（GHSA-rr2c-p22p-6r9r，CVSS 8.2）："
+       "ambient 模式下运算符优先级错误，使端口级 STRICT PeerAuthentication 在工作负载模式为 PERMISSIVE 或 DISABLE、"
+       "而 mesh 全局为 STRICT 时被跳过，明文流量可以打到本应强制 mTLS 的端口。"
+       "GHSA-635j-qv98-9275（7.7）：任何持有 mesh 身份的负载发送 resource name 无法被 URL 解析的 istio.io/debug xDS 请求，"
+       "就能打崩 istiod 并让整个 mesh 的控制面进入崩溃循环。GHSA-cxwg-46mx-q8hf（7.4）：新入站连接复用已拆除连接的 4-tuple，"
+       "命中陈旧的 conntrack ESTABLISHED 表项从而绕过 sidecar，iptables 与 nftables 两种模式都受影响。"
+       "另外还有 AuthorizationPolicy 的 host/authority 条件大小写敏感导致的绕过（6.5），以及空 to/from 条目让 istiod 崩溃循环（6.3）。",
+       "GitHub Releases", "Service Mesh", d(
+        "一次修掉 5 个 CVE，覆盖 ambient 的 mTLS 策略绕过、istiod 被任意 mesh 身份负载打崩、conntrack 复用绕过 sidecar、"
+        "以及 AuthorizationPolicy 主机名大小写与空条目导致的控制面崩溃。",
+        "ambient 模式被推广后，策略生效路径与传统 sidecar 不同，这次暴露的是「全局 STRICT + 端口例外」这种常见组合会被静默跳过；"
+        "istiod 单点崩溃则直接影响整个 mesh 的配置分发。",
+        "跑 Istio（尤其 ambient）的集群应该尽快升到 1.31.4（对应 supported 线上的补丁版本），升级前先自查是否有 PERMISSIVE/DISABLE 负载叠加 STRICT 策略的组合——"
+        "这类组合过去看起来是安全的。"
+       )),
+  ]},
+ ]},
+]
+
+flash = [
+ {"title": "datasette-llm 0.1a10：修模型列表未按配置过滤的 bug", "url": U("simonwillison.net/2026/Nov/4/datasette-llm")},
+ {"title": "AlloyDB Express：面向 coding agent 的秒级、scale-to-zero PostgreSQL", "url": U("alloydb-express")},
+ {"title": "Daybreak Red 上 AWS GovCloud（US-East）", "url": U("daybreak-red")},
+ {"title": "谷歌 AI 投入 2000 亿美元后启动「自愿买断」，最高补偿 12 个月工资", "url": U("infoq.cn/article/vMSj216sQUhmeDH4H0G7")},
+]
+
+lead = (
+ "今天两块拼图都指向「把执行权交给确定性系统」。AI 侧，LinkedIn 把 agent harness 的演进讲成链、图、代码化三代，"
+ "结论是代码沙箱 + 验证 harness 用「跑通/跑不通」替代对模型输出的信任；配套的两篇则从测量端补刀——"
+ "Terminal-Bench 2.0 自查发现约 30% 的题目有问题，修完准确率涨 10 个百分点，而越狱评测显示换个随机种子模型就栽在不同的越狱上，"
+ "说明分数与安全结论的方差常被当成能力。基础设施侧是久违的实货：Kubeflow Trainer v2.4.0 正式版把 TrainJob 接上 DRA 并落地工作负载感知调度，"
+ "K8s 1.38 beta 让 seccomp 配置可以从 OCI registry 按 digest 拉取、DRA Device Binding 转 GA，Istio 1.31.4 则是含 5 个 CVE 的安全版本，"
+ "ambient 模式下有策略被静默跳过的组合。"
+)
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 7 日 · 星期六",
+ "issue": 47,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": lead,
+ "highlights": highlights,
+ "sections": sections,
+ "flash": flash,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+}
+
+# --- guards ---
+for c in brief["sections"]:
+    for cat in c["categories"]:
+        cat["title"] = cat["label"]
+        cat["emoji"] = EMOJI[cat["label"]]
+        for i in cat["items"]:
+            assert i["title"], "empty title"
+valid = {x["url"] for x in PROC}
+allitems = list(brief["highlights"])
+for c in brief["sections"]:
+    for cat in c["categories"]:
+        allitems += cat["items"]
+for i in allitems:
+    assert i["url"] in valid, "URL not from processed.json: " + i["url"]
+    assert len(i["detail"]) == 3
+n = len(allitems)
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("items:", n, "flash:", len(flash), "categories:", sum(len(c["categories"]) for c in sections))

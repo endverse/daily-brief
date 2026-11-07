@@ -1,49 +1,46 @@
 ======================================================================
-处理报告  (原始 225 条)
+处理报告  (原始 201 条)
 ======================================================================
 
-① 过滤: 保留 173 条, 过滤掉 52 条
+① 过滤: 保留 157 条, 过滤掉 44 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] D4Vinci/Scrapling
-     ✗ [GitHub Trending] lz4/lz4
-     ✗ [GitHub Trending] ConardLi/garden-skills
-     ✗ [GitHub Trending] floci-io/floci
-     ✗ [GitHub Trending] JiaFeiMiao-K-Cat/DiscImageStudio
-     ✗ [GitHub 升星repo] worldonlyu/Google_AI_Pro_2Year_ZeroCost_Auto
-     ✗ [GitHub 升星repo] AtomIllusionistDwell/watson-username-footprint-fin
-     ✗ [GitHub 升星repo] TagPhaseArcade/tiktok-uploader
+     ✗ [GitHub Trending] zed-industries/zed
+     ✗ [GitHub Trending] rails/rails
+     ✗ [GitHub Trending] mpv-player/mpv
+     ✗ [GitHub Trending] rust-lang/rust
+     ✗ [GitHub Trending] react/react
+     ✗ [GitHub Trending] angular/angular
+     ✗ [GitHub Trending] symfony/symfony
+     ✗ [GitHub Trending] prometheus/prometheus
 
-② 去重: 173 → 168 条 (同批合并 1, 跨天历史去重 4)
+② 去重: 157 → 152 条 (同批合并 3, 跨天历史去重 2)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] Usagi-org/ai-goofish-monitor
-     ⏭️  [GitHub Trending] vercel-labs/agent-desktop
-     ⏭️  [GitHub Trending] max-sixty/worktrunk
+     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
      ⏭️  [Google Cloud] What’s new with Google Data Cloud
    跨源合并的事件:
-     ⇉ FrontierPhysics: Evaluating Agents for E  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ SwarmEvolve: Latent Agent Swarms for Evo  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Muir: Linear Attention with Sensitivity-  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ NPCBench: A Clinical Apprenticeship Benc  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - 安全与治理: 16 条 (含🔧开源 1)
-     - 产品与商业: 14 条
-     - 模型与研究: 71 条
-     - Agent & Skill: 38 条 (含🔧开源 5)
-     - AI 工程落地: 20 条 (含🔧开源 2)
-     - 观点与好文: 2 条 (含🔧开源 1)
+     - 安全与治理: 12 条 (含🔧开源 1)
+     - Agent & Skill: 31 条 (含🔧开源 6)
+     - 模型与研究: 64 条 (含🔧开源 1)
+     - 产品与商业: 17 条
+     - AI 工程落地: 25 条 (含🔧开源 2)
    【基础设施】
      - K8s × AI: 3 条
-     - 社区与项目: 3 条
-     - K8s 核心: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] OpenAI to acquire Pierre Computer Company, Inc.
         源:OpenAI News 类:产品与商业 跨源:[]
-     🔥 [19分] DevRev delivers autonomous self-service with GPT-6.1 So
-        源:OpenAI News 类:Agent & Skill 跨源:[]
+     🔥 [16分] Merge builds product and business tools with OpenAI tec
+        源:OpenAI News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
       19分 [OpenAI News ] OpenAI to acquire Pierre Computer Company, In
-      19分 [OpenAI News ] DevRev delivers autonomous self-service with 
       16分 [OpenAI News ] Merge builds product and business tools with 
       16分 [OpenAI News ] Daybreak Red is now available in AWS GovCloud
+      16分 [HuggingFace Papers] Identically Trained Language Models Break on 
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
