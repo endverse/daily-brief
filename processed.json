@@ -112,94 +112,10 @@
   "is_hot": false
  },
  {
-  "title": "Franklin Templeton uses OpenAI to support investment research",
-  "url": "https://openai.com/index/franklin-templeton",
-  "summary": "Starting with equity research, Franklin Templeton is developing AI workflows to help portfolio managers compare research views and examine investment risks.",
-  "published": "2026-11-05T00:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "OpenAI to acquire Pierre Computer Company, Inc.",
-  "url": "https://openai.com/index/openai-to-acquire-pierre",
-  "summary": "OpenAI will acquire Pierre Computer Company, expanding Codex’s tools for building, understanding, and reviewing code.",
-  "published": "2026-11-04T14:30:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
-  "oss": false,
-  "hot_score": 19,
-  "is_hot": true
- },
- {
-  "title": "Daybreak Red is now available in AWS GovCloud (US-East)",
-  "url": "https://openai.com/index/daybreak-red-aws-govcloud",
-  "summary": "Daybreak Red brings GPT-5.6 Cyber to approved customers in AWS GovCloud (US-East) through Amazon Bedrock for authorized cybersecurity work.",
-  "published": "2026-11-04T07:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 16,
-  "is_hot": false
- },
- {
-  "title": "A thousand fewer paths to root",
-  "url": "https://openai.com/index/a-thousand-fewer-paths-to-root",
-  "summary": "OpenAI built an autonomous pipeline that found, validated, and generated patches for 948 local privilege-escalation vulnerabilities in the Linux kernel.",
-  "published": "2026-11-04T08:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
-  "url": "https://deepmind.google/blog/gemini-omni-12-flash-fast-and-cost-effective-with-longer-clips/",
-  "summary": "",
-  "published": "2026-11-05T17:05:16+00:00",
-  "source": "Google DeepMind",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
   "title": "Detecting signs of hypertension using wearable sensors",
   "url": "https://research.google/blog/detecting-signs-of-hypertension-using-wearable-sensors/",
   "summary": "Health & Bioscience",
   "published": "2026-11-05T16:01:08+00:00",
-  "source": "Google Research",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "Agile Deliberation: How AI helps humans define the gray areas",
-  "url": "https://research.google/blog/agile-deliberation-how-ai-helps-humans-define-the-gray-areas/",
-  "summary": "Data Mining & Modeling",
-  "published": "2026-11-04T18:07:05+00:00",
   "source": "Google Research",
   "source_cat": "AI-官方",
   "extra": {},
@@ -224,6 +140,22 @@
   "is_hot": false
  },
  {
+  "title": "Tools Need Not Speak in Text: Latent Context Compression for Agents",
+  "url": "https://huggingface.co/papers/2611.06500",
+  "summary": "Large language model (LLM) agents typically append raw tool outputs to their context. Over multi-step interactions, long and noisy observations incur substantial context overhead and dilute the agent's attention to task-relevant information. Existing token pruning and summarization methods remain constrained by discrete text representations, limiting the achievable compression ratios. In this work, we challenge the prevailing assumption that agents must consume tool observations as explicit text",
+  "published": "2026-11-03T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 2
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
   "title": "Signed but Steerable: Measuring and Closing the Text-Vector Integrity Gap in Offline Retrieval-Augmented Generation",
   "url": "https://huggingface.co/papers/2611.06498",
   "summary": "Offline retrieval-augmented generation (RAG) on edge devices is updated through signed knowledge packs that carry text and precomputed embedding vectors. A signature proves who published a pack, not that its vectors encode its text. We study this text-vector integrity gap. A verifier that recomputes vectors and accepts them within a cosine tolerance concedes a predictable share of queries to an attacker who controls the vectors: the hijack rate equals the distribution of angular retrieval margin",
@@ -231,7 +163,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -247,7 +179,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -263,7 +195,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3,
+   "upvotes": 8,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
@@ -283,7 +215,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -299,7 +231,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 7
+   "upvotes": 9
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -315,7 +247,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5,
+   "upvotes": 8,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
@@ -335,7 +267,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "安全与治理",
@@ -351,7 +283,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -367,7 +299,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -383,7 +315,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 12
+   "upvotes": 14
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -399,7 +331,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 5
   },
   "board": "AI 板块",
   "category": "安全与治理",
@@ -431,12 +363,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 113
+   "upvotes": 80
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
-  "hot_score": 9,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -447,7 +379,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 6
+   "upvotes": 8
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -479,7 +411,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 36
+   "upvotes": 39
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -495,12 +427,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 5
+   "upvotes": 86
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": false,
-  "hot_score": 7,
+  "hot_score": 9,
   "is_hot": false
  },
  {
@@ -511,7 +443,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 20
+   "upvotes": 26
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -543,12 +475,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 48
+   "upvotes": 81
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
-  "hot_score": 7,
+  "hot_score": 9,
   "is_hot": false
  },
  {
@@ -559,7 +491,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 7
+   "upvotes": 9
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -575,13 +507,13 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
   "hot_score": 16,
-  "is_hot": false
+  "is_hot": true
  },
  {
   "title": "VFlash: Fast, Accurate Visual Planning via Flash Primitive Decoding",
@@ -591,7 +523,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 89
+   "upvotes": 100
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -607,7 +539,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 54
+   "upvotes": 63
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -623,7 +555,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 17
+   "upvotes": 20
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -639,7 +571,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 37
+   "upvotes": 42
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -655,7 +587,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 15
+   "upvotes": 19
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -691,26 +623,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 10
+   "upvotes": 13
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Random Is Almost Enough? Stable and Low-Cost Benchmark Compression via BestRand",
-  "url": "https://huggingface.co/papers/2611.00883",
-  "summary": "Benchmark compression reduces the often prohibitive time and cost of model evaluation by evaluating models on a small benchmark subset that closely matches full-benchmark results. To quantify estimation error, we derive an accurate analytical approximation to the error distribution when estimating full-benchmark scores from a subset, showing that most subsets yield small errors, while a few produce much larger errors, resulting in a long-tailed distribution. This means random sampling alone can ",
-  "published": "2026-10-30T20:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 50
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -1234,15 +1150,15 @@
   "is_hot": false
  },
  {
-  "title": "NVIDIA/auto-ontology",
-  "url": "https://github.com/NVIDIA/auto-ontology",
-  "summary": "Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows.",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "title": "vercel-labs/agent-browser",
+  "url": "https://github.com/vercel-labs/agent-browser",
+  "summary": "Browser automation CLI for AI agents",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "2,015"
+   "stars_today": "190"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -1254,12 +1170,12 @@
   "title": "google/skills",
   "url": "https://github.com/google/skills",
   "summary": "Agent Skills for Google products and technologies",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "534"
+   "stars_today": "443"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -1271,12 +1187,12 @@
   "title": "mattpocock/skills",
   "url": "https://github.com/mattpocock/skills",
   "summary": "Skills for Real Engineers. Straight from my .agents directory.",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "2,070"
+   "stars_today": "1,100"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -1285,37 +1201,54 @@
   "is_hot": false
  },
  {
-  "title": "majorminorlabs/hermes-voice",
-  "url": "https://github.com/majorminorlabs/hermes-voice",
-  "summary": "Talk to a Hermes Agent profile through Home Assistant Assist",
-  "published": "2026-11-05T05:28:37Z",
-  "source": "GitHub 升星repo",
+  "title": "anthropics/skills",
+  "url": "https://github.com/anthropics/skills",
+  "summary": "Public repository for Agent Skills",
+  "published": "2026-11-08T00:31:00.229055+00:00",
+  "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 430,
-   "lang": "Python"
+   "trending": true,
+   "stars_today": "390"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": true,
-  "hot_score": 5,
+  "hot_score": 6,
   "is_hot": false
  },
  {
-  "title": "dragonwolfshovel/youtube-uploader",
-  "url": "https://github.com/dragonwolfshovel/youtube-uploader",
-  "summary": "Automated YouTube video uploader with batch processing, thumbnail support, and scheduled publishing. Uses official YouTube Data API v3. Open-source and privacy-first",
-  "published": "2026-11-05T05:16:01Z",
-  "source": "GitHub 升星repo",
+  "title": "meta/astryx",
+  "url": "https://github.com/meta/astryx",
+  "summary": "An open source design system that's fully customizable and agent ready",
+  "published": "2026-11-08T00:31:00.229055+00:00",
+  "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 429,
-   "lang": "Python"
+   "trending": true,
+   "stars_today": "96"
   },
   "board": "AI 板块",
-  "category": "安全与治理",
+  "category": "Agent & Skill",
   "oss": true,
-  "hot_score": 11,
+  "hot_score": 0,
+  "is_hot": false
+ },
+ {
+  "title": "dsx-ai-factory/nvke",
+  "url": "https://github.com/dsx-ai-factory/nvke",
+  "summary": "NVIDIA Kubernetes Engine (NVKE). A management plane for GPU Kubernetes on bare metal.",
+  "published": "2026-11-08T00:31:00.229055+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "123"
+  },
+  "board": "基础设施",
+  "category": "K8s × AI",
+  "oss": true,
+  "hot_score": 6,
   "is_hot": false
  },
  {
@@ -1336,71 +1269,65 @@
   "is_hot": false
  },
  {
-  "title": "JosssphZhou/poki",
-  "url": "https://github.com/JosssphZhou/poki",
-  "summary": "Let AI agents operate a real iPhone. Local MCP server and agent, no jailbreak, no extra hardware.",
-  "published": "2026-11-05T15:04:31Z",
+  "title": "devvmhq/devvm",
+  "url": "https://github.com/devvmhq/devvm",
+  "summary": "One VM for every project. An isolated sandbox with your project’s toolchain, ready for you or a coding agent to start coding",
+  "published": "2026-11-06T07:02:30Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 412,
-   "lang": "JavaScript"
+   "stars": 358,
+   "lang": "Go"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "MythicHokageRepel/steam-inventory-value-desktop",
-  "url": "https://github.com/MythicHokageRepel/steam-inventory-value-desktop",
-  "summary": "Desktop app that prices a whole Steam inventory: live floor, average of real sales, per-marketplace payouts and a share card. Portable, no login.",
-  "published": "2026-11-05T05:32:56Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 394,
-   "lang": "JavaScript"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
   "oss": true,
   "hot_score": 5,
   "is_hot": false
  },
  {
-  "title": "imraywang/ray-sticker-shop",
-  "url": "https://github.com/imraywang/ray-sticker-shop",
-  "summary": "一张照片或角色图，生成一整套形象一致的动态表情包和微信投稿素材（Claude Code / Codex skill）",
-  "published": "2026-11-05T13:09:01Z",
+  "title": "JourneymanStitch/imei-repair",
+  "url": "https://github.com/JourneymanStitch/imei-repair",
+  "summary": "Imei Repair Free, an AI-driven device management solution, offers a pre-configured environment for seamless local workstation deployment in 2026.",
+  "published": "2026-11-06T17:23:11Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 300,
-   "lang": "Python"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "free-dam-man/agent-deploy-memory-muse",
-  "url": "https://github.com/free-dam-man/agent-deploy-memory-muse",
-  "summary": "全球破甲记忆 · muse 版：免卡部署加密节点方法论（无密钥）",
-  "published": "2026-11-05T05:09:29Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 295,
+   "stars": 221,
    "lang": null
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
   "oss": true,
   "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "The end of Microsoft Research's AI Frontiers group",
+  "url": "https://hunch.net/?p=13764006",
+  "summary": "https://archive.is/AaY5Ohttps://businessexaminer.ca/victoria-articles/item/microsoft... Comments URL: https://news.ycombinator.com/item?id=50406563 Points: 340 # Comments: 195",
+  "published": "2026-11-07T18:02:17+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Every Mac comes with an (undocumented) family member classifier",
+  "url": "https://8rank.ai/game/apple-intelligence-personal-knowledge-graph",
+  "summary": "Article URL: https://8rank.ai/game/apple-intelligence-personal-knowledge-graph Comments URL: https://news.ycombinator.com/item?id=50403097 Points: 578 # Comments: 332",
+  "published": "2026-11-07T09:46:03+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
   "is_hot": false
  },
  {
@@ -1418,17 +1345,73 @@
   "is_hot": false
  },
  {
-  "title": "datasette-llm 0.1a10",
-  "url": "https://simonwillison.net/2026/Nov/4/datasette-llm/",
-  "summary": "Release: datasette-llm 0.1a10 Fixes a bug that affected my agent.datasette.io demo site, where the set of available LLM models was not correctly restricted to just those in the configuration. Tags: datasette, llm",
-  "published": "2026-11-04T15:26:02+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
+  "title": "抢跑DeepSeek！硅谷华人把下一代Agent Harness造出来了！？",
+  "url": "https://www.qbitai.com/2026/11/508264.html",
+  "summary": "苦单Session久矣，两大Agent玩家不谋而合。",
+  "published": "2026-11-07T05:01:17+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": false,
-  "hot_score": 8,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "AGENTS.MD，危险危险危险！！！",
+  "url": "https://www.qbitai.com/2026/11/508244.html",
+  "summary": "全新的电脑病毒",
+  "published": "2026-11-07T03:43:55+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "A\\三大内部模型曝光！领先Opus5.5三个月，RSI缩短80%实验时间",
+  "url": "https://www.qbitai.com/2026/11/508184.html",
+  "summary": "Dario刚喊减速…",
+  "published": "2026-11-06T15:21:56+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "为什么每个 Personal Agent 背后，都必须配备一台“云电脑”？",
+  "url": "https://www.qbitai.com/2026/11/508174.html",
+  "summary": "PPIO 沙箱，把“云电脑”做成开箱即用的 API",
+  "published": "2026-11-06T09:25:59+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "阶跃终端 STEPX Neo 智能体手机亮相进博会高通展台，软硬模一体打造智能体新体验",
+  "url": "https://www.qbitai.com/2026/11/508170.html",
+  "summary": "阶跃终端旗下 STEPX Neo 智能体手机首次亮相",
+  "published": "2026-11-06T09:21:51+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 9,
   "is_hot": false
  },
  {
@@ -1446,57 +1429,15 @@
   "is_hot": false
  },
  {
-  "title": "从RSI、Agent、Physical AI到整个系统栈，2026 奇点智能技术大会最新日程公布！",
-  "url": "https://www.qbitai.com/2026/11/508143.html",
-  "summary": "11 月 20—21 日，2026 奇点智能技术大会将在北京万达文华酒店举行。",
-  "published": "2026-11-06T06:43:14+00:00",
-  "source": "量子位",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "香港金融科技周 x StartmeupHK 2026主论坛：以「金融+」、「AI+」及全球拓展开拓新机遇",
-  "url": "https://www.qbitai.com/2026/11/507988.html",
-  "summary": "香港金融科技周 x StartmeupHK 2026踏入第11届",
-  "published": "2026-11-06T03:36:34+00:00",
-  "source": "量子位",
+  "title": "CyberwIIOS：如何驾驭大模型在 OT 侧跨越“幻觉”与“失控”｜AICon北京",
+  "url": "https://www.infoq.cn/article/K1bCIbHxeu3wLIjdusgr?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-07T10:00:00+00:00",
+  "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
   "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "腾讯 Hy4 调用激增已十倍扩容，Agent 能力开源模型第一",
-  "url": "https://www.qbitai.com/2026/11/507967.html",
-  "summary": "11月 5 日，腾讯宣布因 Hy4 调用激增，WorkBuddy 已进行十倍扩容",
-  "published": "2026-11-06T02:00:11+00:00",
-  "source": "量子位",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "三条AI技术路线终将合流？智象创始人梅涛提出智能体化的世界模型",
-  "url": "https://www.qbitai.com/2026/11/507834.html",
-  "summary": "走向“智能体化世界模型”。",
-  "published": "2026-11-05T09:37:40+00:00",
-  "source": "量子位",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1684,57 +1625,57 @@
   "is_hot": false
  },
  {
-  "title": "谷歌用 Gemini 4 Argon 一夜优化 ADK 代码库的 20 万行代码",
-  "url": "https://www.infoq.cn/article/u4fAoAH5vZPCV4TVqAcO?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-11-05T11:00:00+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
+  "title": "We organized Sustainability Month. Here’s what we learned. 🌱",
+  "url": "https://www.cncf.io/blog/2026/11/07/we-organized-sustainability-month-heres-what-we-learned-%f0%9f%8c%b1/",
+  "summary": "What do Kubernetes resource allocation, eBPF, carbon observability, and GPUs have in common? Quite a lot, actually. Especially when you start looking at them through the lens of environmental sustainability. This October, we brought these conversations...",
+  "published": "2026-11-07T12:30:00+00:00",
+  "source": "CNCF Blog",
+  "source_cat": "基础设施",
   "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
+  "board": "基础设施",
+  "category": "K8s × AI",
   "oss": false,
-  "hot_score": 6,
+  "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "AI Coding 增量风险管控：Skill 门禁与 Harness 落地实践｜AICon北京",
-  "url": "https://www.infoq.cn/article/XieGrL5pws7jG1zxKPle?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-11-05T10:00:00+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
+  "title": "Faster LLM inference startup: What you need to know",
+  "url": "https://www.cncf.io/blog/2026/11/06/faster-llm-inference-startup-what-you-need-to-know/",
+  "summary": "Adding an inference replica creates capacity only after the new instance can serve requests. Between starting a process and generating a response, an LLM server may need to load weights, initialize GPU resources, compile kernels, capture...",
+  "published": "2026-11-06T12:00:00+00:00",
+  "source": "CNCF Blog",
+  "source_cat": "基础设施",
   "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
+  "board": "基础设施",
+  "category": "社区与项目",
   "oss": false,
-  "hot_score": 6,
+  "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "混元 Hy4 实测：腾讯的产品基因，模型继承了几分？",
-  "url": "https://www.infoq.cn/article/C61Q16LQIDq45l0iCCzV?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-11-05T09:44:25+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
+  "title": "kpt v1.0.0 is released",
+  "url": "https://www.cncf.io/blog/2026/11/05/kpt-v1-0-0-is-released/",
+  "summary": "After many years and much development, the kpt community has released v1.0.0 of the kpt toolchain. This is a big step in maturing the kpt project after having it in pre-release status for several years. In...",
+  "published": "2026-11-05T12:00:00+00:00",
+  "source": "CNCF Blog",
+  "source_cat": "基础设施",
   "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
+  "board": "基础设施",
+  "category": "社区与项目",
   "oss": false,
-  "hot_score": 6,
+  "hot_score": 7,
   "is_hot": false
  },
  {
-  "title": "The Blueprint: Orchestrating 5,000+ AI assets for a World Cup TV spot",
-  "url": "https://cloud.google.com/blog/products/media-entertainment/how-mito-orchestrated-5000-plus-ai-assets-for-a-world-cup-tv-spot/",
-  "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. AI is rapidly transforming video production at virtually every step of the process, from ideation and storyboarding to filming, editing, and release. At Mito, we’re striving to democratize AI-powered video creation, enabling everyone from s",
+  "title": "What’s new with Google Cloud",
+  "url": "https://cloud.google.com/blog/topics/inside-google-cloud/whats-new-google-cloud/",
+  "summary": "Want to know the latest from Google Cloud? Find it here in one handy location. Check back regularly for our newest updates, announcements, resources, events, learning opportunities, and more. Tip: Not sure where to find what you’re looking for on the Google Cloud blog? Start here: Google Cloud blog 101: Full list of topics, links, and resources. aside_block &lt;ListValue: []&gt; Nov 2 - Nov 6 Security for AI workloads with Model ArmorSecuring generative AI applications requires robust runtime pr",
   "published": "2026-11-06T17:00:00+00:00",
   "source": "Google Cloud",
   "source_cat": "公有云",
   "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
+  "board": "基础设施",
+  "category": "K8s × AI",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -1754,15 +1695,15 @@
   "is_hot": false
  },
  {
-  "title": "What’s new with Google Cloud",
-  "url": "https://cloud.google.com/blog/topics/inside-google-cloud/whats-new-google-cloud/",
-  "summary": "Want to know the latest from Google Cloud? Find it here in one handy location. Check back regularly for our newest updates, announcements, resources, events, learning opportunities, and more. Tip: Not sure where to find what you’re looking for on the Google Cloud blog? Start here: Google Cloud blog 101: Full list of topics, links, and resources. aside_block &lt;ListValue: []&gt; Nov 2 - Nov 6 Security for AI workloads with Model ArmorSecuring generative AI applications requires robust runtime pr",
+  "title": "The Blueprint: Orchestrating 5,000+ AI assets for a World Cup TV spot",
+  "url": "https://cloud.google.com/blog/products/media-entertainment/how-mito-orchestrated-5000-plus-ai-assets-for-a-world-cup-tv-spot/",
+  "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. AI is rapidly transforming video production at virtually every step of the process, from ideation and storyboarding to filming, editing, and release. At Mito, we’re striving to democratize AI-powered video creation, enabling everyone from s",
   "published": "2026-11-06T17:00:00+00:00",
   "source": "Google Cloud",
   "source_cat": "公有云",
   "extra": {},
-  "board": "基础设施",
-  "category": "K8s × AI",
+  "board": "AI 板块",
+  "category": "产品与商业",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -1852,94 +1793,10 @@
   "is_hot": false
  },
  {
-  "title": "Helping you build and defend at machine-speed in the agentic era",
-  "url": "https://cloud.google.com/blog/products/identity-security/helping-you-build-and-defend-at-machine-speed-in-the-agentic-era/",
-  "summary": "As both a frontier lab and the operator of the world's most comprehensive threat intelligence network, Google occupies a unique vantage point: We see exactly how Large Language Models are engineered, and how adversaries are targeting them in the wild. Passive defense is no longer viable. Allowing rapid, ungoverned adoption of autonomous systems into traditional workflows can lead to critical security incidents. At the Google Cloud Security Summit, we are sharing updates on how we are helping org",
-  "published": "2026-11-04T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Highlights and reflections from Google Public Sector Summit: Where mission meets moonshot",
-  "url": "https://cloud.google.com/blog/topics/public-sector/highlights-and-reflections-from-google-public-sector-summit-where-mission-meets-moonshot/",
-  "summary": "Over 2,700 government leaders, innovators, and industry partners convened across two-days at our Google Public Sector Summit in Washington D.C. where we explored the theme, “Where mission meets moonshot.” We were honored to bring together leaders who are driving impact in the agentic era and leveraging agents to help boost productivity, drive innovation, and transform how services are delivered.Let’s take a closer look at the sessions, speakers, demos, and activations throughout the event that s",
-  "published": "2026-11-04T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "New capabilities to power agents at scale with Google's Agentic Data Cloud",
-  "url": "https://cloud.google.com/blog/products/databases/whats-new-across-googles-agentic-data-cloud/",
-  "summary": "Not long ago, we were entering the agentic era; today, organizations are deriving significant value from running agents in production. The opportunity to capture new revenue streams, improve efficiency, and manage risk makes reimagining operations with agents top of mind for enterprise leaders. That is why we built the Agentic Data Cloud — a System of Action designed to activate all your data by breaking down walled gardens, deliver high accuracy and trust, and operate proactively at low cost. L",
-  "published": "2026-11-04T14:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "产品与商业",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Unify operational and Lakehouse data with direct Iceberg access in AlloyDB for PostgreSQL",
-  "url": "https://cloud.google.com/blog/products/databases/direct-iceberg-access-in-alloydb/",
-  "summary": "To make good business decisions, you need two kinds of data: the live state of the business from operational databases, and the historical context stored in an analytical system such as a lakehouse or a data warehouse. Traditionally, those systems have been separate, but they are now converging rapidly. That’s why today, we're announcing direct Iceberg access in AlloyDB for PostgreSQL, in preview. Now, developers can query Apache Iceberg tables stored in a cloud storage bucket directly from Allo",
-  "published": "2026-11-04T14:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "AlloyDB Express: Instant, scale-to-zero PostgreSQL for developers and coding agents",
-  "url": "https://cloud.google.com/blog/products/databases/introducing-alloydb-express-for-rapid-testing-and-prototyping/",
-  "summary": "Databases have struggled to keep up with the speed of AI-enabled software development. Across the engineering and platform teams we talk to, we see coding agents stalled by slow database provisioning, CI/CD test pipelines bottlenecked by complexity, and internal apps hitting a wall as they transition from sandbox to production. Until now, no PostgreSQL service in the market has combined agent-ready capabilities with uncompromised enterprise security and scale. To solve this, we are excited to an",
-  "published": "2026-11-04T14:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "[In preview] Public Preview: Multi-disk crash-consistent VM restore points for Premium SSD v2 and Ultra Disks on VMs with SCSI disk controller",
-  "url": "https://azure.microsoft.com/updates?id=579162",
-  "summary": "Multi-disk crash-consistent restore points for Azure virtual machines with Premium SSD v2 and Ultra data disks are now available in public preview on VMs with SCSI disk controllers. You can use this to capture the agent-less crash consistent restore point",
-  "published": "2026-11-04T17:13:51+00:00",
-  "source": "Azure Updates",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
   "title": "Sep 22, 2026Introducing Claude Opus 5.5Claude Opus 5.5 leads in agentic coding and knowledge work, and costs 40% less to run than Opus 5 on ",
   "url": "https://www.anthropic.com/news/announcements",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1953,7 +1810,7 @@
   "title": "FeaturesSep 21, 2026The Situation ReportA rare Ebola strain is spreading in the DRC, with no confirmed vaccine. Global health organizations ",
   "url": "https://www.anthropic.com/news/features",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1967,7 +1824,7 @@
   "title": "AI for Science expands to foundations and research institutionsWe’re highlighting 20 scientific foundations, institutions, and research grou",
   "url": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1981,7 +1838,7 @@
   "title": "Expanding our partnership with GSA to bring Claude to all levels of governmentWe are expanding our partnership with the General Services Adm",
   "url": "https://www.anthropic.com/news/expanding-partnership-gsa",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -1995,7 +1852,7 @@
   "title": "Anthropic files S-1 with the SEC for proposed initial public offeringToday, Anthropic, PBC filed a registration statement on Form S-1 with t",
   "url": "https://www.anthropic.com/news/s1-sec",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2009,7 +1866,7 @@
   "title": "Donating Agent Skills to the Agentic AI FoundationWe’re donating Agent Skills, the open standard that gives AI agents specialized knowledge ",
   "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2023,7 +1880,7 @@
   "title": "Open call for guest investigators in the life sciencesToday, we’re inviting members of the life sciences community to apply to work with us ",
   "url": "https://www.anthropic.com/news/open-call-guest-investigators-life-sciences",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2037,7 +1894,7 @@
   "title": "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit TrustDr. Christopher Stubbs, an experimental physicist and former Dean of S",
   "url": "https://www.anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2051,7 +1908,7 @@
   "title": "Investing in the public benefitWe’re committing a portion of Anthropic’s shares to the Anthropic Public Benefit Fund, a new entity with a st",
   "url": "https://www.anthropic.com/news/public-benefit-fund",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2065,7 +1922,7 @@
   "title": "An update on independent evaluatorsTo evaluate the safety of our systems, Anthropic is giving employee-like access to a team from METR, a no",
   "url": "https://www.anthropic.com/news/an-update-on-independent-evaluators",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2079,7 +1936,7 @@
   "title": "Preparing for the 2026 US midtermsEarlier this year, we shared an update on our election safeguards. Here, we outline how we’ve continued to",
   "url": "https://www.anthropic.com/news/2026-us-midterms",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2093,7 +1950,7 @@
   "title": "Anthropic opens Singapore office and signs MOU with the Government of SingaporeAnthropic has opened an office in Singapore and signed an MOU",
   "url": "https://www.anthropic.com/news/singapore-office-opening",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2107,7 +1964,7 @@
   "title": "Strengthening our defenses against distillation attacksIllicit distillation allows model developers to copy frontier AI capabilities without",
   "url": "https://www.anthropic.com/news/distillation-defenses",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2121,7 +1978,7 @@
   "title": "Introducing the Anthropic Cyber MissionWe’re launching the Anthropic Cyber Mission, a long-term commitment to securing the systems everyone ",
   "url": "https://www.anthropic.com/news/anthropic-cyber-mission",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2135,7 +1992,7 @@
   "title": "2026 Usage Policy updateWe’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.PolicyOct 8, 2",
   "url": "https://www.anthropic.com/news/2026-usage-policy-update",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2149,7 +2006,7 @@
   "title": "Building on our commitment to American scientific discoveryAnthropic is committing $150 million over three years to the Genesis Mission, a f",
   "url": "https://www.anthropic.com/news/genesis-mission-commitment",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2163,7 +2020,7 @@
   "title": "Expanding the Cyber Verification ProgramWe’re launching a new, expanded version of our Cyber Verification Program, which makes advanced cybe",
   "url": "https://www.anthropic.com/news/cyber-verification-program",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2177,7 +2034,7 @@
   "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gapAnthropic is investing $100 million in Claud",
   "url": "https://www.anthropic.com/news/claude-frontier-academy",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2191,7 +2048,7 @@
   "title": "Barclays scales Claude to upgrade operations and improve client experience Barclays, the British universal bank, is expanding its strategic ",
   "url": "https://www.anthropic.com/news/barclays-scales-claude",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2205,7 +2062,7 @@
   "title": "Partnering with Accenture on embedded evaluationWe’re partnering with Accenture on independent evaluation of frontier AI—part of our recent ",
   "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2219,7 +2076,7 @@
   "title": "Introducing the Life Sciences Verification ProgramThe Life Sciences Verification Program (LSVP) gives life science professionals access to C",
   "url": "https://www.anthropic.com/news/life-sciences-verification-program",
   "summary": "",
-  "published": "2026-11-07T00:30:55.860188+00:00",
+  "published": "2026-11-08T00:31:00.229055+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2230,45 +2087,59 @@
   "is_hot": false
  },
  {
-  "title": "Kubeflow Trainer v2.4.0：TrainJob 支持 DRA，工作负载感知调度进 Phase 1",
-  "url": "https://github.com/kubeflow/trainer/releases/tag/v2.4.0",
-  "summary": "Kubeflow Trainer v2.4.0 正式发布，TrainJob 接入 DRA（KEP-2782）、工作负载感知调度进 Phase 1（KEP-3015）、OptimizationJob 控制器以 alpha 门控上线，并支持按 TrainJob 覆盖 schedulerName、多切片 TPU 的 Job Replicas、TrainJob 终结时清理 Volcano PodGroup。破坏性变更：MPI 插件改用 PRTE_MCA_* 环境变量，升级前创建的挂起 TrainJob 无法恢复；ReplicatedJob 名字限 20 字符。",
-  "published": "2026-11-06T00:00:00+00:00",
+  "title": "Kubernetes 存储分层拆解：Volume、PV、PVC、StorageClass、CSI 各管哪一段",
+  "url": "https://kubezilla.io/kubernetes-storage-explained-volumes-pv-pvc-storageclass-csi/",
+  "summary": "文章把 K8s 存储拆成五层讲：Volume 是 Pod 内可挂载的目录（emptyDir 随 Pod 生命周期消失，configMap/secret 做注入）；PV 是集群级存储资源、PVC 是用户侧的申领，两者经 StorageClass 的动态供应绑定；实际读写由 CSI 驱动落到后端存储。作者强调分层的目的——把「申领意图」「供应策略」「驱动实现」解耦，换成一条 hands-on 示例走完 PVC→PV→挂载。",
+  "published": "2026-11-06T07:19:54+00:00",
+  "source": "kubezilla.io",
+  "source_cat": "基础设施",
+  "extra": {},
+  "board": "基础设施",
+  "category": "K8s 核心技术",
+  "oss": false,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "Kubernetes 版本节奏、支持窗口与 version skew：升级前要对的几张表",
+  "url": "https://kubezilla.io/kubernetes-release-cycle-upgrades-version-skew-explained/",
+  "summary": "把 K8s 的 x.y.z 语义、三个 minor/年的发布节奏、每个 minor 约 14 个月的支持窗口、组件间允许的 version skew（kubelet 可比 apiserver 落后若干 minor、kube-proxy/controller-manager 的约束各不相同）和 API 弃用流程收在一处，末尾给 kubeadm 官方升级流程与一份可复用的升级 checklist（含托管集群）。",
+  "published": "2026-11-05T07:29:30+00:00",
+  "source": "kubezilla.io",
+  "source_cat": "基础设施",
+  "extra": {},
+  "board": "基础设施",
+  "category": "K8s 核心技术",
+  "oss": false,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "用 Backstage + Crossplane 搭 IDP：CNCF 平台白皮书的「薄平台」口径",
+  "url": "https://kubezilla.io/platform-engineering-kubernetes-backstage-crossplane-idp/",
+  "summary": "按 CNCF TAG App Delivery 的平台白皮书解释 IDP：平台是一组围绕使用者需求整合的能力，可以薄到只覆盖「每个团队都要重复解决的那几件事」（数据库、CI/CD、仪表盘、安全基线）。文章把 Backstage 定位为开发者入口与软件目录、Crossplane 定位为用 K8s API 声明式供应云资源，两者拼成「自助 + 受控」的平台骨架，而不是再造一套 PaaS。",
+  "published": "2026-11-04T07:23:44+00:00",
+  "source": "kubezilla.io",
+  "source_cat": "基础设施",
+  "extra": {},
+  "board": "基础设施",
+  "category": "云原生周边",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Kueue v0.19.12：ConcurrentAdmission 配额泄漏与 MultiKueue 重复执行修掉了",
+  "url": "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.19.12",
+  "summary": "0.19 线补丁版：ConcurrentAdmission 删掉 concurrentAdmissionPolicy 后残留的 parent/variant Workload 会永久占着配额，此版清理；变体生成时改父 Workload 元数据、覆盖兄弟变体 flavor 注解的问题一并修掉。MultiKueue 侧修了 worker 集群被移出配置后 Workload 已驱逐但 Job 仍在跑、导致同一 Job 跑两遍的 bug。可观测性上把 job reconciler 的逐 Job 日志降到 verbosity 3、错误只记一次，日志 key 改名（oldQueueName/newQueueName → prevLocalQueue/localQueue），依赖日志的看板要同步改。",
+  "published": "2026-11-05T00:00:00+00:00",
   "source": "GitHub Releases",
   "source_cat": "基础设施",
   "extra": {},
   "board": "基础设施",
   "category": "K8s × AI",
   "oss": true,
-  "hot_score": 17,
-  "is_hot": false
- },
- {
-  "title": "Kubernetes v1.38.0-beta.0：seccomp 配置可从 OCI registry 拉取，DRA Device Binding 转 GA",
-  "url": "https://github.com/kubernetes/kubernetes/releases/tag/v1.38.0-beta.0",
-  "summary": "v1.38.0-beta.0 带来 alpha 的 SecurityProfileOCI（Pod 可用 seccompProfile.type=OCI 从 registry 按 digest 拉 seccomp 配置）、DRA Device Binding Conditions 转 GA、CompositePodGroup 升到 scheduling.k8s.io/v1beta1、StatefulSet Recreate 更新策略转 beta，并移除 RecoverVolumeExpansionFailure 与 SupplementalGroupsPolicy 两个 GA 门控。",
-  "published": "2026-11-06T00:00:00+00:00",
-  "source": "GitHub Releases",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s 核心",
-  "oss": true,
-  "hot_score": 16,
-  "is_hot": false
- },
- {
-  "title": "Istio 1.31.4：security release，ambient 模式 mTLS 可被绕过（CVSS 8.2）",
-  "url": "https://github.com/istio/istio/releases/tag/1.31.4",
-  "summary": "Istio 1.31.4 为纯安全版本，含 5 个 CVE：ambient 模式下端口级 STRICT PeerAuthentication 因运算符优先级错误被跳过，明文流量可打到要求 mTLS 的端口（8.2）；任意持有 mesh 身份的负载发 istio.io/debug xDS 请求可打崩 istiod（7.7）；复用 4-tuple 的新连接可命中陈旧 conntrack 绕过 sidecar（7.4）；空 to/from 的 AuthorizationPolicy 让 istiod 崩溃循环（6.3）。",
-  "published": "2026-11-06T00:00:00+00:00",
-  "source": "GitHub Releases",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s 核心",
-  "oss": true,
-  "hot_score": 15,
+  "hot_score": 13,
   "is_hot": false
  }
 ]

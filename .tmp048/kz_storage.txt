@@ -1,0 +1,58 @@
+Containers are built to be thrown away. When a container restarts, anything it wrote to its own filesystem is gone. That is fine for a stateless web server, but databases, message queues, model caches and upload folders need data that outlives a single container or Pod. Kubernetes solves this with a layered storage model: volumes, PersistentVolumes, PersistentVolumeClaims, StorageClasses and the Container Storage Interface (CSI).
+These pieces confuse many people at first because they split one job across several objects. This guide walks through each layer in plain English, shows how they fit together, and ends with a small hands-on example taken from the official Kubernetes documentation. If you want a refresher on how the control plane and nodes cooperate first, read our deep dive into how Kubernetes works.
+A volume is a directory that the containers in a Pod can mount. The Kubernetes docs describe many uses: sharing files between containers in the same Pod, giving a container scratch space, injecting configuration from ConfigMaps or Secrets, and providing durable storage that survives restarts.
+Volumes come in two broad families.
+emptyDir is the simplest example. It starts empty when the Pod is assigned to a node and exists as long as the Pod runs there. A container crash does not remove the Pod, so the data survives crashes. But when the Pod is removed from the node for any reason, the data in the emptyDir is deleted permanently. Use it for caches and temporary work files, never for data you care about.
+One volume type deserves a warning. hostPath mounts a directory from the node itself into the Pod. The official docs state that it presents many security risks and recommend avoiding it when you can, for example by defining a local PersistentVolume instead.
+For durable data, Kubernetes separates how storage is provided from how storage is consumed. It does this with two API objects.
+This split lets application teams ask for “30Gi of fast storage” without knowing whether the bytes end up on a cloud disk, an NFS server or a Ceph cluster.
+Use Retain for anything where accidental data loss would hurt, such as production databases.
+Access modes describe how a volume can be mounted, and they are a common source of confusion.
+Not every storage backend supports every mode. Block devices such as cloud disks usually offer RWO, while shared file systems are needed for RWX. Check your driver’s documentation before you design around RWX.
+Creating PVs by hand does not scale. A StorageClass lets administrators describe the kinds of storage they offer, and Kubernetes then creates PVs automatically whenever a PVC asks for that class. This is called dynamic provisioning.
+The important StorageClass fields are:
+The binding mode matters more than it looks. With Immediate, the volume is provisioned as soon as the PVC is created, without knowing where the Pod will run. For storage tied to a zone or a node, that can leave Pods unschedulable. WaitForFirstConsumer delays binding and provisioning until a Pod that uses the PVC is created, so the scheduler and the storage agree on placement. For zonal cloud disks, it is usually the right choice.
+A cluster can also mark one StorageClass as the default with the annotation storageclass.kubernetes.io/is-default-class: "true". Any PVC that does not name a class gets the default.
+A newer, related object is VolumeAttributesClass. It describes mutable storage settings, such as different quality of service levels, that can be changed on an existing volume. The Kubernetes docs list it as generally available since version 1.34, but your CSI driver must support it.
+The Container Storage Interface is a standard that lets orchestrators like Kubernetes talk to any storage system through a common API. Before CSI, storage drivers lived inside the Kubernetes code itself (“in-tree”). Kubernetes has been moving storage support out of its core into CSI drivers that storage vendors and projects maintain on their own release schedules.
+CSI also unlocks extra features. Volume snapshots are one example. Much like PV and PVC, the VolumeSnapshotContent and VolumeSnapshot objects let administrators and users take point-in-time copies of volumes. The docs note that snapshot support is only available for CSI drivers, and that a snapshot controller has to be deployed in the cluster. Snapshots are a building block for backup tools; see our guide to Kubernetes backup and disaster recovery with Velero.
+The Kubernetes CSI documentation keeps a public list of drivers, which is a good starting point when you evaluate a backend.
+Several CNCF projects build on these primitives:
+Deployments treat Pods as interchangeable, which is a poor fit for databases where each replica needs its own disk. A StatefulSet fixes this with volumeClaimTemplates. For each template entry, every Pod in the set receives its own PVC. If no StorageClass is named, the default one is used. When a Pod is rescheduled, it mounts the same PVC again, so replica db-0 always gets the data of db-0.
+StatefulSets also let you control what happens to those PVCs. The persistentVolumeClaimRetentionPolicy field, stable since Kubernetes v1.32, has two settings: whenDeleted for when the StatefulSet is deleted and whenScaled for when replicas are scaled down. Each can Retain or Delete the claims.
+Prerequisites: a running cluster, kubectl configured for it, and at least one StorageClass backed by a working provisioner. Many managed services and local cluster tools ship with a default one.
+First, see which StorageClasses exist and which is the default:
+kubectl get storageclass
+Next, create a PVC. This example comes from the Kubernetes dynamic provisioning docs and requests 30Gi from a class named fast. Change storageClassName to a class that exists in your cluster.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast
+  resources:
+    requests:
+      storage: 30Gi
+Then mount the claim in a Pod. This Pod spec is adapted from the PersistentVolumes concept page, with claimName changed to claim1 to match the PVC above.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: myfrontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: claim1
+Apply both files with kubectl apply -f, then inspect the result. If your class uses WaitForFirstConsumer, the PVC stays Pending until the Pod is scheduled, which is expected.
+kubectl describe pvc claim1
+kubectl get pv --sort-by=.spec.capacity.storage
+Storage you request is storage you pay for, so review unused PVCs regularly. Our Kubernetes FinOps guide covers this in more depth.
+Kubernetes docs: Volumes, Persistent Volumes, Storage Classes, Dynamic Volume Provisioning, Ephemeral Volumes, Volume Snapshots, Volume Attributes Classes, StatefulSets, Change the default StorageClass, kubectl Quick Reference, Kubernetes CSI drivers list, CSI specification, CNCF project pages for Rook, Longhorn and CubeFS, and rook.io.

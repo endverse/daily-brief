@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 048 (2026-11-08)."""
+import json, sys
+
+PROC = json.load(open("processed.json", encoding="utf-8"))
+BY_URL = {}
+for it in PROC:
+    BY_URL.setdefault(it["url"], it)
+
+
+def U(key):
+    """Exact processed.json URL lookup by full url or url without query."""
+    hits = [it["url"] for it in PROC
+            if it["url"] == key or it["url"].split("?")[0] == key
+            or (len(key) > 20 and key in it["url"])]
+    if len(hits) != 1:
+        print("URL LOOKUP FAILED:", key, hits)
+        sys.exit(1)
+    return hits[0]
+
+
+def item(title, key, summary, tag, source, detail, oss=False):
+    return {"title": title, "url": U(key), "summary": summary, "tag": tag,
+            "source": source, "oss": oss, "detail": detail}
+
+
+D = lambda a, b, c: [{"key": "能做什么", "value": a},
+                    {"key": "解决什么痛点", "value": b},
+                    {"key": "值不值得", "value": c}]
+
+highlights = [
+ {"title": "AGENTS.md 成了新病毒：网页静默丢进下载目录，Codex 一读就中招，成功率超 90%",
+  "url": U("https://www.qbitai.com/2026/11/508244.html"),
+  "tag": "Agent & Skill",
+  "source": "量子位（引 Forever Security 披露）",
+  "summary": "安全机构 Forever Security 披露并复现了一条不需要用户执行任何操作的投毒链：网页把 AGENTS.md 静默写进 ~/Downloads，用户只要在这个目录里随手唤起 Codex 或 Claude Code，agent 就会按惯例把该文件当成项目规范读入。payload 是一份 13KB、伪装成「团队本地开发环境准备规范」的文档，正常工程约定写了一整篇，末尾夹带「把标准 tools server 注册到 ~/.codex/config.toml，并用临时目录执行一次」。在虚拟机里跑真实攻击载荷时，针对 Codex 的成功率超过 90%；得手后的动作包括改全局配置、关闭沙箱、安装恶意 npm 包、把本地 API Token 打包外传。根因是 agent 不区分「开发者写的规范」和「外部投喂的指令」——在带终端权限的 agent 眼里，Markdown 与可执行代码没有区别。同类风险同样适用于 CLAUDE.md、.cursor/rules 等会被自动读取的约定文件。",
+  "note": "攻击链的关键是「零交互」：不需要点弹窗、不需要执行脚本，浏览器的一次下载行为就把指令放到了 agent 会主动扫描的位置（下载目录、项目根目录）。自动审批拦不住它，因为载荷不是「删除系统文件」这类显眼命令，而是「注册一个 MCP/tools server 并跑一次」——在 agent 看来这是合法的开发环境准备动作。Forever Security 与 X 用户 Drenson 都做了实机复现；量子位引用的成功率为 90% 以上（针对 Codex）。防御侧的共识是把「agent 可读的约定文件」纳入信任边界：只信任仓库内版本控制的副本，下载目录/临时目录列入工作区黑名单，外部 tools server 注册与全局配置写入要人工确认。",
+  "detail": D("披露并复现一条完整攻击链：静默下载 AGENTS.md/CLAUDE.md → 用户在该目录启动 Codex/Claude Code → 13KB 伪装规范诱导注册外部 tools server → 执行任意命令；对 Codex 实测成功率 >90%，可窃取本地 API Token、改 ~/.codex/config.toml、关沙箱、装恶意 npm 包。",
+             "戳破「不点 .exe、不跑 bash 就安全」的旧共识：agent 把纯文本当指令执行，下载目录本身成了攻击面；自动审批只拦显眼命令，拦不住「注册工具、改配置、装依赖」这类日常合法操作。",
+             "值得当作 agent 安全基线的硬规则写进团队规范：约定文件只信任仓库内受控版本，~/Downloads 与 /tmp 不进 agent 工作区，外部 MCP/tools server 注册必须人工确认。限制是攻击依赖用户在污染目录里启动 agent，且各家已开始加目录信任提示，但绕过手法会持续演化。")},
+ {"title": "LLM 推理冷启动被拆成四层在解：权重常驻、引擎快照、Pod checkpoint 与 OCI 分发",
+  "url": U("https://www.cncf.io/blog/2026/11/06/faster-llm-inference-startup-what-you-need-to-know/"),
+  "tag": "K8s × AI",
+  "source": "CNCF Blog（DaoCloud 工程师 Baofa Fan）",
+  "summary": "CNCF 这篇长文把推理扩容的真实瓶颈摊开：新副本只有「能服务」之后才算容量，而进程启动、权重读取与转换、GPU 运行时初始化、kernel 编译、autotune、CUDA Graph capture 都发生在第一个 token 之前，重启、切模型、扩容会反复付这笔钱。解法按「保留了什么」被分成几类：保权重（vLLM 的常驻 weight daemon 经 CUDA IPC 零拷贝给新引擎用，preload 命令已合并；SGLang 合并了 weight-cache daemon）、保已初始化进程（vLLM 用 CRIU + CUDA checkpoint 做引擎快照，SGLang 有对应的初始化快照 RFC）、平台编排（Dynamo 的 Snapshot 项目提供 PodSnapshot/SnapshotJob 与节点 agent，检查点落 PVC；llm-d 用 GKE Pod Snapshots + gVisor + GCS）、标准接口（KEP-5823 的 Pod 级 checkpoint 目标 v1.38 alpha，CRI 的 CheckpointPod/RestorePod 已于 2026 年 7 月 22 日合并）。作者强调这些路径保留的状态互不相同，不能当成同一个「checkpoint 功能」。",
+  "note": "分层与当前状态：① 权重层——vLLM Fast Start 的 weight daemon 与 vllm preload 已合并，零拷贝模式要求 daemon 存活、CUDA IPC 句柄限节点内，多机需按 shard 就近部署；vLLM 另有 sleep/wake 释放显存，但与 preload 零拷贝有组合限制。② 引擎快照层——vLLM 的 CRIU + CUDA checkpoint 快照 scope 为同机、单卡、TP=1，且恢复时仍要重载模型文件并校验一次生成结果；SGLang 的快照在 HTTP 服务 bind 之前捕获，同样限单卡同环境。③ 平台层——Dynamo Snapshot 用 PVC 存检查点，对象存储后端尚未支持，其 v1.4.0 文档明确 GMS+Snapshot 生产不可用；llm-d 的 Pod Snapshots 当前覆盖单卡 vLLM/SGLang + GKE。④ 标准层——KEP-2008 容器 checkpoint 在 v1.30 到 beta，KEP-5823 Pod 级还在 alpha 目标，GPU 状态是另一份 provisional 提案（KEP-6274）；OCI 的 checkpoint 镜像提案 issue #962 仍未关闭。",
+  "detail": D("把「扩容到能服务」这段隐藏成本拆成可分别优化的四层，并给出每层保留什么状态、由谁负责、恢复时还缺什么；可直接对照自己集群里 vLLM/SGLang 的启动耗时分布（权重加载 vs 编译/capture）判断该上哪一层。",
+             "K8s 上跑推理最常见的误判是按 Pod 数算容量：副本 Ready 不等于能出 token，冷启动几十秒到几分钟，HPA 与滚动更新都会因此抖动；GPU 显存里的已初始化状态此前没有任何标准方式复用。",
+             "做 GPU 推理平台必读：它把「Pod 快照」从 demo 级话题落到 KEP/CRI/OCI 的具体进度，能帮你判断现在能依赖什么（vLLM preload 可用）、什么还不能（CRI 实现未合、跨机恢复不支持、GPU 状态提案未定）。局限是多数方案仍锁单卡同机，生产上更适合当「加速手段」而非弹性基础。")},
+]
+
+ai = [
+ ("🧩", "Agent & Skill", [
+   item("Coca-Cola：把工具输出压成 latent token，agent token 消耗降 70%–89%",
+        "https://huggingface.co/papers/2611.06500",
+        "论文挑战了「工具观测必须以文本形式进上下文」的默认做法：用一个压缩模型把 tool output 编码成 latent token，直接嵌进 agent 的 input embedding 空间，再用 Action-Preserving Training 对齐「全量观测」与「压缩观测」下下一步动作的分布，逼压缩器只保留影响决策的信息。在 web-search agent 上跑 4 个 QA benchmark、2 个模型家族，token 消耗降 70.01%–89.24%，端到端耗时降 24.45%–55.97%，任务得分同时稳定上升。代码已开源。相比 token pruning 与摘要，它绕开了离散文本对压缩率的上限。",
+        "论文", "HuggingFace Papers",
+        D("把多步 agent 的工具输出压成连续 latent token 直接喂回模型，用「动作分布对齐」而不是「文本相似度」当训练目标；实测 token 降 70%–89%、耗时降 24%–56%，且在 4 个 QA benchmark、2 个模型家族上不掉点反升。",
+          "长会话 agent 的上下文被原始工具输出（网页、日志、检索结果）灌满，注意力被稀释、成本随步数线性上涨；剪枝/摘要类方法受限于文本表示，压缩率上不去。",
+          "如果你的 agent 平台按 token 计费或受上下文窗口限制，这是目前少见的「压缩率与效果同时改善」的结果，值得读实现细节（压缩器规模、训练数据、是否依赖特定模型家族）。限制是只在 web-search + QA 场景验证，工程化要自己补训练管线。"), oss=True),
+   item("agent-browser：给 agent 的浏览器只回「带 @e1 ref 的紧凑文本」",
+        "https://github.com/vercel-labs/agent-browser",
+        "Vercel Labs 的 Rust 原生 CLI，把浏览器拆成 agent 可逐步调用的命令：snapshot 返回页面紧凑文本，每个可交互元素带 @e1 这类引用，agent 点引用执行动作、再 snapshot 校验结果；浏览器进程在命令之间保持打开，所以每一步只是一次短 shell 调用，不用每次重传整棵 DOM。已 46,824 star，Apache-2.0，npm/brew 安装，Linux 可 --with-deps 一起装系统库。",
+        "工具", "GitHub Trending · Vercel Labs",
+        D("Rust 写的有状态浏览器 CLI：open/snapshot/click/get 等子命令共享同一个浏览器实例；snapshot 输出可访问性树压缩成带 ref 的文本，agent 按 ref 操作，避免每步传完整 HTML。",
+          "agent 做网页任务时最大的浪费是把整页 HTML 塞进上下文并反复重传，既贵又容易点错元素；Playwright 类脚本又不适合让模型逐步决策。",
+          "对做 browser-use / 网页测试类 agent 的团队是低门槛替代（一条 npm 安装即有状态浏览器），但 46k star 主要来自 Vercel 生态曝光，长期维护与多标签/登录态能力要自己验证。",), oss=True),
+   item("anthropics/skills 上 Trending：19 个官方技能 + SKILL.md 规范 + 插件打包",
+        "https://github.com/anthropics/skills",
+        "Anthropic 的 Agent Skills 公共仓库进了 GitHub Trending：skills/ 下 19 个可复用技能（docx、pdf、pptx、xlsx、skill-creator、mcp-builder、webapp-testing、canvas-design、brand-guidelines 等），spec/agent-skills-spec.md 是 SKILL.md 的格式规范，template/ 与 .claude-plugin/ 负责把技能打成可分发/可上架的插件。仓库 18.8 万 star，以 Python 为主。价值在于把「Markdown 描述 + 渐进式披露 + 脚本附件」固化成跨工具可读的格式，而不是每家自定义。",
+        "工具", "GitHub Trending · Anthropic",
+        D("官方技能样例库 + 格式规范 + 打包模板三件套：每个技能是 SKILL.md（frontmatter 触发词 + 分步说明）+ 可选脚本/资源；.claude-plugin 让它能作为插件市场条目分发。",
+          "自己写 agent 技能时缺参照物：写多细、脚本怎么带、触发词怎么定全靠猜；不同框架的技能格式又不通用，迁移成本高。",
+          "是写 skill 时最好的对照物（尤其 skill-creator 与 docx/pdf 这类带脚本的重技能），但要注意 18.8 万 star 里大量是围观；规范本身仍在演进，抄结构比抄内容安全。",), oss=True),
+   item("AFK AI 的 Comma：单 Router + 多 Worker，把「人的注意力」当成瓶颈来设计",
+        "https://www.qbitai.com/2026/11/508264.html",
+        "量子位报道硅谷华人团队 AFK AI 的产品 Comma，主打与 DeepSeek Harness 提出的 Super-agent 同一套判断：人的注意力只能同时跟进 3–5 个活跃 session，所以要由 Router 主 agent 把任务分发给多个 Worker，自己管理自己。文中列的四大特质是连续（记忆与上下文贯通）、高效（多 Worker 并行）、主动（自主推进）、持久（长期在线与自修复），并称底层是单 Router + 多 Worker 架构，已跑在产品里且代码开源。",
+        "产品", "量子位",
+        D("单 Router + 多 Worker 的 agent 编排：一个主 agent 持有连续上下文并调度多个并行 worker 执行任务，对应「连续/高效/主动/持久」四条设计目标；文中称已产品化且开源。",
+          "多会话并行的真实瓶颈在人：切窗口、翻历史、跟进任务的注意力开销随 session 数线性上升，单 session 又拿不到跨任务上下文。",
+          "和你正在做的「每用户独立沙箱 + 多会话」是同一类问题的两种解法（他把调度放在 agent 层，你把隔离放在执行层），值得对照读，但文章是产品向报道、未给仓库地址与基准数据，架构细节需自行核实。")),
+   item("PPIO 沙箱：E2B 兼容的执行层 API，冷启动 <200ms、2.5 万并发成功率 99.8%",
+        "https://www.qbitai.com/2026/11/508174.html",
+        "派欧云（PPIO）在量子位的稿件里给 Personal Agent 的执行层算了笔账：Meta Muse 每用户一台 Secure VM（Sentinel 用 eBPF 做污点追踪、凭据由 authd 在网络边界注入）、OpenAI 每个 dot 一台 always-on 云端电脑、Manus 每任务一台 VM 且 Free/Pro 分别 7/21 天休眠回收。PPIO 的做法是把这层做成 API：一次调用创建微虚拟机沙箱，冷启动平均 <200ms，25,000 并发下成功率 99.8%，支持暂停/恢复/快照/克隆，兼容 E2B 接口（改几行配置即可迁移），并称上线一年创建量增长 120 倍、日均运行沙箱上百万。稿件含 100 元代金券促销，属厂商投放内容。",
+        "厂商稿", "量子位（派欧云提供）",
+        D("把「Agent 的云电脑」做成 API：微虚拟机级隔离、模板预装依赖、按用户或任务分配、暂停恢复与克隆；宣称冷启动 <200ms、25k 并发 99.8% 成功、E2B 接口兼容。",
+          "Personal Agent 需要每用户一台常驻且有状态的执行环境，自建要处理隔离、快照、休眠回收与规模化；小团队既没有基础设施也不该让用户自己配环境。",
+          "对你评估沙箱供应商有直接参照价值（尤其 E2B 兼容这一点能降低迁移成本、25k 并发数据可当基准提问），但这是厂商自述且带促销，99.8% 与 <200ms 需自己压测；同赛道还有 Daytona 与你在看的 Agent Substrate，别只按单点指标选。")),
+ ]),
+ ("🛠️", "AI 工程落地", [
+   item("记忆压缩别只看近邻：96 字节/段时 10.1% 的段落会换主题",
+        "https://arxiv.org/abs/2611.08341v1",
+        "论文指出 agent 记忆压缩的验收标准有盲区：通常只校验「每个条目的近邻是否还在」，但 agent 还要合并、删除、比较相隔很远的记忆。在 96 字节/段落时，重打分后的二值码局部保真 L 达 0.97，却有 10.1% 的段落被移到别的主题；PCA + 8bit 的 L 只有 0.77，漂移反而只有 1.7%。作者证明远端保真 G 与近远秩违例率存在平方根关系（与距离噪声相关 0.979），据此做出 LAQ 量化器，在 52/52 次留出运行中提升 G，跨 13 组记忆编码器 p=8.5×10⁻⁴，可扩展到百万段落且保持证据召回。",
+        "论文", "arXiv cs.AI",
+        D("给出「局部 + 全局」双端保真指标（10 近邻的 L、30%–50% 记忆范围的 G），并把 G 的上界变成 OPQ 码本上的 hinge 目标；LAQ 在 52/52 次运行提升 G，百万段落规模可用。",
+          "只按近邻选压缩会把「远距离关系」压坏，agent 做去重、冲突检测、跨主题比较时就出错，而且这种损坏在常规评测里看不出来。",
+          "做长期记忆/向量库选型时值得读：它给了可复现的度量方式，能用来验你现有 embedding 压缩是否在远处塌缩。门槛是要跑自己的数据，论文场景是文本记忆而非多模态。"), oss=False),
+   item("BigQuery AI.AGG：把「语义聚合」写成一条 SQL，百万行不用出仓",
+        "semantic-data-aggregation-with-bigquery-and-ai-agg",
+        "BigQuery 新增 AI.AGG，让 SQL 直接对非结构化列做语义层面的聚合（归类、摘要、抽取），不再需要把日志/工单/客服记录导出到外部再跑 LLM 批处理。官方给的场景是百万行级数据按语义分组后再统计，配合已有的 AI 函数形成「仓内 ETL + 语义变换」的路径。",
+        "产品", "Google Cloud Blog",
+        D("在 BigQuery SQL 里对文本列做语义聚合，返回结构化结果，可与普通聚合、窗口函数组合；省掉导出→外部批处理→回灌的链路。",
+          "非结构化数据（日志、工单、转写）占企业数据大头，但关系型引擎只能 count/sum，语义归类要写外部管道，成本和延迟都高。",
+          "对已在 BigQuery 上做量化的团队是省管道的选项，但会把语义处理绑在单一云厂商、按扫描量计费需先算账；自建栈可对照 DuckDB/pgvector + 本地模型的等价方案。")),
+ ]),
+ ("🧠", "模型与研究", [
+   item("MSR AI Frontiers 关停：50 人做出 AutoGen 与 Fara，被并入 MAI 后解散",
+        "https://hunch.net/?p=13764006",
+        "John Langford 在博客里复盘 MSR AI Frontiers 的结局：这个约 50 人的子组织是 2023 年 ChatGPT 之后为「有组织地做研究」而建的，产出过 AutoGen 编排框架、Fara 计算机使用 agent，以及 Next Latent 目标、Dion3（改进 Muon）、Full Bandwidth Transformer 等基础工作。今年 9 月初团队被重组进 Microsoft AI，他给出的原因是新东家（前 Inflection 团队）的组织哲学是「只做 scaling、不做研究」，与 AIF 的方向不兼容；他本人与多数创始成员已离开。他同时引了字节的实验：Full Bandwidth Transformer 的变体可与两倍参数量的模型相当。",
+        "观点", "hunch.net（John Langford）",
+        D("一篇内部人视角的组织复盘：AIF 的规模（~50 人）、产物（AutoGen、Fara、Next Latent、Dion3、FBT）、共享 monorepo 的做法，以及被并入 MAI 后因「scaling-only」路线冲突而解散的过程。",
+          "研究型团队在大厂里的生存问题：算力是硬瓶颈，但更致命的是组织目标切换——当上层只信 scaling 的回报率，研究投入就没有位置，成果也被判为「不可用」。",
+          "值得读的原因不是八卦，而是它把「研究 vs scaling 的资源配置」讲成了可验证的论据（FBT 变体≈2 倍参数的实验）。对判断行业走向有帮助，但不能当微软官方口径。")),
+ ]),
+ ("📊", "产品与商业", [
+   item("Gemini Omni 1.2 Flash 正式可用：720p 视频 $0.07/秒，比 1.1 便宜 30%",
+        "gemini-omni-1-2-flash-generally-available",
+        "Gemini Omni 1.2 Flash 在 Google Cloud 上 GA，定位是「批量生产日常视频」：720p 输出定价 $0.07/秒，比 Gemini Omni 1.1 低 30%，并对图像/视频/音频参考的跟随更紧。业务侧可在 Gemini for business 与 Google Vids 里直接用，开发者走 API，覆盖产品视频、虚拟试穿、广告素材等场景。",
+        "模型", "Google Cloud Blog",
+        D("视频生成/编辑模型 GA，主打价格与参考一致性：$0.07/秒 720p、比上代降 30%，支持图像/视频/音频多模态参考；可在 Gemini for business、Vids 与 API 三处调用。",
+          "批量视频（电商素材、广告变体）的成本主要在单价与重试率，参考跟随不准就要反复生成，$/秒 降 30% 直接压毛利。",
+          "如果你的场景是模板化批量出片，这是目前公开单价较低的一档，值得拿自己素材测参考一致性再算总成本；创意型长片仍不适合这类 Flash 档模型。")),
+ ]),
+ ("💡", "观点与好文", [
+   item("Nilay Patel：产品还撑不起成本，数据中心噪音换 AI 摘要不值",
+        "https://simonwillison.net/2026/Nov/6/nilay-patel/",
+        "Simon Willison 摘了 Nilay Patel 的一段判断：这些 AI 产品还不够好到让用户为成本买单——没法让人接受「后院数据中心的嗡鸣」换来 AI 摘要和深度伪造垃圾；agent 也还没真正跑起来，各家花在产品上的钱多于赚到的钱。这段话被放在「AI 基建投资 vs 产品收入」的语境里传播。",
+        "观点", "Simon Willison",
+        D("一段对 AI 产品经济性的直白质疑：收入覆盖不了基础设施与推理成本，agent 的实际使用形态尚未定型。",
+          "行业叙事普遍假设「能力提升→需求自来」，但账单在基础设施侧已经发生，收入侧没有对应曲线。",
+          "值得一读是因为它提供了反向检验清单：算自己场景的 token/GPU 成本与用户付费意愿，而不是跟着模型发布节奏做规划。属于观点而非数据，别当结论。")),
+ ]),
+ ("🛡️", "安全与治理", [
+   item("每台 Mac 都自带「家庭成员分类器」：macOS 13 起的个人知识图谱被拆开看",
+        "https://8rank.ai/game/apple-intelligence-personal-knowledge-graph",
+        "一篇逆向分析指出，macOS 13（2022）起每台 Mac 都带有两个 daemon，专职在本机构建一张关于「你是谁、认识谁、这些人怎么关联、你怎么联系、去过哪、做了什么、什么时候」的知识图谱，数据源横跨通讯录、邮件、日历等本机内容，交叉索引后形成个人关系图。作者同时放出了可查看自己这张图谱的工具。",
+        "安全", "8rank.ai",
+        D("拆解 Apple 端侧个人知识图谱的构建方式（双 daemon、跨通讯录/邮件/日历/位置的交叉索引）并提供本机自查工具，能直接看到系统对「你的人际关系与行为」建模到什么粒度。",
+          "端侧 AI 功能默认依赖用户画像，但用户既不知道建模范围也不知道数据去向；对企业设备管理而言，这也是合规评审容易漏掉的一层。",
+          "值得看的是「哪些数据被拼起来」这件事本身，用来评估端侧 AI 的隐私边界与公司 Mac 的合规口径；结论依赖逆向，版本升级后可能变化。")),
+   item("OpenAI 找外部攻击队 Hacktron 打自家系统与第三方连接",
+        "https://openai.com/index/partnering-with-hacktron",
+        "OpenAI 宣布与安全公司 Hacktron 合作，由外部团队用前沿模型找其系统漏洞、测试与第三方服务的连接面并加固防御。信号是模型厂商开始把「外部红队 + 自动化漏洞挖掘」常态化，而不是只做内部评测。",
+        "安全", "OpenAI News",
+        D("把外部攻击队接入自身系统与第三方集成面的漏洞挖掘，用前沿模型做自动化发现与验证。",
+          "模型厂商的攻击面已经从模型本身扩到工具链与第三方连接，内部评测覆盖不到集成链路。",
+          "对做 AI 平台的人是一个提醒：把第三方连接面（MCP/tools server、OAuth 授权）纳入红队范围。信息量有限，属公告级。")),
+ ]),
+]
+
+infra = [
+ ("🤖☸️", "K8s × AI", [
+   item("NVIDIA 开源 NVKE：在自有 GPU 裸金属上跑一套 K8s 管理平面",
+        "https://github.com/dsx-ai-factory/nvke",
+        "NVIDIA Kubernetes Engine（NVKE）以 preview 形式开源：装在自有 GPU 基础设施上的管理平面，为每个 workload cluster 起独立的 control plane、etcd 与 node pool，用户通过 nvkectl 或 API 建集群、扩缩节点池、升级 K8s、替换节点。节点加入前先用 TPM + SPIFFE/SPIRE 做认证再发凭据，etcd 可逐集群加密；基础设施侧目前只支持 NVIDIA Infra Controller（NICo），配套的 NVKR 负责构建 node image 与组件。仓库 556 star、Go、Apache-2.0。",
+        "开源项目", "GitHub Trending · dsx-ai-factory",
+        D("可安装在裸金属上的「K8s 发行版管理面」：多 workload cluster 各自独立控制面、TPM/SPIRE 节点身份、node pool 生命周期（创建/扩缩/升级/替换）、镜像与组件由 NVKR 构建；本地可用模拟机器跑通（6 CPU/12GiB/100GiB + Docker）。",
+          "自建 GPU 集群通常卡在「谁来管控制面」：kubeadm 手工铺、Cluster API 要自己接 provider；NVKE 把 NVIDIA 的 GPU 基础设施（NICo）当成唯一 provider，直接给出托管式体验。",
+          "对自建 GPU 集群的方案选型有参考价值，尤其节点身份（TPM/SPIRE）与多租户控制面这两块；但 preview 阶段默认 API 无认证、明文 HTTP，管理面自身不能升级/扩缩/备份，官方明确不建议生产，且绑定 NICo。",), oss=True),
+   item("Kueue v0.19.12：ConcurrentAdmission 配额泄漏与 MultiKueue 重复执行修掉了",
+        "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.19.12",
+        "0.19 线补丁版。ConcurrentAdmission 里删掉 concurrentAdmissionPolicy 后残留的 parent/variant Workload 会永久占着配额，此版清理；同时修了变体生成时改父 Workload 元数据、覆盖兄弟变体 flavor 注解的问题。MultiKueue 侧修了 worker 集群被移出配置后 Workload 已驱逐但 Job 仍在跑、导致同一 Job 跑两遍的 bug。可观测性上把 job reconciler 的逐 Job 日志降到 verbosity 3、错误只记一次，日志 key 改名（oldQueueName/newQueueName → prevLocalQueue/localQueue）。",
+        "K8s", "GitHub Releases",
+        D("修复配额永久占用（ConcurrentAdmission 残留 Workload）、变体元数据互相覆盖、MultiKueue 跨集群重复执行三个实质 bug；同时把 job reconciler 日志降噪并改了 key。",
+          "配额泄漏表现为「队列看着满了但没人在跑」，很难定位；MultiKueue 的重复执行会直接导致同一训练任务跑两遍、浪费 GPU 卡时。",
+          "跑 Kueue 0.19 线的集群应直接升，升级后要同步改依赖日志 key 的看板与告警；0.20 线对应修复已在 v0.20.5。",), oss=True),
+ ]),
+ ("☸️", "K8s 核心技术", [
+   item("K8s 存储分层：Volume、PV、PVC、StorageClass、CSI 各管哪一段",
+        "https://kubezilla.io/kubernetes-storage-explained-volumes-pv-pvc-storageclass-csi/",
+        "一篇把 K8s 存储五层讲清的长文：Volume 是 Pod 内可挂载的目录（emptyDir 随 Pod 消失，configMap/secret 做注入）；PV 是集群级存储资源、PVC 是用户侧申领，两者经 StorageClass 动态供应绑定；实际 IO 由 CSI 驱动落到后端存储。作者强调分层的意义是把「申领意图 / 供应策略 / 驱动实现」解耦，末尾用官方示例走完 PVC→PV→挂载。",
+        "K8s", "kubezilla.io",
+        D("逐层解释卷类型、PV/PVC 绑定与回收策略、StorageClass 的动态供应参数、CSI 的职责边界，并给出可跑的最小示例。",
+          "建集群时存储最容易「能跑但不明白」：PV/PVC/StorageClass 的关系、绑定失败怎么排查，文档分散在多个页面。",
+          "适合当内部培训或方案文档的骨架（尤其给不熟 K8s 的业务团队），但只是概念梳理，不涉及性能调优与 CSI 驱动选型。")),
+   item("K8s 版本节奏与 version skew：升级前要对的几张表",
+        "https://kubezilla.io/kubernetes-release-cycle-upgrades-version-skew-explained/",
+        "文章把升级相关的规则收在一处：x.y.z 的语义、每年三个 minor 的发布节奏、每个 minor 约 14 个月的支持窗口、各组件之间允许的 version skew（kubelet、kube-proxy、controller-manager 的约束各不相同）、以及 API 弃用流程。末尾给 kubeadm 官方升级步骤和一份可复用的 checklist，托管集群同样适用。",
+        "K8s", "kubezilla.io",
+        D("把版本号语义、支持窗口、组件 skew 矩阵、API 弃用与 kubeadm 升级流程整理成可执行清单。",
+          "升级出事多半不是命令写错，而是没算清「能从哪个版本直接跳到哪个」以及哪个组件允许落后几个 minor。",
+          "做集群版本规划时可以直接拿来当 checklist（尤其自己维护 kubeadm 集群、又要跟托管集群对齐版本时）；内容偏入门，具体 skew 数字仍应以对应版本的官方文档为准。")),
+ ]),
+ ("☁️", "云原生周边", [
+   item("Backstage + Crossplane 搭 IDP：CNCF 白皮书的「薄平台」口径",
+        "https://kubezilla.io/platform-engineering-kubernetes-backstage-crossplane-idp/",
+        "文章按 CNCF TAG App Delivery 的平台白皮书解释 IDP：平台是一组围绕使用者需求整合的能力，可以薄到只覆盖「每个团队都要重复解决的那几件事」（数据库、CI/CD、仪表盘、安全基线）。Backstage 被定位为开发者入口与软件目录，Crossplane 被定位为用 K8s API 声明式供应云资源，两者拼成「自助 + 受控」的骨架，而不是再造一套 PaaS。",
+        "云原生", "kubezilla.io",
+        D("给出 IDP 的最小构成与两个开源组件的分工：Backstage 管门户/目录/脚手架，Crossplane 管资源编排与云资源声明式供应。",
+          "业务团队接入 K8s 时的重复劳动（要库、要 CI、要监控）会全部变成平台的工单；不做平台，集群建成也接不动业务。",
+          "对「管理页面 + 业务接入」这块有直接参考价值，可作为自建平台的起点；但文章是概念级，Backstage 的插件维护成本与 Crossplane 的 provider 覆盖要自己评估。")),
+ ]),
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 8 日 · 星期日",
+ "issue": 48,
+ "kicker": "DAILY",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天的重心是「执行权与执行成本」。AI 侧，一条 AGENTS.md 投毒链把 agent 的上下文特权变成攻击面——13KB 伪装成工程规范的文本，让 Codex 的中招率超过 90%，安全边界从「别点 exe」退到「别在下载目录里唤醒 agent」；同一板块还有三篇在压执行成本：把工具输出压成 latent token（token 降 70%–89%）、用 @e1 ref 让浏览器操作只走短命令、把沙箱做成 E2B 兼容的 API（冷启动 <200ms）。基础设施侧，CNCF 把 LLM 推理冷启动拆成权重常驻、引擎快照、Pod checkpoint 与 OCI 分发四层，K8s 侧 KEP-5823 与 CRI 的 CheckpointPod/RestorePod 才是这条线上真正的新接口；NVIDIA 则开源了跑在自有 GPU 裸金属上的管理平面 NVKE，preview 阶段就把节点 TPM/SPIRE 身份与多控制面做进去了。",
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+ "highlights": highlights,
+ "sections": [
+   {"label": "🤖 AI 板块", "categories": [
+     {"emoji": e, "title": t, "label": t, "items": items} for e, t, items in ai]},
+   {"label": "☸️ 基础设施板块", "categories": [
+     {"emoji": e, "title": t, "label": t, "items": items} for e, t, items in infra]},
+ ],
+ "flash": [
+   {"title": "devvm：一个项目一台隔离 VM，工具链预装好给人和 agent 直接用", "url": U("https://github.com/devvmhq/devvm")},
+   {"title": "阶跃 STEPX Neo 智能体手机亮相进博会高通展台", "url": U("https://www.qbitai.com/2026/11/508170.html")},
+   {"title": "OpenFrontiers：开源科研复现问题合集与基准", "url": U("https://huggingface.co/papers/2610.37739")},
+   {"title": "XStack：给 ML 仓库迁移做的基准", "url": U("https://arxiv.org/abs/2611.08472v1")},
+ ],
+}
+
+# sanity checks
+for h in brief["highlights"]:
+    assert h["title"] and h["url"]
+for sec in brief["sections"]:
+    for cat in sec["categories"]:
+        assert cat["items"], cat["title"]
+        for it in cat["items"]:
+            assert it.get("title"), it
+            assert it["url"] in BY_URL, it["url"]
+            assert len(it["detail"]) == 3, it["title"]
+for f in brief["flash"]:
+    assert f["url"] in BY_URL, f["url"]
+
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+n = sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print("wrote briefing.json · highlights", len(highlights), "· section items", n, "· flash", len(brief["flash"]))

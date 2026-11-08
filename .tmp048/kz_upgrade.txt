@@ -1,0 +1,48 @@
+Every Kubernetes cluster ages. A version that felt new last year stops getting security fixes, an API your Helm charts depend on disappears, and suddenly an upgrade that should have been routine turns into a weekend project. Most of that pain comes from not knowing the rules the Kubernetes project follows for releases, support and compatibility. Those rules are public, stable and fairly simple once you see them in one place.
+This guide explains how Kubernetes versions are numbered, how often new releases arrive, how long each one is supported, which component versions can safely run together, and how API deprecations work. It finishes with the official kubeadm upgrade flow and a checklist you can reuse for any cluster, including managed ones. If you are still building your Kubernetes foundations, our Kubernetes learning path for 2026 is a good companion read.
+Kubernetes uses a three part version number written as x.y.z. The first number is the major version, the second is the minor version and the third is the patch version. The project has stayed on major version 1 for its whole history, so in practice the numbers that matter are the minor and patch versions.
+At the time of writing, the Kubernetes releases page lists 1.37 as the newest minor release, with 1.36 and 1.35 also maintained, and 1.38 as the next release in progress. Always check that page for the current list, because it changes every few months.
+According to the Kubernetes release cycle documentation, the project ships a new minor release approximately three times per year. Each cycle is run by a volunteer Release Team under SIG Release and follows the same broad phases:
+Patch releases follow their own rhythm. The patch releases page describes a typical monthly cadence, often a little faster for the first patches after a new minor release, with out of schedule releases when a critical fix cannot wait.
+The practical lesson: a new minor version will land roughly every four months whether or not you are ready, so upgrades should be a planned, repeating activity rather than a one off event.
+The project maintains release branches for the three most recent minor releases. Kubernetes 1.19 and newer receive approximately one year of patch support. Older releases (1.18 and earlier) received about nine months. Once a minor version reaches its end of life date, it normally stops getting patches, including security fixes, although the releases page shows that a few end of life branches did receive extra patches for serious CVEs.
+Two consequences follow from this:
+A cluster is made of several components, and during an upgrade they will briefly run different versions. The version skew policy defines which combinations are supported. Using an API server at 1.37 as the example:
+From these rules comes the supported upgrade order: API servers first, then the controller manager, scheduler and cloud controller manager, then kubelets and kube-proxy on the nodes. Two more points from the policy are easy to miss:
+If you want a refresher on what each of these components actually does, see How Kubernetes Works: A Deep Dive Into the Control Plane, Nodes and Everything In Between.
+Control plane upgrades rarely fail on their own. What breaks is the workload side: a manifest, Helm chart or operator that still uses an API version the new release no longer serves. The Kubernetes deprecation policy sets clear rules here:
+The Deprecated API Migration Guide lists every API version removed in each release and what to migrate to. Since Kubernetes 1.19 you also get built in help for finding problems early:
+To rewrite an old manifest, the migration guide points to the kubectl convert plugin, which is installed separately from kubectl. The official example converts a Deployment to apps/v1:
+kubectl convert -f ./my-deployment.yaml --output-version apps/v1
+The guide notes that conversion may use non ideal default values, so review the output before applying it.
+If you run self managed clusters built with kubeadm, the official kubeadm upgrade guide is the reference. The commands below are taken from it for Ubuntu or Debian nodes upgrading from 1.36.x to 1.37.x. Replace x with the latest patch version.
+Prerequisites: read the release notes, use a static control plane with static etcd pods or external etcd, back up important components (kubeadm does not touch your workloads, but backups are always good practice), disable swap, and switch your pkgs.k8s.io package repository to the 1.37 minor release as described in the kubeadm docs.
+sudo apt update
+sudo apt-cache madison kubeadm
+2. Upgrade kubeadm on the first control plane node
+# replace x in 1.37.x-* with the latest patch version
+sudo apt-mark unhold kubeadm && \
+sudo apt-get update && sudo apt-get install -y kubeadm='1.37.x-*' && \
+sudo apt-mark hold kubeadm
+kubeadm version
+3. Check the plan, then apply it
+sudo kubeadm upgrade plan
+# replace x with the patch version you picked for this upgrade
+sudo kubeadm upgrade apply v1.37.x
+kubeadm upgrade plan checks that the cluster can be upgraded and shows the versions available. After the control plane is upgraded, upgrade your CNI plugin if its provider requires it. On the other control plane nodes, run sudo kubeadm upgrade node instead of kubeadm upgrade apply, one node at a time.
+# replace <node-to-drain> with the name of your node you are draining
+kubectl drain <node-to-drain> --ignore-daemonsets
+# replace x in 1.37.x-* with the latest patch version
+sudo apt-mark unhold kubelet kubectl && \
+sudo apt-get update && sudo apt-get install -y kubelet='1.37.x-*' kubectl='1.37.x-*' && \
+sudo apt-mark hold kubelet kubectl
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+# replace <node-to-uncordon> with the name of your node
+kubectl uncordon <node-to-uncordon>
+Repeat the drain, upgrade and uncordon steps for worker nodes, one or a few at a time so you keep enough capacity for your workloads. Finally, confirm every node reports Ready with the new version:
+kubectl get nodes
+If kubeadm upgrade fails part way, the guide notes that the command is idempotent and can be run again. kubeadm also writes etcd and static Pod manifest backups under /etc/kubernetes/tmp during the upgrade, which you need to clean up manually afterwards.
+Whether you use kubeadm or a managed service, the same habits make upgrades boring in a good way:
+Staying on supported versions is also a security control. Running an unpatched release is one of the items in our Kubernetes security best practices checklist.
+Kubernetes Releases; Kubernetes Release Cycle; Patch Releases; Version Skew Policy; Kubernetes Deprecation Policy; Deprecated API Migration Guide; Warning: Helpful Warnings Ahead; Upgrading kubeadm clusters; Safely Drain a Node.

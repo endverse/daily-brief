@@ -1,0 +1,47 @@
+Kubernetes gives teams a powerful API, but it does not give application developers a simple way to ship software. Every team still has to figure out how to get a database, wire up CI/CD, set up dashboards and follow the security rules. When each team solves these problems on its own, you end up with dozens of slightly different setups and a lot of tickets for the people who run the clusters.
+Platform engineering is the practice of solving these shared problems once, in a product that other teams can use on their own. On Kubernetes, that product is usually called an internal developer platform (IDP). This guide explains what an IDP is, how CNCF describes it, and how open source projects such as Backstage and Crossplane fit together to build one.
+The CNCF TAG App Delivery Platforms White Paper describes a cloud native platform as an integrated set of capabilities, defined and presented around the needs of its users. In plain terms, a platform is a layer that gives developers one consistent way to get the common services they need, without having to know how each one is built underneath.
+A platform does not have to be large. The white paper points out that a platform can be as thin as a wiki page that links to provisioning steps. What matters is that it is designed for its users and keeps getting better. The paper lists several attributes that good platforms share:
+The same paper lists typical platform capabilities: web portals, APIs and CLIs, golden path templates, build and test automation, delivery automation, development environments, observability, infrastructure services, data services, messaging, identity and secret management, security services and artifact storage. You do not need all of them on day one. Most teams start with two or three and grow from there.
+A useful way to think about a Kubernetes based IDP is in three layers. Each layer has well known CNCF projects behind it.
+Around these layers you add observability, policy and security tools. The point is not to install every project, but to give developers a small set of clear interfaces backed by tools that platform teams can operate well.
+Backstage is an open platform for building developer portals. It was created at Spotify, joined the CNCF in September 2020 and moved to the Incubating level in March 2022. Its core features are:
+Every entity in the catalog is described by a YAML file, which the Backstage docs recommend naming catalog-info.yaml. Here is the Component example from the official descriptor format docs:
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: artist-web
+  description: The place to be, for great artists
+spec:
+  type: website
+  lifecycle: production
+  owner: artist-relations-team
+  system: artist-engagement-portal
+  dependsOn:
+    - resource:default/artists-db
+  dependencyOf:
+    - component:default/artist-web-lookup
+  providesApis:
+    - artist-api
+The owner field is one of the most valuable parts of the catalog. When something breaks at 2 a.m., knowing which team owns a service is often the first thing people need. For a hands-on walkthrough, see our Kubernetes developer portal setup guide.
+Crossplane is an open source framework for building cloud native control planes. It joined the CNCF in June 2020, became Incubating in September 2021 and reached Graduated status on October 28, 2025. Crossplane lets platform teams define their own declarative APIs and use them to manage infrastructure and applications, without writing a custom controller.
+The Crossplane docs describe a few key ideas:
+The result is that a developer can ask for something like an “AppDatabase” with a few fields, and the platform team decides what that really means: which cloud, which size, which backups and which network rules. Developers get a simple API, and the platform team keeps control of the details. We have a practical tutorial in Manage Infra with Crossplane and Kubernetes.
+The commands below are taken from the official getting started guides. They are a good way to explore both tools before you design anything for production.
+Prerequisites (from the Backstage getting started guide): a Unix-based OS such as Linux, macOS or WSL, a GNU-like build environment, Node.js Active LTS (the docs recommend Node 22 or 24), Yarn via corepack, Docker, Git, and at least 6 GB of memory and 20 GB of disk space.
+npx @backstage/create-app@latest
+cd my-backstage-app
+yarn start
+When prompted, give your app a name (the docs use my-backstage-app). Once the build finishes, open http://localhost:3000 in your browser.
+Prerequisites (from the Crossplane install guide): an actively supported Kubernetes version and Helm v3.2.0 or later. A local cluster such as kind works fine for testing.
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+helm install crossplane \
+--namespace crossplane-system \
+--create-namespace crossplane-stable/crossplane
+Then check that the Crossplane pods are running:
+kubectl get pods -n crossplane-system
+From here, the Crossplane docs walk you through installing a provider and creating your first composite resource.
+The biggest mistake teams make is building a large platform before anyone has asked for it. The CNCF guidance is clear that a platform should be treated as a product. In practice that means:
+It also helps to remember that the platform team does not need to build everything. The white paper advises building capabilities only when they are not already available from managed providers or other internal teams. Many good platforms are mostly glue: a clear portal and a few APIs on top of services someone else runs. To pick the right underlying projects, our list of top CNCF graduated projects for platform engineers is a good next read, and Build Your Internal Developer Platform shows a step-by-step build.
+CNCF Platforms White Paper; CNCF Platform Engineering Maturity Model; CNCF Backstage project page; CNCF Crossplane project page; What is Backstage?; Backstage getting started; Backstage descriptor format; Backstage Kubernetes plugin; What is Crossplane?; Install Crossplane.
