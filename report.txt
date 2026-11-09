@@ -1,47 +1,45 @@
 ======================================================================
-处理报告  (原始 191 条)
+处理报告  (原始 117 条)
 ======================================================================
 
-① 过滤: 保留 147 条, 过滤掉 44 条
+① 过滤: 保留 88 条, 过滤掉 29 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] prometheus/prometheus
      ✗ [GitHub Trending] sherlock-project/sherlock
      ✗ [GitHub Trending] milind-soni/OpenMausBot
-     ✗ [GitHub Trending] astral-sh/ruff
-     ✗ [GitHub Trending] tailwindlabs/tailwindcss
-     ✗ [GitHub Trending] mbillow/localthings
-     ✗ [GitHub Trending] zed-industries/zed
      ✗ [GitHub Trending] ranxianglei/billion-context
+     ✗ [GitHub 升星repo] tangerineturtle1/NX2navi
+     ✗ [GitHub 升星repo] Th0rgal/satmux
+     ✗ [GitHub 升星repo] PresidentThaw/capcut-for-windows
+     ✗ [GitHub 升星repo] WayBuilderDeliver/windows-optimizer
+     ✗ [GitHub 升星repo] updatesealeradicate/start11
 
-② 去重: 147 → 142 条 (同批合并 3, 跨天历史去重 2)
+② 去重: 88 → 85 条 (同批合并 0, 跨天历史去重 3)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] cloudflare/security-audit-skill
-     ⏭️  [Google Cloud] What’s new with Google Data Cloud
-   跨源合并的事件:
-     ⇉ SwarmEvolve: Latent Agent Swarms for Evo  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Muir: Linear Attention with Sensitivity-  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ NPCBench: A Clinical Apprenticeship Benc  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⏭️  [GitHub Trending] dsx-ai-factory/nvke
+     ⏭️  [GitHub Trending] vercel-labs/agent-browser
+     ⏭️  [GitHub Trending] anthropics/skills
+   (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 安全与治理: 8 条
-     - Agent & Skill: 29 条 (含🔧开源 6)
-     - 模型与研究: 62 条 (含🔧开源 1)
-     - 产品与商业: 15 条
-     - AI 工程落地: 21 条 (含🔧开源 1)
+     - 安全与治理: 5 条
+     - Agent & Skill: 18 条 (含🔧开源 2)
+     - AI 工程落地: 15 条 (含🔧开源 3)
+     - 模型与研究: 35 条
+     - 产品与商业: 9 条
    【基础设施】
-     - K8s × AI: 5 条 (含🔧开源 1)
      - 社区与项目: 2 条
+     - K8s × AI: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [16分] Merge builds product and business tools with OpenAI tec
-        源:OpenAI News 类:产品与商业 跨源:[]
      🔥 [16分] Identically Trained Language Models Break on Different 
         源:HuggingFace Papers 类:模型与研究 跨源:[]
+     🔥 [16分] Expanding our partnership with GSA to bring Claude to a
+        源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      16分 [OpenAI News ] Merge builds product and business tools with 
       16分 [HuggingFace Papers] Identically Trained Language Models Break on 
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
       16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
+      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
