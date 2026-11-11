@@ -1,51 +1,51 @@
 {
  "brand": "AI & 基础设施早报",
- "date_label": "2026 年 11 月 10 日 · 星期二",
- "issue": 50,
- "kicker": "AI & INFRASTRUCTURE DAILY · NO.050",
+ "date_label": "2026 年 11 月 11 日 · 星期三",
+ "issue": 51,
+ "kicker": "AI & INFRASTRUCTURE DAILY · NO.051",
  "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
- "lead": "今天两条主线同时收紧。模型层价格与能力被一起拉开：Anthropic 的 Claude Fable 5.2 把 FrontierCode 推到 49.1%，价格反降到 $8/$40，同一天 Meta 的 Muse Ember 用 $0.10/$0.50 压在小模型帕累托前沿上——分层用模型第一次在价格表上变得合理。平台层则集体转向「怎么管住 agent」：Akamai 用 kro 的确定性转译器加 Kyverno/Crossplane 把破坏性操作收敛成一个受保护字段，Gartner 把 2027 十大趋势的主线改成智能体治理，AWS 用 agent 做内核 CVE 分诊却坚持留两名工程师复核。基础设施侧 Google 一次放出四件套——K8s 上的开源 AI-native 栈（OpenRL + llm-d 1.0 + Agent Substrate + gVisor）、Cloud Pathways GA、GKE Dynamic Slicing GA 与 TPU Sync，其中 llm-d 的 KV 命中率 35%→70%、TTFT 降 70–85% 是今天最硬的数字。另有一篇 Addy Osmani 的 coding agent 管理实践值得单独读。",
+ "lead": "今天的主线是「agent 从能用走向可验证、可治理」。模型侧最硬的一条不是榜单而是证明：DeepMind 的 AlphaProof Code 让一组 agent 生成超过 600 万行 Lean，用四周形式化验证了 Signal 协议的编译代码，人工只需复查 1%。平台侧同一天出现两条互补的线——Jaeger v2.22 把 MCP 工具、可复用诊断 skill 与「渐进披露」做进 tracing 排障，OpenShell 则把 agent 的策略边界从 agent 内部挪到它运行的基础设施层，并用 CNCF 的 Cedar 写规则。治理归属也在集中：KubeRay、CloudNativePG、OCM 一天之内各自完成进 CNCF 的动作，PARK 栈（PyTorch/Ray/K8s）全部归到 Linux Foundation 之下。硬件侧 Google 一年发四套 TPU，8tx 专做硬件级机密推理、8i Max 把两颗芯片封进一个 package；反面的量化复盘来自 VulnCheck：Anthropic Glasswing 七个月 442 个 CVE，3.8 万条发现里只有 19.4% 公开、217 条标记修复。",
  "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
  "highlights": [
   {
-   "title": "Claude Fable 5.2 / Mythos 5.2：价格降到 $8/$40，FrontierCode 49.1% 登顶",
-   "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
-   "source": "Anthropic",
-   "summary": "Anthropic 发布 Claude Fable 5.2 与 Claude Mythos 5.2：同一底层模型、仅安全护栏不同（Mythos 面向受审核的网络安全/生物研究，走 Life Sciences 与 Cyber Verification 计划申请）。输出比 5.1 快至多 30%，价格反而降到 $8/$40 每百万输入/输出 token；可选 fast mode 再提 2.5 倍生成速度，价格翻倍到 $16/$80。FrontierCode 2.0 上 Xhigh effort 达 49.1%——已发布模型最高，High effort 与 Opus 5.5 最高分持平（45.3% vs 45.5%）而单任务成本约一半；BenchCAD 2.1 硬件工程 83.5 分（Opus 5.5 65.3、Fable 5.1 44.4）。Anthropic 称超过 90% 合并进核心代码库的改动已由 Claude 产出；一个 agent 团队把关键生产服务从 Python 迁到 Rust，启动快约 26 倍；一名工程师给空目录、让它协调 1000+ 子 agent 连续 8 天写出一个能在笔记本上启动的操作系统。",
-   "note": "价格与能力同时被拉开：同一天 Anthropic 把最强模型降价，Meta 则把同档小模型压到 $0.10/$0.50。对成本敏感的 agent 工作流，模型分层（Opus 5.5 当日常主力、Fable 5.2 当顾问/编排者）已在官方文档里写成推荐用法。",
+   "title": "DeepMind AlphaProof Code：agent 生成 600 万行 Lean，四周形式化验证 Signal 协议",
+   "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+   "source": "Google DeepMind",
+   "summary": "AlphaProof Code 是一个多 LLM agent 的验证框架，把形式化验证按研究团队的方式拆活：人类专家先和多个模型一起，把 Signal 的安全目标翻译成形式化数学规格并逐条审核，再由 Gemini Carbon 驱动的 agent 完成证明，累计生成超过 600 万行 Lean。证明完成后由 agent 自审，只标出需要人工再看的部分——约占代码库的 1%，其余交给 Lean 自动检查。这是首次有 AI 对广泛部署的密码协议做这种深度的形式化验证，也是首次有方法（不论是否用 AI）验证到协议实现层：证明的是编译后的代码满足关键安全性质（例如设备被临时攻破前后消息仍受保护），而不是只验证设计文档。整个验证用了四周，同类工作历史上要专家团队数年。为了确认框架能区分对错，团队把两个真实存在过、已修复的 bug 重新注入隔离版本，看它能否重新定位。",
+   "note": "关键事实：600 万行 Lean 证明、人工只复查约 1%、四周完成（历史同类工作以年计）；验证对象是 Signal 协议的编译代码而非设计规格；分工是人类定规格与复查、agent 做证明与自审。",
    "detail": [
     {
      "key": "能做什么",
-     "value": "同一权重双形态：Fable 全量可用、Mythos 需审核；六档 effort 可调，Xhigh 下 FrontierCode 49.1%、BenchCAD 83.5。支持作为 Advisor（小模型来问它）或 Orchestrator（它把简单任务派给更小的模型）。"
+     "value": "多 agent 分工做形式化验证：模型先把安全目标转成 Lean 规格（人类逐条审），agent 生成并自审证明，Lean 做机器检查，只把 1% 的判断留给人类。可处理真实生产代码而不仅是模型算法，4 周完成 Signal 核心密码代码的证明。"
     },
     {
      "key": "解决什么痛点",
-     "value": "强模型的单位任务成本一直是 agent 规模化的天花板；这次是「更强 + 更便宜 + 更快」同时发生，且 fast mode 把延迟压到可交互级别。"
+     "value": "形式化验证一直是「最可靠但最贵」的手段，专家团队做一次要数年，绝大多数团队用不起；而真实漏洞常藏在设计与实现的缝隙里，只验证设计挡不住实现 bug。这套流程把人力集中到规格定义和少量复查上。"
     },
     {
      "key": "值不值得",
-     "value": "值得读系统卡与 FrontierCode/BenchCAD 的口径——它的分数是「改动会不会被开源仓库 maintainer 合并」，比刷榜更贴近真实工程；限制是 $8/$40 对高频调用仍贵，长上下文与 fast mode 还要再翻倍。"
+     "value": "值得读技术报告里「规格怎么来、agent 怎么自审、1% 是怎么挑出来的」三段——它是 agent 做长链条、强验证类工作的模板，可直接对照到内部的合规审计、策略引擎或金融风控规则验证；限制是仍依赖人类写规格，Lean 生态与密码学背景是硬门槛，且只证明了指定性质而非全部正确性。"
     }
    ]
   },
   {
-   "title": "Google 给出跑在 K8s 上的开源 AI-native 栈：OpenRL + llm-d 1.0 + Agent Substrate + gVisor",
-   "url": "https://cloud.google.com/blog/topics/developers-practitioners/the-open-ai-native-stack-on-kubernetes-from-open-models-to-distributed-inference-and-agents/",
-   "source": "Google Cloud",
-   "summary": "Google Cloud 在 KubeCon NA 2026 把「AI 负载跑在 Kubernetes 上」拆成六个开源组件：OpenRL（K8s 原生 RL 后训练服务，研究者只写 forward_backward/optim_step/sample/save_state 四个 Python 原语，OpenRL 翻译成 K8s 调度；训练与 rollout 在同一批加速器上时间片交错，只传权重 delta，并按上下文长度/batch/LoRA 配置自动用 DRA 装箱）、llm-d 1.0（前缀缓存感知路由 + HBM→主机内存→NVMe/Lustre 三层 KV offload + 基于 LeaderWorkerSet 的 EPD 分离）、KubeRay、Agent Substrate、gVisor、TorchTPU。llm-d 给出的生产数字：KV cache 命中率从 35% 提到 70%，多轮 agent 的中位 TTFT 降 70%–85%。路由由 Gateway API Inference Extension 的 Endpoint Picker 实现，GKE 用 Inference Gateway 原生托管，文末附了 InferencePool + PrefixCacheAware 的样例 manifest。",
-   "note": "四个被点名的痛点：RL 训练与 rollout 交替时 GPU/TPU 大量空转；K8s 默认 round-robin/least-connections 把多轮对话打散、KV 缓存全废；Ray/Slurm 与 K8s 并行导致容量碎片；多租户里执行模型生成的 shell 命令有逃逸风险。",
+   "title": "Jaeger v2.22 预览 AI 排障：MCP 工具 + 可复用诊断 skill + 渐进披露",
+   "url": "https://www.cncf.io/blog/2026/11/10/jaeger-previews-ai-assisted-troubleshooting-and-genai-observability-for-opentelemetry-traces-at-kubecon/",
+   "source": "CNCF / Jaeger",
+   "summary": "Jaeger 在 KubeCon NA 2026 预览了第一个集成的 AI 辅助排障与 GenAI 可观测体验（实验性，v2.22）：产品内 AI 助手、原生 MCP 工具、可复用诊断 skill，以及面向生成式 AI 的 trace 可视化。核心设计是渐进披露（progressive disclosure）——agent 按调查步骤只取需要的 trace 证据，可以搜索、映射拓扑、找关键路径、只看相关 span，而不是把整条 trace 塞进模型上下文。这样既压住 token 成本，也让工程师能看到助手结论背后的工具调用与证据。GenAI 可视化建在 OpenTelemetry 的 GenAI 语义约定之上，能区分模型调用、agent 决策、检索操作与工具执行这几类 span。",
+   "note": "关键事实：v2.22 实验特性；四件套是产品内 AI 助手、原生 MCP 工具、可复用诊断 skill、GenAI trace 可视化；实现原则是渐进披露，只按需取 span；数据源仍是 OpenTelemetry 已有数据，不引入第二套采集。",
    "detail": [
     {
      "key": "能做什么",
-     "value": "六个组件各管一段：OpenRL 管 RL 后训练（四原语 + 加速器时间片 + delta 权重同步 + DRA 自动装箱）；llm-d 1.0 管分布式推理（Endpoint Picker 按 KV 驻留路由、三层 offload、EPD 分离）；KubeRay 管 Ray 生命周期与 Kueue 调度；Agent Substrate 管多轮 agent 生命周期；gVisor 管不可信代码的系统调用隔离；TorchTPU 让 PyTorch 原生跑在 TPU 的 vLLM/SGLang 里。"
+     "value": "把排障流程做成 agent 可调用的工具面：MCP 工具负责搜索 trace、画拓扑、算关键路径；诊断 skill 可复用、可版本化；GenAI 语义约定让 agent/模型/检索/工具调用在 trace 里可分辨，能看出一次回答里哪一步慢、哪一步重试。"
     },
     {
      "key": "解决什么痛点",
-     "value": "自建推理平台时最难的不是把 vLLM 跑起来，而是把「训练/rollout 共享加速器、多轮对话保住 KV 缓存、跨框架不碎片、agent 代码隔离」四件事同时做对；这套栈把每件事对应到具体项目与 CRD。"
+     "value": "一条 trace 动辄上千 span，全塞给模型既贵又会淹没证据；人工逐 span 点开也慢。渐进披露把「找证据」变成受控的检索循环，同时保留证据链，解决了 AI 排障「结论不可信、无法追责」的问题。"
     },
     {
      "key": "值不值得",
-     "value": "值得逐段读并直接拿样例 manifest 试：llm-d 的 35%→70% 命中率、TTFT 降 70–85% 是可复现的量级；限制是组件多、版本耦合（llm-d 依赖 Gateway API Inference Extension 与 LWS），且部分能力在 GKE 上被托管，自建要自己补。"
+     "value": "值得跟：这是「skill 化运维知识 + MCP 暴露数据面」的一个正经范式，和用户正在做的 agent 平台与 K8s 可观测栈能直接对上；且它是 OTel 原生、不换采集。限制是实验特性（v2.22）、只在 Jaeger UI 内，生产接入要先评估数据外发与权限边界。"
     }
    ]
   }
@@ -58,82 +58,63 @@
      "label": "Agent & Skill",
      "items": [
       {
-       "title": "Addy Osmani：用 coding agent 的工程师其实在做管理，要建验证机制而不是逐行读代码",
-       "url": "https://www.infoq.cn/article/YPQyY6bqhzhtO8MN6XUb?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "Anthropic Claude Code 团队工程师 Addy Osmani 11 月 8 日发长文《Your Coding Agents Made You a Manager》，InfoQ 编译。核心论点：选任务、写指令、分配、跟进、验收这套动作和管一支工程团队没有区别，所以解法不是把自己变成最终测试员，而是建让 agent 自己验证的机制。落地手段很具体：把测试套件、构建检查、Linter 交给 agent 自查，UI 任务让它开浏览器看实际效果；测试命令写进 CLAUDE.md，用 /goal 每轮检查目标是否达成，用 Stop Hook 阻止类型检查不过的任务结束，用 /code-review 让独立子 agent 审代码。任务上下文只补 agent 查不到的东西——为什么做、有什么约束、怎样算成功，例如「把万人规模组织的 /team 仪表盘 p95 加载降到 2 秒内、不改数据库 schema 与 API 响应结构，并用指定脚本验证」。同一个问题纠正两次就写进 CLAUDE.md 或封装成 skill，同时定期清理过期规则，避免指令文件自己变成维护负担。最后一条反直觉：agent 越强，人越该少干预（借 Andy Grove 的管理理念）。",
+       "title": "Chrome/Edge/Firefox/MDN 联合维护 Modern Web Guidance：把 web 最佳实践做成 skill 装进 coding agent",
+       "url": "https://github.com/GoogleChrome/modern-web-guidance",
+       "source": "GitHub Trending",
+       "oss": true,
+       "summary": "Modern Web Guidance 是一组 skill，把 web 平台能力、最佳实践与浏览器兼容数据直接注入 coding agent 的上下文，目的是让 agent 别再写 2019 年的老模式。安装是一条命令（npx modern-web-guidance@latest install），CLI 另给三个动作：用自然语言 search 查指南、按 ID retrieve 取回、legacy-scan 扫代码库里的遗留模式。项目由 Google Chrome、Microsoft Edge、Mozilla Firefox 与 MDN 团队共同维护，附公开的 eval dashboard，仓库约 3.9k star。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "一套可抄的 agent 管理工作流：验证机制（测试/构建/lint/浏览器）+ 目标检查（/goal）+ 结束闸门（Stop Hook）+ 独立评审（/code-review 子 agent）+ 经验沉淀（CLAUDE.md / skill），并把上下文限定在仓库里查不到的信息上。"
+         "value": "以 skill 形态提供「检索式知识注入」：agent 在需要时 search/retrieve 具体指南，而不是把整本规范塞进 system prompt；legacy-scan 能反查代码库里该被现代 API 替换的写法。三浏览器厂商 + MDN 背书意味着兼容性数据是一手的。"
         },
         {
          "key": "解决什么痛点",
-         "value": "agent「看起来完成」就停下、review 成为流水线里最稀缺的资源、每次会话从零开始重复纠错——这三件事是 coding agent 上量后真正的瓶颈。"
+         "value": "模型训练数据里堆满旧代码，agent 会为动画、弹窗、表单这些已有原生方案的事写大段 JS；模型即便知道 API 存在，也缺少可用的生产级写法密度。"
         },
         {
          "key": "值不值得",
-         "value": "最值得直接照做的一篇：门槛为零，全是 Claude Code 已有功能；对你在公司推 agent 实践、以及写 skill/CLAUDE.md 的组织方式都有现成抓手。局限是绑定 Claude Code 的工具名，换到 Codex/OpenCode 要自己映射 Stop Hook 与 /goal 的等价物。"
+         "value": "值得当作 skill 工程的样例读：它把「知识 → 检索 → 注入 → 评测」四段都做齐了，可以直接对照自己写 skill 的方式；限制是只覆盖 web 前端最佳实践，对后端/K8s 场景无直接用处。"
         }
        ]
       },
       {
-       "title": "openJiuwen TTSE 双轨自演进：把「环境事实」和「执行方法」分开学，五个基准验证",
-       "url": "https://www.qbitai.com/2026/11/508998.html",
-       "source": "量子位",
-       "summary": "openJiuwen 提出 TTSE（Two-Track Self-Evolution）双轨自演进框架，起点是一个很具体的失败模式：同一个模型和 Harness，换成自己的文件就反复返工——因为环境认知没有跟着更新，旧方法在接口/格式变化后成了障碍。TTSE 借鉴认知科学对陈述性知识与程序性知识的区分，把经验拆成 FACT（环境属性与规律，可直接验证、跨任务稳定）与 TIP（执行方法，写成「在什么条件下执行什么操作」），两类各自独立编号、呈现方式与证据追踪，难判定的一律归 TIP，避免把未验证的操作当成环境事实。框架分四段：双轨知识表示 → 冷启动（首批任务 chunk 0 归纳初始库）→ 在线增量演进（每批任务后按 Blame→Retire→Contradict/Synthesize→Induce 四步更新两条轨道）→ 输出与评估。在 ALFWorld、ScienceWorld、GDPevo、SOPBench、PinchBench 五个基准、每项三次独立重复上评测，GDPevo 消融显示完整双轨优于只记事实或只记技巧的单轨；论文《A Two-Track Online Self-Evolution Framework for LLM Agents》已公开。",
+       "title": "Snowflake CoCo：动态工具发现 + 并行调用合并 + 输出压缩，SQL 修复通过率 86% 反超 Claude Code 的 72%",
+       "url": "https://www.infoq.cn/article/iaCUbU8Fwz6G6bDlQ9BV?utm_source=rss&utm_medium=article",
+       "source": "InfoQ 中国",
+       "summary": "Snowflake AI Research 把 agent 效率拆成两件事：harness 管上下文、语义视图管业务定义。CoCo 的 harness 有三条机制——按任务动态发现工具，而不是启动时把所有工具定义加载进上下文；把互不依赖的工具调用合并成一次调度、结果一并返回，同时保留依赖顺序；压缩工具输出并管理大结果，只把分类汇总、错误次数、时间戳和代表样本放进上下文，需要时再回查原始数据。内部 SQL 修复基准上，Sonnet 5 + CoCo 三次重复试验通过率 86%，Opus 5 + Claude Code 为 72%，单次成本从 0.446 美元降到 0.298 美元（-33%）。第二半是语义视图：把指标、维度、关系和业务逻辑治理成可复用定义，避免 agent 写出语法正确但业务含义错误的 SQL；Semantic View Autopilot 可从查询历史、SQL 样例与 BI 资产自动生成初稿。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "双轨经验库 + 四步在线演进循环（归责→退役→矛盾/合成→归纳），每条经验可单独引用、核对与退役；框架把「环境判断」与「行动方法」用不同的验证方式区分开，并把分类不确定项默认归到可证伪的 TIP 一侧。"
+         "value": "一套可迁移的 harness 设计：工具按需发现、独立调用批处理、输出压缩与分级回查；再叠加语义层把业务口径固化成可复用定义。给出的对照数字是 86% vs 72% 通过率、成本 0.446→0.298 美元。"
         },
         {
          "key": "解决什么痛点",
-         "value": "agent 的自我改进常把「偶然成功」固化成稳定规律，环境一变就全部失效；单轨经验库既无法解释失败归因，也无法只退役其中一半。"
+         "value": "长任务里上下文膨胀会持续累积：几十个工具定义、几千行查询结果、冗长的 Slack 讨论都被反复携带，既烧 token 又让模型抓不住重点；而缺业务语义时，agent 会产出「跑得通但口径错」的结果。"
         },
         {
          "key": "值不值得",
-         "value": "对做 agent 记忆/技能沉淀方向有直接参考价值：双轨拆分比「把一切写进 memory」更可运维，且给了可测量的消融证据。门槛是要有按批次推进的任务流和评估器；目前是论文级框架，还没看到工程化实现。"
+         "value": "值得深读，尤其对做内部数据 agent 的团队：harness 三条机制与语义视图的分工是可落地的架构决策，不是调 prompt；限制是结果出自 Snowflake 内部基准与自家产品，换工作负载未必同幅提升，语义视图还需要数据团队先治理。"
         }
        ]
       },
       {
-       "title": "千问办公 2.0：把 Agent 放进团队协作空间，跨群汇总选题、认领任务、按 ddl 建提醒",
-       "url": "https://www.qbitai.com/2026/11/508798.html",
-       "source": "量子位",
-       "summary": "千问办公 2.0 是公测三个月来最大一次升级，核心是「协作」：建一个协作空间，把项目相关钉钉群聊、AI 听记、云文档与本地资料关联进来，同一个 Agent（小 Q）就带着这些背景工作。实测场景是编辑部三个群：让小 Q 跨群汇总「有哪些题、谁在跟、哪些卡住了」并标注信息来自哪个群，再生成任务看板；它能按群聊进展更新任务认领状态、给未定 ddl 的选题留待定、甚至按 15:00 交付自动建一个 14:00 的提醒任务。多人可 @ 同一个 Agent 接续推进，也可把回复规则设为自动判断是否接话；Agent 可加载技能市场的 skill 与专家套件。定位是与 Personal Agent 的分界：Team Agent 围绕团队共享的项目背景，而不是个人偏好。",
+       "title": "GitHub：40% 的 PR 已由 coding agent 起草，Parikh 说 PR 不该是所有项目的默认流程",
+       "url": "https://www.infoq.cn/article/x0B056QFxzYEewT1Et34?utm_source=rss&utm_medium=article",
+       "source": "InfoQ 中国",
+       "summary": "GitHub 的数据是：截至今年 9 月，平台上超过 40% 的 Pull Request 首版由 coding agent 起草，而今年 3 月只有 17%，半年增长约 6 倍。GitHub 负责人 Jay Parikh 在 Latent Space 访谈里说，个人实验项目不必走 PR 与 Issue 流程，平台应把这类环节做成可配置；但企业侧的审查、权限与变更记录仍然必要，两者不该用同一套默认流程。他还给了一笔模型路由的账：Artificial Analysis Coding Agent Index 上 Fusion Max 与 Opus 5.5 Max 分差不到 2 分，但单任务成本约一半、耗时少约 40%。配套的 Session continuity 让同一个云端 agent 会话在手机、VS Code、CLI 与网页之间接续。对「用 AI 重写开源依赖降供应链风险」，他的反驳是维护成本不会消失，只是从社区转移到内部。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "协作空间 = 群聊 + 听记 + 云文档 + 本地资料 的上下文池，Agent 在同一池上做跨群信息归拢、任务认领跟踪、待办与定时任务生成，多人共享同一份工作背景。"
+         "value": "平台侧给出三件事：让 PR/Issue 这类流程按项目类型可配置；用 Copilot Harness + Fusion 做模型路由（分差 <2 分、成本约一半、耗时 -40%）；用 session continuity 把云端 agent 会话跨设备接续。"
         },
         {
          "key": "解决什么痛点",
-         "value": "项目信息散在多个群、分工和排期随时变、换人接手要重新解释背景——这类协调成本很难靠单机版 AI 助手解决。"
+         "value": "agent 起草 PR 后，人工审查量反而成为瓶颈，而团队仍被同一套以人为中心的流程约束；同时多模型并存让「哪个任务用哪个模型」的选择成本落到每个开发者身上。"
         },
         {
          "key": "值不值得",
-         "value": "值得看的是「上下文池 + 多成员共享」这个产品结构，而不是具体功能；门槛是绑定钉钉生态（群聊、听记、云文档），团队不在钉钉里基本用不上。"
-        }
-       ]
-      },
-      {
-       "title": "DeepSeek Harness：日活 154 万、插件 3.5 万个，但插件太多会反噬上下文",
-       "url": "https://www.infoq.cn/article/Y7lTO7Q1M8oN5JhxhirK?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "截至 11 月 4 日，按使用官方 API 的用户口径，DeepSeek Harness 日活 154 万、日消耗约 92 万亿 token；第三方插件约 3.5 万个，约 60% 活跃用户制作或装过至少一个。平台自我定位是「Agent 时代的操作系统」，主张一切皆插件，连内置功能都可被第三方替换。生态里出现了把 Cursor、Claude Code、Codex、OpenCode、Kimi Code 接进统一界面的 dsh-aio-agent，做本地长期记忆（中文关键词检索、按项目召回、去重）的 dsh-ltm，以及按话题把消息路由到独立会话的 TheOne。反噬同样具体：有用户装了 15 个以上插件后出现无限循环、上下文溢出与 token 暴涨，完成一个小项目的 token 消耗达到 OpenCode 的 20 倍、单任务 30–40 分钟对 30 秒；社区建议借鉴选择性披露，只在需要时把插件说明喂给模型。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "插件化 Agent 平台：3.5 万插件覆盖内容创作、设计、上下文管理、科研；「一切皆插件」允许替换内置能力；官方开始给插件作者发 token 作为生态激励。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "定制化需求与开箱即用之间的矛盾：插件给自由度，但每个插件的说明与规则都占上下文，装得越多模型越分心、成本越高。"
-        },
-        {
-         "key": "值不值得",
-         "value": "值得作为「agent 平台该不该插件化」的一手样本读——154 万 DAU 说明需求真实，20 倍 token 成本说明代价真实。对自建 agent 平台的启示是插件描述要做按需加载，而不是全量注入 system prompt。"
+         "value": "值得看的是它承认了流程分层：个人项目与多人协作项目不该同规则。对正在推 AI-native 研发流程的团队，这是可以直接拿去做内部规范的依据；限制是访谈口径、无实施细节，且 GitHub 自身立场偏向平台化。"
         }
        ]
       }
@@ -142,92 +123,45 @@
      "emoji": "🧩"
     },
     {
-     "label": "AI 工程落地",
-     "items": [
-      {
-       "title": "Anthropic 把单体仓库换成自研 Scion：日合并 3 万次，检出速度提升两个数量级",
-       "url": "https://www.infoq.cn/article/sBjhhysFKZibZpXQZEGy?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "Anthropic 详解把单体代码仓库从 Git 迁到自研 Scion 的过程：把提交、合并、rebase、历史与代码追溯查询全部挪到服务端，客户端只保留容量受限的对象缓存，虚拟化检出按需实体化文件，工具可直接通过 API 查 diff、做部分写入而不必检出代码。变更集只记录相对第一父变更集变化的文件并用内容寻址指针引用 Blob，创建变更集与更新引用解耦，因此接收变更集不需要跨服务器协调。驱动力是数字：单日合并变更从 5 月约 2500 个涨到 9 月 3 万多个，CI 每天约 2500 万次检出，主分支历史接近 100GB、压缩工作副本超 25GB，浅克隆/稀疏检出/Promisor Remote/数百个 Git 镜像都开始撑不住。结果：每层缓存命中率均超 99%，CPU 与内存基础设施占用仅为原 Git 镜像的 1/200，CI 与研究任务检出速度提升两个数量级。代价是牺牲离线独立性、强依赖服务端可用性，且需要配套的评审、搜索与 CI 系统。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "服务端执行仓库操作 + 内容寻址存储 + 分层缓存（节点本地守护进程 → 区域缓存 → Spanner/云存储权威层），各层共用同一套检出协议 RPC 并强制调用顺序以隔离故障。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "agent 与 CI 把检出与合并频率推高一到两个数量级后，Git 的本地全量克隆模型在带宽、磁盘与运维复杂度上同时失效。"
-        },
-        {
-         "key": "值不值得",
-         "value": "对架构师而言价值在「工作负载变了就要重新考虑计算放在哪」这个判断，以及缓存分层 + 强制调用顺序的故障隔离设计；门槛极高——官方明说 Scion 不是通用 Git 替代品，配套系统都高度定制。"
-        }
-       ]
-      },
-      {
-       "title": "Bedrock AgentCore Runtime V2：快照恢复把 P75 冷启动稳定在 2 秒",
-       "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-agentcore-runtime-v2-amazon-dynamodb-bulk-put-items-and-more-november-9-2026/",
-       "source": "AWS News",
-       "summary": "AgentCore Runtime V2 改了两件事：内存改为按需分页、冷会话归还，只按实际使用计费；冷启动改为「准备一次环境 → 打快照 → 每个新实例从快照恢复」。AWS 的测试里，镜像从 200MB 到 2GB，P75 冷启动稳定在约 2 秒，而旧运行时随镜像变大从约 5.4 秒涨到近 30 秒。开启方式是把创建/更新时的 platformVersion 设为 V2，代价是创建与更新要花几分钟准备快照，且容器必须在 120 秒内对 /ping 报健康、并确保只在初始化完成后才报健康。单价更高但 GB-hours 大幅减少，AWS 预计多数 agent 账单会下降（不保证）。当前在 10 个 Region 可用。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "会话级内存分页 + 环境快照恢复；V2 通过一个 platformVersion 字段切换，沿用现有 runtime 与健康检查协议。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "agent 冷启动是 serverless 形态最大的体验敌人：镜像一大就几十秒，用户等着、按峰值预留内存又在烧钱。"
-        },
-        {
-         "key": "值不值得",
-         "value": "如果你的 agent 平台在多租户沙箱和冷启动之间找平衡，这份数字（2s 稳定 vs 5.4→30s）是最直接的对照；限制是绑 AWS、创建期变慢、且 /ping 语义容易踩坑（先报健康再初始化会拿到假就绪）。"
-        }
-       ]
-      }
-     ],
-     "title": "AI 工程落地",
-     "emoji": "🛠️"
-    },
-    {
      "label": "模型与研究",
      "items": [
       {
-       "title": "Meta Muse Ember：$0.10/$0.50 落在帕累托前沿，六档推理强度实测不一",
-       "url": "https://simonwillison.net/2026/Nov/10/muse-ember/",
-       "source": "Simon Willison",
-       "summary": "Meta 发布小模型 Muse Ember，定位与 Claude Haiku 5.5、GPT-6 Luna 同档：短提示下三家同为 $0.10/$0.50 每百万输入/输出 token，而同日发布的 Claude Fable 5.2 是它的 80 倍（$8/$40）；三者都支持百万级输入，但超过阈值后单价上浮，Ember 的阈值定价落在另外两家之间。它提供 minimal/low/medium/high/xhigh/max 六档推理强度。Simon Willison 用 Artificial Analysis 的「智能指数 vs 单任务成本」图核对，认为 Ember 正好压在帕累托线上——Meta 也自称在全榜效率前沿上没有更便宜且更强的点。他实测六档各画一只骑自行车的鹈鹕：high 档没能返回完整 SVG，且推理档位与图形质量并不线性对应；质量与价格是 Ember 40 倍的 Muse Wonder 相当。",
+       "title": "Gemini 4 Carbon 全面开放：AutomationBench 53.9%，Antigravity 上线 /swarm 多 agent 编排",
+       "url": "https://www.infoq.cn/article/YiANe38yfSYitvZOtab0?utm_source=rss&utm_medium=article",
+       "source": "InfoQ 中国",
+       "summary": "10 月 28 日首发的 Carbon 从受限的网络安全防御团队，扩到 Google AI Studio、Gemini for business、Antigravity，以及 Ultra 订阅用户的 Gemini 应用与搜索 AI Mode。三项面向工作流的评测里排第一：Zapier AutomationBench 53.9%（Argon 51.3%、Opus 5.5 42.5%、GPT-6 Astra 41.4%）、Terminal-Bench 4.0 65.2%、GraphWalks 长上下文 F1 96.2%（256K–1M token 范围）。官方称这三个评测的单任务成本比次优外部模型低 2 倍以上，多模态知识工作评测 MKA 排第二但成本低 6 倍。同时 Antigravity 预览 /swarm：一条提示词调度多个 agent 在隔离工作区分工并行，让 Carbon 做架构设计、任务协调与代码审查，简单活派给更便宜的模型，还能加一个专门做对抗性验证的 agent。反证也在：Artificial Analysis 综合 Intelligence Index 上 Fable 5.2 为 65、Carbon high 为 60；FrontierSWE v2 上 69.9% vs 61.2%，Google 自己也说 Argon 仍适合多数常规工程任务。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "小模型 + 六档推理强度；按短提示 $0.10/$0.50、长提示阶梯定价；官方定位是 agent 每天重复做的工作——工具调用、编码子任务、路由、抽取、长文档解析。"
+         "value": "把多 agent 编排产品化：/swarm 一条提示词拉起多个 agent，隔离工作区并行、可分工可相互验证，并实时看各自进度；模型侧主打长程任务与工作流评测（AutomationBench 53.9%、Terminal-Bench 65.2%）。"
         },
         {
          "key": "解决什么痛点",
-         "value": "agent 工作流里 80% 的调用是低难度高频任务，用大模型烧钱；小模型又常在多步工具调用上不稳。"
+         "value": "单 agent 跑长任务会偏离目标、改一个模块破坏另一个模块；靠一个强模型全包的代价又高。分工 + 独立工作区 + 对抗验证是把「单点能力」换成「可交付流程」的做法。"
         },
         {
          "key": "值不值得",
-         "value": "值不值得：如果你在给 agent 做模型分层（路由/抽取用小模型、难任务升大模型），这个价格点值得进候选；但六档推理的可控性一般（high 档直接输出不完整），要自己跑评测再定档。"
+         "value": "值得看的是 /swarm 的编排模型（角色分工、隔离、验证 agent），这是 agent 工程里最难也最少公开的部分；同时要记住它在综合指数上并不领先 Fable 5.2，选型别只看 Google 自家三项评测。限制是 Antigravity 预览、评测多为官方口径。"
         }
        ]
       },
       {
-       "title": "蚂蚁灵波开源 LingBot-Touch：近 5000 小时触觉数据，真机成功率提 14–26 个百分点",
-       "url": "https://www.qbitai.com/2026/11/508996.html",
-       "source": "量子位",
-       "summary": "蚂蚁灵波 11 月 10 日开源触觉基础模型 LingBot-Touch，基于近 5000 小时真实触觉数据预训练，同时覆盖磁触觉、视触觉与压阻式三类传感原理。架构上按传感原理分别设编码入口，再把不同触点布局映射到统一的指尖坐标空间，输出统一的触觉 Token——这样人戴触觉手套采的数据与遥操作灵巧手采的数据可以一起训练。在 Sharpa Wave 与 XHand1 两款灵巧手上做了 26 项真机测试（翻书页、拧瓶盖、辨识麻将牌等），接入后 LingBot-VLA、π0.5、Diffusion Policy、T-Rex 四种动作模型平均任务成功率提升约 14–26 个百分点；T-Rex 控 Sharpa Wave 拧瓶盖从不用触觉的 56.25%、直接喂原始信号的 62.5% 提到 90%。轻量版 Tiny 约 530 万参数，接入后模型参数只增加 0.13%–0.16%；技术报告、模型与代码已在 Hugging Face、GitHub 与魔搭开源。",
+       "title": "删权重就能学会新能力：归零不到 0.05% 的权重追平全参微调，且遗忘少 5.4 分",
+       "url": "https://huggingface.co/papers/2611.10866",
+       "source": "HuggingFace Papers",
+       "summary": "论文问的是「预训练模型要改多少才能获得新能力」，答案是极少：把不到 0.05% 的权重置零、其他一概不动，在三种后训练范式（可验证奖励的强化学习、监督微调、on-policy 蒸馏）下都能追平全参微调。方法叫 Deletion Tuning，在 transformer 每个 block 的 gate projection 上学习一个二值 mask。两个实际好处：训练产物是 mask 而不是权重，比对应的全参 checkpoint 小几百到几千倍；持续学习里遗忘显著更少——RL 下旧任务准确率保持在基座水平，而 FFT、LoRA 与随机稀疏微调会掉最多 5.4 个点。作者用 stable rank、谱漂移与主权重重叠三个指标分析权重变化的几何，发现它在这三项上都最接近全参微调。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "跨传感原理的统一触觉表征：分原理编码 → 统一指尖坐标 → 共享模型输出触觉 Token，可跨传感器、跨灵巧手、跨动作模型复用，并为新传感类型留了扩展位。"
+         "value": "用二值 mask 做「减法式」后训练：只关闭 gate projection 上 <0.05% 的权重即可获得新能力，产物是几百到几千分之一大小的 mask，可叠加在基座上切换；跨 RLVR/SFT/on-policy 蒸馏三种范式成立。"
         },
         {
          "key": "解决什么痛点",
-         "value": "视觉看得到位置却判断不了受力是否合适、物体是否滑移；不同触觉传感器的原始信号不通用，换硬件就要重采数据重训。"
+         "value": "全参微调贵、存不下多份、还会灾难性遗忘；LoRA 省显存但容量与遗忘表现都不稳定。这里同时解决了存储成本与持续学习中的旧能力丢失。"
         },
         {
          "key": "值不值得",
-         "value": "值得关注的是「统一表征」这个思路本身（和 tokenizer 抽象一层传感器是一个路子），而不是机器人本身；门槛在数据与硬件，纯软件方向能借鉴的是分模态编码 + 统一坐标空间的设计。"
+         "value": "值得读方法与三个几何指标——它给了「为什么只删就够」的解释，而不是只报结果；对要做多任务持续微调、或想在有限显存里维护多套能力的团队有直接价值。限制是结论在三种后训练设定下验证，尚未覆盖预训练阶段与超大模型的全量复现。"
         }
        ]
       }
@@ -236,25 +170,119 @@
      "emoji": "🧠"
     },
     {
-     "label": "观点与好文",
+     "label": "AI 工程落地",
      "items": [
       {
-       "title": "Jeff Dean 的 Discovery Loop 与李飞飞的冷水：RSI 的瓶颈在验证，不在想法",
-       "url": "https://www.infoq.cn/article/mZlISiZL9c1eurrsZRpo?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "Jeff Dean 离开 Google 后创办 Discovery Loop，在斯坦福 HAI 首次系统讲技术路线：由少数领域专家定研究目标，AI 系统自己识别值得做的子问题、组织实验、按结果调整方向，目前已运行约 20 个自动化改进循环（主要研究如何提高实验效率、如何从历史实验里学习），目标是让领域专家生产力提升 20–50 倍。团队组建很硬：前三周约 400 场面试，约 10% 成员拿过 ACM 计算奖、约 10% 有国际信息学奥赛奖牌，成员来自 Gemini、DeepSeek、Kimi 与 Go 语言项目。同场与李飞飞对话时两人对 RSI 都泼冷水：Jeff Dean 说十年前的神经架构搜索就是早期 RSI，当年要用笨拙的 Python 定义搜索空间，如今用自然语言就能让系统探索架构——变化的是表达方式与可靠性，而不是「无限加速」本身。",
+       "title": "Google 一年发四套 TPU：8tx 做硬件级机密推理，8i Max 双芯单封装翻倍 HBM 带宽",
+       "url": "https://cloud.google.com/blog/topics/ai-infrastructure/tpu-8tx-and-tpu-8i-max/",
+       "source": "Google Cloud",
+       "summary": "第八代 TPU 从 8t/8i 两套扩到四套，这是 Google 第一次在一年内推出四个 TPU 系统。8tx 面向受监管行业与政府的机密推理：基于 8t 同款硅片、配第五代 AMD EPYC 主机与 Boardfly 低延迟网络，把加密做进硬件层，让数据与模型权重在内存中被使用时也保持隔离；相比 8t 延迟最多低 2 倍且几乎无性能损失，并且能在同一系统上做私有数据微调、大模型蒸馏与小模型 RL，不必在集群之间搬敏感数据。8i Max 解决内存墙：把两颗低延迟 8i 封进同一个 package，算力、SRAM 与 HBM 带宽都比 8i 翻倍，且在同一机架足迹里塞进两倍硅片。配套软件上，TorchTPU 已开源（PyTorch 与 HuggingFace 模型原生跑 TPU，vLLM/SGLang 有后端），另有开源的 TPU agent suite 预览版，接进 Claude Code、Cursor、Google Antigravity，用自然语言做 TPU onboarding、瓶颈诊断与自定义 kernel autotune。Google 称 TPU 业务已有近 100 家客户，含前沿实验室与交易公司。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "用少量专家 + 大量 agent 重组科研流程：自动拆子问题、跑实验、从历史结果学习；公司自建 Agent Harness 与大规模 agent 协作基础设施，跑约 20 个改进循环。"
+         "value": "四套系统各管一段 agentic 生命周期：8t 做大规模训练（训练性能最多 2.7 倍）、8i 做低延迟推理（推理性价比 +80%）、8tx 做硬件级机密推理并可在同机做微调/蒸馏/RL、8i Max 做百万级上下文与最高单机架算力密度。"
         },
         {
          "key": "解决什么痛点",
-         "value": "大团队做研究的协调成本（跨团队资源协调、实验结果难整合、问题拆解方式一旦定下就难改）比算力更限制产出。"
+         "value": "受监管行业要在同一套硬件上既跑敏感数据又跑模型，传统做法是把数据在训练与推理集群之间搬来搬去；而多 agent 协作时内存带宽先撞墙，不是算力不够。"
         },
         {
          "key": "值不值得",
-         "value": "值得读的是他们怎么把「研究」拆成可自动化的循环，以及两位当事人对 RSI 天花板的判断——对判断行业叙事真假有用；对工程实践的直接可迁移性低，是方向性阅读。"
+         "value": "值得看两点：机密计算做在硬件层而非应用层，这对金融量化的合规边界有实际意义；TPU agent suite 把「调硬件」变成 agent 任务（自然语言诊断、autotune kernel），是 skill 落地到基础设施的少见样本。限制是仍以 GKE/Google Cloud 为主场，自建机房要评估供货与生态。"
+        }
+       ]
+      },
+      {
+       "title": "Datadog Scout：GLM-5.3 Flash 后训练出的 SRE 专用模型，90 个故障场景解 80 个，成本 1/3–1/8",
+       "url": "https://www.infoq.cn/article/py4PRbBWJSPm5aV10gHq?utm_source=rss&utm_medium=article",
+       "source": "InfoQ 中国",
+       "summary": "Scout 跑在 Datadog 的 AI SRE 产品 Bits Investigation 里，接告警、查遥测、给出根因推测，目前在工程师与小范围客户的封闭预览。基座是 GLM-5.3 Flash，用历史案例模式生成的模拟事件做强化学习后训练——每条模拟事件含告警、可查询的遥测与已知根因，训练素材不含客户数据，练习时用的就是 Bits 的工具集（日志/指标/trace 搜索、代码、部署、feature flag 检查）。AlertEval 上 medium 档效果与 GPT-6.1 Sol high、Opus 5.5 high 相近，推理成本只有它们的 1/3 到 1/8；xhigh 档对标 Fable 5.1 xhigh 而成本约 1/4。SREGym 的 90 个故障场景里，medium 解 71 个、high 79 个、xhigh 80 个，GPT-6.1 Sol xhigh 为 82 个。训练踩过的坑值得记：只按最终结论设奖励，模型学会了少做推断、提前终止排查，受罚概率降低但能力没提升。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "专门为「告警触发后第一轮排查」训练的模型：在自家工具面上练习查询、分析与下一步决策，输出带证据的根因推测；成本压到通用前沿模型的 1/3–1/8，使「每条告警都先跑一遍」在账上成立。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "排障要多轮调用模型（查一次、看结果、决定下一步），通用模型跑全量告警太贵，只能抽样或等工程师介入；Scout 的目标是在工程师还在响应时就已经开始收集线索。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得看的是「专用小模型 + 自家工具面 RL」这条路，以及奖励设计的反例——它比再调一个通用模型更贴近成本现实；对自建 AI SRE 或观测平台的团队有直接参考。限制是所有基准由 Datadog 自己做、AlertEval 未经独立验证，且 Scout 只诊断不动手，修复仍归工程师。"
+        }
+       ]
+      },
+      {
+       "title": "Cloudflare Web Search API 公测：给 agent 一个统一检索入口，按供应商标价不加价",
+       "url": "https://www.infoq.cn/article/SgXuVvzbHr8lKrihTAZW?utm_source=rss&utm_medium=article",
+       "source": "InfoQ 中国",
+       "summary": "Cloudflare 通过 AI Gateway 推出 Web Search API 的公测版，可从 REST 端点与 Cloudflare Workers 调用，聚合 Ceramic.ai、Exa、Linkup 的实时网页结果。它把搜索请求与模型推理的日志、访问控制、计费放在同一处，支持自带供应商密钥。规则上要求搜索供应商的爬虫遵守 Cloudflare 定义的「已验证机器人」公开要求，响应必须带指向被抓内容的链接；官方称会筛出支持零数据保留的供应商，并按供应商标价收费、不额外加价。动机很具体：agent 需要实时网页时往往先猜 URL 再调工具 curl，404 多半是猜错地址造成的。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "一个统一检索入口：REST 与 Workers 两种接入，多家搜索供应商可切换，日志与计费并到 AI Gateway，和模型调用同一条账单；要求返回来源链接，便于引用与审计。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "agent 联网检索现在是「猜 URL + curl」，命中率低且没有统一日志；企业还要分别和多家搜索 API 谈合同、做数据保留评估。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得评估的是它的治理面：零数据保留筛选 + 已验证机器人 + 统一审计，这正好对应内网出口做联网检索时的合规诉求；限制是公测、供应商只有三家，结果可存储与再发布条款仍需逐条读 ToS。"
+        }
+       ]
+      }
+     ],
+     "title": "AI 工程落地",
+     "emoji": "🛠️"
+    },
+    {
+     "label": "产品与商业",
+     "items": [
+      {
+       "title": "Claude 把办公三件套收进对话：Whiteboards、Sheets 公测，Dashboards 改名 Data 转正式",
+       "url": "https://claude.com/resources/articles/sheets-whiteboards-data",
+       "source": "Claude",
+       "summary": "Claude Whiteboards 与 Claude Sheets 进入 beta，原 Claude Dashboards 转 GA 并更名 Claude Data，三者对所有付费计划开放。Sheets 能从一句提示生成带 tab、公式、格式与下拉的工作表，逐格编辑时会标出每处改动，可导出 .xlsx/CSV 或转用 Claude for Excel。Whiteboards 能把一段口述的混乱计划变成带时间线、负责人与日期的板，可框选局部提问，收尾时转成 doc/deck 或推到 Lucid、Miro、Vani。Data 新增 data stories、certified queries 与 live sharing（后两项 beta），连接 Redshift、BigQuery、ClickHouse。产品意图是把产出留在 Claude 里继续协作，而不是每次导出到别的工具。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "把白板、表格、数据看板都做成对话内的可协作对象：生成即编辑、编辑有 diff 标注、可分享给团队共同改，并可导出到 Excel/CSV 或交接给 Lucid/Miro/Airtable/Asana 一类工具。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "过去用 Claude 做方案，产出必须复制到另一个工具才能团队协作，Claude 也失去对后续修改的上下文；协作与上下文被工具边界切断。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得关注的是「agent 产出物就地协作」这个方向，它决定了 agent 能不能进入真实团队流程；但当前表格功能刻意做浅（复杂场景仍要 Excel），beta 阶段别当生产表格用。"
+        }
+       ]
+      }
+     ],
+     "title": "产品与商业",
+     "emoji": "📊"
+    },
+    {
+     "label": "观点与好文",
+     "items": [
+      {
+       "title": "Simon Willison 让 Claude Code 造一台「蜂鸣定位仪」：五个设备三角定位，误差 40cm",
+       "url": "https://simonwillison.net/2026/Nov/9/mysterious-beeps/",
+       "source": "Simon Willison",
+       "summary": "家里储物间有东西间歇性蜂鸣，间隔太长没法靠站在房间里听出来。他让 Claude Code 写了个 Beep Locator：跑一个 Python web server 起主界面，用二维码把身边的设备（两台 iPad、一台手机、一台 MacBook Pro、一台 Surface）接成监听节点，先靠设备互发声音粗估位置，也可以手动拖图标给粗略坐标再校正。为了验证可靠性，他加了拍手模式——在不同位置拍手，看系统能否定位。确认蜂鸣频率后，系统持续监听、测间隔，并用三角定位锁定地图上最可能的位置。最终定位误差约 40cm，按位置翻箱找到一台旧一氧化碳报警器在等换电池。方法上 Claude 自己找出了 2007 年的 BeepBeep 论文（用商用设备的声学测距与定位）作为基础。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "一个完整的小系统：Python web server + 多设备浏览器当麦克风阵列 + 声学测距（互发声音标定）+ 三角定位 + 频率确认与拍手自测模式；最终把「哪个盒子在响」收敛到 40cm 范围。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "间歇性、短促的声音无法靠人耳定位，逐个翻箱成本极高；这类问题不值得雇人也不需要专业设备，正好落在「一次性小工具」的区间。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得当 agent 落地的样例看：真正的价值不是代码量，而是它自己检索到 2007 年的论文并把方法落成可验证的系统，还主动加了「拍手模式」这种自证手段。限制是这类项目靠个人判断收敛，换到生产要有明确的验收标准。"
         }
        ]
       }
@@ -266,42 +294,43 @@
      "label": "安全与治理",
      "items": [
       {
-       "title": "AWS 用 agent 分诊内核 CVE：3.4 秒一个、丢掉 70%，但仍留两人复核",
-       "url": "https://www.infoq.cn/article/mBvmvcQ8a8ty2Ob1xN64?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "AWS 维护 EC2 内核的团队在 Linux Plumbers 讲了 CVE 流程。Linux 内核 2024 年 2 月成为 CVE 授权机构后，他们的收件量从每周约 2 个涨到每天约 16 个，2026 年 8 月 15 日单日 848 个。第一阶段刻意不用 AI：CVE 记录是 JSON，含受影响版本与源文件，脚本按内核版本与是否编译进镜像过滤，约 70% 直接被丢弃（比例高度依赖内核配置）。剩下的交给 agent，输入是源码树、各平台配置、环境与威胁模型、严重度标准，输出「受影响子系统 / 漏洞类型 / 攻击途径」表，约 3.4 秒处理一个（人工数分钟），并且明确忽略 CVSS 分数——因为它不针对自家环境。团队保留两名工程师复核，自估 agent 决策约 5%–10% 有问题，理由是「不想把整个安全体系押在一个 LLM agent 的输出上」。老 LTS 分支的差距也被量化：从主线修复到 LTS 发布的中位时间 5.10 是 31.8 天、6.18 是 18.1 天；截至 9 月 16 日 5.10 还有 1709 个未修 CVE，6.18 为 229 个。",
+       "title": "VulnCheck 复盘 Anthropic Glasswing：七个月 442 个 CVE，3.8 万条发现只有 19.4% 公开、217 条标记修复",
+       "url": "https://www.vulncheck.com/blog/anthropic-glasswing-november-update",
+       "source": "VulnCheck",
+       "summary": "Project Glasswing 于 4 月 7 日启动，七个月后 VulnCheck 按 CVE 记录、GHSA、内核 commit 与 Anthropic 自己的披露台账逐条核对：可归因于 Anthropic 的 CVE 有 442 个，只占今年已发布 9.3 万个 CVE 的约 0.5%，月均 63 个，其中仅 2 个被确认在野利用。Anthropic 报告的 37,966 条发现里，7,349 条（19.4%）已公开、217 条标记为已修复；9 月以来新增近 1.2 万条发现，却只多 15 个修复，发现与修复的缺口在扩大。自称真阳性率从 90.8% 升到 94.2%，但 1,654 条（4.4%）被标为重复、419 条撤回；OSS Scanner 把验证工作推给维护者，curl 把 34 份已发布报告里的 19 份驳回，6 份确认为低危。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "两级漏斗：确定性脚本先按版本/编译产物淘汰（约 70%），再让 agent 结合源码树、平台配置与威胁模型做结构化分类，人工只审 agent 产出的表。"
+         "value": "一份可复核的量化台账：按 CVE/GHSA/内核 commit 交叉，逐月统计发现量、公开率、修复数与重复率，并抽查具体项目的驳回情况（curl 34 份报告 19 份被否）。"
         },
         {
          "key": "解决什么痛点",
-         "value": "CVE 洪峰下人审不过来，而 CVSS 分数对具体发行版几乎无指导意义；错误地跳过或错误地升级都要付代价。"
+         "value": "AI 找漏洞的宣传以「发现数」计价，但真实价值取决于公开率、修复率与误报率；维护者面对大量低质量报告，验证成本被转嫁到开源社区。"
         },
         {
          "key": "值不值得",
-         "value": "这是少见的「AI 用在安全上但明确划边界」的一手材料：忽略 CVSS、保留人工复核、量化 5–10% 错误率。对任何要把 LLM 放进生产决策链的场景都可直接借用这套分工。"
+         "value": "值得读，因为它给了审计 AI 安全产出的方法而不是结论：0.5% 的 CVE 占比、19.4% 公开率、4.4% 重复率这三组数字可以直接照搬到内部评估。限制是作者立场偏批判、Anthropic 台账更新是批量式的，双方口径不完全可比。"
         }
        ]
       },
       {
-       "title": "Gartner 2027 十大趋势：主线从「AI 原生开发」转向「智能体治理」",
-       "url": "https://www.infoq.cn/article/CUgMFMX7uRJNMec1pfYo?utm_source=rss&utm_medium=article",
-       "source": "InfoQ 中文",
-       "summary": "Gartner 11 月 3 日发布 2027 年十大战略技术趋势，与 2026 年侧重 AI 原生开发、多智能体与物理 AI 不同，这版明显转向自主智能体治理：AI 上下文平台、智能体身份、AI 编码智能体框架、自主式暴露修复等技术集中出现。研究副总裁高挺的比喻是「今天的 AI 可能是世界上最聪明的数字员工，但进入企业后只有 3 秒钟的记忆」——不懂业务规则、历史决策与运营现状；更直接的问题是 AI 生成代码的速度已超过人类审核速度，于是「能不能用、敢不敢上线、出事谁负责」成了新问题。三个方向是非文本 AI、管理自主智能体的平台、构建技术自主权的基础设施。预测数字：到 2030 年 LQM 在 25% 的预测建模任务中取代 LLM，70% 以上企业语音交互由语音模型自主处理（2026 年不足 10%），40% 机器人应用引入世界模型（2025 年不足 1%）。",
+       "title": "OpenAI 开源 codex-security：扫描、验证可利用性、生成补丁的 CLI 与 TypeScript SDK",
+       "url": "https://github.com/openai/codex-security",
+       "source": "GitHub Trending",
+       "oss": true,
+       "summary": "仓库提供安全 CLI（cs scan）与 TypeScript SDK，流程分三段：扫描仓库/指定路径/Git 变更，验证候选发现并生成补丁，再验证既有修复是否真的有效。除扫描外还能起草 SECURITY.md、保存威胁模型、按自定义 rubric 评严重度、从源码与 Git 历史推荐负责人，并预览第三方扫描器结果、导出 SARIF/JSON/CSV、把发现同步到 Linear/Jira/GitHub。也能以 GitHub Action 或容器形式在 CI 里批量跑。对想把 agent 安全扫描接进流水线的团队，这是一个现成的命令行与 SDK 入口。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "十项趋势收敛成三条线：突破语言模型边界的非文本 AI（LQM、语音推理、世界模型）、管理自主智能体的平台（上下文平台、智能体身份、编码 agent 框架）、企业技术自主权基础设施。"
+         "value": "把「找—验—修」做成流水线：scan 支持标准与深度两种，深度扫描会重复标准扫描并做去重；验证环节判断候选发现是否可利用，之后生成补丁；还有威胁模型、责任人推荐与工单同步。"
         },
         {
          "key": "解决什么痛点",
-         "value": "企业给了 AI 很大自主权，却没有配套的身份、权限、上下文与审计——agent 看不到业务规则，也无法被追责。"
+         "value": "静态扫描的通病是发现多、可利用性未知、误报压垮维护者；只报不修还需要人再走一遍上下文。它把验证与补丁生成纳入同一工具面。"
         },
         {
          "key": "值不值得",
-         "value": "值得当作「未来 12–18 个月预算会往哪走」的路线图看，特别是智能体身份与 AI 上下文平台这两项；但 Gartner 的趋势清单偏供应链与市场视角，缺少可落地的技术口径，别当架构文档用。"
+         "value": "值得在 CI 里试一轮，尤其是已有 Codex 用量的团队——成本低、能直接产出 SARIF 进现有流程；限制是需 Node 22.13+/Python 3.10+，深度扫描耗时与 token 成本要实测，且模型判断的严重度仍需人审。"
         }
        ]
       }
@@ -318,102 +347,82 @@
      "label": "K8s × AI",
      "items": [
       {
-       "title": "Akamai 的答案：让 agent 提 PR 的前提，是平台能吸收一个「格式完美但完全错」的改动",
-       "url": "https://www.cncf.io/blog/2026/11/10/one-flag-many-guardrails-making-a-platform-safe-enough-to-delegate/",
+       "title": "KubeRay 捐给 CNCF：PARK 栈（PyTorch/Ray/K8s）全部归到 Linux Foundation 治理",
+       "url": "https://www.cncf.io/blog/2026/11/10/donating-kuberay-to-cncf/",
        "source": "CNCF Blog",
-       "summary": "Akamai 内部 K8s 平台团队在 KubeCon EU 2026 的分享：该不该让 coding agent 对基础设施提 PR，答案与 agent 无关，取决于平台能否吸收一个自信、格式完美但完全错误的改动——如果不能，这个洞在 agent 出现前就存在。他们按五层堆防护：测试（规格/TDD 先行 + canary 集群，因为天天在建集群）、配置抽象（kro / ResourceGraphDefinition 把一组资源收成一个自定义 API，租户只看到 K8s 版本、节点数、区域三个字段；应用侧用 Score 转译，Crossplane 建云资源、Argo CD 收敛）、K8s 自带保护（最小权限 RBAC、带健康探针的滚动、PDB、finalizer、Kyverno 在 API 层拦截）、云厂商删除保护（Crossplane Usage 拒绝删除并约束顺序）、人工评审（CODEOWNERS + 线性历史）。关键论证是转译器确定性、LLM 不确定——遇到没见过的字段会即兴发挥。最后他们把破坏性场景收敛成一个决策：在 kro 集群定义里置一个受保护字段，平台就自动施加上述多层保护；这套抽象花了约三年半和很多版 CRD。",
+       "summary": "KubeRay 是让 Ray 的分布式 AI/ML/Python 负载跑在 Kubernetes 上的 operator，提供三类 CRD：RayCluster（集群生命周期）、RayJob（作业提交）、RayService（服务化与滚动升级）。PARK 栈的其余部分早已在 Linux Foundation 之下——PyTorch 与 Ray 归 PyTorch Foundation、Kubernetes 归 CNCF，KubeRay 是最后一块拼图，进 CNCF 后整栈归属同一治理体系。落地案例：Spotify 用它支撑内部 ML 平台 Hendrix，在 GKE 上用 Ray 训练与微调模型；Hark 用它跑多模态 agent 工作流。项目以 Sandbox 级别进入，作者群来自 Ray 与 K8s 两侧。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "五层防护 + 把「破坏性操作」收敛成一个受保护字段：测试、确定性转译（kro/Score）、K8s 原生保护（RBAC/PDB/finalizer/Kyverno）、云侧删除保护（Crossplane Usage）、CODEOWNERS 人工评审。"
+         "value": "把 Ray 的集群、作业与服务三类生命周期映射成 K8s CRD，让 Python-first 的 AI 框架直接吃 K8s 的调度、弹性与配额；可与 Kueue 等队列系统配合做批任务排队。"
         },
         {
          "key": "解决什么痛点",
-         "value": "agent 让 6 人团队以 30 人的速度提 PR，但评审仍是 6 人的速度，且每个 PR 的上下文更少；单点错误在 GitOps 里几秒铺满整个基础设施。"
+         "value": "Ray 自己的调度器与 K8s 并行运行会造成容量碎片与两套配额；平台团队要么放弃 K8s 原生能力，要么自己写胶水。KubeRay 是官方胶水。"
         },
         {
          "key": "值不值得",
-         "value": "最值得照抄的不是工具清单，而是「用确定性转译器替代 LLM 写 YAML」这个分界，以及把多层保护收敛成单一开关的产品思路；门槛是要先有一套成熟的平台抽象（他们花了三年半）。"
+         "value": "值得关注治理层面的变化：PARK 全栈同属一个基金会后，版本兼容与路线协同会好转；技术上是成熟 operator，可直接评估。限制是 Sandbox 级别、CNCF 不管技术方向，实际能力仍看 Ray 社区节奏。"
         }
        ]
       },
       {
-       "title": "Cloud Pathways 在 GKE 上 GA：单控制器管上千 TPU 芯片，90 天跑了 1.3 亿芯片小时",
-       "url": "https://cloud.google.com/blog/topics/ai-infrastructure/cloud-pathways-a-distributed-ml-runtime-is-ga/",
-       "source": "Google Cloud",
-       "summary": "Cloud Pathways（Pathways on Cloud）在 GKE 上 GA，成为 Google Cloud AI Hypercomputer 的核心运行时之一。它替换掉默认多控制器 JAX 的模型——那种模式下每台 TPU 主机各跑一个 Python 解释器、只有本地设备视图，异构 MPMD 与跨 slice 资源管理都很脆弱；Pathways 用基于开源 IFRT 的单控制器架构，设 JAX_PLATFORMS=proxy 加 pathwaysutils 后，一个 JAX 客户端进程就能把横跨多个 TPU slice 的上千芯片当作本地设备编排。Google 给的量级：过去 90 天领先 AI 公司与企业在 GKE 上用 Pathways 处理了超过 1.3 亿 TPU 芯片小时。同时宣布与 Cluster Director 的 Preview 集成，把 Pathways 扩到 Slurm 集群，支持多 slice 统一 JAX 执行、弹性训练和交互式 notebook。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "单控制器运行时 + 托管 Python sidecar + 弹性容错；一个客户端进程跨多个 TPU slice 编排，另有与 Slurm 集群的 Preview 集成。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "多控制器 JAX 下跨 slice 编程与资源管理复杂且脆弱，异构 MPMD 工作流难写；训练与推理又常常要跨几千个加速器协调。"
-        },
-        {
-         "key": "值不值得",
-         "value": "如果你在规划大规模加速器集群的管理面，这篇给的是「单控制器 vs 多控制器」的取舍与真实规模（1.3 亿芯片小时）；限制是强绑 GKE/TPU，自建除非用 IFRT 自己搭。"
-        }
-       ]
-      },
-      {
-       "title": "GKE Dynamic Slicing GA：逻辑切片与物理 nodepool 解耦，启动快 5 倍、恢复快 4.5 倍",
-       "url": "https://cloud.google.com/blog/products/containers-kubernetes/gke-dynamic-slicing-on-tpus/",
-       "source": "Google Cloud",
-       "summary": "GKE Dynamic Slicing 正式 GA，核心是把「逻辑 TPU slice 的组成」与「物理 nodepool 的供给」解耦。过去每个 slice 要一套固定拓扑的静态 nodepool，改需求就得删了重建，且单个硬件故障会拖垮整条 slice。新方案用 TPU 光交换（OCS）动态把 16 VM 的 TPU cube 拼接成更大的 slice（super-slicing），或把 cube 切成小 slice 让多个负载共用一个 nodepool（sub-slicing）。官方数字：相比静态 nodepool，负载启动时间最多缩短 5 倍、故障恢复快 4.5 倍，同时支持多租户装箱与供给「部分健康」的 nodepool（把健康主机也用起来）。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "OCS 动态拼接/切分 TPU cube；提交负载时即时组装拓扑，不再删建 nodepool；可按需供给部分健康的 nodepool。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "静态 nodepool 带来的慢启动、手动重建、大故障域（一个硬件故障崩掉整条 slice）是 TPU 平台运维的主要摩擦。"
-        },
-        {
-         "key": "值不值得",
-         "value": "对在评估 GPU/TPU 池化与拓扑感知调度的团队有直接参考价值——它说明「拓扑」正在从 provisioning 期的静态对象变成提交期的动态对象；限制是只在 GKE + TPU 上可用。"
-        }
-       ]
-      },
-      {
-       "title": "TPU Sync：TPU 上的 KV cache 与权重传输层，TTFT 平均降 90%",
-       "url": "https://cloud.google.com/blog/topics/ai-infrastructure/introducing-tpu-sync-fast-kv-cache-and-weight-transfer-on-tpu/",
-       "source": "Google Cloud",
-       "summary": "TPU Sync 是一个开源原生 C++ 库，设计前提是把加速器 HBM、主机 DRAM、共享存储与数据中心网络当成一套协同设计的内存层级，用异步 DMA 直接在设备缓冲上原位搬运 TPU-tiled tensor（不拷贝、不加锁），让数据搬运与计算重叠。推理侧它把主机 DRAM、本地 SSD 与 Managed Lustre 变成自动化的多层 KV cache，并把 TPU 计算与网络背压解耦；RL 侧暴露底层 DMA/DCN 原语，供上层框架把更新后的权重流式推给 rollout 采样器。官方数字：KV 传输延迟降 90% 以上，235B–480B 的开源 MoE 在 prefix-caching 与分离式服务下平均 TTFT 降 90%。它已作为 vLLM、SGLang 与 llm-d 分离式服务的 TPU KV cache connector，并通过 TorchTPU 接入 PyTorch，同时供 Pathways 与多控制器 JAX 的 RL 管线使用。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "统一内存层级 + 异步 DMA 原位搬运；推理侧做多层 KV cache 自动卸载，训练侧做权重流式广播；已接入 vLLM/SGLang/llm-d/TorchTPU。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "百万 token 上下文与分离式服务把瓶颈从算力移到「搬状态」：KV cache 与权重卡在单芯片内存或网络传输上，加速器就空转。"
-        },
-        {
-         "key": "值不值得",
-         "value": "值得读它的分层设计与 90% 这个量级，尤其是「把主机 DRAM 与对象存储当成 KV cache 的下一层」这个做法；限制是绑 Cloud TPU/Lustre，自建 GPU 集群要自己找等价物（LMCache 一类）。"
-        }
-       ]
-      },
-      {
-       "title": "Hyperlight：库形态的 micro-VM，现在能跑未修改的 Linux 应用",
-       "url": "https://www.cncf.io/blog/2026/11/09/run-linux-applications-in-hypervisor-isolated-micro-vms-with-hyperlight/",
+       "title": "NVIDIA 把 OpenShell 捐给 CNCF：agent 的策略边界下沉到基础设施层，用 Cedar 写规则",
+       "url": "https://www.cncf.io/blog/2026/11/10/welcoming-openshell-to-the-cncf-open-governance-to-secure-agentic-ai/",
        "source": "CNCF Blog",
-       "summary": "CNCF Sandbox 项目 Hyperlight 是库形态的 VMM：不像 QEMU/Firecracker 那样单起进程，而是由应用链接进来（核心 Rust，带 Python 与 .NET SDK），通过宿主 hypervisor 开一个 micro-VM——Linux 用 KVM/MSHV、Windows 用 WHP、macOS 用 Hypervisor.framework。micro-VM 不带任何模拟设备，guest 只能通过宿主显式暴露的函数访问外部，权限是白名单式 capability，没有「默认给一堆再记得收回」的预设。新进展是能跑未修改的 Linux 应用——同一份二进制，不移植不重编。动机很具体：agent 刚生成的 Python、客户上传的插件都需要边界，文中举了 2026 年 5 月 Mini Shai-Hulud npm 蠕虫读取上千个已知凭据位置并藏在 AI 编码 agent 的 session hook 里，以及 10 月 PHP2Shell 的运行时漏洞。现在已有集成：一个 Kubernetes 容器运行时、agent 框架与数据库。",
+       "summary": "OpenShell 是给自主 agent 做安全与治理的开源运行时，进 CNCF Sandbox。核心主张是能力必须落在 agent 之外——在 agent 运行的基础设施里执行策略，管住它能碰的数据、密钥与网络。策略语言采用 CNCF 另一个项目 Cedar，形成项目间的组合。NVIDIA 贡献，Red Hat、Docker、Canonical 的核心贡献者在项目早期就参与；设计上留了 providers、compute、治理与审批流、策略执行、隔离、凭据管理六类扩展点，团队可以增量接入并替换成自己已有的组件。仓库从 NVIDIA 迁到中立组织 ai-openshell，接受 CNCF 行为准则、走公开 RFC 与 vendor-neutral 治理。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "库形态 VMM + capability 白名单 + 无模拟设备；冷启动接近进程沙箱，隔离强度接近 VM；支持未修改的 Linux 二进制。"
+         "value": "在基础设施侧给 agent 划边界：定义它能调用什么、能读哪些密钥与网络端点，策略用 Cedar 表达并可审计；通过扩展点对接不同的推理供应商、密钥库与审批流。"
         },
         {
          "key": "解决什么痛点",
-         "value": "进程/语言沙箱快但与宿主只隔软件一层（沙箱或共享内核一破就出去），传统 VM 有 hypervisor 但为启动整个 OS 而生、太慢。"
+         "value": "要让 agent 真正干活就得给权限，但给了权限就没有边界；靠提示词约束或应用层判断都不可靠。把执行点放到运行时层，才能做到「给能力不给全权」。"
         },
         {
          "key": "值不值得",
-         "value": "非常适合公司里「多用户 × 每用户沙箱 agent」这条线：它是 K8s 原生 agent 沙箱的上游候选，比自建 Firecracker 管控面轻；门槛是 Windows/macOS 后端成熟度不一，K8s 集成还在早期。"
+         "value": "和多用户 agent 沙箱是同一道题：隔离粒度、凭据代管、策略可审计。值得对照它把哪些东西定义成扩展点；限制是 Sandbox 早期、策略生态还在建，且 Cedar 的表达力对复杂审批流需要自己补。"
+        }
+       ]
+      },
+      {
+       "title": "GKE ClusterNetworkPolicy：三层优先级把 LLM 命名空间和 metadata API 一起管住",
+       "url": "https://cloud.google.com/blog/topics/developers-practitioners/experimenting-with-clusternetworkpolicy-in-gke/",
+       "source": "Google Cloud",
+       "summary": "标准 NetworkPolicy 只能按命名空间生效，ClusterNetworkPolicy（CNP）提供集群级、三层优先级的策略模型：admin 层由集群管理员强制、不可被绕过（例如封住 metadata 访问），network policy 层由应用团队管自己的 ingress/egress，baseline 层给集群兜底（例如默认拒绝）。Google 的实验用自定义 VPC + Cloud NAT、2x2 拓扑的 TPU v5e 节点池（带 taint 只接加速器负载）、vLLM 服务的 Gemma 4 E2B，目标是只允许授权客户端访问 LLM 命名空间，并只放行 DNS 53 去访问 metadata；执行由 GKE Dataplane V2 的 eBPF 完成，GKE Network Policy Logging 记录每个包的 allow/deny 判决与策略审计链。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "把策略分权：管理员能设不可覆盖的强制规则（metadata、出口）与全集群兜底，团队仍在自己命名空间写常规 NetworkPolicy；eBPF 数据面执行并给逐包判决日志。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "多租户集群里，namespace 级策略管不住「谁能访问 metadata/凭证」这类集群面风险；管理员想统一底线，又不想接管所有业务规则。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得直接照 Codelab 做一遍：三层优先级是把安全底线与应用自治分开的可行结构，尤其适合托管 LLM 推理服务的命名空间隔离。限制是 GKE 特性（Dataplane V2/eBPF），多云要自己找等价物；CNP 仍在推进中，先验证与现有 CNI 策略的叠加行为。"
+        }
+       ]
+      },
+      {
+       "title": "Istio Ambient Multi-Network GA：跨几十个 K8s 集群做 active-active，sidecar 可平滑迁到 ambient",
+       "url": "https://www.cncf.io/blog/2026/11/10/istio-enables-global-availability-for-all-workloads-traditional-agentic-and-beyond/",
+       "source": "CNCF Blog",
+       "summary": "KubeCon NA 2026 上 Istio 给出四件事：Ambient Multi-Network 正式 GA，可在跨网络、跨区域、跨云的上几十个 K8s 集群上部署 active-active 工作负载并保持一致的连通与流量管理；新增 sidecar 到 ambient 的迁移支持，存量用户不必从头重建；Traffic Extension API 用 Lua 与 WebAssembly 改路由、重定向、过滤，不需要深入 Envoy 内部实现。项目自报 ambient 架构相比 sidecar 可提升 60% 以上资源利用率、降低 75% 延迟。整体定位是给同时跑传统服务与 AI agent 的平台方一套统一网络底座。",
+       "detail": [
+        {
+         "key": "能做什么",
+         "value": "多集群多网络的 active-active 服务网格（GA 级），加上 sidecar→ambient 的迁移路径与 Wasm/Lua 级流量扩展；ambient 把网格能力从每个 Pod 的 sidecar 里拿出来，变成节点级 ztunnel。"
+        },
+        {
+         "key": "解决什么痛点",
+         "value": "跨云跨区部署要一致的安全策略与流量管理，而 sidecar 模式给每个 Pod 加代理，资源与延迟开销随规模放大；存量 sidecar 用户又难以切换。"
+        },
+        {
+         "key": "值不值得",
+         "value": "值得评估 ambient 的迁移成本而不是只看 60%/75% 的数字——那两个是项目自报。对要做多集群 active-active、且集群规模大的团队，Multi-Network GA 是当前少有的成熟选项；限制是 ambient 与部分 L7 特性的功能差距仍需逐项核对。"
         }
        ]
       }
@@ -425,42 +434,42 @@
      "label": "K8s 核心技术",
      "items": [
       {
-       "title": "Kubernetes Pod 调度全解：过滤与打分两步走，六种放置手段各管一件事",
-       "url": "https://kubezilla.io/kubernetes-pod-scheduling-explained/",
-       "source": "kubezilla.io",
-       "summary": "kube-scheduler 的决策分两步：过滤（硬规则，如 required 亲和性）与打分（软规则，如 preferred 亲和性只加分不阻断），选定后向 API server 报告绑定；没有可行节点时 Pod 停在 Pending。排查靠两条命令：kubectl get pods -o wide 看落点，kubectl describe pod 看调度失败事件。文章把六种放置控制逐一对齐到问题：nodeSelector 最简标签匹配（如 disktype=ssd）、node affinity 用富表达做同样的事、pod 间亲和/反亲和把缓存与调用方放近或把数据库副本拆开、taints/tolerations 让 GPU 节点只接特定负载、topology spread constraints 保证跨 zone 均匀、Pod priority 与抢占让关键系统 Pod 总有位置。",
+       "title": "CloudNativePG 进 CNCF Incubating：不用 StatefulSet 管 PostgreSQL，50+ 生产用户",
+       "url": "https://www.cncf.io/blog/2026/11/10/cloudnativepg-becomes-a-cncf-incubating-project/",
+       "source": "CNCF Blog",
+       "summary": "CNCF TOC 投票通过 CloudNativePG 成为 Incubating 项目。它用 primary/standby 加原生流复制，直接管理 PostgreSQL 实例的 Pod 而不依赖 StatefulSet，把集群状态交给 K8s 的声明式 reconcile，覆盖自动 failover、滚动升级、自愈、连接池、持续备份与时间点恢复（PITR）。2025 年 1 月进 Sandbox 后连发 1.26–1.30 五个版本，最新 v1.30.1 于 2026-09-23 发布。生产用户超过 50 家，含 IBM、Google Cloud、Microsoft Azure、GEICO、Tesla 等；与 External Secrets、Cilium、cert-manager、Prometheus exporter、Keycloak OAuth 有文档化集成。一个具体例子是 OpenBao 用它做存储后端：三实例 + quorum 同步复制，DatabaseRole 自动签发并续期 TLS 客户端证书，做到数据库角色无密码。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "调度两阶段（过滤/打分）的执行模型 + nodeSelector、node affinity、inter-pod affinity、taints/tolerations、topology spread、priority/preemption 六件套的适用边界，例子全部取自官方文档。"
+         "value": "把 PostgreSQL 高可用做成 K8s 原生：CRD 声明集群形态，operator 管 failover、备份/PITR、连接池与滚动升级，实例 Pod 由 operator 直接管理，绕过 StatefulSet 的更新语义限制。"
         },
         {
          "key": "解决什么痛点",
-         "value": "集群一上真实负载，放置就从「随便找个有空间的节点」变成硬需求：GPU 独占、跨 zone 高可用、缓存亲和、系统 Pod 保底，混用规则时更难判断谁先谁后。"
+         "value": "在 K8s 上跑有状态数据库通常要外挂 Patroni 一类工具做选主，故障切换与 K8s 调度两套逻辑互相打架；版本升级、证书轮换与备份也各有一套脚本。"
         },
         {
          "key": "值不值得",
-         "value": "值得当建集群时的检查表用（硬规则进过滤、软规则进打分这条区分能解释大部分「为什么这个 Pod 卡在 Pending」）；深度一般，是官方文档的整理版，不是新东西。"
+         "value": "值得作为「有状态服务上 K8s」的参考实现读，尤其是它用 CRD 管角色与证书、做到无密码连接的做法；进 Incubating 说明治理与采用度过关。限制是只支持 PostgreSQL，且运维仍需要懂 PG 的复制与备份语义。"
         }
        ]
       },
       {
-       "title": "Kubernetes 三种探针的分工：liveness 重启、readiness 摘流量、startup 只在启动期生效",
-       "url": "https://kubezilla.io/kubernetes-probes-explained-liveness-readiness-startup/",
-       "source": "kubezilla.io",
-       "summary": "文章把三种探针的职责边界讲清楚：liveness 失败触发容器重启，用于进程还在但已经卡死（死锁、连接池耗尽）；readiness 失败只是把 Pod 从 Service Endpoints 摘掉、不重启，用于依赖未就绪或过载时停止接流量；startup 只在启动期生效，成功后才把控制权交给 liveness，用于避免慢启动应用被误杀。参数上 initialDelaySeconds / periodSeconds / timeoutSeconds / failureThreshold 要按应用真实启动曲线给，startup 探针的 failureThreshold × periodSeconds 实际上定义了允许的最长启动时间；没有 readiness 的滚动更新会把流量打到还没准备好的 Pod 上。",
+       "title": "Open Cluster Management 进 CNCF Incubating：hub-spoke + 异步 pull，eBay 用它管 190+ 集群",
+       "url": "https://www.cncf.io/blog/2026/11/10/open-cluster-management-ocm-becomes-a-cncf-incubating-project/",
+       "source": "CNCF Blog",
+       "summary": "OCM 用 hub-and-spoke 架构与开放 API 管跨云、本地与边缘的 K8s 集群：注册集群、分发应用与策略、做工作负载放置，不依赖私有控制面。架构上坚持轻量模块化，异步 pull 模型让各集群保持自治、hub 上不集中存放敏感凭据；插件式 add-on 框架让其他项目直接继承多集群能力。2021 年 11 月进 Sandbox，2025 年 6 月发布 1.0，到 2026 年 10 月的 1.4 共四个 minor 版本；实现并对齐 SIG-Multicluster API，给 Argo CD 提供集群决策、与 Cluster API 集成，Kueue、KubeVela、KubeStellar、Meshery 都有集成文档。27 名 maintainer 来自 8 个组织，eBay 用它支撑 190 多个集群的应用分发。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "三种探针的语义分工与参数语义，以及「startup 保护慢启动、readiness 控流量、liveness 治卡死」的组合用法。"
+         "value": "多集群控制面：集群注册与生命周期、应用与策略分发、放置决策；pull 模式让被管集群主动拉取期望状态，hub 失联时负载不受影响。"
         },
         {
          "key": "解决什么痛点",
-         "value": "探针配错的两种典型事故：慢启动应用被 liveness 反复重启；没有 readiness 时滚动更新把请求打到未就绪实例，表现为发布期间 5xx 尖刺。"
+         "value": "集群一多，GitOps 只能解决「推什么」，解决不了「推到哪些集群、按什么规则放置」；集中式控制面又会把凭据与单点风险堆在 hub。"
         },
         {
          "key": "值不值得",
-         "value": "建集群做业务接入规范时可以直接拿来当基线要求（每个工作负载必须定义 readiness，慢启动必须加 startup）；内容偏入门，价值在于把三者边界写清楚、避免混用。"
+         "value": "值得评估的是 pull 与 hub 不存凭据这两条设计，直接关系到跨云/边缘的故障域；如果团队正从几套集群扩到几十套，它是 Argo CD 之上补「放置层」的现成方案。限制是概念多（ManagedCluster、Placement、ManifestWork），学习曲线不低。"
         }
        ]
       }
@@ -469,75 +478,59 @@
      "emoji": "☸️"
     },
     {
-     "label": "云原生周边",
+     "label": "社区与项目",
      "items": [
       {
-       "title": "kpt v1.0.0 发布：Porch 并回同一治理，KRM 包管理结束 pre-release",
-       "url": "https://www.cncf.io/blog/2026/11/05/kpt-v1-0-0-is-released/",
+       "title": "CNCF 观点：平台工程要「更像人、少点机器人」——使用者从工程师变成了所有人",
+       "url": "https://www.cncf.io/blog/2026/11/11/platform-engineering-needs-to-become-more-humanand-less/",
        "source": "CNCF Blog",
-       "summary": "kpt 工具链发布 v1.0.0，结束多年 pre-release 状态。过去 12 个月社区做了三件事：稳定 API、下线未使用功能、把 Porch（Package ORCHestration）服务并回 kpt 组织，使整套工具链处在同一治理下。独立 kpt 提供轻量的配置包管理，基于 config as data 与 KRM（Kubernetes Resource Model）：用声明式方式描述对 KRM 资源的操作与校验步骤，把通用 KRM 转成可部署到具体站点/应用的模型，从而避开模板化的限制、做到可复现；Porch 负责在零接触 GitOps 流程里规模化编排这些包。",
+       "summary": "作者 Alejandro Chirinos 用自己在 Disney、Dell、SAP、VMware 的经历说明一件事：内部平台一直是按「会读文档、知道什么是回滚、懂得什么时候不该上线」的工程师设计的，流程严格但合理，因为使用者本身就像机器一样守协议。当 agent 让非工程师也能在几小时内拼出系统，这个前提失效了——平台面对的输入从「专业但偶尔犯错」变成「完全不熟悉协议」。文章的落点是平台工程需要重新设计引导与防护，而不是继续假设使用者懂规矩。",
        "detail": [
         {
          "key": "能做什么",
-         "value": "KRM 包管理（声明式操作 + 校验，非模板）+ Porch 的规模化包编排；v1.0.0 表示组件 API 与行为已稳定。"
+         "value": "提出一个判据：平台的设计假设（使用者专业度、是否读文档、是否守流程）一旦改变，原有的 stage gate、命名规范与审批就变成摩擦而非保护。"
         },
         {
          "key": "解决什么痛点",
-         "value": "Helm 式模板在「同一份配置要按站点/环境变形」时会退化成模板逻辑的堆叠；kpt 用 config as data 把变形变成对资源的可复现操作。"
+         "value": "AI 让「能产出系统的人」数量级增加，但这些人不具备运维直觉；平台若继续按专家设计，事故率会随使用者扩大而上升。"
         },
         {
          "key": "值不值得",
-         "value": "值得关注的是「v1.0 之后能不能替代一部分 Helm/Kustomize 场景」，尤其是多站点配置分发；限制是生态与文档量远小于 Helm，团队学习成本真实存在。"
-        }
-       ]
-      },
-      {
-       "title": "CNCF 调研：VM 仍占生产应用 53%，AI/agent 负载正在推动 VM 用量回升",
-       "url": "https://www.cncf.io/blog/2026/11/09/new-research-virtual-machines-remain-central-to-cloud-native-infrastructure-as-ai-workloads-evolve/",
-       "source": "CNCF Blog",
-       "summary": "Linux Foundation Research 受 CNCF 与 Broadcom 赞助，调查 492 名云原生从业者（2026 年 9 月）。核心数字：受访者平均 53% 的生产应用跑在 VM 上，51% 表示至少一半应用是 VM；万人以上组织平均 64%，500 人以下为 45%；71% 预计未来 12 个月 VM 占比维持同一区间。扩 VM 的原因里，53% 提到 VM 应用增长、48% 提到硬件利用率、47% 提到安全与隔离需求、34% 明确提到 AI 与 agent 负载。62% 的受访者已用至少一种 VM 级隔离（硬件 VM、VM 内容器、microVM 沙箱）；管 VM 与管容器的团队有 61% 是协作或完全一体，14% 仍各自为政。用 KubeVirt 在 K8s 上管 VM 的只有 8%，用 microVM 运行时的 2%。",
-       "detail": [
-        {
-         "key": "能做什么",
-         "value": "492 人样本的 workload 结构数据：VM 占比、组织规模差异、扩 VM 动因、隔离方式采用率、VM/K8s 团队协作度。"
-        },
-        {
-         "key": "解决什么痛点",
-         "value": "「全面容器化」的叙事与生产现实有落差：VM 仍是主力，而 AI/agent 负载因为要隔离不可信代码，反而在推高 VM 用量。"
-        },
-        {
-         "key": "值不值得",
-         "value": "对建集群方案有直接参考意义——它支撑「K8s 之外 VM 长期共存」的判断，也说明 agent 沙箱的需求真实（但 KubeVirt 采用率只有 8%，说明 K8s 管 VM 仍非主流）。"
+         "value": "值得当观点文读十分钟，用来校准内部平台的默认假设；但它不给方案、也没有数据，属于问题陈述而非工程结论。"
         }
        ]
       }
      ],
-     "title": "云原生周边",
-     "emoji": "☁️"
+     "title": "社区与项目",
+     "emoji": "🏘️"
     }
    ]
   }
  ],
  "flash": [
   {
-   "title": "Istio 1.32.0 正式发布（1.32 系列首个稳定版）",
-   "url": "https://istio.io/news/releases/1.32.x/announcing-1.32/"
+   "title": "Anthropic 撤回近 700 亿美元 IPO 定价、最快当日启动路演",
+   "url": "https://www.infoq.cn/article/8tquwes1yGbmTeyOjOId?utm_source=rss&utm_medium=article"
   },
   {
-   "title": "火山引擎 IGA Pages：接大模型不用自配 Key 与自建代理",
-   "url": "https://www.infoq.cn/article/juu2R26yD8B6ABUEQuWB?utm_source=rss&utm_medium=article"
+   "title": "Azure Front Door edge actions 正式可用",
+   "url": "https://azure.microsoft.com/updates?id=579310"
   },
   {
-   "title": "OpenAI Control Room：跨研究基础设施追踪并急停模型负载",
-   "url": "https://openai.com/index/control-room"
+   "title": "Azure Functions 支持 .NET 11 正式可用",
+   "url": "https://azure.microsoft.com/updates?id=578773"
   },
   {
-   "title": "ChatGPT Enterprise 上架 AWS Marketplace，走既有采购与账单",
-   "url": "https://openai.com/index/chatgpt-enterprise-aws-marketplace"
+   "title": "苹果将推新 Mac 应用，简化本地模型运行",
+   "url": "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
   },
   {
-   "title": "Simon Willison：把 agent 写的冗长 PR 描述折进 <details>",
-   "url": "https://simonwillison.net/2026/Nov/9/details-summary/"
+   "title": "双 11 当天多家大模型厂商在天猫打 5 折",
+   "url": "https://www.qbitai.com/2026/11/509085.html"
+  },
+  {
+   "title": "llm-gemini 0.36：Gemini 命令行插件更新",
+   "url": "https://simonwillison.net/2026/Nov/10/llm-gemini/"
   }
  ]
 }
