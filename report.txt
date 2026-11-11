@@ -1,45 +1,48 @@
 ======================================================================
-处理报告  (原始 154 条)
+处理报告  (原始 201 条)
 ======================================================================
 
-① 过滤: 保留 109 条, 过滤掉 45 条
+① 过滤: 保留 171 条, 过滤掉 30 条
    过滤掉的样例(非AI相关):
+     ✗ [GitHub Trending] GoogleChrome/modern-web-guidance-src
+     ✗ [GitHub Trending] shadcn/improve
      ✗ [GitHub Trending] we-promise/sure
-     ✗ [GitHub Trending] sherlock-project/sherlock
-     ✗ [GitHub Trending] tokio-rs/topcoat
-     ✗ [GitHub Trending] ranxianglei/billion-context
-     ✗ [GitHub 升星repo] huamidev/GestaltX
-     ✗ [GitHub 升星repo] jhaizhou-ops/S2Arm
-     ✗ [GitHub 升星repo] Kianuni/Erosion-CN
-     ✗ [GitHub 升星repo] PlateParrotTerminal/lag-doctor
+     ✗ [GitHub Trending] TheAlgorithms/Java
+     ✗ [Hacker News] Protecting SSH Keys with macOS Secure Enclave
+     ✗ [Hacker News] Six Math Essentials
+     ✗ [Hacker News] Scion is back and is going to sell a kei truck in 
+     ✗ [Hacker News] Starlink Mini 2
 
-② 去重: 109 → 106 条 (同批合并 0, 跨天历史去重 3)
+② 去重: 171 → 167 条 (同批合并 2, 跨天历史去重 2)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] meta/astryx
-     ⏭️  [GitHub Trending] anthropics/skills
      ⏭️  [GitHub Trending] vercel-labs/agent-browser
-   (本批无跨源重复标题)
+   跨源合并的事件:
+     ⇉ TorchCurves: Differentiable Parametric C  ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent & Skill: 24 条 (含🔧开源 2)
-     - 产品与商业: 9 条
-     - 模型与研究: 45 条 (含🔧开源 2)
-     - AI 工程落地: 15 条 (含🔧开源 2)
-     - 安全与治理: 5 条 (含🔧开源 1)
+     - 模型与研究: 84 条 (含🔧开源 1)
+     - Agent & Skill: 27 条 (含🔧开源 1)
+     - 产品与商业: 13 条
+     - 安全与治理: 8 条 (含🔧开源 1)
+     - 观点与好文: 5 条 (含🔧开源 1)
+     - AI 工程落地: 12 条
    【基础设施】
-     - K8s × AI: 7 条
      - 社区与项目: 1 条
+     - K8s 核心: 3 条
+     - K8s × AI: 12 条
+     - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Anthropic launches roadshow for proposed initial public
         源:Anthropic News 类:产品与商业 跨源:[]
-     🔥 [17分] Introducing Our Smallest, Most Efficient Model: Muse Em
+     🔥 [17分] llm-gemini 0.36
         源:Simon Willison 类:模型与研究 跨源:[]
 
    打分Top5(参考):
       19分 [Anthropic News] Anthropic launches roadshow for proposed init
+      17分 [Simon Willison] llm-gemini 0.36
       17分 [Simon Willison] Introducing Our Smallest, Most Efficient Mode
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
       16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
-      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
