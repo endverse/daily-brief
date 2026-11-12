@@ -21,6 +21,11 @@ AI_KEYWORDS = [
     "agent", "agentic", "RAG", "diffusion", "multimodal", "inference", "fine-tun",
     "embedding", "OpenAI", "Anthropic", "DeepMind", "Hugging ?Face", "prompt",
     "chatbot", "copilot", "reasoning model", "foundation model", "MoE", "RLHF",
+    # 关注焦点：工具链 / 沙箱 / 账号政策（社区源靠这些词才进得来）
+    "orca", "claude code", "codex", "opencode", "gemini cli", "cursor cli", "coding agent",
+    "agent ide", "agent orchestration", "agent sandbox", "sandbox", "microvm", "micro vm",
+    "firecracker", "gvisor", "kata containers", "e2b", "daytona", "isolation",\
+    "封号", "封禁", "账号封禁", "风控", "沙箱", "隔离运行时", "usage policy", "acceptable use",
     # 中文
     "人工智能", "大模型", "大语言模型", "模型", "智能体", "多模态", "推理", "训练",
     "微调", "神经网络", "深度学习", "机器学习", "生成式", "扩散", "对齐", "开源模型",
@@ -51,6 +56,20 @@ CAT_RULES = {
                 "合作", "partnership", "营收", "revenue", "product"],
     "观点与好文": ["观点", "opinion", "分析", "analysis", "认为", "批评", "解读", "深度",
                 "essay", "blog", "thoughts", "perspective", "why", "如何看"],
+    "平台政策与风控": [  # 关注焦点③ Claude/Codex 封号政策、ToS、区域与支付限制
+        "封号", "封禁", "account ban", "banned", "suspension", "suspend", "风控",
+        "usage policy", "acceptable use", "terms of service", "toS", "违规", "申诉",
+        "account review", "账号政策", "限流政策", "区域限制", "支付风控", "共享账号",
+    ],
+    "沙箱与运行时": [  # 关注焦点④ agent 隔离运行时
+        "sandbox", "沙箱", "microvm", "micro vm", "firecracker", "gvisor", "kata",
+        "isolation", "隔离", "e2b", "daytona", "runtime", "vm 快照", "snapshot",
+    ],
+    "Agent 工具链": [  # 关注焦点⑤ Orca 及主流 coding agent / IDE
+        "orca", "claude code", "codex", "opencode", "gemini cli", "cursor cli", "copilot cli",
+        "coding agent", "agent ide", "ade", "agent orchestration", "多 agent", "并行 agent",
+        "worktree", "terminal agent", "cli agent",
+    ],
     "安全与治理": ["安全", "security", "越狱", "jailbreak", "漏洞", "vulnerab", "攻击", "attack",
                 "泄露", "leak", "监管", "regulat", "合规", "compliance", "risk", "风险",
                 "隐私", "privacy", "治理", "governance", "CVE", "对齐", "alignment"],
@@ -75,8 +94,14 @@ INFRA_CAT_RULES = {
 INFRA_ORDER = ["K8s × AI", "K8s 核心", "云原生周边", "社区与项目", "公有云"]
 
 # 权威度评分（源 -> 分）
+# 关注焦点源分组：工具链 / 沙箱（release atom 抓来的，直接归入 AI 板块对应分类）
+TOOL_SOURCES = {"Orca", "Claude Code", "Codex CLI", "OpenCode", "Gemini CLI"}
+SANDBOX_SOURCES = {"E2B", "Daytona", "microsandbox", "gVisor", "Kata Containers"}
+
 AUTHORITY = {
     "OpenAI News": 10, "Anthropic News": 10, "Google DeepMind": 10, "Google Research": 9,
+    "Claude Code": 9, "Codex CLI": 9, "Gemini CLI": 8, "Orca": 7, "OpenCode": 6,
+    "E2B": 7, "Daytona": 7, "gVisor": 7, "Kata Containers": 7, "microsandbox": 6,
     "Mistral AI": 8, "HuggingFace Papers": 7, "arXiv cs.AI": 6, "Simon Willison": 8,
     "Hacker News": 6, "量子位": 6, "InfoQ中国": 6, "GitHub Trending": 6, "GitHub 升星repo": 5,
     "Kubernetes Blog": 8, "CNCF Blog": 7, "AWS News": 7, "Google Cloud": 7, "Azure Updates": 7,
@@ -119,6 +144,11 @@ def _is_k8s_ai(text):
 
 def classify(it):
     text = f"{it['title']} {it['summary']}"
+    # 关注焦点源优先落 AI 板块（否则会被 K8s×AI 的 "agent sandbox" 类词抢走）
+    if it["source"] in TOOL_SOURCES:
+        return "AI 板块", "Agent 工具链"
+    if it["source"] in SANDBOX_SOURCES:
+        return "AI 板块", "沙箱与运行时"
     # K8s×AI 优先判定（含 GitHub 上 K8s+AI 类开源项目，跨板块抢占）
     if _is_k8s_ai(text):
         return "基础设施", "K8s × AI"
@@ -134,8 +164,11 @@ def classify(it):
             return "基础设施", "社区与项目"
     # AI 板块 6 类 —— 按优先级判定：安全 > 产品商业 > Agent > 工程 > 观点 > 模型研究(兜底)
     scores = {cat: sum(1 for k in kws if re.search(re.escape(k), text, re.I)) for cat, kws in CAT_RULES.items()}
-    PRIORITY = ["安全与治理", "产品与商业", "Agent & Skill", "AI 工程落地", "观点与好文", "模型与研究"]
+    PRIORITY = ["平台政策与风控", "沙箱与运行时", "Agent 工具链", "Agent & Skill", "AI 工程落地", "安全与治理", "产品与商业", "观点与好文", "模型与研究"]
     best = max(PRIORITY, key=lambda c: (scores[c], -PRIORITY.index(c)))
+    # 论文源保持"模型与研究"，不要被工具链/政策类关键词误吸
+    if it["source"] in ("arXiv cs.AI", "HuggingFace Papers"):
+        return "AI 板块", "模型与研究"
     if scores[best] == 0:
         best = "AI 工程落地" if it["source"] in ("GitHub Trending","GitHub 升星repo") else "模型与研究"
     return "AI 板块", best
