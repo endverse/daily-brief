@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 12 日 · 星期四</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>AI &amp; INFRASTRUCTURE DAILY · NO.052</span><span class="issue-badge">第 052 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 12 日 · 星期四</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的主线是「调度与边界」。基础设施侧，CNCF 把分布式训练的两块硬骨头讲透了——Kueue 在准入阶段按 block / rack / host 拓扑域锁定落点，Coscheduling 扣住 Pod 等整组就绪，缺了拓扑标签这套组合就失效；同一天 Volcano 的补丁也在修 gang 与 DRA 混用时的「假就绪」。agent 侧在划边界：OpenShell 把「哪个二进制、哪个 HTTP 方法」写进沙箱策略，每个 agent 一个 supervisor Pod，代价是扩展性；Google 把 CodeMender 塞进 PR 时间线，用 /verify 沙箱复现、用 /fix 开草稿 PR。模型侧出现新品类——Gemini Decision 1 不生成文本，单次前向给候选打分、输出 token 不收钱，与 Jev、GPT-6 Luna 形成决策模型三足。资本侧 Anthropic 把路演价定在 70–78 美元，最高募资 643.5 亿美元。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.cncf.io/blog/2026/11/12/gang-scheduling-and-topology-aware-placement-for-ai-training-in-kubernetes/" target="_blank" rel="noopener">Kueue 拓扑感知 + Coscheduling：把「带宽落点」和「整组同时启动」交给准入层</a></h2>
+    <p>Kubernetes 默认一次调度一个 Pod、不跨 Pod 协调，而分布式训练要求全部 worker 同时启动、且必须落在互连带宽足够的节点上，任一条不满足，训练就会停住或只跑到硬件潜力的一小部分。CNCF 给出的组合是分工：Kueue 负责拓扑感知放置，按节点上的 block / rack / host 三级拓扑标签划域，在准入阶段把放置约束直接写进训练 Job 的 Pod 模板，kube-scheduler 只能在该域里选节点；Coscheduling 负责同组，让每个 Pod 停在等待态，直到整个 gang 就绪才一起绑定。Kueue 自己不做拓扑发现，标签要先由集群管理员或云厂商的 topology labeler 打上，没有标签这套约束就无从生效。文章把排障拆成三段：准入队列的 active / inadmissible 深度、Pod 实际落点是否落在预期拓扑域、以及训练吞吐——因为基础设施指标只测「活动」不测「产出」，落点错了不会有任何告警。Kueue 还会对超时未全部就绪的已准入 Job 做驱逐重排队。</p>
+    <div class="note">CNCF 博客 11 月 12 日发布的实践文，核心是 Kueue（kubernetes-sigs 下的作业队列，位于 kube-scheduler 之上，在准入阶段介入）与 Coscheduling 的组合。Kueue 依赖 block / rack / host 三级拓扑标签，并通过 Workload 对象记录准入决定与 pod sets；文章明确指出 Kueue 不自行发现集群拓扑，也不会因为拓扑错配触发任何基础设施层告警。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/E7QKIMUz3h0G0IE5Paii?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Gemini Decision 1：不走逐 token 生成，单次前向给候选答案打分，输出 token 不收钱</a></h2>
+    <p>Gemini Decision 1 不是生成模型：它只对预先给定的候选做判断，一次前向传播返回概率与置信度，支持是/否、2–255 个选项的多选、以及自定义有序 rubric 打分三类任务。官方数字是一次请求最多评 1000 个独立问题，输入覆盖文本、图像、音频、视频与 PDF，端到端延迟 150–250 ms，256K 多模态上下文。定价是每百万输入 token 0.10 美元、输出不收费，约为 Gemini 3.5 Flash-Lite 的五分之一。Simon Willison 用同一段视频实测，发现它不像 Jev 与 OpenAI 那样回 1.0/0.0，而是给出 0.92 / 0.05 这类概率，三家已经构成独立的「决策模型」品类（Jev 4.2 美分/百万、OpenAI GPT-6 Luna 10 美分/百万）。谷歌自己把它用在模型路由、agent 工具选择、产品设计与安全检测上。</p>
+    <div class="note">谷歌在 AI Studio 上线 Decisions API，由 Gemini Decision 1 驱动，定位 agent 路由、推理、排序与多模态理解这类封闭选项集任务。官方称其在相关基准上领先并取得最低校准误差；社区把它与 Jev、OpenAI 的决策模型放在同一价格表里对比，输出 token 三家都不收费。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/COuPKpA6rTf05C6JM10y?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">上下文即控制平面：把知识、记忆、上下文分层，用「上下文引擎」在模型外编译推理状态</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>文章把 agent 的瓶颈从「检索」搬到「该知道什么、何时调用、保留多久、遗忘什么」，并给出三层划分：上下文是当前窗口内即用即弃的活跃状态（类比 RAM），记忆负责跨会话持久化，知识是交互之前就有的策略、硬事实与治理规则（相当于官方教科书）。上层是一个「上下文引擎」，作用类似编译器：把分散的历史数据与实时流翻译成结构化、可推理的状态，负责选择、过滤、排序、压缩、鉴权、PII 剥离与沙箱化，再交给模型。作者用 AI DevOps agent 排障举例：从向量库捞运行手册只是情景记忆的一半，还需要最近五秒的错误日志流这种感知输入，两类数据必须异步融合。结论是这属于系统工程而非提示词工程——提示词工程问「该怎么问」，上下文工程问「模型此刻做对推理所需的最小高价值上下文是什么」。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出可落地的分层：知识层管策略与硬事实（受控知识库或微调数据）、记忆层把历史与实时信号转成推理状态、上下文层只放当次窗口的活跃信息；上下文引擎在请求到达模型前完成选择/压缩/鉴权/PII 剥离，并同时消费批式与流式两个数据源。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">把所有东西塞进向量库再 top-k 召回，遇到亚秒级实时状态就失灵；上下文给错会显著抬高幻觉率，而记忆、知识、会话三者的写入与过期策略混在一起时无法审计。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对多用户、多会话的 agent 平台是架构层参考：它把「谁、什么、为什么」当作控制平面数据来治理，和网关侧做审计/DLP 的思路同源。限制是没有实现与基准，属于设计范式，分层边界与存储选型要自己定。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.infoq.cn/article/COuPKpA6rTf05C6JM10y?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/QwenLM/qwen-code" target="_blank" rel="noopener">Qwen Code 1.0 Preview：把 Qoder 的 agent harness 并进开源 CLI，带 Auto-Memory / Auto-Skills / Agent Teams</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Qwen Code 1.0 Preview 把 Qoder 的 agent harness 与 Qwen Code 合并成一次开源发布，卖点是开箱即用：Auto-Memory 自动沉淀记忆、Auto-Skills 自动生成技能、SubAgents 与 Agent Teams 做多 agent 分工，外加 MCP 接入。分发面铺得很宽——终端、编辑器（VS Code / Zed / JetBrains）、桌面端、浏览器，以及 Telegram、钉钉、企业微信、飞书等 IM 渠道跑同一个 agent。安装走 npm（@qwen-code/qwen-code），要求 Node ≥ 22。它是目前少数把「多 agent 编排 + 技能自动生成 + IM 入口」打包进一个开源 CLI 的项目，对标的是 Claude Code / Codex CLI 的 harness 层。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一个 harness 覆盖记忆、技能、子 agent 与团队编排：Auto-Memory 按会话沉淀可复用事实，Auto-Skills 把重复流程生成技能，SubAgents / Agent Teams 拆并行任务；通过 MCP 接外部工具，通过多端适配层把同一会话接到 IDE、桌面、浏览器与 IM。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">自建 agent 通常要自己拼记忆存储、技能加载和 IM 网关，跨端还要各写一套；闭源 CLI 又不暴露 harness 内部结构，路由与权限难以改。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得拆开读它的 harness 设计，尤其 Auto-Skills 的触发条件与落盘方式，与在飞书侧做多会话隔离的形态接近。但要评估供应链：1.0 仍是 Preview、绑定 Qwen 模型栈，接非 Qwen 模型的能力需实测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/QwenLM/qwen-code" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/op7418/guizang-game-skill" target="_blank" rel="noopener">歸藏 Game Skill：把「6 小时、4.5 亿 token 做出一款 3D 动作游戏」踩过的坑固化成 skill</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>作者用 Fable 5.2 花约 6 小时、约 4.5 亿 token（其中一部分是 Opus 5.5 跑测试）做出浏览器 3D 动作游戏《雾锁山门》，再把过程中有效的流程写成 skill，供 Claude Code / Codex 直接调用。skill 不走「先生成一段代码」的路子，而是固定流程：先问清题材与玩法，接上素材生成工具，让 agent 自己推进画面、自己截图核对，最后打包成单个 HTML（three.js）。仓库附带可玩演示，AGPL-3.0 许可，约 198 star。它的价值不在游戏本身，而在示范 skill 该写什么——写踩过的坑和最终留下的做法，不写理论。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一个单文件 skill 描述完整产出流程与自检动作：需求澄清 → 素材生成 → 场景与战斗循环实现 → 截图自检迭代 → 打包成可直接打开的 HTML；配套 demo 用于回归对照。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">让 agent 做视觉化产物时最容易失控的两处——不确认需求就开工、写完不看渲染结果——被固化成流程节点；作者 4.5 亿 token 的返工经验被直接省掉。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">当作 skill 写法样例读很值：它把「自检」写成必做步骤而不是建议，这是多数 skill 缺的一环。局限是领域偏创作类，工程任务要换自检手段（编译、测试、指标），不能照搬截图核对。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/op7418/guizang-game-skill" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/identity-security/how-to-run-codemender-in-your-pull-requests/" target="_blank" rel="noopener">CodeMender 接进 Pull Request：/verify 在沙箱复现漏洞，/fix 直接开草稿 PR</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google 给出把 CodeMender（AI Threat Defense 平台里的代码安全 agent）接进 Git PR 的参考架构：PR 触发扫描，扫描跑在 Cloud Run 上，结果以一条评论回到时间线——一张带 finding ID 的表格，外加两个可回复的命令。回复 /verify &lt;id&gt; 让它在临时沙箱里构造并模拟利用，把利用步骤折叠进同一帖子；回复 /fix &lt;id&gt; 生成补丁预览并开好草稿 PR，再 /approve 合并。触发验证的条件写得很明确：扫描置信度低于 100% 才需要 verify，而验证结果可以改变严重级别。因为沙箱是临时的，产物会自动落到 Cloud Storage 保留审计轨迹；文中还提醒验证流水线必须区分「测试崩溃」与「真的不可利用」，否则会 fail-open 把漏洞判成安全。背景数字：团队交付速度最高提升 2 倍的同时，漏洞平均修复时间从十年前的 59 天涨到 2025 年的 170 天以上。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把扫描、可利用性验证、补丁生成三段都塞进 PR 时间线，用 slash 命令驱动；验证在临时沙箱内构造 exploit 并保留 trace，补丁以草稿 PR 提交，人工只做 approve。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">SAST 告警量大且真假混杂，开发者要跳去控制台看报告、自己判断可利用性；修复周期被拉长到 170 天量级，安全与研发在工单里来回。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得抄的是流程而非工具：置信度阈值决定是否验证、验证产物自动留档、补丁走草稿 PR 由人 approve。依赖 Cloud Run 与 CodeMender 服务，自建要换等价组件；fail-open 的坑在任何自研验证流水线里都存在。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://cloud.google.com/blog/products/identity-security/how-to-run-codemender-in-your-pull-requests/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.14413" target="_blank" rel="noopener">6 bit 是拐点：固定预算该花在权重精度还是选项顺序平均上</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>在 Qwen3-0.6B / 1.7B 上用模拟 round-to-nearest 量化（8/6/4/3 bit，fp16 对照）跑 ARC-Easy、ARC-Challenge、MMLU、HellaSwag 各 300 题，结果是 6 bit 相对 fp16 不掉分（反而高 1.8 与 0.9 分，作者未解释原因），8 bit 却低 0.7 / 0.4 分。4 bit 时选项位置偏斜从 0.15 升到 0.53（0.6B）。论文把「权重字节数 × 通过次数」当统一的机器无关成本单位，结论是权重 ≥6 bit 时，多跑几次选项重排比继续降比特更划算；决策表收敛为「6 bit 权重 + 最多 4 种循环顺序各跑一次」，4 bit 下 0.6B 靠 4 次重排回收 12.6 分。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出可复算的预算分配规则：把量化比特与重排次数折算成同一成本单位比较边际收益，直接落到「6 bit + 4 次重排」这个配置。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">本地小模型调优时，降比特与做顺序集成是两条常见路线，但缺少同一成本口径下的对比，容易在 4 bit 上继续堆工程。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在做本地小模型评测或部署时，这套成本口径可以直接借用（它是评测方法，不是新模型）。限制明显：两个 0.6–1.7B 小模型、模拟量化、最简单的 round-to-nearest，真机 kernel 与 GPTQ/AWQ 的表现要另测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://huggingface.co/papers/2611.14413" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.14397v1" target="_blank" rel="noopener">用 margin 解释 LoRA 的抗遗忘与可合并性，并给出免训练的合并系数</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文在近正交任务、ℓ2 正则的多类线性分类设定下分析 LoRA，刻画各正则强度下的最优 adapter：在中间区间，最优解对齐微调数据上的 max-margin 解。由此推出两点：预训练数据与微调数据上的 margin 有闭式表达，正则系数就是「保留 vs 适配」的旋钮；adapter 合并后的模型在每个任务上 margin 为正，并可解出使各任务 margin 平衡、并集 margin 最大的混合系数，从而得到一个免训练的合并规则。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">解释 LoRA 为什么抗灾难性遗忘、为什么多个 adapter 能合并，并给出按任务 margin 平衡计算合并权重的闭式规则（无需再训练）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多任务与持续学习里 adapter 合并长期靠经验权重或再训练，缺少可解释的取舍依据。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做多租户 LoRA 服务（一套基座 + 多任务 adapter）时，这个 margin 视角能解释合并后的退化来源。限制是线性分类 + 近正交假设，放到真实 LLM 上只能当定性指导。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://arxiv.org/abs/2611.14397v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span></div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.12304" target="_blank" rel="noopener">Evolving Infra：把算力分配与 KV cache 解耦，P95 TTFT 比 Dynamo 低最多 14 倍</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>这是针对 agent 负载（多轮、工具调用、上下文复用）设计的 serving 框架，核心是把「算力分配」与「KV cache 管理」解耦，让节点能在 prefill 与 decode 之间高效切换；在线 planner 按负载构成决定 PD 切分比例，agent-aware 的分布式 KV 管理器用 agent 上下文管理的信号指导淘汰与迁移。在编码、数学、computer-use 任务上，用 GLM-5.2 与 Kimi K2.6、最多 256 张 GB300，相比 NVIDIA 的 Dynamo 把端到端平均延迟降低最多 4.1 倍、P95 TTFT 降低最多 14 倍。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">运行时同时调两件事：PD 切分比例（在线 planner）与 KV cache 的淘汰/迁移（按 agent 上下文信号），并允许节点在 prefill / decode 角色间切换，避免固定切分造成的单侧空转。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 请求长短差异极大且大量复用上下文，固定 PD 切分让两侧负载不均；按 LRU 淘汰会把 agent 马上要复用的 cache 扔掉，重算推高 TTFT。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做推理平台的人最值得读：它把「agent 语义」变成调度信号，而不是只看 QPS。限制是实验规模很大（256 张 GB300）、依赖自研 KV 管理器，短期难直接复用，适合当设计参考。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://huggingface.co/papers/2611.12304" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2608.22237" target="_blank" rel="noopener">SparseRead：给 agent 加一层「该读多少」的准入控制，token 降 92.9%、墙钟时间降 89%</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>SparseRead 是一层可复用的阅读控制层，不改模型，只决定「这次该把多少原文放进上下文」：Read Intent Protocol 跟踪需求演化与来源覆盖，Adaptive Reader Backends 选择证据定位与暴露方式，Budgeted Read Gate 限制单次任务累计暴露的原始内容量并保留全量回退。在 6 个模型（含 Claude Opus 5）与 5 类场景上，总 token 降低最多 92.9%、墙钟时间降低最多 89.0%，97% 的设置下任务质量持平或更好；Web 深搜任务上 token 降 31–43%、完成时间降 23–37%。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 agent 与资源之间插一层：按读取意图决定抓哪一段、暴露到什么粒度，用预算闸门限制累计原文量；Reader 接口统一后可替换不同后端，文中验证接入三套 agent 框架。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">web agent 常把整页、整个文件塞进上下文，token 与延迟成本高，还把无关内容混进证据里稀释判断。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">这类「阅读层」比换模型便宜，直接对成本与延迟生效，且因为不改模型所以可移植。限制是收益强依赖场景，深搜类只有 30–40% 降幅；协议要自己实现或适配。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://huggingface.co/papers/2608.22237" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.14492v1" target="_blank" rel="noopener">ReTrace：把 SOP 编译成「由代码选下一步」的工作流，成本降 24%、单任务 1.3 秒</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>ReTrace 针对「同一套 SOP 反复跑」的业务流程：从 agent 的历史运行日志里抽出每一步背后的条件（理由写在 agent 的推理文本里，不在工具调用里），跨多次运行合并成一份紧凑规则文档，再编译成可执行工作流——此后由代码而不是 LLM 决定下一步。在生产平台的 79 个流程上，工作流完成率 93.8%（agent 96.8%），单任务成本低 24%；τ²-Bench 上任务成功率 75.8%（agent 80.6%），但耗时 1.3 秒对 170 秒。用标注的失败样本做三轮修复后，k=2 的工作流从 66.7% 提到 81.2%。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">从日志蒸馏条件、合并成规则文档、编译为可执行工作流；只有最后一步依赖编排平台，同一份规则可编译到不同平台，并支持用失败样本迭代修复。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">SOP 型自动化每一步都调一次 LLM，成本与延迟随规模线性上升，而流程本身是确定的，不需要每步推理。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">适合高频且稳定的 SOP（对账、工单流转）：用 3–7 个点的成功率换两个数量级的延迟和 24% 成本，多数场景划算。限制是需要历史运行日志做输入，流程漂移后要重新蒸馏。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://arxiv.org/abs/2611.14492v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/huawei-csl/MACaQ" target="_blank" rel="noopener">MACaQ：32.5 GB 显存 64 分钟量化 122B 模型，量化时间比对手少 11 倍</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>华为 CSL 开源的模型无关校准量化方案，产出可直接在 llama.cpp / vLLM / Diffusers / PyTorch 上跑的 GGUF，覆盖文本、图像、视频、音频四类模型。仓库给出的数字是：122B 参数模型用 32.5 GB 显存 64 分钟量完；在 Llama-3-8B 上达到对手最佳困惑度只需 1/11 的量化时间。另附 MACaQ-R 用于精修已有 GGUF 并保持标准 llama.cpp 兼容，论文 arXiv 2611.10649，Apache-2.0。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">模型无关的校准量化加后处理精修：输入任意模型与校准数据，输出 GGUF（或直接喂 vLLM / Diffusers）；MACaQ-R 可对既有 GGUF 二次优化到特定负载。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大模型量化的显存与时间门槛高（122B 往往要整机多卡），已有 GGUF 想再提质量只能重头量化，链路割裂。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">本地部署与私有化推理的直接候选，尤其要在有限 GPU 上跑大模型时。限制是仍属离线量化工具，收益要用自家任务集验证；生态围绕 GGUF，非 GGUF 运行时需另测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/huawei-csl/MACaQ" target="_blank" rel="noopener">GitHub 升星repo</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span></div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/11/509381.html" target="_blank" rel="noopener">Anthropic 路演定价 70–78 美元/股：最高募资 643.5 亿美元，11 月 19 日纳斯达克挂牌 ANT</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>路演方案是发行 8.25 亿股（新发约 8.01 亿 + 老股东 2365 万），每股 70–78 美元，最高募资约 643.5 亿美元，11 月 19 日在纳斯达克交易，代码 ANT；按完全摊薄口径估值约 1.4 万亿美元，较市场此前讨论的 2 万亿缩水约三成。另有 260 亿美元战略私募同步进行：谷歌与英伟达各 100 亿、AMD 25 亿、博通/美光/微软各 10 亿、台积电旗下实体 5 亿。路演材料披露 2026 年第三季度单季收入接近 170 亿美元，增速较二季度放缓。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把融资结构摊开：IPO 与战略私募并行，认购方集中在算力供应链（英伟达、AMD、博通、美光、台积电）与云厂（谷歌、微软）。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">对关注 AI 基础设施的人，这份材料说明了大模型公司的资本开支与算力绑定关系——股东同时是芯片与云的供应商。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">当行业坐标读即可：估值缩水三成、增速放缓、供应链入股三个信号同时出现，比单看融资额更有信息量；后续股价叙事不必追。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.qbitai.com/2026/11/509381.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/topics/partners/inside-the-gemini-factory-accelerating-partner-solutions/" target="_blank" rel="noopener">Google 的统一 Gemini 入口：把 MCP / A2A / REST 连接器与「声明式 skill」做成 ISV 的分发通道</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google 在统一的 Gemini 体验里给企业接第三方能力：标准化连接器覆盖 MCP、A2A runtime 与 REST API，并引入「声明式 skill 与插件」，让 ISV 把领域能力、受监管流程与业务系统直接嵌进企业侧的 Gemini。官方叙事是从「做一次集成」变成「发布一个可被企业直接调用的能力」，受益方被描述为 ISV——一份能力描述同时触达所有企业客户。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">三类连接器（MCP、A2A、REST）加声明式 skill/插件清单，让第三方能力以统一形态出现在 Gemini 里，ISV 只需维护一份能力描述。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业接多个 ISV 时每家一套集成方式；agent 之间互调又缺统一契约。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对做 agent 平台的人，这是「能力目录 + 声明式技能」被平台方标准化的信号，和 skill 生态走向一致。目前仍是合作方叙事，协议细节与开放时间表未公开。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://cloud.google.com/blog/topics/partners/inside-the-gemini-factory-accelerating-partner-solutions/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/11/11/openshell-on-kubernetes-a-guide-for-platform-engineers/" target="_blank" rel="noopener">OpenShell 在 Kubernetes 上怎么跑：每沙箱一个 Supervisor Pod，策略细到「哪个二进制、哪个 HTTP 方法」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>文章把 OpenShell 的定位压成一句话：agent 不只会调 API，它会执行 shell、装包、读文件、开网络连接，所以每个 agent 都是「持有真实凭证的不可信代码」。OpenShell 的做法是每个 agent 一个沙箱，沙箱外一个可信 supervisor 决定它能碰到什么，四类控制在 YAML 里声明：Landlock 限定文件路径（/usr、/etc 只读，只有 /sandbox、/tmp 可写）、沙箱启动前降为非 root 且无 capability 并套 seccomp、出站默认拒绝（可按二进制/主机/端口/HTTP 方法放行）、API key 只给占位符由 supervisor 换真值。落到 Kubernetes 上它不自带调度器，而是用 SIG Apps 的 agents.x-k8s.io Sandbox（Agent Sandbox）把沙箱变成 Pod / Service / PVC / Secret / NetworkPolicy，gateway 持有全部沙箱并通过 mTLS 接客户端，Kyverno 在准入时校验对象；demo 跑在 1.35 + Cilium 1.20 + Agent Sandbox v1.0.5 + OpenShell 0.1.3 的两节点 kind 上。作者点出两个现实限制：沙箱目前只能通过 Gateway API 创建、不能走 K8s API；每 agent 一个 Supervisor Pod 隔离强，但大规模下扩展性存疑，roadmap 里才有多形态部署。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给出完整的沙箱生命周期：创建时先建两条 NetworkPolicy（工作负载零出站、只允许 supervisor 从 5500 入站），再建 Sandbox 资源，Pod 起来后回读校验（非 root、无 capability、RuntimeDefault seccomp、无 ServiceAccount token），全部通过才起 supervisor 并解开调度门；策略可热更新而不重启沙箱。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">NetworkPolicy 只能表达「这个 Pod 能到 api.github.com:443」，说不出「curl 可以读 issue 但不能建 issue」；agent 一旦被提示注入，凭据与出站就是敞口。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">与多用户 agent 沙箱最贴的一篇：按二进制/HTTP 方法的策略、每沙箱 supervisor、复用 K8s 原生对象三件事都做了，还明确交代了扩展性缺口。建议直接对照它的生命周期与 NetworkPolicy 写法，而不是先看 CLI。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.cncf.io/blog/2026/11/11/openshell-on-kubernetes-a-guide-for-platform-engineers/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://azure.microsoft.com/updates?id=578454" target="_blank" rel="noopener">AKS 上的分布式存储加速器进入 Public Preview：拿各节点本地 NVMe 给 AI 负载做读缓存</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DACS（Distributed accelerator for cloud storage）在 AKS 上进入公共预览，形态是跑在集群内的分布式 read-through 缓存，把各节点本地 NVMe 盘聚合成一层缓存来服务 AI 负载的读请求，目标是把模型加载与数据集读取从远端存储的往返里解放出来。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">集群内分布式读缓存：本地 NVMe 组成共享缓存层，AI 工作负载的重复读命中本地，减少对象存储/文件存储往返。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">GPU 节点等数据：checkpoint 与数据集从远端存储读，带宽和延迟把 GPU 利用率压下来。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">在云上用 AKS 跑训练或推理时，这是少见的「用本地盘换吞吐」的托管方案，值得看容量与一致性边界。限制是目前仅 AKS 预览、绑定 Azure 存储，自建集群要自己拼 JuiceFS/Alluxio 这类方案。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://azure.microsoft.com/updates?id=578454" target="_blank" rel="noopener">Azure Updates</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span></div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/projectcalico/calico/releases/tag/v3.32.4" target="_blank" rel="noopener">Calico v3.32.4：修 IPAM 泄漏与 nftables 配置被忽略，eBPF conntrack 按地址族扩容</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>补丁版集中在 IPAM 与数据面：修了 pod 把 IP 丢给别的 pod（运行时重试 sandbox 创建留下陈旧 CNI ADD，含 Multus 场景）、IPAM GC 不回收旧 sandbox 遗留 IP（小地址池会被耗尽）、以及 IP 池 nodeSelector 变化时 tunnel 地址不重算的问题。eBPF 侧 conntrack map 自动扩容改为只对使用率超过 80% 的地址族翻倍，并新增按 ip_version 的指标与「被 workload RPF 检查丢弃」计数器；nftables 模式下 Felix 配置（动作、mark mask、刷新间隔）此前被忽略的问题也修了。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一批数据面正确性修复：IPAM 泄漏与重复分配、IP 池 nodeSelector 变更后的 tunnel 地址、nftables 配置生效、eBPF conntrack 分族扩容与指标。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">Multus 多网卡与小地址池场景下 IP 耗尽、Pod 重启后 IP 冲突；双栈节点上 v4/v6 conntrack 指标互相覆盖，扩容时把两族一起翻倍浪费内存。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跑 3.32 线的集群建议跟：修的是 Pod 拿不到 IP、IP 冲突这类会直接掉业务的问题。升级注意 flexVolumePath=None 的节点要手动清旧 driver 目录。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/projectcalico/calico/releases/tag/v3.32.4" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/volcano-sh/volcano/releases/tag/v1.15.4" target="_blank" rel="noopener">Volcano v1.15.4：修只申请 DRA 资源的 Pod 绕过 gang 约束与队列配额虚占</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>这个补丁版的头号修复在 gang 调度：只申请 DRA 资源的 Pod 此前既可能让未就绪成员满足 gang readiness，也可能通过 backfill 绕过 gang 约束；同批还修了 gang 驱逐模拟失败后重复回滚导致 DRF 记账 panic、祖先队列容量检查漏掉后代队列的 scheduling-gate 预留、以及已完成 PodGroup 在被删 Pod 时把配额重新占住。另有一项性能改动：减少谓词失败记账与锁竞争，把逐节点失败日志从 V(3) 降到 V(5)。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">修补 gang 与配额记账的正确性：DRA-only Pod 纳入 gang 判定、驱逐模拟失败不重复回滚、祖先队列容量算上后代 gate 预留、完成态 PodGroup 不再占配额。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">GPU 集群里 DRA 与 gang 混用时会出现「假就绪」和 backfill 绕过，导致整组作业争抢资源；配额虚占让队列看起来满了却没人能跑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">自建 GPU 批调度用 Volcano 的应当升级——修的都是会让队列记账失真的问题。仍是 1.15 线补丁，别把 1.17 alpha 的 DRA 能力混着上。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/volcano-sh/volcano/releases/tag/v1.15.4" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☁️</span><span class="sec-title">云原生周边</span></div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/moby/buildkit/releases/tag/v0.35.0" target="_blank" rel="noopener">BuildKit v0.35.0：内置 Dockerfile 前端升到 1.29，HTTP 源重试遵循 Retry-After</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>0.35.0 把内置 Dockerfile 前端更新到 1.29.0；HTTP 源现在会重试瞬时失败并遵循 Retry-After 头，registry 认证在被拒后先刷新凭据再重试 token 请求；另外新增 BUILDKIT_GIT_DEBUG_COMMANDS=1 打开 git 命令追踪。整体是稳定性与可观测性向的版本。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">构建侧三处改进：前端升级带来 Dockerfile 语法与特性更新；HTTP 拉取具备退避重试；registry 认证失败可自愈；git 操作可追踪。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">CI 里远端制品偶发 5xx/429 直接失败、registry token 过期要人工重跑；git 拉取慢时无从定位。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">CI 基座升级的低风险选项，建议跟。注意前端版本变更可能影响既有 Dockerfile 的 lint 行为，先在流水线里灰度。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/moby/buildkit/releases/tag/v0.35.0" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏘️</span><span class="sec-title">社区与项目</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/11/11/introducing-cncf-user-groups-long-lived-homes-for-end-user-collaboration/" target="_blank" rel="noopener">CNCF 启动 User Group 计划：按行业与问题域建长期组织，不再是一次性 End User 群</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>CNCF End User Community 在 KubeCon NA 上启动 User Group Program：与临时性工作组不同，这些是按行业垂直或问题域划分的长期组织，定位是让终端用户在项目路线图上有持续的发声渠道。文章强调「长期存在、可跨届延续」的社区结构，而非一次性的 panel 或临时群。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把终端用户按行业与问题域组织成常设小组，形成对 CNCF 项目与 TOC 的持续输入通道。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">终端用户的声音过去散落在 Slack、会议 Q&amp;A 与一次性 panel 里，项目维护者缺少稳定需求来源。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果要把自建 K8s 的实践反馈给社区（或找同行对标 GPU、多租户方案），这是比单次演讲更持续的入口。刚启动，具体治理与产出节奏还没公开。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.cncf.io/blog/2026/11/11/introducing-cncf-user-groups-long-lived-homes-for-end-user-collaboration/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://www.infoq.cn/article/7Pecd1CshYIMvCTeBhrm?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 2026 趋势报告：AI、ML 与数据工程</a></li>
+      <li><a href="https://www.infoq.cn/article/V5Fwpg9gOBefx6xADcdd?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">差旅 Agent 的上下文工程：业务语义、偏好图谱与约束理解（AICon 北京）</a></li>
+      <li><a href="https://www.qbitai.com/2026/11/509224.html" target="_blank" rel="noopener">文心新模型纯代码生成《后室》：116 秒切 20 种画风</a></li>
+      <li><a href="https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions" target="_blank" rel="noopener">Anthropic 把 AI for Science 扩到基金会与研究机构，点名 20 家</a></li>
+      <li><a href="https://simonwillison.net/2026/Nov/11/llm/" target="_blank" rel="noopener">llm 0.37.2</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 09:00 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
