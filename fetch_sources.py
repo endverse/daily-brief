@@ -224,6 +224,18 @@ def all_sources(hours=24):
         ("Google Cloud","公有云","rss","https://cloudblog.withgoogle.com/rss/"),
         ("Azure Updates","公有云","rss","https://www.microsoft.com/releasecommunications/api/v2/azure/rss"),
         ("Anthropic News","AI-官方","anthropic","https://www.anthropic.com/news"),
+        # --- 关注焦点① 工具链（Orca + 主流 coding agent CLI）---
+        ("Orca","AI-官方","rss","https://github.com/stablyai/orca/releases.atom"),
+        ("Claude Code","AI-官方","rss","https://github.com/anthropics/claude-code/releases.atom"),
+        ("Codex CLI","AI-官方","rss","https://github.com/openai/codex/releases.atom"),
+        ("OpenCode","AI-官方","rss","https://github.com/sst/opencode/releases.atom"),
+        ("Gemini CLI","AI-官方","rss","https://github.com/google-gemini/gemini-cli/releases.atom"),
+        # --- 关注焦点② 沙箱 / agent 隔离运行时 ---
+        ("E2B","AI-官方","rss","https://github.com/e2b-dev/E2B/releases.atom"),
+        ("Daytona","AI-官方","rss","https://github.com/daytonaio/daytona/releases.atom"),
+        ("microsandbox","AI-官方","rss","https://github.com/microsandbox/microsandbox/releases.atom"),
+        ("gVisor","AI-官方","rss","https://github.com/google/gvisor/releases.atom"),
+        ("Kata Containers","AI-官方","rss","https://github.com/kata-containers/kata-containers/releases.atom"),
     ]
     all_items=[]; report=[]
     for name,cat,typ,url in tasks:
