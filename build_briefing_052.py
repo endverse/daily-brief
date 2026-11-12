@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 052 (2026-11-12). URLs copied verbatim from processed.json."""
+import json, os
+
+REPO = os.path.dirname(os.path.abspath(__file__))
+PROC = json.load(open(os.path.join(REPO, "processed.json"), encoding="utf-8"))
+KEPT = json.load(open(os.path.join(REPO, "kept.json"), encoding="utf-8"))
+VALID = set(it["url"] for it in PROC if it.get("url"))
+
+def U(i):
+    """Return the exact URL of kept.json item i (machine-copied, index-aligned to my review list)."""
+    u = KEPT[i]["url"]
+    assert u in VALID, u
+    return u
+
+def D(a, b, c):
+    return [{"key": "能做什么", "value": a},
+            {"key": "解决什么痛点", "value": b},
+            {"key": "值不值得", "value": c}]
+
+items = []
+
+def add(t, i, s, d, source=None, oss=False):
+    o = {"title": t, "url": U(i), "source": source or KEPT[i].get("source", ""),
+         "summary": s, "detail": d}
+    if oss:
+        o["oss"] = True
+    assert o["title"], "missing title"
+    items.append(o)
+    return o
+
+# ---------- 今日重点 ----------
+hl = []
+h1 = add(
+ "Kueue 拓扑感知 + Coscheduling：把「带宽落点」和「整组同时启动」交给准入层",
+ 111,
+ "Kubernetes 默认一次调度一个 Pod、不跨 Pod 协调，而分布式训练要求全部 worker 同时启动、且必须落在互连带宽足够的节点上，任一条不满足，训练就会停住或只跑到硬件潜力的一小部分。CNCF 给出的组合是分工：Kueue 负责拓扑感知放置，按节点上的 block / rack / host 三级拓扑标签划域，在准入阶段把放置约束直接写进训练 Job 的 Pod 模板，kube-scheduler 只能在该域里选节点；Coscheduling 负责同组，让每个 Pod 停在等待态，直到整个 gang 就绪才一起绑定。Kueue 自己不做拓扑发现，标签要先由集群管理员或云厂商的 topology labeler 打上，没有标签这套约束就无从生效。文章把排障拆成三段：准入队列的 active / inadmissible 深度、Pod 实际落点是否落在预期拓扑域、以及训练吞吐——因为基础设施指标只测「活动」不测「产出」，落点错了不会有任何告警。Kueue 还会对超时未全部就绪的已准入 Job 做驱逐重排队。",
+ D("把两个约束拆开实现：Kueue 在 admission 阶段选定 block/rack/host 域并把节点约束写进 pod template，Coscheduling 用 Permit 机制扣住 Pod 直到 gang 齐；配额不足时 Job 停在 inadmissible 而不是部分启动。",
+   "跨 rack 的集合通信延迟会吃掉每一步的时间，默认调度器把 worker 撒到任意节点，机群看起来满载、吞吐却只有硬件的一小部分；gang 没齐时已分配的 GPU 全在空转。",
+   "自建 GPU 集群必读：这是目前唯一同时进 K8s 主干生态的组合（Kueue 在 kubernetes-sigs，Coscheduling 在 scheduler-plugins）。门槛是拓扑标签体系要先建起来——云上靠 provider labeler，自建机房得自己定义 block/rack 映射；Kueue 的准入队列也会变成新的运维对象。"),
+ source="CNCF Blog")
+hl.append({"title": h1["title"], "url": h1["url"], "source": h1["source"],
+           "summary": h1["summary"],
+           "note": "CNCF 博客 11 月 12 日发布的实践文，核心是 Kueue（kubernetes-sigs 下的作业队列，位于 kube-scheduler 之上，在准入阶段介入）与 Coscheduling 的组合。Kueue 依赖 block / rack / host 三级拓扑标签，并通过 Workload 对象记录准入决定与 pod sets；文章明确指出 Kueue 不自行发现集群拓扑，也不会因为拓扑错配触发任何基础设施层告警。",
+           "detail": h1["detail"]})
+
+h2 = add(
+ "Gemini Decision 1：不走逐 token 生成，单次前向给候选答案打分，输出 token 不收钱",
+ 105,
+ "Gemini Decision 1 不是生成模型：它只对预先给定的候选做判断，一次前向传播返回概率与置信度，支持是/否、2–255 个选项的多选、以及自定义有序 rubric 打分三类任务。官方数字是一次请求最多评 1000 个独立问题，输入覆盖文本、图像、音频、视频与 PDF，端到端延迟 150–250 ms，256K 多模态上下文。定价是每百万输入 token 0.10 美元、输出不收费，约为 Gemini 3.5 Flash-Lite 的五分之一。Simon Willison 用同一段视频实测，发现它不像 Jev 与 OpenAI 那样回 1.0/0.0，而是给出 0.92 / 0.05 这类概率，三家已经构成独立的「决策模型」品类（Jev 4.2 美分/百万、OpenAI GPT-6 Luna 10 美分/百万）。谷歌自己把它用在模型路由、agent 工具选择、产品设计与安全检测上。",
+ D("把「从固定候选里选一个」压成一次前向：输入内容 + 问题 + 选项，直接返回所选答案、归一化概率与 0–1 置信度；单请求可并行评 1000 个问题，rubric 模式返回连续加权分与各等级概率。",
+   "判断类任务原先要调生成模型，再从自由文本里抠结果，既慢又不稳（格式漂移、解析失败），输出 token 还要计费；垃圾邮件判定、工单分级、agent 工具路由这类任务根本不需要生成。",
+   "对 agent 编排直接有用：工具选择与路由就是典型封闭选项集，150–250 ms 加零输出成本能砍掉一层延迟和费用。限制在锁定——只回答给定选项，选项集要先设计好；三家模型的概率校准行为不同，阈值必须按各自模型重调。"),
+ source="InfoQ中国")
+hl.append({"title": h2["title"], "url": h2["url"], "source": h2["source"],
+           "summary": h2["summary"],
+           "note": "谷歌在 AI Studio 上线 Decisions API，由 Gemini Decision 1 驱动，定位 agent 路由、推理、排序与多模态理解这类封闭选项集任务。官方称其在相关基准上领先并取得最低校准误差；社区把它与 Jev、OpenAI 的决策模型放在同一价格表里对比，输出 token 三家都不收费。",
+           "detail": h2["detail"]})
+
+# ---------- AI 板块 ----------
+agent = [
+ add("上下文即控制平面：把知识、记忆、上下文分层，用「上下文引擎」在模型外编译推理状态",
+     104,
+     "文章把 agent 的瓶颈从「检索」搬到「该知道什么、何时调用、保留多久、遗忘什么」，并给出三层划分：上下文是当前窗口内即用即弃的活跃状态（类比 RAM），记忆负责跨会话持久化，知识是交互之前就有的策略、硬事实与治理规则（相当于官方教科书）。上层是一个「上下文引擎」，作用类似编译器：把分散的历史数据与实时流翻译成结构化、可推理的状态，负责选择、过滤、排序、压缩、鉴权、PII 剥离与沙箱化，再交给模型。作者用 AI DevOps agent 排障举例：从向量库捞运行手册只是情景记忆的一半，还需要最近五秒的错误日志流这种感知输入，两类数据必须异步融合。结论是这属于系统工程而非提示词工程——提示词工程问「该怎么问」，上下文工程问「模型此刻做对推理所需的最小高价值上下文是什么」。",
+     D("给出可落地的分层：知识层管策略与硬事实（受控知识库或微调数据）、记忆层把历史与实时信号转成推理状态、上下文层只放当次窗口的活跃信息；上下文引擎在请求到达模型前完成选择/压缩/鉴权/PII 剥离，并同时消费批式与流式两个数据源。",
+       "把所有东西塞进向量库再 top-k 召回，遇到亚秒级实时状态就失灵；上下文给错会显著抬高幻觉率，而记忆、知识、会话三者的写入与过期策略混在一起时无法审计。",
+       "对多用户、多会话的 agent 平台是架构层参考：它把「谁、什么、为什么」当作控制平面数据来治理，和网关侧做审计/DLP 的思路同源。限制是没有实现与基准，属于设计范式，分层边界与存储选型要自己定。")),
+ add("Qwen Code 1.0 Preview：把 Qoder 的 agent harness 并进开源 CLI，带 Auto-Memory / Auto-Skills / Agent Teams",
+     79,
+     "Qwen Code 1.0 Preview 把 Qoder 的 agent harness 与 Qwen Code 合并成一次开源发布，卖点是开箱即用：Auto-Memory 自动沉淀记忆、Auto-Skills 自动生成技能、SubAgents 与 Agent Teams 做多 agent 分工，外加 MCP 接入。分发面铺得很宽——终端、编辑器（VS Code / Zed / JetBrains）、桌面端、浏览器，以及 Telegram、钉钉、企业微信、飞书等 IM 渠道跑同一个 agent。安装走 npm（@qwen-code/qwen-code），要求 Node ≥ 22。它是目前少数把「多 agent 编排 + 技能自动生成 + IM 入口」打包进一个开源 CLI 的项目，对标的是 Claude Code / Codex CLI 的 harness 层。",
+     D("一个 harness 覆盖记忆、技能、子 agent 与团队编排：Auto-Memory 按会话沉淀可复用事实，Auto-Skills 把重复流程生成技能，SubAgents / Agent Teams 拆并行任务；通过 MCP 接外部工具，通过多端适配层把同一会话接到 IDE、桌面、浏览器与 IM。",
+       "自建 agent 通常要自己拼记忆存储、技能加载和 IM 网关，跨端还要各写一套；闭源 CLI 又不暴露 harness 内部结构，路由与权限难以改。",
+       "值得拆开读它的 harness 设计，尤其 Auto-Skills 的触发条件与落盘方式，与在飞书侧做多会话隔离的形态接近。但要评估供应链：1.0 仍是 Preview、绑定 Qwen 模型栈，接非 Qwen 模型的能力需实测。"),
+     oss=True),
+ add("歸藏 Game Skill：把「6 小时、4.5 亿 token 做出一款 3D 动作游戏」踩过的坑固化成 skill",
+     88,
+     "作者用 Fable 5.2 花约 6 小时、约 4.5 亿 token（其中一部分是 Opus 5.5 跑测试）做出浏览器 3D 动作游戏《雾锁山门》，再把过程中有效的流程写成 skill，供 Claude Code / Codex 直接调用。skill 不走「先生成一段代码」的路子，而是固定流程：先问清题材与玩法，接上素材生成工具，让 agent 自己推进画面、自己截图核对，最后打包成单个 HTML（three.js）。仓库附带可玩演示，AGPL-3.0 许可，约 198 star。它的价值不在游戏本身，而在示范 skill 该写什么——写踩过的坑和最终留下的做法，不写理论。",
+     D("一个单文件 skill 描述完整产出流程与自检动作：需求澄清 → 素材生成 → 场景与战斗循环实现 → 截图自检迭代 → 打包成可直接打开的 HTML；配套 demo 用于回归对照。",
+       "让 agent 做视觉化产物时最容易失控的两处——不确认需求就开工、写完不看渲染结果——被固化成流程节点；作者 4.5 亿 token 的返工经验被直接省掉。",
+       "当作 skill 写法样例读很值：它把「自检」写成必做步骤而不是建议，这是多数 skill 缺的一环。局限是领域偏创作类，工程任务要换自检手段（编译、测试、指标），不能照搬截图核对。"),
+     oss=True),
+ add("CodeMender 接进 Pull Request：/verify 在沙箱复现漏洞，/fix 直接开草稿 PR",
+     118,
+     "Google 给出把 CodeMender（AI Threat Defense 平台里的代码安全 agent）接进 Git PR 的参考架构：PR 触发扫描，扫描跑在 Cloud Run 上，结果以一条评论回到时间线——一张带 finding ID 的表格，外加两个可回复的命令。回复 /verify <id> 让它在临时沙箱里构造并模拟利用，把利用步骤折叠进同一帖子；回复 /fix <id> 生成补丁预览并开好草稿 PR，再 /approve 合并。触发验证的条件写得很明确：扫描置信度低于 100% 才需要 verify，而验证结果可以改变严重级别。因为沙箱是临时的，产物会自动落到 Cloud Storage 保留审计轨迹；文中还提醒验证流水线必须区分「测试崩溃」与「真的不可利用」，否则会 fail-open 把漏洞判成安全。背景数字：团队交付速度最高提升 2 倍的同时，漏洞平均修复时间从十年前的 59 天涨到 2025 年的 170 天以上。",
+     D("把扫描、可利用性验证、补丁生成三段都塞进 PR 时间线，用 slash 命令驱动；验证在临时沙箱内构造 exploit 并保留 trace，补丁以草稿 PR 提交，人工只做 approve。",
+       "SAST 告警量大且真假混杂，开发者要跳去控制台看报告、自己判断可利用性；修复周期被拉长到 170 天量级，安全与研发在工单里来回。",
+       "值得抄的是流程而非工具：置信度阈值决定是否验证、验证产物自动留档、补丁走草稿 PR 由人 approve。依赖 Cloud Run 与 CodeMender 服务，自建要换等价组件；fail-open 的坑在任何自研验证流水线里都存在。")),
+]
+
+eng = [
+ add("Evolving Infra：把算力分配与 KV cache 解耦，P95 TTFT 比 Dynamo 低最多 14 倍",
+     13,
+     "这是针对 agent 负载（多轮、工具调用、上下文复用）设计的 serving 框架，核心是把「算力分配」与「KV cache 管理」解耦，让节点能在 prefill 与 decode 之间高效切换；在线 planner 按负载构成决定 PD 切分比例，agent-aware 的分布式 KV 管理器用 agent 上下文管理的信号指导淘汰与迁移。在编码、数学、computer-use 任务上，用 GLM-5.2 与 Kimi K2.6、最多 256 张 GB300，相比 NVIDIA 的 Dynamo 把端到端平均延迟降低最多 4.1 倍、P95 TTFT 降低最多 14 倍。",
+     D("运行时同时调两件事：PD 切分比例（在线 planner）与 KV cache 的淘汰/迁移（按 agent 上下文信号），并允许节点在 prefill / decode 角色间切换，避免固定切分造成的单侧空转。",
+       "agent 请求长短差异极大且大量复用上下文，固定 PD 切分让两侧负载不均；按 LRU 淘汰会把 agent 马上要复用的 cache 扔掉，重算推高 TTFT。",
+       "做推理平台的人最值得读：它把「agent 语义」变成调度信号，而不是只看 QPS。限制是实验规模很大（256 张 GB300）、依赖自研 KV 管理器，短期难直接复用，适合当设计参考。")),
+ add("SparseRead：给 agent 加一层「该读多少」的准入控制，token 降 92.9%、墙钟时间降 89%",
+     22,
+     "SparseRead 是一层可复用的阅读控制层，不改模型，只决定「这次该把多少原文放进上下文」：Read Intent Protocol 跟踪需求演化与来源覆盖，Adaptive Reader Backends 选择证据定位与暴露方式，Budgeted Read Gate 限制单次任务累计暴露的原始内容量并保留全量回退。在 6 个模型（含 Claude Opus 5）与 5 类场景上，总 token 降低最多 92.9%、墙钟时间降低最多 89.0%，97% 的设置下任务质量持平或更好；Web 深搜任务上 token 降 31–43%、完成时间降 23–37%。",
+     D("在 agent 与资源之间插一层：按读取意图决定抓哪一段、暴露到什么粒度，用预算闸门限制累计原文量；Reader 接口统一后可替换不同后端，文中验证接入三套 agent 框架。",
+       "web agent 常把整页、整个文件塞进上下文，token 与延迟成本高，还把无关内容混进证据里稀释判断。",
+       "这类「阅读层」比换模型便宜，直接对成本与延迟生效，且因为不改模型所以可移植。限制是收益强依赖场景，深搜类只有 30–40% 降幅；协议要自己实现或适配。")),
+ add("ReTrace：把 SOP 编译成「由代码选下一步」的工作流，成本降 24%、单任务 1.3 秒",
+     51,
+     "ReTrace 针对「同一套 SOP 反复跑」的业务流程：从 agent 的历史运行日志里抽出每一步背后的条件（理由写在 agent 的推理文本里，不在工具调用里），跨多次运行合并成一份紧凑规则文档，再编译成可执行工作流——此后由代码而不是 LLM 决定下一步。在生产平台的 79 个流程上，工作流完成率 93.8%（agent 96.8%），单任务成本低 24%；τ²-Bench 上任务成功率 75.8%（agent 80.6%），但耗时 1.3 秒对 170 秒。用标注的失败样本做三轮修复后，k=2 的工作流从 66.7% 提到 81.2%。",
+     D("从日志蒸馏条件、合并成规则文档、编译为可执行工作流；只有最后一步依赖编排平台，同一份规则可编译到不同平台，并支持用失败样本迭代修复。",
+       "SOP 型自动化每一步都调一次 LLM，成本与延迟随规模线性上升，而流程本身是确定的，不需要每步推理。",
+       "适合高频且稳定的 SOP（对账、工单流转）：用 3–7 个点的成功率换两个数量级的延迟和 24% 成本，多数场景划算。限制是需要历史运行日志做输入，流程漂移后要重新蒸馏。")),
+ add("MACaQ：32.5 GB 显存 64 分钟量化 122B 模型，量化时间比对手少 11 倍",
+     89,
+     "华为 CSL 开源的模型无关校准量化方案，产出可直接在 llama.cpp / vLLM / Diffusers / PyTorch 上跑的 GGUF，覆盖文本、图像、视频、音频四类模型。仓库给出的数字是：122B 参数模型用 32.5 GB 显存 64 分钟量完；在 Llama-3-8B 上达到对手最佳困惑度只需 1/11 的量化时间。另附 MACaQ-R 用于精修已有 GGUF 并保持标准 llama.cpp 兼容，论文 arXiv 2611.10649，Apache-2.0。",
+     D("模型无关的校准量化加后处理精修：输入任意模型与校准数据，输出 GGUF（或直接喂 vLLM / Diffusers）；MACaQ-R 可对既有 GGUF 二次优化到特定负载。",
+       "大模型量化的显存与时间门槛高（122B 往往要整机多卡），已有 GGUF 想再提质量只能重头量化，链路割裂。",
+       "本地部署与私有化推理的直接候选，尤其要在有限 GPU 上跑大模型时。限制是仍属离线量化工具，收益要用自家任务集验证；生态围绕 GGUF，非 GGUF 运行时需另测。"),
+     oss=True),
+]
+
+model = [
+ add("6 bit 是拐点：固定预算该花在权重精度还是选项顺序平均上",
+     17,
+     "在 Qwen3-0.6B / 1.7B 上用模拟 round-to-nearest 量化（8/6/4/3 bit，fp16 对照）跑 ARC-Easy、ARC-Challenge、MMLU、HellaSwag 各 300 题，结果是 6 bit 相对 fp16 不掉分（反而高 1.8 与 0.9 分，作者未解释原因），8 bit 却低 0.7 / 0.4 分。4 bit 时选项位置偏斜从 0.15 升到 0.53（0.6B）。论文把「权重字节数 × 通过次数」当统一的机器无关成本单位，结论是权重 ≥6 bit 时，多跑几次选项重排比继续降比特更划算；决策表收敛为「6 bit 权重 + 最多 4 种循环顺序各跑一次」，4 bit 下 0.6B 靠 4 次重排回收 12.6 分。",
+     D("给出可复算的预算分配规则：把量化比特与重排次数折算成同一成本单位比较边际收益，直接落到「6 bit + 4 次重排」这个配置。",
+       "本地小模型调优时，降比特与做顺序集成是两条常见路线，但缺少同一成本口径下的对比，容易在 4 bit 上继续堆工程。",
+       "在做本地小模型评测或部署时，这套成本口径可以直接借用（它是评测方法，不是新模型）。限制明显：两个 0.6–1.7B 小模型、模拟量化、最简单的 round-to-nearest，真机 kernel 与 GPTQ/AWQ 的表现要另测。")),
+ add("用 margin 解释 LoRA 的抗遗忘与可合并性，并给出免训练的合并系数",
+     74,
+     "论文在近正交任务、ℓ2 正则的多类线性分类设定下分析 LoRA，刻画各正则强度下的最优 adapter：在中间区间，最优解对齐微调数据上的 max-margin 解。由此推出两点：预训练数据与微调数据上的 margin 有闭式表达，正则系数就是「保留 vs 适配」的旋钮；adapter 合并后的模型在每个任务上 margin 为正，并可解出使各任务 margin 平衡、并集 margin 最大的混合系数，从而得到一个免训练的合并规则。",
+     D("解释 LoRA 为什么抗灾难性遗忘、为什么多个 adapter 能合并，并给出按任务 margin 平衡计算合并权重的闭式规则（无需再训练）。",
+       "多任务与持续学习里 adapter 合并长期靠经验权重或再训练，缺少可解释的取舍依据。",
+       "做多租户 LoRA 服务（一套基座 + 多任务 adapter）时，这个 margin 视角能解释合并后的退化来源。限制是线性分类 + 近正交假设，放到真实 LLM 上只能当定性指导。")),
+]
+
+product = [
+ add("Anthropic 路演定价 70–78 美元/股：最高募资 643.5 亿美元，11 月 19 日纳斯达克挂牌 ANT",
+     100,
+     "路演方案是发行 8.25 亿股（新发约 8.01 亿 + 老股东 2365 万），每股 70–78 美元，最高募资约 643.5 亿美元，11 月 19 日在纳斯达克交易，代码 ANT；按完全摊薄口径估值约 1.4 万亿美元，较市场此前讨论的 2 万亿缩水约三成。另有 260 亿美元战略私募同步进行：谷歌与英伟达各 100 亿、AMD 25 亿、博通/美光/微软各 10 亿、台积电旗下实体 5 亿。路演材料披露 2026 年第三季度单季收入接近 170 亿美元，增速较二季度放缓。",
+     D("把融资结构摊开：IPO 与战略私募并行，认购方集中在算力供应链（英伟达、AMD、博通、美光、台积电）与云厂（谷歌、微软）。",
+       "对关注 AI 基础设施的人，这份材料说明了大模型公司的资本开支与算力绑定关系——股东同时是芯片与云的供应商。",
+       "当行业坐标读即可：估值缩水三成、增速放缓、供应链入股三个信号同时出现，比单看融资额更有信息量；后续股价叙事不必追。")),
+ add("Google 的统一 Gemini 入口：把 MCP / A2A / REST 连接器与「声明式 skill」做成 ISV 的分发通道",
+     117,
+     "Google 在统一的 Gemini 体验里给企业接第三方能力：标准化连接器覆盖 MCP、A2A runtime 与 REST API，并引入「声明式 skill 与插件」，让 ISV 把领域能力、受监管流程与业务系统直接嵌进企业侧的 Gemini。官方叙事是从「做一次集成」变成「发布一个可被企业直接调用的能力」，受益方被描述为 ISV——一份能力描述同时触达所有企业客户。",
+     D("三类连接器（MCP、A2A、REST）加声明式 skill/插件清单，让第三方能力以统一形态出现在 Gemini 里，ISV 只需维护一份能力描述。",
+       "企业接多个 ISV 时每家一套集成方式；agent 之间互调又缺统一契约。",
+       "对做 agent 平台的人，这是「能力目录 + 声明式技能」被平台方标准化的信号，和 skill 生态走向一致。目前仍是合作方叙事，协议细节与开放时间表未公开。")),
+]
+
+SECTION_AI = {"label": "🤖 AI 板块", "categories": [
+    {"label": "Agent & Skill", "title": "Agent & Skill", "emoji": "🧩", "items": agent},
+    {"label": "模型与研究", "title": "模型与研究", "emoji": "🧠", "items": model},
+    {"label": "AI 工程落地", "title": "AI 工程落地", "emoji": "🛠️", "items": eng},
+    {"label": "产品与商业", "title": "产品与商业", "emoji": "📊", "items": product},
+]}
+
+# ---------- 基础设施板块 ----------
+k8sai = [
+ add("OpenShell 在 Kubernetes 上怎么跑：每沙箱一个 Supervisor Pod，策略细到「哪个二进制、哪个 HTTP 方法」",
+     113,
+     "文章把 OpenShell 的定位压成一句话：agent 不只会调 API，它会执行 shell、装包、读文件、开网络连接，所以每个 agent 都是「持有真实凭证的不可信代码」。OpenShell 的做法是每个 agent 一个沙箱，沙箱外一个可信 supervisor 决定它能碰到什么，四类控制在 YAML 里声明：Landlock 限定文件路径（/usr、/etc 只读，只有 /sandbox、/tmp 可写）、沙箱启动前降为非 root 且无 capability 并套 seccomp、出站默认拒绝（可按二进制/主机/端口/HTTP 方法放行）、API key 只给占位符由 supervisor 换真值。落到 Kubernetes 上它不自带调度器，而是用 SIG Apps 的 agents.x-k8s.io Sandbox（Agent Sandbox）把沙箱变成 Pod / Service / PVC / Secret / NetworkPolicy，gateway 持有全部沙箱并通过 mTLS 接客户端，Kyverno 在准入时校验对象；demo 跑在 1.35 + Cilium 1.20 + Agent Sandbox v1.0.5 + OpenShell 0.1.3 的两节点 kind 上。作者点出两个现实限制：沙箱目前只能通过 Gateway API 创建、不能走 K8s API；每 agent 一个 Supervisor Pod 隔离强，但大规模下扩展性存疑，roadmap 里才有多形态部署。",
+     D("给出完整的沙箱生命周期：创建时先建两条 NetworkPolicy（工作负载零出站、只允许 supervisor 从 5500 入站），再建 Sandbox 资源，Pod 起来后回读校验（非 root、无 capability、RuntimeDefault seccomp、无 ServiceAccount token），全部通过才起 supervisor 并解开调度门；策略可热更新而不重启沙箱。",
+       "NetworkPolicy 只能表达「这个 Pod 能到 api.github.com:443」，说不出「curl 可以读 issue 但不能建 issue」；agent 一旦被提示注入，凭据与出站就是敞口。",
+       "与多用户 agent 沙箱最贴的一篇：按二进制/HTTP 方法的策略、每沙箱 supervisor、复用 K8s 原生对象三件事都做了，还明确交代了扩展性缺口。建议直接对照它的生命周期与 NetworkPolicy 写法，而不是先看 CLI。")),
+ add("AKS 上的分布式存储加速器进入 Public Preview：拿各节点本地 NVMe 给 AI 负载做读缓存",
+     123,
+     "DACS（Distributed accelerator for cloud storage）在 AKS 上进入公共预览，形态是跑在集群内的分布式 read-through 缓存，把各节点本地 NVMe 盘聚合成一层缓存来服务 AI 负载的读请求，目标是把模型加载与数据集读取从远端存储的往返里解放出来。",
+     D("集群内分布式读缓存：本地 NVMe 组成共享缓存层，AI 工作负载的重复读命中本地，减少对象存储/文件存储往返。",
+       "GPU 节点等数据：checkpoint 与数据集从远端存储读，带宽和延迟把 GPU 利用率压下来。",
+       "在云上用 AKS 跑训练或推理时，这是少见的「用本地盘换吞吐」的托管方案，值得看容量与一致性边界。限制是目前仅 AKS 预览、绑定 Azure 存储，自建集群要自己拼 JuiceFS/Alluxio 这类方案。")),
+]
+
+core = []
+
+# calico / volcano / buildkit URLs come from the freshly fetched release atom (not in processed.json),
+# so they are appended to processed.json by append_gapfill_052.py before this script runs.
+import subprocess
+EXTRA = os.path.join(REPO, "gapfill_052_extra.json")
+extra = []
+if os.path.exists(EXTRA):
+    extra = json.load(open(EXTRA, encoding="utf-8"))
+EX = {e["url"]: e for e in extra}
+
+def U2(url):
+    assert url in EX or url in VALID, "url not in processed/extra: " + url
+    return url
+
+core.append({
+ "title": "Calico v3.32.4：修 IPAM 泄漏与 nftables 配置被忽略，eBPF conntrack 按地址族扩容",
+ "url": U2("https://github.com/projectcalico/calico/releases/tag/v3.32.4"),
+ "source": "GitHub Releases",
+ "summary": "补丁版集中在 IPAM 与数据面：修了 pod 把 IP 丢给别的 pod（运行时重试 sandbox 创建留下陈旧 CNI ADD，含 Multus 场景）、IPAM GC 不回收旧 sandbox 遗留 IP（小地址池会被耗尽）、以及 IP 池 nodeSelector 变化时 tunnel 地址不重算的问题。eBPF 侧 conntrack map 自动扩容改为只对使用率超过 80% 的地址族翻倍，并新增按 ip_version 的指标与「被 workload RPF 检查丢弃」计数器；nftables 模式下 Felix 配置（动作、mark mask、刷新间隔）此前被忽略的问题也修了。",
+ "detail": D("一批数据面正确性修复：IPAM 泄漏与重复分配、IP 池 nodeSelector 变更后的 tunnel 地址、nftables 配置生效、eBPF conntrack 分族扩容与指标。",
+             "Multus 多网卡与小地址池场景下 IP 耗尽、Pod 重启后 IP 冲突；双栈节点上 v4/v6 conntrack 指标互相覆盖，扩容时把两族一起翻倍浪费内存。",
+             "跑 3.32 线的集群建议跟：修的是 Pod 拿不到 IP、IP 冲突这类会直接掉业务的问题。升级注意 flexVolumePath=None 的节点要手动清旧 driver 目录。")})
+
+core.append({
+ "title": "Volcano v1.15.4：修只申请 DRA 资源的 Pod 绕过 gang 约束与队列配额虚占",
+ "url": U2("https://github.com/volcano-sh/volcano/releases/tag/v1.15.4"),
+ "source": "GitHub Releases",
+ "summary": "这个补丁版的头号修复在 gang 调度：只申请 DRA 资源的 Pod 此前既可能让未就绪成员满足 gang readiness，也可能通过 backfill 绕过 gang 约束；同批还修了 gang 驱逐模拟失败后重复回滚导致 DRF 记账 panic、祖先队列容量检查漏掉后代队列的 scheduling-gate 预留、以及已完成 PodGroup 在被删 Pod 时把配额重新占住。另有一项性能改动：减少谓词失败记账与锁竞争，把逐节点失败日志从 V(3) 降到 V(5)。",
+ "detail": D("修补 gang 与配额记账的正确性：DRA-only Pod 纳入 gang 判定、驱逐模拟失败不重复回滚、祖先队列容量算上后代 gate 预留、完成态 PodGroup 不再占配额。",
+             "GPU 集群里 DRA 与 gang 混用时会出现「假就绪」和 backfill 绕过，导致整组作业争抢资源；配额虚占让队列看起来满了却没人能跑。",
+             "自建 GPU 批调度用 Volcano 的应当升级——修的都是会让队列记账失真的问题。仍是 1.15 线补丁，别把 1.17 alpha 的 DRA 能力混着上。")})
+
+around = []
+around.append({
+ "title": "BuildKit v0.35.0：内置 Dockerfile 前端升到 1.29，HTTP 源重试遵循 Retry-After",
+ "url": U2("https://github.com/moby/buildkit/releases/tag/v0.35.0"),
+ "source": "GitHub Releases",
+ "summary": "0.35.0 把内置 Dockerfile 前端更新到 1.29.0；HTTP 源现在会重试瞬时失败并遵循 Retry-After 头，registry 认证在被拒后先刷新凭据再重试 token 请求；另外新增 BUILDKIT_GIT_DEBUG_COMMANDS=1 打开 git 命令追踪。整体是稳定性与可观测性向的版本。",
+ "detail": D("构建侧三处改进：前端升级带来 Dockerfile 语法与特性更新；HTTP 拉取具备退避重试；registry 认证失败可自愈；git 操作可追踪。",
+             "CI 里远端制品偶发 5xx/429 直接失败、registry token 过期要人工重跑；git 拉取慢时无从定位。",
+             "CI 基座升级的低风险选项，建议跟。注意前端版本变更可能影响既有 Dockerfile 的 lint 行为，先在流水线里灰度。")})
+
+community = [
+ add("CNCF 启动 User Group 计划：按行业与问题域建长期组织，不再是一次性 End User 群",
+     112,
+     "CNCF End User Community 在 KubeCon NA 上启动 User Group Program：与临时性工作组不同，这些是按行业垂直或问题域划分的长期组织，定位是让终端用户在项目路线图上有持续的发声渠道。文章强调「长期存在、可跨届延续」的社区结构，而非一次性的 panel 或临时群。",
+     D("把终端用户按行业与问题域组织成常设小组，形成对 CNCF 项目与 TOC 的持续输入通道。",
+       "终端用户的声音过去散落在 Slack、会议 Q&A 与一次性 panel 里，项目维护者缺少稳定需求来源。",
+       "如果要把自建 K8s 的实践反馈给社区（或找同行对标 GPU、多租户方案），这是比单次演讲更持续的入口。刚启动，具体治理与产出节奏还没公开。")),
+]
+
+SECTION_INFRA = {"label": "☸️ 基础设施板块", "categories": [
+    {"label": "K8s × AI", "title": "K8s × AI", "emoji": "🤖☸️", "items": k8sai},
+    {"label": "K8s 核心技术", "title": "K8s 核心技术", "emoji": "☸️", "items": core},
+    {"label": "云原生周边", "title": "云原生周边", "emoji": "☁️", "items": around},
+    {"label": "社区与项目", "title": "社区与项目", "emoji": "🏘️", "items": community},
+]}
+
+flash = [
+ {"title": "InfoQ 2026 趋势报告：AI、ML 与数据工程", "url": U(106)},
+ {"title": "差旅 Agent 的上下文工程：业务语义、偏好图谱与约束理解（AICon 北京）", "url": U(107)},
+ {"title": "文心新模型纯代码生成《后室》：116 秒切 20 种画风", "url": U(103)},
+ {"title": "Anthropic 把 AI for Science 扩到基金会与研究机构，点名 20 家", "url": U(127)},
+ {"title": "llm 0.37.2", "url": U(93)},
+]
+
+lead = ("今天的主线是「调度与边界」。基础设施侧，CNCF 把分布式训练的两块硬骨头讲透了——Kueue 在准入阶段按 block / rack / host 拓扑域锁定落点，"
+        "Coscheduling 扣住 Pod 等整组就绪，缺了拓扑标签这套组合就失效；同一天 Volcano 的补丁也在修 gang 与 DRA 混用时的「假就绪」。"
+        "agent 侧在划边界：OpenShell 把「哪个二进制、哪个 HTTP 方法」写进沙箱策略，每个 agent 一个 supervisor Pod，代价是扩展性；"
+        "Google 把 CodeMender 塞进 PR 时间线，用 /verify 沙箱复现、用 /fix 开草稿 PR。模型侧出现新品类——Gemini Decision 1 不生成文本，"
+        "单次前向给候选打分、输出 token 不收钱，与 Jev、GPT-6 Luna 形成决策模型三足。资本侧 Anthropic 把路演价定在 70–78 美元，最高募资 643.5 亿美元。")
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 12 日 · 星期四",
+ "issue": 52,
+ "kicker": "AI & INFRASTRUCTURE DAILY · NO.052",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": lead,
+ "footer": "由 Hermes 自动汇编 · 每日 09:00 更新",
+ "highlights": hl,
+ "sections": [SECTION_AI, SECTION_INFRA],
+ "flash": flash,
+}
+
+# ---- assertions ----
+n = 0
+for h in brief["highlights"]:
+    assert h["title"] and h["url"] in VALID, h["url"]
+    assert h["detail"] and len(h["detail"]) == 3
+    n += 1
+for s in brief["sections"]:
+    for c in s["categories"]:
+        assert c["title"] and c["emoji"]
+        for it in c["items"]:
+            assert it["title"], it
+            assert it["url"] in VALID or it["url"] in EX, it["url"]
+            assert it["summary"] and len(it["detail"]) == 3
+            n += 1
+for f in brief["flash"]:
+    assert f["url"] in VALID, f["url"]
+
+json.dump(brief, open(os.path.join(REPO, "briefing.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+print("wrote briefing.json; items:", n, "flash:", len(flash))
+print("categories:", [(c['label'], len(c['items'])) for s in brief['sections'] for c in s['categories']])

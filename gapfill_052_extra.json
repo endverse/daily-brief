@@ -1,0 +1,26 @@
+[
+ {
+  "title": "Calico v3.32.4",
+  "url": "https://github.com/projectcalico/calico/releases/tag/v3.32.4",
+  "source": "GitHub 升星repo",
+  "category": "K8s 核心",
+  "published": "2026-11-11",
+  "summary": "Patch release for the v3.32 line: IPAM leak and duplicate-IP fixes, nftables-mode Felix configuration now honored, eBPF conntrack map autoscaling per IP family, and a new RPF drop counter."
+ },
+ {
+  "title": "Volcano v1.15.4",
+  "url": "https://github.com/volcano-sh/volcano/releases/tag/v1.15.4",
+  "source": "GitHub 升星repo",
+  "category": "K8s 核心",
+  "published": "2026-11-12",
+  "summary": "Patch release for the v1.15 line: gang scheduling fixes for DRA-only pods, double rollback on gang eviction simulation, ancestor queue capacity accounting, and completed PodGroup quota reservation."
+ },
+ {
+  "title": "BuildKit v0.35.0",
+  "url": "https://github.com/moby/buildkit/releases/tag/v0.35.0",
+  "source": "GitHub 升星repo",
+  "category": "云原生周边",
+  "published": "2026-11-11",
+  "summary": "Bundled Dockerfile frontend updated to 1.29.0; HTTP sources retry transient failures and honor Retry-After; registry auth refreshes rejected credentials before retrying token requests."
+ }
+]
