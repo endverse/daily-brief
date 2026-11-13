@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 13 日 · 星期五</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>AI &amp; INFRASTRUCTURE DAILY · NO.053</span><span class="issue-badge">第 053 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 13 日 · 星期五</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天两条主线都指向同一件事：模型开始接管「执行」。谷歌把 Gemini 4 Hydrogen 定位成日常编码与 agent 工作流的执行型模型，并在 Antigravity 里用 Orchestrator 在同一会话内按任务换模型——重活给 Carbon、执行给 Hydrogen，平均省 24% 配额。Anthropic 的路演视频则给了更硬的一例：今年首次接 AMD GPU，不再派几十名工程师做几个月，而是让 Claude 自己试，三天跑通、几乎 100% kernel 由它移植。落地侧，JioHotstar 用 8 周把语音内容发现做到 5 亿用户，复盘的第一条是「先定不该答什么」；Amplitude 的 Wave 把洞察到上线压进 1–2 天。边界也在收紧：OpenAI 新版 Usage Policies 11 月 20 日生效，模型路由与 AI 网关要先获审批。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://deepmind.google/blog/introducing-gemini-4-hydrogen/" target="_blank" rel="noopener">Gemini 4 Hydrogen 落地：执行型模型 + Antigravity Orchestrator 在会话内按任务换模型</a></h2>
+    <p>谷歌发布 Gemini 4 Hydrogen，定位「日常编码与 agent 工作流」的执行型模型，与 Carbon / Argon 承担的长程推理分工。Artificial Analysis Intelligence Index 上它默认 high 档 51 分（Argon 50），xhigh 档 54 分；上下文 1M token 全窗口平价，$1.50/百万输入、$7.50/百万输出。相对 Gemini 3.8 Flash，默认档完成任务快 2.5 倍，Terminal-Bench 4.1 从 18.2% 提到 57%，捏造性陈述减少 5 倍以上。思考档位由 low/medium/high 扩到四档，新增 xhigh。同批在 Google Antigravity 里引入 Orchestrator：不再一个模型跑到底，而是同一会话内按任务在 Carbon 与 Hydrogen 之间动态切换，Terminal-Bench 4.0 上任务成功率接近纯 Carbon，平均少消耗 24% 配额、快 19%。</p>
+    <div class="note">谷歌官方博客 11 月 12 日发布，标题即「Introducing Gemini 4 Hydrogen for Agentic Workflows」。同日在 Google Antigravity 上线 Orchestrator，官方给出的量化是 Terminal-Bench 4.0 上成功率接近纯 Carbon、平均配额省 24%、耗时少 19%。定价 $1.50/$7.50 每百万 token 覆盖整个 1M 窗口，是 Gemini 4 家族里第一次把 1M 上下文做成统一价。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://simonwillison.net/2026/Nov/11/anthropic-ipo-roadshow/" target="_blank" rel="noopener">Anthropic 路演透露：Claude 三天把自家推理栈移植到 AMD GPU，几乎 100% kernel 由自己写</a></h2>
+    <p>Anthropic 启动 IPO 路演，路演视频里联合创始人 Tom Brown 讲「算力策略」：Claude 现在在 AWS Trainium、Google TPU、NVIDIA GPU、AMD GPU 四类芯片上训练与推理，来源是早年一次「不合常规」的多芯片押注——每类芯片都要独立的软件与推理栈，当时普遍被认为不值得做。今年首次接 AMD：过去引入一个新芯片平台要几十名工程师花几个月，这次交给模型（视频里称 Mythos）自己试，三天跑通、基本无人干预，Claude 移植或重写了接近 100% 的 kernel。Brown 把这归为「总算力 = 物理产能 × 发现的算力乘数」，多平台能力本身就是乘数。</p>
+    <div class="note">内容出自 Anthropic IPO 路演视频的「Approach to compute」段落，Simon Willison 用 MacWhisper 转录后公开了要点（官方未提供文字稿）。同段落还提到今年才开始用 AMD GPU，此前新平台 bring-up 需要数十名工程师数月。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://vllm.ai/blog/2026-11-12-inkling2-small" target="_blank" rel="noopener">Thinking Machines 开源 Inkling 2 Small：594B/17B MoE、1M 上下文，vLLM 当天支持到 TP4 630 tokens/s</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Inkling 2 Small 是文本+视觉 MoE，594B 总参 / 17B 激活，上下文最高 1M，权重里自带 DSpark 推测解码头（5 层、每步草拟 7 token）。vLLM 做到 day-0：TP4 下最高 630 tokens/s/user、接受长度 3.5，同时支持 LoRA。结构上沿用 Inkling 主干（5:1 滑窗/全注意力、GQA 加学习式相对偏置取代 RoPE、每层 4 个短卷积、sigmoid 路由 MoE），新增块注意力残差、逐头门控与 per-token attention sink，图像编码器换成 23 层 ViT；48 层里前 40 层专家用 NVFP4、后 8 层用 MXFP8，NVFP4 采用 Four-Over-Six 双候选块缩放。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">594B/17B MoE + 1M 上下文 + 原生视觉，day-0 在 vLLM 上以 TP4 跑到 630 TPS/user，带 DSpark 投机解码与 LoRA；专家层做 NVFP4/MXFP8 分层量化。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">大 MoE 多模态模型常常「发布即等待」——框架适配滞后几周，期间只能跑未优化路径；整模型统一精度又会把显存和带宽吃满。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">两个可借鉴点：一是「模型厂 + 推理框架同日交付」已成发布标准动作；二是按层混用精度（前 40 层 NVFP4、后 8 层 MXFP8）是可复用的部署手法。限制在门槛——TP4 起跳、1M 上下文对 KV cache 压力大，自建要按显存倒推并发。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://vllm.ai/blog/2026-11-12-inkling2-small" target="_blank" rel="noopener">vLLM Blog</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/11/509440.html" target="_blank" rel="noopener">MiniMax 开源 H3-Image：原生 4K、约两毛一张，「世界理解」能出正交三视图与爆炸图</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>MiniMax 在视频旗舰 H3 之后开源图像模型 H3-Image，原生 4K 出图，社区口径单张成本约两毛。能力重点不是画质而是「世界理解」：给一张产品外观图能推演出标准正交三视图，给机械件能按装配逻辑出带引线的爆炸图，复杂积分式与学术排版不出乱码；单 checkpoint 六步同时覆盖生成与编辑，支持最多 16 张参考图。vLLM 侧同日给出 4096×4096 在四卡 Vera Rubin 上中位 0.87 秒、吞吐配置 6115 张/小时。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">开源权重、原生 4K、六步生成+编辑一体，指令遵循延伸到「推演结构」（三视图、爆炸图、战术场景布局），可被 harness 当 tool 直接调。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">通用模型降维做图往往要靠 computer use 反复试，成本高且不可控；垂直图像模型在特定资产生产（产品图、展示素材）上质量与单价都更优。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对「模型分工」这条线有参考价值：与其一个通用模型包打天下，不如通用模型串联垂直模型。限制是它仍是图像专用模型，评测多为社区 demo，严肃生产要自己验一致性与版权边界。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.qbitai.com/2026/11/509440.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.14418" target="_blank" rel="noopener">按需升精度：权重存 8bit、默认用高 4 位解码，只在输出分布不确定的那一步重算</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文换了个分配方式：权重存 8bit，解码时只用高 4 位，只有当低精度输出分布看起来不确定（熵超阈值或 top-2 边际过小）才把这一步按 8bit 重算。模型是 Qwen3-0.6B，基准 GSM8K，成本按每 token 读取的权重字节计。在 36724 个回放步上，低精度熵预测 argmax 翻转的 AUC 为 0.93；给 15% 升精度预算，熵门控抓到 78% 的翻转、边际门控 94%。150 道实测题里全高精度 64.0%、全低精度 55.3%（McNemar p=0.053）；16% 升精度率的熵门控得 62.7%，权重字节为全高精度的 0.87。作者明说 live 数据尚不能把门控与两端区分开（配对差 p=0.080），随机对照、思考模式阶段规则与第二模型都没跑。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把「精度」从全局常量变成逐 token 决策：8bit 存储、4bit 解码、熵/边际门控触发单步升精度，用「每 token 权重字节」统一度量成本收益。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">本地/边缘小模型固定精度跑全流程：要精度就得全程 8bit（带宽翻倍），要速度就全程 4bit（关键步算错无法挽回）。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">机制干净、指标诚实（作者把不显著的结果写出来了），适合作为「动态精度」方向的入门读本。但结论仍弱：0.6B 模型 + GSM8K 单基准，实测差异不显著，离能上生产还有距离。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://huggingface.co/papers/2611.14418" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧭</span><span class="sec-title">Agent 工具链</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.323" target="_blank" rel="noopener">Claude Code 2.1.323 加入实验性 Code Mode：Claude 写 JavaScript 调工具，不再一次一个 tool call</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>2.1.323 新增实验性 Code Mode：Claude 改为写 JavaScript 来调用它的工具，需在 code.claude.com 显式开启，也可按组织关闭。同版给 plugin.json 加 engines[&quot;claude-code&quot;] 版本区间，超出区间的插件不安装、不更新、不加载，安装时自动挑最新可用版本；claude plugin validate 增加对插件 TypeScript hooks 模块的类型检查（--strict 下失败即报错）。另有 30 秒进度心跳，避免 claude -p 与 SDK 会话里长 hook 被宿主判成挂死；Artifact 支持 .docx；并修了一批 Bash 权限绕过（如 rm 在错误目录下判定、Bash 沙箱中途被关）与多账号 sign-in 串号问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Code Mode 把多步工具调用压成一段程序（循环、分支、中间变量），减少模型往返；插件侧加版本门与 hooks 类型校验，权限判定补了若干绕过。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长链路 agent 每调一次工具就要一次往返、把结果塞进上下文，步骤一多延迟与 token 双爆；插件版本不匹配会静默装坏；权限判定错目录会放过危险删除。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">「用代码调工具」是今年 agent runtime 最明确的方向之一（省 token、可组合、可复用逻辑），值得在自己的 harness 里对照试验。限制：实验特性、要显式开、组织级才能关，Code Mode 下的沙箱与权限模型还没有公开细节。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/anthropics/claude-code/releases/tag/v2.1.323" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/google-gemini/gemini-cli/releases/tag/v0.69.0-preview.0" target="_blank" rel="noopener">Gemini CLI v0.69.0-preview.0：/stats 加按日 token 热力图，主题支持独立 theme.json</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>预览版两个可见功能：/stats 增加按日 token 用量的热力图子命令，以及支持独立的 theme.json 自定义主题。稳定线 v0.68.0 同期发布，内容以修复为主——远程扩展下载失败的处理、并发安装按扩展加锁、hook 的 SubagentStop 事件映射、rootless podman 的 --userns=keep-id、429 冷却倒计时显示，以及一批 Windows 路径与流式缓冲问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">热力图把每日 token 消耗直接摊在终端里；主题配置可独立成文件，便于在团队里统一或按项目切换。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">CLI agent 的用量此前只能去后台看，配额吃紧时没有就地反馈；主题只能改配置项，难版本化。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">小版本，按需跟。真正值得留意的信号是 CLI 层开始把「用量可观测」做进交互界面——配额成为 agent 工作流的一等公民。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/google-gemini/gemini-cli/releases/tag/v0.69.0-preview.0" target="_blank" rel="noopener">Gemini CLI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏖️</span><span class="sec-title">沙箱与运行时</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.11" target="_blank" rel="noopener">Agent Sandbox v1.0.11：沙箱路由支持浏览器路径前缀，sandboxd 收紧文件与终端边界</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>K8s SIG 的 Agent Sandbox 发布 v1.0.11，把沙箱进一步当成「可路由的服务」：sandbox-router 新增浏览器路径前缀路由（/&lt;prefix&gt;/&lt;namespace&gt;/&lt;id&gt;/&lt;port&gt;/，可跑自带 base URL 的 JupyterLab 类应用），并默认重写上游 Set-Cookie 与 Location 到前缀之下（可用 --path-routing-rewrite-responses=false 回退旧行为）；新增 router-tunnel 连接（经 port-forward 把 REST/gRPC 打到 sandboxd）与 X-Sandboxd-Token 头认证，适配会剥掉 Authorization 的代理。sandboxd 侧修三处边界：文件传输以 O_NONBLOCK 打开并拒绝 FIFO 与设备文件、DELETE 只删符号链接本身、PTY stdin 收到 EOF 不再关闭主终端。控制器修了 Pod 正在终止时 Sandbox 仍报 Ready=True（改报 Ready=False/PodTerminating）与 Retain 策略下过期 SandboxClaim 遗留 warm Sandbox。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把沙箱变成可前缀路由的 HTTP 服务 + 可隧道接入 + header token 过代理认证；文件/终端接口对 FIFO、设备文件、符号链接做了明确拒绝；warm pool 与 claim 生命周期补漏。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多租户 agent 平台里，浏览器型工具（Jupyter、VNC）没法经沙箱路由暴露；代理剥 Authorization 导致认证失败；FIFO 或指向目录的符号链接会让文件接口挂死、甚至误删数据。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">自建 agent 沙箱平台可直接对标：路径前缀 + tunnel + token 三件套就是「多租户下安全暴露沙箱内 Web 工具」的完整答案。限制：仍在 1.0.x，响应重写默认开启属破坏性变更，升级要评估；Nitro on EKS 示例绑 AWS。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.11" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/superradcompany/microsandbox/releases/tag/v0.7.15" target="_blank" rel="noopener">microsandbox v0.7.15：release 通道支持候选版，passthrough 挂载减少逐文件主机操作</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>microsandbox 0.7.15 是维护型小版本：release 流程支持 opt-in 的候选版安装与发布通道，passthrough 挂载路径减少每文件的主机侧操作（性能项），Go SDK 同步到 sdk/go/v0.7.15，另含 lockfile 刷新。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">候选版可 opt-in 安装，便于灰度；passthrough 挂载降低逐文件开销，文件密集场景更划算。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 沙箱里大量小文件读写会放大主机侧 syscall 成本；想试新版本又不想影响稳定环境。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跟进即可，无架构变化。如果你在评估 microVM 型沙箱，这个版本的意义是「发布通道开始分层」，说明项目在走向可运营。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/superradcompany/microsandbox/releases/tag/v0.7.15" target="_blank" rel="noopener">microsandbox</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span></div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/jiostar-vijay-seshadri" target="_blank" rel="noopener">JioHotstar 用 8 周做出 5 亿人用的语音内容发现：先定「不该答什么」，再谈 eval</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>JioHotstar 把语音优先的对话式内容发现做进了主 App：以 OpenAI API 加 Codex 约 8 周搭完，支持 15 种以上语言，服务 5 亿+ 月活。架构按 IPL 峰值设计——7250 万并发直播观众、支付侧约 500 万次订阅请求/分钟（印度以 UPI 为主）。现在 60% 以上用户选择语音而不是打字搜索。首席架构师 Vijay Seshadri 的复盘顺序是：先决定系统「不该回答什么」（guardrails 先行），再做 eval，最后才扩能力；他直言第一次做这类应用的人一定会低估 eval 的重要性。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">语音/文本双入口的会话式发现层，8 周从 0 到 5 亿用户量级；工程上按并发直播与支付峰值设计，多语言覆盖 15+。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">内容发现十几年没变，用户要的是「说出来」而不是翻目录；开放输入意味着任何问题都会进来，边界不先划就会被长尾问题拖死。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对多用户 agent 平台是现成的方法论：先写拒绝面、把 eval 当验收门、再按峰值设计容量。限制是它没有公开 eval 集与具体架构，落地细节要自己补。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://openai.com/index/jiostar-vijay-seshadri" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/business/customer-stories/amplitude" target="_blank" rel="noopener">Amplitude 的 Wave：约 80% 由 OpenAI 模型驱动，把「读数据→出方案→交编码 agent→测效果」串成闭环</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Amplitude 的主动式产品 agent Wave 约 80% 由 OpenAI 模型驱动（GPT-6.1 Sol、GPT-6 Luna、GPT-Image-2.5 Flare）。闭环是：读 Amplitude 数据、会话回放、客户反馈与代码 → 排序并定位机会 → 产出实现计划与验收标准 → 一键交给 Codex 等编码 agent 落地 → 回流测效果。官方口径把一次改进从约一个月压到 1–2 天；客户侧的实际分布是：客户发起的实验/开关/引导里，1/4 在 Wave 提出当天上线、1/2 在 4 天内、2/3 在一周内；另有首页个性化卡片让「从卡片发起的消息」提升 160%（仅该指标，非整体使用率）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把产品改进的四个环节（发现、定方案、实施、验证）压进一个 agent 闭环，并用「交给编码 agent 的技术计划 + 验收标准」作为交接契约。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">产品团队平时靠会议和表格把四件事串起来，信号散落在分析、回放、工单与代码里；从洞察到上线要跨多个角色，周期以月计。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">可迁移的是「交接契约」这个设计：agent 不止给建议，还要产出可执行的计划与验收标准，才能交给下一个 agent。限制是数据绑在 Amplitude 自家口径上，160% 只是单指标实验结果。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://openai.com/business/customer-stories/amplitude" target="_blank" rel="noopener">OpenAI News</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📜</span><span class="sec-title">平台政策与风控</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://help.openai.com/en/articles/12092907-were-updating-our-usage-policies" target="_blank" rel="noopener">OpenAI 新版 Usage Policies 11 月 20 日生效：模型路由与 AI 网关须先获审批</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 重写的 Usage Policies 于 2026 年 11 月 20 日生效，影响面最大的是访问层而非内容层：任何让第三方直接使用 OpenAI 模型的服务——模型路由（model router）、AI gateway 之类——必须先取得 OpenAI 的审核与批准；应用把模型用在自己功能内部不在此列。新增 SafetyIDs，用于区分终端用户而不让 OpenAI 获知身份；同时澄清禁止用 OpenAI 模型与输出训练替代模型、禁止抽取受保护的推理过程、高风险自动化必须保留人工复核，并把国家安全与执法用途纳入审批范围。10 月 21 日宣布，11 月 20 日前旧版仍生效。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">给「模型访问中间商」加了一道准入：router/gateway 类服务需 OpenAI 审核批准并承诺同等防护、配合调查违规、协同执法；同时用 SafetyIDs 做终端用户区分。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多模型聚合网关、API 转售、二次分发这类形态此前处在条款灰区；一旦被认定为 router/gateway 而未获批，服务合法性直接受挑战。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对自建多用户 agent 平台是硬约束：若你的网关对外提供模型直连（而不是把模型藏在自有功能里），20 日前要判定自己是否落在定义内。共享账号、代充、多租户转发的风控设计也要同步过一遍。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://help.openai.com/en/articles/12092907-were-updating-our-usage-policies" target="_blank" rel="noopener">OpenAI Help Center</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://vllm.ai/blog/2026-11-12-deepseek-v41-flash-vera-rubin" target="_blank" rel="noopener">DeepSeek-V4.1-Flash 搬上 Vera Rubin NVL72：单卡 1.7M tokens/s、单用户 387 tokens/s，官方口径 58× GB300</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>vLLM 把 DeepSeek-V4.1-Flash 的 serving 栈迁到 Vera Rubin NVL72：单柜 1.7M tokens/s/GPU、单用户 387 tokens/s，官方给出的对比是 58× GB300 NVL72；峰值 2.52M tokens/s/GPU、单用户 1,810 tokens/s。收益来自三处与硬件强绑的优化：为 split memory 与 FP4 tensor core 调的 GEMM kernel（SM107 的 K64 MXFP8×MXFP4 走 packed FP4）、低延迟 decode kernel、以及跨 NVLink 共享的整柜 KV cache 与 Engram 表。沿用 GB300 的三种引擎形态（DEP2 prefill、Wide-EP decode DEP16/32、TP decode），基准用 SemiAnalysis AgentX 的 agentic 负载，并给出功耗归一化吞吐。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 P/D 分离 + Wide-EP 的推理栈整体迁到新一代机柜，用 FP4 kernel、分内存调优与整柜 KV/Engram 共享吃满新硬件。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 类负载的输入长、缓存命中高，吞吐瓶颈在 prefill 与跨卡 KV 传输；换一代硬件如果不重写 kernel，拿不到代际收益。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对自建推理集群的价值在方法论：三种引擎形态按负载切换、KV cache 做成机柜级共享。限制是强依赖 Rubin 特性（FP4、NVLink 域），短期内无法在现有集群复现。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://vllm.ai/blog/2026-11-12-deepseek-v41-flash-vera-rubin" target="_blank" rel="noopener">vLLM Blog</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://vllm.ai/blog/2026-11-12-minimax-h3-image-rubin" target="_blank" rel="noopener">vLLM-Omni 跑 MiniMax H3-Image：四卡原生 4K 中位 0.87 秒，吞吐配置 6115 张/小时</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>vLLM-Omni 把开源图像模型 MiniMax H3-Image 跑到 Vera Rubin：四卡上原生 4096×4096 生成中位 0.87 秒；另一套吞吐配置 6,115 张/小时，外推约 146,755 张/天。以官方 Standard 4K API 的 $0.06879/张作假设售价，满负载峰值对应约 $105.16/GPU/小时毛收入（75% 利用率 $78.87），未扣运营成本。工程侧关键是一条栈同时覆盖生成与编辑、六个采样步、最多 16 张参考图，并在 NVIDIA、AMD、Intel、摩尔线程（MUSA）与昇腾上都跑。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">同一套 serving 栈做文生图与图像编辑，6 步出原生 4K，给出延迟与吞吐两套配置及每 GPU 收入模型。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">图像模型自建常卡在「延迟与吞吐不可兼得」：低延迟配置撑不住并发，高吞吐配置又被用户等不起。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">多云异构（含国产 GPU/NPU）这条最有价值：同一模型跨五类加速器部署，对采购与容灾有意义。限制是收入测算是按假设售价外推，未计运营成本。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://vllm.ai/blog/2026-11-12-minimax-h3-image-rubin" target="_blank" rel="noopener">vLLM Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span></div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.6" target="_blank" rel="noopener">Kueue v0.20.6：修 v0.20 升级后 apiserver watch cache 初始化失败与配额虚占</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>补丁版最要紧的是升级路径：v0.20 起 Kueue 不再提供 kueue.x-k8s.io/v1beta1 的 /convert 转换 webhook，而 ClusterQueue、Cohort、LocalQueue、MultiKueueCluster、Workload 这些 CRD 仍配置着它，导致 kube-apiserver 反复初始化 watch cache 失败。同批修 kueuectl create clusterqueue 拒绝合法配额值（如 cpu=1e-3、资源名 foo--bar.example.com/gpu）、DQO 聚合超过 64 种资源后残留 stale capacity、超过 32KiB 的 Distributed 条件消息被 apiserver 拒收，以及弹性 scale-up 时 workload slice 与其替换体被同时计费导致用量瞬时超配额。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一批升级与记账修复：watch cache 初始化、配额值解析、DQO 容量聚合、长条件消息截断、弹性切片重复计费。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">从 v0.20 之前升上来的集群会遇到 apiserver 刷错、队列对象读不到；配额虚占让队列看似满了却没人能跑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跑 Kueue 的集群建议升级，尤其从 v0.19 跨到 v0.20 的。升级前按 release notes 核对 CRD 是否仍挂着旧 conversion webhook。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.6" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://simonwillison.net/2026/Nov/12/llm-gemini/" target="_blank" rel="noopener">llm-gemini 0.37：Gemini 4 Hydrogen 当天进 llm 命令行</a></li>
+      <li><a href="https://www.qbitai.com/2026/11/509291.html" target="_blank" rel="noopener">Anthropic 玻璃翼计划被质疑：近 4 万个候补漏洞只修了 217 条</a></li>
+      <li><a href="https://www.anthropic.com/news/roadshow-launch" target="_blank" rel="noopener">Anthropic 启动 IPO 路演（S-1 之后进入投资者会）</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 08:30 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
