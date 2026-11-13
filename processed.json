@@ -1,5 +1,33 @@
 [
  {
+  "title": "How Amplitude ships product improvements in 1–2 days with OpenAI",
+  "url": "https://openai.com/business/customer-stories/amplitude",
+  "summary": "Built primarily on OpenAI models, Amplitude’s proactive product agent, Wave, identifies what to build, helps teams ship changes with coding agents, and measures the impact.",
+  "published": "2026-11-12T20:00:00+00:00",
+  "source": "OpenAI News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Gondola doubles revenue as its team builds more with Codex",
+  "url": "https://openai.com/business/customer-stories/gondola",
+  "summary": "Gondola helps creatives get credit and get hired, with Codex raising its lead engineer’s output by 50% and ChatGPT simplifying daily work.",
+  "published": "2026-11-12T12:00:00+00:00",
+  "source": "OpenAI News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
   "title": "Holiday Extras is rethinking what it can build with Codex",
   "url": "https://openai.com/business/customer-stories/holidays-extras-codex",
   "summary": "With Codex, Holiday Extras is turning customer expertise into better apps, higher booking conversion and new possibilities for growth.",
@@ -8,7 +36,7 @@
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "模型与研究",
+  "category": "Agent 工具链",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
@@ -78,7 +106,7 @@
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "Agent 工具链",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
@@ -140,31 +168,59 @@
   "is_hot": false
  },
  {
-  "title": "Cogent and OpenAI build cyber defense factories for enterprises",
-  "url": "https://openai.com/index/cogent-security",
-  "summary": "Cogent combines OpenAI models with enterprise context to help automatically remediate vulnerabilities with agents.",
-  "published": "2026-11-10T00:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "ChatGPT Enterprise now available in AWS Marketplace",
-  "url": "https://openai.com/index/chatgpt-enterprise-aws-marketplace",
-  "summary": "ChatGPT Enterprise is now available through AWS Marketplace, helping organizations simplify procurement through existing AWS purchasing and billing relationships.",
-  "published": "2026-11-09T19:00:00+00:00",
-  "source": "OpenAI News",
+  "title": "Introducing Gemini 4 Hydrogen",
+  "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
+  "summary": "",
+  "published": "2026-11-12T18:00:50+00:00",
+  "source": "Google DeepMind",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
   "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "AlphaGenome 2: Deciphering how cells read DNA to better understand disease",
+  "url": "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
+  "summary": "Predicting how DNA sequences and their variations impact specific human cell types and disease.",
+  "published": "2026-11-11T15:00:15+00:00",
+  "source": "Google DeepMind",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Gemini 4 Carbon is now available",
+  "url": "https://deepmind.google/blog/gemini-4-carbon-is-now-available/",
+  "summary": "",
+  "published": "2026-11-10T16:03:47+00:00",
+  "source": "Google DeepMind",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Introducing AlphaProof Code: a breakthrough in verifying complex software at depth",
+  "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+  "summary": "AlphaProof Code agents wrote three million lines of proofs in Lean to verify Signal’s core encryption.",
+  "published": "2026-11-10T12:02:28+00:00",
+  "source": "Google DeepMind",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 16,
   "is_hot": false
  },
  {
@@ -182,17 +238,51 @@
   "is_hot": false
  },
  {
-  "title": "Exploring the world's languages with Language Explorer",
-  "url": "https://research.google/blog/exploring-the-worlds-languages-with-language-explorer/",
-  "summary": "Natural Language Processing",
-  "published": "2026-11-09T20:29:39+00:00",
-  "source": "Google Research",
-  "source_cat": "AI-官方",
-  "extra": {},
+  "title": "Probing Transformer Representations Layer by Layer, Module by Module",
+  "url": "https://huggingface.co/papers/2611.11531",
+  "summary": "Which representation should be probed in a transformer-based foundation model? Recent work shows that the standard practice of probing the final layer is often suboptimal, as intermediate layers can provide better features. Yet, representations are still largely studied along depth alone, treating each transformer block as an atomic unit. In this work, we analyze transformer representations layer by layer, module by module. Through more than 144,000 linear probing evaluations of vision foundatio",
+  "published": "2026-11-07T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 0
+  },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
-  "hot_score": 9,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "ScrapeBench: Evaluating Legal Compliance of AI Agents in Website Scraping",
+  "url": "https://huggingface.co/papers/2611.11306",
+  "summary": "AI agents deployed on the open web are becoming more capable of performing actions that may breach contractual provisions and violate computer security laws. In this paper, we introduce ScrapeBench, the first agentic benchmark for empirically evaluating the legal compliance of AI agents with website scraping policies, namely terms of service (ToS) and robots.txt directives. Across widely used closed-weight and open-weight AI agents, we find that most agents exhibit low compliance rates (< 5%) wh",
+  "published": "2026-11-09T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 2
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "FAME-QP: A GPU-Accelerated Quadratic-Programming Solver for Real-Time Model Predictive Control",
+  "url": "https://huggingface.co/papers/2611.13766",
+  "summary": "We present FAME-QP, a GPU-accelerated solver for dense quadratic programs arising in linear model predictive control. FAME-QP combines constraint-dependent operator representations with fused single- and two-kernel iterations replayed through CUDA graphs, automatically selecting the execution configuration through device calibration and problem-specific timing. It probes a cached operator bank to select the initial penalty and updates operators lazily when problem matrices change. Numerical benc",
+  "published": "2026-11-09T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -203,10 +293,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 6
+   "upvotes": 11
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -219,10 +309,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 3
   },
   "board": "AI 板块",
-  "category": "产品与商业",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -235,10 +325,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 6
   },
   "board": "AI 板块",
-  "category": "安全与治理",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -251,7 +341,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1,
+   "upvotes": 4,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
@@ -271,14 +361,14 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0,
+   "upvotes": 2,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
    ]
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 18,
   "is_hot": true
@@ -291,7 +381,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -307,10 +397,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 23
+   "upvotes": 31
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -323,7 +413,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -339,7 +429,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -355,10 +445,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 11
+   "upvotes": 18
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -371,7 +461,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 13
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -387,10 +477,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 31
+   "upvotes": 39
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -403,10 +493,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 4
   },
   "board": "AI 板块",
-  "category": "产品与商业",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -419,7 +509,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -435,7 +525,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 11
+   "upvotes": 14
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -451,10 +541,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 22
+   "upvotes": 27
   },
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
@@ -467,10 +557,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 12
+   "upvotes": 13
   },
   "board": "AI 板块",
-  "category": "产品与商业",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -499,7 +589,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 37
+   "upvotes": 40
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -515,10 +605,10 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 3
   },
   "board": "AI 板块",
-  "category": "观点与好文",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
@@ -566,7 +656,7 @@
    "upvotes": 27
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 13,
   "is_hot": false
@@ -614,7 +704,7 @@
    "upvotes": 6
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -630,61 +720,9 @@
    "upvotes": 11
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "TorchCurves: Differentiable Parametric Curves",
-  "url": "https://huggingface.co/papers/2611.14516",
-  "summary": "We present TorchCurves, a PyTorch library that treats vector-valued parametric curves as learnable primitives. Its central operation maps batches of scalar inputs to points on curves represented in B-spline or Legendre polynomial bases, with differentiation through both inputs and coefficients. Curve coefficients can be optimized jointly with the surrounding model or produced by another network. The library provides trainable modules, reusable basis modules, and a functional interface, supportin",
-  "published": "2026-11-09T19:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 3,
-   "also_reported_by": [
-    "HuggingFace Papers",
-    "arXiv cs.AI"
-   ]
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 15,
-  "is_hot": false
- },
- {
-  "title": "The Surprising Effectiveness of Deleting Weights in LLM Post-Training",
-  "url": "https://huggingface.co/papers/2611.10866",
-  "summary": "How little of a pretrained large language model (LLM) has to change for it to acquire new capabilities? We find that zeroing fewer than 0.05% of its weights, with no other modification, matches full fine-tuning (FFT) at scale across three LLM post-training regimes: reinforcement learning with verifiable rewards, supervised fine-tuning, and on-policy distillation. Our method, Deletion Tuning, learns a binary mask over the gate projection of transformer blocks. Two practical advantages follow: the",
-  "published": "2026-11-06T19:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 18
-  },
-  "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Micius-Flash: Lightweight Agentic Intelligence for Engineering",
-  "url": "https://huggingface.co/papers/2611.10015",
-  "summary": "We introduce Micius-Flash, a 27-billion-parameter model for engineering with native multimodal input, deep reasoning and a 256K-token context window. We design the Micius data pipeline as a knowledge-tree-driven data flywheel comprising three stages: knowledge tree construction and expansion, data synthesis, and quality validation with hard-example augmentation. From this data, we train expert models for semiconductor knowledge and reasoning, hardware coding, and semiconductor multimodal underst",
-  "published": "2026-11-03T19:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 8
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 10,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -706,6 +744,20 @@
   "url": "https://arxiv.org/abs/2611.14518v1",
   "summary": "DeepLearning (DL)-based Computer-Aided Diagnostic (CAD) systems have shown great promise in supporting clinicians, but their performance heavily depends on the availability of large, well-annotated datasets. In medical lesion detection, the scarcity of comprehensive, stan dardized annotations and the heterogeneity of existing datasets limit the development of robust foundation models. In this work, we introduce a novel approach to building a multi-domain foundation model for le sion detection by",
   "published": "2026-11-10T18:59:17+00:00",
+  "source": "arXiv cs.AI",
+  "source_cat": "AI-研究",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "TorchCurves: Differentiable Parametric Curves",
+  "url": "https://arxiv.org/abs/2611.14516v1",
+  "summary": "We present TorchCurves, a PyTorch library that treats vector-valued parametric curves as learnable primitives. Its central operation maps batches of scalar inputs to points on curves represented in B-spline or Legendre polynomial bases, with differentiation through both inputs and coefficients. Curve coefficients can be optimized jointly with the surrounding model or produced by another network. The library provides trainable modules, reusable basis modules, and a functional interface, supportin",
+  "published": "2026-11-10T18:58:52+00:00",
   "source": "arXiv cs.AI",
   "source_cat": "AI-研究",
   "extra": {},
@@ -738,7 +790,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -780,7 +832,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 9,
   "is_hot": false
@@ -808,7 +860,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -822,7 +874,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -878,7 +930,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -920,7 +972,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -934,7 +986,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -948,7 +1000,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "产品与商业",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 9,
   "is_hot": false
@@ -1060,7 +1112,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1074,7 +1126,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1102,7 +1154,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 9,
   "is_hot": false
@@ -1116,7 +1168,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "观点与好文",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 9,
   "is_hot": false
@@ -1158,7 +1210,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1172,7 +1224,7 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "观点与好文",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
@@ -1200,38 +1252,38 @@
   "source_cat": "AI-研究",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 6,
   "is_hot": false
  },
  {
-  "title": "QwenLM/qwen-code",
-  "url": "https://github.com/QwenLM/qwen-code",
-  "summary": "An open-source AI coding agent that lives in your terminal.",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "title": "GoogleChrome/modern-web-guidance-src",
+  "url": "https://github.com/GoogleChrome/modern-web-guidance-src",
+  "summary": "Keep your coding agent up to date with the latest web best practices",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "151"
+   "stars_today": "739"
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "Agent 工具链",
   "oss": true,
-  "hot_score": 9,
+  "hot_score": 6,
   "is_hot": false
  },
  {
   "title": "ashhart/TensorFold",
   "url": "https://github.com/ashhart/TensorFold",
   "summary": "LLM Inference Engine for Metal, CUDA and Vulkan.",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "58"
+   "stars_today": "54"
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -1243,15 +1295,15 @@
   "title": "addyosmani/agent-skills",
   "url": "https://github.com/addyosmani/agent-skills",
   "summary": "Production-grade engineering skills for AI coding agents.",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "812"
+   "stars_today": "816"
   },
   "board": "AI 板块",
-  "category": "Agent & Skill",
+  "category": "Agent 工具链",
   "oss": true,
   "hot_score": 6,
   "is_hot": false
@@ -1260,15 +1312,15 @@
   "title": "Alishahryar1/free-claude-code",
   "url": "https://github.com/Alishahryar1/free-claude-code",
   "summary": "Use Claude Code, Codex, Antigravity, VSCode, Pi, and OpenCode (and 6 other harnesses) for free (1.3B+ free tokens) from your terminal, app, IDE, or phone, and now from the browser with native browser sessions (multi-harness + multi-model) like OpenClaw (voice supported + ToS friendly)",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "636"
+   "stars_today": "415"
   },
   "board": "AI 板块",
-  "category": "模型与研究",
+  "category": "Agent 工具链",
   "oss": true,
   "hot_score": 9,
   "is_hot": false
@@ -1277,51 +1329,17 @@
   "title": "ggml-org/llama.cpp",
   "url": "https://github.com/ggml-org/llama.cpp",
   "summary": "LLM inference in C/C++",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "162"
+   "stars_today": "176"
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": true,
   "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "FrigadeHQ/yogurt",
-  "url": "https://github.com/FrigadeHQ/yogurt",
-  "summary": "Private AI meeting notes. Free and open source.",
-  "published": "2026-11-10T20:01:01Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 752,
-   "lang": "TypeScript"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "JDhruv14/line-art-animation",
-  "url": "https://github.com/JDhruv14/line-art-animation",
-  "summary": "A Claude skill and TypeScript library for animated line-art SVG components: ink figures that walk and react, scenes with a day/night cycle.",
-  "published": "2026-11-10T09:25:25Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 545,
-   "lang": "TypeScript"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 8,
   "is_hot": false
  },
  {
@@ -1332,7 +1350,7 @@
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 505,
+   "stars": 948,
    "lang": "C++"
   },
   "board": "AI 板块",
@@ -1349,7 +1367,7 @@
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 227,
+   "stars": 261,
    "lang": null
   },
   "board": "AI 板块",
@@ -1366,7 +1384,7 @@
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 220,
+   "stars": 224,
    "lang": "JavaScript"
   },
   "board": "AI 板块",
@@ -1376,15 +1394,32 @@
   "is_hot": false
  },
  {
-  "title": "op7418/guizang-game-skill",
-  "url": "https://github.com/op7418/guizang-game-skill",
-  "summary": "歸藏 Game Skill：让 AI 从零做出能在浏览器里玩的 3D 动作游戏，附可玩演示《雾锁山门》。Agent skill for Claude Code / Codex that builds a playable browser 3D action game with AI-generated assets (three.js, single-HTML). Playable demo included.",
-  "published": "2026-11-11T16:28:54Z",
+  "title": "nickvasilescu/bot-hq",
+  "url": "https://github.com/nickvasilescu/bot-hq",
+  "summary": "A team of Hermes agents you chat with, each with its own screen on one Orgo computer. Composio apps, xAI voice and X research.",
+  "published": "2026-11-11T08:23:30Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 194,
-   "lang": "JavaScript"
+   "stars": 142,
+   "lang": "TypeScript"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "lawandrorder/mate",
+  "url": "https://github.com/lawandrorder/mate",
+  "summary": "Mate, your mate while you shop. A text-first shopping agent for cashback, personal discount codes, package tracking and price-drop alerts. Includes a starter agent, web chat, original icon set and docs. mate.fm",
+  "published": "2026-11-12T14:05:28Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 138,
+   "lang": "Python"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -1393,20 +1428,76 @@
   "is_hot": false
  },
  {
-  "title": "huawei-csl/MACaQ",
-  "url": "https://github.com/huawei-csl/MACaQ",
-  "summary": "SOTA model-agnostic quantization for GGUF, local inference and beyond. Quantize and run text, image, video and audio models with llama.cpp, vLLM, Diffusers and PyTorch.",
-  "published": "2026-11-10T08:52:22Z",
+  "title": "AFangTeam/PrintLab",
+  "url": "https://github.com/AFangTeam/PrintLab",
+  "summary": "Mac + Codex + 拓竹的个人 3D 打印工作台与工作流。允许非商业修改与再发布，保留署名。",
+  "published": "2026-11-11T01:31:27Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 168,
-   "lang": "C++"
+   "stars": 117,
+   "lang": "Python"
   },
-  "board": "基础设施",
-  "category": "K8s × AI",
+  "board": "AI 板块",
+  "category": "产品与商业",
   "oss": true,
   "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "Gemini 4 Hydrogen and Orchestrator",
+  "url": "https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity/",
+  "summary": "Article URL: https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity/ Comments URL: https://news.ycombinator.com/item?id=50472260 Points: 268 # Comments: 61",
+  "published": "2026-11-12T18:52:01+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Gemini 4 Hydrogen",
+  "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+  "summary": "Article URL: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/ Comments URL: https://news.ycombinator.com/item?id=50471431 Points: 444 # Comments: 287",
+  "published": "2026-11-12T18:01:48+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Anthropic IPO",
+  "url": "https://ipo.anthropic.com/us/",
+  "summary": "Article URL: https://ipo.anthropic.com/us/ Comments URL: https://news.ycombinator.com/item?id=50465829 Points: 799 # Comments: 791",
+  "published": "2026-11-12T11:46:41+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "产品与商业",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "llm-gemini 0.37",
+  "url": "https://simonwillison.net/2026/Nov/12/llm-gemini/",
+  "summary": "Release: llm-gemini 0.37 Google launched Gemini 4 Hydrogen today - the lowest cost member of the Gemini 4 family. It's actually not too far off the price of its much bigger siblings, Carbon and Argon. I'm finding Gemini 4's pricing really confusing. Here's the pricing scheme: Model Dates Input ($/M) Cached input Output Gemini 4 Carbon Through Nov 30, 2026 $2.00 $0.10 $10.00 From Dec 1, 2026 $4.00 $0.20 $20.00 Gemini 4 Argon Through Nov 30, 2026 $2.00 $0.10 $10.00 From Dec 1, 2026 $4.00 $0.20 $20",
+  "published": "2026-11-12T22:55:19+00:00",
+  "source": "Simon Willison",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "产品与商业",
+  "oss": false,
+  "hot_score": 11,
   "is_hot": false
  },
  {
@@ -1449,20 +1540,6 @@
   "category": "模型与研究",
   "oss": false,
   "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "llm 0.37.2",
-  "url": "https://simonwillison.net/2026/Nov/11/llm/",
-  "summary": "Release: llm 0.37.2 Fixes a security issue reported by Daniel de Araujo in GHSA-v9h7-jj4g-f862 and GHSA-r639-rr7r-x72w. LLM has a mechanism called extra-openai-models.yaml - now managed by the new-in-0.37 llm openai endpoint add command - for using LLM with OpenAI-compatible API endpoints from other providers. Daniel reported two ways this could accidentally send your configured OpenAI API key to one of those providers: if the key named by api_key_name had never been stored, or if a responses: t",
-  "published": "2026-11-11T17:19:52+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 0,
   "is_hot": false
  },
  {
@@ -1533,34 +1610,6 @@
   "category": "模型与研究",
   "oss": false,
   "hot_score": 11,
-  "is_hot": false
- },
- {
-  "title": "llm-anthropic 0.31",
-  "url": "https://simonwillison.net/2026/Nov/9/llm-anthropic/",
-  "summary": "Release: llm-anthropic 0.31 Anthropic released Fable 5.2 and Mythos 5.2 today. Fable 5.2 is currently ranked first on Artificial Analysis. Anthropic say it \"solved two open problems in the physics of black holes\", so clearly their internal benchmarks have become more ambitious! I've added the new models to llm-anthropic, so you can now run prompts through Fable 5.2 like this: uv tool install llm llm install llm-anthropic llm keys set anthropic # paste key here llm -m claude-fable-5.2 \"Generate a",
-  "published": "2026-11-09T23:58:46+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 11,
-  "is_hot": false
- },
- {
-  "title": "Locating the source of a mysterious beep with Claude",
-  "url": "https://simonwillison.net/2026/Nov/9/mysterious-beeps/",
-  "summary": "Our house has a box room, full of boxes that we still haven't unpacked from our last move. A couple of weeks ago something in that room started intermittently beeping. The beeps were far enough apart that standing in the room and trying to determine the source of the noise was frustrating, and I really didn't want to dig through every one of those boxes. So I had Claude Code build Beep Locator, a software system for triangulating the source of a mysterious beep using multiple devices scattered a",
-  "published": "2026-11-09T23:57:21+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 14,
   "is_hot": false
  },
  {
@@ -1942,11 +1991,11 @@
   "is_hot": false
  },
  {
-  "title": "AWS Weekly Roundup: AgentCore Runtime V2, Amazon DynamoDB bulk put items, and more (November 9, 2026)",
-  "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-agentcore-runtime-v2-amazon-dynamodb-bulk-put-items-and-more-november-9-2026/",
-  "summary": "Most of the cost of adopting something new isn’t the new thing, it’s the move. Moving a Hive table to Apache Iceberg has typically meant weeks of engineering work. Last week, Amazon S3 Tables turned that into three steps: start, sync as often as you need, complete. The source stays writable except for a few […]",
-  "published": "2026-11-09T17:55:26+00:00",
-  "source": "AWS News",
+  "title": "Chrome Enterprise brings more protections to healthcare technologies",
+  "url": "https://cloud.google.com/blog/products/chrome-enterprise/chrome-enterprise-brings-more-protections-to-healthcare-technologies/",
+  "summary": "Healthcare is adopting AI quickly, and it's moving beyond chat. Clinical teams are starting to use AI agents that draft documentation, summarize charts, navigate web apps, and complete multi-step tasks on a clinician's behalf. Many of these agents work in the same place—the browser. As electronic health records (EHRs) and clinical apps move to the web, the browser is where clinicians, applications, patient data, and AI services meet. When clinicians or agents act inside a session, security teams",
+  "published": "2026-11-12T18:55:00+00:00",
+  "source": "Google Cloud",
   "source_cat": "公有云",
   "extra": {},
   "board": "AI 板块",
@@ -1956,17 +2005,45 @@
   "is_hot": false
  },
  {
-  "title": "How lemonflow built real-time agents for EV charging using Gemma and TPUs",
-  "url": "https://cloud.google.com/blog/topics/startups/building-real-time-agents-for-ev-charging-using-gemma-and-tpus/",
-  "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. As the electric vehicle revolution gains steam in Europe, every charging session is a moment of truth, for the driver and for the transition itself. At lemonflow, we build AI agents purpose-built for EV charging: support agents for drivers ",
-  "published": "2026-11-11T17:00:00+00:00",
+  "title": "Powering agentic cloud governance: What's new in Organization Policy",
+  "url": "https://cloud.google.com/blog/products/identity-security/ai-powered-cloud-governance-whats-new-in-organization-policy/",
+  "summary": "Even as sophisticated, new zero-day exploits continue to emerge, most cybersecurity incidents still start from the same common sources: an attacker locating and exploiting a fundamental, easily preventable cloud misconfiguration. Organization Policy Service can help you secure resource configurations and set up security guardrails across your Google Cloud resource hierarchy. Using a catalog of over 100 predefined policies for many common cloud governance needs, as well as Custom Organization Pol",
+  "published": "2026-11-12T17:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "安全与治理",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "What’s new with Google Data Cloud",
+  "url": "https://cloud.google.com/blog/products/data-analytics/whats-new-with-google-data-cloud/",
+  "summary": "November 9 - November 13 Bringing conversational analytics to Gemini with Data Cloud connectors: Data Cloud connectors in Gemini are now in preview, enabling knowledge workers to query live enterprise data using natural language directly within tools like Google Docs, Gmail, and Google Slides. The capability connects across BigQuery, Looker, Spanner, AlloyDB for PostgreSQL, and Cloud SQL without requiring data movement, grounded by Knowledge Catalog semantic models under user-identity IAM govern",
+  "published": "2026-11-12T17:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Google named the furthest in vision for the Gartner Magic Quadrant for Data Lakehouse Platforms",
+  "url": "https://cloud.google.com/blog/products/data-analytics/google-is-a-leader-in-the-gartner-magic-quadrant-for-data-lakehouse-platforms/",
+  "summary": "Gartner has named Google a Leader, positioned furthest in vision, in its first-ever Magic Quadrant for Data Lakehouse Platforms. In our opinion, this recognition validates a fundamental shift our customers are experiencing every day: In the agentic era, the enterprise lakehouse is no longer a passive data repository, but a foundation where agents reason and act across all your data. The lakehouse originally emerged to bring data warehouse reliability to open, low-cost storage, but the benchmark ",
+  "published": "2026-11-12T16:00:00+00:00",
   "source": "Google Cloud",
   "source_cat": "公有云",
   "extra": {},
   "board": "AI 板块",
   "category": "Agent & Skill",
   "oss": false,
-  "hot_score": 7,
+  "hot_score": 10,
   "is_hot": false
  },
  {
@@ -1987,6 +2064,20 @@
   "title": "Don’t just prompt AI — architect it: Introducing the Professional Agentic Architect Certification",
   "url": "https://cloud.google.com/blog/topics/training-certifications/google-cloud-agentic-architect-certification-dont-just-prompt-ai-design-it/",
   "summary": "It just got easier to prove your expertise in building production-ready agents. Today, Google Cloud is introducing the Professional Agentic Architect certification as the latest milestone in our Gemini Agent Ready (GEAR) initiative. Nearly one million developers are using GEAR to skill up on agents, but what makes this particular certification so special is its adoption within Google’s walls. Over the past four months, Google Cloud has trained thousands of forward deployed engineers and strategi",
+  "published": "2026-11-11T17:00:00+00:00",
+  "source": "Google Cloud",
+  "source_cat": "公有云",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "How lemonflow built real-time agents for EV charging using Gemma and TPUs",
+  "url": "https://cloud.google.com/blog/topics/startups/building-real-time-agents-for-ev-charging-using-gemma-and-tpus/",
+  "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. As the electric vehicle revolution gains steam in Europe, every charging session is a moment of truth, for the driver and for the transition itself. At lemonflow, we build AI agents purpose-built for EV charging: support agents for drivers ",
   "published": "2026-11-11T17:00:00+00:00",
   "source": "Google Cloud",
   "source_cat": "公有云",
@@ -2034,7 +2125,7 @@
   "source_cat": "公有云",
   "extra": {},
   "board": "AI 板块",
-  "category": "安全与治理",
+  "category": "Agent & Skill",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -2096,20 +2187,6 @@
   "is_hot": false
  },
  {
-  "title": "New survey finds enterprises trapped between legacy software and AI modernization",
-  "url": "https://cloud.google.com/blog/products/ai-machine-learning/new-survey-finds-enterprises-trapped-between-legacy-software-and-ai-modernization/",
-  "summary": "Throughout my career in cybersecurity and infrastructure protection — both in government and now at Google Cloud — I have consistently seen that friction between new and existing technology is often a barrier to progress. A new piece of software or service may work wonderfully on its own but then it’s placed within a complex, interconnected IT environment and lost in the operational inertia.Today, enterprise technology is experiencing a historic transformation. Organizations globally are moving ",
-  "published": "2026-11-09T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
   "title": "[In preview] Public Preview: Distributed accelerator for cloud storage on AKS",
   "url": "https://azure.microsoft.com/updates?id=578454",
   "summary": "Distributed accelerator for cloud storage (DACS) is now in public preview for AI workloads running on Azure Kubernetes Service (AKS). DACS is a distributed read-through cache that runs within your AKS cluster and uses local NVMe disks across nodes to keep",
@@ -2155,7 +2232,7 @@
   "title": "Nov 9, 2026Introducing Claude Fable 5.2 and Claude Mythos 5.2Our most capable models for daunting technical work, Claude Fable 5.2 and Claud",
   "url": "https://www.anthropic.com/news/announcements",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2169,7 +2246,7 @@
   "title": "FeaturesSep 21, 2026The Situation ReportA rare Ebola strain is spreading in the DRC, with no confirmed vaccine. Global health organizations ",
   "url": "https://www.anthropic.com/news/features",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2183,7 +2260,7 @@
   "title": "Anthropic launches roadshow for proposed initial public offeringToday Anthropic, PBC launched the roadshow for its proposed initial public o",
   "url": "https://www.anthropic.com/news/roadshow-launch",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2197,7 +2274,7 @@
   "title": "AI for Science expands to foundations and research institutionsWe’re highlighting 20 scientific foundations, institutions, and research grou",
   "url": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2211,7 +2288,7 @@
   "title": "Expanding our partnership with GSA to bring Claude to all levels of governmentWe are expanding our partnership with the General Services Adm",
   "url": "https://www.anthropic.com/news/expanding-partnership-gsa",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2225,7 +2302,7 @@
   "title": "Anthropic files S-1 with the SEC for proposed initial public offeringToday, Anthropic, PBC filed a registration statement on Form S-1 with t",
   "url": "https://www.anthropic.com/news/s1-sec",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2239,7 +2316,7 @@
   "title": "Donating Agent Skills to the Agentic AI FoundationWe’re donating Agent Skills, the open standard that gives AI agents specialized knowledge ",
   "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2253,7 +2330,7 @@
   "title": "Open call for guest investigators in the life sciencesToday, we’re inviting members of the life sciences community to apply to work with us ",
   "url": "https://www.anthropic.com/news/open-call-guest-investigators-life-sciences",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2267,7 +2344,7 @@
   "title": "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit TrustDr. Christopher Stubbs, an experimental physicist and former Dean of S",
   "url": "https://www.anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2281,7 +2358,7 @@
   "title": "Investing in the public benefitWe’re committing a portion of Anthropic’s shares to the Anthropic Public Benefit Fund, a new entity with a st",
   "url": "https://www.anthropic.com/news/public-benefit-fund",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2295,7 +2372,7 @@
   "title": "An update on independent evaluatorsTo evaluate the safety of our systems, Anthropic is giving employee-like access to a team from METR, a no",
   "url": "https://www.anthropic.com/news/an-update-on-independent-evaluators",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2309,7 +2386,7 @@
   "title": "Preparing for the 2026 US midtermsEarlier this year, we shared an update on our election safeguards. Here, we outline how we’ve continued to",
   "url": "https://www.anthropic.com/news/2026-us-midterms",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2323,7 +2400,7 @@
   "title": "Anthropic opens Singapore office and signs MOU with the Government of SingaporeAnthropic has opened an office in Singapore and signed an MOU",
   "url": "https://www.anthropic.com/news/singapore-office-opening",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2337,7 +2414,7 @@
   "title": "Strengthening our defenses against distillation attacksIllicit distillation allows model developers to copy frontier AI capabilities without",
   "url": "https://www.anthropic.com/news/distillation-defenses",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2351,7 +2428,7 @@
   "title": "Introducing the Anthropic Cyber MissionWe’re launching the Anthropic Cyber Mission, a long-term commitment to securing the systems everyone ",
   "url": "https://www.anthropic.com/news/anthropic-cyber-mission",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2365,12 +2442,12 @@
   "title": "2026 Usage Policy updateWe’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.PolicyOct 8, 2",
   "url": "https://www.anthropic.com/news/2026-usage-policy-update",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "模型与研究",
+  "category": "平台政策与风控",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
@@ -2379,7 +2456,7 @@
   "title": "Building on our commitment to American scientific discoveryAnthropic is committing $150 million over three years to the Genesis Mission, a f",
   "url": "https://www.anthropic.com/news/genesis-mission-commitment",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2393,7 +2470,7 @@
   "title": "Expanding the Cyber Verification ProgramWe’re launching a new, expanded version of our Cyber Verification Program, which makes advanced cybe",
   "url": "https://www.anthropic.com/news/cyber-verification-program",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2407,7 +2484,7 @@
   "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gapAnthropic is investing $100 million in Claud",
   "url": "https://www.anthropic.com/news/claude-frontier-academy",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2421,12 +2498,12 @@
   "title": "Barclays scales Claude to upgrade operations and improve client experience Barclays, the British universal bank, is expanding its strategic ",
   "url": "https://www.anthropic.com/news/barclays-scales-claude",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "模型与研究",
+  "category": "Agent 工具链",
   "oss": false,
   "hot_score": 16,
   "is_hot": false
@@ -2435,38 +2512,140 @@
   "title": "Partnering with Accenture on embedded evaluationWe’re partnering with Accenture on independent evaluation of frontier AI—part of our recent ",
   "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
   "summary": "",
-  "published": "2026-11-12T13:30:39.780040+00:00",
+  "published": "2026-11-13T00:30:54.627857+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "产品与商业",
+  "category": "AI 工程落地",
   "oss": false,
   "hot_score": 10,
   "is_hot": false
  },
  {
-  "title": "Calico v3.32.4",
-  "url": "https://github.com/projectcalico/calico/releases/tag/v3.32.4",
-  "source": "GitHub 升星repo",
-  "category": "K8s 核心",
-  "published": "2026-11-11",
-  "summary": "Patch release for the v3.32 line: IPAM leak and duplicate-IP fixes, nftables-mode Felix configuration now honored, eBPF conntrack map autoscaling per IP family, and a new RPF drop counter."
+  "title": "Release v0.69.0-preview.0",
+  "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.69.0-preview.0",
+  "summary": "What's Changed fix(core,cli): preserve literal $ characters during template placeholder replacement by @jesussamuel-byte in #30136 feat(cli): add /stats heatmap subcommand for daily token usage by @jvargassanchez-dot in #30135 fix(core): prevent GCLI_EXPAND_TARGET env collision in expandEnvVars by @villahernandez-coder in #30138 chore(release): bump version to 0.69.0-nightly.20261104.g89e9d25d6 by @gemini-cli-robot in #30140 fix(cli): serialize AnsiOutput to text content in ACP tool call updates",
+  "published": "2026-11-10T21:05:08+00:00",
+  "source": "Gemini CLI",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": false,
+  "hot_score": 8,
+  "is_hot": false
  },
  {
-  "title": "Volcano v1.15.4",
-  "url": "https://github.com/volcano-sh/volcano/releases/tag/v1.15.4",
-  "source": "GitHub 升星repo",
+  "title": "Release v0.68.0",
+  "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.68.0",
+  "summary": "What's Changed Changelog for v0.67.0-preview.0 by @gemini-cli-robot in #29990 Changelog for v0.66.0 by @gemini-cli-robot in #29992 docs(readme): clarify Gemini CLI scope, limitations, and tool landscape by @LyalinDotCom in #29995 fix(cli): bound inline history re-render after terminal width changes by @jvargassanchez-dot in #29904 fix(ui): handle surrogate pairs when truncating in sanitizeForDisplay by @diegogodinezr in #29993 fix(core): make isWithinRoot case-insensitive on Windows by @duvanka-",
+  "published": "2026-11-10T21:17:07+00:00",
+  "source": "Gemini CLI",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": false,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "sdk/go/v0.7.15",
+  "url": "https://github.com/superradcompany/microsandbox/releases/tag/sdk%2Fgo%2Fv0.7.15",
+  "summary": "Go SDK v0.7.15",
+  "published": "2026-11-12T18:00:29+00:00",
+  "source": "microsandbox",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "沙箱与运行时",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "v0.7.15",
+  "url": "https://github.com/superradcompany/microsandbox/releases/tag/v0.7.15",
+  "summary": "What's Changed Features feat(release): add opt-in candidate installs and publishing by @appcypher in #2008 Performance perf(filesystem): cut per-file host operations on passthrough mounts by @toksdotdev in #2032 Maintenance chore: refresh lockfiles after v0.7.14 by @github-actions[bot] in #2035 chore(release): bump microsandbox to 0.7.15 by @appcypher in #2040 Full Changelog: v0.7.14...v0.7.15",
+  "published": "2026-11-12T17:59:23+00:00",
+  "source": "microsandbox",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "沙箱与运行时",
+  "oss": false,
+  "hot_score": 0,
+  "is_hot": false
+ },
+ {
+  "title": "gVisor 20261109.0",
+  "url": "https://github.com/google/gvisor/releases/tag/release-20261109.0",
+  "summary": "gVisor release 20261109.0 Binaries are also available from the apt repository and the release bucket; see Installation. Changes since release-20261102.0 Support UDP in netgofer. (c58baea46) Clear the interrupt shadow before delivering memory-fault signals. (abeb5cfca) Refresh gvisor website to include sandboxing messaging. (70d4d07f0) Add dedicated overlayfs syscall test suite (5aca3eeb3) Update agents guidance. (39e515be5) buildkite coordinator: delete instances that never got a timeout (eda453",
+  "published": "2026-11-11T19:34:12+00:00",
+  "source": "gVisor",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "沙箱与运行时",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Agent Sandbox v1.0.11",
+  "url": "https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.11",
+  "source": "GitHub Releases",
+  "category": "沙箱与运行时",
+  "published": "2026-11-06",
+  "summary": "Sandbox router gains browser path-prefix routing, router-tunnel connections and X-Sandboxd-Token auth; sandboxd hardens file transfer against FIFOs and follows no symlinks on delete; SDKs add recursive list and new file ops."
+ },
+ {
+  "title": "We're updating our Usage Policies (effective November 20, 2026)",
+  "url": "https://help.openai.com/en/articles/12092907-were-updating-our-usage-policies",
+  "source": "OpenAI Help Center",
+  "category": "平台政策与风控",
+  "published": "2026-11-12",
+  "summary": "OpenAI's rewritten Usage Policies take effect on November 20, 2026 and add an approval requirement for model-access intermediaries such as model routers and AI gateways, plus SafetyIDs to separate end users, clarified restrictions on training competing models, and national-security/law-enforcement approval rules."
+ },
+ {
+  "title": "DeepSeek-V4.1-Flash on Vera Rubin NVL72: 58x Throughput vs. GB300",
+  "url": "https://vllm.ai/blog/2026-11-12-deepseek-v41-flash-vera-rubin",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "On one Vera Rubin NVL72 rack vLLM serves DeepSeek-V4.1-Flash at 1.7M tokens/s per GPU with 387 tokens/s per user, 58x GB300 NVL72; peak 2.52M tokens/s per GPU and 1,810 tokens/s for a single user, from FP4-tuned kernels and rack-wide KV cache shared over NVLink."
+ },
+ {
+  "title": "Inkling 2 Small on vLLM: Day-0 Support",
+  "url": "https://vllm.ai/blog/2026-11-12-inkling2-small",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "Thinking Machines' Inkling 2 Small (594B total / 17B active MoE, up to 1M context, text+vision) runs on vLLM at day 0 with up to 630 tokens/s per user at TP4, DSpark speculative decoding with acceptance length 3.5, mixed NVFP4/MXFP8 experts and LoRA support."
+ },
+ {
+  "title": "MiniMax H3-Image Day-0 Support: 4K in 0.87s with Vera Rubin",
+  "url": "https://vllm.ai/blog/2026-11-12-minimax-h3-image-rubin",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "vLLM-Omni serves MiniMax H3-Image at native 4096x4096 in 0.87s median on four Vera Rubin GPUs, 6,115 images/hour in a throughput config; the open-weight model does generation and editing in six sampling steps with up to 16 reference images across NVIDIA, AMD, Intel, Moore Threads and Ascend."
+ },
+ {
+  "title": "Claude Code v2.1.323: Code Mode (experimental) lets Claude write JavaScript to call its tools",
+  "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.323",
+  "source": "GitHub Releases",
+  "category": "Agent 工具链",
+  "published": "2026-11-10",
+  "summary": "2.1.323 adds Code Mode, an opt-in mode where Claude writes JavaScript that calls its tools instead of emitting one tool call per turn; plugins gain an engines[\"claude-code\"] version range enforced at install/load, and claude plugin validate now type-checks a plugin's TypeScript hooks module."
+ },
+ {
+  "title": "Kueue v0.20.6",
+  "url": "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.6",
+  "source": "GitHub Releases",
   "category": "K8s 核心",
   "published": "2026-11-12",
-  "summary": "Patch release for the v1.15 line: gang scheduling fixes for DRA-only pods, double rollback on gang eviction simulation, ancestor queue capacity accounting, and completed PodGroup quota reservation."
- },
- {
-  "title": "BuildKit v0.35.0",
-  "url": "https://github.com/moby/buildkit/releases/tag/v0.35.0",
-  "source": "GitHub 升星repo",
-  "category": "云原生周边",
-  "published": "2026-11-11",
-  "summary": "Bundled Dockerfile frontend updated to 1.29.0; HTTP sources retry transient failures and honor Retry-After; registry auth refreshes rejected credentials before retrying token requests."
+  "summary": "Patch release fixing a v0.20 upgrade bug where kube-apiserver could not initialize watch caches for ClusterQueue/Cohort/LocalQueue/MultiKueueCluster/Workload because the kueue.x-k8s.io/v1beta1 conversion webhook is no longer served, plus kueuectl quota parsing, DQO aggregation and elastic slice double-charging fixes."
  }
 ]

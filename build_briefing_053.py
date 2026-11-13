@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 053 (2026-11-13). URLs are machine-copied from processed.json."""
+import json, os
+
+REPO = os.path.dirname(os.path.abspath(__file__))
+PROC = json.load(open(os.path.join(REPO, "processed.json"), encoding="utf-8"))
+KEPT = json.load(open(os.path.join(REPO, "kept.json"), encoding="utf-8"))
+EXTRA = json.load(open(os.path.join(REPO, "gapfill_053_extra.json"), encoding="utf-8"))
+VALID = set(it["url"] for it in PROC if it.get("url"))
+EX = {e["url"]: e for e in EXTRA}
+
+def U(sub):
+    """Find a kept.json item whose title contains `sub` and return its exact URL."""
+    hits = [it for it in KEPT if sub in (it.get("title") or "")]
+    assert len(hits) == 1, (sub, [h["title"][:50] for h in hits])
+    u = hits[0]["url"]
+    assert u in VALID, u
+    return u
+
+def U2(url):
+    assert url in EX or url in VALID, "url not in processed/extra: " + url
+    return url
+
+def D(a, b, c):
+    return [{"key": "能做什么", "value": a},
+            {"key": "解决什么痛点", "value": b},
+            {"key": "值不值得", "value": c}]
+
+hl = []
+
+# ---------------- 🔥 今日重点 ----------------
+hl.append({
+ "title": "Gemini 4 Hydrogen 落地：执行型模型 + Antigravity Orchestrator 在会话内按任务换模型",
+ "url": U("Introducing Gemini 4 Hydrogen for") if False else U("Introducing Gemini 4 Hydrogen"),
+ "source": "Google Blog",
+ "summary": "谷歌发布 Gemini 4 Hydrogen，定位「日常编码与 agent 工作流」的执行型模型，与 Carbon / Argon 承担的长程推理分工。Artificial Analysis Intelligence Index 上它默认 high 档 51 分（Argon 50），xhigh 档 54 分；上下文 1M token 全窗口平价，$1.50/百万输入、$7.50/百万输出。相对 Gemini 3.8 Flash，默认档完成任务快 2.5 倍，Terminal-Bench 4.1 从 18.2% 提到 57%，捏造性陈述减少 5 倍以上。思考档位由 low/medium/high 扩到四档，新增 xhigh。同批在 Google Antigravity 里引入 Orchestrator：不再一个模型跑到底，而是同一会话内按任务在 Carbon 与 Hydrogen 之间动态切换，Terminal-Bench 4.0 上任务成功率接近纯 Carbon，平均少消耗 24% 配额、快 19%。",
+ "detail": D(
+   "四档思考级别的执行型模型，1M 上下文不分段计价；Orchestrator 在会话内做模型路由（重活给 Carbon、执行给 Hydrogen），并配合 Antigravity 的 skill（如前端设计 skill）直接产出可运行产物——官方示例含 WebGL2 着色器店面、Sheets 里用公式画的像素动画、从 YouTube 视频生成整套 Slides 并自动审版修版。",
+   "全用前沿模型跑琐碎步骤太贵太慢，全用便宜模型又顶不住长链工具调用（3.8 Flash 在 Terminal-Bench 4.1 只有 18.2%）；固定选一个模型意味着在「架构判断」和「批量执行」之间二选一，会话中途无法切换。",
+   "关注点不在分数而在形态：模型厂开始把「多模型路由」做进 IDE/平台，而不是留给客户端 harness 自己拼。若你在搭 agent 编排，这套「按任务换模型 + 按档位买推理深度」的口径值得对照成本模型；限制是 Orchestrator 目前只在 Antigravity 内、模型可用性与档位按地区/套餐分层。"),
+ "note": "谷歌官方博客 11 月 12 日发布，标题即「Introducing Gemini 4 Hydrogen for Agentic Workflows」。同日在 Google Antigravity 上线 Orchestrator，官方给出的量化是 Terminal-Bench 4.0 上成功率接近纯 Carbon、平均配额省 24%、耗时少 19%。定价 $1.50/$7.50 每百万 token 覆盖整个 1M 窗口，是 Gemini 4 家族里第一次把 1M 上下文做成统一价。"
+})
+
+hl.append({
+ "title": "Anthropic 路演透露：Claude 三天把自家推理栈移植到 AMD GPU，几乎 100% kernel 由自己写",
+ "url": U("Anthropic's IPO roadshow video"),
+ "source": "Simon Willison",
+ "summary": "Anthropic 启动 IPO 路演，路演视频里联合创始人 Tom Brown 讲「算力策略」：Claude 现在在 AWS Trainium、Google TPU、NVIDIA GPU、AMD GPU 四类芯片上训练与推理，来源是早年一次「不合常规」的多芯片押注——每类芯片都要独立的软件与推理栈，当时普遍被认为不值得做。今年首次接 AMD：过去引入一个新芯片平台要几十名工程师花几个月，这次交给模型（视频里称 Mythos）自己试，三天跑通、基本无人干预，Claude 移植或重写了接近 100% 的 kernel。Brown 把这归为「总算力 = 物理产能 × 发现的算力乘数」，多平台能力本身就是乘数。",
+ "detail": D(
+   "用 agent 完成新硬件后端移植：读现有 kernel、按目标架构改写、跑测试收敛；产出可量化（3 天、近 100% kernel 覆盖率），且四类加速器上同一模型都能训练与推理。",
+   "推理栈移植是重复度极高、又强依赖硬件知识的工程，几十人月成本直接决定能不能吃到某家芯片的性价比与产能；绑定单一供应商则议价空间与供货弹性都受限。",
+   "这是「AI 解决真实工程问题」最硬的样本之一：任务边界清晰、有测试可自动验收、结果能用覆盖率与天数度量。适合当内部 agent 项目的对标 case；但前提别忽略——Anthropic 有完整测试套与自家模型可反复试错，换到自研栈上要先有可自动验证的验收面，否则「三天」不成立。"),
+ "note": "内容出自 Anthropic IPO 路演视频的「Approach to compute」段落，Simon Willison 用 MacWhisper 转录后公开了要点（官方未提供文字稿）。同段落还提到今年才开始用 AMD GPU，此前新平台 bring-up 需要数十名工程师数月。"
+})
+
+# ---------------- 🧠 模型与研究 ----------------
+model = []
+model.append({
+ "title": "Thinking Machines 开源 Inkling 2 Small：594B/17B MoE、1M 上下文，vLLM 当天支持到 TP4 630 tokens/s",
+ "url": U2("https://vllm.ai/blog/2026-11-12-inkling2-small"),
+ "source": "vLLM Blog",
+ "summary": "Inkling 2 Small 是文本+视觉 MoE，594B 总参 / 17B 激活，上下文最高 1M，权重里自带 DSpark 推测解码头（5 层、每步草拟 7 token）。vLLM 做到 day-0：TP4 下最高 630 tokens/s/user、接受长度 3.5，同时支持 LoRA。结构上沿用 Inkling 主干（5:1 滑窗/全注意力、GQA 加学习式相对偏置取代 RoPE、每层 4 个短卷积、sigmoid 路由 MoE），新增块注意力残差、逐头门控与 per-token attention sink，图像编码器换成 23 层 ViT；48 层里前 40 层专家用 NVFP4、后 8 层用 MXFP8，NVFP4 采用 Four-Over-Six 双候选块缩放。",
+ "detail": D(
+   "594B/17B MoE + 1M 上下文 + 原生视觉，day-0 在 vLLM 上以 TP4 跑到 630 TPS/user，带 DSpark 投机解码与 LoRA；专家层做 NVFP4/MXFP8 分层量化。",
+   "大 MoE 多模态模型常常「发布即等待」——框架适配滞后几周，期间只能跑未优化路径；整模型统一精度又会把显存和带宽吃满。",
+   "两个可借鉴点：一是「模型厂 + 推理框架同日交付」已成发布标准动作；二是按层混用精度（前 40 层 NVFP4、后 8 层 MXFP8）是可复用的部署手法。限制在门槛——TP4 起跳、1M 上下文对 KV cache 压力大，自建要按显存倒推并发。"),
+})
+model.append({
+ "title": "MiniMax 开源 H3-Image：原生 4K、约两毛一张，「世界理解」能出正交三视图与爆炸图",
+ "url": U("多模态"),
+ "source": "量子位",
+ "summary": "MiniMax 在视频旗舰 H3 之后开源图像模型 H3-Image，原生 4K 出图，社区口径单张成本约两毛。能力重点不是画质而是「世界理解」：给一张产品外观图能推演出标准正交三视图，给机械件能按装配逻辑出带引线的爆炸图，复杂积分式与学术排版不出乱码；单 checkpoint 六步同时覆盖生成与编辑，支持最多 16 张参考图。vLLM 侧同日给出 4096×4096 在四卡 Vera Rubin 上中位 0.87 秒、吞吐配置 6115 张/小时。",
+ "detail": D(
+   "开源权重、原生 4K、六步生成+编辑一体，指令遵循延伸到「推演结构」（三视图、爆炸图、战术场景布局），可被 harness 当 tool 直接调。",
+   "通用模型降维做图往往要靠 computer use 反复试，成本高且不可控；垂直图像模型在特定资产生产（产品图、展示素材）上质量与单价都更优。",
+   "对「模型分工」这条线有参考价值：与其一个通用模型包打天下，不如通用模型串联垂直模型。限制是它仍是图像专用模型，评测多为社区 demo，严肃生产要自己验一致性与版权边界。"),
+})
+model.append({
+ "title": "按需升精度：权重存 8bit、默认用高 4 位解码，只在输出分布不确定的那一步重算",
+ "url": U("Precision on Demand"),
+ "source": "HuggingFace Papers",
+ "summary": "论文换了个分配方式：权重存 8bit，解码时只用高 4 位，只有当低精度输出分布看起来不确定（熵超阈值或 top-2 边际过小）才把这一步按 8bit 重算。模型是 Qwen3-0.6B，基准 GSM8K，成本按每 token 读取的权重字节计。在 36724 个回放步上，低精度熵预测 argmax 翻转的 AUC 为 0.93；给 15% 升精度预算，熵门控抓到 78% 的翻转、边际门控 94%。150 道实测题里全高精度 64.0%、全低精度 55.3%（McNemar p=0.053）；16% 升精度率的熵门控得 62.7%，权重字节为全高精度的 0.87。作者明说 live 数据尚不能把门控与两端区分开（配对差 p=0.080），随机对照、思考模式阶段规则与第二模型都没跑。",
+ "detail": D(
+   "把「精度」从全局常量变成逐 token 决策：8bit 存储、4bit 解码、熵/边际门控触发单步升精度，用「每 token 权重字节」统一度量成本收益。",
+   "本地/边缘小模型固定精度跑全流程：要精度就得全程 8bit（带宽翻倍），要速度就全程 4bit（关键步算错无法挽回）。",
+   "机制干净、指标诚实（作者把不显著的结果写出来了），适合作为「动态精度」方向的入门读本。但结论仍弱：0.6B 模型 + GSM8K 单基准，实测差异不显著，离能上生产还有距离。"),
+})
+
+# ---------------- 🧭 Agent 工具链 ----------------
+tool = []
+tool.append({
+ "title": "Claude Code 2.1.323 加入实验性 Code Mode：Claude 写 JavaScript 调工具，不再一次一个 tool call",
+ "url": U2("https://github.com/anthropics/claude-code/releases/tag/v2.1.323"),
+ "source": "GitHub Releases",
+ "summary": "2.1.323 新增实验性 Code Mode：Claude 改为写 JavaScript 来调用它的工具，需在 code.claude.com 显式开启，也可按组织关闭。同版给 plugin.json 加 engines[\"claude-code\"] 版本区间，超出区间的插件不安装、不更新、不加载，安装时自动挑最新可用版本；claude plugin validate 增加对插件 TypeScript hooks 模块的类型检查（--strict 下失败即报错）。另有 30 秒进度心跳，避免 claude -p 与 SDK 会话里长 hook 被宿主判成挂死；Artifact 支持 .docx；并修了一批 Bash 权限绕过（如 rm 在错误目录下判定、Bash 沙箱中途被关）与多账号 sign-in 串号问题。",
+ "detail": D(
+   "Code Mode 把多步工具调用压成一段程序（循环、分支、中间变量），减少模型往返；插件侧加版本门与 hooks 类型校验，权限判定补了若干绕过。",
+   "长链路 agent 每调一次工具就要一次往返、把结果塞进上下文，步骤一多延迟与 token 双爆；插件版本不匹配会静默装坏；权限判定错目录会放过危险删除。",
+   "「用代码调工具」是今年 agent runtime 最明确的方向之一（省 token、可组合、可复用逻辑），值得在自己的 harness 里对照试验。限制：实验特性、要显式开、组织级才能关，Code Mode 下的沙箱与权限模型还没有公开细节。"),
+})
+tool.append({
+ "title": "Gemini CLI v0.69.0-preview.0：/stats 加按日 token 热力图，主题支持独立 theme.json",
+ "url": U("Release v0.69.0-preview.0"),
+ "source": "Gemini CLI",
+ "summary": "预览版两个可见功能：/stats 增加按日 token 用量的热力图子命令，以及支持独立的 theme.json 自定义主题。稳定线 v0.68.0 同期发布，内容以修复为主——远程扩展下载失败的处理、并发安装按扩展加锁、hook 的 SubagentStop 事件映射、rootless podman 的 --userns=keep-id、429 冷却倒计时显示，以及一批 Windows 路径与流式缓冲问题。",
+ "detail": D(
+   "热力图把每日 token 消耗直接摊在终端里；主题配置可独立成文件，便于在团队里统一或按项目切换。",
+   "CLI agent 的用量此前只能去后台看，配额吃紧时没有就地反馈；主题只能改配置项，难版本化。",
+   "小版本，按需跟。真正值得留意的信号是 CLI 层开始把「用量可观测」做进交互界面——配额成为 agent 工作流的一等公民。"),
+})
+
+# ---------------- 🏖️ 沙箱与运行时 ----------------
+sandbox = []
+sandbox.append({
+ "title": "Agent Sandbox v1.0.11：沙箱路由支持浏览器路径前缀，sandboxd 收紧文件与终端边界",
+ "url": U2("https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.11"),
+ "source": "GitHub Releases",
+ "summary": "K8s SIG 的 Agent Sandbox 发布 v1.0.11，把沙箱进一步当成「可路由的服务」：sandbox-router 新增浏览器路径前缀路由（/<prefix>/<namespace>/<id>/<port>/，可跑自带 base URL 的 JupyterLab 类应用），并默认重写上游 Set-Cookie 与 Location 到前缀之下（可用 --path-routing-rewrite-responses=false 回退旧行为）；新增 router-tunnel 连接（经 port-forward 把 REST/gRPC 打到 sandboxd）与 X-Sandboxd-Token 头认证，适配会剥掉 Authorization 的代理。sandboxd 侧修三处边界：文件传输以 O_NONBLOCK 打开并拒绝 FIFO 与设备文件、DELETE 只删符号链接本身、PTY stdin 收到 EOF 不再关闭主终端。控制器修了 Pod 正在终止时 Sandbox 仍报 Ready=True（改报 Ready=False/PodTerminating）与 Retain 策略下过期 SandboxClaim 遗留 warm Sandbox。",
+ "detail": D(
+   "把沙箱变成可前缀路由的 HTTP 服务 + 可隧道接入 + header token 过代理认证；文件/终端接口对 FIFO、设备文件、符号链接做了明确拒绝；warm pool 与 claim 生命周期补漏。",
+   "多租户 agent 平台里，浏览器型工具（Jupyter、VNC）没法经沙箱路由暴露；代理剥 Authorization 导致认证失败；FIFO 或指向目录的符号链接会让文件接口挂死、甚至误删数据。",
+   "自建 agent 沙箱平台可直接对标：路径前缀 + tunnel + token 三件套就是「多租户下安全暴露沙箱内 Web 工具」的完整答案。限制：仍在 1.0.x，响应重写默认开启属破坏性变更，升级要评估；Nitro on EKS 示例绑 AWS。"),
+})
+sandbox.append({
+ "title": "microsandbox v0.7.15：release 通道支持候选版，passthrough 挂载减少逐文件主机操作",
+ "url": [it["url"] for it in KEPT if it.get("title") == "v0.7.15"][0],
+ "source": "microsandbox",
+ "summary": "microsandbox 0.7.15 是维护型小版本：release 流程支持 opt-in 的候选版安装与发布通道，passthrough 挂载路径减少每文件的主机侧操作（性能项），Go SDK 同步到 sdk/go/v0.7.15，另含 lockfile 刷新。",
+ "detail": D(
+   "候选版可 opt-in 安装，便于灰度；passthrough 挂载降低逐文件开销，文件密集场景更划算。",
+   "agent 沙箱里大量小文件读写会放大主机侧 syscall 成本；想试新版本又不想影响稳定环境。",
+   "跟进即可，无架构变化。如果你在评估 microVM 型沙箱，这个版本的意义是「发布通道开始分层」，说明项目在走向可运营。"),
+})
+
+# ---------------- 🛠️ AI 工程落地 ----------------
+eng = []
+eng.append({
+ "title": "JioHotstar 用 8 周做出 5 亿人用的语音内容发现：先定「不该答什么」，再谈 eval",
+ "url": U("JioStar"),
+ "source": "OpenAI News",
+ "summary": "JioHotstar 把语音优先的对话式内容发现做进了主 App：以 OpenAI API 加 Codex 约 8 周搭完，支持 15 种以上语言，服务 5 亿+ 月活。架构按 IPL 峰值设计——7250 万并发直播观众、支付侧约 500 万次订阅请求/分钟（印度以 UPI 为主）。现在 60% 以上用户选择语音而不是打字搜索。首席架构师 Vijay Seshadri 的复盘顺序是：先决定系统「不该回答什么」（guardrails 先行），再做 eval，最后才扩能力；他直言第一次做这类应用的人一定会低估 eval 的重要性。",
+ "detail": D(
+   "语音/文本双入口的会话式发现层，8 周从 0 到 5 亿用户量级；工程上按并发直播与支付峰值设计，多语言覆盖 15+。",
+   "内容发现十几年没变，用户要的是「说出来」而不是翻目录；开放输入意味着任何问题都会进来，边界不先划就会被长尾问题拖死。",
+   "对多用户 agent 平台是现成的方法论：先写拒绝面、把 eval 当验收门、再按峰值设计容量。限制是它没有公开 eval 集与具体架构，落地细节要自己补。"),
+})
+eng.append({
+ "title": "Amplitude 的 Wave：约 80% 由 OpenAI 模型驱动，把「读数据→出方案→交编码 agent→测效果」串成闭环",
+ "url": U("How Amplitude ships"),
+ "source": "OpenAI News",
+ "summary": "Amplitude 的主动式产品 agent Wave 约 80% 由 OpenAI 模型驱动（GPT-6.1 Sol、GPT-6 Luna、GPT-Image-2.5 Flare）。闭环是：读 Amplitude 数据、会话回放、客户反馈与代码 → 排序并定位机会 → 产出实现计划与验收标准 → 一键交给 Codex 等编码 agent 落地 → 回流测效果。官方口径把一次改进从约一个月压到 1–2 天；客户侧的实际分布是：客户发起的实验/开关/引导里，1/4 在 Wave 提出当天上线、1/2 在 4 天内、2/3 在一周内；另有首页个性化卡片让「从卡片发起的消息」提升 160%（仅该指标，非整体使用率）。",
+ "detail": D(
+   "把产品改进的四个环节（发现、定方案、实施、验证）压进一个 agent 闭环，并用「交给编码 agent 的技术计划 + 验收标准」作为交接契约。",
+   "产品团队平时靠会议和表格把四件事串起来，信号散落在分析、回放、工单与代码里；从洞察到上线要跨多个角色，周期以月计。",
+   "可迁移的是「交接契约」这个设计：agent 不止给建议，还要产出可执行的计划与验收标准，才能交给下一个 agent。限制是数据绑在 Amplitude 自家口径上，160% 只是单指标实验结果。"),
+})
+
+# ---------------- 📜 平台政策与风控 ----------------
+policy = []
+policy.append({
+ "title": "OpenAI 新版 Usage Policies 11 月 20 日生效：模型路由与 AI 网关须先获审批",
+ "url": U2("https://help.openai.com/en/articles/12092907-were-updating-our-usage-policies"),
+ "source": "OpenAI Help Center",
+ "summary": "OpenAI 重写的 Usage Policies 于 2026 年 11 月 20 日生效，影响面最大的是访问层而非内容层：任何让第三方直接使用 OpenAI 模型的服务——模型路由（model router）、AI gateway 之类——必须先取得 OpenAI 的审核与批准；应用把模型用在自己功能内部不在此列。新增 SafetyIDs，用于区分终端用户而不让 OpenAI 获知身份；同时澄清禁止用 OpenAI 模型与输出训练替代模型、禁止抽取受保护的推理过程、高风险自动化必须保留人工复核，并把国家安全与执法用途纳入审批范围。10 月 21 日宣布，11 月 20 日前旧版仍生效。",
+ "detail": D(
+   "给「模型访问中间商」加了一道准入：router/gateway 类服务需 OpenAI 审核批准并承诺同等防护、配合调查违规、协同执法；同时用 SafetyIDs 做终端用户区分。",
+   "多模型聚合网关、API 转售、二次分发这类形态此前处在条款灰区；一旦被认定为 router/gateway 而未获批，服务合法性直接受挑战。",
+   "对自建多用户 agent 平台是硬约束：若你的网关对外提供模型直连（而不是把模型藏在自有功能里），20 日前要判定自己是否落在定义内。共享账号、代充、多租户转发的风控设计也要同步过一遍。"),
+})
+
+# ---------------- 📊 产品与商业（有料才现） ----------------
+product = []
+
+SECTION_AI = {"label": "🤖 AI 板块", "categories": [
+    {"label": "🧠 模型与研究", "title": "模型与研究", "emoji": "🧠", "items": model},
+    {"label": "🧭 Agent 工具链", "title": "Agent 工具链", "emoji": "🧭", "items": tool},
+    {"label": "🏖️ 沙箱与运行时", "title": "沙箱与运行时", "emoji": "🏖️", "items": sandbox},
+    {"label": "🛠️ AI 工程落地", "title": "AI 工程落地", "emoji": "🛠️", "items": eng},
+    {"label": "📜 平台政策与风控", "title": "平台政策与风控", "emoji": "📜", "items": policy},
+]}
+
+# ---------------- ☸️ 基础设施 ----------------
+k8sai = [
+ {"title": "DeepSeek-V4.1-Flash 搬上 Vera Rubin NVL72：单卡 1.7M tokens/s、单用户 387 tokens/s，官方口径 58× GB300",
+  "url": U2("https://vllm.ai/blog/2026-11-12-deepseek-v41-flash-vera-rubin"),
+  "source": "vLLM Blog",
+  "summary": "vLLM 把 DeepSeek-V4.1-Flash 的 serving 栈迁到 Vera Rubin NVL72：单柜 1.7M tokens/s/GPU、单用户 387 tokens/s，官方给出的对比是 58× GB300 NVL72；峰值 2.52M tokens/s/GPU、单用户 1,810 tokens/s。收益来自三处与硬件强绑的优化：为 split memory 与 FP4 tensor core 调的 GEMM kernel（SM107 的 K64 MXFP8×MXFP4 走 packed FP4）、低延迟 decode kernel、以及跨 NVLink 共享的整柜 KV cache 与 Engram 表。沿用 GB300 的三种引擎形态（DEP2 prefill、Wide-EP decode DEP16/32、TP decode），基准用 SemiAnalysis AgentX 的 agentic 负载，并给出功耗归一化吞吐。",
+  "detail": D("把 P/D 分离 + Wide-EP 的推理栈整体迁到新一代机柜，用 FP4 kernel、分内存调优与整柜 KV/Engram 共享吃满新硬件。",
+              "agent 类负载的输入长、缓存命中高，吞吐瓶颈在 prefill 与跨卡 KV 传输；换一代硬件如果不重写 kernel，拿不到代际收益。",
+              "对自建推理集群的价值在方法论：三种引擎形态按负载切换、KV cache 做成机柜级共享。限制是强依赖 Rubin 特性（FP4、NVLink 域），短期内无法在现有集群复现。")},
+ {"title": "vLLM-Omni 跑 MiniMax H3-Image：四卡原生 4K 中位 0.87 秒，吞吐配置 6115 张/小时",
+  "url": U2("https://vllm.ai/blog/2026-11-12-minimax-h3-image-rubin"),
+  "source": "vLLM Blog",
+  "summary": "vLLM-Omni 把开源图像模型 MiniMax H3-Image 跑到 Vera Rubin：四卡上原生 4096×4096 生成中位 0.87 秒；另一套吞吐配置 6,115 张/小时，外推约 146,755 张/天。以官方 Standard 4K API 的 $0.06879/张作假设售价，满负载峰值对应约 $105.16/GPU/小时毛收入（75% 利用率 $78.87），未扣运营成本。工程侧关键是一条栈同时覆盖生成与编辑、六个采样步、最多 16 张参考图，并在 NVIDIA、AMD、Intel、摩尔线程（MUSA）与昇腾上都跑。",
+  "detail": D("同一套 serving 栈做文生图与图像编辑，6 步出原生 4K，给出延迟与吞吐两套配置及每 GPU 收入模型。",
+              "图像模型自建常卡在「延迟与吞吐不可兼得」：低延迟配置撑不住并发，高吞吐配置又被用户等不起。",
+              "多云异构（含国产 GPU/NPU）这条最有价值：同一模型跨五类加速器部署，对采购与容灾有意义。限制是收入测算是按假设售价外推，未计运营成本。")}
+]
+
+core = [
+ {"title": "Kueue v0.20.6：修 v0.20 升级后 apiserver watch cache 初始化失败与配额虚占",
+  "url": U2("https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.6"),
+  "source": "GitHub Releases",
+  "summary": "补丁版最要紧的是升级路径：v0.20 起 Kueue 不再提供 kueue.x-k8s.io/v1beta1 的 /convert 转换 webhook，而 ClusterQueue、Cohort、LocalQueue、MultiKueueCluster、Workload 这些 CRD 仍配置着它，导致 kube-apiserver 反复初始化 watch cache 失败。同批修 kueuectl create clusterqueue 拒绝合法配额值（如 cpu=1e-3、资源名 foo--bar.example.com/gpu）、DQO 聚合超过 64 种资源后残留 stale capacity、超过 32KiB 的 Distributed 条件消息被 apiserver 拒收，以及弹性 scale-up 时 workload slice 与其替换体被同时计费导致用量瞬时超配额。",
+  "detail": D("一批升级与记账修复：watch cache 初始化、配额值解析、DQO 容量聚合、长条件消息截断、弹性切片重复计费。",
+              "从 v0.20 之前升上来的集群会遇到 apiserver 刷错、队列对象读不到；配额虚占让队列看似满了却没人能跑。",
+              "跑 Kueue 的集群建议升级，尤其从 v0.19 跨到 v0.20 的。升级前按 release notes 核对 CRD 是否仍挂着旧 conversion webhook。")}
+]
+
+SECTION_INFRA = {"label": "☸️ 基础设施板块", "categories": [
+    {"label": "🤖☸️ K8s × AI", "title": "K8s × AI", "emoji": "🤖☸️", "items": k8sai},
+    {"label": "☸️ K8s 核心技术", "title": "K8s 核心技术", "emoji": "☸️", "items": core},
+]}
+
+flash = [
+ {"title": "llm-gemini 0.37：Gemini 4 Hydrogen 当天进 llm 命令行", "url": U("llm-gemini 0.37")},
+ {"title": "Anthropic 玻璃翼计划被质疑：近 4 万个候补漏洞只修了 217 条", "url": U("玻璃翼计划")},
+ {"title": "Anthropic 启动 IPO 路演（S-1 之后进入投资者会）", "url": U("launches roadshow")},
+]
+
+lead = ("今天两条主线都指向同一件事：模型开始接管「执行」。谷歌把 Gemini 4 Hydrogen 定位成日常编码与 agent 工作流的执行型模型，"
+        "并在 Antigravity 里用 Orchestrator 在同一会话内按任务换模型——重活给 Carbon、执行给 Hydrogen，平均省 24% 配额。"
+        "Anthropic 的路演视频则给了更硬的一例：今年首次接 AMD GPU，不再派几十名工程师做几个月，而是让 Claude 自己试，三天跑通、几乎 100% kernel 由它移植。"
+        "落地侧，JioHotstar 用 8 周把语音内容发现做到 5 亿用户，复盘的第一条是「先定不该答什么」；Amplitude 的 Wave 把洞察到上线压进 1–2 天。"
+        "边界也在收紧：OpenAI 新版 Usage Policies 11 月 20 日生效，模型路由与 AI 网关要先获审批。")
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 13 日 · 星期五",
+ "issue": 53,
+ "kicker": "AI & INFRASTRUCTURE DAILY · NO.053",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": lead,
+ "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+ "highlights": hl,
+ "sections": [SECTION_AI, SECTION_INFRA],
+ "flash": flash,
+}
+
+# ---- assertions ----
+n = 0
+for h in brief["highlights"]:
+    assert h["title"] and h["url"] in VALID, h["url"]
+    assert h["detail"] and len(h["detail"]) == 3
+    n += 1
+for s in brief["sections"]:
+    for c in s["categories"]:
+        assert c["title"] and c["emoji"]
+        for it in c["items"]:
+            assert it["title"], it
+            assert it["url"] in VALID, it["url"]
+            assert it["summary"] and len(it["detail"]) == 3
+            n += 1
+for f in brief["flash"]:
+    assert f["url"] in VALID, f["url"]
+
+json.dump(brief, open(os.path.join(REPO, "briefing.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+print("wrote briefing.json; items:", n, "flash:", len(flash))
+print("categories:", [(c['label'], len(c['items'])) for s in brief['sections'] for c in s['categories']])

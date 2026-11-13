@@ -1,0 +1,58 @@
+[
+ {
+  "title": "Agent Sandbox v1.0.11",
+  "url": "https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.11",
+  "source": "GitHub Releases",
+  "category": "沙箱与运行时",
+  "published": "2026-11-06",
+  "summary": "Sandbox router gains browser path-prefix routing, router-tunnel connections and X-Sandboxd-Token auth; sandboxd hardens file transfer against FIFOs and follows no symlinks on delete; SDKs add recursive list and new file ops."
+ },
+ {
+  "title": "We're updating our Usage Policies (effective November 20, 2026)",
+  "url": "https://help.openai.com/en/articles/12092907-were-updating-our-usage-policies",
+  "source": "OpenAI Help Center",
+  "category": "平台政策与风控",
+  "published": "2026-11-12",
+  "summary": "OpenAI's rewritten Usage Policies take effect on November 20, 2026 and add an approval requirement for model-access intermediaries such as model routers and AI gateways, plus SafetyIDs to separate end users, clarified restrictions on training competing models, and national-security/law-enforcement approval rules."
+ },
+ {
+  "title": "DeepSeek-V4.1-Flash on Vera Rubin NVL72: 58x Throughput vs. GB300",
+  "url": "https://vllm.ai/blog/2026-11-12-deepseek-v41-flash-vera-rubin",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "On one Vera Rubin NVL72 rack vLLM serves DeepSeek-V4.1-Flash at 1.7M tokens/s per GPU with 387 tokens/s per user, 58x GB300 NVL72; peak 2.52M tokens/s per GPU and 1,810 tokens/s for a single user, from FP4-tuned kernels and rack-wide KV cache shared over NVLink."
+ },
+ {
+  "title": "Inkling 2 Small on vLLM: Day-0 Support",
+  "url": "https://vllm.ai/blog/2026-11-12-inkling2-small",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "Thinking Machines' Inkling 2 Small (594B total / 17B active MoE, up to 1M context, text+vision) runs on vLLM at day 0 with up to 630 tokens/s per user at TP4, DSpark speculative decoding with acceptance length 3.5, mixed NVFP4/MXFP8 experts and LoRA support."
+ },
+ {
+  "title": "MiniMax H3-Image Day-0 Support: 4K in 0.87s with Vera Rubin",
+  "url": "https://vllm.ai/blog/2026-11-12-minimax-h3-image-rubin",
+  "source": "vLLM Blog",
+  "category": "K8s × AI",
+  "published": "2026-11-12",
+  "summary": "vLLM-Omni serves MiniMax H3-Image at native 4096x4096 in 0.87s median on four Vera Rubin GPUs, 6,115 images/hour in a throughput config; the open-weight model does generation and editing in six sampling steps with up to 16 reference images across NVIDIA, AMD, Intel, Moore Threads and Ascend."
+ },
+ {
+  "title": "Claude Code v2.1.323: Code Mode (experimental) lets Claude write JavaScript to call its tools",
+  "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.323",
+  "source": "GitHub Releases",
+  "category": "Agent 工具链",
+  "published": "2026-11-10",
+  "summary": "2.1.323 adds Code Mode, an opt-in mode where Claude writes JavaScript that calls its tools instead of emitting one tool call per turn; plugins gain an engines[\"claude-code\"] version range enforced at install/load, and claude plugin validate now type-checks a plugin's TypeScript hooks module."
+ },
+ {
+  "title": "Kueue v0.20.6",
+  "url": "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.6",
+  "source": "GitHub Releases",
+  "category": "K8s 核心",
+  "published": "2026-11-12",
+  "summary": "Patch release fixing a v0.20 upgrade bug where kube-apiserver could not initialize watch caches for ClusterQueue/Cohort/LocalQueue/MultiKueueCluster/Workload because the kueue.x-k8s.io/v1beta1 conversion webhook is no longer served, plus kueuectl quota parsing, DQO aggregation and elastic slice double-charging fixes."
+ }
+]

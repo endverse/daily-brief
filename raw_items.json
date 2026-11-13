@@ -1,5 +1,23 @@
 [
   {
+    "title": "How Amplitude ships product improvements in 1–2 days with OpenAI",
+    "url": "https://openai.com/business/customer-stories/amplitude",
+    "summary": "Built primarily on OpenAI models, Amplitude’s proactive product agent, Wave, identifies what to build, helps teams ship changes with coding agents, and measures the impact.",
+    "published": "2026-11-12T20:00:00+00:00",
+    "source": "OpenAI News",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "Gondola doubles revenue as its team builds more with Codex",
+    "url": "https://openai.com/business/customer-stories/gondola",
+    "summary": "Gondola helps creatives get credit and get hired, with Codex raising its lead engineer’s output by 50% and ChatGPT simplifying daily work.",
+    "published": "2026-11-12T12:00:00+00:00",
+    "source": "OpenAI News",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
     "title": "Holiday Extras is rethinking what it can build with Codex",
     "url": "https://openai.com/business/customer-stories/holidays-extras-codex",
     "summary": "With Codex, Holiday Extras is turning customer expertise into better apps, higher booking conversion and new possibilities for growth.",
@@ -90,20 +108,38 @@
     "extra": {}
   },
   {
-    "title": "Cogent and OpenAI build cyber defense factories for enterprises",
-    "url": "https://openai.com/index/cogent-security",
-    "summary": "Cogent combines OpenAI models with enterprise context to help automatically remediate vulnerabilities with agents.",
-    "published": "2026-11-10T00:00:00+00:00",
-    "source": "OpenAI News",
+    "title": "Introducing Gemini 4 Hydrogen",
+    "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
+    "summary": "",
+    "published": "2026-11-12T18:00:50+00:00",
+    "source": "Google DeepMind",
     "source_cat": "AI-官方",
     "extra": {}
   },
   {
-    "title": "ChatGPT Enterprise now available in AWS Marketplace",
-    "url": "https://openai.com/index/chatgpt-enterprise-aws-marketplace",
-    "summary": "ChatGPT Enterprise is now available through AWS Marketplace, helping organizations simplify procurement through existing AWS purchasing and billing relationships.",
-    "published": "2026-11-09T19:00:00+00:00",
-    "source": "OpenAI News",
+    "title": "AlphaGenome 2: Deciphering how cells read DNA to better understand disease",
+    "url": "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
+    "summary": "Predicting how DNA sequences and their variations impact specific human cell types and disease.",
+    "published": "2026-11-11T15:00:15+00:00",
+    "source": "Google DeepMind",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "Gemini 4 Carbon is now available",
+    "url": "https://deepmind.google/blog/gemini-4-carbon-is-now-available/",
+    "summary": "",
+    "published": "2026-11-10T16:03:47+00:00",
+    "source": "Google DeepMind",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "Introducing AlphaProof Code: a breakthrough in verifying complex software at depth",
+    "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+    "summary": "AlphaProof Code agents wrote three million lines of proofs in Lean to verify Signal’s core encryption.",
+    "published": "2026-11-10T12:02:28+00:00",
+    "source": "Google DeepMind",
     "source_cat": "AI-官方",
     "extra": {}
   },
@@ -117,13 +153,37 @@
     "extra": {}
   },
   {
-    "title": "Exploring the world's languages with Language Explorer",
-    "url": "https://research.google/blog/exploring-the-worlds-languages-with-language-explorer/",
-    "summary": "Natural Language Processing",
-    "published": "2026-11-09T20:29:39+00:00",
-    "source": "Google Research",
-    "source_cat": "AI-官方",
-    "extra": {}
+    "title": "Probing Transformer Representations Layer by Layer, Module by Module",
+    "url": "https://huggingface.co/papers/2611.11531",
+    "summary": "Which representation should be probed in a transformer-based foundation model? Recent work shows that the standard practice of probing the final layer is often suboptimal, as intermediate layers can provide better features. Yet, representations are still largely studied along depth alone, treating each transformer block as an atomic unit. In this work, we analyze transformer representations layer by layer, module by module. Through more than 144,000 linear probing evaluations of vision foundatio",
+    "published": "2026-11-07T19:00:00.000Z",
+    "source": "HuggingFace Papers",
+    "source_cat": "AI-研究",
+    "extra": {
+      "upvotes": 0
+    }
+  },
+  {
+    "title": "ScrapeBench: Evaluating Legal Compliance of AI Agents in Website Scraping",
+    "url": "https://huggingface.co/papers/2611.11306",
+    "summary": "AI agents deployed on the open web are becoming more capable of performing actions that may breach contractual provisions and violate computer security laws. In this paper, we introduce ScrapeBench, the first agentic benchmark for empirically evaluating the legal compliance of AI agents with website scraping policies, namely terms of service (ToS) and robots.txt directives. Across widely used closed-weight and open-weight AI agents, we find that most agents exhibit low compliance rates (< 5%) wh",
+    "published": "2026-11-09T19:00:00.000Z",
+    "source": "HuggingFace Papers",
+    "source_cat": "AI-研究",
+    "extra": {
+      "upvotes": 2
+    }
+  },
+  {
+    "title": "FAME-QP: A GPU-Accelerated Quadratic-Programming Solver for Real-Time Model Predictive Control",
+    "url": "https://huggingface.co/papers/2611.13766",
+    "summary": "We present FAME-QP, a GPU-accelerated solver for dense quadratic programs arising in linear model predictive control. FAME-QP combines constraint-dependent operator representations with fused single- and two-kernel iterations replayed through CUDA graphs, automatically selecting the execution configuration through device calibration and problem-specific timing. It probes a cached operator bank to select the initial penalty and updates operators lazily when problem matrices change. Numerical benc",
+    "published": "2026-11-09T19:00:00.000Z",
+    "source": "HuggingFace Papers",
+    "source_cat": "AI-研究",
+    "extra": {
+      "upvotes": 4
+    }
   },
   {
     "title": "Evolving Infra: Agent-Adaptive LLM Serving at Scale",
@@ -133,7 +193,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 6
+      "upvotes": 11
     }
   },
   {
@@ -144,7 +204,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 0
+      "upvotes": 3
     }
   },
   {
@@ -155,7 +215,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 3
+      "upvotes": 6
     }
   },
   {
@@ -166,7 +226,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 1
+      "upvotes": 4
     }
   },
   {
@@ -177,7 +237,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 0
+      "upvotes": 2
     }
   },
   {
@@ -188,7 +248,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 0
+      "upvotes": 2
     }
   },
   {
@@ -199,7 +259,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 23
+      "upvotes": 31
     }
   },
   {
@@ -210,7 +270,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 2
+      "upvotes": 3
     }
   },
   {
@@ -221,7 +281,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 2
+      "upvotes": 3
     }
   },
   {
@@ -232,7 +292,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 11
+      "upvotes": 18
     }
   },
   {
@@ -243,7 +303,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 1
+      "upvotes": 13
     }
   },
   {
@@ -254,7 +314,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 31
+      "upvotes": 39
     }
   },
   {
@@ -265,7 +325,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 2
+      "upvotes": 4
     }
   },
   {
@@ -276,7 +336,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 2
+      "upvotes": 3
     }
   },
   {
@@ -287,7 +347,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 11
+      "upvotes": 14
     }
   },
   {
@@ -298,7 +358,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 22
+      "upvotes": 27
     }
   },
   {
@@ -309,7 +369,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 12
+      "upvotes": 13
     }
   },
   {
@@ -331,7 +391,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 37
+      "upvotes": 40
     }
   },
   {
@@ -342,7 +402,7 @@
     "source": "HuggingFace Papers",
     "source_cat": "AI-研究",
     "extra": {
-      "upvotes": 2
+      "upvotes": 3
     }
   },
   {
@@ -420,39 +480,6 @@
     "source_cat": "AI-研究",
     "extra": {
       "upvotes": 11
-    }
-  },
-  {
-    "title": "TorchCurves: Differentiable Parametric Curves",
-    "url": "https://huggingface.co/papers/2611.14516",
-    "summary": "We present TorchCurves, a PyTorch library that treats vector-valued parametric curves as learnable primitives. Its central operation maps batches of scalar inputs to points on curves represented in B-spline or Legendre polynomial bases, with differentiation through both inputs and coefficients. Curve coefficients can be optimized jointly with the surrounding model or produced by another network. The library provides trainable modules, reusable basis modules, and a functional interface, supportin",
-    "published": "2026-11-09T19:00:00.000Z",
-    "source": "HuggingFace Papers",
-    "source_cat": "AI-研究",
-    "extra": {
-      "upvotes": 3
-    }
-  },
-  {
-    "title": "The Surprising Effectiveness of Deleting Weights in LLM Post-Training",
-    "url": "https://huggingface.co/papers/2611.10866",
-    "summary": "How little of a pretrained large language model (LLM) has to change for it to acquire new capabilities? We find that zeroing fewer than 0.05% of its weights, with no other modification, matches full fine-tuning (FFT) at scale across three LLM post-training regimes: reinforcement learning with verifiable rewards, supervised fine-tuning, and on-policy distillation. Our method, Deletion Tuning, learns a binary mask over the gate projection of transformer blocks. Two practical advantages follow: the",
-    "published": "2026-11-06T19:00:00.000Z",
-    "source": "HuggingFace Papers",
-    "source_cat": "AI-研究",
-    "extra": {
-      "upvotes": 18
-    }
-  },
-  {
-    "title": "Micius-Flash: Lightweight Agentic Intelligence for Engineering",
-    "url": "https://huggingface.co/papers/2611.10015",
-    "summary": "We introduce Micius-Flash, a 27-billion-parameter model for engineering with native multimodal input, deep reasoning and a 256K-token context window. We design the Micius data pipeline as a knowledge-tree-driven data flywheel comprising three stages: knowledge tree construction and expansion, data synthesis, and quality validation with hard-example augmentation. From this data, we train expert models for semiconductor knowledge and reasoning, hardware coding, and semiconductor multimodal underst",
-    "published": "2026-11-03T19:00:00.000Z",
-    "source": "HuggingFace Papers",
-    "source_cat": "AI-研究",
-    "extra": {
-      "upvotes": 8
     }
   },
   {
@@ -818,68 +845,68 @@
   {
     "title": "GoogleChrome/modern-web-guidance-src",
     "url": "https://github.com/GoogleChrome/modern-web-guidance-src",
-    "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "summary": "Keep your coding agent up to date with the latest web best practices",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "799"
+      "stars_today": "739"
     }
   },
   {
     "title": "openai/codex-security",
     "url": "https://github.com/openai/codex-security",
     "summary": "OpenAI's Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities. npm: https://www.npmjs.com/package/@openai/codex-security",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "663"
+      "stars_today": "643"
     }
   },
   {
     "title": "nvm-sh/nvm",
     "url": "https://github.com/nvm-sh/nvm",
     "summary": "Node Version Manager - POSIX-compliant bash script to manage multiple active node.js versions.",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "79"
+      "stars_today": "63"
     }
   },
   {
     "title": "pookjw/HermesEnabler",
     "url": "https://github.com/pookjw/HermesEnabler",
     "summary": "Enable Hermès Watch Faces on any Apple Watch devices",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "390"
+      "stars_today": "218"
     }
   },
   {
     "title": "we-promise/sure",
     "url": "https://github.com/we-promise/sure",
     "summary": "The personal finance app for everyone (by everyone)",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "974"
+      "stars_today": "967"
     }
   },
   {
     "title": "QwenLM/qwen-code",
     "url": "https://github.com/QwenLM/qwen-code",
     "summary": "An open-source AI coding agent that lives in your terminal.",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
@@ -891,132 +918,84 @@
     "title": "ashhart/TensorFold",
     "url": "https://github.com/ashhart/TensorFold",
     "summary": "LLM Inference Engine for Metal, CUDA and Vulkan.",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "58"
+      "stars_today": "54"
     }
   },
   {
     "title": "nodejs/node",
     "url": "https://github.com/nodejs/node",
     "summary": "Node.js JavaScript runtime ✨🐢🚀✨",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "133"
+      "stars_today": "62"
     }
   },
   {
     "title": "addyosmani/agent-skills",
     "url": "https://github.com/addyosmani/agent-skills",
     "summary": "Production-grade engineering skills for AI coding agents.",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "812"
+      "stars_today": "816"
     }
   },
   {
     "title": "meta/astryx",
     "url": "https://github.com/meta/astryx",
     "summary": "An open source design system that's fully customizable and agent ready",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "1,789"
+      "stars_today": "1,830"
     }
   },
   {
     "title": "CopilotKit/OpenBot",
     "url": "https://github.com/CopilotKit/OpenBot",
     "summary": "Open-source AI coworkers that each get a computer of their own: a browser, files and tools, with every action decided before it happens and recorded after. Bring any AG-UI agent.",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "291"
+      "stars_today": "298"
     }
   },
   {
     "title": "Alishahryar1/free-claude-code",
     "url": "https://github.com/Alishahryar1/free-claude-code",
     "summary": "Use Claude Code, Codex, Antigravity, VSCode, Pi, and OpenCode (and 6 other harnesses) for free (1.3B+ free tokens) from your terminal, app, IDE, or phone, and now from the browser with native browser sessions (multi-harness + multi-model) like OpenClaw (voice supported + ToS friendly)",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "636"
+      "stars_today": "415"
     }
   },
   {
     "title": "ggml-org/llama.cpp",
     "url": "https://github.com/ggml-org/llama.cpp",
     "summary": "LLM inference in C/C++",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "GitHub Trending",
     "source_cat": "AI-开源",
     "extra": {
       "trending": true,
-      "stars_today": "162"
-    }
-  },
-  {
-    "title": "Kianuni/Erosion-CN",
-    "url": "https://github.com/Kianuni/Erosion-CN",
-    "summary": "iOS / iPadOS 系统配置与 MobileGestalt 研究工具箱（简体中文防白苹果安全加固版）",
-    "published": "2026-11-10T02:37:31Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 1678,
-      "lang": "Swift"
-    }
-  },
-  {
-    "title": "HybridRobotics/supermimic",
-    "url": "https://github.com/HybridRobotics/supermimic",
-    "summary": "Humanoid whole-body motion tracking with one differentiable world model.",
-    "published": "2026-11-10T10:46:56Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 1255,
-      "lang": "Python"
-    }
-  },
-  {
-    "title": "FrigadeHQ/yogurt",
-    "url": "https://github.com/FrigadeHQ/yogurt",
-    "summary": "Private AI meeting notes. Free and open source.",
-    "published": "2026-11-10T20:01:01Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 752,
-      "lang": "TypeScript"
-    }
-  },
-  {
-    "title": "JDhruv14/line-art-animation",
-    "url": "https://github.com/JDhruv14/line-art-animation",
-    "summary": "A Claude skill and TypeScript library for animated line-art SVG components: ink figures that walk and react, scenes with a day/night cycle.",
-    "published": "2026-11-10T09:25:25Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 545,
-      "lang": "TypeScript"
+      "stars_today": "176"
     }
   },
   {
@@ -1027,44 +1006,20 @@
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 505,
+      "stars": 948,
       "lang": "C++"
     }
   },
   {
-    "title": "aronhy/pibrowse",
-    "url": "https://github.com/aronhy/pibrowse",
-    "summary": "Open-source browser profile workspaces",
-    "published": "2026-11-10T10:59:31Z",
+    "title": "AIRzZ90/study-materials-fork",
+    "url": "https://github.com/AIRzZ90/study-materials-fork",
+    "summary": "A cross-platform Tauri 2 interface and interaction practice project",
+    "published": "2026-11-12T10:52:32Z",
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 350,
+      "stars": 351,
       "lang": "TypeScript"
-    }
-  },
-  {
-    "title": "ValidatorStack/solana-vigil",
-    "url": "https://github.com/ValidatorStack/solana-vigil",
-    "summary": "Solana validator health in 60 seconds: score, leader duties, rewards, disk forecast, Prometheus. One static binary, read-only, never touches your keys.",
-    "published": "2026-11-10T15:47:25Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 241,
-      "lang": "Go"
-    }
-  },
-  {
-    "title": "MSNightmare/SignDrop",
-    "url": "https://github.com/MSNightmare/SignDrop",
-    "summary": "Windows Common Log FileSystem Authentication 0day Local Privilege Escalation Vulnerability",
-    "published": "2026-11-10T19:20:06Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 240,
-      "lang": "C"
     }
   },
   {
@@ -1075,68 +1030,8 @@
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 238,
+      "stars": 289,
       "lang": "Python"
-    }
-  },
-  {
-    "title": "linknimiball1974/ai-texture-forge",
-    "url": "https://github.com/linknimiball1974/ai-texture-forge",
-    "summary": "An AI-powered texture forge for Blender — turn text prompts into seamless PBR materials, concept art and scene-wide projections with local or cloud diffusion models, straight inside the 3D viewport on Windows. · dream textures · dream textures blender · dream textures addon · dream textures ai · dream textures seamless · dream textures pbr",
-    "published": "2026-11-11T19:09:18Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 227,
-      "lang": null
-    }
-  },
-  {
-    "title": "realcodebear/saltline-fable-5.2",
-    "url": "https://github.com/realcodebear/saltline-fable-5.2",
-    "summary": "",
-    "published": "2026-11-10T15:04:30Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 225,
-      "lang": "HTML"
-    }
-  },
-  {
-    "title": "setyamickala/fastmint-fcfs-agentic",
-    "url": "https://github.com/setyamickala/fastmint-fcfs-agentic",
-    "summary": "FCFS mint di BNB Smart Chain lewat Binance Agentic Wallet, masuk blok ±2 detik setelah jam buka.",
-    "published": "2026-11-11T03:42:12Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 220,
-      "lang": "JavaScript"
-    }
-  },
-  {
-    "title": "bea4dev/shoji-bar-4",
-    "url": "https://github.com/bea4dev/shoji-bar-4",
-    "summary": "A Wayland shell with Material Design 3 Expressive",
-    "published": "2026-11-10T06:58:11Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 212,
-      "lang": "Rust"
-    }
-  },
-  {
-    "title": "egoist/tinytraffic",
-    "url": "https://github.com/egoist/tinytraffic",
-    "summary": "self-host web analytics in a single binary",
-    "published": "2026-11-10T09:39:00Z",
-    "source": "GitHub 升星repo",
-    "source_cat": "AI-开源",
-    "extra": {
-      "stars": 209,
-      "lang": "Go"
     }
   },
   {
@@ -1147,8 +1042,20 @@
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 201,
+      "stars": 270,
       "lang": "Rust"
+    }
+  },
+  {
+    "title": "linknimiball1974/ai-texture-forge",
+    "url": "https://github.com/linknimiball1974/ai-texture-forge",
+    "summary": "An AI-powered texture forge for Blender — turn text prompts into seamless PBR materials, concept art and scene-wide projections with local or cloud diffusion models, straight inside the 3D viewport on Windows. · dream textures · dream textures blender · dream textures addon · dream textures ai · dream textures seamless · dream textures pbr",
+    "published": "2026-11-11T19:09:18Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 261,
+      "lang": null
     }
   },
   {
@@ -1159,32 +1066,32 @@
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 194,
+      "stars": 235,
       "lang": "JavaScript"
     }
   },
   {
-    "title": "nishuzumi/show-me-you-want-skill",
-    "url": "https://github.com/nishuzumi/show-me-you-want-skill",
-    "summary": "",
-    "published": "2026-11-10T06:26:23Z",
+    "title": "setyamickala/fastmint-fcfs-agentic",
+    "url": "https://github.com/setyamickala/fastmint-fcfs-agentic",
+    "summary": "FCFS mint di BNB Smart Chain lewat Binance Agentic Wallet, masuk blok ±2 detik setelah jam buka.",
+    "published": "2026-11-11T03:42:12Z",
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 173,
-      "lang": "HTML"
+      "stars": 224,
+      "lang": "JavaScript"
     }
   },
   {
-    "title": "huawei-csl/MACaQ",
-    "url": "https://github.com/huawei-csl/MACaQ",
-    "summary": "SOTA model-agnostic quantization for GGUF, local inference and beyond. Quantize and run text, image, video and audio models with llama.cpp, vLLM, Diffusers and PyTorch.",
-    "published": "2026-11-10T08:52:22Z",
+    "title": "rivet-dev/open-orange",
+    "url": "https://github.com/rivet-dev/open-orange",
+    "summary": "Run Cloudflare Workers and Durable Objects unchanged on AWS, GCP, Azure or your own servers.",
+    "published": "2026-11-12T00:44:12Z",
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 168,
-      "lang": "C++"
+      "stars": 221,
+      "lang": "TypeScript"
     }
   },
   {
@@ -1195,21 +1102,240 @@
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 168,
+      "stars": 211,
       "lang": "JavaScript"
     }
   },
   {
-    "title": "mumuisdog/ThreadsPulse",
-    "url": "https://github.com/mumuisdog/ThreadsPulse",
-    "summary": "An iOS tweak for Threads",
-    "published": "2026-11-10T09:00:03Z",
+    "title": "Simon3Sarkis/super-odyssey-pc-recomp",
+    "url": "https://github.com/Simon3Sarkis/super-odyssey-pc-recomp",
+    "summary": "A native Windows PC port of Super Mario Odyssey by static recompilation. Bring your own game: no game files included.",
+    "published": "2026-11-12T01:49:10Z",
     "source": "GitHub 升星repo",
     "source_cat": "AI-开源",
     "extra": {
-      "stars": 154,
-      "lang": "Objective-C"
+      "stars": 173,
+      "lang": "C"
     }
+  },
+  {
+    "title": "DevedevT/FFmpeg-GUI-Editor-Windows",
+    "url": "https://github.com/DevedevT/FFmpeg-GUI-Editor-Windows",
+    "summary": "Lightweight portable FFmpeg GUI & lossless video trimmer for Windows (ready-to-use .exe). Supports English, Russian, Chinese, German, French & Italian.",
+    "published": "2026-11-12T20:49:07Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 143,
+      "lang": "Visual Basic .NET"
+    }
+  },
+  {
+    "title": "nickvasilescu/bot-hq",
+    "url": "https://github.com/nickvasilescu/bot-hq",
+    "summary": "A team of Hermes agents you chat with, each with its own screen on one Orgo computer. Composio apps, xAI voice and X research.",
+    "published": "2026-11-11T08:23:30Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 142,
+      "lang": "TypeScript"
+    }
+  },
+  {
+    "title": "lawandrorder/mate",
+    "url": "https://github.com/lawandrorder/mate",
+    "summary": "Mate, your mate while you shop. A text-first shopping agent for cashback, personal discount codes, package tracking and price-drop alerts. Includes a starter agent, web chat, original icon set and docs. mate.fm",
+    "published": "2026-11-12T14:05:28Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 138,
+      "lang": "Python"
+    }
+  },
+  {
+    "title": "kate-land/ga100vfi",
+    "url": "https://github.com/kate-land/ga100vfi",
+    "summary": "GA100 voltage glitch resources",
+    "published": "2026-11-11T00:17:23Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 128,
+      "lang": "C"
+    }
+  },
+  {
+    "title": "snicolast/SegaRally2Native",
+    "url": "https://github.com/snicolast/SegaRally2Native",
+    "summary": "Sega Rally 2 - PC Port",
+    "published": "2026-11-11T04:43:58Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 126,
+      "lang": "C++"
+    }
+  },
+  {
+    "title": "BankerInterface/youtube-seo-optimizer",
+    "url": "https://github.com/BankerInterface/youtube-seo-optimizer",
+    "summary": "Free YouTube SEO optimizer and metadata auditor. Analyze titles, descriptions, and tags to improve video rankings. Check chapters, keywords, and SEO scores locally. Open-source.",
+    "published": "2026-11-11T13:00:17Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 120,
+      "lang": "Python"
+    }
+  },
+  {
+    "title": "Nobleglusurvive/discord-quest-completer",
+    "url": "https://github.com/Nobleglusurvive/discord-quest-completer",
+    "summary": "Automated Discord Quest Completer. Supports all 5 quest types: game, video, stream, activity, and achievement. Built-in dashboard, safe timing, and privacy-first. Open-source.",
+    "published": "2026-11-11T11:51:00Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 119,
+      "lang": "Python"
+    }
+  },
+  {
+    "title": "AFangTeam/PrintLab",
+    "url": "https://github.com/AFangTeam/PrintLab",
+    "summary": "Mac + Codex + 拓竹的个人 3D 打印工作台与工作流。允许非商业修改与再发布，保留署名。",
+    "published": "2026-11-11T01:31:27Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 117,
+      "lang": "Python"
+    }
+  },
+  {
+    "title": "av/safe-sand",
+    "url": "https://github.com/av/safe-sand",
+    "summary": "Hyper-realistic sand on your phone screen (WebGL2)",
+    "published": "2026-11-11T11:17:23Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 112,
+      "lang": "JavaScript"
+    }
+  },
+  {
+    "title": "abdenourgnx/re-kindle",
+    "url": "https://github.com/abdenourgnx/re-kindle",
+    "summary": "",
+    "published": "2026-11-11T08:56:37Z",
+    "source": "GitHub 升星repo",
+    "source_cat": "AI-开源",
+    "extra": {
+      "stars": 106,
+      "lang": "Shell"
+    }
+  },
+  {
+    "title": "Gemini 4 Hydrogen and Orchestrator",
+    "url": "https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity/",
+    "summary": "Article URL: https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity/ Comments URL: https://news.ycombinator.com/item?id=50472260 Points: 268 # Comments: 61",
+    "published": "2026-11-12T18:52:01+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Rust 1.100",
+    "url": "https://blog.rust-lang.org/2026/11/12/Rust-1.100.0/",
+    "summary": "Article URL: https://blog.rust-lang.org/2026/11/12/Rust-1.100.0/ Comments URL: https://news.ycombinator.com/item?id=50472038 Points: 353 # Comments: 146",
+    "published": "2026-11-12T18:39:05+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Service degradation on Microsoft 365",
+    "url": "https://status.cloud.microsoft/",
+    "summary": "https://www.abc.net.au/news/2026-11-13/microsoft-outage-affe...https://www.reddit.com/r/sysadmin/comments/1xuje83/microsoft...https://downdetector.com/status/microsoft-365/ Comments URL: https://news.ycombinator.com/item?id=50471731 Points: 445 # Comments: 422",
+    "published": "2026-11-12T18:20:48+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Gemini 4 Hydrogen",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+    "summary": "Article URL: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/ Comments URL: https://news.ycombinator.com/item?id=50471431 Points: 444 # Comments: 287",
+    "published": "2026-11-12T18:01:48+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Show HN: My $300 embroidery machine needed a subscription, so I built my own app",
+    "url": "https://github.com/simpsoka/zigzag",
+    "summary": "Article URL: https://github.com/simpsoka/zigzag Comments URL: https://news.ycombinator.com/item?id=50470488 Points: 287 # Comments: 123",
+    "published": "2026-11-12T17:02:42+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "I'm making LLMs work on small and old devices",
+    "url": "https://github.com/hyperionaidev/smolmaxxing/",
+    "summary": "Article URL: https://github.com/hyperionaidev/smolmaxxing/ Comments URL: https://news.ycombinator.com/item?id=50468888 Points: 273 # Comments: 89",
+    "published": "2026-11-12T15:23:10+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Abandoned Quake 4 expansion finished by modders and now playable",
+    "url": "https://www.moddb.com/mods/openq4/downloads/openq4-0141-windows-x64",
+    "summary": "Article URL: https://www.moddb.com/mods/openq4/downloads/openq4-0141-windows-x64 Comments URL: https://news.ycombinator.com/item?id=50467618 Points: 233 # Comments: 80",
+    "published": "2026-11-12T14:18:49+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Jensen Huang resigns",
+    "url": "https://apnews.com/article/nvidia-megaspeed-china-singapore-huang-5403f152a601cf82ce939f1d24fffa0f",
+    "summary": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-tran...https://www.reuters.com/business/retail-consumer/nvidia-ceo-..., https://www.reuters.com/live/nvidia-live-board-meets-fate-ce...https://www.nytimes.com/live/2026/11/12/business/nvidia-jens... Comments URL: https://news.ycombinator.com/item?id=50467087 Points: 2822 # Comments: 2670",
+    "published": "2026-11-12T13:52:29+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Anthropic IPO",
+    "url": "https://ipo.anthropic.com/us/",
+    "summary": "Article URL: https://ipo.anthropic.com/us/ Comments URL: https://news.ycombinator.com/item?id=50465829 Points: 799 # Comments: 791",
+    "published": "2026-11-12T11:46:41+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "Why writing correct software is hard and why math (alone) won’t help us (2016)",
+    "url": "https://pron.github.io/posts/correctness-and-complexity",
+    "summary": "Article URL: https://pron.github.io/posts/correctness-and-complexity Comments URL: https://news.ycombinator.com/item?id=50465352 Points: 351 # Comments: 166",
+    "published": "2026-11-12T10:28:26+00:00",
+    "source": "Hacker News",
+    "source_cat": "AI-社区",
+    "extra": {}
+  },
+  {
+    "title": "llm-gemini 0.37",
+    "url": "https://simonwillison.net/2026/Nov/12/llm-gemini/",
+    "summary": "Release: llm-gemini 0.37 Google launched Gemini 4 Hydrogen today - the lowest cost member of the Gemini 4 family. It's actually not too far off the price of its much bigger siblings, Carbon and Argon. I'm finding Gemini 4's pricing really confusing. Here's the pricing scheme: Model Dates Input ($/M) Cached input Output Gemini 4 Carbon Through Nov 30, 2026 $2.00 $0.10 $10.00 From Dec 1, 2026 $4.00 $0.20 $20.00 Gemini 4 Argon Through Nov 30, 2026 $2.00 $0.10 $10.00 From Dec 1, 2026 $4.00 $0.20 $20",
+    "published": "2026-11-12T22:55:19+00:00",
+    "source": "Simon Willison",
+    "source_cat": "AI-社区",
+    "extra": {}
   },
   {
     "title": "Gemini Decisions API",
@@ -1288,24 +1414,6 @@
     "url": "https://simonwillison.net/2026/Nov/10/yonkers-rises/",
     "summary": "Tool: Yonkers Rises I realized I didn't know where Yonkers was, so I looked it up on Google Maps and then, to help embed its location and shape in my head (and to try out Claude Fable 5.2's 3D modeling and animation skills), I prompted Fable 5.2 Medium to: Make a three js animation where yonkers stands up as a big mech (cool stand up motion) and átomos around manhattan and queens and Brooklyn, use openstreetmap mapping data It correctly deduced that \"átomos\" was a mobile keyboard typo for \"stomp",
     "published": "2026-11-10T03:53:04+00:00",
-    "source": "Simon Willison",
-    "source_cat": "AI-社区",
-    "extra": {}
-  },
-  {
-    "title": "llm-anthropic 0.31",
-    "url": "https://simonwillison.net/2026/Nov/9/llm-anthropic/",
-    "summary": "Release: llm-anthropic 0.31 Anthropic released Fable 5.2 and Mythos 5.2 today. Fable 5.2 is currently ranked first on Artificial Analysis. Anthropic say it \"solved two open problems in the physics of black holes\", so clearly their internal benchmarks have become more ambitious! I've added the new models to llm-anthropic, so you can now run prompts through Fable 5.2 like this: uv tool install llm llm install llm-anthropic llm keys set anthropic # paste key here llm -m claude-fable-5.2 \"Generate a",
-    "published": "2026-11-09T23:58:46+00:00",
-    "source": "Simon Willison",
-    "source_cat": "AI-社区",
-    "extra": {}
-  },
-  {
-    "title": "Locating the source of a mysterious beep with Claude",
-    "url": "https://simonwillison.net/2026/Nov/9/mysterious-beeps/",
-    "summary": "Our house has a box room, full of boxes that we still haven't unpacked from our last move. A couple of weeks ago something in that room started intermittently beeping. The beeps were far enough apart that standing in the room and trying to determine the source of the noise was frustrating, and I really didn't want to dig through every one of those boxes. So I had Claude Code build Beep Locator, a software system for triangulating the source of a mysterious beep using multiple devices scattered a",
-    "published": "2026-11-09T23:57:21+00:00",
     "source": "Simon Willison",
     "source_cat": "AI-社区",
     "extra": {}
@@ -1680,19 +1788,55 @@
     "extra": {}
   },
   {
-    "title": "AWS Weekly Roundup: AgentCore Runtime V2, Amazon DynamoDB bulk put items, and more (November 9, 2026)",
-    "url": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-agentcore-runtime-v2-amazon-dynamodb-bulk-put-items-and-more-november-9-2026/",
-    "summary": "Most of the cost of adopting something new isn’t the new thing, it’s the move. Moving a Hive table to Apache Iceberg has typically meant weeks of engineering work. Last week, Amazon S3 Tables turned that into three steps: start, sync as often as you need, complete. The source stays writable except for a few […]",
-    "published": "2026-11-09T17:55:26+00:00",
-    "source": "AWS News",
+    "title": "Chrome Enterprise brings more protections to healthcare technologies",
+    "url": "https://cloud.google.com/blog/products/chrome-enterprise/chrome-enterprise-brings-more-protections-to-healthcare-technologies/",
+    "summary": "Healthcare is adopting AI quickly, and it's moving beyond chat. Clinical teams are starting to use AI agents that draft documentation, summarize charts, navigate web apps, and complete multi-step tasks on a clinician's behalf. Many of these agents work in the same place—the browser. As electronic health records (EHRs) and clinical apps move to the web, the browser is where clinicians, applications, patient data, and AI services meet. When clinicians or agents act inside a session, security teams",
+    "published": "2026-11-12T18:55:00+00:00",
+    "source": "Google Cloud",
     "source_cat": "公有云",
     "extra": {}
   },
   {
-    "title": "How lemonflow built real-time agents for EV charging using Gemma and TPUs",
-    "url": "https://cloud.google.com/blog/topics/startups/building-real-time-agents-for-ev-charging-using-gemma-and-tpus/",
-    "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. As the electric vehicle revolution gains steam in Europe, every charging session is a moment of truth, for the driver and for the transition itself. At lemonflow, we build AI agents purpose-built for EV charging: support agents for drivers ",
-    "published": "2026-11-11T17:00:00+00:00",
+    "title": "Powering agentic cloud governance: What's new in Organization Policy",
+    "url": "https://cloud.google.com/blog/products/identity-security/ai-powered-cloud-governance-whats-new-in-organization-policy/",
+    "summary": "Even as sophisticated, new zero-day exploits continue to emerge, most cybersecurity incidents still start from the same common sources: an attacker locating and exploiting a fundamental, easily preventable cloud misconfiguration. Organization Policy Service can help you secure resource configurations and set up security guardrails across your Google Cloud resource hierarchy. Using a catalog of over 100 predefined policies for many common cloud governance needs, as well as Custom Organization Pol",
+    "published": "2026-11-12T17:00:00+00:00",
+    "source": "Google Cloud",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "Simplifying last mile cloud connectivity with Lumen and partner Cross-Cloud Interconnect",
+    "url": "https://cloud.google.com/blog/products/networking/partner-cross-cloud-interconnect-for-last-mile-delivered-by-lumen/",
+    "summary": "Cross-Cloud Interconnect is expanding to connect to more of your workloads. We designed Google Cloud's Cross-Cloud Network to simplify and optimize how organizations connect and secure applications across cloud and on-premises environments. Last year, we launched partner Cross-Cloud Interconnect for AWS based on an open specification, turning complex cross-cloud network builds into a managed service that provisions in minutes. Today, we are extending partner Cross-Cloud Interconnect for last mil",
+    "published": "2026-11-12T17:00:00+00:00",
+    "source": "Google Cloud",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "What’s new with Google Data Cloud",
+    "url": "https://cloud.google.com/blog/products/data-analytics/whats-new-with-google-data-cloud/",
+    "summary": "November 9 - November 13 Bringing conversational analytics to Gemini with Data Cloud connectors: Data Cloud connectors in Gemini are now in preview, enabling knowledge workers to query live enterprise data using natural language directly within tools like Google Docs, Gmail, and Google Slides. The capability connects across BigQuery, Looker, Spanner, AlloyDB for PostgreSQL, and Cloud SQL without requiring data movement, grounded by Knowledge Catalog semantic models under user-identity IAM govern",
+    "published": "2026-11-12T17:00:00+00:00",
+    "source": "Google Cloud",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "Autonomous defense at cloud speed with SentinelOne and Google Security Operations",
+    "url": "https://cloud.google.com/blog/topics/partners/autonomous-defense-at-cloud-speed-with-sentinelone-and-google-security-operations/",
+    "summary": "Modern security operations centers (SOCs) face an ongoing pipeline dilemma. While ingesting comprehensive endpoint telemetry is non-negotiable for defense, conventional delivery paths often drive up transfer overhead and alert latency. As attackers operate at machine speed, any unnecessary friction in how data moves from endpoints to the SOC can leave teams without the insight they need to respond to attacks in real time. Addressing this requires optimizing the data pipeline at the integration l",
+    "published": "2026-11-12T17:00:00+00:00",
+    "source": "Google Cloud",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "Google named the furthest in vision for the Gartner Magic Quadrant for Data Lakehouse Platforms",
+    "url": "https://cloud.google.com/blog/products/data-analytics/google-is-a-leader-in-the-gartner-magic-quadrant-for-data-lakehouse-platforms/",
+    "summary": "Gartner has named Google a Leader, positioned furthest in vision, in its first-ever Magic Quadrant for Data Lakehouse Platforms. In our opinion, this recognition validates a fundamental shift our customers are experiencing every day: In the agentic era, the enterprise lakehouse is no longer a passive data repository, but a foundation where agents reason and act across all your data. The lakehouse originally emerged to bring data warehouse reliability to open, low-cost storage, but the benchmark ",
+    "published": "2026-11-12T16:00:00+00:00",
     "source": "Google Cloud",
     "source_cat": "公有云",
     "extra": {}
@@ -1710,6 +1854,15 @@
     "title": "Don’t just prompt AI — architect it: Introducing the Professional Agentic Architect Certification",
     "url": "https://cloud.google.com/blog/topics/training-certifications/google-cloud-agentic-architect-certification-dont-just-prompt-ai-design-it/",
     "summary": "It just got easier to prove your expertise in building production-ready agents. Today, Google Cloud is introducing the Professional Agentic Architect certification as the latest milestone in our Gemini Agent Ready (GEAR) initiative. Nearly one million developers are using GEAR to skill up on agents, but what makes this particular certification so special is its adoption within Google’s walls. Over the past four months, Google Cloud has trained thousands of forward deployed engineers and strategi",
+    "published": "2026-11-11T17:00:00+00:00",
+    "source": "Google Cloud",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "How lemonflow built real-time agents for EV charging using Gemma and TPUs",
+    "url": "https://cloud.google.com/blog/topics/startups/building-real-time-agents-for-ev-charging-using-gemma-and-tpus/",
+    "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. As the electric vehicle revolution gains steam in Europe, every charging session is a moment of truth, for the driver and for the transition itself. At lemonflow, we build AI agents purpose-built for EV charging: support agents for drivers ",
     "published": "2026-11-11T17:00:00+00:00",
     "source": "Google Cloud",
     "source_cat": "公有云",
@@ -1779,20 +1932,38 @@
     "extra": {}
   },
   {
-    "title": "New survey finds enterprises trapped between legacy software and AI modernization",
-    "url": "https://cloud.google.com/blog/products/ai-machine-learning/new-survey-finds-enterprises-trapped-between-legacy-software-and-ai-modernization/",
-    "summary": "Throughout my career in cybersecurity and infrastructure protection — both in government and now at Google Cloud — I have consistently seen that friction between new and existing technology is often a barrier to progress. A new piece of software or service may work wonderfully on its own but then it’s placed within a complex, interconnected IT environment and lost in the operational inertia.Today, enterprise technology is experiencing a historic transformation. Organizations globally are moving ",
-    "published": "2026-11-09T17:00:00+00:00",
-    "source": "Google Cloud",
+    "title": "[In preview] Public Preview: JWT validation with Azure Front Door Auth Policy",
+    "url": "https://azure.microsoft.com/updates?id=577673",
+    "summary": "JSON Web Token (JWT) validation through Azure Front Door Auth Policy is now in public preview on Azure Front Door Premium. Validate bearer tokens issued by Microsoft Entra ID at the edge before requests reach your APIs or web applications, helping you cen",
+    "published": "2026-11-12T22:36:37+00:00",
+    "source": "Azure Updates",
     "source_cat": "公有云",
     "extra": {}
   },
   {
-    "title": "Cloud CISO Perspectives: Our security forecast for 2027",
-    "url": "https://cloud.google.com/blog/products/identity-security/cloud-ciso-perspectives-our-security-forecast-2027/",
-    "summary": "Welcome to the first Cloud CISO Perspectives for November 2026. Today, Chris Betz shares our security forecast for 2027, with insights from top leaders at Google, Google Cloud, and Mandiant. As with all Cloud CISO Perspectives, the contents of this newsletter are posted to the Google Cloud blog. If you’re reading this on the website and you’d like to receive the email version, you can subscribe here. aside_block &lt;ListValue: [StructValue([(&#x27;title&#x27;, &#x27;Get vital board insights with",
-    "published": "2026-11-09T16:00:00+00:00",
-    "source": "Google Cloud",
+    "title": "[Launched] Generally Available: Azure Front Door mutual TLS authentication",
+    "url": "https://azure.microsoft.com/updates?id=577678",
+    "summary": "Mutual TLS (mTLS), also known as client certificate authentication, is now generally available on Azure Front Door Premium. Use X.509 client certificates to help protect sensitive applications and APIs in business-to-business, Internet of Things, financia",
+    "published": "2026-11-12T22:27:35+00:00",
+    "source": "Azure Updates",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "[In preview] Public Preview: Auto scaling of ingestion limits in Azure Monitor workspace",
+    "url": "https://azure.microsoft.com/updates?id=578207",
+    "summary": "Auto scaling introduces a per-workspace capability in Azure Monitor Workspace (AMW) to automatically scale ingestion limits based on observed usage patterns. When enabled, the system dynamically adjusts ingestion limits (quota ceiling) to maintain healthy",
+    "published": "2026-11-12T18:23:52+00:00",
+    "source": "Azure Updates",
+    "source_cat": "公有云",
+    "extra": {}
+  },
+  {
+    "title": "[In preview] Public Preview: SQL performance monitoring for Azure SQL Managed Instance",
+    "url": "https://azure.microsoft.com/updates?id=574158",
+    "summary": "The public preview of Microsoft-managed performance monitoring for Azure SQL Managed Instance is now available. Customers monitoring business-critical SQL Managed Instance workloads often rely on custom scripts and disconnected monitoring tools. This requ",
+    "published": "2026-11-12T16:59:40+00:00",
+    "source": "Azure Updates",
     "source_cat": "公有云",
     "extra": {}
   },
@@ -1851,28 +2022,10 @@
     "extra": {}
   },
   {
-    "title": "Retirement: Support for .NET 8 and .NET 9 on Static Web Apps is ending November 10, 2026",
-    "url": "https://azure.microsoft.com/updates?id=575106",
-    "summary": "Support for .NET 8 and .NET 9 will end on November 10, 2026. Please transition your managed Functions APIs to .NET 10 by that date. Your apps will continue to operate, but security updates will no longer be provided and support for .NET 8 and .NET 9 on Az",
-    "published": "2026-11-09T22:50:01+00:00",
-    "source": "Azure Updates",
-    "source_cat": "公有云",
-    "extra": {}
-  },
-  {
-    "title": "[In preview] Public Preview: Modernize Arc-enabled Windows Servers with Azure File Sync",
-    "url": "https://azure.microsoft.com/updates?id=579854",
-    "summary": "Azure File Sync provides hybrid access or seamless migration of data from Windows Server to Azure Files while preserving the familiar local file server experience for users and applications. Now in preview, users have a guided Azure portal experience to s",
-    "published": "2026-11-09T17:20:57+00:00",
-    "source": "Azure Updates",
-    "source_cat": "公有云",
-    "extra": {}
-  },
-  {
     "title": "Nov 9, 2026Introducing Claude Fable 5.2 and Claude Mythos 5.2Our most capable models for daunting technical work, Claude Fable 5.2 and Claud",
     "url": "https://www.anthropic.com/news/announcements",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1881,7 +2034,7 @@
     "title": "FeaturesSep 21, 2026The Situation ReportA rare Ebola strain is spreading in the DRC, with no confirmed vaccine. Global health organizations ",
     "url": "https://www.anthropic.com/news/features",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1890,7 +2043,7 @@
     "title": "Anthropic launches roadshow for proposed initial public offeringToday Anthropic, PBC launched the roadshow for its proposed initial public o",
     "url": "https://www.anthropic.com/news/roadshow-launch",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1899,7 +2052,7 @@
     "title": "AI for Science expands to foundations and research institutionsWe’re highlighting 20 scientific foundations, institutions, and research grou",
     "url": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1908,7 +2061,7 @@
     "title": "Expanding our partnership with GSA to bring Claude to all levels of governmentWe are expanding our partnership with the General Services Adm",
     "url": "https://www.anthropic.com/news/expanding-partnership-gsa",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1917,7 +2070,7 @@
     "title": "Anthropic files S-1 with the SEC for proposed initial public offeringToday, Anthropic, PBC filed a registration statement on Form S-1 with t",
     "url": "https://www.anthropic.com/news/s1-sec",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1926,7 +2079,7 @@
     "title": "Donating Agent Skills to the Agentic AI FoundationWe’re donating Agent Skills, the open standard that gives AI agents specialized knowledge ",
     "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1935,7 +2088,7 @@
     "title": "Open call for guest investigators in the life sciencesToday, we’re inviting members of the life sciences community to apply to work with us ",
     "url": "https://www.anthropic.com/news/open-call-guest-investigators-life-sciences",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1944,7 +2097,7 @@
     "title": "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit TrustDr. Christopher Stubbs, an experimental physicist and former Dean of S",
     "url": "https://www.anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1953,7 +2106,7 @@
     "title": "Investing in the public benefitWe’re committing a portion of Anthropic’s shares to the Anthropic Public Benefit Fund, a new entity with a st",
     "url": "https://www.anthropic.com/news/public-benefit-fund",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1962,7 +2115,7 @@
     "title": "An update on independent evaluatorsTo evaluate the safety of our systems, Anthropic is giving employee-like access to a team from METR, a no",
     "url": "https://www.anthropic.com/news/an-update-on-independent-evaluators",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1971,7 +2124,7 @@
     "title": "Preparing for the 2026 US midtermsEarlier this year, we shared an update on our election safeguards. Here, we outline how we’ve continued to",
     "url": "https://www.anthropic.com/news/2026-us-midterms",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1980,7 +2133,7 @@
     "title": "Anthropic opens Singapore office and signs MOU with the Government of SingaporeAnthropic has opened an office in Singapore and signed an MOU",
     "url": "https://www.anthropic.com/news/singapore-office-opening",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1989,7 +2142,7 @@
     "title": "Strengthening our defenses against distillation attacksIllicit distillation allows model developers to copy frontier AI capabilities without",
     "url": "https://www.anthropic.com/news/distillation-defenses",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -1998,7 +2151,7 @@
     "title": "Introducing the Anthropic Cyber MissionWe’re launching the Anthropic Cyber Mission, a long-term commitment to securing the systems everyone ",
     "url": "https://www.anthropic.com/news/anthropic-cyber-mission",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2007,7 +2160,7 @@
     "title": "2026 Usage Policy updateWe’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.PolicyOct 8, 2",
     "url": "https://www.anthropic.com/news/2026-usage-policy-update",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2016,7 +2169,7 @@
     "title": "Building on our commitment to American scientific discoveryAnthropic is committing $150 million over three years to the Genesis Mission, a f",
     "url": "https://www.anthropic.com/news/genesis-mission-commitment",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2025,7 +2178,7 @@
     "title": "Expanding the Cyber Verification ProgramWe’re launching a new, expanded version of our Cyber Verification Program, which makes advanced cybe",
     "url": "https://www.anthropic.com/news/cyber-verification-program",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2034,7 +2187,7 @@
     "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gapAnthropic is investing $100 million in Claud",
     "url": "https://www.anthropic.com/news/claude-frontier-academy",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2043,7 +2196,7 @@
     "title": "Barclays scales Claude to upgrade operations and improve client experience Barclays, the British universal bank, is expanding its strategic ",
     "url": "https://www.anthropic.com/news/barclays-scales-claude",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
     "source_cat": "AI-官方",
     "extra": {}
@@ -2052,8 +2205,215 @@
     "title": "Partnering with Accenture on embedded evaluationWe’re partnering with Accenture on independent evaluation of frontier AI—part of our recent ",
     "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
     "summary": "",
-    "published": "2026-11-12T13:30:39.780040+00:00",
+    "published": "2026-11-13T00:30:54.627857+00:00",
     "source": "Anthropic News",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "v1.4.258",
+    "url": "https://github.com/stablyai/orca/releases/tag/v1.4.258",
+    "summary": "v1.4.258",
+    "published": "2026-11-12T23:38:02+00:00",
+    "source": "Orca",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "1.4.257",
+    "url": "https://github.com/stablyai/orca/releases/tag/v1.4.257",
+    "summary": "Previous release: 1.4.256 — Easier on-device dictation setup and earlier long-chat performance improvements. Smoother long chats, saved feedback and better dictation ✨ Orca 1.4.257 reduces freezes when several long Chat UI conversations stream at once. If you keep multiple agents working in conversations with a lot of history, this update cuts the work Orca does as their replies arrive. 🌐 Keep your browser feedback across restarts: Unsent text notes on pages in Orca’s browser now return after a ",
+    "published": "2026-11-12T05:59:25+00:00",
+    "source": "Orca",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "1.4.256",
+    "url": "https://github.com/stablyai/orca/releases/tag/v1.4.256",
+    "summary": "Smoother performance, easier dictation, saved phone drafts &amp; clearer workspace controls ✨ Long chats stay more responsive while agents stream tool output, reasoning and subagent work, with less background processing during terminal and tab updates. This update also makes dictation easier to set up and use and makes agents and cloud workspaces easier to manage. Phone-specific improvements below require the matching phone app update. 🎙️ Dictate with less setup: Voice settings suggests an on-de",
+    "published": "2026-11-11T20:39:04+00:00",
+    "source": "Orca",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "v2.1.323",
+    "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.323",
+    "summary": "What's changed Added Code Mode, an experimental opt-in in which Claude writes JavaScript to call its tools; see https://code.claude.com/docs/en/code-mode to turn it on, or to turn it off for an organization Added engines[\"claude-code\"] to plugin.json: plugins outside their stated Claude Code version range are not installed, updated or loaded, and install and update pick the newest version that fits Added type checking of a plugin's TypeScript hooks module to claude plugin validate; each finding ",
+    "published": "2026-11-12T22:12:13+00:00",
+    "source": "Claude Code",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "v2.1.322",
+    "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.322",
+    "summary": "What's changed Added fast mode on Vertex in the global, us and eu regions, falling back to standard speed if Vertex refuses it",
+    "published": "2026-11-10T02:29:43+00:00",
+    "source": "Claude Code",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "rust-v0.171.0-alpha.1",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.1",
+    "summary": "Release 0.171.0-alpha.1",
+    "published": "2026-11-12T23:23:26+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.170.0-alpha.4",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.4",
+    "summary": "Release 0.170.0-alpha.4",
+    "published": "2026-11-12T23:03:38+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.170.0-alpha.3",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.3",
+    "summary": "Release 0.170.0-alpha.3",
+    "published": "2026-11-12T19:37:30+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.170.0-alpha.2",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.2",
+    "summary": "Release 0.170.0-alpha.2",
+    "published": "2026-11-12T01:34:33+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "rust-v0.168.0",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.168.0",
+    "summary": "Release 0.168.0",
+    "published": "2026-11-12T21:29:07+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.170.0-alpha.1",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.1",
+    "summary": "Release 0.170.0-alpha.1",
+    "published": "2026-11-11T20:09:52+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.169.0-alpha.11.1",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.169.0-alpha.11.1",
+    "summary": "Release 0.169.0-alpha.11.1",
+    "published": "2026-11-11T22:27:26+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.169.0-alpha.11",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.169.0-alpha.11",
+    "summary": "Release 0.169.0-alpha.11",
+    "published": "2026-11-11T10:17:38+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.167.2",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.167.2",
+    "summary": "New Features Codex now sends tool updates incrementally by default on Google Cloud Vertex AI. To opt out, set incremental_tools_legacy_gcp = false under [features] in config.toml. (#60617, #60848) Changelog Full Changelog: rust-v0.167.1...rust-v0.167.2",
+    "published": "2026-11-11T22:46:17+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "0.167.0-alpha.4.3",
+    "url": "https://github.com/openai/codex/releases/tag/rust-v0.167.0-alpha.4.3",
+    "summary": "Release 0.167.0-alpha.4.3",
+    "published": "2026-11-11T23:59:38+00:00",
+    "source": "Codex CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "process-daemon v0.5.2",
+    "url": "https://github.com/anomalyco/opencode/releases/tag/process-daemon-v0.5.2",
+    "summary": "opencode-pty 0.5.2 (protocol 8) from packages/process-daemon, published to npm as @opencode/pty@0.5.2.",
+    "published": "2026-11-11T21:34:04+00:00",
+    "source": "OpenCode",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "process-daemon-v0.5.1",
+    "url": "https://github.com/anomalyco/opencode/releases/tag/process-daemon-v0.5.1",
+    "summary": "chore(process-daemon): release 0.5.1 (#63366)",
+    "published": "2026-11-11T18:27:09+00:00",
+    "source": "OpenCode",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "v2.2.7",
+    "url": "https://github.com/anomalyco/opencode/releases/tag/v2.2.7",
+    "summary": "Highlights GitHub Copilot Auto: Pick Auto in the model picker when your Copilot account has an Auto pool, and Copilot's router chooses the model for each session at the Auto discount. If routing fails, OpenCode falls back to the account's default chat model. (#62997) Side Panel Tab Shortcuts: Right-click a side panel tab and choose Close tabs to the right. ⌘W now closes side panel tabs wherever focus is, ⌥⌘W or Ctrl+Alt+W always closes the session tab, and ⌘⇧T reopens the last closed tab of eith",
+    "published": "2026-11-10T10:37:15+00:00",
+    "source": "OpenCode",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "Release v0.69.0-preview.0",
+    "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.69.0-preview.0",
+    "summary": "What's Changed fix(core,cli): preserve literal $ characters during template placeholder replacement by @jesussamuel-byte in #30136 feat(cli): add /stats heatmap subcommand for daily token usage by @jvargassanchez-dot in #30135 fix(core): prevent GCLI_EXPAND_TARGET env collision in expandEnvVars by @villahernandez-coder in #30138 chore(release): bump version to 0.69.0-nightly.20261104.g89e9d25d6 by @gemini-cli-robot in #30140 fix(cli): serialize AnsiOutput to text content in ACP tool call updates",
+    "published": "2026-11-10T21:05:08+00:00",
+    "source": "Gemini CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "Release v0.68.0",
+    "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.68.0",
+    "summary": "What's Changed Changelog for v0.67.0-preview.0 by @gemini-cli-robot in #29990 Changelog for v0.66.0 by @gemini-cli-robot in #29992 docs(readme): clarify Gemini CLI scope, limitations, and tool landscape by @LyalinDotCom in #29995 fix(cli): bound inline history re-render after terminal width changes by @jvargassanchez-dot in #29904 fix(ui): handle surrogate pairs when truncating in sanitizeForDisplay by @diegogodinezr in #29993 fix(core): make isWithinRoot case-insensitive on Windows by @duvanka-",
+    "published": "2026-11-10T21:17:07+00:00",
+    "source": "Gemini CLI",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "sdk/go/v0.7.15",
+    "url": "https://github.com/superradcompany/microsandbox/releases/tag/sdk%2Fgo%2Fv0.7.15",
+    "summary": "Go SDK v0.7.15",
+    "published": "2026-11-12T18:00:29+00:00",
+    "source": "microsandbox",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "v0.7.15",
+    "url": "https://github.com/superradcompany/microsandbox/releases/tag/v0.7.15",
+    "summary": "What's Changed Features feat(release): add opt-in candidate installs and publishing by @appcypher in #2008 Performance perf(filesystem): cut per-file host operations on passthrough mounts by @toksdotdev in #2032 Maintenance chore: refresh lockfiles after v0.7.14 by @github-actions[bot] in #2035 chore(release): bump microsandbox to 0.7.15 by @appcypher in #2040 Full Changelog: v0.7.14...v0.7.15",
+    "published": "2026-11-12T17:59:23+00:00",
+    "source": "microsandbox",
+    "source_cat": "AI-官方",
+    "extra": {}
+  },
+  {
+    "title": "gVisor 20261109.0",
+    "url": "https://github.com/google/gvisor/releases/tag/release-20261109.0",
+    "summary": "gVisor release 20261109.0 Binaries are also available from the apt repository and the release bucket; see Installation. Changes since release-20261102.0 Support UDP in netgofer. (c58baea46) Clear the interrupt shadow before delivering memory-fault signals. (abeb5cfca) Refresh gvisor website to include sandboxing messaging. (70d4d07f0) Add dedicated overlayfs syscall test suite (5aca3eeb3) Update agents guidance. (39e515be5) buildkite coordinator: delete instances that never got a timeout (eda453",
+    "published": "2026-11-11T19:34:12+00:00",
+    "source": "gVisor",
     "source_cat": "AI-官方",
     "extra": {}
   }
