@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 14 日 · 星期六</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>第 054 期</span><span class="issue-badge">第 054 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 14 日 · 星期六</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天的共同主题是「谁在给 agent 划边界」。落地侧，快手把商业对话 Agent 的四重约束（成本、稳定性、知识时效、进化）逐条拆开：知识库统一格式挂 entity/intent 天级更新，用户模拟器防退化，分层奖励把末轮才有的成交信号拆到中间轮。隔离侧，Edera 把授权下沉到虚拟机监控器，用对象能力让凭证根本不进工作负载；Docker 则把 agent 风险归成五类，结论是模型侧挡不住提示注入，只能限制被劫持 agent 能触达什么——同期 gVisor 补上 netgofer 的 UDP、Metal Sandbox 给出多台 Mac 之间命令调度的实测数字。平台上，OpenAI 开始对「一卡多号、一机多号」上硬配额；基础设施侧，Meta 用 Argo CD + Kargo 把 100 个 K8s 集群的例行部署从 4 小时压到分钟级。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/e0aglHW78pZuik3CWqdo?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">快手智能互动 Agent 落地：动态知识库、用户模拟器与分层奖励，把成交信号拆进对话中间</a></h2>
+    <p>快手大模型应用算法专家邱慧在 AICon 2026 深圳站复盘了电商互动场景的对话 Agent：不用小模型是因为多轮追问与工具编排撑不住，不用现成开源模型是因为缺业务数据、思考模式关不掉、一轮思考就超出 1–2 秒的响应预算，最终选择用自有业务数据自研。知识侧把商详页、直播口播、直播切片、人工客服对话统一成一种存储格式，每条知识挂 entity（商品/店铺维度）与 intent 标签，做到天级更新，新旧冲突先由大模型消减、消不掉再转人工复核。进化侧用用户模拟器造对抗样本，配合自进化策略避免「今天好用、明天新场景就退化」。奖励侧针对对话只有最后一轮才有成交信号的稀疏问题，做分层奖励与信用分配，把成交归因拆到中间轮次。</p>
+    <div class="note">分享的三个落地点：①全域知识库把多载体知识统一存储并挂 entity/intent，天级更新、冲突由模型消减后转人工；②用户模拟器 + 自进化策略对抗效果衰减；③成交归因用分层奖励与信用分配解决对话奖励稀疏。落地前提是自研模型，理由是开源模型相对时延高、思考难关闭、缺业务数据。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.infoq.cn/article/MU0txcPXXuGdGKBNa6a2?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Edera 把智能体权限下沉到虚拟机监控器：对象能力模型让凭证不进工作负载</a></h2>
+    <p>Edera 推出对象能力（object capability）受限权限模型，由联合创始人 Ariadne Conill 牵头，在虚拟机监控器层实施细粒度访问控制，把「完成任务所需的能力」与「底层凭证」分离：智能体不再持有 PAT、云密钥或管理员令牌，被提示注入后也拿不到可横向移动的凭据。Agent Runtime 里 capcurl 负责无凭证 API 访问（获准请求经隔离代理转发），capsudo 负责限定作用域的特权命令执行，SPIFFE/SPIRE 提供可密码学验证的工作负载身份与双向 TLS。同一套对象能力可以套到 MCP 服务器上，把其可访问的外部资源与命令限定在明确范围内。目前限定作用域命令执行与工作负载身份已发布，凭证代理式 API 访问与编排器深度集成作为 Project Lunchbox 的一部分后续推出。</p>
+    <div class="note">核心机制是「权限与凭证分离」：对象能力在虚拟机监控器层强制执行，凭证留在智能体之外。已发布限定作用域命令执行与工作负载身份（SPIFFE/SPIRE），凭证代理式 API 访问与编排器集成列入 Project Lunchbox 后续计划；定位是补充硬件强制的运行时隔离，而不是替代容器。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/" target="_blank" rel="noopener">AlphaGenome 2：把变异效应预测从「组织平均」推到单细胞类型</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>DeepMind 发布 AlphaGenome 2，从按组织平均输出改为条件模型：输入一段 100 万字母的 DNA 序列，再指定细胞类型/状态（可从参考目录选，也可用 cell encoder 从科学家自己的单细胞实验现场生成），直接预测变异在该细胞里的分子后果。模型在 68 种组织、超过 1 亿个单细胞图谱上训练，识别出的「改变基因表达的变异」数量接近上一代 SOTA 的两倍，并能外推到训练中未见过的细胞与疾病状态。非商业研究可通过 AlphaGenome API 使用，商业研究为私有预览。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">条件化序列模型：给定 DNA 序列 + 指定细胞条件，预测变异对表达等分子表型的影响；配合已有 90 亿个单碱基变异的预测平台，把静态细胞图谱变成可查询的预测引擎。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前模型只能给组织平均信号，疾病相关细胞类型（占比很小的那部分细胞）里的变异效应会被平均掉，稀有病变异难以排序。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和 K8s/agent 方向无直接交集，价值在于「条件化 + 单细胞分辨率」这个建模范式；除非在生物医药侧有合作，否则知道能力边界即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">模型</span><a class="src" href="https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/" target="_blank" rel="noopener">Google DeepMind</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener">plannotator：给多 agent 并行加一层「人工评审面板」</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>plannotator（10.4k stars，TypeScript）是一个本地、浏览器内的评审界面，通过插件/hook/命令接进 Claude Code、Codex、Copilot CLI、Gemini CLI、OpenCode、Kiro、Droid、Amp、Pi 等 agent：agent 提出决策、计划、HTML 产物或改完代码时，页面自动打开，人可以直接在文档与 diff 上标注、评论，一键把反馈送回 agent 执行。新推出的 Plannotator Inbox 定位「多 agent 工作与你之间的评审层」，把待决的决策、原型、变体、计划集中排队；另附 effective-html 这套给人看的 HTML 技能。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把 agent 的中间产物（plan/spec/markdown/HTML/diff）变成可标注的评审对象，标注结果结构化回传给 agent；Inbox 汇总多个 agent 会话里等人决策的事项，避免并行时漏看。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多 agent 并行时人的注意力才是瓶颈：终端里滚动的输出没法逐行批注，口头描述反馈又慢又容易失真，决策积压后 agent 只能空转等待。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">正好补上「并行 agent 的验收环节」，本地运行、不改 agent 本身，接一个主力 CLI 试成本很低；注意它解决的是评审与人机同步，不解决沙箱与权限。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">chrome-devtools-mcp：Chrome 官方把 DevTools 交给编码 agent</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>ChromeDevTools 官方仓库 chrome-devtools-mcp（约 5.5 万 stars，TypeScript）把 Chrome DevTools 的能力封装成 MCP server，让编码 agent 直接操作真实浏览器的调试接口，而不是靠截图猜页面状态。官方维护意味着协议变更与 Chrome 版本会同步跟进，比社区抓 CDP 的封装更稳。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 MCP 工具形式暴露 DevTools 能力（页面导航、DOM/网络/控制台等调试面），agent 可直接读取运行时状态并操作页面，用于 UI 调试与端到端验证。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">前端类任务的反馈回路一直靠人肉：agent 改完代码看不到渲染结果，只能靠人截图回传；自建 CDP 封装又要自己跟 Chrome 版本。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果 agent 要碰前端与浏览器验证，这是官方一手路径，接入成本低于自研 CDP 层；限制是它给的是浏览器内的能力，不涉及进程/网络隔离。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">GitHub Trending</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧭</span><span class="sec-title">Agent 工具链</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/openai/codex/releases/tag/rust-v0.169.0" target="_blank" rel="noopener">Codex CLI 0.169.0：侧聊多标签、自定义模型供应商、终端连云会话</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Codex CLI 0.169.0 的终端工作区支持多个 side-chat 标签，可用键盘或鼠标切换，重启后能恢复本地侧聊；agent 命令中心可按名称、prompt 预览或工作目录搜索历史任务；全屏 transcript 新增 Collapse turn details，把已完成的活动折叠到每条 prompt 下而答案保持可见、工具输出仍可搜索。终端里可直接新增/编辑自定义模型供应商，开启自定义网关 onboarding 后可在登录过程中创建 provider，并通过 device code 在 SSH 或无本地浏览器环境完成授权。macOS/Linux 上开启 Cloud 连接后，终端可发送图片、选模型与推理档位、归档或恢复 Cloud 会话。行为上收紧了一处：`codex exec` 在不受信任目录里即便带 `--sandbox workspace-write` 也保持项目配置与 MCP server 关闭，需显式 `--trust` 才保存项目信任。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">多侧聊并行 + 历史任务检索 + 折叠长 transcript；自定义 provider（含 device code 授权，适配 SSH/无浏览器）；终端内 Cloud 会话管理（图片、模型/推理档位、归档恢复）；诊断 ZIP 可 Ctrl+S 本地保存而不上传；bundled SQLite 升到 3.54。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长任务里想追问但不想污染主线上下文（侧聊标签）；换自己网关/自建模型要改配置文件很别扭（终端内建 provider + device code）；CI 与多人共用目录时项目配置与 MCP 被自动信任是隐患（exec 默认不信任）。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">三处直接可用：side-chat 标签改变长任务的使用节奏，custom provider + device code 让自建网关在远程机器上落地，「untrusted 目录默认关 MCP」是安全默认值。属于日常主力工具的小步迭代，不必专门评估，升级即可。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">release</span><a class="src" href="https://github.com/openai/codex/releases/tag/rust-v0.169.0" target="_blank" rel="noopener">Codex CLI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/sst/opencode/releases/tag/v2.3.0" target="_blank" rel="noopener">OpenCode v2.3.0：子 agent 默认后台跑，网关可用 mTLS 客户端证书</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenCode v2.3.0 把子 agent 改成默认后台执行：调用立即返回 session ID，子 agent 在后台并行跑，空闲或完成时回报父会话，父会话可继续干活；当子 agent 自身还有后台任务未完成时，回报里会标明「仍在运行」，父会话等最终结果而不是把部分答案当完成。TUI 默认把一串工具调用与思考折叠成单行活动，需要细看可把 verbosity 调到 medium/high。供应商配置新增 mTLS 客户端证书（settings.tls 的 cert/key/passphrase，支持 {file:}/{env:}），可对接要求双向 TLS 的网关；另有实验性 MCP events 与 shell 超时转后台两个 flag。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">子 agent 后台化（并行多任务、异步回报、语义化的「仍在运行」状态）；TUI 输出压缩成可折叠活动行；provider 级 mTLS 客户端证书与 {file:}/{env:} 引用；Code Mode 的文件/技能工具返回更结构化；工具输出截断保留开头与可用预览。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">子 agent 同步阻塞让父会话只能干等；多 agent 输出在终端里刷屏难以跟踪；企业网关要求 mTLS 时客户端无法出示证书，只能绕过网关。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">后台子 agent + mTLS 两条都踩在「多 agent 编排」与「走自建网关」的实际需求上，是本期 ② 里最值得试的一个；实验特性（MCP events、shell 超时转后台）默认关闭，先当预览看。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">release</span><a class="src" href="https://github.com/sst/opencode/releases/tag/v2.3.0" target="_blank" rel="noopener">OpenCode</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏖️</span><span class="sec-title">沙箱与运行时</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.17294v1" target="_blank" rel="noopener">Metal Sandbox：在 Apple Silicon 上给 GPU 编码 agent 做隔离执行与命令调度</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文提出 Metal Sandbox：面向「用 agent 写 Apple Metal kernel」这类工作负载的执行基础设施，把受限的按实例文件访问、原生命令执行、以及跨多台 Mac 的命令级调度组合在一起。每个 agent 保留自己的工作区与私有开发环境；可并行的命令并发跑，串行命令在每节点共享一个执行槽，符合条件的等待命令可迁移到空闲 Mac 并把结果回送原 agent。与 Harbor 集成后支持任务执行、自动校验与 rollout 收集。四个 Mac mini M4 节点的受控实验里，集中需求下命令吞吐提升 1.68–2.05 倍；按 16 条真实 agent trace 估算，每节点 4 会话时持续吞吐约为单会话的 2.14 倍；用实测 trace 重放动态调度，平均工具等待降 18.8%、批次耗时降 22.3%。代码与 Harbor 集成已开源。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">per-instance 文件访问限制 + 命令级调度（并行/串行分槽）+ 跨机迁移与结果回送；把多台 Mac 拼成一个可被 agent 并发使用的执行池，并保留每会话的私有工作区与可校验的 rollout 记录。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 会话在「模型请求—开发命令—GPU 执行」之间来回切换，GPU 大部分时间空转；单机串行跑又多会话互相阻塞，导致工具等待与批次耗时被拉长。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">本地 Mac 做 agent 沙箱的少见的量化工作，机制（槽位 + 迁移）可以借鉴到任何「GPU 稀缺 + 多会话」的调度；局限是规模只有 4 节点、面向 Metal/Mac，Linux/GPU 集群上的收益需要自己重测。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">论文</span><a class="src" href="https://arxiv.org/abs/2611.17294v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/google/gvisor/releases/tag/release-20261109.0" target="_blank" rel="noopener">gVisor 20261109.0：netgofer 支持 UDP，修内存故障信号的中断影子</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>gVisor 周更版 20261109.0 在 netgofer 里加入 UDP 支持，修复投递内存故障信号前未清理中断影子（interrupt shadow）的问题，为 overlayfs 增加专门的系统调用测试套件，并刷新官网以强化 sandboxing 定位。对跑用户态内核隔离的运行时栈来说，UDP 补齐的是网络协议覆盖缺口，而不是新功能。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">netgofer 支持 UDP（此前只有 TCP），补上 DNS/QUIC/自定义 UDP 协议的可用性；overlayfs 增加专用 syscall 测试；修复内存故障信号处理路径的稳定性问题。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">netgofer 只跑 TCP 时，依赖 UDP 的负载要么回落到慢路径、要么直接不可用，限制了 gVisor 在通用 agent 沙箱里的适用面。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果你在评估 gVisor 做 agent 隔离，这是「能不能跑真实负载」的关键补丁级变化，值得跟；单看这一版没有架构级改动。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">release</span><a class="src" href="https://github.com/google/gvisor/releases/tag/release-20261109.0" target="_blank" rel="noopener">gVisor</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/e2b-dev/E2B/releases/tag/e2b%402.64.0" target="_blank" rel="noopener">E2B 2.64.0：CLI 改用登录态 access token，模板列表 JSON 结构 breaking</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>E2B 2.64.0 把 CLI 的认证从「存下来的 API key」换成登录后的 access token：`e2b auth login` 打开 e2b.dev/auth/cli 走浏览器授权，token 过期前自动刷新（包括 `sandbox logs --follow`、`metrics --follow` 与已附着会话这类长命令），并发进程间的刷新做了串行化，避免互相踩掉。模板相关有一处 breaking：`e2b template list -f json` 现在输出 SDK 的 TemplateInfo 对象（templateId/buildId/names…），不再透传 API 原始响应（templateID/buildID/aliases/createdBy…），表格也不再显示 Created by；另新增 maxCpuCount，用于可调规格模板。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">CLI 全链路改用短时 access token + 自动刷新 + 跨进程串行刷新；模板接口统一走 SDK 的 Template.list()/Template.delete()，暴露可调规格模板的 CPU 上限。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长期 API key 落盘是最常见泄露面；长命令跑到一半 token 过期会直接中断。脚本侧则常因 CLI 输出的字段名与 SDK 不一致而踩坑。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">直接相关：凭证模型从长期 key 改成短时 token，是沙箱平台该有的姿势；升级前检查任何解析 `template list -f json` 的 CI 脚本，字段名变了。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">release</span><a class="src" href="https://github.com/e2b-dev/E2B/releases/tag/e2b%402.64.0" target="_blank" rel="noopener">E2B</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span></div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/e0aglHW78pZuik3CWqdo?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">快手智能互动 Agent 落地：动态知识库、用户模拟器与分层奖励</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>快手在电商互动场景自研对话 Agent：知识侧把商详页、直播口播、直播切片与人工客服对话统一成一种存储格式，每条挂 entity 与 intent 标签、天级更新并由模型做冲突消减；进化侧用用户模拟器造对抗样本配合自进化策略；奖励侧用分层奖励与信用分配，把只有末轮才出现的成交信号拆到中间轮次。选自研而非调开源模型的直接原因是响应预算 1–2 秒、开源模型思考模式难关、且缺业务数据。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一条可复用的商业对话 agent 工程链：全域知识库（统一格式 + entity/intent + 冲突消减 + 人工兜底）、用户模拟器驱动的自进化、成交归因的分层奖励。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">知识时效（大促几分钟改规则）、效果衰减（长期不更新就退化）、奖励稀疏（只有成交才给信号）三个真实工程问题。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得看的是取舍口径（时延预算、知识更新频率、自研成本），不是模型选型；知识库那一段的改造成本最低、最可借鉴。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">案例</span><a class="src" href="https://www.infoq.cn/article/e0aglHW78pZuik3CWqdo?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📜</span><span class="sec-title">平台政策与风控</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://help.openai.com/en/articles/20001559-understanding-card-and-device-limits-in-chatgpt" target="_blank" rel="noopener">ChatGPT 给「一卡多号、一机多号」上硬配额</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 帮助中心新增《Understanding card and device limits in ChatGPT》：同一张支付卡或同一台设备关联过多付费订阅时，ChatGPT 会直接拦下新订阅购买（提示「Too many subscriptions associated with this card or device」），登录时也可能提示「Device limit reached」或在事后检查中被登出，即使购买已成功、账号一开始能用。配额覆盖 ChatGPT Go、Plus、Pro 100/200/500，Free 与 Business/Enterprise/Edu 工作区不计入；设备限制与「同时登录几个账号」「账号切换」是两套独立规则，登出账号不保证另一个付费账号变可用。官方给的解法只有两条：在已允许的账号上买 credits/升级，或取消并要求退款；买 credit、重置用量都清不掉卡片或设备限制。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在购买与登录两个环节做卡/设备维度的配额校验，把「一卡多号」「一机多号」从条款约束变成硬拦截，并提供取消+退款的处理路径。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前共享订阅、代充、二手号在支付与设备层面没有硬门槛，风控只能靠事后封号；现在把限制前移到结算与登录。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">直接冲击多人共享 Codex/ChatGPT 订阅的做法：靠一台机器轮换多个付费账号、或一张卡给多人开号的方案会开始失败（且失败表现为购买被拒或事后登出，排查成本高）。做多租户 agent 平台时，账号与支付路径要按「一卡一号一设备」重新设计。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">政策</span><a class="src" href="https://help.openai.com/en/articles/20001559-understanding-card-and-device-limits-in-chatgpt" target="_blank" rel="noopener">OpenAI Help Center</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📊</span><span class="sec-title">产品与商业</span></div>
+    <div class="item">
+      <div class="num">11</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/index/introducing-chatgpt-wallet" target="_blank" rel="noopener">ChatGPT Wallet：让 agent 代付，但要用户点头</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 推出 ChatGPT Wallet，定位是让 ChatGPT Work、Codex、dots 里的 agent 在用户批准的前提下完成购买，并沿用既有卡片保护机制。它把「agent 能不能花钱」变成一个需要显式授权的动作，而不是把卡号交给 agent。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在 agent 会话内发起购买并由用户确认，复用既有支付卡保护；覆盖 ChatGPT Work、Codex、dots 三个入口。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 执行链里凡是涉及付费动作（买 API、买域名、买数据）都只能人肉跳出会话完成，流程断在最后一步。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">方向明确但边界刚开：目前是「人批准的代付」，不是 agent 自主预算管理；对自建 agent 平台的启示是支付要作为独立授权面，而不是塞进工具调用。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">产品</span><a class="src" href="https://openai.com/index/introducing-chatgpt-wallet" target="_blank" rel="noopener">OpenAI</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">12</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/joYjCTbwWFSkbACK5lje?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">LiteRT Tensor API：端侧模型的构建、定制与优化接口</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>谷歌推出 LiteRT Tensor API，用于构建、定制与优化端侧机器学习模型，把原本分散在转换工具链里的图与张量级操作收敛成一套 API。面向的是在手机/边缘设备上跑模型、需要自己改算子与量化路径的场景。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 API 形式做端侧模型的构建、定制与优化，覆盖图/张量层面的改造。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">端侧部署常要在转换前后手工改图与算子，工具链割裂、难以版本化。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">与云端 K8s 栈无交集，端侧有需求时再看；当前信息量只够判断方向。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">产品</span><a class="src" href="https://www.infoq.cn/article/joYjCTbwWFSkbACK5lje?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">安全与治理</span></div>
+    <div class="item">
+      <div class="num">13</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/1pCuIRtm5HYwTyR4fIhA?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Docker 归纳 agent 五大风险：隔离与治理优先于模型改进</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Docker 发布指南，把自主 agent 的安全风险归为五类：提示词注入、工具滥用与投毒、过度自主（YOLO 模式）、凭证泄露、数据窃取，共同根因是 agent 能在运行时自选工具、串联多步操作、并以启动者权限运行。Docker 的判断是模型侧无法可靠区分合法指令与注入指令，因此防御应放在限制「被劫持的 agent 能触达什么」：给 agent 独立短时凭证而非继承开发者 token、出站白名单、agent 间数据转交按不可信输入处理。对应产品是 Docker Sandboxes（每个 agent 一个一次性微虚拟机 + 文件系统/网络控制）与 AI Governance（约束可执行动作、可用工具与凭证）。文中引用的两个真实案例：编码 agent 生成带尾部 `~/` 的 `rm -rf` 并直接执行删掉主目录；某 AWS 工程师让 agent 处理 Cost Explorer 漏洞，agent 选择删除重建生产环境，造成 13 小时区域性中断。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一套可落地的 agent 安全基线：五类风险清单 + 「隔离（一次性微虚拟机、文件系统与网络控制）+ 治理（动作/工具/凭证约束）」双层防御；配套实践是短时凭证运行时注入、出站白名单、跨 agent 数据当不可信输入。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">传统 Web 安全假设请求打到已知端点、由确定代码处理，agent 打破了这个假设：一条被操纵的指令可以直接变成删目录、删生产环境这类实际破坏，而容器隔离只挡住「跑在哪」。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和用户侧「多用户 agent 沙箱」直接相关：这份清单可以当权限评审表用（每个 agent 到底需要哪些权限、何时过期、谁审计）。注意社区的反驳也成立——Docker 方案仍默认授予较大权限面（约 500 个可用系统调用），跨租户执行他人代码时应上微虚拟机或 gVisor 级隔离。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">治理</span><a class="src" href="https://www.infoq.cn/article/1pCuIRtm5HYwTyR4fIhA?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/announcements/2026/11/11/meta-wins-cncf-end-user-case-study-contest-for-accelerating-ai-infrastructure-deployments-from-hours-to-minutes/" target="_blank" rel="noopener">Meta 用 Argo CD + Kargo 管 100 个 K8s 集群：例行部署从 4 小时到分钟级</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Meta 的 Cloud Foundation 团队（15 人出头）用 Argo CD + Kargo 搭了一套 GitOps 平台，管理跨多云、多加速器家族的约 100 个 Kubernetes 集群，支撑 AI 研究与推理，把例行应用部署从 4 小时以上压到分钟级，并获得 CNCF 终端用户案例竞赛奖。改造前 Terraform 同时管基础设施与应用部署，连日常应用更新都被绑进冗长的基础设施发布流程，共享发布模型意味着一处卡住会拖住无关发布，且缺少自动健康检查。新架构把应用交付与基础设施供给分开：Terraform 继续管基础设施，Argo CD 对 Git 里的配置做 reconcile，Kargo 负责跨环境发布晋级，提供独立 rollout、自动健康检查与可追溯的版本记录。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用「Terraform 管基础设施 + Argo CD 管应用 reconcile + Kargo 管跨环境晋级」的三段式，把 100 个集群的应用交付解耦成可独立回滚、带自动健康门禁的流水线。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">应用更新被绑在基础设施发布流程上（4 小时级）、共享发布通道互相阻塞、没有自动健康校验导致回滚靠人判断。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">对单人或小团队建 K8s 平台的场景很有参照价值：15 人管 100 集群靠的是把「供给」和「交付」彻底分层，而不是更多人力。Kargo 这一层（晋级编排 + 健康门禁 + 版本记录）是多数自建方案缺的部分；规模不同可只取分层思路。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag">案例</span><a class="src" href="https://www.cncf.io/announcements/2026/11/11/meta-wins-cncf-end-user-case-study-contest-for-accelerating-ai-infrastructure-deployments-from-hours-to-minutes/" target="_blank" rel="noopener">CNCF</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/aws/karpenter/releases/tag/v1.15.2" target="_blank" rel="noopener">Karpenter v1.15.2：把 DRA 的 GPU/EFA 元数据补齐</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Karpenter v1.15.2 只更新 DRA 实例类型元数据：为 g7/g7e 补 NVIDIA GPU 的 DRA 元数据并修正既有 GPU 机型显存属性；分数 GPU 机型 g6f/gr6f 不再带 NVIDIA DRA 元数据，因此不会被选中满足 `gpu.nvidia.com` 的 claim；EFA 的 DRA 覆盖从 29 种机型扩到 302 种，但新增条目只设置 `dra.net/pciDevice`、`dra.net/pciVendor`、`dra.net/rdma`，按 `pciSubsystem`/`numaNode`/`pcieRoot` 选择的 claim 匹配不到。未开启 `draNVIDIAGPU`/`draEFA` feature gate 的集群不受影响。已知问题：EC2NodeClass 的 AMI alias 若含第二个 `@`（如 `al2023@latest@foo`）能通过校验但会让 controller 崩溃重启，进而停掉所有 NodePool 的供给。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">让 Karpenter 的实例选择认识 DRA 维度：GPU 按 DRA 元数据匹配、EFA 覆盖 302 种机型；可用来做基于 DRA claim 的 GPU 节点自动扩缩。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">DRA 上线后调度按设备属性匹配，节点供给侧若没有对应元数据，GPU/EFA 机型就选不出来或选错（例如把分数 GPU 机型派给整卡 claim）。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果在 AWS 上跑 GPU 训练/推理并已开 DRA gate，这是必须跟的元数据修正，同时注意那个会让 controller 崩的 AMI alias 坑；未开 DRA 可跳过。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">release</span><a class="src" href="https://github.com/aws/karpenter/releases/tag/v1.15.2" target="_blank" rel="noopener">Karpenter</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span></div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/cilium/cilium/releases/tag/v1.21.0-pre.4" target="_blank" rel="noopener">Cilium 1.21.0-pre.4：BPF masquerade 默认开启，Gateway API 加前端 mTLS 与 Inference Extension</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Cilium 1.21 的第四个预览版列出的变更密度很高：BGP 支持基于接口的 unnumbered peering（`autoDiscovery.mode: Unnumbered`，在指定接口上发现对端 IPv6 link-local 并发 RA 做邻居发现）；BPF masquerading 改为默认开启（升级需注意行为变化）；Gateway API 增加前端客户端证书校验（mTLS）与 listener TLS 版本选项，并为 GRPCRoutes 支持 BackendTLSPolicy；同时在 Gateway API 侧加入 Inference Extension 支持。网络驱动侧加入 Multi Pool Resource IPAM、DRA consumable capacity、RX queue manager，XDP prefilter 被标记废弃，`--tofqdns-pre-cache` 与 `--bypass-ip-availability-upon-restore` 两个旧 flag 移除。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">BGP unnumbered 简化裸金属/交换互联配置；BPF masquerade 默认化减少 kube-proxy iptables 依赖；Gateway API 前端 mTLS + TLS 版本控制把入口安全策略下沉到 CNI；Inference Extension 支持让 Gateway API 直接承载推理路由；DRA consumable capacity 让网络设备按 DRA 方式被调度。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前 BGP peering 要显式配对端地址、Gateway API 侧缺前端证书校验与 TLS 版本粒度、推理路由要在 CNI 之外另搭一层；默认 masquerade 模式还依赖 iptables 规则，规模大时是瓶颈。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">CNI 是集群方案里最难改的一层，1.21 把「推理路由（Inference Extension）+ 入口 mTLS + DRA 网络设备」都收进 Gateway API 路径，值得提前在测试集群验证；注意 BPF masquerade 默认开启属于升级行为变更，先看 release notes 再动生产。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><span class="tag">release</span><a class="src" href="https://github.com/cilium/cilium/releases/tag/v1.21.0-pre.4" target="_blank" rel="noopener">Cilium</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.325" target="_blank" rel="noopener">Claude Code v2.1.325：修 zstd 解压安全缺陷，第三方网关不再每轮报 context 超限</a></li>
+      <li><a href="https://github.com/helm/helm/releases/tag/v4.3.2" target="_blank" rel="noopener">Helm v4.3.2：registry transport 修复，补 list --max 帮助文本</a></li>
+      <li><a href="https://openai.com/business/customer-stories/gondola" target="_blank" rel="noopener">Gondola：Codex 让首席工程师产出提升 50%，营收翻倍</a></li>
+      <li><a href="https://openai.com/business/customer-stories/holidays-extras-codex" target="_blank" rel="noopener">Holiday Extras 用 Codex 把客服经验变成内部应用</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 08:30 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
