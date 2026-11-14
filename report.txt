@@ -1,58 +1,57 @@
 ======================================================================
-处理报告  (原始 251 条)
+处理报告  (原始 233 条)
 ======================================================================
 
-① 过滤: 保留 204 条, 过滤掉 47 条
+① 过滤: 保留 185 条, 过滤掉 48 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] nvm-sh/nvm
-     ✗ [GitHub Trending] pookjw/HermesEnabler
      ✗ [GitHub Trending] we-promise/sure
-     ✗ [GitHub Trending] nodejs/node
+     ✗ [GitHub Trending] louislam/uptime-kuma
+     ✗ [GitHub Trending] block/buzz
+     ✗ [GitHub Trending] tailscale/tailcat
+     ✗ [GitHub 升星repo] DevedevT/FFmpeg-GUI-Editor-Windows
      ✗ [GitHub 升星repo] AIRzZ90/study-materials-fork
-     ✗ [GitHub 升星repo] tigerogijzooav/Hyperliquid-Trade-Bot
-     ✗ [GitHub 升星repo] makepad/relax
      ✗ [GitHub 升星repo] rivet-dev/open-orange
+     ✗ [GitHub 升星repo] faizfahmi77/ScanDot
 
-② 去重: 204 → 178 条 (同批合并 2, 跨天历史去重 24)
+② 去重: 185 → 171 条 (同批合并 2, 跨天历史去重 12)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] openai/codex-security
-     ⏭️  [GitHub Trending] QwenLM/qwen-code
-     ⏭️  [GitHub Trending] meta/astryx
-     ⏭️  [GitHub Trending] CopilotKit/OpenBot
-     ⏭️  [GitHub 升星repo] op7418/guizang-game-skill
      ⏭️  [Simon Willison] llm 0.37.2
-     ⏭️  [Orca] v1.4.258
+     ⏭️  [Orca] 1.4.258
      ⏭️  [Orca] 1.4.257
+     ⏭️  [Orca] 1.4.256
+     ⏭️  [Claude Code] v2.1.325
+     ⏭️  [Claude Code] v2.1.323
+     ⏭️  [OpenCode] v2.3.0
    跨源合并的事件:
-     ⇉ Precision on Demand: Escalating Weight B  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ Bits or permutations? Spending a fixed i  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Unbundling Multimodal Vision Encoding  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Actor, Judge, or Teacher? Understanding   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent 工具链: 10 条 (含🔧开源 3)
+     - Agent 工具链: 19 条 (含🔧开源 2)
+     - Agent & Skill: 20 条 (含🔧开源 10)
      - 安全与治理: 5 条
-     - 模型与研究: 105 条 (含🔧开源 2)
-     - AI 工程落地: 9 条 (含🔧开源 2)
-     - 产品与商业: 12 条 (含🔧开源 1)
-     - Agent & Skill: 17 条 (含🔧开源 3)
-     - 观点与好文: 1 条
-     - 平台政策与风控: 1 条
-     - 沙箱与运行时: 3 条
+     - 模型与研究: 91 条 (含🔧开源 1)
+     - AI 工程落地: 12 条 (含🔧开源 3)
+     - 观点与好文: 1 条 (含🔧开源 1)
+     - 沙箱与运行时: 9 条 (含🔧开源 1)
+     - 产品与商业: 7 条
+     - 平台政策与风控: 2 条
    【基础设施】
-     - K8s × AI: 8 条
-     - K8s 核心: 4 条
+     - K8s × AI: 3 条
+     - K8s 核心: 1 条
      - 社区与项目: 1 条
-     - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Anthropic launches roadshow for proposed initial public
         源:Anthropic News 类:产品与商业 跨源:[]
-     🔥 [18分] Bits or permutations? Spending a fixed inference budget
-        源:HuggingFace Papers 类:模型与研究 跨源:['HuggingFace Papers', 'arXiv cs.AI']
+     🔥 [16分] Expanding our partnership with GSA to bring Claude to a
+        源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
       19分 [Anthropic News] Anthropic launches roadshow for proposed init
-      18分 [HuggingFace Papers] Bits or permutations? Spending a fixed infere
-      17分 [Simon Willison] llm-gemini 0.36
-      17分 [Simon Willison] Introducing Our Smallest, Most Efficient Mode
-      16分 [Google DeepMind] Introducing AlphaProof Code: a breakthrough i
+      16分 [Anthropic News] Expanding our partnership with GSA to bring C
+      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
+      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
+      16分 [Anthropic News] Barclays scales Claude to upgrade operations 
