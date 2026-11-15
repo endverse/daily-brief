@@ -1,0 +1,258 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 055 (2026-11-15)."""
+import json, os, sys
+
+REPO = os.path.dirname(os.path.abspath(__file__))
+P = json.load(open(os.path.join(REPO, "processed.json"), encoding="utf-8"))
+BY_URL = {x["url"]: x for x in P}
+
+
+def U(key):
+    """Return the exact processed.json URL whose url or title contains key."""
+    hits = [u for u, rec in BY_URL.items() if key in u or key in (rec.get("title") or "")]
+    if not hits:
+        sys.exit("no processed URL for " + key)
+    return hits[0]
+
+
+ITEMS = {}
+
+
+def item(key, title, summary, detail, tag=None, oss=None, source=None):
+    u = U(key)
+    rec = BY_URL[u]
+    d = {"title": title, "url": u, "summary": summary,
+         "detail": [{"key": k, "value": v} for k, v in detail]}
+    if source or rec.get("source"):
+        d["source"] = source or rec.get("source")
+    if tag:
+        d["tag"] = tag
+    if oss is not None:
+        d["oss"] = oss
+    else:
+        d["oss"] = bool(rec.get("oss"))
+    ITEMS[key] = d
+    return d
+
+
+# ---------------- 🔥 今日重点 ----------------
+h1 = item(
+    "antigravitys-teamwork",
+    "Google 用 /teamwork 多 agent 编排做科研：AV1 解码器转 17 万行 Rust 做到比特级一致，并完整证明 2013 年的 Courtade–Kumar 猜想",
+    "Google Research 11 月 13 日公布 Antigravity 的 /teamwork 多 agent 系统在数学、化学、系统软件与 ML 工程四类开放问题上的结果，模型侧用 Gemini 4 Argon / Carbon / Hydrogen。系统针对两个失效点设计：生成不确定，就用并行探索加专职 falsifier（Lean 4 证明检查器、未改动的原始测试套件）来判真；长任务上下文漂移，就按构造分区——每个专职 agent 只拿到该步骤需要的文件与工具，协调者把任务交给全新上下文的 agent。工作流被写成声明式、可自演化的自然语言 pattern（如 Long Proof、/boost 的 solve-and-verify 循环），并按任务动态路由。产出包括：与 CUHK/USC/CMU 合作完整证明信息论的 Courtade–Kumar 猜想（2013 年提出）、把 Google 的 AV1 解码器从 C++ 移植成约 17 万行 Rust 并达到 100% 比特一致。",
+    [("能做什么",
+      "把「多 agent + 自动验证」做成可复用的科研/工程 harness：上下文按构造分区（每个 agent 只看自己那一步的文件与工具）、专职 falsifier 用 Lean 4 与原始测试套件判真、pattern 以自然语言声明并按任务路由；实测把 AV1 解码器 C++ 移植成约 17 万行 Rust、100% 比特一致，起初比 C++ 慢约 4 倍，给它 profiler 工具与「在样片上最快」的目标后反超 20–30%（x86_64 与 ARM 均如此），30 个 agent 组成自纠正环在分子基准上拿到 95% top-1 / 100% top-3，Borg 调度侧落地 2 项改动让部分机型的 TPU 抢占下降 24%。"),
+     ("解决什么痛点",
+      "单次生成与正确答案之间的差距靠「多试几次」补不上，长任务里模型又会因为上下文越长越丢细节；人工评审长推导、长移植几乎无法逐行核验。分区上下文 + 机器可检查的 falsifier 把「对不对」变成可判定的问题，也让多 agent 不再互相污染上下文。"),
+     ("值不值得",
+      "值得细读的是它的两个机制，而不是结论本身：上下文分区（每个 subagent 只给必要文件/工具）与 falsifier 前置（先定义怎么判错，再让 agent 去试）。这两条在自建 agent 流水线里可以直接借用，成本是必须先有可执行的验证器；对没有自动判据的任务（写文档、做决策）收益会明显下降。")],
+    tag="多 agent", oss=False)
+h1["note"] = ("11 月 13 日 Google Research 博文：Antigravity 的 /teamwork 用 Gemini 4 Argon/Carbon/Hydrogen 与多 agent 工作流处理开放问题，"
+              "设计上有两点——并行探索配专职 falsifier（Lean 4 证明检查器、未改动的软件测试套件），以及按构造切分上下文（每个 agent 只拿该步骤的文件与工具，协调者把任务交给新上下文 agent）。"
+              "成果包括：与 CUHK/USC/CMU 用 Long Proof pattern 完整证明 2013 年的 Courtade–Kumar 猜想；AV1 解码器 C++ 转约 17 万行 Rust、100% 比特一致且最终快 20–30%；"
+              "30 个 agent 自纠正环在分子基准 95% top-1；29 个 agent 跑 11.5 小时把 13 张公开表做成 50 任务因果推断基准；Borg 调度改动使部分硬件 TPU 抢占下降 24%。工具对外提供。")
+
+h2 = item(
+    "Inkitt",
+    "Inkitt 的「一次性 PR」agent：状态机编排 + 短时凭证 + 硬性禁区，模型只是最不重要的那一环",
+    "Inkitt 首席工程师 Agi Letkiewicz Tanner 复盘了内部的一次性 PR 生成器：从 Slack、Linear 或另一个 agent 的 API 调用触发，在远程基础设施上跑完需求说明、实现、验证、CI 失败修复、合并冲突解决五个阶段，直接产出可测试的草稿 PR。编排器把每次运行的状态持久化进数据库，进程挂了能从已记录状态续跑；核心状态转换函数只根据当前状态与事件决定下一步，不直接碰数据库、网络或模型，把决策与副作用彻底分开。凭证由编排器集中保管，agent 容器只拿到期很短的仓库 token 与模型凭证，拿不到 Slack/Linear 凭证与云身份，也不能随意联网；另有独立检查读实际 git diff，确认改动没碰受限路径。",
+    [("能做什么",
+      "一条受限的自动化交付流水线：Slack/Linear/API 触发 → 五阶段（需求/实现/验证/CI 修复/冲突解决）→ 草稿 PR；状态持久化可恢复，验证、CI 修复、冲突解决各最多重试 2 次，Webhook 重复投递靠去重与条件写入做幂等，判断 CI 结束是去查 GitHub 的所有任务状态而不是拿单个事件当完成信号。"),
+     ("解决什么痛点",
+      "自主 coding agent 真正难的不是写代码，而是重复投递的 Webhook、半途失败的 CI、并发改动带来的合并冲突，以及「agent 拿到了它不该拿的权限」。Inkitt 把这几件事分别用状态机、有限重试、条件写和凭证隔离处理，而不是靠模型自觉。"),
+     ("值不值得",
+      "值得作为「agent 上生产的边界设计」范本：禁区清单很具体（数据库迁移、Schema 与共享契约变更、CI 与容器构建配置、认证、支付代码、依赖增删一律拒绝），只出草稿 PR、绕不过分支保护、不能自合并，人只在审查阶段介入。门槛是要有可靠的状态存储与幂等写入，以及对自有 CI 的深度集成。")],
+    tag="工程实践", oss=False)
+h2["note"] = ("InfoQ 转述 Inkitt 技术文章：系统已每天用于交付代码，触发面覆盖 Slack、Linear 与 agent 发起的 API 调用；"
+              "架构上是「编排器管状态与凭证、agent 容器只拿短期 token」，并用独立检查读 git diff 限制改动路径；"
+              "自动化边界写死在代码里：DB 迁移、Schema/共享契约、CI 与容器构建配置、认证、支付、依赖增删都拒绝；"
+              "验证/CI 修复/冲突解决各最多重试两次，合并永远需要人把 PR 标为可审查。")
+
+# ---------------- AI 板块 ----------------
+sec_ai = []
+
+# 🧠 模型与研究
+m1 = item(
+    "DeepSeek开放全家桶",
+    "DeepSeek 把 App 的能力拆成 API：联网搜索、深度搜索、文件上传、链接阅读、OCR/ASR/TTS 各自独立计费",
+    "DeepSeek 把此前只在 App 里可用的联网搜索、深度思考搜索、文件上传、链接阅读开放成 API，并额外给出 Search、Fetch、OCR、ASR、TTS 等独立接口，按需组合、分别计费；V4.1-Flash 已在 Messages、Responses、Chat Completions 三类接口下支持这些对话扩展。与 10 月 17 日开放的 Search/Fetch 原始接口不同，这次是由模型自己决定何时搜、搜什么、读哪些页面。官方同时开源了一套轻量聊天前端 Demo，支持导入历史对话，等于给了一份「接近 App 形态」的参考实现。",
+    [("能做什么",
+      "8 类原子能力按接口售卖：联网搜索、深度搜索（多轮检索后总结）、文件上传解析、链接阅读、OCR、ASR、TTS、Search/Fetch；模型侧可一键开联网，由模型自主决定检索时机与深度，语音识别报价被拿来与 GPT-4o mini Transcribe（$0.18）和 Google STT（$0.016/分钟）对比。"),
+     ("解决什么痛点",
+      "过去要复刻 App 体验，得自己拼搜索、正文抽取、文件解析、语音链路，还要写「要不要搜」的路由逻辑；现在这些变成可单独调用、单独计费的接口，前端也有开源 Demo 可抄。"),
+     ("值不值得",
+      "对做内部 agent 平台的人来说，价值在于「检索与多模态输入不再自建」——但要留意它把编排权交给了模型，可控性弱于自己串 Search/Fetch；另外独立接口分别计费意味着成本要看调用结构，先按业务 QPS 估一遍再决定是否替换现有链路。")],
+    tag="API", oss=False)
+
+m2 = item(
+    "湿实验预测基准",
+    "116 个任务、4207 次湿实验的 SPU 基准：推理拉满、算力翻 5 倍，AI 仍预测不准真实实验结果",
+    "UniPat AI 牵头发布 Science Prediction Universe（SPU）基准，用 116 个任务、4207 次湿实验考「AI 能不能预判真实实验结果」，覆盖化学、材料、生物与医学，顾问与湿实验合作方来自斯坦福、康奈尔、哈佛等机构。100 个公开任务取自 85 篇近期论文，由领域专家整理候选项、材料、条件与测量方式并保留完整定量结果作评分依据；另外 16 个私有任务来自四组未发表的合作湿实验（VHH 纳米抗体、反应条件、电解液、Magrolimab 变体）。作者称现有基准（BrainBench、ScienceAgentBench、Terminal-Bench 4.0 等）都没把「自主研究过程」与「湿实验结果预测」放在一起考。",
+    [("能做什么",
+      "把 AI for Science 的评测从「会不会用工具、能不能跑完长任务」推进到「预测得准不准」：116 任务 / 4207 湿实验，公开集绑定论文原始定量结果，私有集绑定未发表实验，可用于横比其他模型与 agent harness。"),
+     ("解决什么痛点",
+      "湿实验本身贵且慢（配试剂、设反应条件、分离产物、蛋白表达要反复几轮），如果模型预测不可靠，agent 自主筛方向只会放大试错成本；此前也没有能同时对「过程」和「结果」打分的卷子。"),
+     ("值不值得",
+      "值得关注的是结论方向而不是榜单名次：推理预算与算力不是瓶颈，说明这类任务缺的是领域机制理解与实验约束建模。对不自建 AI4S 的团队，把它当作「agent 自主科研能力边界」的参照即可。")],
+    tag="基准", oss=False)
+
+# 🧩 Agent & Skill
+s1 = item(
+    "Who Remembers What",
+    "MixUA 给每条 agent 经验标上归属：用户对、单用户、单 agent、全局四级作用域，隐私探针泄漏率 ≤0.02%",
+    "论文指出自演化 agent 的经验共享有个被跳过的前提：得先决定「这条经验归谁、能披露什么」。MixUA 把独立的 user-agent 轨迹蒸馏成 lesson，并按受益范围与可披露性把它分配给 user-agent 对、单个 user、单个 agent 或全局四种作用域。为评测这种混合场景，作者提出 CrossLearnBench：把既有 agent 任务与用户偏好、隐私探针组合，专门检测私有事实是否泄漏进其他用户可读的记忆。在 5 个用户 × 7 个 agent 的设置下，MixUA 相对无记忆把通过率最多提高 16 个百分点、相对单一全局记忆提高 5 个百分点，即便任务此前只被「别的用户 + 别的 agent」做过；能保留最多 90% 的既有偏好，且最多 0.02% 的隐私探针会在禁止作用域里找到植入的私有事实。",
+    [("能做什么",
+      "一个带作用域的多租户记忆系统：lesson 分级归属（user-agent / user / agent / global），跨用户跨 agent 复用经验，同时用 CrossLearnBench 的隐私探针量化泄漏；5 用户 × 7 agent 下 +16 分（对比无记忆）、+5 分（对比全局记忆）、偏好保留 90%、泄漏 ≤0.02%。"),
+     ("解决什么痛点",
+      "现在 Claude Code、Codex 这类个人 agent 的记忆只属于「一个用户 + 一个 agent」，一个用户踩过的坑到不了别人那里；而粗暴共享又会把甲用户的偏好、路径、密钥片段泄给乙用户——多用户 agent 平台最难的就是这条线。"),
+     ("值不值得",
+      "对做「多用户 × 每用户多会话」沙箱 agent 的人来说，这是少见的把「记忆归属」当一等公民做的方案，作用域模型可以直接借；限制是评测规模小（5 用户 / 7 agent），真实多租户下的分类噪声与审计成本还没验证，落地前需要补自己的泄漏探针。")],
+    tag="论文", oss=False)
+
+# 🧭 Agent 工具链
+t1 = item(
+    "LoopForge",
+    "腾讯开源 LoopForge：自托管、Docker 沙箱 + SOP 引擎 + 人工闸门，把 10 种 coding agent CLI 编进交付流水线",
+    "LoopForge（Tencent/LoopForge，MIT，约 900 stars）是一个自托管的 coding agent 工作台：向 Main Bot 描述需求，它按需开一个 Docker 沙箱 workspace、检出仓库、把任务分派给项目角色，最后开 PR。真正干活的是外部 CLI——CodeBuddy、Codex、Claude Code、OpenCode、Cursor CLI、Antigravity、Kimi Code、Pi、DeepSeek Harness、ZCode，LoopForge 只补上角色、沙箱、检查点与历史。它有两种用法：聊天式（Main Bot 开 conversation workspace 并调用子 agent，可中途插话、暂停、接管）和 SOP 式（引擎按顺序执行 Agent、Script、Human-gate 与子 SOP 节点，每个节点在自己的沙箱里跑）。两条路径都挂在同一份「需求」上，改动可回溯到原始需求并汇总成交付与成本报表。",
+    [("能做什么",
+      "自托管（Docker）、MIT 许可的 agent 交付编排层：Docker 沙箱 workspace 隔离、角色/子 agent 分派、SOP 引擎（Agent/Script/人工闸门/子 SOP 四种节点，可从任意节点重跑或回退）、按需求的改动追溯与成本报表；对十种 coding agent CLI 做统一封装，可逐会话选择执行器、模型与权限模式。"),
+     ("解决什么痛点",
+      "单个 CLI agent 只能做「一次对话一次改」，团队要的是可重复的交付流程：同一类需求每次走的步骤一致、关键节点有人签核、失败能从某一步重来、成本能算到需求上。这些在纯 CLI 里都得自己写脚本兜。"),
+     ("值不值得",
+      "如果你的团队已经在用多个 agent CLI，「沙箱 + SOP + 人工闸门」这套抽象正好补上缺的那一层，且不锁定单一模型厂商；代价是要自己运维一套服务，SOP 设计得好不好直接决定收益。同类里偏工程化、文档齐全，值得跑一次 PoC 再说。")],
+    tag="开源", oss=True)
+
+# 🏖️ 沙箱与运行时
+sb1 = item(
+    "e2b.dev/product-updates",
+    "E2B 周更：文件传输改走 HTTP/1.1、工作区改邀请制，修好「暂停时磁盘满会连带杀掉同机沙箱」",
+    "E2B 11 月 9 日的周更把 SDK 里的沙箱文件传输单独切到 HTTP/1.1（JS SDK 2.62.2 上传、Python SDK 2.62.1 下载），其余沙箱请求仍按配置的版本走；Python 侧新增并发下载上限（默认 200）。工作区成员改为邀请制：所有者只能通过邀请加人，API 直接添加无权限用户会报错，单项目 member 接口被移除，每人每 24 小时最多发 50 封邀请；SSO/SCIM 不受影响。模板构建新增 TencentOS Server 4 与 OpenCloudOS 9 基础镜像，Code Interpreter 的输出时间戳改由沙箱以纳秒给出。修复项里有几条是真实运维痛点：暂停时磁盘写满会把同机其他沙箱一起带死、创建超过 60 秒的沙箱「起来了但连不上」、暂停沙箱的 GET 响应漏掉 volume 挂载、确认过的超时延长又回退成原始结束时间。",
+    [("能做什么",
+      "沙箱平台的一轮可靠性 + 准入收紧：文件上传下载走 HTTP/1.1（规避代理/网关对 h2 的兼容问题）并支持并发上限控制；工作区改为邀请制成员模型（含待处理/过期邀请列表、每人 24h 50 封邀请上限）；新增国产化基础镜像（TencentOS Server 4、OpenCloudOS 9）；修掉暂停期磁盘打满互相牵连、60s 创建超时、超时延长回退等状态机 bug。"),
+     ("解决什么痛点",
+      "多租户沙箱最怕「一个沙箱的问题波及别人」——磁盘写满导致同机 pause 失败就是典型；另外企业采购时，成员准入能否走邀请制、审计能否对上，往往比冷启动数字更卡人。"),
+     ("值不值得",
+      "如果拿 E2B 做 agent 执行底座，这版值得跟：HTTP/1.1 传输与企业侧代理兼容、邀请制成员是合规硬需求，几个 pause/timeout 修复直接关系到长跑任务的存活率。注意这是产品周更不是架构变更，隔离仍靠 Firecracker microVM 那一层。")],
+    tag="沙箱", oss=False)
+
+# 🛠️ AI 工程落地
+e1 = item(
+    "customer-stories/shield",
+    "Shield 用 GPT-6 Astra 让 Forge agent 直接操作无 API 的遗留门户，第三方测算提速 35–40%",
+    "Shield 的 Forge agent 原来常卡在没有 API 的客户系统上：ticket、设备、软件许可这类门户只能人工登录操作，agent 跑到这一步就得等人接手。接入 GPT-6 Astra 后，agent 用 computer use 读屏、点击、填表，在遗留门户里把剩下的步骤做完；OpenAI 11 月 13 日的客户案例把定位说得很清楚——把重复的门户操作交出去，人留在需要判断的问题上。第三方整理给出的测算是这类门户任务快 35–40%，官方案例本身强调的是「agent 不再因为一个没 API 的系统停住」。",
+    [("能做什么",
+      "用 computer use 驱动无 API 的遗留 Web 门户：登录、按工单流转、改设备与许可记录，把原来必须人工完成的最后一段自动化；agent 侧仍由人设定任务边界，异常与判断类问题回落到技术员。"),
+     ("解决什么痛点",
+      "企业里大量系统永远不会开放 API（老 ITSM、供应商门户、许可管理台），RPA 脚本一改版就碎；让 agent 像人一样操作屏幕，是这类长尾系统唯一低成本的接入方式。"),
+     ("值不值得",
+      "值得看的是「遗留系统接入」这条路线能不能替代 RPA：门槛在于登录与会话管理（MFA、验证码）、误操作的可回滚性，以及门户改版后的鲁棒性。第三方给的 35–40% 提速是单一客户口径，别当通用基准。")],
+    tag="案例", oss=False)
+
+# 📊 产品与商业
+p1 = item(
+    "enterprise-ai-agent-observability",
+    "Google 把 agent 遥测统一收进 BigQuery：ADK/LangGraph 一行埋点，会话日志与 A2A 链路进数仓",
+    "Google 在 Agentic Data Cloud 下推统一 agent 遥测框架：把 1P 与 3P agent 的日志、指标、链路写进客户自己的 BigQuery 表，再在开发与管理工具里分析。开箱即用的 Conversational Analytics agent 无需配置就自动上报；经 Gemini Enterprise 走 A2A（已 GA）路由到 BigQuery data agent 的查询，会把 Cloud Monitoring 指标、Cloud Trace span 与对话日志一起写下来。自建 agent 若用 ADK 或 LangGraph，通过一行 SDK 埋点产出同构遥测。Conversational Analytics API 转 GA，默认带管理员审计日志与可选的数据读取审计日志，支持 VPC Service Controls、CMEK 与区域/多区域数据驻留。",
+    [("能做什么",
+      "一套跨 agent 的统一可观测层：遥测落客户自有 BigQuery 表、ADK/LangGraph 单行埋点、A2A 调用链自动带 Cloud Trace span、会话日志 GA、审计日志与 CMEK/VPC-SC 默认可用。"),
+     ("解决什么痛点",
+      "agent 上生产后要回答三个运维问题：多步推理怎么追、token 与查询成本花在哪、改 prompt/schema 前怎么评准确率——这些数据此前散在日志、监控和数仓三处。"),
+     ("值不值得",
+      "如果 agent 的数据面已经在 BigQuery 上，这是省事的选择（审计与驻留能力齐全）；不在 GCP 的团队收益有限，但「遥测必须落在自己拥有的表里」这个设计取向值得抄。")],
+    tag="可观测性", oss=False)
+
+# 组装分类
+def cat(label, emoji, items):
+    return {"label": label, "title": label, "emoji": emoji, "items": items}
+
+sec_ai = [
+    cat("模型与研究", "🧠", [m1, m2]),
+    cat("Agent & Skill", "🧩", [s1]),
+    cat("Agent 工具链", "🧭", [t1]),
+    cat("沙箱与运行时", "🏖️", [sb1]),
+    cat("AI 工程落地", "🛠️", [e1]),
+    cat("产品与商业", "📊", [p1]),
+]
+
+# ---------------- 基础设施 ----------------
+k1 = item(
+    "encoder-disaggregation-epd",
+    "vLLM 的 EPD 分离：把编码器单独部署，12 卡比 8 卡 PD 每卡吞吐高 6.6–9.5%、P90 TTFT 低 44–47%",
+    "vLLM 复盘了 Encoder/Prefill/Decode（EPD）分离的工程细节：多模态请求先由编码器把图像、视频帧、音频变成 embedding，这段负载随媒体大小与请求结构变化，和语言模型执行独立，于是可以拆成独立部署的实例。两种拓扑——E+PD（编码器独立、prefill 与 decode 合并）与 E/P/D（三段全独立），embedding 走 EC connector 传递。文章重点讲 metadata-only 转发：编码端不只传 embedding，还把占位符长度、图像网格、特征长度、位置标识一起回传，消费端据此重建输入布局，避免为了恢复结构再把原始媒体下载、解码、resize、normalize、patchify 一遍。",
+    [("能做什么",
+      "把多模态推理的编码、prefill、decode 拆成可独立扩缩的 vLLM 实例，embedding 经 EC connector 传输，支持 Mooncake TCP 与 CPU offload/NIXL 两种共享方式；GPU 预处理 + NVDEC 硬解码把编码段提速，实测 30 帧 MMVU 端到端吞吐提升约 94–115%（Qwen3.5-35B-A3B，1E+3PD，4×GB200），metadata-only 转发在音频场景把 62.21 提升到 73.13 req/s、平均时延 980→853 ms。"),
+     ("解决什么痛点",
+      "多模态负载里编码与解码的伸缩比不一致：图多的请求要更多编码容量，长回答的要更多 decode 容量，绑在一起部署必然有一侧浪费；消费者重建输入布局还会重复解码、重复编码同一张图。共享缓存实验里，128 个请求 512 张图的重复编码被从 512 降到 0。"),
+     ("值不值得",
+      "做多模态推理平台的话，EPD 是目前最直接的资源解耦手段，但收益是负载相关的：12 卡 EPD 对比 8 卡 PD，在并发 64–128 时每卡吞吐高 6.6–9.5%、P90 TTFT 低 44–47%，并发 16 时反而更低、32 基本持平。核心能力在 vLLM v0.32.0 起可用，DeepSeek V4.1 Flash 的 metadata-only 支持还在 main。")],
+    tag="推理", oss=True)
+
+k2 = item(
+    "KAI-Scheduler/releases/tag/v0.19.0",
+    "KAI Scheduler v0.19.0：GPU 显存与算力份额可按 NvFraction 限额，内存管理器开始按 NUMA 分组算",
+    "NVIDIA 的 K8s 原生 GPU 调度器 KAI Scheduler 发布 v0.19.0：NvFraction 模式下新增 gpu-memory.limit 与 gpu-fraction.limit，把「按份额切 GPU」从合作式约束推进到可以声明显存与算力上限；Model Memory Manager 的 NUMA 分组进入调度决策，并导出每个 Pod 实际观测到的显存归属。此外支持对 kubelet 延迟执行的原地 resize 做可选抢占/回收，pipeline 时不再因为 terminating pod 丢掉 DRA 设备、hostPort 与 pod 亲和性，Ray 集群的 worker gang 最小值改用 minReplicas（含 0 或未设），并修掉 GPU Operator NRI 启用时仍注入 fractional GPU RuntimeClass 的问题。",
+    [("能做什么",
+      "GPU 分片与 gang 调度的细粒度控制：显存/算力份额上限声明、NUMA 感知的显存归属与调度、原地 resize 的抢占配合、terminating pod 的资源透传、Ray autoscaling 的 gang 语义对齐；附带的性能面板新增弹性回收与拓扑受限 hero job 的 KWOK 压测场景。"),
+     ("解决什么痛点",
+      "默认调度器把整卡当原子资源，多租户下要么浪费要么互相踩；只做「合作式」分片时，容器申请 2 GiB 仍能看到整卡显存，生产环境里一个超用就能拖垮同卡邻居。"),
+     ("值不值得",
+      "自建 GPU 集群、又不想上商业调度的，KAI 现在是 CNCF Sandbox 里最像生产选项的一个：v0.19.0 把份额限额与 NUMA 归属补齐后，多租户隔离的洞小了一截。注意它仍靠 HAMi-core 之类做 CUDA API 层的硬隔离，版本要配套。")],
+    tag="GPU 调度", oss=True)
+
+sec_infra = [
+    cat("K8s × AI", "🤖☸️", [k1, k2]),
+]
+
+flash = [
+    {"title": "从快速部署到记忆共享：InfoQ 讨论数据库如何支撑 agent 应用的会话与记忆层",
+     "url": U("FwbOyyfoAmkQPMTItMDN"), "source": "InfoQ 中国"},
+    {"title": "Google Cloud HPC 与 agentic AI 的 SC26 更新：科学计算负载开始接 agent",
+     "url": U("whats-new-in-hpc-and-ai-at-sc26"), "source": "Google Cloud"},
+]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 11 月 15 日 · 星期日",
+    "issue": 55,
+    "kicker": "第 055 期",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": ("今天两条主线都指向同一件事：agent 的能力上限，取决于你给它围了多结实的墙。Google 的 /teamwork 把「怎么判错」前置——"
+             "专职 falsifier 加按构造切分的上下文，让 30 个 agent 在分子基准上做到 95% top-1，也让 AV1 解码器的 C++→Rust 移植做到比特级一致并反超原版 20–30%；"
+             "Inkitt 则把「谁能碰什么」写进代码：编排器独占凭证、容器只拿短期 token、六类改动直接拒绝、只出草稿 PR。"
+             "工具侧，腾讯开源 LoopForge，把十种 coding agent CLI 塞进 Docker 沙箱与带人工闸门的 SOP 引擎；"
+             "运行时侧，E2B 这周把文件传输切到 HTTP/1.1、成员改邀请制，顺手修掉「暂停时磁盘满连带杀掉同机沙箱」。"
+             "推理基础设施上，vLLM 给出 EPD 分离的实测账（12 卡比 8 卡 PD 每卡吞吐高 6.6–9.5%、P90 TTFT 低 44–47%），KAI Scheduler v0.19.0 把 GPU 份额限额与 NUMA 归属补齐。"
+             "模型侧，DeepSeek 把 App 的能力拆成 8 类 API 单独计费。"),
+    "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+    "highlights": [h1, h2],
+    "sections": [
+        {"label": "🤖 AI 板块", "categories": sec_ai},
+        {"label": "☸️ 基础设施板块", "categories": sec_infra},
+    ],
+    "flash": flash,
+}
+
+# 断言：每条都有非空 title / summary / detail
+def check(lst):
+    for x in lst:
+        assert x.get("title"), x
+        assert x.get("summary"), x["title"]
+        assert x.get("url"), x["title"]
+        if x is not flash:
+            pass
+for h in brief["highlights"]:
+    assert h.get("title") and h.get("summary") and len(h.get("detail", [])) == 3 and h.get("note")
+for s in brief["sections"]:
+    for c in s["categories"]:
+        for it in c["items"]:
+            assert it.get("title") and it.get("summary"), it
+            assert len(it.get("detail", [])) == 3, it["title"]
+            assert it["url"] in BY_URL, it["url"]
+for f in brief["flash"]:
+    assert f["url"] in BY_URL, f["url"]
+
+json.dump(brief, open(os.path.join(REPO, "briefing.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+n = len(brief["highlights"]) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print("wrote briefing.json items=", n, "flash=", len(flash))

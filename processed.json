@@ -70,66 +70,10 @@
   "is_hot": false
  },
  {
-  "title": "Supporting research on AI and children’s safety",
-  "url": "https://openai.com/index/children-first-declaration",
-  "summary": "OpenAI commits $2 million to research on AI and children’s safety. The work supports shared tools to measure risks and opportunities for young people.",
-  "published": "2026-11-12T00:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "安全与治理",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "Gilbert + Tobin rethinks the business of law with AI",
-  "url": "https://openai.com/index/gilbert-tobin-sam-nickless",
-  "summary": "A conversation with Sam Nickless, Partner and Chief Executive Officer at Gilbert + Tobin.",
-  "published": "2026-11-12T00:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "ChatGPT Plus for veterans and servicemembers",
-  "url": "https://openai.com/index/chatgpt-plus-for-veterans",
-  "summary": "More than 20,000 veterans and transitioning service members have claimed a free year of ChatGPT Plus. See how they use it to prepare for civilian careers.",
-  "published": "2026-11-11T08:00:00+00:00",
-  "source": "OpenAI News",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
   "title": "Introducing Gemini 4 Hydrogen",
   "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
   "summary": "",
   "published": "2026-11-12T18:00:50+00:00",
-  "source": "Google DeepMind",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "AlphaGenome 2: Deciphering how cells read DNA to better understand disease",
-  "url": "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
-  "summary": "Predicting how DNA sequences and their variations impact specific human cell types and disease.",
-  "published": "2026-11-11T15:00:15+00:00",
   "source": "Google DeepMind",
   "source_cat": "AI-官方",
   "extra": {},
@@ -154,17 +98,35 @@
   "is_hot": false
  },
  {
-  "title": "Using wearables to enable cardiovascular-kidney-metabolic (CKM) risk profiling for personalized coaching",
-  "url": "https://research.google/blog/using-wearables-to-enable-cardiovascular-kidney-metabolic-ckm-risk-profiling-for-personalized-coaching/",
-  "summary": "Health & Bioscience",
-  "published": "2026-11-11T19:54:00+00:00",
-  "source": "Google Research",
-  "source_cat": "AI-官方",
-  "extra": {},
+  "title": "Who Remembers What? Multi-Granularity Memory Extraction for Multi-User, Multi-Agent Interaction",
+  "url": "https://huggingface.co/papers/2611.10439",
+  "summary": "Self-evolving agents improve their own skills, memory, and harness code from experience without retraining the base LLM, and group-evolving agents go further by sharing these lessons across agents. Yet most such systems overlook that sharing across users and heterogeneous agents requires deciding who can benefit from each lesson and what information must remain private. We present MixUA, a memory system that distills independent user-agent trajectories into lessons and assigns each lesson to a u",
+  "published": "2026-11-06T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 7
+  },
   "board": "AI 板块",
-  "category": "安全与治理",
+  "category": "模型与研究",
   "oss": false,
-  "hot_score": 9,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "EgoX: Egocentric Cross-Embodiment Manipulation with Embodiment Dreaming",
+  "url": "https://huggingface.co/papers/2611.16728",
+  "summary": "Generalist manipulation policies can benefit from the complementary experience of humans, real robots, and simulated agents. However, differences in morphology, sensing, and control interfaces make it difficult to learn effectively from their combined demonstrations. We introduce EgoX, an egocentric cross-embodiment learning framework that organizes heterogeneous demonstrations through semantically corresponding observation and action modalities. EgoX pretrains a Modularized Cross-Embodiment Tra",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
   "is_hot": false
  },
  {
@@ -175,7 +137,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -191,7 +153,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -207,7 +169,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -223,7 +185,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -239,7 +201,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -255,7 +217,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 0
+   "upvotes": 1
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -271,7 +233,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 8,
+   "upvotes": 14,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
@@ -291,7 +253,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -307,7 +269,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -323,7 +285,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 29
+   "upvotes": 34
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -339,7 +301,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 1
+   "upvotes": 2
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -355,7 +317,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 6
+   "upvotes": 18
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -371,7 +333,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 4
+   "upvotes": 6
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -419,7 +381,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 19
+   "upvotes": 22
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -435,7 +397,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 3
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -451,7 +413,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 25
+   "upvotes": 26
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -499,7 +461,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 29,
+   "upvotes": 33,
    "also_reported_by": [
     "HuggingFace Papers",
     "arXiv cs.AI"
@@ -519,7 +481,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
+   "upvotes": 4
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -535,7 +497,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 12
+   "upvotes": 14
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -551,12 +513,12 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 74
+   "upvotes": 135
   },
   "board": "AI 板块",
   "category": "模型与研究",
   "oss": false,
-  "hot_score": 7,
+  "hot_score": 9,
   "is_hot": false
  },
  {
@@ -567,7 +529,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 14
+   "upvotes": 16
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -599,7 +561,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 42
+   "upvotes": 46
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -615,39 +577,7 @@
   "source": "HuggingFace Papers",
   "source_cat": "AI-研究",
   "extra": {
-   "upvotes": 2
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Duo: A Reciprocal World Model for Full-Duplex Interaction",
-  "url": "https://huggingface.co/papers/2611.15131",
-  "summary": "In this report, we introduce the Reciprocal World Model (RWM) and present Duo v1, a full-duplex world model that continuously perceives audiovisual inputs while responding to users in real time. The RWM treats intelligence and physical reality as equally fundamental to what constitutes a world. Existing world models largely focus on simulating the latter, leaving reasoning and decision-making as external controls rather than intrinsic parts of the world itself. In RWM, we identify two equally fu",
-  "published": "2026-11-10T19:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 35
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "G-STAR: Group-Scaled Token Capacity for Deeply Compressed Autoregressive Generation",
-  "url": "https://huggingface.co/papers/2611.13004",
-  "summary": "Discrete autoregressive models offer a scalable framework for image generation. However, they face a fundamental trade-off: long token sequences preserve representation quality but slow generation, while aggressive spatial compression reduces representation capacity. Based on product quantization, we show that, under a fixed nominal information budget, group size should scale quadratically with the per-axis spatial compression factor. Building on this principle, we propose GSTAR, a spatial--grou",
-  "published": "2026-11-07T19:00:00.000Z",
-  "source": "HuggingFace Papers",
-  "source_cat": "AI-研究",
-  "extra": {
-   "upvotes": 40
+   "upvotes": 3
   },
   "board": "AI 板块",
   "category": "模型与研究",
@@ -1188,32 +1118,15 @@
   "is_hot": false
  },
  {
-  "title": "alibaba/open-code-review",
-  "url": "https://github.com/alibaba/open-code-review",
-  "summary": "Secure, fast, efficient, battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in multi-language ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI &amp; Anthropic compatible.",
-  "published": "2026-11-14T00:30:47.737844+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "215"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
   "title": "GoogleChrome/modern-web-guidance-src",
   "url": "https://github.com/GoogleChrome/modern-web-guidance-src",
   "summary": "Keep your coding agent up to date with the latest web best practices",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "1,925"
+   "stars_today": "1,231"
   },
   "board": "AI 板块",
   "category": "Agent 工具链",
@@ -1222,32 +1135,32 @@
   "is_hot": false
  },
  {
-  "title": "ZhuLinsen/daily_stock_analysis",
-  "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
-  "summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "title": "tradermonty/claude-trading-skills",
+  "url": "https://github.com/tradermonty/claude-trading-skills",
+  "summary": "Claude Code skills for equity investors and traders — market analysis, technical charting, economic calendars, screeners, and trading strategy development.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "256"
+   "stars_today": "553"
   },
   "board": "AI 板块",
-  "category": "观点与好文",
+  "category": "Agent 工具链",
   "oss": true,
-  "hot_score": 6,
+  "hot_score": 9,
   "is_hot": false
  },
  {
-  "title": "backnotprop/plannotator",
-  "url": "https://github.com/backnotprop/plannotator",
-  "summary": "The workspace to stay in the loop and on top of agents - shape, decide, plan, annotate, review code, share with team, and send all feedback to agents with one click.",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "title": "alibaba/open-code-review",
+  "url": "https://github.com/alibaba/open-code-review",
+  "summary": "Secure, fast, efficient, battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in multi-language ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI &amp; Anthropic compatible.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "108"
+   "stars_today": "893"
   },
   "board": "AI 板块",
   "category": "Agent & Skill",
@@ -1256,15 +1169,83 @@
   "is_hot": false
  },
  {
-  "title": "tradermonty/claude-trading-skills",
-  "url": "https://github.com/tradermonty/claude-trading-skills",
-  "summary": "Claude Code skills for equity investors and traders — market analysis, technical charting, economic calendars, screeners, and trading strategy development.",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "title": "dream-num/univer",
+  "url": "https://github.com/dream-num/univer",
+  "summary": "Build your own AI office with Univer Office SDK. Bring editing, calculation, collaboration, and file processing into your product for people and AI agents. Built on an extensible open-source core.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "69"
+   "stars_today": "495"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "ag-ui-protocol/ag-ui",
+  "url": "https://github.com/ag-ui-protocol/ag-ui",
+  "summary": "AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applications.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "9"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "ashhart/TensorFold",
+  "url": "https://github.com/ashhart/TensorFold",
+  "summary": "LLM Inference Engine for Metal, CUDA and Vulkan.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "37"
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "JuliusBrussee/caveman",
+  "url": "https://github.com/JuliusBrussee/caveman",
+  "summary": "🪨 why use many token when few token do trick. Viral skill + proxy for coding agents that cuts 65% of tokens by talking like a caveman.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "227"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Tencent/LoopForge",
+  "url": "https://github.com/Tencent/LoopForge",
+  "summary": "Self-hosted workflows for coding-agent delivery. Orchestrate CodeBuddy, Codex and Claude Code with scripts and human approval gates. Includes Local workflows for coding assistants.",
+  "published": "2026-11-15T00:31:02.192680+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "33"
   },
   "board": "AI 板块",
   "category": "Agent 工具链",
@@ -1276,12 +1257,12 @@
   "title": "Likely7/Veyra-NRVideo",
   "url": "https://github.com/Likely7/Veyra-NRVideo",
   "summary": "Bring PS5 GTA6 to 120FPS with DLSS 5. An advanced Windows video player and capture enhancement tool featuring real-time preview for videos, images, and capture card sources. Combine AI-powered Super Resolution, DLSS5 image enhancement, and Frame Generation to deliver a next-generation visual experience.",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "GitHub Trending",
   "source_cat": "AI-开源",
   "extra": {
    "trending": true,
-   "stars_today": "256"
+   "stars_today": "420"
   },
   "board": "AI 板块",
   "category": "AI 工程落地",
@@ -1290,150 +1271,14 @@
   "is_hot": false
  },
  {
-  "title": "ChromeDevTools/chrome-devtools-mcp",
-  "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
-  "summary": "Chrome DevTools for coding agents",
-  "published": "2026-11-14T00:30:47.737844+00:00",
-  "source": "GitHub Trending",
-  "source_cat": "AI-开源",
-  "extra": {
-   "trending": true,
-   "stars_today": "67"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "deepseek-ai/chat-demo",
-  "url": "https://github.com/deepseek-ai/chat-demo",
-  "summary": "Chat Demo",
-  "published": "2026-11-12T08:08:19Z",
+  "title": "Topkiflare74/ai--manus2.0",
+  "url": "https://github.com/Topkiflare74/ai--manus2.0",
+  "summary": "AI Manus is a general-purpose AI Agent system that supports running various tools and operations in a sandbox environment.",
+  "published": "2026-11-14T19:15:24Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 688,
-   "lang": "TypeScript"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "higurashi-ai/Haru",
-  "url": "https://github.com/higurashi-ai/Haru",
-  "summary": "Haru: a low-latency, multilingual, full-duplex spoken dialogue model",
-  "published": "2026-11-12T11:15:42Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 214,
-   "lang": "Python"
-  },
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "kociden/sakurai-skill",
-  "url": "https://github.com/kociden/sakurai-skill",
-  "summary": "桜井政博のゲーム作るには 全本編257本の字幕から作ったゲーム制作の Agent Skill（非公式・日本語）",
-  "published": "2026-11-12T15:54:56Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 207,
-   "lang": "Python"
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "hitkeeen/blender-ai-mcp-addon",
-  "url": "https://github.com/hitkeeen/blender-ai-mcp-addon",
-  "summary": "AI assistant and MCP server for Blender: visual chat, scene tools, multi-agent workflows. Works with ChatGPT/GPT, Claude, Gemini, Ollama, OpenCode. Blender AI addon, copilot for 3D, bpy Python scripting, MCP integration.",
-  "published": "2026-11-12T14:32:15Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 164,
-   "lang": null
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "baiblinocun1986/blender-ai-copilot-hub",
-  "url": "https://github.com/baiblinocun1986/blender-ai-copilot-hub",
-  "summary": "A multi-provider AI copilot hub for Blender—bring OpenAI, Anthropic Claude, Google Gemini, OpenRouter, OpenCode Zen, Ollama and custom endpoints into one hub of saved connections, with 27 supervised scene tools and a built-in MCP server. · blender-ai-copilot-hub · blender · blender 3d · blender addon · blender plugin · blender extension",
-  "published": "2026-11-12T19:32:22Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 162,
-   "lang": null
-  },
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "precygtrucqui1981/blender-ai-copilot-lab",
-  "url": "https://github.com/precygtrucqui1981/blender-ai-copilot-lab",
-  "summary": "An AI lab for Blender where manager–worker–reviewer agent teams run multi-step scene briefs as supervised experiments—a live task board, review findings, one correction attempt per blocked task, named undo, and a built-in MCP server. · blender-ai-copilot-lab · blender · blender 3d · blender addon · blender plugin · blender extension",
-  "published": "2026-11-12T19:33:16Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 161,
-   "lang": null
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "credoksopho1984/blender-ai-copilot-studio",
-  "url": "https://github.com/credoksopho1984/blender-ai-copilot-studio",
-  "summary": "An AI copilot and MCP server for Blender that turns plain-language briefs into scene operations—inside a visual chat studio with multi-agent teams, your choice of AI models, and 27 built-in scene tools. · blender-ai-copilot-studio · blender ai · ai for blender · blender copilot · blender ai copilot · blender ai assistant · blender mcp server",
-  "published": "2026-11-12T19:30:32Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 160,
-   "lang": null
-  },
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": true,
-  "hot_score": 5,
-  "is_hot": false
- },
- {
-  "title": "fumbdendade19718/blender-ai-copilot-desk",
-  "url": "https://github.com/fumbdendade19718/blender-ai-copilot-desk",
-  "summary": "A visual AI desk for Blender—chat, scene objects, viewport snapshots, approvals and a live task board in one companion window, backed by your choice of models and a built-in MCP server. · blender-ai-copilot-desk · blender · blender 3d · blender addon · blender plugin · blender extension · blender scripting · blender automation · blender mcp",
-  "published": "2026-11-12T19:37:25Z",
-  "source": "GitHub 升星repo",
-  "source_cat": "AI-开源",
-  "extra": {
-   "stars": 160,
+   "stars": 677,
    "lang": null
   },
   "board": "AI 板块",
@@ -1443,14 +1288,14 @@
   "is_hot": false
  },
  {
-  "title": "racdeufindurch198812/Blender-AI-MCP-Studio",
-  "url": "https://github.com/racdeufindurch198812/Blender-AI-MCP-Studio",
-  "summary": "Blender AI MCP Studio is an AI assistant and built-in Model Context Protocol MCP server for Blender that turns plain-language briefs into inspected, approved and reversible 3D scene operations — with a visual chat workspace, multi-agent teams and your choice of AI models. · blender ai mcp studio · mcp-for-blender · mcp for blender pro",
-  "published": "2026-11-12T19:28:20Z",
+  "title": "trackboatwrightplan/GitHub-Copilot-app",
+  "url": "https://github.com/trackboatwrightplan/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:16:41Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 160,
+   "stars": 672,
    "lang": null
   },
   "board": "AI 板块",
@@ -1460,14 +1305,14 @@
   "is_hot": false
  },
  {
-  "title": "tiobeharxi1987/blender-ai-copilot-flow",
-  "url": "https://github.com/tiobeharxi1987/blender-ai-copilot-flow",
-  "summary": "A controlled AI workflow for Blender: every copilot edit is a supervised tool call—proposed, approved, executed in sequence, cancellable after the current step and undoable by name—inside a visual studio with a built-in MCP server. · blender-ai-copilot-flow · blender · blender 3d · blender addon · blender plugin · blender extension",
-  "published": "2026-11-12T19:38:53Z",
+  "title": "TrapAccountant/GitHub-Copilot-app",
+  "url": "https://github.com/TrapAccountant/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:16:47Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 160,
+   "stars": 670,
    "lang": null
   },
   "board": "AI 板块",
@@ -1477,14 +1322,31 @@
   "is_hot": false
  },
  {
-  "title": "findavoulot1973/Blender-AI-MCP-Suite",
-  "url": "https://github.com/findavoulot1973/Blender-AI-MCP-Suite",
-  "summary": "Blender AI MCP Suite is an AI assistant and built-in Model Context Protocol MCP server for Blender that turns plain-language briefs into inspected, approved and reversible 3D scene operations — with a visual Studio workspace, multi-agent teams, 21+ scene tools and your choice of AI models. · blender ai mcp suite · blender ai mcp · ai for blender",
-  "published": "2026-11-12T19:26:22Z",
+  "title": "topapothecarycanal/ai--manus2.0",
+  "url": "https://github.com/topapothecarycanal/ai--manus2.0",
+  "summary": "AI Manus is a general-purpose AI Agent system that supports running various tools and operations in a sandbox environment.",
+  "published": "2026-11-14T19:15:24Z",
   "source": "GitHub 升星repo",
   "source_cat": "AI-开源",
   "extra": {
-   "stars": 159,
+   "stars": 666,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "沙箱与运行时",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "trackersnailgrip/GitHub-Copilot-app",
+  "url": "https://github.com/trackersnailgrip/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:16:41Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 666,
    "lang": null
   },
   "board": "AI 板块",
@@ -1494,31 +1356,105 @@
   "is_hot": false
  },
  {
-  "title": "AI unlocks Gödel's notebooks, said to contain hundreds of proved theorems",
-  "url": "https://www.theguardian.com/science/2026/nov/13/kurt-godel-notebooks-ai-helps-unlock-hidden-discoveries-man-who-transformed-maths",
-  "summary": "Article URL: https://www.theguardian.com/science/2026/nov/13/kurt-godel-notebooks-ai-helps-unlock-hidden-discoveries-man-who-transformed-maths Comments URL: https://news.ycombinator.com/item?id=50486748 Points: 310 # Comments: 90",
-  "published": "2026-11-13T17:30:10+00:00",
-  "source": "Hacker News",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "Elevated errors on claude.ai, Claude Code, and platform.claude.com",
-  "url": "https://status.claude.com/incidents/nn11wk485zfn",
-  "summary": "Article URL: https://status.claude.com/incidents/nn11wk485zfn Comments URL: https://news.ycombinator.com/item?id=50481187 Points: 482 # Comments: 382",
-  "published": "2026-11-13T10:18:13+00:00",
-  "source": "Hacker News",
-  "source_cat": "AI-社区",
-  "extra": {},
+  "title": "TradesmanRecord/GitHub-Copilot-app",
+  "url": "https://github.com/TradesmanRecord/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:16:41Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 665,
+   "lang": null
+  },
   "board": "AI 板块",
   "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "toppatronweave/ai--manus2.0",
+  "url": "https://github.com/toppatronweave/ai--manus2.0",
+  "summary": "AI Manus is a general-purpose AI Agent system that supports running various tools and operations in a sandbox environment.",
+  "published": "2026-11-14T19:15:25Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 665,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "沙箱与运行时",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "toppatronweave/GitHub-Copilot-app",
+  "url": "https://github.com/toppatronweave/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:25:20Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 665,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TurkeyDesignate/GitHub-Copilot-app",
+  "url": "https://github.com/TurkeyDesignate/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:25:18Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 664,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TurquoiseConsultant/GitHub-Copilot-app",
+  "url": "https://github.com/TurquoiseConsultant/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:25:20Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 664,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TrapBladesmith/GitHub-Copilot-app",
+  "url": "https://github.com/TrapBladesmith/GitHub-Copilot-app",
+  "summary": "The GitHub Copilot app is an agent-native desktop experience for finding, running, steering, and landing software work across your GitHub repositories.",
+  "published": "2026-11-14T19:16:50Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 664,
+   "lang": null
+  },
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": true,
+  "hot_score": 5,
   "is_hot": false
  },
  {
@@ -1536,59 +1472,31 @@
   "is_hot": false
  },
  {
-  "title": "Gemini Decisions API",
-  "url": "https://simonwillison.net/2026/Nov/11/gemini-decisions-api/",
-  "summary": "Gemini Decisions API Google join Jev and OpenAI in the decision model category with \"Gemini Decision 1\". This new model API is almost identical to Jev: it supports the same three types of questions (yes/no, choice, and rubric-scoring) and even reuses Jev's term \"Noul\" for a yes/no question. It's priced the same as the GPT-6 Luna decision model: 10 cents per million input tokens, and output is free. Jev remains the cheapest of the three, at 4.2 cents per million. Jev is text (and JSON) only. Open",
-  "published": "2026-11-11T22:03:25+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 11,
-  "is_hot": false
- },
- {
-  "title": "aws-emulator",
-  "url": "https://simonwillison.net/2026/Nov/11/aws-emulator/",
-  "summary": "aws-emulator Finally, an official emulator from AWS to run tests against a local clone of their many different services without having to provision a paid API key to do so. It's written in Rust by a huge swarm of agents - 29,684 commits in the first three weeks of the project. Swaminathan (Swami) Sivasubramanian wrote about how it came to be in a guest post on Werner Vogels' blog. It currently requires Docker to run on macOS or Windows. I'm hoping they fix that in the future - it would be great ",
-  "published": "2026-11-11T21:18:30+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 11,
-  "is_hot": false
- },
- {
-  "title": "Browse tools.simonwillison.net by tag",
-  "url": "https://simonwillison.net/2026/Nov/11/tools-tags/",
-  "summary": "Browse tools.simonwillison.net by tag I've been wanting a better way to browse my collection of vibe-coded tools (244 and counting) for a while. I had a few Fable 5.2 credits left over before my weekly reset so I set it to work using tree-sitter to analyze the code for JavaScript APIs, libraries, and web API hosts used by each tool. The homepage now features tag clouds for browsing by each of those categories of tag: Tags: javascript, tools, ai, generative-ai, llms, claude, vibe-coding",
-  "published": "2026-11-11T18:42:50+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 8,
-  "is_hot": false
- },
- {
-  "title": "Anthropic's IPO roadshow video",
-  "url": "https://simonwillison.net/2026/Nov/11/anthropic-ipo-roadshow/",
-  "summary": "Anthropic&#x27;s IPO roadshow video Anthropic kicked off their IPO roadshow yesterday, and their roadshow video has some previously unreleased information about how their business works. The section on \"Approach to compute\" with co-founder Tom Brown is particularly interesting, describing how Anthropic train and serve Claude across AWS Trainium, Google TPUs, NVIDIA GPUs, and AMD GPUs. I'm not sure why there's no official video transcript, but here's one that I extracted using MacWhisper. Highlig",
-  "published": "2026-11-11T15:11:59+00:00",
-  "source": "Simon Willison",
-  "source_cat": "AI-社区",
+  "title": "「史上最严」湿实验预测基准发布！推理拉满、算力翻5倍也白搭",
+  "url": "https://www.qbitai.com/2026/11/510232.html",
+  "summary": "斯坦福、哈佛、康奈尔……十余家顶尖团队齐坐一桌了",
+  "published": "2026-11-14T09:58:22+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
   "category": "产品与商业",
   "oss": false,
-  "hot_score": 11,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "突发！DeepSeek开放全家桶API",
+  "url": "https://www.qbitai.com/2026/11/510003.html",
+  "summary": "官方App功能均可自由组合调用",
+  "published": "2026-11-14T02:39:56+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
   "is_hot": false
  },
  {
@@ -1606,29 +1514,29 @@
   "is_hot": false
  },
  {
-  "title": "高难盲测超越GPT-6-Astra与Opus-5！无界前沿开源Fx-Bio-1031，把RSI带进生命科学",
-  "url": "https://www.qbitai.com/2026/11/509663.html",
-  "summary": "数据不出域、本地可部署",
-  "published": "2026-11-13T07:06:32+00:00",
-  "source": "量子位",
+  "title": "AI 自动写 PR，模型反而最简单：Inkitt 如何应对 Webhook 重复、CI 失败与合并冲突",
+  "url": "https://www.infoq.cn/article/YRXscVHsTh0g6CVCJJ0D?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-14T10:00:00+00:00",
+  "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
-  "category": "AI 工程落地",
+  "category": "模型与研究",
   "oss": false,
-  "hot_score": 12,
+  "hot_score": 6,
   "is_hot": false
  },
  {
-  "title": "openJiuwen发布RSI原生AgentOS，让Agent自由变身，持续迭代！",
-  "url": "https://www.qbitai.com/2026/11/509653.html",
-  "summary": "想要什么功能，让Agent自己开发",
-  "published": "2026-11-13T06:54:44+00:00",
-  "source": "量子位",
+  "title": "从提效到扩能：AI 驱动小团队的能力突破与组织演进｜AICon北京",
+  "url": "https://www.infoq.cn/article/eTz8pt2LoALMvzvxj4aa?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-14T10:00:00+00:00",
+  "source": "InfoQ中国",
   "source_cat": "AI-中文",
   "extra": {},
   "board": "AI 板块",
-  "category": "平台政策与风控",
+  "category": "模型与研究",
   "oss": false,
   "hot_score": 9,
   "is_hot": false
@@ -1760,34 +1668,6 @@
   "is_hot": false
  },
  {
-  "title": "从“搜到知识”到“理解约束”：差旅 Agent 的业务语义、偏好图谱与上下文工程实践｜AICon北京",
-  "url": "https://www.infoq.cn/article/V5Fwpg9gOBefx6xADcdd?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-11-12T10:00:00+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
-  "title": "谷歌最强模型 Gemini 4 Carbon 全面开放：一夜重写 OpenCode 桌面应用、价格仅为 Fable 5.2 的 1/4",
-  "url": "https://www.infoq.cn/article/YiANe38yfSYitvZOtab0?utm_source=rss&utm_medium=article",
-  "summary": "点击查看原文>",
-  "published": "2026-11-11T21:05:37+00:00",
-  "source": "InfoQ中国",
-  "source_cat": "AI-中文",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "模型与研究",
-  "oss": false,
-  "hot_score": 6,
-  "is_hot": false
- },
- {
   "title": "Gang scheduling and topology-aware placement for AI training in Kubernetes",
   "url": "https://www.cncf.io/blog/2026/11/12/gang-scheduling-and-topology-aware-placement-for-ai-training-in-kubernetes/",
   "summary": "Distributed AI training workloads impose complex scheduling requirements that Kubernetes&#8217;s built-in scheduler can&#8217;t meet. Kubernetes schedules pods individually and independently, but distributed training introduces two requirements that break this model: Pods must land on hardware with...",
@@ -1797,48 +1677,6 @@
   "extra": {},
   "board": "基础设施",
   "category": "K8s × AI",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Introducing CNCF User Groups: Long-lived homes for End User collaboration",
-  "url": "https://www.cncf.io/blog/2026/11/11/introducing-cncf-user-groups-long-lived-homes-for-end-user-collaboration/",
-  "summary": "The CNCF End User Community is launching its User Group Program at KubeCon + CloudNativeCon North America. These are long-lived groups, each built around an industry vertical or problem domain, that serves the common need of...",
-  "published": "2026-11-11T16:41:17+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s 核心",
-  "oss": false,
-  "hot_score": 10,
-  "is_hot": false
- },
- {
-  "title": "OpenShell on Kubernetes: A guide for platform engineers",
-  "url": "https://www.cncf.io/blog/2026/11/11/openshell-on-kubernetes-a-guide-for-platform-engineers/",
-  "summary": "What OpenShell is AI agents do more than call APIs. They run shells, install packages, read files, and open network connections. Often they act on text they pulled from the internet a minute earlier. So every...",
-  "published": "2026-11-11T15:50:30+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "K8s × AI",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Platform engineering needs to become more human…and less",
-  "url": "https://www.cncf.io/blog/2026/11/11/platform-engineering-needs-to-become-more-humanand-less/",
-  "summary": "Even my family thinks I’m a little robotic. Logical, linear, sequential, methodical. But hey, I’m an engineer, and that’s part of what makes me good at my job. If I were operating on the same volatile...",
-  "published": "2026-11-11T12:00:00+00:00",
-  "source": "CNCF Blog",
-  "source_cat": "基础设施",
-  "extra": {},
-  "board": "基础设施",
-  "category": "社区与项目",
   "oss": false,
   "hot_score": 7,
   "is_hot": false
@@ -1942,52 +1780,10 @@
   "is_hot": false
  },
  {
-  "title": "Introducing new AI functions for AlloyDB: ai.classify and ai.extract",
-  "url": "https://cloud.google.com/blog/products/databases/ai-classify-and-ai-extract-functions-in-alloydb-ai/",
-  "summary": "Transactional databases store vast amounts of unstructured text — clinical notes, customer reviews, support tickets, invoices, and property descriptions. Historically, working with this text meant building complex application code: You had to export data from the database, call external model endpoints, write custom prompt wrappers, parse unpredictable responses, manage retry logic, and update database records. This application-side loop creates operational friction. It introduces query latency,",
-  "published": "2026-11-11T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "AI 工程落地",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "Don’t just prompt AI — architect it: Introducing the Professional Agentic Architect Certification",
-  "url": "https://cloud.google.com/blog/topics/training-certifications/google-cloud-agentic-architect-certification-dont-just-prompt-ai-design-it/",
-  "summary": "It just got easier to prove your expertise in building production-ready agents. Today, Google Cloud is introducing the Professional Agentic Architect certification as the latest milestone in our Gemini Agent Ready (GEAR) initiative. Nearly one million developers are using GEAR to skill up on agents, but what makes this particular certification so special is its adoption within Google’s walls. Over the past four months, Google Cloud has trained thousands of forward deployed engineers and strategi",
-  "published": "2026-11-11T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "How lemonflow built real-time agents for EV charging using Gemma and TPUs",
-  "url": "https://cloud.google.com/blog/topics/startups/building-real-time-agents-for-ev-charging-using-gemma-and-tpus/",
-  "summary": "Welcome back to The Blueprint, a regular feature where we highlight how Google Cloud customers are tackling unique and common challenges across industries using the latest AI and cloud technologies. We hope to inspire others looking to innovate in their work. As the electric vehicle revolution gains steam in Europe, every charging session is a moment of truth, for the driver and for the transition itself. At lemonflow, we build AI agents purpose-built for EV charging: support agents for drivers ",
-  "published": "2026-11-11T17:00:00+00:00",
-  "source": "Google Cloud",
-  "source_cat": "公有云",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent & Skill",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
   "title": "Nov 9, 2026Introducing Claude Fable 5.2 and Claude Mythos 5.2Our most capable models for daunting technical work, Claude Fable 5.2 and Claud",
   "url": "https://www.anthropic.com/news/announcements",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2001,7 +1797,7 @@
   "title": "FeaturesSep 21, 2026The Situation ReportA rare Ebola strain is spreading in the DRC, with no confirmed vaccine. Global health organizations ",
   "url": "https://www.anthropic.com/news/features",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2015,7 +1811,7 @@
   "title": "Anthropic launches roadshow for proposed initial public offeringToday Anthropic, PBC launched the roadshow for its proposed initial public o",
   "url": "https://www.anthropic.com/news/roadshow-launch",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2029,7 +1825,7 @@
   "title": "AI for Science expands to foundations and research institutionsWe’re highlighting 20 scientific foundations, institutions, and research grou",
   "url": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2043,7 +1839,7 @@
   "title": "Expanding our partnership with GSA to bring Claude to all levels of governmentWe are expanding our partnership with the General Services Adm",
   "url": "https://www.anthropic.com/news/expanding-partnership-gsa",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2057,7 +1853,7 @@
   "title": "Anthropic files S-1 with the SEC for proposed initial public offeringToday, Anthropic, PBC filed a registration statement on Form S-1 with t",
   "url": "https://www.anthropic.com/news/s1-sec",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2071,7 +1867,7 @@
   "title": "Donating Agent Skills to the Agentic AI FoundationWe’re donating Agent Skills, the open standard that gives AI agents specialized knowledge ",
   "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2085,7 +1881,7 @@
   "title": "Open call for guest investigators in the life sciencesToday, we’re inviting members of the life sciences community to apply to work with us ",
   "url": "https://www.anthropic.com/news/open-call-guest-investigators-life-sciences",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2099,7 +1895,7 @@
   "title": "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit TrustDr. Christopher Stubbs, an experimental physicist and former Dean of S",
   "url": "https://www.anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2113,7 +1909,7 @@
   "title": "Investing in the public benefitWe’re committing a portion of Anthropic’s shares to the Anthropic Public Benefit Fund, a new entity with a st",
   "url": "https://www.anthropic.com/news/public-benefit-fund",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2127,7 +1923,7 @@
   "title": "An update on independent evaluatorsTo evaluate the safety of our systems, Anthropic is giving employee-like access to a team from METR, a no",
   "url": "https://www.anthropic.com/news/an-update-on-independent-evaluators",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2141,7 +1937,7 @@
   "title": "Preparing for the 2026 US midtermsEarlier this year, we shared an update on our election safeguards. Here, we outline how we’ve continued to",
   "url": "https://www.anthropic.com/news/2026-us-midterms",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2155,7 +1951,7 @@
   "title": "Anthropic opens Singapore office and signs MOU with the Government of SingaporeAnthropic has opened an office in Singapore and signed an MOU",
   "url": "https://www.anthropic.com/news/singapore-office-opening",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2169,7 +1965,7 @@
   "title": "Strengthening our defenses against distillation attacksIllicit distillation allows model developers to copy frontier AI capabilities without",
   "url": "https://www.anthropic.com/news/distillation-defenses",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2183,7 +1979,7 @@
   "title": "Introducing the Anthropic Cyber MissionWe’re launching the Anthropic Cyber Mission, a long-term commitment to securing the systems everyone ",
   "url": "https://www.anthropic.com/news/anthropic-cyber-mission",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2197,7 +1993,7 @@
   "title": "2026 Usage Policy updateWe’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.PolicyOct 8, 2",
   "url": "https://www.anthropic.com/news/2026-usage-policy-update",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2211,7 +2007,7 @@
   "title": "Building on our commitment to American scientific discoveryAnthropic is committing $150 million over three years to the Genesis Mission, a f",
   "url": "https://www.anthropic.com/news/genesis-mission-commitment",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2225,7 +2021,7 @@
   "title": "Expanding the Cyber Verification ProgramWe’re launching a new, expanded version of our Cyber Verification Program, which makes advanced cybe",
   "url": "https://www.anthropic.com/news/cyber-verification-program",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2239,7 +2035,7 @@
   "title": "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gapAnthropic is investing $100 million in Claud",
   "url": "https://www.anthropic.com/news/claude-frontier-academy",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2253,7 +2049,7 @@
   "title": "Barclays scales Claude to upgrade operations and improve client experience Barclays, the British universal bank, is expanding its strategic ",
   "url": "https://www.anthropic.com/news/barclays-scales-claude",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2267,7 +2063,7 @@
   "title": "Partnering with Accenture on embedded evaluationWe’re partnering with Accenture on independent evaluation of frontier AI—part of our recent ",
   "url": "https://www.anthropic.com/news/accenture-embedded-evaluation",
   "summary": "",
-  "published": "2026-11-14T00:30:47.737844+00:00",
+  "published": "2026-11-15T00:31:02.192680+00:00",
   "source": "Anthropic News",
   "source_cat": "AI-官方",
   "extra": {},
@@ -2278,290 +2074,59 @@
   "is_hot": false
  },
  {
-  "title": "rust-v0.171.0-alpha.5",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.5",
-  "summary": "Release 0.171.0-alpha.5",
-  "published": "2026-11-13T21:36:19+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.171.0-alpha.4",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.4",
-  "summary": "Release 0.171.0-alpha.4",
-  "published": "2026-11-13T19:02:32+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "rust-v0.171.0-alpha.3",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.3",
-  "summary": "Release 0.171.0-alpha.3",
-  "published": "2026-11-13T04:36:47+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.171.0-alpha.2",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.2",
-  "summary": "Release 0.171.0-alpha.2",
-  "published": "2026-11-13T08:04:06+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.169.0",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.169.0",
-  "summary": "New Features The opt-in terminal workspace supports multiple side-chat tabs. Switch between them with the keyboard or mouse, and reopen saved local side chats after restarting Codex. (#59784, #60152, #60181) Search older tasks from the agent command center by name, prompt preview, or working directory. (#60286) Turn on Collapse turn details in the full-screen transcript to fold completed activity beneath each prompt while keeping answers visible and tool output searchable. (#60554, #60555, #6055",
-  "published": "2026-11-13T08:39:10+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "0.171.0-alpha.1",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0-alpha.1",
-  "summary": "Release 0.171.0-alpha.1",
-  "published": "2026-11-13T04:20:31+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.170.0-alpha.4",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.4",
-  "summary": "Release 0.170.0-alpha.4",
-  "published": "2026-11-12T23:03:38+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.170.0-alpha.3",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.3",
-  "summary": "Release 0.170.0-alpha.3",
-  "published": "2026-11-12T19:37:30+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.170.0-alpha.2",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0-alpha.2",
-  "summary": "Release 0.170.0-alpha.2",
-  "published": "2026-11-12T01:34:33+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 9,
-  "is_hot": false
- },
- {
-  "title": "0.168.0",
-  "url": "https://github.com/openai/codex/releases/tag/rust-v0.168.0",
-  "summary": "New Features Browse model providers under Sessions → Model providers and choose the default for new chats. (#59541, #59722) Enable features.tui_workspace to view a side conversation beside the main chat. Drag the divider to resize the panes or press leader z to zoom the focused pane. (#58992, #59527, #59595) Attach recordings when using an audio-capable model. Codex skips confirmed rejected recordings on later turns and uses clip duration to keep more short recordings in context. (#59234, #59268",
-  "published": "2026-11-13T03:56:26+00:00",
-  "source": "Codex CLI",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "Agent 工具链",
-  "oss": false,
-  "hot_score": 0,
-  "is_hot": false
- },
- {
-  "title": "e2b@2.64.0",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/e2b%402.64.0",
-  "summary": "Minor Changes 6a976f3: e2b template list and e2b template delete now use the SDK's Template.list() and Template.delete(). TemplateInfo gains maxCpuCount (max_cpu_count in Python) for resizable templates. Breaking: e2b template list -f json now prints the SDK's TemplateInfo objects (templateId, buildId, names, …) instead of the raw API response (templateID, buildID, aliases, createdBy, …), and the pretty table drops the Created by column (the API deprecated the creator's email). 1b3b2a4: Add shel",
-  "published": "2026-11-13T19:10:59+00:00",
-  "source": "E2B",
+  "title": "E2B weekly: HTTP/1.1 file transfers and invitation-only workspace membership",
+  "url": "https://e2b.dev/product-updates",
+  "summary": "E2B's Nov 9 weekly ships SDK file transfers over HTTP/1.1 (JS 2.62.2 uploads, Python 2.62.1 downloads) regardless of the configured protocol, an invitation-only workspace membership model, TencentOS Server 4 / OpenCloudOS 9 template bases, sandbox-timestamped Code Interpreter output, and fixes for paused-sandbox timeouts and pause-time disk exhaustion killing sibling sandboxes.",
+  "published": "2026-11-09",
+  "source": "E2B Changelog",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
   "category": "沙箱与运行时",
   "oss": false,
-  "hot_score": 0,
+  "hot_score": 12,
   "is_hot": false
  },
  {
-  "title": "@e2b/python-sdk@2.64.0",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/%40e2b%2Fpython-sdk%402.64.0",
-  "summary": "Minor Changes 6a976f3: e2b template list and e2b template delete now use the SDK's Template.list() and Template.delete(). TemplateInfo gains maxCpuCount (max_cpu_count in Python) for resizable templates. Breaking: e2b template list -f json now prints the SDK's TemplateInfo objects (templateId, buildId, names, …) instead of the raw API response (templateID, buildID, aliases, createdBy, …), and the pretty table drops the Created by column (the API deprecated the creator's email). 1b3b2a4: Add shel",
-  "published": "2026-11-13T19:11:05+00:00",
-  "source": "E2B",
+  "title": "Encoder/Prefill/Decode disaggregation in vLLM: metadata-only EPD and what it buys",
+  "url": "https://vllm.ai/blog/2026-11-11-encoder-disaggregation-epd",
+  "summary": "vLLM details EPD disaggregation (separate encoder, prefill and decode instances) with EC connectors, metadata-only forwarding and shared encoder caching: on a 12-GPU EPD layout vs an 8-GPU PD baseline it gains 6.6-9.5% input+output throughput per GPU and cuts P90 TTFT 44-47% at concurrency 64-128, and GPU preprocessing plus NVDEC decode roughly doubles end-to-end throughput on a 30-frame MMVU run.",
+  "published": "2026-11-11",
+  "source": "vLLM Blog",
   "source_cat": "AI-官方",
   "extra": {},
   "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "@e2b/dockerfile-utils-python@0.1.2",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/%40e2b%2Fdockerfile-utils-python%400.1.2",
-  "summary": "Patch Changes aec4543: Keep bracket class escapes in Dockerignore patterns ASCII-only, matching Moby and the JavaScript utility. Non-ASCII decimal digits are no longer excluded by a pattern such as [\\d], and non-ASCII spaces by a pattern such as [\\s].",
-  "published": "2026-11-13T19:11:11+00:00",
-  "source": "E2B",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "@e2b/dockerfile-utils@0.1.2",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/%40e2b%2Fdockerfile-utils%400.1.2",
-  "summary": "Patch Changes aec4543: Keep bracket whitespace classes in Dockerignore patterns ASCII-only, matching Moby and the Python utility. Non-ASCII spaces such as U+00A0 are no longer matched by a pattern such as [\\s].",
-  "published": "2026-11-13T19:11:02+00:00",
-  "source": "E2B",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "@e2b/code-interpreter-python@2.11.10",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/%40e2b%2Fcode-interpreter-python%402.11.10",
-  "summary": "Patch Changes Updated dependencies [6a976f3] Updated dependencies [1b3b2a4] Updated dependencies [6ee9a4b] Updated dependencies [106efea] Updated dependencies [c513ae1] Updated dependencies [e50db00] @e2b/python-sdk@2.64.0",
-  "published": "2026-11-13T19:11:08+00:00",
-  "source": "E2B",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "@e2b/cli@2.24.0",
-  "url": "https://github.com/e2b-dev/E2B/releases/tag/%40e2b%2Fcli%402.24.0",
-  "summary": "Minor Changes c0211e9: The CLI now authenticates every request with your login's access token instead of a stored API key. e2b auth login opens https://e2b.dev/auth/cli (or https://$E2B_DOMAIN/auth/cli). The E2B_DOCS_BASE override is removed. Access tokens are refreshed automatically before they expire, including during long-running commands such as sandbox logs --follow, sandbox metrics --follow and an attached sandbox create session. Refreshes are serialized across concurrent e2b processes, so",
-  "published": "2026-11-13T19:11:14+00:00",
-  "source": "E2B",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "gVisor 20261109.0",
-  "url": "https://github.com/google/gvisor/releases/tag/release-20261109.0",
-  "summary": "gVisor release 20261109.0 Binaries are also available from the apt repository and the release bucket; see Installation. Changes since release-20261102.0 Support UDP in netgofer. (c58baea46) Clear the interrupt shadow before delivering memory-fault signals. (abeb5cfca) Refresh gvisor website to include sandboxing messaging. (70d4d07f0) Add dedicated overlayfs syscall test suite (5aca3eeb3) Update agents guidance. (39e515be5) buildkite coordinator: delete instances that never got a timeout (eda453",
-  "published": "2026-11-11T19:34:12+00:00",
-  "source": "gVisor",
-  "source_cat": "AI-官方",
-  "extra": {},
-  "board": "AI 板块",
-  "category": "沙箱与运行时",
-  "oss": false,
-  "hot_score": 7,
-  "is_hot": false
- },
- {
-  "title": "OpenCode v2.3.0",
-  "url": "https://github.com/sst/opencode/releases/tag/v2.3.0",
-  "source": "OpenCode",
-  "category": "Agent 工具链",
-  "summary": "Subagents now always run in the background and report back when idle; TUI collapses tool calls into one activity row; providers can present client certificates for mTLS gateways."
- },
- {
-  "title": "Meta Wins CNCF End User Case Study Contest for Accelerating AI Infrastructure Deployments from Hours to Minutes",
-  "url": "https://www.cncf.io/announcements/2026/11/11/meta-wins-cncf-end-user-case-study-contest-for-accelerating-ai-infrastructure-deployments-from-hours-to-minutes/",
-  "source": "CNCF",
   "category": "K8s × AI",
-  "summary": "Meta Cloud Foundation 15人团队用 Argo CD + Kargo 管理约100个K8s集群(支撑AI研究/推理),把例行部署从4小时降到分钟级。"
+  "oss": true,
+  "hot_score": 15,
+  "is_hot": false
  },
  {
-  "title": "Karpenter v1.15.2: DRA instance type metadata update",
-  "url": "https://github.com/aws/karpenter/releases/tag/v1.15.2",
-  "source": "Karpenter",
+  "title": "KAI Scheduler v0.19.0: gpu-memory/gpu-fraction limits, NUMA-aware memory manager",
+  "url": "https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.19.0",
+  "summary": "KAI Scheduler v0.19.0 adds gpu-memory.limit and gpu-fraction.limit for NvFraction mode, models GPU memory manager NUMA groups in scheduling and exports per-pod observed memory ownership, adds opt-in preempt/reclaim for kubelet-deferred in-place resizes, keeps DRA devices, host ports and pod affinity of terminating pods when pipelining, and makes Ray clusters use minReplicas as the worker gang minimum.",
+  "published": "2026-11-11",
+  "source": "GitHub Releases",
+  "source_cat": "开源",
+  "extra": {},
+  "board": "AI 板块",
   "category": "K8s × AI",
-  "summary": "Only updates DRA instance type metadata: NVIDIA GPU DRA metadata for g7/g7e, EFA DRA coverage 29→302 instance types, fractional-GPU g6f/gr6f dropped from NVIDIA DRA metadata; go directive 1.26.11."
+  "oss": true,
+  "hot_score": 13,
+  "is_hot": false
  },
  {
-  "title": "Cilium 1.21.0-pre.4",
-  "url": "https://github.com/cilium/cilium/releases/tag/v1.21.0-pre.4",
-  "source": "Cilium",
-  "category": "K8s 核心",
-  "summary": "BGP unnumbered peering (autoDiscovery.mode: Unnumbered), BPF masquerading on by default, Gateway API frontend client certificate mTLS validation, Gateway API Inference Extension support, DRA consumable capacity in network driver, XDP prefilter deprecated."
- },
- {
-  "title": "Understanding card and device limits in ChatGPT",
-  "url": "https://help.openai.com/en/articles/20001559-understanding-card-and-device-limits-in-chatgpt",
-  "source": "OpenAI Help Center",
-  "category": "平台政策与风控",
-  "summary": "ChatGPT now caps how many paid subscriptions can share one payment card or one device; Go/Plus/Pro 100/200/500 count, Free and Business/Enterprise/Edu workspaces do not. Blocking messages: 'Too many subscriptions associated with this card or device' and 'Device limit reached'."
- },
- {
-  "title": "Claude Code v2.1.325",
-  "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.325",
-  "source": "Claude Code",
-  "category": "Agent 工具链",
-  "summary": "Fixes a security issue in how zstd-compressed responses are decoded; fixes sessions on many third-party gateways and Foundry failing with context length errors; various subagent/model fixes."
- },
- {
-  "title": "Helm v4.3.2",
-  "url": "https://github.com/helm/helm/releases/tag/v4.3.2",
-  "source": "Helm",
-  "category": "K8s 核心",
-  "summary": "Patch release: registry transport always returns a transport Helm can configure; docs fixes for list --max and HELM_COLOR."
+  "title": "Calico v3.33.1: IPAM leak fixes for Multus pools and per-family eBPF conntrack autoscaling",
+  "url": "https://github.com/projectcalico/calico/releases/tag/v3.33.1",
+  "summary": "Calico v3.33.1 is a bugfix release: the IPAM garbage collector now releases IPs leaked by a pod's earlier sandboxes and by Succeeded/Failed pods (which could exhaust small Multus secondary pools), eBPF conntrack autoscaling doubles only the IP family above 80% full and records sizes per family, pods can no longer forge TCP RSTs past egress connection limits, and IP pools release tunnel addresses when nodeSelector changes.",
+  "published": "2026-11-12",
+  "source": "GitHub Releases",
+  "source_cat": "开源",
+  "extra": {},
+  "board": "基础设施",
+  "category": "K8s 核心技术",
+  "oss": true,
+  "hot_score": 11,
+  "is_hot": false
  }
 ]
