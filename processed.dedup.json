@@ -1,0 +1,1135 @@
+[
+ {
+  "title": "A step toward defining the Standard Model on a lattice",
+  "url": "https://openai.com/index/step-toward-defining-the-standard-model",
+  "summary": "Explore a candidate nonperturbative lattice definition of the Standard Model and how GPT-6 Astra helped turn the idea into a detailed proof.",
+  "published": "2026-11-15T22:00:01+00:00",
+  "source": "OpenAI News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 16,
+  "is_hot": true
+ },
+ {
+  "title": "Our new blog for science",
+  "url": "https://openai.com/index/our-new-blog-for-science",
+  "summary": "The OpenAI science blog shares new findings, practical methods, and firsthand accounts from researchers using AI to advance scientific discovery.",
+  "published": "2026-11-15T22:00:00+00:00",
+  "source": "OpenAI News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 16,
+  "is_hot": false
+ },
+ {
+  "title": "EgoX: Egocentric Cross-Embodiment Manipulation with Embodiment Dreaming",
+  "url": "https://huggingface.co/papers/2611.16728",
+  "summary": "Generalist manipulation policies can benefit from the complementary experience of humans, real robots, and simulated agents. However, differences in morphology, sensing, and control interfaces make it difficult to learn effectively from their combined demonstrations. We introduce EgoX, an egocentric cross-embodiment learning framework that organizes heterogeneous demonstrations through semantically corresponding observation and action modalities. EgoX pretrains a Modularized Cross-Embodiment Tra",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 1
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Back to Pixels: Lifting Latent Video Diffusion into Pixel Space",
+  "url": "https://huggingface.co/papers/2611.17336",
+  "summary": "Frontier video generation models work in a VAE latent space that compresses video in both space and time. This compression made training tractable, but now limits high-resolution, controllable, and interactive generation -- doubling resolution quadruples token count, conditions apply to groups of frames rather than individual ones, and each response must wait for the rest of its multi-frame block. We present PixVid, a simple yet effective method that lifts a pretrained latent video model to dire",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 5
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Consensus Capture in Reference-Based UAV Video Stabilization: A Benchmark on Dynamic Urban Scenes",
+  "url": "https://huggingface.co/papers/2611.17190",
+  "summary": "Reference-frame stabilization registers every frame of a hovering-drone video onto one reference frame, keeping object positions comparable. The registration pipelines it relies on are selected on feature-matching benchmarks in which only the camera moves. Over a busy intersection, vehicles moving together supply mutually consistent correspondences that can draw the robust homography estimate toward their motion: consensus capture, which inlier statistics cannot flag. A two-part benchmark measur",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "TurtLES: A Large-Scale Benchmark for Turbulent 3D Neural PDE Surrogates",
+  "url": "https://huggingface.co/papers/2611.09567",
+  "summary": "Machine-learning surrogates are increasingly used to accelerate computational fluid dynamics, yet progress is limited by the lack of benchmarks capturing realistic, time-dependent turbulent flows. We introduce TurtLES, a 14 TB dataset of 3D turbulent cylinder wakes in the shear-layer transition regime, computed via high-fidelity implicit large-eddy simulations. The dataset contains 400 trajectories of 400 time steps each, with 3-11 million points per frame, spanning variations in geometry, Reyno",
+  "published": "2026-11-05T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "The Value of Thinking: Learning When to Reason in Hybrid Decision Models",
+  "url": "https://huggingface.co/papers/2611.16961",
+  "summary": "Existing adaptive-reasoning methods shorten the explicit reasoning a model writes, or skip it by switching modes; either way the answer is still written out token by token. Rather than deciding how much to think, we explore a different paradigm, zero-or-T thinking: a single model either answers from the implicit thinking inside one forward pass, generating no token, or performs full autoregressive reasoning at a cost of T tokens when that is worth paying. We realise it in a hybrid decision model",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 7
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "The Narrative Gap: Can LLMs Help Us Navigate Diverse Narratives Across Languages?",
+  "url": "https://huggingface.co/papers/2611.12750",
+  "summary": "Large language models (LLMs) increasingly mediate how people seek and consume information, including accounts that differ across languages and regions, especially on contested topics. Supporting diverse information seeking requires models to help users navigate competing narratives across languages and information streams. We define six capabilities necessary for diverse multilingual information seeking: three foundational capabilities for narrative inclusion, narrative exclusion, and missing na",
+  "published": "2026-11-08T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 3
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "A frontier machine intelligence for human neuroimaging",
+  "url": "https://huggingface.co/papers/2611.15094",
+  "summary": "Medical imaging is essential for diagnosing disease, guiding treatment and monitoring patients over time. Although artificial intelligence has advanced image interpretation, existing medical models often address restricted tasks, while general-purpose proprietary models lack access to private clinical imaging required to achieve medical expertise. Developing models that can interpret complex examinations and communicate their findings in the context of clinical decisions remains a major challeng",
+  "published": "2026-11-10T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 2
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Unbundling Multimodal Vision Encoding",
+  "url": "https://huggingface.co/papers/2611.17334",
+  "summary": "How multimodal language models should encode visual input remains up for debate. Most models use a pretrained vision encoder, while some recent recipes train the encoder from scratch with the language model or remove it entirely. Vision encoders bundle together three design choices: a visual prior from upstream pretraining, dedicated vision capacity, and pre-fusion placement of that capacity (i.e., before the multimodal backbone). Because published models also differ in data, architecture, and c",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 16
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Experience-Handoff Reinforcement Learning for Recursive Self-Improvement",
+  "url": "https://huggingface.co/papers/2611.16409",
+  "summary": "It is common to train Large Language Models (LLMs) for agentic tasks with Reinforcement Learning (RL) from scalar rewards. However, this throws away the fine-grained information about the environment that the agent experienced during the trial (e.g., error logs). To utilize this rich information, recent works wrap the agent in a harness that refines its own inputs through reflection or compaction and hands past experience to future rollouts, but the construction of the handed-off artifacts (e.g.",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 5
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "JustRUA: A Controlled Study of GPT-6 Robot-Use Agents",
+  "url": "https://huggingface.co/papers/2611.16009",
+  "summary": "GPT-6 Astra can drive a robot arm directly through a fixed harness, and scores of such robot-use agents on RoboDojo have risen quickly since. Reported systems differ in harness and test subset and often change several designs at once, so it is hard to tell which choices produce the gains. We take these designs apart and test them in one framework, along the harness around the model, the action interface, the reuse of experience and the scene geometry given to the model. A lean harness that keeps",
+  "published": "2026-11-10T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 5
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 13,
+  "is_hot": false
+ },
+ {
+  "title": "Open Vision Banana: A Fully Open Recipe for Generative Visual Perception",
+  "url": "https://huggingface.co/papers/2611.15844",
+  "summary": "Recent work suggests that pretrained image generators encode real-world understanding beyond image synthesis. Vision Banana exploits this by framing vision tasks as conditional image editing. However, its data, weights, code, and implementation details are not public. We present Open Vision Banana (OVB), a fully open and reproducible recipe for converting pretrained generators into unified multi-task perception systems. Our analyses identify the design choices that matter most for generalization",
+  "published": "2026-11-10T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 36
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "A Cross-Scenario Survey and Analysis of Self-Evolving Multimodal Agents",
+  "url": "https://huggingface.co/papers/2611.14256",
+  "summary": "Recent work shows that multimodal agents increasingly self-improve without recurring human annotation. However, each self-improvement mechanism is designed and evaluated within a single scenario, leaving its preconditions unverified under cross-scenario transfer. This survey investigates the structural source of asymmetric mechanism transfer across four scenarios: multimodal reasoning, multimodal generation, GUI and Web navigation, and embodied manipulation. We first formalize the self-evolving ",
+  "published": "2026-11-09T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 3
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Learning the Task or Learning the Verifier? Rethinking Criteria Exposure in Embodied Self-Improvement",
+  "url": "https://huggingface.co/papers/2611.08318",
+  "summary": "Self-improving embodied agents are increasingly being developed and compared on robot simulation benchmarks. Several recent works expose the benchmark's success criteria to the learning agent, a practice we call Criteria Exposure (CE). These criteria, originally written to verify policies trained by imitation learning, often demand more than the corresponding language instructions, so a score from such a verifier may not faithfully reflect whether the instructed task was completed, especially fo",
+  "published": "2026-11-04T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 21
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "DeepStress: Stress-Testing Deep Search Agents",
+  "url": "https://huggingface.co/papers/2607.13920",
+  "summary": "While search agents demonstrate impressive capabilities in multi-step question answering, their robustness to poor-quality evidence remains under-explored. Such evidence is rare in benchmark corpora, and resulting failures are hard to reproduce. We propose DeepStress, a dynamic stress-testing framework that subjects agents to degraded evidence at controlled rates. It replaces the retrieval module with a synthetic environment where documents are generated dynamically for each query, under indepen",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 7
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Structured Confidence Perturbation via Fisher Geometry for Adversarial Training",
+  "url": "https://huggingface.co/papers/2611.14046",
+  "summary": "Adversarial training is often plagued by \"pseudo-attacks\", perturbations that significantly increase the loss value but fail to truly alter the model's confidence structure. To address this, we propose two complementary approaches to directly attack and defend against confidence structure deformation. First, building upon the traditional loss maximization perspective, we introduce a hybrid objective that integrates cross-entropy and KL divergence, encouraging adversarial examples to simultaneous",
+  "published": "2026-11-09T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 2
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "HiVe-Mem: Interleaving Horizontal Memory Expansion and Vertical Evidence Composition for Multimodal Agents",
+  "url": "https://huggingface.co/papers/2611.12872",
+  "summary": "As multimodal agents accumulate increasingly long interaction histories, effectively retrieving and utilizing past information becomes critical for long-term interaction. Existing memory systems typically rely on semantic retrieval over compressed memories and expose predefined representations, which may miss relevant memories and overlook heterogeneous evidence needs across queries. We introduce \\hivemem, a multimodal memory framework that interleaves \\textsc{H}or\\textsc{i}zontal Memory Expansi",
+  "published": "2026-11-08T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "TTB: Test-time Baking for Efficient Rendering of Decoder-only View Synthesis Models",
+  "url": "https://huggingface.co/papers/2611.17331",
+  "summary": "Decoder-only Large View Synthesis Models (LVSMs) with KV-cache have recently achieved state-of-the-art quality by regressing novel views from neural networks without reconstructing 3D geometry, while Test-Time Training (TTT) layers save computation but sacrifice quality. We propose Test-Time Baking (TTB), a strategy that learns to bake global scene information from cross-view attention into a lightweight MLP, enabling fast and high-fidelity novel-view decoding. The first key is to repurpose the ",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 25
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 13,
+  "is_hot": false
+ },
+ {
+  "title": "Agent-R^2: Scaling Agents for Realistic Productivity Work via Real-Source Data Synthesis",
+  "url": "https://huggingface.co/papers/2611.08219",
+  "summary": "Large language models have made rapid progress in agentic reasoning and tool use, raising expectations for agents that can take over realistic productivity work from humans. However, current agents still struggle to finish such tasks, where success requires following long-horizon professional workflows, understanding heterogeneous file contexts, and producing usable deliverables under fine-grained requirements. A key bottleneck is the lack of scalable post-training data that reflects real work i",
+  "published": "2026-11-04T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 7
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Ropedia Xperience 2: A Gold Standard for Scaling Physical AI Environments and Behaviors",
+  "url": "https://huggingface.co/papers/2611.17060",
+  "summary": "Large foundation models such as GPT-6 Astra and Claude Fable 5.1 have recently been shown to control robots directly from visual observations. They nevertheless remain brittle on long-horizon, contact-rich tasks in real-world environments. Further progress depends on two complementary resources: demonstrations of human behavior that supervise how tasks are performed, and interactive environments in which policies can be rolled out, evaluated, and improved in closed loop. Language models have adv",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 30
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 13,
+  "is_hot": false
+ },
+ {
+  "title": "Evidence-Guided Recovery for AI Agents with Ambiguous Tool Outcomes and Partial Execution",
+  "url": "https://huggingface.co/papers/2610.41453",
+  "summary": "Tool timeouts can leave AI agents facing ambiguous tool outcomes and partial execution: an action may have failed, committed or remained in flight while other workflow steps have already completed. We formulate evidence-guided task recovery over approved obligations, provider capabilities and states compatible with public evidence. A shared admissibility check handles key expiry, authorization timing, dependencies and residual effects; a terminal certificate separates actual goal satisfaction fr",
+  "published": "2026-10-29T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Do Multimodal Models Decide Consistently on Equivalent Optical Spectra?",
+  "url": "https://huggingface.co/papers/2611.00428",
+  "summary": "A spectrum can be given to a model as a table in nanometers or as a plot in photon energy, and the decision should not depend on which one it sees. When the data needed for an answer are missing, the model should say so. We test representation invariance and abstention on measured optical spectra of silicon metasurfaces (MOCLIP) and gold nanoparticles, with labels computed from the data. Each spectrum is shown as four tables (nm, μm, scientific notation, eV) and two plots (nm, eV), and partial s",
+  "published": "2026-10-29T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents",
+  "url": "https://huggingface.co/papers/2611.17167",
+  "summary": "Decision models answer a question with a typed output, such as a choice among options with a probability for each, so one model can choose an agent's actions, evaluate actions already taken, or score every action to teach a policy with reinforcement learning. Prior work has studied them mainly as actors, judging their usefulness by how well they act. We ask whether a decision model that acts poorly can still teach well. We compare three decision models and three general LLMs as actors and judges",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 34
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Humanized but Still True? Auditing Facts and Detection in AI-Text Humanizers",
+  "url": "https://huggingface.co/papers/2611.00359",
+  "summary": "AI \"humanizers\" rewrite machine-generated text so that detectors classify it as human-written. Public leaderboards score evasion and embedding similarity, but not whether checkable details survive. We check whether numbers, dates, person and organization names, and quoted spans survive each rewrite, using a rule-based checker validated by two AI annotators (precision 0.84-1.00, recall 0.93-0.95; no human annotation). In the October 2026 cycle of a public humanizer leaderboard, all 11 commercial ",
+  "published": "2026-10-29T20:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 5
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "Factored One-sided Adam-Moment for Practical and Scalable SOAP",
+  "url": "https://huggingface.co/papers/2611.16905",
+  "summary": "Second-order optimizers (e.g., Shampoo, SOAP) have emerged as compelling alternatives to Adam/AdamW and promise faster per-step convergence than AdamW in transformer training. However, they still remain costly in practice, and even SOAP still pays substantial optimizer-state memory and eigendecomposition overhead. We ask whether the benefits of SOAP can be retained at nearly the efficiency of AdamW. In this paper, we answer yes with a lightweight SOAP variant, Factored One-sided Adam-Moment (FOA",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 14
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "SO-Arena: Benchmarking the Capability Spectrum and Reliability of System One Models",
+  "url": "https://huggingface.co/papers/2611.15777",
+  "summary": "System One models promise fast, general-purpose decision-making without lengthy token generation. However, understanding their capability spectrum and decision reliability requires more than aggregate performance on current benchmarks. Existing evaluations often provide limited insight into the breadth of model capabilities and the reliability of their decisions. We introduce SO-Arena, a benchmark characterizing the capability spectrum and decision reliability of System One models across 11 doma",
+  "published": "2026-11-10T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 137
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "WorldDraft: If Code Builds the World, Can Video Models Just Render It?",
+  "url": "https://huggingface.co/papers/2611.16217",
+  "summary": "Multimodal coding agents decouple 4D world construction from visual generation, repurposing video models from world generators toward generative renderers. This division of labor raises a fundamental question: if code builds the world, can video models just render it? A reliable generative renderer hinges on two complementary criteria: (i) world preservation, retaining prescribed 4D kinematics and camera paths; and (ii) visual realization, persistently binding text-specified target attributes ov",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 16
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "UniSpark: Exploring Hybrid Attention for Multimodal Understanding and Generation",
+  "url": "https://huggingface.co/papers/2611.16517",
+  "summary": "We present UniSpark-9B, a unified multimodal model that investigates hybrid attention for visual understanding and generation. Built on a Mixture-of-Transformer-Experts backbone with approximately 9B parameters in each branch, UniSpark combines full attention for explicit token interactions with GatedDeltaNet linear attention for compact context propagation. Autoregressive text prediction and visual flow matching jointly support visual question answering, text-to-image generation, instruction-gu",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 13
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "PhysLoop: Harnessing LLMs' Physics Awareness for Self-Improving Video Generation Models",
+  "url": "https://huggingface.co/papers/2611.16748",
+  "summary": "Video generation models produce visually realistic videos but still struggle with physical dynamics and causal consistency. Learning from generated videos requires fine-grained physical supervision, yet reliable quality judgments, correction pairs, and controlled variations are difficult to obtain. Large language models (LLMs) possess physical knowledge, but struggle to reliably guide video generation models in producing their training videos. We present PhysLoop, a unified harness designed to s",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 46
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "From Large Language Models to Efficient System One Models via Adaptive Computation",
+  "url": "https://huggingface.co/papers/2611.16321",
+  "summary": "Transferring LLMs into System One decision models typically replaces the language modeling head with a decision head while retaining the full backbone, making every decision pay for all layers. Yet it remains unclear how much depth such decisions require. We find that decision information is concentrated in intermediate layers, with early layers building essential features and the final six layers removable without loss, while independently trained smaller models largely mimic the full model rat",
+  "published": "2026-11-11T19:00:00.000Z",
+  "source": "HuggingFace Papers",
+  "source_cat": "AI-研究",
+  "extra": {
+   "upvotes": 4
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 7,
+  "is_hot": false
+ },
+ {
+  "title": "ag-ui-protocol/ag-ui",
+  "url": "https://github.com/ag-ui-protocol/ag-ui",
+  "summary": "AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applications.",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "355"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "google-labs-code/stitch-skills",
+  "url": "https://github.com/google-labs-code/stitch-skills",
+  "summary": "A library of Agent Skills designed to work with the Stitch MCP server. Each skill follows the Agent Skills open standard, for compatibility with coding agents such as Antigravity, Gemini CLI, Claude Code, Cursor.",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "247"
+  },
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "ggml-org/ggml",
+  "url": "https://github.com/ggml-org/ggml",
+  "summary": "Tensor library for machine learning",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "43"
+  },
+  "board": "AI 板块",
+  "category": "AI 工程落地",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "elementalsouls/Claude-BugHunter",
+  "url": "https://github.com/elementalsouls/Claude-BugHunter",
+  "summary": "A Claude Code skill bundle for bug hunting and external red-team work - 82 skills, 15 slash commands, 681 disclosed-report patterns curated across 24 core vulnerability classes, plus enterprise identity + infrastructure attack matrices.",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "98"
+  },
+  "board": "AI 板块",
+  "category": "安全与治理",
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "GoogleChrome/modern-web-guidance-src",
+  "url": "https://github.com/GoogleChrome/modern-web-guidance-src",
+  "summary": "Keep your coding agent up to date with the latest web best practices",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "1,219"
+  },
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "tradermonty/claude-trading-skills",
+  "url": "https://github.com/tradermonty/claude-trading-skills",
+  "summary": "Claude Code skills for equity investors and traders — market analysis, technical charting, economic calendars, screeners, and trading strategy development.",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "706"
+  },
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": true,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "NVIDIA/SkillEvaluator",
+  "url": "https://github.com/NVIDIA/SkillEvaluator",
+  "summary": "Multi-tier framework for evaluating AI agent skills with quality gates, semantic overlap detection, synthetic evaluation dataset generation, and live agent evaluation that measures how skills affect agent behavior.",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "GitHub Trending",
+  "source_cat": "AI-开源",
+  "extra": {
+   "trending": true,
+   "stars_today": "122"
+  },
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": true,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "duwqijlk/muse-protocol",
+  "url": "https://github.com/duwqijlk/muse-protocol",
+  "summary": "muse.ai 注册与邀请码兑换协议研究（纯 HTTP Python 实现）",
+  "published": "2026-11-14T01:24:58Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 1016,
+   "lang": "Python"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WindGatorRise37/Gemini-Config-Checker-",
+  "url": "https://github.com/WindGatorRise37/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:17Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "YellowLaborerMarket/Gemini-Config-Checker-",
+  "url": "https://github.com/YellowLaborerMarket/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:48:18Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WyrmClimberManacle/Gemini-Config-Checker-",
+  "url": "https://github.com/WyrmClimberManacle/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:48:18Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TurtleReside/Gemini-Config-Checker-",
+  "url": "https://github.com/TurtleReside/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:04Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "weldbladesmithwharf/Gemini-Config-Checker-",
+  "url": "https://github.com/weldbladesmithwharf/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:11Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WindowStaffGate11/Gemini-Config-Checker-",
+  "url": "https://github.com/WindowStaffGate11/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:18Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WerewolfEmuHub/Gemini-Config-Checker-",
+  "url": "https://github.com/WerewolfEmuHub/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:11Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "Violetnyudress/Gemini-Config-Checker-",
+  "url": "https://github.com/Violetnyudress/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:04Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TrooperFilter/Gemini-Config-Checker-",
+  "url": "https://github.com/TrooperFilter/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:04Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "Watchlespeed/Gemini-Config-Checker-",
+  "url": "https://github.com/Watchlespeed/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:11Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "wisemeadowlarkspike/Gemini-Config-Checker-",
+  "url": "https://github.com/wisemeadowlarkspike/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:48:18Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "VortexHostFeel/Gemini-Config-Checker-",
+  "url": "https://github.com/VortexHostFeel/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:07Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "TypeTyrantScheme/Gemini-Config-Checker-",
+  "url": "https://github.com/TypeTyrantScheme/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:04Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WingDataVacuum/Gemini-Config-Checker-",
+  "url": "https://github.com/WingDataVacuum/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:17Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WireProvostPucker/Gemini-Config-Checker-",
+  "url": "https://github.com/WireProvostPucker/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:48:15Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WestLocksmithSpout/Gemini-Config-Checker-",
+  "url": "https://github.com/WestLocksmithSpout/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:12Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "VisionWormStudio/Gemini-Config-Checker-",
+  "url": "https://github.com/VisionWormStudio/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:46:04Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Go"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "WharfBoulderColander/Gemini-Config-Checker-",
+  "url": "https://github.com/WharfBoulderColander/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:12Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "weightcashiercupola/Gemini-Config-Checker-",
+  "url": "https://github.com/weightcashiercupola/Gemini-Config-Checker-",
+  "summary": "Chain region scanner: find proxy configs that get you into Google AI Studio and Gemini (signed-in browser check, anti-DPI, Windows/macOS/Linux/Android)",
+  "published": "2026-11-15T16:47:11Z",
+  "source": "GitHub 升星repo",
+  "source_cat": "AI-开源",
+  "extra": {
+   "stars": 473,
+   "lang": "Makefile"
+  },
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": true,
+  "hot_score": 5,
+  "is_hot": false
+ },
+ {
+  "title": "All AI-generated code should be Open Source",
+  "url": "https://jakub.jankiewicz.org/blog/ai-code-open-source/",
+  "summary": "Article URL: https://jakub.jankiewicz.org/blog/ai-code-open-source/ Comments URL: https://news.ycombinator.com/item?id=50507303 Points: 1060 # Comments: 579",
+  "published": "2026-11-15T14:46:58+00:00",
+  "source": "Hacker News",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "观点与好文",
+  "oss": false,
+  "hot_score": 12,
+  "is_hot": false
+ },
+ {
+  "title": "datasette-llm 0.1a11",
+  "url": "https://simonwillison.net/2026/Nov/14/datasette-llm/",
+  "summary": "Release: datasette-llm 0.1a11 datasette-llm is the intermediate plugin for Datasette that supports configuring LLMs for use with other Datasette plugins. This release adds support for OpenAI-compatible endpoints, so you can configure Datasette to use an LLM hosted anywhere that talks the OpenAI pseudo-standard web protocol. This means that if you're running local models with LM Studio or Ollama or llama.cpp (which just hit v1.0.0) you can run Datasette via uvx like this: wget https://datasette.i",
+  "published": "2026-11-14T23:59:28+00:00",
+  "source": "Simon Willison",
+  "source_cat": "AI-社区",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 8,
+  "is_hot": false
+ },
+ {
+  "title": "MEET2027含金量再加码：AI4S/量子计算/AI Infra…第二批嘉宾强势来袭！",
+  "url": "https://www.qbitai.com/2026/11/509827.html",
+  "summary": "12.9 北京，来MEET2027现场",
+  "published": "2026-11-13T07:51:08+00:00",
+  "source": "量子位",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "基础设施",
+  "category": "K8s × AI",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Super Agent 进群：今年11.11，多了个会主动干活的&#34;数字人队长&#34;",
+  "url": "https://www.infoq.cn/article/myl5Mcw3iyCYv3ZJ3hwQ?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-16T08:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Yelp AI 助手融合原生 UI 与服务端驱动 UI",
+  "url": "https://www.infoq.cn/article/1N801doFOEl2Swqey5Jy?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-15T15:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "闭环 AI 自我进化：从 Skill、Harness 到模型训练与评估｜AICon北京",
+  "url": "https://www.infoq.cn/article/fZSEkDatL9xajG8PVi7G?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-15T10:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "GitLab 19.5 发布，将智能体开发纳入可治理的 DevOps 平台能力",
+  "url": "https://www.infoq.cn/article/0IpE2EOypcqMFtL7z4z1?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-15T09:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent & Skill",
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "从提效到扩能：AI 驱动小团队的能力突破与组织演进｜AICon北京",
+  "url": "https://www.infoq.cn/article/eTz8pt2LoALMvzvxj4aa?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-14T10:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 9,
+  "is_hot": false
+ },
+ {
+  "title": "GFlow：面向游戏设计的多 Agent 协作与验证实践｜AICon北京",
+  "url": "https://www.infoq.cn/article/dkQAAL0SSdhIq1h61eKx?utm_source=rss&utm_medium=article",
+  "summary": "点击查看原文>",
+  "published": "2026-11-13T10:00:00+00:00",
+  "source": "InfoQ中国",
+  "source_cat": "AI-中文",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "Agent 工具链",
+  "oss": false,
+  "hot_score": 6,
+  "is_hot": false
+ },
+ {
+  "title": "Nov 9, 2026Introducing Claude Fable 5.2 and Claude Mythos 5.2Our most capable models for daunting technical work, Claude Fable 5.2 and Claud",
+  "url": "https://www.anthropic.com/news/announcements",
+  "summary": "",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "Anthropic News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 0,
+  "is_hot": false
+ },
+ {
+  "title": "FeaturesSep 21, 2026The Situation ReportA rare Ebola strain is spreading in the DRC, with no confirmed vaccine. Global health organizations ",
+  "url": "https://www.anthropic.com/news/features",
+  "summary": "",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "Anthropic News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Open call for guest investigators in the life sciencesToday, we’re inviting members of the life sciences community to apply to work with us ",
+  "url": "https://www.anthropic.com/news/open-call-guest-investigators-life-sciences",
+  "summary": "",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "Anthropic News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ },
+ {
+  "title": "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit TrustDr. Christopher Stubbs, an experimental physicist and former Dean of S",
+  "url": "https://www.anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
+  "summary": "",
+  "published": "2026-11-16T00:30:56.573602+00:00",
+  "source": "Anthropic News",
+  "source_cat": "AI-官方",
+  "extra": {},
+  "board": "AI 板块",
+  "category": "模型与研究",
+  "oss": false,
+  "hot_score": 10,
+  "is_hot": false
+ }
+]

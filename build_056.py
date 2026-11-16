@@ -1,0 +1,299 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 056 (2026-11-16)."""
+import json, os, sys
+
+REPO = os.path.dirname(os.path.abspath(__file__))
+P = json.load(open(os.path.join(REPO, "processed.json"), encoding="utf-8"))
+BY_URL = {x["url"]: x for x in P}
+
+
+def U(key):
+    """Return the exact processed.json URL whose url or title contains key."""
+    hits = [u for u, rec in BY_URL.items() if key in u or key in (rec.get("title") or "")]
+    if not hits:
+        sys.exit("no processed URL for " + key)
+    if len(hits) > 1:
+        # prefer shortest match to avoid accidental broad hits
+        hits.sort(key=len)
+    return hits[0]
+
+
+def item(key, title, summary, detail, tag=None, oss=None, source=None):
+    u = U(key)
+    rec = BY_URL[u]
+    d = {"title": title, "url": u, "summary": summary,
+         "detail": [{"key": k, "value": v} for k, v in detail]}
+    if source or rec.get("source"):
+        d["source"] = source or rec.get("source")
+    if tag:
+        d["tag"] = tag
+    if oss is not None:
+        d["oss"] = oss
+    else:
+        d["oss"] = bool(rec.get("oss"))
+    return d
+
+
+# ---------------- 🔥 今日重点 ----------------
+h1 = item(
+    "GitLab 19.5",
+    "GitLab 19.5 把外部 coding agent 纳入治理：MCP 服务器 GA、会话按用户/项目记账，免费版 60 次/分钟封顶",
+    "GitLab 19.5（10 月 15 日发布）把智能体开发与治理做成平台核心：GitLab MCP 服务器正式可用，Claude Code、Cursor、Codex 等兼容 MCP 的工具可访问 GitLab 的工具目录，并调用 Duo Agent Platform 的智能体与工作流。管理面可以选择暴露哪些 MCP 工具集，以此压掉不必要的工具与上下文占用——文章把它称作轻量化的最小权限设计。GitLab.com 同时上了 MCP 速率限制：免费版每分钟 60 次请求，Premium/Ultimate 600 次，重连与重试同样计入。治理侧的关键变化是外部连接的智能体进入 AI 治理仪表盘：通过 GitLab CLI 接入 Claude Code、Cursor、Codex 后，组织可以记录符合条件的会话（用户、智能体、项目、时间），与 GitLab 自家智能体并列显示，审计事件还能流式送到 SIEM。另外 Duo CLI 增加自动模式（默认关闭，可按实例/群组/项目三级控制，标为 Always Deny 的工具仍被拦），/goal 命令 GA，Secrets Manager 基于 OpenBao 正式发布。",
+    [("能做什么",
+      "把「平台能力」和「平台治理」同时开放给外部 agent：MCP 服务器 GA（发现有群组、查 CI 构件、启动/监控 Duo agent 与工作流）、按工具集裁剪暴露面、MCP 请求按 60/600 rpm 限速、外部 agent 会话按用户+agent+项目+时间落审计并可送 SIEM、Duo CLI 自动模式（三级开关 + Always Deny 兜底）、/goal 目标式派活。"),
+     ("解决什么痛点",
+      "组织里已经在跑 Claude Code / Cursor / Codex，但平台侧完全看不见：谁在用、改了哪个项目、跑了什么工具，安全团队拿不到账。而这些 CLI 接 MCP 时默认想把整套工具目录灌进上下文，既费 token 又扩大可执行动作面。GitLab 的做法是「给能力的同时给账本和配额」。"),
+     ("值不值得",
+      "如果公司用 GitLab 做主干，这一版把「外部 agent 接入」从个人行为变成可审计的组织能力，值得按它给的抽象去设计自己的准入策略（工具集白名单 + 速率配额 + 会话记账）。限制是治理只覆盖走 GitLab CLI/MCP 的流量，本地直连模型 API 的调用它看不到；19.5 的自动模式默认关闭，说明厂商自己也不认为可以无条件放开。")],
+    tag="DevOps", oss=False)
+h1["note"] = ("InfoQ 转述 GitLab 19.5（2026-10-15 发布）：MCP 服务器正式可用，Claude Code / Cursor / Codex 等可通过 MCP 调用 GitLab 工具与 Duo Agent Platform 的工作流；"
+              "管理员可裁剪暴露的 MCP 工具集，GitLab.com 上限为免费 60 rpm、Premium/Ultimate 600 rpm（重连与重试计入）；"
+              "外部 agent 经 GitLab CLI 接入后，会话按用户、agent、项目、时间记录进 AI 治理仪表盘，审计事件可流式送 SIEM；"
+              "Duo CLI 自动模式默认关闭、三级可控，/goal 命令 GA，Secrets Manager 基于 OpenBao GA。")
+
+h2 = item(
+    "opencode/releases/tag/v2.3.0",
+    "opencode v2.3.0 把子 agent 改成默认后台并行：spawn 即返回 session id，空闲才回报",
+    "opencode v2.3.0 把子 agent 的默认行为从「阻塞等待」翻了过来：spawn 后立刻返回 session id，子 agent 在后台继续跑，只在空闲时把结果报给父会话，父会话因此可以同时开多个子 agent 并行推进。这里有个容易踩的细节——如果子 agent 自己的后台任务还在跑，它报回来的状态会标明「仍在运行」，父会话会继续等最终报告，而不是把半成品当完成。TUI 默认把一段连续的工具调用与思考折叠成一行可展开的活动行，要看每一步得把 Verbosity 调到 medium/high。桌面端新增 Jump to message（Cmd+Alt+G / Ctrl+Alt+G），可跨当前会话搜索历史 prompt 并直接跳回。内核侧还加了实验性 MCP events、shell 命令可跨 server handoff 存活、超时后转后台的 shell_timeout_background 开关，以及 provider 级 mTLS 客户端证书。",
+    [("能做什么",
+      "多 agent 并发从「显式配置」变成默认语义：子 agent 一律后台运行、立即返回会话 id、空闲时回报；父会话可并行跑多个子 agent 并继续自己的活；半完成状态有显式标记避免误判；附带会话级 verbosity 控制、prompt 跳转、MCP 事件实验开关、跨 handoff 的 shell 存活、provider mTLS 证书。"),
+     ("解决什么痛点",
+      "此前跑多个子 agent 要么串行等，要么自己写调度，父会话在等子 agent 的这段时间里什么也干不了；子 agent 报「我空闲了」但其实自己还有后台任务在跑，父会话就会误判为完成——这类竞态在多 agent 流水线里极难排查。"),
+     ("值不值得",
+      "如果你在用 opencode 做多 agent 编排，这版是语义级变化，升级后要重新检查父会话的「完成判定」逻辑（现在多了「仍在运行」这一态）。代价是 transcript 默认更简，排障时需要临时调高 verbosity；MCP events 与 shell 超时转后台都还在实验开关后面，别当稳定能力依赖。")],
+    tag="版本", oss=True)
+h2["note"] = ("opencode v2.3.0（2026-11-13）：子 agent 默认后台运行、立即返回 session id、空闲时回报父会话，父会话可并发多个子 agent；"
+              "子 agent 若自身后台任务未完成，回报会标注仍在运行，父会话等待最终报告而不是把部分答案当完成；"
+              "TUI 默认折叠工具调用与思考为一行活动行（verbosity 可调），桌面端新增 Jump to message（Cmd+Alt+G）；"
+              "内核侧新增实验性 MCP events、shell 命令跨 server handoff 存活、shell_timeout_background、provider 级 mTLS 客户端证书。")
+
+# ---------------- 🧠 模型与研究 ----------------
+m1 = item(
+    "JustRUA",
+    "JustRUA 把 robot-use agent 的设计拆开做受控实验：只保留「瘦 harness」就把 RoboDojo 从 29.7 提到 50.3",
+    "GPT-6 Astra 可以通过一套固定 harness 直接驱动机械臂，RoboDojo 上这类 robot-use agent 的分数近期涨得很快，但各家系统往往同时改好几个设计，说不清到底是哪一项带来了提升。JustRUA 把这些设计拆成四块——模型外围的 harness、动作接口、经验复用、喂给模型的场景几何——放进同一个框架里做受控对比。结论里最反直觉的是 harness 的权重：一个保留完整 episode 历史、并在每个动作完成后提前停止的「瘦 harness」，就已经走完了大部分路。经验复用会改变模型的行为方式，但不是免费的午餐；场景几何的帮助最大，即便深度信息只是从 RGB 预测出来的。最终这套不带学习策略、不带自纠正循环、不做任务微调的 harness，把 RoboDojo 模拟基准从 29.7 提到 50.3。",
+    [("能做什么",
+      "给出 robot-use agent 的四维消融框架（harness / 动作接口 / 经验复用 / 场景几何），并证明「保留完整 episode 历史 + 每个动作提前停止」这一条 harness 改动就带来 29.7 → 50.3（+20.6 分）的 RoboDojo 提升，且不需要学习策略、自改进循环或任务特定调优。"),
+     ("解决什么痛点",
+      "具身 agent 的论文普遍「一次改五处」，工程上无法判断预算该投在模型、harness 还是感知上；而 harness 改动通常是成本最低、最容易复现的那一类，却最容易被忽略。"),
+     ("值不值得",
+      "值得看的是方法论：把「环境侧工程」当成一等变量做消融，而不是只比模型。对做 agent 评测/harness 的人，这套拆法可以直接套到非机器人任务（工具调用历史、提前终止策略）。限制是结论绑定 RoboDojo 这一模拟基准与固定动作接口，真实机械臂上的迁移没验证。")],
+    tag="论文", oss=False)
+
+m2 = item(
+    "Agent-R^2",
+    "Agent-R^2 用真实工作语料合成 4k 任务实例，4B 模型在 GDPval 上超过 Qwen3-235B-Thinking",
+    "Agent-R^2 针对「真实生产力工作」的训练数据瓶颈：不是手工编排 workflow，也不是让 LLM 编文件，而是从 10k 条网页语料候选里蒸馏出 4k 条任务实例，每条配真实的多格式附件与 deliverable 级的细粒度评分标准。数据来源贯穿三条线——真实职业种子、从语料里挖出的工作流证据、真实网络文件。作者用 SFT 加基于 rubric 的强化学习训出 Agent-R^2-4B。仅 4k 实例，这个 4B 模型就在 GDPval 上拿到 51.0%（对比 Qwen3-235B-A22B-Thinking-2507 的 48.0%）、OfficeQA 14.8%（对比 13.8%）。分析还指出它压住了「捷径行为」——agent 在充分取证、构建、验证之前就产出看起来像样的交付物。",
+    [("能做什么",
+      "一套 real-source 数据合成流水线：10k 网页候选 → 4k 带真实附件与 deliverable 级 rubric 的任务，用 SFT + rubric RL 训小模型；实测 4B 在 GDPval 51.0% vs 235B 的 48.0%、OfficeQA 14.8% vs 13.8%，并减少「先出稿后验证」的捷径行为。"),
+     ("解决什么痛点",
+      "生产力 agent 的失败大多不是不会调工具，而是没理解真实文件环境、没按细粒度要求交付；而高质量后训练数据要么靠人工造 workflow（贵且假），要么靠 LLM 生成文件（分布漂移）。真实语料锚定解决了「任务像不像真活」这一层。"),
+     ("值不值得",
+      "值得抄的是数据构造口径：用真实职业种子 + 语料工作流证据 + 真实文件，再配 deliverable 级 rubric 打分；这套做法不依赖特定模型。注意 GDPval 51% 的绝对值仍不高，OfficeQA 只有 14.8%，说明这类任务离「能交给人」还远，把它当训练方法而不是能力里程碑。")],
+    tag="论文", oss=False)
+
+m3 = item(
+    "DeepStress",
+    "DeepStress 给检索证据「掺假」做压力测试：12 个系统里，多个开源 agent 面对明显不可信来源仍自信作答",
+    "DeepStress 指出搜索 agent 的鲁棒性被严重低估：真实语料里劣质证据很少，导致失败难以复现。它的做法是把检索模块换成一个合成环境，对每个 query 动态生成文档，并独立控制文档的可信度、相关性与事实性，按受控比例注入劣质证据。评测不止算准确率，而是把最终答案分成五类结果，并新增 RAS 与 CoPRAS 两个可靠性指标，前者奖励「谨慎」，后者把计算成本算进去。在 HotpotQA 与 BrowseComp-Plus 的题目上评了 12 个系统，发现几个开源 agent 在来源带有明显可信度红旗时依然给出自信答案；更值得警惕的是，不少 HotpotQA 题在检索回来的文档全部事实错误时，模型仍靠参数记忆答对了——也就是「看起来检索了，其实没用检索」。",
+    [("能做什么",
+      "一个可控的检索劣化压力测试框架：按可信度/相关性/事实性三轴独立生成文档、五类答案结果分类、RAS（可靠性感知评分）与 CoPRAS（含成本）两个新指标；在 HotpotQA 与 BrowseComp-Plus 上横评 12 个系统。"),
+     ("解决什么痛点",
+      "搜索 agent 的 benchmark 分数长期被「参数记忆 + 语料干净」双重美化：答对了不知道是靠检索还是靠背下来的，答错了也不知道是检索没找到还是没识别出假证据。上线后遇到脏网页就崩，属于典型的评测盲区。"),
+     ("值不值得",
+      "如果自建 RAG/搜索 agent，这套「劣质证据注入 + 五类结果 + 成本感知指标」可以直接做成上线前的红灯测试，比只看准确率有用得多。限制是合成文档与真实网页噪声仍有差距，结论更适合做相对比较而非绝对能力判断。")],
+    tag="评测", oss=False)
+
+# ---------------- 🧩 Agent & Skill ----------------
+s1 = item(
+    "SkillEvaluator",
+    "NVIDIA 开源 SkillEvaluator：先做静态质量门，再对比「有 skill / 无 skill」的运行差异，量化 skill 到底有没有用",
+    "SkillEvaluator 是 NVIDIA 放出的 agent skill 评测工具（Apache 2.0、Python 3.12–3.14、PyPI 可装），属于其 Verified Skills 流水线的质检环节。它的评测分两层：先跑静态质量检查（Tier 1 不需要 API key，`skillevaluator validate --tiers 1`），再对同一个任务分别跑「带 skill」和「不带 skill」的 agent，用结果差异来衡量 skill 是否真的改变了行为与成功率。接入方式有三种：直接跑 CLI、用 `skillevaluator ci init` 在仓库里开一个 CI 配置 PR（GitLab 有现成 CI 模板）、或者把它的 skill 装进 Claude Code / Codex 让 agent 自评。它遵循 agentskills.io 的 Agent Skills 规范，配套论文 arXiv 2608.20614 与 NVIDIA 开发者博客。",
+    [("能做什么",
+      "把「skill 好不好」变成可跑的门禁：Tier 1 静态检查（无需 API key、可进 pre-commit/CI）、语义重叠检测、合成评测集生成、以及带/不带 skill 的实跑对比；一个 CLI 三种接入（本地 / CI / 让 agent 自己调），支持 Claude Code、Codex 等 skill-aware agent。"),
+     ("解决什么痛点",
+      "现在 skill 库越攒越多，但没人回答两个问题：这条 skill 和已有的重不重复？它真的提升了成功率，还是只是让输出「看起来更规范」？没有对照实验，skill 库就会退化成文档堆积，还会白吃上下文。"),
+     ("值不值得",
+      "如果你在给自己团队维护 skill 库（像这个仓库里那种），这套对照实验思路值得直接抄：固定任务集 + 有/无 skill 两组 + 结果差异。限制是实跑对比要花模型调用成本，Tier 1 只能查形式问题；另外它绑定 NVIDIA 的 Verified Skills 口径，跨厂商 skill 的语义重叠判定还需要自己校准。")],
+    tag="评测", oss=True)
+
+s2 = item(
+    "Evidence-Guided",
+    "工具超时后 agent 该怎么办：用「可采信证据」判定动作是失败、已提交还是在飞行，认证完成数 30 vs 9",
+    "论文处理的是 agent 里最难自动化的那类状态：工具调用超时后，动作可能失败了、可能已提交、也可能还在飞行，而工作流里其他步骤已经完成。作者把它形式化成「在已批准义务、提供方能力、以及与公开证据相容的状态空间里做恢复」，用一个共享的可采信性检查处理密钥过期、授权时序、依赖关系与残余副作用，再用一个终态证书区分「真的达成了目标」和「公开证据支持下可认为安全完成」。实现上把标准的观察条件规划与一个独立实现的效果历史裁决器组合起来。在 37 个作业的有限研究里，规划与三个主动对照各自认证 28 次完成；随后在 19 个任务族、58 个配对单元上做预注册的留出比较，给规划建议的一方认证 30 次完成，对照组 9 次，差 36.2 个百分点（精确族符号翻转 p=0.0078），提案数 272 对 399，116 条轨迹全部通过独立 replay。",
+    [("能做什么",
+      "一套可判定的「部分执行恢复」协议：把超时后的不确定状态约束在可采信证据之内，用共享 admissibility check 处理密钥/授权/依赖/副作用，用终态证书区分真实达成与安全完成；58 配对单元上完成认证 30 vs 9（+36.2pp，p=0.0078），且提案更少（272 vs 399）。"),
+     ("解决什么痛点",
+      "带副作用的工具（转账、下单、改配置）超时后，agent 最危险的动作是「重试」——可能重复执行；最保守的动作是「放弃」——可能留下半完成状态。现有 agent 框架基本没有形式化的中间态处理，全靠 prompt 里写「小心一点」。"),
+     ("值不值得",
+      "对要把 agent 接到真实系统（尤其金融、运维变更）的人，这是少见的把「不确定执行」当一等公民做的工作，可采信性检查与终态证书两个概念值得借。限制是实验规模小（58 个配对单元、两个本地模型），且需要每个工具提供方声明能力与状态语义，接入成本不低。")],
+    tag="论文", oss=False)
+
+# ---------------- 🧭 Agent 工具链 ----------------
+t1 = item(
+    "stitch-skills",
+    "Google Labs 的 stitch-skills 涨到 9.2k 星：把 UI 设计稿到组件的流程做成三包 agent 插件，Codex/Claude Code/Cursor 通用",
+    "stitch-skills 是 Google Labs 为 Stitch（其 UI 设计工具）出的 agent skill 集合，按 agentskills.io 的 Agent Skills 开放标准写，兼容 Codex、Antigravity、Gemini CLI、Claude Code、Cursor 与 OpenCode。仓库把能力拆成三个插件包——stitch-design（设计向技能）、stitch-build（构建与组件）、stitch-utilities（工具类）——通过各家的插件市场分发：Codex 用 `codex plugin marketplace add`（可加 --sparse 只拉需要的路径），Claude Code 与 Cursor 用 `npx plugins add ... --target`，OpenCode 走手动安装。它配合 Stitch MCP server 工作，等于把「设计稿 → 可落地组件」这段交给 agent 跑。",
+    [("能做什么",
+      "三个可分装的 agent 插件包（design / build / utilities），统一遵循 Agent Skills 规范，一套内容在 Codex、Claude Code、Cursor、Antigravity、Gemini CLI、OpenCode 上复用；走各家插件市场分发，支持 sparse 拉取；对接 Stitch MCP server 拿到设计上下文。"),
+     ("解决什么痛点",
+      "同一套「设计转代码」的 agent 能力，此前要为每个 CLI 各写一份 prompt/规则，维护成本随 CLI 数量线性上涨；插件市场 + 开放 skill 规范让「写一次、多处装」第一次变得可行。"),
+     ("值不值得",
+      "值得看的不是 Stitch 本身，而是 Google 用「插件市场 + 开放 skill 标准」做跨 CLI 分发的这个动作——如果这套分发方式站住，skill 的可移植性会成为选型维度。限制是内容强绑定 Stitch 的设计稿格式，不用 Stitch 的团队收益有限，OpenCode 还得手动装。")],
+    tag="开源", oss=True)
+
+# ---------------- 🏖️ 沙箱与运行时 ----------------
+sb1 = item(
+    "e2b-dev/E2B/releases/tag",
+    "E2B SDK 2.64.0：模板可「按需选 vCPU」、支持 OAuth 头认证，commands.run 可换 shell",
+    "E2B 的 SDK 2.64.0 引入了「可调规格模板」：建模板时声明 maxCpuCount，创建沙箱时再决定这个沙箱用几个 vCPU，等于同一份模板覆盖不同规格的执行需求；`e2b template list` 会多出一列 Max vCPUs 显示上限。模板管理也补全了：Template.list() 返回可分页的 TemplatePaginator（Python 有 Async 版本），Template.delete() 新增，删除成功返回 true、找不到返回 false，Sandbox.deleteSnapshot 改为共用这套实现并在失败时抛 TemplateError。命令执行侧，commands.run 新增 shell 参数，可以指定 `/bin/sh -c` 之类，默认仍是 `['/bin/bash','-l','-c']`。认证侧，API client 现在接受 Authorization 头（OAuth access token）配合 X-Team-ID 选团队，不再只能塞 API key，方便嵌进已有 SSO 体系。有一个破坏性变更：`e2b template list -f json` 的输出从原始 API 响应改成 SDK 的 TemplateInfo（templateId/buildId/names），表格去掉了 Created by 列（API 已废弃创建者邮箱）。",
+    [("能做什么",
+      "模板层资源弹性：一份模板声明 maxCpuCount、每个沙箱在 create 时选 cpuCount；模板分页列举与删除进 SDK；commands.run 支持自定义 shell；API 支持 OAuth Bearer token + X-Team-ID 认证；另含 @connectrpc/connect 2.3.0 升级（HTTP/2 流清理与取消修复）。"),
+     ("解决什么痛点",
+      "沙箱规格过去跟模板绑定，同一镜像要跑轻任务和重任务就得建多份模板并重复构建；企业侧接入通常已经有 OAuth/SSO，只支持 API key 意味着要把长期密钥散布到各个服务里。"),
+     ("值不值得",
+      "拿 E2B 当执行底座的，这两条都是实用向：按沙箱选 vCPU 直接省成本（轻任务不必占满配），OAuth 头则让密钥不再落地到业务代码。升级前注意 `template list -f json` 的输出结构变了，有脚本解析旧字段（templateID/buildID/aliases）的会挂。")],
+    tag="沙箱", oss=True)
+
+sb2 = item(
+    "runtime-layer",
+    "Kubernetes 沙箱的运行时层：runc 共享内核不够用，RuntimeClass 把 gVisor/Kata 变成一行声明，笔记本侧 sbx 用 microVM",
+    "Kubezilla 的沙箱系列第三篇专讲运行时层，回答的是「沙箱里的代码如果是恶意的，能不能摸到宿主机」这个问题。基础判断很直接：普通 runc 容器只是带 namespace、cgroup、seccomp 与 capability 的 Linux 进程，同节点所有容器共用同一个宿主内核，一个内核漏洞、运行时 bug 或配置失误就能走出去——这对你写过的代码尚可接受，对 LLM 刚生成、随手拉了依赖就运行的代码不行。Kubernetes 侧的做法是用 RuntimeClass 按 Pod 选运行时：节点装好 gvisor(runsc) 或 kata 并在 containerd/CRI-O 注册，类里用 scheduling.nodeSelector 把沙箱 Pod 钉到专用节点池，Pod 里只写一行 runtimeClassName。GKE 上 gVisor 即 GKE Sandbox，Kata 可用 QEMU、Cloud Hypervisor 或 Firecracker 做 VMM。文章还介绍了 SIG Apps 的 Agent Sandbox（agents.x-k8s.io/v1alpha1，目前 alpha），它与运行时无关，podTemplate 里同时写 runtimeClassName 与 namespace/ServiceAccount/automountServiceAccountToken: false。笔记本侧则对应 Docker Sandboxes 的 sbx CLI：在 microVM 里跑 Claude Code、Codex、Gemini CLI，`sbx run --clone` 用私有 clone，`sbx policy allow network api.github.com` 只开必要出口，`sbx policy log` 能看到每条放行与拦截。",
+    [("能做什么",
+      "把「运行时隔离」写成可声明的 K8s 对象：RuntimeClass(gvisor/kata) + nodeSelector 钉节点池 → Pod 一行 runtimeClassName 生效；Agent Sandbox CRD 提供 runtime-agnostic 的 Sandbox 资源（podTemplate 里同时表达运行时与集群侧隔离）；本地用 sbx 在 microVM 里跑 agent CLI，并带 network allow-list 与连接日志。"),
+     ("解决什么痛点",
+      "agent 执行的代码不是「你审过的代码」，而容器隔离只保证打包，不保证内核面安全；在 K8s 上手工给每个 agent 会话写 Pod 也很快失控。RuntimeClass 让隔离级别成为调度属性，Sandbox CRD 把会话级生命周期收进 API 对象。"),
+     ("值不值得",
+      "这是「agent 上 K8s」最该先定的一层：gVisor 改系统调用路径、兼容性有坑但开销小，Kata/Firecracker 隔离更强但要裸金属或嵌套虚拟化。Agent Sandbox 仍是 alpha，别直接上生产；sbx 适合先在开发机上把「agent 乱跑」的风险关住，其 policy proxy 的模型和集群侧 egress 白名单是同一套思路。")],
+    tag="沙箱", oss=False)
+
+# ---------------- 🛠️ AI 工程落地 ----------------
+e1 = item(
+    "1N801doFOEl2Swqey5Jy",
+    "Yelp 的混合 UI：导航与输入框保持原生，对话区交给 CHAOS 服务端渲染，改界面不用发版",
+    "Yelp 为其 AI 助手选了混合 UI 架构：导航栏与消息输入框保持原生实现，对话内容则由内部 CHAOS 框架（Content Hosting Architecture with Optimization Strategies）在服务端驱动渲染。CHAOS 本来支持 Web、iOS、Android，缺的是助手需要的文本输入与网络请求能力，扩展框架会拖交付，于是 Yelp 只把对话区交给它。实现上把「视图配置」与「对话数据」分离：会话启动时客户端拉一次 CHAOS 配置并初始化消息事件集，之后的事件直接更新现有视图，不再重拉配置。事件类型包括持久的用户/机器人消息、临时的输入指示器与快速回复、打开目标页的链接，以及后端下发的 UI 指令——比如请求完成时同时返回一条消息、一个查看匹配的链接和「禁用输入」的动作。客户端维护消息状态与交互：提交后显示已提交消息与输入指示器并禁用输入，收到回复再显示内容与快速回复、重新启用；错误可自动重试，不可恢复则禁用输入提示稍后再试。Yelp 也承认代价：工程师要同时理解助手与 CHAOS，同一套逻辑跨平台仍可能表现不一致。",
+    [("能做什么",
+      "一套「原生外壳 + 服务端渲染对话」的移动端架构：CHAOS 下发视图配置与事件流（消息、typing、quick reply、跳转链接、UI 指令），客户端只维护状态与交互；改文案/流程/交互不需要发新版本；同一套内容跨 Web/iOS/Android；已被复用到 Android 的 Biz Ask Anything 试点。"),
+     ("解决什么痛点",
+      "对话式界面的迭代速度被发版周期卡死：改一句引导语、调一次快捷回复顺序都要过应用商店。全 WebView 方案又拿不到原生输入体验与系统集成。混合方案把「变的」交给服务端、「不变的」留在原生。"),
+     ("值不值得",
+      "如果自建面向移动端的 agent 助手，这套「视图配置与对话数据分离 + 事件驱动渲染」值得抄，尤其事件里带 UI 指令这一点（完成时禁用输入）比纯文本流更可控。代价是双栈心智负担与跨平台行为差异，需要端上有较成熟的渲染框架做底子。")],
+    tag="案例", oss=False)
+
+e2 = item(
+    "myl5Mcw3iyCYv3ZJ3hwQ",
+    "京东 11.11 的「数字人队长」：不新开页面，把 SRE 经验做成 5 个群里的 Super Agent，输出证据链而非结论",
+    "京东零售把 11.11 技术保障的「数字人队长」做成原生嵌在京 Me 里的 Super Agent，而不是另开一个问答页面——风险发生在哪个群，它就在哪个群干活，共享同一段讨论上下文。文章把 Super Agent 与 Chatbot 的差别拆成三层：在现场（它是群成员，有昵称有 ID）、跨群上下文（记得别的群里同一条风险推进到哪一步）、主动做事（主动发言，也能调工具做架构评审、容量风险评估、代码分析）。这套能力以「小队」形式落地：大促队长、高可用架构师、GOC、SRE、技术支持五个数字人分别对应备战统筹、架构评审、故障应急与工单答疑。技术上的关键是经验萃取而不是知识库：大促高风险评审、风险识别与升级、应急处置、历史复盘、容量/变更/巡检/预案等 SRE 技能被产品化成可调用能力（RCA 分析、变更防御、容量预测、巡检规则），由插件调用，把模型理解力与工程平台的确定性能力拼起来。作者反复强调输出的是可追溯证据链——哪条告警、哪个时间窗、哪次变更、哪段异常堆栈、哪个指标拐点、哪个下游依赖——而不是一句「可能是某变更导致」。",
+    [("能做什么",
+      "把大促保障的专家判断做成 5 个可调用的数字人：原生在群聊/文档/平台里协作、跨群共享上下文、主动发言并调工具（架构评审、容量评估、代码风险分析、故障定位）；能力以 SRE Skills 形式沉淀（RCA、变更防御、容量预测、巡检规则）并通过插件接入日志/监控/变更/容量/预案系统，输出带时间点与数据源的证据链。"),
+     ("解决什么痛点",
+      "大促现场的真问题不是没监控，而是「现在发生了什么、影响多大、最近有没有变更、该找谁」散在监控、日志、变更、压测、预案和几十个群里，队长与专家要不停切系统、追问、汇总结论；专家经验又沉淀在个人身上，高压下无法实时调用。"),
+     ("值不值得",
+      "值得借鉴的是三个设计选择：入口放在人已经在的地方（群）而不是新系统、经验做成可调用的 skill 而非静态文档、输出证据链而非结论。这三点对做内部运维/值班 agent 的团队几乎可以直接照搬。限制是文章没给量化指标（提效多少、误报率），且强依赖自家京 Me 与保障平台的开放程度。")],
+    tag="案例", oss=False)
+
+# ---------------- 💡 观点与好文 ----------------
+v1 = item(
+    "ai-code-open-source",
+    "HN 千点讨论「AI 生成的代码都该开源」：训练语料是开源代码，产出闭源等于洗许可",
+    "这篇短文主张所有由 AI 生成的代码都应当开源，给出三条理由。第一是溯源：模型是在大量开源代码（以及 CC 授权的 Stack Overflow）上训出来的，这些内容被直接抓取、未经许可也未署名，再把产出变成专有闭源代码，等于「许可洗白」。第二是法律：纯 AI 生成的代码没有人类作者，按美国版权局的逻辑（可追溯到 Monkey Selfie 判例）不应受版权保护，Wikimedia 也要求纯 AI 生成图片标注公有领域。第三是跨国差异：英国等地对计算机生成作品给有限保护，为公平起见应统一以开源许可或 CC0 发布。作者也承认代码很少是 0% 或 100% 人工，但只要人只写了 prompt、连生成结果都不看，就该按开源处理。HN 上 1060 分、579 条评论。",
+    [("能做什么",
+      "给「AI 生成代码的许可归属」提供一套可操作的立场：溯源论证（训练语料的开源/CC 属性）+ 法律论证（无人类作者不可版权）+ 统一方案（开源许可或 CC0），并给出判断阈值——人类投入极低（只写 prompt、不审不改）的代码按纯生成对待。"),
+     ("解决什么痛点",
+      "企业里 agent 产出的代码占比越来越高，但许可与合规口径是空白：审计时说不清这段代码的来源与权利状态；对外交付时又可能把开源语料的衍生物当成自有资产。"),
+     ("值不值得",
+      "不是技术方案，是合规口径的讨论，值得读的是它把「训练语料 → 产出许可」这条链讲清楚了。对企业来说现实做法可能是分级：内部工具宽松、对外交付的 AI 生成部分做来源记录与许可声明。注意这是个人观点文，法律结论未经判例检验。")],
+    tag="观点", oss=False)
+
+# ---------------- 🛡️ 安全与治理 ----------------
+x1 = item(
+    "Claude-BugHunter",
+    "Claude-BugHunter：82 个 skill + 15 个斜杠命令的漏洞挖掘包，覆盖 24 类漏洞与 681 条已披露报告模式",
+    "Claude-BugHunter 是一个面向漏洞挖掘与外部红队工作的 Claude Code skill 包：82 个 skill、15 个 slash command，内置 24 类核心漏洞的系统化打法，并从 681 份公开披露的漏洞报告中提炼出可复用的模式；此外还带企业身份（identity）与基础设施两类攻击矩阵。它把「红队经验」从个人笔记变成 agent 可加载的结构化知识，让 Claude Code 在授权测试中按类别推进而不是凭感觉乱试。",
+    [("能做什么",
+      "把漏洞挖掘流程 skill 化：24 类漏洞各有一套推进方法、681 条来自真实披露报告的攻击模式、企业身份与基础设施攻击矩阵，配合 15 个斜杠命令做阶段化调用。"),
+     ("解决什么痛点",
+      "红队知识高度依赖个人经验，新人从「知道有哪些漏洞类型」到「知道怎么在一个具体系统上试」之间缺一层可执行步骤；agent 直接上又容易变成无方向的暴力试探。"),
+     ("值不值得",
+      "只在有明确授权的测试场景用——这类 skill 包把攻击路径显式化，误用风险同样显式。值得看的是它的组织方式（按漏洞类目 + 真实报告模式 + 阶段命令），这套结构可以迁移到其他垂直领域的 skill 库设计。")],
+    tag="安全", oss=True)
+
+# ---------------- ☸️ K8s × AI ----------------
+k1 = item(
+    "cluster-layer",
+    "给 agent 划 K8s 地盘：Pod Security restricted + 不给 SA token + 默认拒绝出网，四件套把可达面压到最小",
+    "Kubezilla 沙箱系列第二篇讲集群层：运行时层管「代码变恶意后能不能摸到宿主」，集群层管「agent 就算被劫持，手里有多少东西可用」。第一件是 namespace：每个 agent/团队/会话一个，标签打开 Pod Security Admission 的 restricted 级别，跑 root、要提权、用宿主 namespace、挂 hostPath 的 Pod 直接拒。第二件是 ServiceAccount：默认挂载的 token 是攻击者第一眼要找的东西，agent 不需要 K8s API 就设 automountServiceAccountToken: false；真需要就只绑本 namespace 内的最小 Role，绝不给 ClusterRole，并用 kubectl auth can-i --list --as=system:serviceaccount:... 复核实际权限。第三件是出网：先 default-deny-all 双向，再单独放 DNS（仅 kube-system/kube-dns 的 53），coding agent 通常只需要包仓库与模型端点。文章提醒普通 NetworkPolicy 只认 IP 和端口，要按域名放行得用支持 DNS-aware 策略的 CNI（如 Cilium FQDN）或统一走 egress 代理白名单——这也正是 Docker Sandboxes 在笔记本上的做法。还要封掉 169.254.169.254 云元数据端点，那是偷节点凭证的常见路径。第四件是配额：ResourceQuota 限制 pod 数与 CPU/内存，防 agent 死循环把整台节点吃光。",
+    [("能做什么",
+      "一套可直接落地的 agent 命名空间模板：PSA restricted 标签、automountServiceAccountToken: false、namespace 内最小 Role + RoleBinding（附权限复核命令）、default-deny-all 加 DNS 放行的 NetworkPolicy、Cilium FQDN 或 egress 代理做域名级白名单、封 169.254.169.254、ResourceQuota 限 pod/CPU/内存。"),
+     ("解决什么痛点",
+      "agent 的权限通常是「为了让它能干活」一次性放大后就没人收：默认 SA token、宽泛 ClusterRole、全通出网。一旦 prompt 注入或工具被污染，攻击者拿到的就是一份现成的集群凭证与出网通道。"),
+     ("值不值得",
+      "这四条是 agent 上 K8s 的最低配，成本很低（都是标准对象），建议先做成 namespace 模板 + 准入策略强制。真正的难点在第三件：域名级出网控制要 CNI 支持或引入代理，这一步决定你能不能只放行「包仓库 + 模型端点」；另外它挡不住内核漏洞，必须和运行时层（gVisor/Kata）叠起来用。")],
+    tag="隔离", oss=False)
+
+sec_ai = [
+    {"label": "模型与研究", "title": "模型与研究", "emoji": "🧠", "items": [m1, m2, m3]},
+    {"label": "Agent & Skill", "title": "Agent & Skill", "emoji": "🧩", "items": [s1, s2]},
+    {"label": "Agent 工具链", "title": "Agent 工具链", "emoji": "🧭", "items": [t1]},
+    {"label": "沙箱与运行时", "title": "沙箱与运行时", "emoji": "🏖️", "items": [sb1, sb2]},
+    {"label": "AI 工程落地", "title": "AI 工程落地", "emoji": "🛠️", "items": [e1, e2]},
+    {"label": "观点与好文", "title": "观点与好文", "emoji": "💡", "items": [v1]},
+    {"label": "安全与治理", "title": "安全与治理", "emoji": "🛡️", "items": [x1]},
+]
+
+sec_infra = [
+    {"label": "K8s × AI", "title": "K8s × AI", "emoji": "🤖☸️", "items": [k1]},
+]
+
+flash = [
+    {"title": "AG-UI 协议：把 agent 接进前端应用的 Agent-User 交互协议",
+     "url": U("ag-ui-protocol/ag-ui"), "source": "GitHub Trending"},
+    {"title": "Chrome 团队给 coding agent 的「现代 Web 最佳实践」规则源",
+     "url": U("modern-web-guidance-src"), "source": "GitHub Trending"},
+    {"title": "claude-trading-skills：给股票投资者的 Claude Code 技能集（行情、技术图表、财报日历、选股）",
+     "url": U("claude-trading-skills"), "source": "GitHub Trending"},
+    {"title": "ggml 仓库进入 Trending：本地推理的底层张量库",
+     "url": U("ggml-org/ggml"), "source": "GitHub Trending"},
+]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 11 月 16 日 · 星期一",
+    "issue": 56,
+    "kicker": "第 056 期",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": ("今天的主线是「把 agent 装进已有的工程与治理体系」，而不是再造一个 agent 产品。"
+             "GitLab 19.5 把 Claude Code、Cursor、Codex 的会话记进自己的 AI 治理仪表盘，并按 60/600 rpm 给 MCP 上配额；"
+             "opencode 则把子 agent 改成默认后台并行，多 agent 从「显式配置」变成默认语义。"
+             "落地层面，Yelp 用「原生外壳 + 服务端渲染对话」绕开发版周期，京东把大促保障的专家判断做成 5 个群里干活、只输出证据链的数字人。"
+             "隔离这一层有两份扎实材料：Kubezilla 把 K8s 沙箱拆成集群层（PSA/RBAC/出网/配额）与运行时层（gVisor/Kata/Agent Sandbox/sbx），E2B 则让模板按沙箱选 vCPU、支持 OAuth 头认证。"
+             "研究侧最实用的一条是 JustRUA：不加学习策略，只把 harness 做「瘦」，RoboDojo 就从 29.7 到 50.3。"),
+    "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+    "highlights": [h1, h2],
+    "sections": [
+        {"label": "🤖 AI 板块", "categories": sec_ai},
+        {"label": "☸️ 基础设施板块", "categories": sec_infra},
+    ],
+    "flash": flash,
+}
+
+# ---- assertions ----
+for h in brief["highlights"]:
+    assert h.get("title") and h.get("summary") and len(h.get("detail", [])) == 3 and h.get("note"), h.get("title")
+for s in brief["sections"]:
+    for c in s["categories"]:
+        assert c.get("title") and c.get("emoji"), c
+        for it in c["items"]:
+            assert it.get("title") and it.get("summary"), it
+            assert len(it.get("detail", [])) == 3, it["title"]
+            assert it["url"] in BY_URL, it["url"]
+            for row in it["detail"]:
+                assert row["key"] in ("能做什么", "解决什么痛点", "值不值得"), row["key"]
+for f in brief["flash"]:
+    assert f.get("title") and f["url"] in BY_URL, f
+
+json.dump(brief, open(os.path.join(REPO, "briefing.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+n = len(brief["highlights"]) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print("wrote briefing.json items=", n, "flash=", len(flash))
