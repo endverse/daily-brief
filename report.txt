@@ -1,53 +1,53 @@
 ======================================================================
-处理报告  (原始 146 条)
+处理报告  (原始 162 条)
 ======================================================================
 
-① 过滤: 保留 125 条, 过滤掉 21 条
+① 过滤: 保留 134 条, 过滤掉 28 条
    过滤掉的样例(非AI相关):
-     ✗ [Hacker News] Microsoft 365 outage leads to chlorine gas poisoni
-     ✗ [Hacker News] The MacBook Pro's OLED PWM problem
-     ✗ [Hacker News] Why did some Apollo missions carry a grenade launc
-     ✗ [Hacker News] SpaceX catches the Starship to end Flight 15
-     ✗ [Simon Willison] datasette 0.65.6
-     ✗ [Simon Willison] datasette-vega 0.7
-     ✗ [Simon Willison] datasette-cluster-map 0.19
-     ✗ [Simon Willison] datasette-leaflet 0.3
+     ✗ [GitHub Trending] getarcaneapp/arcane
+     ✗ [GitHub Trending] DeanChensj/jiangshan-map
+     ✗ [GitHub Trending] sveltejs/svelte
+     ✗ [Hacker News] BugMeNot has closed
+     ✗ [Hacker News] Carnegie Mellon is putting computer science course
+     ✗ [Hacker News] Technical issue at JPMorgan Chase triggers online 
+     ✗ [Hacker News] Jiff 1.0: A datetime library for Rust
+     ✗ [Hacker News] Frame – 31.5" color ePaper display
 
-② 去重: 125 → 102 条 (同批合并 0, 跨天历史去重 23)
+② 去重: 134 → 113 条 (同批合并 0, 跨天历史去重 21)
    跨天去重(此前已发过，跳过):
+     ⏭️  [GitHub Trending] ag-ui-protocol/ag-ui
      ⏭️  [GitHub Trending] backnotprop/plannotator
+     ⏭️  [GitHub Trending] tradermonty/claude-trading-skills
+     ⏭️  [GitHub Trending] google-labs-code/stitch-skills
+     ⏭️  [GitHub Trending] NVIDIA/SkillEvaluator
      ⏭️  [GitHub Trending] ChromeDevTools/chrome-devtools-mcp
-     ⏭️  [GitHub Trending] Tencent/LoopForge
-     ⏭️  [Orca] Orca Mobile Android mobile-android-v0.0.65
-     ⏭️  [Orca] Orca Mobile Android android-v0.0.65
-     ⏭️  [Orca] 1.4.259
-     ⏭️  [Orca] 1.4.258
-     ⏭️  [Claude Code] v2.1.325
+     ⏭️  [Orca] v1.4.261
+     ⏭️  [Orca] v1.4.260
    (本批无跨源重复标题)
 
 ③ 分类分布:
    【AI 板块】
-     - 模型与研究: 67 条 (含🔧开源 19)
-     - 观点与好文: 2 条
-     - Agent 工具链: 7 条 (含🔧开源 4)
-     - Agent & Skill: 9 条 (含🔧开源 4)
-     - AI 工程落地: 5 条 (含🔧开源 1)
-     - 安全与治理: 3 条 (含🔧开源 1)
-     - 产品与商业: 6 条
-     - 沙箱与运行时: 1 条
+     - 模型与研究: 75 条 (含🔧开源 19)
+     - 产品与商业: 8 条
+     - Agent & Skill: 14 条 (含🔧开源 4)
+     - 观点与好文: 1 条
+     - Agent 工具链: 4 条 (含🔧开源 2)
+     - AI 工程落地: 5 条
+     - 沙箱与运行时: 3 条
+     - 安全与治理: 1 条
      - 平台政策与风控: 1 条
    【基础设施】
      - K8s × AI: 1 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
+     🔥 [19分] The King’s Trust and OpenAI launch £1m partnership
+        源:OpenAI News 类:产品与商业 跨源:[]
      🔥 [19分] Anthropic launches roadshow for proposed initial public
         源:Anthropic News 类:产品与商业 跨源:[]
-     🔥 [16分] A step toward defining the Standard Model on a lattice
-        源:OpenAI News 类:模型与研究 跨源:[]
 
    打分Top5(参考):
+      19分 [OpenAI News ] The King’s Trust and OpenAI launch £1m partne
       19分 [Anthropic News] Anthropic launches roadshow for proposed init
+      16分 [OpenAI News ] Our first phase of embedded assessments
+      16分 [OpenAI News ] At Holiday Extras, dots get to work before an
       16分 [OpenAI News ] A step toward defining the Standard Model on 
-      16分 [OpenAI News ] Our new blog for science
-      16分 [Anthropic News] Expanding our partnership with GSA to bring C
-      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 

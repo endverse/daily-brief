@@ -1,0 +1,258 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 057 (2026-11-17)."""
+import json, sys
+
+PROC = json.load(open("processed.json"))
+PROC_URLS = {i["url"] for i in PROC}
+DATE_LABEL = "2026 年 11 月 17 日 · 星期二"
+ISSUE = 57
+
+def U(frag):
+    """Return the ORIGINAL processed.json URL whose path contains frag."""
+    hits = [i["url"] for i in PROC if frag in i["url"]]
+    if len(hits) != 1:
+        raise SystemExit(f"URL lookup failed for {frag}: {len(hits)} hits -> {hits[:4]}")
+    return hits[0]
+
+def item(title, frag, summary, detail, source=None, tag=None, oss=False, note=None):
+    url = U(frag)
+    assert url in PROC_URLS, url
+    assert title and title.strip(), "empty title"
+    assert summary and summary.strip(), "empty summary"
+    assert isinstance(detail, list) and len(detail) == 3, title
+    src = source
+    if src is None:
+        src = next(i.get("source") for i in PROC if i["url"] == url)
+    d = {"title": title, "url": url, "summary": summary, "detail": detail, "source": src}
+    if tag:
+        d["tag"] = tag
+    d["oss"] = bool(oss)
+    if note:
+        d["note"] = note
+    return d
+
+HINT = "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回"
+
+# ---------------- 🔥 highlights ----------------
+hl1 = item(
+    "Qwen4-Max：2.4T 总参数只激活 71B，Terminal-Bench 4.0 从 38.9 提到 48.5，单任务费用降 58%",
+    "qbitai.com/2026/11/510486",
+    "阿里 11 月 16 日发布下一代基座模型 Qwen4-Max：总参数 2.4T、MoE 稀疏激活 71B、原生视觉、百万上下文，架构基于自研 QSA（Qwen 稀疏注意力），每个 token 的激活参数比上代少 25%。官方给出的能力数字集中在 agent 与编程：Terminal-Bench 4.0 同为 Xhigh 思考档时从 Qwen3.8-Max 的 38.9 提到 48.5（+25%），每次尝试的平均 token 从 289K 降到 151K；CodeArena 前端盲测全球第 6（夹在 GPT-6 Astra 与 Claude Fable 5.1 之间），Agents' Last Exam 46.7（+18.8 分），JobBench 68.5（超过 GPT-6.1 Sol、次于 Claude Opus 5.5）。价格侧：API 缓存命中 0.5 元/百万 tokens，官方口径单任务平均费用比上代降 58%——这与 token 消耗降近一半、缓存命中价格下调直接相关。落地案例给得比较具体：汽车制造把单个工件加工编程的人工用时从 475 分钟压到 24 分钟（-95%）；金融投研调 90 个 MCP 工具产出 Excel 底稿与 PPT 并做双重溯源；材料发现连续自主运行 48 小时，从 270 万候选分子中经 4 轮「设计—合成—测试」真实合成出一种新型冷却液；药物发现做 454 次工具调用、3239 项计算评估，优选分子的名义结合亲和力比起点提升约 3.6 倍。目前已在千问平台提供 API，Qoder、千问办公、千问 APP 可直接体验，中小尺寸型号将陆续开源，官方预告 Qwen4.5/Qwen5 会扩到 5–10T 参数。",
+    [
+        {"key": "能做什么", "value": "2.4T/71B 激活的稀疏 MoE + 百万上下文 + 原生视觉，重点强化长周期 agent 任务与编程：Live Delivery 机制先交可用首版再按反馈逐版扩展（物理课堂网站案例交付 14 个可用版本）；能用运筹建模自主编排 agent 闭环优化系统——官方称在数据标注场景把模型成本降 10%、CPU 离线重调度最优求解速度提升 14 倍以上。"},
+        {"key": "解决什么痛点", "value": "前沿模型跑长任务时 token 消耗与成本随步数线性上涨，Xhigh 档尤其明显；Qwen4-Max 把每次尝试的 token 从 289K 压到 151K、缓存命中价降到 0.5 元/百万 tokens，等于把「多轮试错」的边际成本砍掉一半以上，这对本地 agent 跑批、夜间长任务这类场景是直接的钱。"},
+        {"key": "值不值得", "value": "值得先用 API 验证两件事：一是 Terminal-Bench/ALE 的提升在自家工具链上是否复现（官方榜与自测常有落差），二是缓存命中 0.5 元的计费在你实际 prompt 结构下能拿到多少命中率。限制是重头能力（2.4T 级）只能走 API，开源要等中小尺寸；另外它没公布在私有化/国产卡上的部署方案，短期内取代自建推理不现实。"},
+    ],
+    tag="模型发布",
+    note="2.4T 总参 / 71B 激活；百万上下文 + 原生视觉；Terminal-Bench 4.0 48.5（上代 38.9）、单次尝试 token 289K→151K；CodeArena 前端第 6、ALE 46.7、JobBench 68.5；API 缓存命中 0.5 元/百万 tokens，单任务费用 -58%；中小尺寸后续开源。",
+)
+
+hl2 = item(
+    "DigitalOcean Managed Agents 公测：microVM 里跑 Claude Code/Codex/OpenCode，空闲自动暂停、会话可 fork",
+    "infoq.cn/article/LjVeWVAsBWwaiifdMRiu",
+    "DigitalOcean 开放 Managed Agents 公开预览，把 agent 托管拆成两个组件：Harness Runtime 与 Action Gateway。Harness Runtime 建在轻量 microVM 上，为受支持的 harness 提供持久化、隔离的执行环境，覆盖 Claude Code、Codex CLI、OpenCode 等编码 agent、Hermes 这类通用 agent，以及用 LangGraph 构建的自定义 agent；会话的对话历史与工作状态跨会话持久化，可暂停、恢复与 fork，当没有进行中的 LLM 调用或工具调用时会自动暂停。Action Gateway 是 agent 访问外部工具的入口，用一个统一 MCP 端点暴露 16000+ 工具（网页搜索、抓取、浏览器自动化、DigitalOcean 基础设施 API，以及 GitHub/HubSpot/Stripe 等连接器），提供集中式权限划定、敏感操作强制人工审批，以及限流、重试、退避与超时。安全侧每个会话跑在加固的计算与存储上，允许连内部服务而不暴露公网；会话可跨仓库与任务并行启动以支持分治与 map/reduce。评论里被点出的价值是「空闲即暂停 + 受治理的工具」才是能规模化的运维模式，且定价低于同类 agent 托管平台；与同期 Docker Cloud Sandboxes 相比，它更偏生产基础设施而非开发者本地工作流。",
+    [
+        {"key": "能做什么", "value": "microVM 隔离 + 会话持久化/暂停/恢复/fork + 空闲自动挂起；一个 MCP 端点聚合 16000+ 工具并做集中权限与人工审批；支持 Claude Code、Codex CLI、OpenCode、Hermes、LangGraph 五类 harness，可多会话跨仓库并行。"},
+        {"key": "解决什么痛点", "value": "正是「沙箱一直 running 白烧钱」那类问题：官方把空闲暂停做进运行时默认行为，而不是靠外部编排去猜；同时把工具授权从散落的 token 与防火墙规则收进网关，解决多用户共享一套 agent 平台时的权限与审计问题。"},
+        {"key": "值不值得", "value": "值得当作 Daytona 的对照方案实测一轮：重点量三项——空闲暂停的判定延迟与冷启动恢复时间、fork 会话的隔离强度（是否共享同机内核/文件系统）、以及 16000 工具网关的权限模型能否映射到公司现有的账号体系。限制是公开预览、区域与合规信息未公布，金融场景的审计与数据驻留要求还得自己核。"},
+    ],
+    tag="agent 运行时",
+    note="Harness Runtime 跑轻量 microVM，支持 Claude Code/Codex CLI/OpenCode/Hermes/LangGraph；会话可暂停、恢复、fork，空闲自动挂起；Action Gateway 用统一 MCP 端点提供 16000+ 工具，集中权限 + 敏感操作人工审批 + 限流重试退避；公开预览。",
+)
+
+# ---------------- AI 板块 ----------------
+sec_ai = {"label": "🤖 AI 板块", "categories": []}
+
+c_model = {"label": "模型与研究", "title": "模型与研究", "emoji": "🧠", "items": [
+    item(
+        "MIRIX-2.0：多 agent 记忆系统在 LoCoMo 拿到 91.4%，LongMemEval-S 领先最强基线 14.3 分",
+        "2611.12068",
+        "MIRIX-2.0 用六个类型化记忆 agent 把情景与语义记录都留成 system of record，再用溯源超图以 n 元 frame 索引并回指原始行，检索在显式预算下运行，所以回答所检查的证据量不随历史长度增长。效果上它在五个 QA 基准的四个里最准：LoCoMo 91.4%、LongMemEval-S 72.6%，后者领先最强基线 14.3 分；关掉 AutoDream 后在单跳/多跳文档 QA 上分别比 HyperMem 高 31.0 与 22.0 分。作为程序性记忆，它在 ALFWorld 与 WebShop 上平均成功率最高，MetaClaw-Bench 拿到 49.2%（MetaClaw 技能库为 44.0%）；AutoDream 在写路径之外合并重复锚点、不重写任何记录，并把任务会话蒸馏成 skill。无需微调，闭源与开源模型都能跑。",
+        [
+            {"key": "能做什么", "value": "六类记忆 agent 分工保留完整记录，溯源超图做 n 元 frame 索引与行级回指，检索有显式预算上限；AutoDream 负责去重与把会话蒸馏成可复用 skill，写路径之外完成、不改原记录。"},
+            {"key": "解决什么痛点", "value": "长期记忆的三角矛盾：参数化记忆要训练、摘要式压缩会永久丢细节、全量保留则检索面越滚越大。它用「完整记录 + 预算化检索」绕开压缩损失，同时把上下文开销钉住。"},
+            {"key": "值不值得", "value": "如果自建 agent 平台要给多用户做长期记忆，这套的分层（情景/语义/程序性）与预算化检索设计值得参考；但它仍是论文级系统，工程化落地要自己补存储与并发。对纯 K8s 侧工作没有直接关系。"},
+        ],
+        tag="论文", source="HuggingFace Papers",
+    ),
+]}
+
+c_skill = {"label": "Agent & Skill", "title": "Agent & Skill", "emoji": "🧩", "items": [
+    item(
+        "WebArena-Pro：20 个自托管 web 应用 300 个任务，同一模型换 harness 从 30.3% 跳到 62.3%",
+        "2611.17955",
+        "WebArena-Pro 补的是现有 web agent 基准的覆盖缺陷：300 个任务、20 个自托管 web 应用、6 个领域类别，把音频与视频也当成核心观测模态与文本、视觉并列，而不再只测文本和截图。成绩分布很能说明 harness 的权重：Codex 配 GPT-6.1 Sol 与 Claude Code 配 Claude Opus 5.5 并列 62.3%，OpenCode 配 Kimi 3.1 Pro 60.7%，而最强的 GenericAgent 配置（Gemini 3.1 Pro omni、Gemma4 31B）只有 30.3%——同一批模型，套不同 agent 外壳差了整整一倍。它同时解决了 live benchmark 不可复现的问题（自托管、页面不漂移），代价是应用集固定、覆盖面不如真实互联网。",
+        [
+            {"key": "能做什么", "value": "300 任务 / 20 个自托管应用 / 6 类领域，音频与视频作为一等观测模态；可复现地横向比较「模型 + harness」组合，而不只是模型能力。"},
+            {"key": "解决什么痛点", "value": "选 agent 工具链时只能看厂商 demo 或不可复现的 live 榜单；这个基准把 harness 的贡献单独暴露出来（62.3% vs 30.3%），让「换壳」这件事第一次有量化依据。"},
+            {"key": "值不值得", "value": "值得拿来当内部选型的评测脚手架：20 个自托管应用的部署方式可复用，能改成自家业务页面跑。注意它测的是浏览器类任务，不能外推到终端里跑代码的 coding agent。"},
+        ],
+        tag="基准", source="HuggingFace Papers",
+    ),
+    item(
+        "14.3 万条执行轨迹的实证：解出率相同的 coding agent，行为方式可以完全不同",
+        "2611.17440",
+        "这篇论文分析了 125 种 agent 配置、117 个模型产生的 143,209 条执行轨迹，用一个规则解析器把原始 trace 映射成仓库搜索、文件编辑、测试执行等高层动作，并在 500 个事件上与六模型共识结果做对齐审计。核心发现是：解出率相近的 agent，在「怎么探索、怎么改、怎么验证」上差异很大，仅看通过率会把完全不同的工作方式当成同一水平。更有意思的是，不用任务结果、token 数或工具名做特征，光靠聚合行为画像就能在不相交的仓库集与编程语言上认出对应的 agent stack；scaffold 的选择与 reasoning effort 会系统性改变搜索、编辑、测试三类行为。作者放出了确定性解析器、完整标注与分析管线，以及一份标注过的轨迹子集。",
+        [
+            {"key": "能做什么", "value": "提供可复现的 trace→高层动作解析器与行为画像方法，能在不看结果指标的前提下识别 agent stack，量化 scaffold 与 reasoning effort 对行为的影响。"},
+            {"key": "解决什么痛点", "value": "评测只看 pass rate 时，无法解释「为什么这个 agent 便宜/快/稳」；行为画像把过程变成可比较的量，便于在换模型、换外壳时定位退化的环节。"},
+            {"key": "值不值得", "value": "对要给团队定 agent 规范的人价值高——它给的是「怎么衡量 agent 工作方式」的方法论，可以直接套到自己采集的会话日志上。纯做基础设施的话可只读结论段。"},
+        ],
+        tag="论文", source="HuggingFace Papers",
+    ),
+]}
+
+c_tool = {"label": "Agent 工具链", "title": "Agent 工具链", "emoji": "🧭", "items": [
+    item(
+        "Claude Code 2.1.326：agent teams 开启时默认进入 Code Mode，权限规则写错会在启动时就告警",
+        "claude-code/releases/tag/v2.1.326",
+        "2.1.326 最实质的变化是 Code Mode 与 agent teams 打通：已经打开 Code Mode 的会话，在启用 teams 之后默认从 Code Mode 起步——Claude 写 JavaScript 批量调工具，而不是一次一个 tool call，这对多 agent 并行时的工具往返开销是直接削减。其次是权限与可观测性：启动时会对 --allowedTools、--disallowedTools、--tools 里不像完整规则的条目告警（过去这类笔误会让规则静默失效）；/status 新增一行，说明是 provider 还是 DISABLE_TELEMETRY 这类环境变量关掉了哪些功能；新增 OTEL_RESOURCE_INCLUDE_HOST，可把 host.name/host.id 塞进 OpenTelemetry 资源属性（默认关）。修复项里几条值得注意：cp 只在源文件被 Edit deny 规则覆盖时被误拒；后台会话在崩溃/换目录重开后丢失 shell 导出的 LLM 网关，现在会在任何模型请求前停下；settings 文件嵌套数千层会导致崩溃或半应用，现在超过 64 层直接丢弃并告警。",
+        [
+            {"key": "能做什么", "value": "Code Mode 在 agent teams 场景默认生效（JS 批量调工具替代串行 tool call）；启动期校验权限规则写法；/status 显示被环境变量或 provider 关掉的功能；OTEL 资源属性可带主机名/主机 id。"},
+            {"key": "解决什么痛点", "value": "多 agent 并行时串行工具调用的往返延迟是主要开销；权限规则写错却静默失效则是安全事故的常见来源，现在前置告警。后台会话丢网关、settings 深嵌套崩溃属于长期低频高痛的坑。"},
+            {"key": "值不值得", "value": "如果你已经在用 agent teams，这次升级值得跟（Code Mode 默认开、省往返）；如果只用单会话，收益主要是那批稳定性修复。注意 Code Mode 默认开启意味着要重新验证一遍权限边界，因为工具调用形态从单次变成脚本批处理。"},
+        ],
+        tag="版本更新", source="GitHub Releases",
+    ),
+]}
+
+c_sandbox = {"label": "沙箱与运行时", "title": "沙箱与运行时", "emoji": "🏖️", "items": [
+    item(
+        "Docker 把 Sandbox Kit 捐给 CNCF：把 agent 的权限申请打包成普通 OCI 镜像",
+        "infoq.cn/article/yV89L6iMCqSLDHeSoLxo",
+        "Docker 将 Sandbox Kit 规范捐给 CNCF，采用 Apache 2.0、已升到 v3：一个智能体、它使用的工具，以及一份类型化声明的 hosts/credentials/volumes 清单，被打包成一个普通 OCI 镜像。v3 里 Kit 不再是独立构件类型——没有自定义 media type、没有附属边车文件，manifest 里只有一条声明 vnd.docker.sandbox.kit.descriptor，所以它能被 docker buildx build 构建、docker pull 拉取、被扫描与签名，也能出现在 FROM 里；固定 digest 就等于把内容与权限一起固定。声明本身是版本化能力，如 com.docker.sandbox/network-policy@2、com.docker.sandbox/credential@1，示例中允许访问 api.github.com 但拒绝对 /repos/** 的 DELETE，因为 deny 优先于 allow；凭证可由 proxy 托管，真实令牌注入到发往指定域名的请求上，沙箱内只留哨兵值。Kit 只是「申请」，最终由 host 裁定：缺少符合规范的运行时这条注解就无效，必需申请无法满足时启动直接拒绝；多个 mixin overlay 按 provides/requires 依赖图排序而非命令行顺序，重叠声明做协调（网络规则取并集、不兼容即报错）。描述符还能归约为规范化授权集合，运行时可以据此拦住任何扩大权限的新版本（包括删掉 deny 规则的那种），规范附带 Kit 与运行时两套一致性测试。Docker Sandboxes（独立内核 microVM）是第一个合规运行时，AWS、Box、Datadog、Dynatrace、JFrog、NanoClaw、OpenClaw、Palo Alto Networks、Snyk 参与做 Kits；CNCF 尚未说明纳入哪个孵化层级。",
+        [
+            {"key": "能做什么", "value": "把「agent + 工具 + 权限申请」变成一个可签名、可扫描、可按 digest 固定的 OCI 工件；权限用版本化 capability 声明（network-policy@2、credential@1），deny 优先于 allow，凭证以哨兵值形式进沙箱、真实令牌由 proxy 注入。"},
+            {"key": "解决什么痛点", "value": "agent 的授权现在散落在 shell 历史、控制台看板和人的记忆里（bind mount、过宽 token、放开防火墙），没有可审阅的工件，也没法做权限变更门控。Kit 把这块变成镜像层的东西，可以进 registry 走现有扫描与签名链路。"},
+            {"key": "值不值得", "value": "如果公司要给多用户 agent 平台做权限基线，这套规范是最接近「可落地标准」的东西，值得读 docker/sandbox-kit-spec 与 sbx CLI 示例。但要注意：权限执行完全取决于运行时，目前只有 Docker Sandboxes 一个实现，跨运行时可移植性未经验证；描述符语法与每个 capability 的语义都是全新的，学习成本不为零。"},
+        ],
+        tag="标准/规范", source="InfoQ中国",
+    ),
+    item(
+        "AWS Nitro Sandboxes：EKS pod / ECS task 各自拿到独立 VM 边界，共享同一台 EC2",
+        "aws-weekly-roundup-aws-nitro-sandboxes",
+        "AWS 推出 Nitro Sandboxes，让 EKS pod 或 ECS task 拥有自己的 VM 边界，同时仍共享一台 EC2 实例。它有两种模式：isolated 把工作负载与邻居隔开，confidential 在此基础上增加对节点运维者的防护与密码学远程证明。官方点名的场景是多租户工作负载、构建任务，以及执行生成代码的 agent——正好是「同一节点上跑别人的代码」这类需求的硬件级答案。受支持的实例上不额外收费，EC2 与 EKS Auto Mode / ECS Managed Instances 的费用照收。同一周的 AWS Emulator 也 GA：把 AWS CLI/SDK 指向本地 HTTPS 端点即可跑 API 调用，不需要账号、无服务费，未实现的调用返回 501，且不复现 IAM 与资源策略、跨账号跨区域行为，所以真实权限仍要在云上验。",
+        [
+            {"key": "能做什么", "value": "在共享 EC2 实例上给单个 EKS pod / ECS task 划出 VM 级隔离，isolated 与 confidential 两档（后者含防节点运维者与远程证明）；同批还有 AWS Emulator 提供本地 AWS API 仿真。"},
+            {"key": "解决什么痛点", "value": "K8s 上跑不可信代码（多租户 agent、CI 构建）目前靠 gVisor/Kata 或整节点独占；pod 级 VM 边界让隔离粒度变细而不必一 pod 一节点，省机器。Emulator 则解决 agent 反复调云 API 时的额度与脏数据问题。"},
+            {"key": "值不值得", "value": "对「多租户跑 agent 生成代码」是最直接的一块拼图，值得看 Compute Blog 的两种模式对比，重点确认：支持的实例族与地域、confidential 模式的性能折损、以及和现有 RuntimeClass（gVisor/Kata）能否共存。代价是锁定在 AWS 且依赖特定实例，跨云方案仍要另找。"},
+        ],
+        tag="隔离运行时", source="AWS News",
+    ),
+]}
+
+c_eng = {"label": "AI 工程落地", "title": "AI 工程落地", "emoji": "🛠️", "items": [
+    item(
+        "AI 写得快，谁来接住生产责任：三道工程鸿沟与「3 秒交付、按活跃时间计费」的数据库解法",
+        "infoq.cn/article/sIqEVPmL3P9PExLjPzPW",
+        "腾讯云 PG 技术专家黄辉在 DBTalk 成都站把「AI 几分钟写完 demo，之后呢」拆成三道鸿沟：成本结构（传统数据库固定规格长期计费，而 AI 应用负载波动大，兜底高峰就等于长期为闲置付费）、资源供给（传统应用上线前有数周到数月评估期，AI 应用等不起，最快的云数据库创建也要几分钟，在 WorkBuddy 这类平台上光等数据库就位就要十几分钟）、运行治理（身份认证、权限隔离、数据保护、容灾在 demo 阶段都不需要，生产环境一样不能少）。解法思路统一：把本该人盯的责任写进系统默认行为。计费单位从「固定规格 × 时长」换成按活跃时间片计算的 CU（1 核 2G 每小时、精确到分钟，无请求不产生计算费用）；预置一批初始化完成的实例进资源池，请求到来直接分配，交付从行业常见的 5 分钟级压到 3 秒内（约 100 倍提速）；权限对标 Supabase 范式，把 PostgreSQL Schema 当 API 契约，分匿名/登录/高权限三角色，用 RLS 把读写绑在 tenant_id 上，应用层漏写 WHERE 也会被数据库拦下。Serverless 池的隔离拆三层（路由只到自己的实例、连接权限不属他人、Schema 与对象权限严格隔离），实例回收入池前必须校验无旧路由、无旧连接、无旧授权，否则旧凭证可能重新访问到已回收数据；同一套隔离思路延伸到 agent 场景，用 Branch 与沙箱让 AI 先在隔离环境验证再碰生产数据。",
+        [
+            {"key": "能做什么", "value": "把 AI 应用的后端交付做成「按活跃时间片计费 + 预置实例池秒级交付 + 三角色 RLS 租户隔离 + Serverless 三层隔离与回收校验」，并给出可复制的 RLS 策略写法。"},
+            {"key": "解决什么痛点", "value": "AI 生成的 demo 上线时才暴露的问题：没人算过用户量与权限模型、突发流量没限流、误操作没恢复、为峰值买的规格平时闲置；以及 agent 直接连生产库试错的风险。"},
+            {"key": "值不值得", "value": "这套「把责任写进默认行为」的框架值得对照自家平台过一遍，尤其是实例回池前的三重校验与 RLS 兜底思路——做 agent 平台的隔离时可以直接借用。但它是单一厂商的 PG 托管方案，具体能力要在腾讯云上才有，跨云要自己找等价物。"},
+        ],
+        tag="实践/案例", source="InfoQ中国",
+    ),
+    item(
+        "OpenAI 客户案例：Holiday Extras 的 dots 不等指令就交上线报告、标出人容易漏的问题",
+        "holiday-extras-dots",
+        "OpenAI 发布旅行附加服务商 Holiday Extras 的客户案例：其 dots 助手会在没人要求的情况下交付上线报告、标出人可能忽略的问题，并在通勤路上把当天会议过一遍。这类「主动型」agent 的价值不在单次问答质量，而在于把例行检查从人的待办里挪走；但主动触发意味着要处理误报与打扰成本，案例本身没有给出准确率或节省工时的数字。",
+        [
+            {"key": "能做什么", "value": "由 agent 主动发起：定期产出上线报告、扫描异常并提示、在会前做背景与议题准备，而不是等人提问。"},
+            {"key": "解决什么痛点", "value": "例行检查与信息同步占用工程师的注意力，且容易被漏；主动推送把「想起来才做」变成默认发生。"},
+            {"key": "值不值得", "value": "值得借它想清楚自家 agent 的触发策略（事件驱动 vs 定时 vs 人在环），但案例没给量化结果，不宜据此判断 ROI；主动推送要先设计降噪与确认机制，否则很快被静音。"},
+        ],
+        tag="客户案例", source="OpenAI News",
+    ),
+]}
+
+c_biz = {"label": "产品与商业", "title": "产品与商业", "emoji": "📊", "items": [
+    item(
+        "LVMH 媒体部门与 OpenAI 达成战略合作",
+        "lvmh-media-division-partnership",
+        "LVMH 的媒体部门宣布与 OpenAI 建立战略合作，方向集中在内容与营销侧（官方公告未披露具体投入金额与技术细节）。这类奢侈品牌合作通常先落在创意素材生成与投放优化，对工程侧的参考价值有限，更多是观察大模型商业化在品牌预算里的位置。",
+        [
+            {"key": "能做什么", "value": "把生成式 AI 接进品牌的内容生产与投放流程（官方公告层面仅披露合作框架，未给技术细节）。"},
+            {"key": "解决什么痛点", "value": "大规模多市场、多语种素材的生产与本地化成本。"},
+            {"key": "值不值得", "value": "对基础设施与 agent 工程没有直接可借鉴内容，属于行业动向；除非关注品牌方如何采购模型能力，否则可跳过。"},
+        ],
+        tag="合作", source="OpenAI News",
+    ),
+]}
+
+c_sec = {"label": "安全与治理", "title": "安全与治理", "emoji": "🛡️", "items": [
+    item(
+        "GTIG：攻击方已把多 agent 框架用于多阶段入侵，并用 LLM 差分分析把 n-day 武器化",
+        "agentic-threat-activity-crosses-a-significant-threshold",
+        "Google Threat Intelligence Group 与 Mandiant 的季度更新判断 agentic 威胁跨过了阈值：攻击方不再停留在手动 prompt，而是部署自主多 agent 进攻框架（ARTEX、CAIRN、CyberStrikeAI、PentAGI）执行多阶段入侵。第二类趋势是用 LLM 对补丁做差分分析、自动逆向，从而快速把 n-day 变成可利用的武器，并针对互联网暴露服务扩张利用流水线。变现侧，LLMJacking 仍是主流——从被入侵的企业环境偷 LLM 凭证与云资源，再通过 LLM Mixers 之类的地下代理转卖高性能模型访问。此外还观察到通过篡改自主 coding assistant 的配置，在本地执行时植入后门这类供应链新手法。",
+        [
+            {"key": "能做什么", "value": "给出四类可观测的对抗模式：自主多 agent 入侵框架、LLM 驱动的补丁差分与 n-day 武器化、LLMJacking 凭证窃取转卖、以及篡改 coding assistant 配置植后门。"},
+            {"key": "解决什么痛点", "value": "内部跑 agent 的平台通常只防模型被滥用，不防 agent 自己成为攻击载荷；这份报告把「agent 作为攻击面」的具体手法列了出来。"},
+            {"key": "值不值得", "value": "值得把「coding assistant 配置文件/插件来源」纳入供应链管控清单，并检查 LLM 凭证的存放与轮换策略。报告是威胁情报视角，没有给出检测规则，落地要自己映射到现有 SIEM。"},
+        ],
+        tag="威胁情报", source="Google Cloud",
+    ),
+]}
+
+sec_ai["categories"] = [c_model, c_skill, c_tool, c_sandbox, c_eng, c_biz, c_sec]
+
+# ---------------- 基础设施板块 ----------------
+sec_infra = {"label": "☸️ 基础设施板块", "categories": [
+    {"label": "K8s × AI", "title": "K8s × AI", "emoji": "🤖☸️", "items": [
+        item(
+            "Kubeflow Trainer v2.4.0：workload-aware scheduling 落地第一阶，MPI 插件改环境变量属破坏性变更",
+            "kubeflow/trainer/releases/tag/v2.4.0",
+            "v2.4.0 把 KEP-3015 的 Workload-Aware Scheduling 第一阶段做进 TrainJob API——训练作业可以把排队与放置交给外部队列/调度器（如 Kueue 一类），而不是各自抢资源。破坏性变更里最需要注意 MPI：插件改用 PRTE_MCA_* 环境变量，升级前创建且处于 suspend 状态的 MPI TrainJob（DeepSpeed、MLX 等）在升级后无法恢复，因为新变量加不到已存在的不可变 JobSet 上，官方建议等在跑的作业结束再升级、或升级后重建受影响的 TrainJob。其余变更包括 ReplicatedJob 名称长度限制到 20 字符、Helm 卸载保留 CRD、MPI launcher 与节点上的 TrainJob 镜像设置方式调整。",
+            [
+                {"key": "能做什么", "value": "TrainJob 接入外部 workload 调度（KEP-3015 第一阶段），训练作业的排队与配额交由集群级调度器统一裁决；同时修了 MPI 与 Open MPI 5 的兼容。"},
+                {"key": "解决什么痛点", "value": "训练作业与推理/在线业务抢 GPU 时，Kubeflow 自己不做全局配额，容易出现整批作业挂起或抢占失控；交给 Kueue 这类调度器统一排队是当前主流做法。"},
+                {"key": "值不值得", "value": "要在集群里跑多租户训练才值得跟；升级前务必先清空 suspend 的 MPI 作业，否则会卡死。若还没上 Trainer，可只记 KEP-3015 这个方向。"},
+            ],
+            tag="版本更新", oss=True,
+        ),
+    ]},
+    {"label": "K8s 核心技术", "title": "K8s 核心技术", "emoji": "☸️", "items": [
+        item(
+            "Istio 1.32.0：delta xDS 内存不再随重连累积，headless TCP 服务可只生成一个 wildcard listener",
+            "istio.io/latest/news/releases/1.32.x",
+            "1.32 的性能改动集中在 xDS 与 sidecar 生成路径。delta xDS 侧修了两处内存增长：wildcard WDS 订阅不再把后续请求的资源名累积下来，重连时发送的 initial_resource_versions map 会在生成响应前释放（对不使用它的类型）。headless TCP 服务新增可选优化：不再为每个 pod IP 建一个 listener，而是生成单个 wildcard 0.0.0.0:Port listener 加 per-pod /32 CIDR filter chain，显著减少大 StatefulSet 场景下的 listener 数量与 xDS 载荷，需在 istiod 上设 PILOT_ENABLE_HEADLESS_FILTER_CHAIN_LISTENER=true 开启（默认关）。功能侧，DestinationRule.OutlierDetection 新增 outlierDetectionHttpErrorCodes，可指定哪些 HTTP 状态码计入 consecutive5xxErrors/consecutiveGatewayErrors 的驱逐阈值；RDS 缓存键改为「可能影响路由的 DestinationRule 保守超集」，命中率与推送次数之间做了一次取舍（正确性不变，但带通配 host 的无关 DestinationRule 变更可能多触发一次失效）。OpenShift platform profile 默认 global.nativeNftables=true。",
+            [
+                {"key": "能做什么", "value": "delta xDS 内存修复、headless TCP 单 listener 优化（大 StatefulSet 场景）、离群检测支持自定义 HTTP 错误码、RDS 缓存键更保守；OpenShift 默认开 nativeNftables。"},
+                {"key": "解决什么痛点", "value": "控制面长跑后内存随重连上涨、大 headless 服务的 xDS 载荷膨胀，都是规模上去才暴露的运维痛点；HTTP 错误码粒度的离群检测则解决了「4xx 被当 5xx 驱逐」的误伤。"},
+                {"key": "值不值得", "value": "如果集群里 sidecar 数上千或有大量 headless StatefulSet，这个版本值得排升级窗口（单 listener 优化默认关，要先在灰度环境验证 filter chain 行为）。纯 ambient 用户收益主要在控制面内存侧。"},
+            ],
+            tag="版本更新",
+        ),
+    ]},
+]}
+
+# ---------------- flash ----------------
+flash = [
+    {"title": "mvanhorn/last30days-skill：跨 Reddit/X/YouTube/HN/Polymarket 做主题调研再合成的 agent skill",
+     "url": U("mvanhorn/last30days-skill"), "source": "GitHub Trending"},
+    {"title": "google-research/paper-orchestra：多 agent 协作自动写 AI 论文的框架",
+     "url": U("google-research/paper-orchestra"), "source": "GitHub Trending"},
+    {"title": "Kubezilla：HPA/VPA/Cluster Autoscaler/Karpenter/KEDA 五套扩缩容机制对比",
+     "url": U("kubezilla.io"), "source": "Kubezilla"} if any("kubezilla.io" in i["url"] for i in PROC) else None,
+]
+flash = [f for f in flash if f]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": DATE_LABEL,
+    "issue": ISSUE,
+    "kicker": "第 057 期",
+    "hint": HINT,
+    "lead": "今天的主线是「agent 的运行底座开始被标准化」。Docker 把 Sandbox Kit 捐给 CNCF，用 OCI 镜像承载 agent 的权限申请；AWS 把 Nitro 的 VM 边界下放到单个 EKS pod；DigitalOcean 则把「空闲自动暂停 + 受治理的工具网关」做成了托管服务——三条消息指向同一件事：隔离与授权正在从各家的私有实现变成可声明、可审计的接口。模型侧，阿里 Qwen4-Max 用 2.4T 总参 / 71B 激活给出了一份偏 agent 与编程的成绩单，单任务成本降 58%。工具链上 Claude Code 2.1.326 让 Code Mode 在 agent teams 场景默认生效，而 WebArena-Pro 用 62.3% 对 30.3% 的差距证明：同一个模型换一套 harness，结果可以差一倍。",
+    "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+    "highlights": [hl1, hl2],
+    "sections": [sec_ai, sec_infra],
+    "flash": flash,
+}
+
+json.dump(brief, open("briefing.json", "w"), ensure_ascii=False, indent=1)
+print("written briefing.json")
+print("items:", len(brief["highlights"]) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"]), "flash:", len(flash))
+for s in brief["sections"]:
+    print(s["label"], [(c["title"], len(c["items"])) for c in s["categories"]])
