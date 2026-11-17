@@ -1,9 +1,8 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年11月16日 · 星期一(如 2026年09月19日 · 星期六)、056(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、**1. GitLab 19.5 把外部 coding agent 纳入治理：MCP 服务器 GA、会话按用户/项目记账，免费版 60 次/分钟封顶**\nGitLab 19.5（10 月 15 日发布）把智能体开发与治理做成平台核心：GitLab MCP 服务器正式可用，Claude Code、Cursor、Codex 等兼容 MCP 的工具可访问 GitLab 的工具目录，并调用 Duo Agent Platform 的智能体与工作流。管理面可以选择暴露哪些 MCP 工具集，以此压掉不必要的工具与上下文占用——文章把它称作轻量化的最小权限设计。GitLab.com 同时上了 MCP 速率限制：免费版每分钟 60 次请求，Premium/Ultimate 600 次，重连与重试同样计入。治理侧的关键变化是外部连接的智能体进入 AI 治理仪表盘：通过 GitLab CLI 接入 Claude Code、Cursor、Codex 后，组织可以记录符合条件的会话（用户、智能体、项目、时间），与 GitLab 自家智能体并列显示，审计事件还能流式送到 SIEM。另外 Duo CLI 增加自动模式（默认关闭，可按实例/群组/项目三级控制，标为 Always Deny 的工具仍被拦），/goal 命令 GA，Secrets Manager 基于 OpenBao 正式发布。\n\n**2. opencode v2.3.0 把子 agent 改成默认后台并行：spawn 即返回 session id，空闲才回报**\nopencode v2.3.0 把子 agent 的默认行为从「阻塞等待」翻了过来：spawn 后立刻返回 session id，子 agent 在后台继续跑，只在空闲时把结果报给父会话，父会话因此可以同时开多个子 agent 并行推进。这里有个容易踩的细节——如果子 agent 自己的后台任务还在跑，它报回来的状态会标明「仍在运行」，父会话会继续等最终报告，而不是把半成品当完成。TUI 默认把一段连续的工具调用与思考折叠成一行可展开的活动行，要看每一步得把 Verbosity 调到 medium/high。桌面端新增 Jump to message（Cmd+Alt+G / Ctrl+Alt+G），可跨当前会话搜索历史 prompt 并直接跳回。内核侧还加了实验性 MCP events、shell 命令可跨 server handoff 存活、超时后转后台的 shell_timeout_background 开关，以及 provider 级 mTLS 客户端证书。(🔥今日重点：有序号加粗小标题+摘要,整块)、🧠 **模型与研究** — JustRUA 把 robot-use agent 的四项设计拆开做消融：只要「保留完整 episode 历史 + 动作提前停止」的瘦 harness，RoboDojo 就从 29.7 到 50.3；Agent-R^2 用 4k 真实语料任务训 4B，GDPval 51.0% 超过 235B 的 48.0%。\n🧩 **Agent & Skill** — NVIDIA 开源 SkillEvaluator：静态质量门 + 「有/无 skill」两组实跑对比，把「skill 到底有没有用」变成 CI 门禁；另一篇论文用可采信证据判定超时动作是失败/已提交/在飞行，58 配对单元认证完成 30 vs 9。\n🧭 **Agent 工具链** — Google Labs 的 stitch-skills 涨到 9.2k 星：三包 agent 插件按 Agent Skills 标准分发，Codex/Claude Code/Cursor 一套内容通用，把设计稿到组件交给 agent。\n🏖️ **沙箱与运行时** — E2B SDK 2.64.0 支持模板声明 maxCpuCount、按沙箱选 vCPU，并可用 OAuth 头认证；Kubezilla 讲清运行时层——RuntimeClass 一行声明 gVisor/Kata，SIG Apps 的 Agent Sandbox 仍是 alpha，笔记本侧 sbx 用 microVM 跑 CLI。\n🛠️ **AI 工程落地** — Yelp 用「原生外壳 + CHAOS 服务端渲染对话区」绕开发版周期，事件里带 UI 指令；京东 11.11 把保障经验做成 5 个在京 Me 群里干活的数字人，只输出可追溯证据链。\n💡 **观点与好文** — HN 千点讨论「AI 生成的代码都该开源」：语料是开源代码与 CC 授权的 SO，闭源等于洗许可；无人类作者不可版权，建议统一以开源许可或 CC0 发布。\n🛡️ **安全与治理** — Claude-BugHunter：82 个 skill、15 个斜杠命令、681 条披露报告模式，覆盖 24 类核心漏洞与企业身份/基础设施攻击矩阵。\n🤖☸️ **K8s × AI** — 给 agent 划 K8s 地盘的四件套：PSA restricted、automountServiceAccountToken=false、默认拒绝出网只放 DNS（域名级要用 Cilium FQDN 或 egress 代理）、ResourceQuota 防死循环，另封 169.254.169.254。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 · 8 大板块 13 条精选 · 4 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-16.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026年11月16日 · 星期一 · 第056期",
+  "subtitle": "2026 年 11 月 17 日 · 星期二 · 第057期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +10,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n**1. GitLab 19.5 把外部 coding agent 纳入治理：MCP 服务器 GA、会话按用户/项目记账，免费版 60 次/分钟封顶**\nGitLab 19.5（10 月 15 日发布）把智能体开发与治理做成平台核心：GitLab MCP 服务器正式可用，Claude Code、Cursor、Codex 等兼容 MCP 的工具可访问 GitLab 的工具目录，并调用 Duo Agent Platform 的智能体与工作流。管理面可以选择暴露哪些 MCP 工具集，以此压掉不必要的工具与上下文占用——文章把它称作轻量化的最小权限设计。GitLab.com 同时上了 MCP 速率限制：免费版每分钟 60 次请求，Premium/Ultimate 600 次，重连与重试同样计入。治理侧的关键变化是外部连接的智能体进入 AI 治理仪表盘：通过 GitLab CLI 接入 Claude Code、Cursor、Codex 后，组织可以记录符合条件的会话（用户、智能体、项目、时间），与 GitLab 自家智能体并列显示，审计事件还能流式送到 SIEM。另外 Duo CLI 增加自动模式（默认关闭，可按实例/群组/项目三级控制，标为 Always Deny 的工具仍被拦），/goal 命令 GA，Secrets Manager 基于 OpenBao 正式发布。\n\n**2. opencode v2.3.0 把子 agent 改成默认后台并行：spawn 即返回 session id，空闲才回报**\nopencode v2.3.0 把子 agent 的默认行为从「阻塞等待」翻了过来：spawn 后立刻返回 session id，子 agent 在后台继续跑，只在空闲时把结果报给父会话，父会话因此可以同时开多个子 agent 并行推进。这里有个容易踩的细节——如果子 agent 自己的后台任务还在跑，它报回来的状态会标明「仍在运行」，父会话会继续等最终报告，而不是把半成品当完成。TUI 默认把一段连续的工具调用与思考折叠成一行可展开的活动行，要看每一步得把 Verbosity 调到 medium/high。桌面端新增 Jump to message（Cmd+Alt+G / Ctrl+Alt+G），可跨当前会话搜索历史 prompt 并直接跳回。内核侧还加了实验性 MCP events、shell 命令可跨 server handoff 存活、超时后转后台的 shell_timeout_background 开关，以及 provider 级 mTLS 客户端证书。"
+   "content": "**🔥 今日重点**\n\n1. **Qwen4-Max：2.4T 总参数只激活 71B，Terminal-Bench 4.0 从 38.9 提到 48.5，单…**\n阿里 11 月 16 日发布下一代基座模型 Qwen4-Max：总参数 2.4T、MoE 稀疏激活 71B、原生视觉、百万上下文，架构基于自研 QSA（Qwen 稀疏注意力），每个 token 的激活参数比上代少 25%。官方给出的能力数字集中在 agent 与编程：Terminal-Bench 4.0 同为 Xhigh 思考档时从 Qwen3.8-Max 的 38.9 提到 48.5（+25%），每次尝试的平均 …\n\n2. **DigitalOcean Managed Agents 公测：microVM 里跑 Claude Code/Codex/O…**\nDigitalOcean 开放 Managed Agents 公开预览，把 agent 托管拆成两个组件：Harness Runtime 与 Action Gateway。Harness Runtime 建在轻量 microVM 上，为受支持的 harness 提供持久化、隔离的执行环境，覆盖 Claude Code、Codex CLI、OpenCode 等编码 agent、Hermes 这类通用 agent，以及…"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **模型与研究** — JustRUA 把 robot-use agent 的四项设计拆开做消融：只要「保留完整 episode 历史 + 动作提前停止」的瘦 harness，RoboDojo 就从 29.7 到 50.3；Agent-R^2 用 4k 真实语料任务训 4B，GDPval 51.0% 超过 235B 的 48.0%。\n🧩 **Agent & Skill** — NVIDIA 开源 SkillEvaluator：静态质量门 + 「有/无 skill」两组实跑对比，把「skill 到底有没有用」变成 CI 门禁；另一篇论文用可采信证据判定超时动作是失败/已提交/在飞行，58 配对单元认证完成 30 vs 9。\n🧭 **Agent 工具链** — Google Labs 的 stitch-skills 涨到 9.2k 星：三包 agent 插件按 Agent Skills 标准分发，Codex/Claude Code/Cursor 一套内容通用，把设计稿到组件交给 agent。\n🏖️ **沙箱与运行时** — E2B SDK 2.64.0 支持模板声明 maxCpuCount、按沙箱选 vCPU，并可用 OAuth 头认证；Kubezilla 讲清运行时层——RuntimeClass 一行声明 gVisor/Kata，SIG Apps 的 Agent Sandbox 仍是 alpha，笔记本侧 sbx 用 microVM 跑 CLI。\n🛠️ **AI 工程落地** — Yelp 用「原生外壳 + CHAOS 服务端渲染对话区」绕开发版周期，事件里带 UI 指令；京东 11.11 把保障经验做成 5 个在京 Me 群里干活的数字人，只输出可追溯证据链。\n💡 **观点与好文** — HN 千点讨论「AI 生成的代码都该开源」：语料是开源代码与 CC 授权的 SO，闭源等于洗许可；无人类作者不可版权，建议统一以开源许可或 CC0 发布。\n🛡️ **安全与治理** — Claude-BugHunter：82 个 skill、15 个斜杠命令、681 条披露报告模式，覆盖 24 类核心漏洞与企业身份/基础设施攻击矩阵。\n🤖☸️ **K8s × AI** — 给 agent 划 K8s 地盘的四件套：PSA restricted、automountServiceAccountToken=false、默认拒绝出网只放 DNS（域名级要用 Cilium FQDN 或 egress 代理）、ResourceQuota 防死循环，另封 169.254.169.254。"
+   "content": "**📌 今日看点**\n\n🧠 **模型与研究**：MIRIX-2.0：多 agent 记忆系统在 LoCoMo 拿到 91.4%，LongM…\n🧩 **Agent & Skill**：WebArena-Pro：20 个自托管 web 应用 300 个任务，同一模型换 har…\n🧭 **Agent 工具链**：Claude Code 2.1.326：agent teams 开启时默认进入 Code …\n🏖️ **沙箱与运行时**：Docker 把 Sandbox Kit 捐给 CNCF：把 agent 的权限申请打包成…\n🛠️ **AI 工程落地**：AI 写得快，谁来接住生产责任：三道工程鸿沟与「3 秒交付、按活跃时间计费」的数据库解法\n📊 **产品与商业**：LVMH 媒体部门与 OpenAI 达成战略合作\n🛡️ **安全与治理**：GTIG：攻击方已把多 agent 框架用于多阶段入侵，并用 LLM 差分分析把 n-da…\n🤖☸️ **K8s × AI**：Kubeflow Trainer v2.4.0：workload-aware schedu…\n☸️ **K8s 核心技术**：Istio 1.32.0：delta xDS 内存不再随重连累积，headless TCP…"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 · 8 大板块 13 条精选 · 4 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 9 个板块 14 条精选 + 2 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-16.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-17.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
