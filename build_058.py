@@ -1,0 +1,237 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 058 (2026-11-18). URLs are resolved from processed.json."""
+import json, os, sys
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PROC = json.load(open(os.path.join(ROOT, 'processed.json'), encoding='utf-8'))
+BYURL = {i['url']: i for i in PROC}
+
+def U(key):
+    """Resolve a processed.json URL by unique substring, return the ORIGINAL url."""
+    hits = [u for u in BYURL if key in u]
+    if len(hits) != 1:
+        sys.exit(f'URL lookup for {key!r} matched {len(hits)}: {hits}')
+    return hits[0]
+
+def S(key):
+    """Sanitized source label."""
+    return BYURL[U(key)].get('source', '')
+
+EMOJI = {
+    '模型与研究': '🧠', 'Agent & Skill': '🧩', 'Agent 工具链': '🧭', '沙箱与运行时': '🏖️',
+    'AI 工程落地': '🛠️', '平台政策与风控': '📜', '产品与商业': '📊', '观点与好文': '💡',
+    '安全与治理': '🛡️', 'K8s × AI': '🤖☸️', 'K8s 核心技术': '☸️', '云原生周边': '☁️',
+    '社区与项目': '🌱', '公有云': '☁️',
+}
+
+def item(title, key, summary, detail, tag=None, oss=False, source=None):
+    d = {"title": title, "url": U(key), "summary": summary}
+    if tag: d["tag"] = tag
+    d["source"] = source or S(key)
+    if oss: d["oss"] = True
+    d["detail"] = [{"key": k, "value": v} for k, v in detail]
+    return d
+
+# ---------------- 🔥 highlights ----------------
+highlights = [
+ item(
+  "Claude Code 团队公开验证方法论：90% 代码由 Claude 写，靠独立 grader + E2E 测试才能并行跑上百个 agent",
+  "how-the-claude-code-team-thinks-about-verification",
+  "Claude Code 团队公开内部做法：约 90% 的代码由 Claude 写与审，而能把工作大规模交给 agent 的前提是让它自己拿到验证证据——没有验证闭环时只能同时跑一两个 Claude，有了可以并行几十到上百个。"
+  "他们把测试投入集中在三类，其中端到端（E2E）最值得先做：它描述真实用户流程，难以被糊弄——要么整个功能能用要么不能，且有明确的「完成」判据；用 E2E 时最有效的是给 agent 手和眼，做成 skill 通过 CDP、模拟器或 API harness 启动并检查真实运行的系统。属性测试与差分测试用于补 E2E 覆盖不到的分支。"
+  "量化收益来自内部实验：在结构化文件生成任务上，让独立的 grader 按 rubric 核对 Claude 的产出，比标准提示循环最高提升 10 分，题目越难收益越大；原因是测试、基准、spec 这些原本昂贵的验证物现在可以廉价地让 agent 自己生成，而且生成后作为软件反复运行，几乎不再消耗 token。"
+  "验证结果还能闭环回提示层：某个测试反复失败（例如日志里出现用户数据），就写一条 hook 或更明确的 CLAUDE.md 规则把它钉住，让同类问题不再犯。文章也给失败模式：测试 flaky 会训练 agent 重跑而不是修 bug；测试太慢会让 agent 少跑、批量变小、定位变难；较重的测试应放在提交之前。",
+  [("能做什么", "三类验证（E2E / 属性 / 差分）分层投入：E2E 用 skill 驱动真实运行的系统（CDP、模拟器、API harness）并给出可判定的完成条件；独立 grader 按 rubric 打分；失败用例沉淀成 hook 或 CLAUDE.md 规则。"),
+   ("解决什么痛点", "人工全量复核 agent 产出就是并行度的天花板；单元测试可以全绿而功能已坏，因为 agent 与测试都不理解完整任务，只有端到端跑真实流程才能给出无歧义的证据。"),
+   ("值不值得", "做多用户 agent 沙箱/平台时最该抄的是「每个 agent 一个可执行的完成判据 + 独立打分器」，成本主要落在测试基建而不是 token；前提是应用能被脚本启动与检查，纯人工判断类任务拿不到同样的收益。")],
+  source="claude.dev · HN 255 分"),
+ item(
+  "AKS 把 agent-sandbox 做成托管集群扩展：Sandbox CRD 管生命周期，Kata VM 复用与 Pod 快照补上冷启动",
+  "580916",
+  "AKS 公测 Agent Sandbox 集群扩展（Microsoft.AgentSandbox）：把上游 SIG 项目 agent-sandbox 的控制器、RBAC、配置和 agent-sandbox-system 命名空间交给集群扩展托管，对外提供 Sandbox 资源的创建、挂起/恢复、模板、池（warm pool）、claim 与恢复流程。"
+  "官方文档明确划了边界：扩展本身不安装容器运行时、RuntimeClass、节点池、存储驱动、Pod 快照扩展、autoscaler 或监控 operator——扩展装成功不代表这些依赖就绪，出问题时也不能用 Helm 直升级、改 ConfigMap、打 CRD 补丁或删 finalizer 的方式「修」。"
+  "同一批还预览了两个配套件：kata-vm-isolation-v2 runtime class 改掉「每个沙箱 pod 冷启一台新 Kata VM」的老做法，用 VM 复用消除冷启动延迟与额外内存开销，隔离边界仍是每 pod 独立 guest kernel（Azure Linux + Hyper-V + Cloud Hypervisor + Kata）；Pod snapshot 集群扩展则把沙箱负载的快照/恢复做成扩展，避免重启后重跑模型加载、JVM warmup 或缓存预热。"
+  "三者合起来等于把「每会话一个隔离环境」的运行时、状态与生命周期都推到 K8s 控制面，代价是全部处于 preview，无 SLA、不保证生产可用。",
+  [("能做什么", "托管 agent-sandbox 控制器与 CRD：Sandbox 的创建/挂起/恢复、模板、池与 claim；kata-vm-isolation-v2 复用 Kata VM 降低每 pod 冷启动；Pod snapshot 扩展对裸 Pod 或 Agent Sandbox 负载做内存态快照与恢复（预览期不支持 Deployment/ReplicaSet/Job 恢复）。"),
+   ("解决什么痛点", "自建 agent 沙箱要自己拼生命周期、存储与预热逻辑，运维成本高且各家实现不一；沙箱负载重启丢内存态就得重跑初始化；每 pod 一台 Kata VM 的冷启动与内存开销在按会话创建的场景下尤其贵。"),
+   ("值不值得", "与他现在自建多用户沙箱、又在评估按会话 actor 复用+空闲挂起的路线高度重叠：值得读它的 Sandbox CRD、warm pool 与快照恢复设计作为自研或选型对照；但 preview 无 SLA、依赖件要自己装，短期只能进测试环境，不能当生产方案。")],
+  source="Azure Updates · AKS"),
+]
+
+# ---------------- sections ----------------
+def cat(name, items):
+    return {"label": name, "title": name, "emoji": EMOJI[name], "items": items}
+
+ai_section = {"label": "🤖 AI 板块", "categories": [
+ cat('模型与研究', [
+  item(
+   "GPT-6.2 Astra / Sol 发布：Astra 降到 $8/$40 且缓存 $0.40，Terminal-Bench 4.0 64.1%，Sol 单任务成本约为上代 15%",
+   "gpt62-astra-and-sol",
+   "OpenAI 发布 GPT-6.2 Astra（前沿模型，API 名 gpt-6.2-astra）与 GPT-6.2 Sol（日常模型，gpt-6.2-sol）。Astra 定价 $8/$40 每百万 token，是 GPT-6 Astra（$10/$50）的 80%，缓存命中从 $1.00 降到 $0.40，上下文约 1M；Sol 维持 $2/$10。"
+   "第三方口径：Astra 在 Terminal-Bench 4.0 上 64.1%（Gemini 4 Carbon 65.2%、GPT-6 Astra 59.1%），FrontierCode 2.0 45.4%，Vals Science Index 第一（68.44%，Terminal-Bench-Science 71.43%），Artificial Analysis 智能指数第 2；Sol 每次任务成本约为 GPT-6 Astra 的 15%。",
+   [("能做什么", "Astra 主打最难的项目（专业产出、编程、computer use），Sol 主打日常工作的性价比；两者都进了 ChatGPT Work、Codex 与 API，缓存输入降价 60% 对长跑 agent 会话最直接。"),
+    ("解决什么痛点", "前沿模型跑长任务时缓存读取与输出 token 是主要成本；Astra 把缓存价压到 $0.40/百万、总价降 20%，让「多轮 agent 循环」的单位成本下来。"),
+    ("值不值得", "做成本敏感的多 agent 平台可以把 Astra 当长任务主力、Sol 当批量执行层；但 benchmark 提升幅度不大（+5 分量级），真正的收益主要在价格与缓存，选型应先跑自己的任务集。")],
+   source="Simon Willison · OpenAI"),
+ ]),
+ cat('Agent & Skill', [
+  item(
+   "Antigravity 团队：把 agent 工作分五层，spec、计划与可执行测试必须在 loop 启动前锁定",
+   "durable-agentic-systems-with-google-antigravity",
+   "Google Antigravity 团队把交给 agent 的工作分五层：一次问答（不需要 agent，助手即可）→ 单提示可零样本完成的任务（AI Studio 快速出原型）→ 应用/功能/故事（这一层开始用 loop 执行，steering 上移到 spec、计划与可执行测试，先锁定再跑 loop）→ 项目/epic（需要超出纯对话的编排）→ 系统（写 AGENTS.md、做 skill、接 sidecar、装验证闸门、配「仪表盘」）。"
+   "核心论点是把 prompt engineering 看作已经上移到系统设计——真正的约束是模型外面的 harness，而不是模型本身；层数越高，loop 的收益越大，风险也越大。文章给出的做法集中在如何把 harness 做成可验证闭环：验证闸门（verification gates）决定哪一步必须过什么检查才能继续，instrument cluster 让人随时看到每个 loop 的状态与产物。",
+   [("能做什么", "用五档工作量分类决定「该不该上 agent/loop」，并在最高两层把工程约束固化下来：AGENTS.md 项目指令、skill、sidecar、验证闸门与状态仪表盘。"),
+    ("解决什么痛点", "单轮提示在多功能、多项目规模上会失控：没有 spec 与测试锁定，loop 跑得越久偏得越远；没有闸门与仪表盘，人无法判断几十个并行 loop 里哪个需要介入。"),
+    ("值不值得", "他在做 skill 与多 agent 编排，这套分层与「先锁 spec/测试再放 loop」的顺序可直接对照自己的实践；但文章偏方法论、缺失败案例与量化数据，落地价值取决于能否把闸门写成可执行脚本。")],
+   source="Google Cloud Blog"),
+ ]),
+ cat('Agent 工具链', [
+  item(
+   "opencode v2.3.1：命令超时改为转后台继续跑，压缩改后台写，schedules 升级成 cron/MCP 事件触发的 automations",
+   "opencode/releases/tag/v2.3.1",
+   "opencode v2.3.1 把「超时」从杀进程改成转后台：前台命令超时后不再被 kill，而是移到后台继续执行并回报结果，长构建与测试能跑完（前台 timeout: 0 现在等于默认 120 秒）。"
+   "自动压缩转为后台写摘要，临近压缩时下一个提示不用再等摘要生成；compaction.background: false 可关掉，但后台生成的摘要若没被用掉仍计 token。实验性 schedules 正式升级为 automations，可按时间、间隔、cron 或推送的 MCP 事件触发，动作可以是发提示（给创建它的会话、别的会话或新子 agent）或跑一段 Code Mode 程序自行判断要不要发。"
+   "另外把 GPT-6.2 Sol/Astra 及其 fast 变体加进 ChatGPT 登录后的模型列表，并恢复「没有 AGENTS.md 时读 CLAUDE.md」的兼容行为。",
+   [("能做什么", "长命令超时后转后台保留结果；后台压缩默认开启；automations 支持 cron/间隔/MCP 事件驱动并可选条件判断；Code Mode 下 read/websearch 返回结构化结果、Buffer 可用。"),
+    ("解决什么痛点", "构建和测试被 timeout 强杀导致结果丢失、自动压缩时下一个提示卡住、以及想定时或按事件跑 agent 却没有调度能力——三件事都是长跑 agent 的实际摩擦点。"),
+    ("值不值得", "开源、可自托管且已支持 GPT-6.2，是他评估多 agent 平台时值得对标的实现；automations 与后台压缩的设计可作为自研调度层的参照，注意后台摘要仍有 token 成本。")],
+   tag="开源", oss=True),
+  item(
+   "Orca v1.4.262：隐藏会话暂停刷新降内存，可清理已删工作区的 Claude/Codex 聊天，多账号带最近 plan 切换",
+   "orca/releases/tag/v1.4.262",
+   "Orca v1.4.262 重点解决「同时开很多会话」的资源问题：隐藏的聊天视图暂停刷新但保留草稿、阅读位置与编辑器状态，agent 继续干活；macOS/Linux 换成更轻的 UI helper 以降内存。终端 pane 会记住上次 cd 的目录并跨重启保留。"
+   "Settings → Workspace Cleanup 可删除已删工作区遗留的 Orca、Claude Code、Codex 聊天（默认关闭、开启需确认、删除不可恢复）；给保存的 Claude/Codex 账号命名并显示最近观察到的 plan，切换时 busy 的 Claude 终端会话可直接在新账号上续跑。Git blame 状态项显示光标行的作者与日期，可点开对应 commit。",
+   [("能做什么", "多会话并行时的内存与状态管理：隐藏视图暂停更新、工作区清理、账号命名与切换、行级 git blame、agent 选择卡（模型+effort/Fast 一起选）。"),
+    ("解决什么痛点", "开十几个 agent 会话后内存爆掉、切换账号要等当前任务跑完、把凭据/订阅分散在多个账号时搞不清哪个账号什么 plan。"),
+    ("值不值得", "多 agent 并行 ADE 里他对 Orca 一直是重点跟踪对象；这版没有新范式，但「隐藏会话暂停刷新」「busy 会话跨账号续跑」是他自建平台做多租户隔离时可以直接借鉴的两个点。")],
+   tag="开源", oss=True),
+  item(
+   "Claude Code v2.1.327：/status 列出坏掉的 agent/skill/command 文件，MCP 配置可从 stdin 读，远程 MCP 断线重试一天",
+   "claude-code/releases/tag/v2.1.327",
+   "Claude Code v2.1.327 是维护版，但对搭 skill 体系的人有两条实用变化：/status 新增一栏，列出坏掉的 agent、skill、command、output style 文件，以及 keybinding 错误、不可用的沙箱、被忽略的权限设置和永不匹配的 hook matcher——等于给自建 skill 仓库一个体检入口。"
+   "claude mcp add-json <name> - 支持从 stdin 读服务器 JSON，token 不必落在命令行（该命令不能在会话内使用）；远程 MCP 服务器在 VPN 掉线等长时间中断后，改为后台重试约一天。另修了 /export 覆盖文件不询问、resume/compaction 丢消息、auto mode 权限规则误判等一批问题。",
+   [("能做什么", "把 agent/skill/command/hook 的配置错误集中暴露；MCP 注册避免明文 token；长时间断网后远程 MCP 自动恢复。"),
+    ("解决什么痛点", "skill 与 hook 静默失效很难发现（hook matcher 永不匹配也不报错），MCP 配置里带 token 又有泄密风险。"),
+    ("值不值得", "维护性收益为主，没有新能力；如果他的团队用 Claude Code 承载 skill，/status 这一栏能省掉排查配置的时间。")],
+   source="Claude Code Releases"),
+ ]),
+ cat('沙箱与运行时', [
+  item(
+   "gVisor 20261116.0：fscheckpoint 落地文件系统检查点，沙箱收进 device cgroup，arm64 单二进制跑 4K/64K 页",
+   "gvisor/gvisor/releases/tag/release-20261116.0",
+   "gVisor 周更 20261116.0 的重心在状态检查点与权限收口：新增 fscheckpoint 的 proto 与格式版本化文档、兼容性测试套件和语料 pipeline，为 sandbox 文件系统状态的保存/恢复铺路；同时把沙箱进程收进 device cgroup，seccomp 侧限制 fallocate(2) 的可用模式、并把 accept(2) 从文件系统 gofer 的允许列表里删掉。"
+   "arm64 上做到 4K 与 64K 页大小在同一个二进制里支持（含页表翻译粒度），systrap stub 的每线程内存布局改为运行时读取；另修了 gofer 在宿主文件类型变化时复用缓存 inode、cgroup pids.max 的解析与执行等问题。",
+   [("能做什么", "给 sandbox 的文件系统状态做检查点/恢复（格式版本化 + 兼容语料），收紧沙箱可见设备与 syscall 面，同时用单一 arm64 二进制覆盖不同页大小的机型。"),
+    ("解决什么痛点", "agent 沙箱要「秒级恢复」就不能每次重建文件系统；多云/混合机型上 4K 与 64K 页不统一，过去要按页大小编不同二进制。fscheckpoint 正是恢复路径缺的那一块。"),
+    ("值不值得", "做按会话复用/挂起恢复的沙箱运行时，文件系统检查点与 device cgroup 收口都是直接相关的能力；但属于底层原语，落地仍要自己接存储与调度侧，短期看不到开箱即用的形态。")],
+   tag="开源", oss=True),
+  item(
+   "AKS 补齐沙箱三件套：kata-vm-isolation-v2 复用 VM 降冷启动，Pod snapshot 扩展做内存态快照",
+   "581120",
+   "AKS 两个配套预览补齐了 Sandbox 的运行时与状态层：kata-vm-isolation-v2 runtime class 不再让每个沙箱 pod 冷启一台新 Kata VM，而是复用 VM，官方口径是消掉冷启动延迟与额外内存开销，隔离边界仍是每 pod 独立 guest kernel（Azure Linux + Hyper-V + Cloud Hypervisor + Kata，节点池建好即预装，无需 DaemonSet 安装器）。"
+   "Pod snapshot 集群扩展把沙箱负载的内存态快照/恢复做成扩展，避免重启后重跑模型加载、JVM warmup 或缓存填充；预览期恢复只支持裸 Pod 或 Agent Sandbox 创建的负载，不支持通过 Deployment、ReplicaSet、Job 恢复，且需要有 podsnapshots.podsnapshot.aks.azure.com 的 restore 权限。",
+   [("能做什么", "VM 复用型 Kata 隔离（比每 pod 一台 VM 更快更省内存）；对沙箱负载做快照并在需要时恢复到裸 Pod 或 Agent Sandbox。"),
+    ("解决什么痛点", "按会话创建沙箱时，冷启动与内存开销是主要成本；重启丢内存态又逼着每次重跑模型加载或 JVM 预热。"),
+    ("值不值得", "与他「按会话 actor 多路复用 + 空闲挂起」的评估方向完全同题，Kata VM 复用与 Pod 快照是两个可直接比较的实现路径；均为 preview、无 SLA。")],
+   source="Azure Updates · AKS"),
+ ]),
+ cat('AI 工程落地', [
+  item(
+   "SAP 复盘企业 agent 落地：POC 成功≠生产可用，卡在 Clean Core 与语义就绪，不是模型能力",
+   "AsfcqUsutpSlPIBE1ok9",
+   "SAP TechEd 2026 上，SAP 全球研发网络总裁柯曼（Clas Neumann）与中国研究院院长蔡彦斌给出的判断是：POC 成功不等于生产可用——试点期可以替模型准备干净数据、把任务写死，进生产后要面对分散在多系统的业务数据、长期积累的管理规则和无法穷举的异常。"
+   "他们举的例子很具体：让两个 agent 给一家自行车代工厂做未来几个月定价，分析看起来完整但没法用，因为模型不知道具体产品与客户；企业内部两个系统规则冲突时（同一「客户」在合同系统与结算系统定义不同），agent 自己解决不了。"
+   "解法是先做 Clean Core（数据、流程、主数据标准化）再做「语义就绪」，把 ERP 积累的 700 多万字段、50 多万张表、15000 多个业务流程整合进知识图谱供 agent 调用。财务场景里，Joule Work 拿到「四季度电价涨 20%，哪些部门预算不足」要能定位到六个成本中心、识别三个缺口，并给出核实电价生效时间与用电量的建议——靠的是企业上下文而非模型本身。",
+   [("能做什么", "把企业 ERP/财务/供应链的字段、表与流程组织成知识图谱，让 agent 在执行时拿到成本中心归属、支出规则、审批流与接口等上下文。"),
+    ("解决什么痛点", "同一个业务概念在不同系统里定义不同，agent 即使能读两套系统也会判断错；POC 阶段的人工兜底在生产里没有，数据不准确的问题一次性暴露。"),
+    ("值不值得", "他所在公司正在做 AI-native 转型，「先 Clean Core 再语义层」的顺序比选模型更决定成败；但 SAP 的答案绑定自家产品与多年数据资产，可迁移的是方法论（主数据治理 + 语义层 + 知识图谱），不是具体组件。")],
+   source="InfoQ 中文"),
+  item(
+   "Revolut 用 Codex 把编码时间压 30–60%：一名工程师靠多 agent 分工自建内部 code review 服务",
+   "customer-stories/revolut",
+   "OpenAI 客户案例：Revolut 的 AI 运营负责人 David Abitbol 给出 Codex 让编码时间（任务开始到功能合入）下降 30–60%，同时把金融犯罪调查的规模做上去。"
+   "最具体的用法是高级平台工程师 Dmitry Pitik 搭内部代码审查服务：他原本以为需要一个完整开发团队，最后把系统拆成功能，给每个 Codex agent 分配一项任务并行实现，自己只做系统设计、任务规划与结果审查；设计团队则用 Codex 在一天内把积累了约七年的设计系统文档转成可用形态。",
+   [("能做什么", "把「需要一整个团队」的内部工具拆成多 agent 分工实现，人转向设计、拆解与验收；文档类资产做批量结构转换。"),
+    ("解决什么痛点", "内部工具与文档改造长期缺人力、排不上优先级；30–60% 的时间节省来自任务并行与样板代码生成，而不是让 agent 独立决策。"),
+    ("值不值得", "案例的价值在「一个人 + 多 agent 顶一个团队」的组织形态与拆解方式，可作为他向同事分享的素材；但数字是供应商口径，且 Revolut 同期已把约 2000 名工程师的主力模型迁到自托管开源模型，说明成本压力仍在。")],
+   source="OpenAI Customer Story"),
+ ]),
+]}
+
+infra_section = {"label": "☸️ 基础设施板块", "categories": [
+ cat('K8s × AI', [
+  item(
+   "vLLM 在 64 卡 TPU v7 上跑 0.6B 稠密模型 RL：decode 4K→130.5K tok/s，单步 616s→369s",
+   "rl-small-dense-tpu-v7",
+   "vLLM 团队（Meta ASA 与 Ranking AI Research）用 Qwen3-0.6B 做 64 卡 TPU v7（4×4×4）上的 GRPO 真 8K 负载：256 prompt × 8 generation = 每次 rollout 2048 条 completion、最长 8192 token，TP1×DP128 部署 128 个独立 vLLM 引擎，每引擎持完整 0.6B 模型与全部 8 个 KV head。"
+   "三阶段压下来：先对齐配置，decode 从约 4K 提到 30K tok/s（7.5×）、整轮从 6000s 降到 1260s；再做跨栈 decode 协同设计（MaxText/vLLM/XLA/Pallas，16K HBM fetch block 配 2048 token decode tile、减少 EOS 检查），24K 上下文下 decode 到 130.5K tok/s、单步 616s→299s。"
+   "最终无 SFT 冷启的完整 RL 步中位 56s（最慢 57.9s），其中 rollout 49.1s 占 85%，训练+权重同步+奖励+缓存生命周期合计仅 8.4s。文章还列了没效果的尝试：压权重与 KV 字节、共享前缀级联注意力、加大训练 microbatch、缩短回复上限。",
+   [("能做什么", "把 RL 后训练的整体循环拆成 rollout/训练两段做跨栈协同优化（框架→编译器→kernel→硬件），并把 decode 与 KV 取数解耦（RPA v3 的 16K fetch + 2K compute 分块）。"),
+    ("解决什么痛点", "RL 训练的瓶颈几乎全在 rollout（85%），单点 kernel 优化收益有限；小模型长上下文推理在 TPU 上受 VMEM 与 DMA 带宽限制，需要按芯片形状重调 tile。"),
+    ("值不值得", "他在做 K8s 上的 AI 负载与推理平台，这篇给的是「瓶颈在 rollout、优化要跨栈」的可复制方法论与具体数字；但结论绑 TPU v7 与 MaxText/vLLM 组合，GPU 集群上的对应关系要自己重测。")],
+   tag="开源", oss=True),
+ ]),
+ cat('K8s 核心技术', [
+  item(
+   "SIG Network 定时间表：kube-proxy 的 IPVS 后端 1.35 起弃用、1.40 移除",
+   "ipvs-removal",
+   "SIG Network 明确 kube-proxy 的 ipvs 后端自 Kubernetes 1.35 起正式弃用（仍可用但会告警），计划在 1.40 移除，完整时间表见 KEP-5495。"
+   "原因是 IPVS 的内核 API 与 Service API 不匹配：它一直没做到与 iptables 后端 100% 功能兼容，而且没有批量更新接口——小改动比 iptables 快，大集群里大批量变更反而更慢；最早那批作者离开后兼容性欠账一直没补。nftables 后端 1.29 引入、1.33 GA，是官方指定迁移方向，博客建议改完配置后重启节点（而不是只重启 kube-proxy）。",
+   [("能做什么", "给出弃用与移除的版本节点与迁移目标（nftables），并说明 IPVS 的两类性能问题与兼容性缺口。"),
+    ("解决什么痛点", "仍在用 ipvs 模式的集群如果不提前规划，1.40 升级会直接断掉 Service 转发路径；这也是「当年为解决 iptables O(n) 规则重写而引入的东西，最终被 nftables 取代」的完整交代。"),
+    ("值不值得", "他一个人定集群网络方案，这条时间表直接决定 kube-proxy 模式选型；nftables 在生产上已 GA 两年多，新建集群没有理由再选 ipvs，存量集群现在就该排迁移窗口。")],
+   source="Kubernetes Blog"),
+ ]),
+ cat('云原生周边', [
+  item(
+   "openEuler 发布 Agentic Infra 操作系统与 24.03 LTS SP5：增强沙箱、KV Cache、记忆系统与 Agent 安全",
+   "JhBUwv1pHR3S986Ih0iJ",
+   "openEuler 在 11 月 13 日的 Agentic Infra 操作系统大会上发布面向 Agentic Infra 的操作系统与 openEuler 24.03 LTS SP5，增强集中在沙箱、KV Cache、记忆系统和 Agent 安全四个方向。"
+   "委员会主席熊伟的判断是操作系统本层不需要断裂式重写、Agent 兴起不等于 OS 推倒重来；给出的规模是国内累计装机预计突破 2200 万套、2026 年中国服务器操作系统新增份额有望达 61%，社区有 2200 多家成员单位与 3 万多名贡献者。",
+   [("能做什么", "在 OS 层提供 agent 运行所需的基础设施能力：沙箱隔离、KV Cache 复用、记忆系统与 agent 安全机制。"),
+    ("解决什么痛点", "agent 负载把「进程隔离、上下文缓存、长期记忆」压到基础设施层，单靠应用层实现重复且难统一。"),
+    ("值不值得", "国内环境做私有化 agent 平台时，OS 层自带沙箱与 KV Cache 会改变选型基线；但大会口径为主，缺具体性能与接口细节，值得关注其技术白皮书而不是直接评估采用。")],
+   source="InfoQ 中文"),
+ ]),
+]}
+
+flash = [
+ {"title": "Kata Containers 4.4.0：runtime-rs 跨 VMM 复用 VMDK 助手，dragonball 快照恢复保留设备生命周期",
+  "url": U("kata-containers/releases/tag/4.4.0"), "source": "Kata Releases"},
+ {"title": "CNCF：OpenTelemetry pipeline 正在变成性能瓶颈时该怎么定位",
+  "url": U("is-your-opentelemetry-pipeline-becoming-a-performance-bottleneck"), "source": "CNCF Blog"},
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 18 日 · 星期三",
+ "issue": 58,
+ "kicker": "AI & INFRASTRUCTURE DAILY · NO.058",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天三条主线指向同一件事：agent 要跑得多，靠的是外面那层可验证的机制。Anthropic 公开 Claude Code 团队的做法——90% 代码由 Claude 写，能并行上百个 agent 的前提是让它自己拿证据（E2E 测试 + 独立 grader，内部实验最高 +10 分）。基础设施侧同样在补这层：AKS 把上游 agent-sandbox 做成托管集群扩展，再配 Kata VM 复用与 Pod 快照把冷启动和内存态补齐；gVisor 周更则落下了文件系统检查点 fscheckpoint。工具链上 opencode 把超时命令改转后台、把 schedules 升级成 cron/MCP 事件驱动的 automations。模型侧 GPT-6.2 Astra/Sol 降价发布：Astra 降到 $8/$40、缓存 $0.40，Sol 单任务成本约为上代 15%。",
+ "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+ "highlights": highlights,
+ "sections": [ai_section, infra_section],
+ "flash": flash,
+}
+
+# --- assertions before writing ---
+def all_items(b):
+    out = list(b["highlights"])
+    for s in b["sections"]:
+        for c in s["categories"]:
+            out += c["items"]
+    return out
+
+for it in all_items(brief):
+    assert it.get("title"), it
+    assert it.get("summary") and len(it["summary"]) > 60, it["title"]
+    assert len(it.get("detail", [])) == 3, it["title"]
+    assert it["url"] in BYURL, it["url"]
+
+names = [c["title"] for s in brief["sections"] for c in s["categories"]]
+print("categories:", names)
+print("items:", len(all_items(brief)), "flash:", len(flash))
+json.dump(brief, open(os.path.join(ROOT, 'briefing.json'), 'w'), ensure_ascii=False, indent=1)
+print("written briefing.json")
