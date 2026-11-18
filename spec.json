@@ -2,7 +2,7 @@
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 17 日 · 星期二 · 第057期",
+  "subtitle": "2026 年 11 月 18 日 · 星期三 · 第058期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -10,23 +10,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Qwen4-Max：2.4T 总参数只激活 71B，Terminal-Bench 4.0 从 38.9 提到 48.5，单…**\n阿里 11 月 16 日发布下一代基座模型 Qwen4-Max：总参数 2.4T、MoE 稀疏激活 71B、原生视觉、百万上下文，架构基于自研 QSA（Qwen 稀疏注意力），每个 token 的激活参数比上代少 25%。官方给出的能力数字集中在 agent 与编程：Terminal-Bench 4.0 同为 Xhigh 思考档时从 Qwen3.8-Max 的 38.9 提到 48.5（+25%），每次尝试的平均 …\n\n2. **DigitalOcean Managed Agents 公测：microVM 里跑 Claude Code/Codex/O…**\nDigitalOcean 开放 Managed Agents 公开预览，把 agent 托管拆成两个组件：Harness Runtime 与 Action Gateway。Harness Runtime 建在轻量 microVM 上，为受支持的 harness 提供持久化、隔离的执行环境，覆盖 Claude Code、Codex CLI、OpenCode 等编码 agent、Hermes 这类通用 agent，以及…"
+   "content": "**🔥 今日重点**\n\n1. **Claude Code 团队公开验证方法论：90% 代码由 Claude 写，靠独立 grader + E2E 测试才能并…**\nClaude Code 团队公开内部做法：约 90% 的代码由 Claude 写与审，而能把工作大规模交给 agent 的前提是让它自己拿到验证证据——没有验证闭环时只能同时跑一两个 Claude，有了可以并行几十到上百个。他们把测试投入集中在三类，其中端到端（E2E）最值得先做：它描述真实用户流程，难以被糊弄——要么整个功能能用要么不能，且有明确的「完成」判据；用 E2E 时最有效的是给 agent 手和眼，做成…\n\n2. **AKS 把 agent-sandbox 做成托管集群扩展：Sandbox CRD 管生命周期，Kata VM 复用与 Po…**\nAKS 公测 Agent Sandbox 集群扩展（Microsoft.AgentSandbox）：把上游 SIG 项目 agent-sandbox 的控制器、RBAC、配置和 agent-sandbox-system 命名空间交给集群扩展托管，对外提供 Sandbox 资源的创建、挂起/恢复、模板、池（warm pool）、claim 与恢复流程。官方文档明确划了边界：扩展本身不安装容器运行时、RuntimeCl…"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **模型与研究**：MIRIX-2.0：多 agent 记忆系统在 LoCoMo 拿到 91.4%，LongM…\n🧩 **Agent & Skill**：WebArena-Pro：20 个自托管 web 应用 300 个任务，同一模型换 har…\n🧭 **Agent 工具链**：Claude Code 2.1.326：agent teams 开启时默认进入 Code …\n🏖️ **沙箱与运行时**：Docker 把 Sandbox Kit 捐给 CNCF：把 agent 的权限申请打包成…\n🛠️ **AI 工程落地**：AI 写得快，谁来接住生产责任：三道工程鸿沟与「3 秒交付、按活跃时间计费」的数据库解法\n📊 **产品与商业**：LVMH 媒体部门与 OpenAI 达成战略合作\n🛡️ **安全与治理**：GTIG：攻击方已把多 agent 框架用于多阶段入侵，并用 LLM 差分分析把 n-da…\n🤖☸️ **K8s × AI**：Kubeflow Trainer v2.4.0：workload-aware schedu…\n☸️ **K8s 核心技术**：Istio 1.32.0：delta xDS 内存不再随重连累积，headless TCP…"
+   "content": "**📌 今日看点**\n\n🧠 **模型与研究**：GPT-6.2 Astra / Sol 发布：Astra 降到 $8/$40 且缓存 $0…\n🧩 **Agent & Skill**：Antigravity 团队：把 agent 工作分五层，spec、计划与可执行测试必须在…\n🧭 **Agent 工具链**：opencode v2.3.1：命令超时改为转后台继续跑，压缩改后台写，schedules…\n🏖️ **沙箱与运行时**：gVisor 20261116.0：fscheckpoint 落地文件系统检查点，沙箱收进…\n🛠️ **AI 工程落地**：SAP 复盘企业 agent 落地：POC 成功≠生产可用，卡在 Clean Core 与…\n🤖☸️ **K8s × AI**：vLLM 在 64 卡 TPU v7 上跑 0.6B 稠密模型 RL：decode 4K→…\n☸️ **K8s 核心技术**：SIG Network 定时间表：kube-proxy 的 IPVS 后端 1.35 起弃…\n☁️ **云原生周边**：openEuler 发布 Agentic Infra 操作系统与 24.03 LTS SP…"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 9 个板块 14 条精选 + 2 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 8 个板块 14 条精选 + 2 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-17.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-18.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
