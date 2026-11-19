@@ -1,0 +1,443 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 059 (2026-11-19). URLs are taken verbatim from processed.json."""
+import json, sys
+
+items = json.load(open("processed.json", encoding="utf-8"))
+URL = {it["url"]: it["url"] for it in items}
+PART = {}
+for it in items:
+    PART.setdefault(it["url"].split("?")[0], it["url"])
+
+
+def U(key):
+    """Resolve a processed.json URL by unique substring; abort if missing/ambiguous."""
+    hits = [it["url"] for it in items if key in it["url"]]
+    assert len(hits) == 1, f"URL key {key} -> {len(hits)} hits"
+    return hits[0]
+
+
+EMOJI = {
+    "模型与研究": "🧠", "Agent & Skill": "🧩", "Agent 工具链": "🧭",
+    "沙箱与运行时": "🏖️", "AI 工程落地": "🛠️", "平台政策与风控": "📜",
+    "产品与商业": "📊", "观点与好文": "💡", "安全与治理": "🛡️",
+    "K8s × AI": "🤖☸️", "K8s 核心技术": "☸️", "云原生周边": "☁️",
+    "社区与项目": "🌱", "公有云动态": "🏗️",
+}
+
+
+def D(a, b, c):
+    return [{"key": "能做什么", "value": a},
+            {"key": "解决什么痛点", "value": b},
+            {"key": "值不值得", "value": c}]
+
+
+highlights = [
+    {
+        "title": "Sashiko：Google 的 Linux 内核 agent 代码评审上线全部 lkml 提交，在 1000 个 Fixes 补丁里命中约 53% 的 bug",
+        "url": U("lessons-from-building-sashiko"),
+        "source": "Google Cloud Blog · sashiko-dev",
+        "summary": (
+            "Sashiko 是 Google 内核团队（Roman Gushchin 等）做的 agent 代码评审系统，目标很窄：在补丁进内核之前把新问题拦下来。"
+            "衡量方式是对 1000 个带 “Fixes:” 标记的近期上游内核问题做一次不过滤的回顾评审，命中约 53%；这套系统已在 Google 内部跑了一段时间，"
+            "如今公开并对 Linux 内核邮件列表的全部提交做评审，token 与算力由 Google 出。"
+            "代码用 Rust 写、Apache-2.0，已捐给 Linux Foundation（sashiko-dev/sashiko），支持 Gemini 与其它主流模型，实测以 Gemini 系列调得最多。"
+            "文章重点不在跑分而在“怎么搭”：评审不是一次性提示，而是带代码笔记与维护者笔记的多轮 agent 循环，把内核的上下文（历史、约定、相关补丁）喂进去再让人看结论。"
+            "代价也说得直白：每个补丁都要把代码发给所选模型厂商，成本按 token 计，公开实例靠赞助撑住。"
+        ),
+        "detail": D(
+            "一个可自托管的 agent 评审 harness：多模型后端、内核代码笔记/维护者笔记作为长期上下文、对 lkml 全量提交做增量评审；开源 Rust 实现，Apache-2.0，已捐给 Linux Foundation，社区可自建实例。",
+            "内核评审人力是硬瓶颈，且新人难拿到“这处改动会不会踩历史坑”的上下文；纯 LLM 评审又常给出无法验证的意见。Sashiko 把上下文工程和评审循环固化成产品，命中率有了可核对的基线（约 53%）。",
+            "对 agent 工程最值钱的是它的形态：评审 = 长期笔记 + 多轮循环 + 人做最后判断，而不是一次提示。想在自己仓库复刻，可先读它的笔记组织方式；注意 token 成本按补丁量线性增长，且代码要出境到模型厂商，金融场景需先过合规。",
+        ),
+    },
+    {
+        "title": "外部沙箱（external sandbox）模式：agent 留在沙箱外、只通过 localhost API 调执行环境，已有 v86 / Apple Containers / Quicksand 三套实现",
+        "url": U("external-sandboxes"),
+        "source": "Simon Willison · Prime Radiant",
+        "summary": (
+            "Simon Willison 与 Prime Radiant 合作提出“外部沙箱”模式：agent 本身跑在宿主机上，真正执行代码的那部分放进一个独立沙箱，两者之间只走一个统一的 localhost HTTP API。"
+            "这样 agent 的推理与工具编排不受沙箱限制，而被 prompt injection 或本地小模型失误引爆的代码只能待在沙箱里。"
+            "一次放出三套实现：external-sandbox-v86（Node 服务内用 v86 在 WebAssembly 里跑 Alpine Linux）、external-sandbox-container（Python 服务把 Alpine 跑在 Apple Containers 实例里）、"
+            "external-sandbox-quicksand（用微软 Quicksand 库，把 QEMU 与 Alpine 打包成一个 Python 包）。三者 API 一致，Pi、Claude Code、Codex 都可配置成把执行请求发过去。"
+            "沙箱还带一个可选 HTTP/HTTPS 允许列表代理，能限定 agent 代码只能访问哪些主机，并做凭据替换——让 agent 发出带认证的请求而拿不到明文密钥；代理在沙箱运行中也能改配置。"
+        ),
+        "detail": D(
+            "三套可替换的执行后端共用同一 localhost API：WASM 版（v86 + Alpine）、macOS 原生容器版（Apple Containers）、QEMU 打包成 Python 包版（Quicksand）；附带 HTTP/HTTPS 允许列表代理与凭据替换，运行中可改规则。",
+            "本地模型/低信任模型跑 agent 时，一次注入就可能删文件或外发数据；把执行面切出去后，宿主机的文件与网络暴露面收敛到“沙箱里那台小机器”，且能按域名白名单管出口。",
+            "想给 Claude Code / Codex 加一层“可丢弃执行面”，这套是最省事的起点（协议简单、实现可换）。限制是它只隔离代码执行，不隔离 agent 的上下文与工具权限；生产上仍需配合容器/microVM 与审计。",
+        ),
+    },
+]
+
+sections = []
+
+# ---------------- AI 板块 ----------------
+ai_cats = []
+
+ai_cats.append({
+    "label": "模型与研究",
+    "items": [
+        {
+            "title": "Gemini 4 Neon 发布：$3/$15、缓存价 $0.15（95% 折）、1M 上下文，Coding Agent Index 第一 58.6，Terminal-Bench 4.1 65.2%",
+            "url": U("deepmind.google/blog/introducing-gemini-4-neon"),
+            "source": "Google DeepMind",
+            "summary": (
+                "Google 发布 Gemini 4 Neon，定位“前沿能力 + 端到端快速完成任务”，价格 $3/$15 每百万 token，缓存输入 $0.15（95% 折扣），上下文 1M。"
+                "官方口径：Artificial Analysis 智能指数在 xhigh 思考档拿 61 分、总榜第 3，Vals Index 第 2 且在帕累托前沿；Artificial Analysis Coding Agent Index 第 1（58.6）。"
+                "硬指标上 Terminal-Bench 4.1 为 65.2%、Chartography 73.5%、Terminal-Bench Science 70.5%、RiemannBench 84.0%、HLE-Diamond 71.3%。"
+                "面向长跑 agent 做了工程优化：减少重复文件读取、在 Google Antigravity 里作为 Orchestrator 指挥并行的 Hydrogen 子 agent。"
+            ),
+            "detail": D(
+                "$3/$15 的价格配 1M 上下文与 95% 缓存折扣，缓存命中后输入成本压到 $0.15/M；在 coding agent 类榜单（Coding Agent Index 58.6、Terminal-Bench 4.1 65.2%）上排第一，官方称可在 Antigravity 里当编排者带子 agent 并行。",
+                "长上下文 + 工具密集的 agent 会话里，重复读文件与重复发同一段上下文是主要成本；缓存折扣与“减少冗余文件读取”直接打这个点。",
+                "是目前少有把“便宜缓存 + 1M 上下文 + agent 榜第一”同时摆出来的型号，适合作为 Claude/Codex 之外的第二条腿做对比；注意榜单多为厂商自选口径，真实收益还得用自家任务回归。",
+            ),
+        },
+        {
+            "title": "研究：模型变强不等于活儿变多——Fable 5 被禁 19 天当作自然实验，7 天 PR 合并率只差 1.4 个百分点且不显著",
+            "url": U("2611.23216"),
+            "source": "arXiv 2611.23216",
+            "summary": (
+                "论文用 2026 年 6 月 12 日美国出口管制导致 Claude Fable 5 停用 19 天做自然实验：人和项目不变，只有模型换了。"
+                "多数原 Fable 5 用户退到 SWE-Bench Pro 低 11 分的 Opus 4.8，作者跟踪 297 名用户前后的 GitHub PR，并以 8,908 名一直用 Opus 4.8 的开发者作对照。"
+                "双重差分（开发者与日期固定效应）结果：拿到 Fable 5 只让 7 天 PR 合并率提高 1.4 个百分点（置信区间 -1.4 到 +4.3），不显著；每周合并 PR 数 +2.4%（-4.9% 到 +10.2%）。"
+                "另外对 2026 年五次模型升级重复同样比较（1,208 名开发者、15,442 个 PR），加权平均 -0.9 个百分点，五个估计全为负。"
+            ),
+            "detail": D(
+                "用真实的模型断供窗口做准实验，把“基准分提升”与“实际交付量”分开量化：样本 297 + 对照 8,908 人，外加五次升级的重复验证，全部用 diff-in-diff 控制人与时间。",
+                "团队做模型选型时，常拿 SWE-Bench 之类的分数当生产力代理，但缺少“分数→交付”的因果证据；这篇给出的估计接近零，说明瓶颈可能在流程、评审与上下文，而不在模型。",
+                "值得读方法与结论，别只看结论：合并率这种指标受评审流程影响大，未必等于“工作没变多”。做内部 agent 投入决策时，可以作为“先量自己的流水线”的反面提醒。",
+            ),
+        },
+        {
+            "title": "Project Genie 升级：Genie 4 世界模型支持对话中实时改场景、原生音频，并开放社区画廊",
+            "url": U("genie-4-is-now-available"),
+            "source": "Google DeepMind",
+            "summary": (
+                "Project Genie 面向 Google AI Ultra 订阅者改版，首次开放 Genie 4：可在探索过程中直接输入提示实时改环境（换天气、加角色、改动作），并带原生音频。"
+                "Genie 3 继续保留在模型选择器里，用于更长时长与 360 全景种子空间，并新增跨世界实时事件串联。"
+                "新增的 Project Genie agent 负责把自然语言描述编排成初始世界，Gemini 在会话里观察屏幕并给出下一步建议、触发世界内事件。"
+            ),
+            "detail": D(
+                "可提示编辑的实时世界模型 + 原生音频 + 社区画廊；agent 把“描述→初始世界”的编排接管，Gemini 在会话里做上下文提示。",
+                "世界模型此前是“生成一段就走”，改一个细节要重新生成；实时改场景把迭代成本降下来，适合做交互原型与内容预演。",
+                "对做仿真环境/agent 训练场的人有观察价值，但目前只面向 Ultra 订阅者的消费级产品，没有可编程接口，短期无法接进工程流水线。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "Agent & Skill",
+    "items": [
+        {
+            "title": "研究：给冻结的 LLM 一个算力预算和“改写文本”的工具，它会自己长出一套自学算法，且能迁移到新游戏与 3D 导航",
+            "url": U("2611.23219"),
+            "source": "arXiv 2611.23219",
+            "summary": (
+                "论文问的是一个很实际的问题：模型越来越强，还需要人规定“怎么自我改进”吗？"
+                "实验设定是“自主范式”：只给基础原语、资源和一句笼统的自我改进目标，agent 自己构造基于上下文的自我学习算法。"
+                "以游戏为测试床，冻结的 LLM agent 拿到算力预算和收集经验、改写文本的工具，在没有外部强加循环、也拿不到真实世界数据的前提下自由实验。"
+                "结论是足够强的模型确实能自学：涌现出的策略与自我调节学习的经典认知框架、以及自生成课程的机器学习构造对得上；学到的文本产物还能迁移到不同游戏时长、机制与 3D 导航任务。"
+            ),
+            "detail": D(
+                "把“自我改进”从人手写的训练循环，变成 agent 在给定算力与工具下自建的上下文优化过程；验证方式是跨游戏时长、机制与 3D 导航的迁移。",
+                "现在做 agent 自我提升基本靠人设计反思/记忆/课程；这篇给出证据：能力足够的模型能自己发明这一层，人的工作退化为给资源与目标。",
+                "对 skill/harness 设计有直接启发——别把反思循环写死，留出“让 agent 自己写笔记与课程”的空间；但结论绑定“足够强的模型”，弱模型上未必成立。",
+            ),
+        },
+        {
+            "title": "Microsoft Agent Framework 的 Durable Task 扩展 GA：把 agent 编排做成可持久化、可恢复的工作流",
+            "url": U("578829"),
+            "source": "Azure Updates",
+            "summary": (
+                "Durable Task 扩展在 Microsoft Agent Framework 上正式可用，把多 agent 编排落到可持久化的工作流引擎上："
+                "长跑步骤、人工审批、失败重试都有检查点，进程重启后从断点继续而不是从头再跑一遍。"
+                "对多轮、跨小时的 agent 任务，这是把“编排逻辑”和“模型调用”分开的一层。"
+            ),
+            "detail": D(
+                "用 Durable Task 的持久化编排承载 agent 步骤：状态落盘、断点续跑、可插人工审批节点，多 agent 之间的调用顺序由工作流定义而不是模型即兴决定。",
+                "agent 跑长任务时最怕中途挂掉全丢；纯 LLM 编排又难以保证“这一步一定执行过”，审计也拿不出执行轨迹。",
+                "若在 Azure 上做多 agent 生产系统，这层比自己在代码里写重试管用；纯 K8s 自建栈的话，等价能力要自己用 Temporal/Argo 拼，可当设计参照。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "Agent 工具链",
+    "items": [
+        {
+            "title": "Orca v1.4.263：把 Hermes 会话接进 Chat（需 0.23.0+），扩展侧边栏进浏览器面板，orca linear connect 走 stdin 传 key",
+            "url": U("v1.4.263"),
+            "source": "Orca Releases",
+            "summary": (
+                "Orca 1.4.263 的主线是“少重写、少启动开销”：恢复的聊天界面改为首次显示时才加载，启动时不再重写每个已保存会话，返回时保留草稿与滚动位置。"
+                "新增 Hermes in Chat：可从 New Tab 菜单启动 Hermes，或在 Session History 里选 Resume in New Chat，把终端会话在原工作区与原 profile 下继续，要求本机 Hermes ≥ 0.23.0；SSH 工作区不支持，需配对的 Orca server。"
+                "浏览器侧，使用 side panel 的 Chrome 扩展现在能在 Orca 内置浏览器里以可调宽度面板打开。"
+                "CLI 补了 orca linear connect（API key 走 stdin，可指向 headless 主机，每台主机各自保存连接）与 orca agent installed（列出当前主机启用的 agent CLI）。"
+                "Windows 上 Claude/Codex 聊天缺 agent 时给 Install 按钮并可 Check again 复查；浏览器身份默认改为 Native，绕过此前的 Cloudflare 验证循环。"
+            ),
+            "detail": D(
+                "把 Hermes 终端会话纳入 Chat 侧栏并在原工作区/profile 续跑；扩展侧边栏进内置浏览器；Linear 连接可脚本化（stdin 传 key、支持 headless 主机）；agent CLI 可枚举。",
+                "多 agent 并行时，终端会话散在各处、切换上下文成本高；Orca 把这些会话收进一个界面并减少启动时的内存与 IO 开销。",
+                "用 Hermes + Claude Code/Codex 混跑的人可以跟；注意 Hermes 版本要求与 SSH 工作区限制，且 Chat 首次启动在 gateway 停过之后可能要等一分钟。",
+            ),
+        },
+        {
+            "title": "OpenCode v2.3.2 修 GPT-6.2 提示缓存：system prompt 放进 instructions 字段不被缓存，改为前置 developer 消息后每步不再重复计费",
+            "url": U("v2.3.2"),
+            "source": "OpenCode Releases",
+            "summary": (
+                "OpenCode 2.3.2 修了一个直接烧钱的细节：GPT-6.2 不缓存放在 Responses 接口 instructions 字段里的 system prompt，于是每一步都被当成未缓存输入重新计费。"
+                "改动是把 system prompt 作为前置 developer 消息发送，所有 Responses 路由统一处理，从而命中缓存。"
+                "配合上一版的“超时命令转后台继续跑”，这一轮更新基本都在压长跑 agent 的隐性成本与中断。"
+            ),
+            "detail": D(
+                "统一把 system prompt 走 developer 消息以命中 GPT-6.2 的缓存路由；输出侧延续上一版，超时命令转后台、压缩异步写。",
+                "长会话里 system prompt 每步重发，未命中缓存时按全价计费，成本随步数线性膨胀且很难在账单上定位。",
+                "用 OpenCode 跑 GPT-6.2 的必须升；若自己写 harness 直连 Responses 接口，同样要检查 instructions 字段是否被缓存——这是通用坑。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "沙箱与运行时",
+    "items": [
+        {
+            "title": "OpenAI 公开 Codex 沙箱实现：macOS 用 Seatbelt、Linux 用 bubblewrap+Landlock、Windows 用 AppContainer，文件与网络边界由用户配置",
+            "url": U("inside-the-codex-sandbox"),
+            "source": "OpenAI",
+            "summary": (
+                "OpenAI 系统讲了 Codex 如何在你的机器上执行命令同时守住文件系统与网络边界，并跨 macOS、Linux、Windows 三平台各自用系统原生原语："
+                "macOS 走 Seatbelt（sandbox-exec 的 SBPL profile），Linux 走 bubblewrap 命名空间加 Landlock LSM，Windows 走 AppContainer/受限令牌这一路线。"
+                "权限由用户配置的文件系统与网络策略决定，agent 只能在被允许的读写范围内动作。"
+                "这套设计的关键取舍是“不引入 VM 也能把破坏面收窄”，代价是隔离强度依赖各平台原语自身的成熟度。"
+            ),
+            "detail": D(
+                "同一套策略模型映射到三种 OS 原语：Seatbelt profile、bubblewrap+Landlock、AppContainer/受限令牌；限制文件读写与网络出口，策略由用户声明。",
+                "agent 在本地跑命令是最实用的能力，也是最危险的能力；装 VM 太重，裸跑又不可接受，原生沙箱是唯一的中间档。",
+                "写自家 agent 执行层可直接照这套映射表选原语；注意 Seatbelt 早已被苹果标记弃用、Windows 侧成熟度最低，真要隔离不可信代码仍应上容器/microVM。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "AI 工程落地",
+    "items": [
+        {
+            "title": "Google PageBreak 用“确定性验证器”把 agent 误报压到接近零：1 月起在自家 Web 应用里找出 500+ XSS",
+            "url": U("uGTol3TSzOV72NSrcBrB"),
+            "source": "InfoQ 中文",
+            "summary": (
+                "Google 的 AI 安全 agent PageBreak 自今年 1 月全面运行以来，在自家各类 Web 应用里发现了 500 多个 XSS 漏洞。"
+                "它用 Gemini 自主调查潜在漏洞，但只在确定性验证器于运行中的应用上真实复现成功后才上报：执行 JavaScript 验 XSS、往全局可读位置写数据验路径遍历、触发外发 DNS 请求验 RCE。"
+                "因此误报率接近零。关键在于验证器是安全工程师写的普通代码、由真实利用载荷驱动，并且位于 agent 循环之外——模型可以随便提假设，只有验证器确认的才算数。"
+                "未经验证的候选漏洞留在内部作为线索，用于发现验证能力缺口并指导新验证器开发，不下发给产品团队，避免他们被不可信报告拖住。"
+                "Google 的长期目标是把产品团队的参与缩到“只验证 AI 生成的修复”，正与 CodeMender 集成以自动产出补丁。"
+            ),
+            "detail": D(
+                "agent 提出漏洞假设 → 在运行环境用真实 exploit 做确定性复现 → 只有复现成功才上报；验证器是人工编写的普通代码而非模型生成，且在 agent 循环之外；已验证 XSS、路径遍历、RCE 三类。",
+                "AI 生成的漏洞报告“听起来很有说服力但经常是错的”，团队被迫逐条核查，信任度迅速归零；PageBreak 用可复现性当作报告的准入条件，把噪音挡在门口。",
+                "这是把“agent 提假设、确定性程序做裁决”落成生产系统的范本，可直接搬到代码评审、配置审计、渗透测试；前提是你有一套能真实复现的运行环境与流量/源码关联能力。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "产品与商业",
+    "items": [
+        {
+            "title": "Astra for Law 上线：Harvey LAB-AA 全对率 20.8%（次名 13.1%），每份任务实质性幻觉 0.03 次 vs Claude Opus 5.5 的 0.59",
+            "url": U("astra-law-6-2"),
+            "source": "OpenAI",
+            "summary": (
+                "OpenAI 推出 Astra for Law（GPT-6.2 Astra 的法律专用配置），在覆盖 24 个法律领域的发布评测里排名第一，所有 ChatGPT Enterprise 客户可申请访问，并包含 API。"
+                "第三方口径：Harvey 的 Legal Agent Benchmark（LAB-AA，120 份任务、24 个领域、全对才给分）全对率 20.8%，次名 Muse Wonder Full 为 13.1%；每份任务实质性幻觉 0.03 次，Claude Opus 5.5 为 0.59。"
+                "OpenAI 自述在案例法问题上用 web search 找到的参考判例比 GPT‑6 Astra 多 24%，同等推理档位下从正确判决书里检索到的相关段落最多多 54%。"
+            ),
+            "detail": D(
+                "法律专用配置 + 判例检索优化：单次 1M 上文可同时读合同、证据与判例；全对制评分下 20.8% 领先，幻觉率降到 0.03/任务。",
+                "法律工作里“听起来对但引错判例”的代价极高，通用模型在高风险文书上不可用；专用配置把检索与拒答边界收紧。",
+                "对金融合规/合同审查场景可作为选型参考，但 20.8% 全对率说明它仍是辅助工具，必须保留人工复核；且走 Trusted Access 申请，不是即开即用。",
+            ),
+        },
+        {
+            "title": "Anthropic 完成 IPO 定价：每股 $83、9.8 亿股，代码 ANT，11 月 19 日纳斯达克开始交易",
+            "url": U("anthropic-prices-initial-public-offering"),
+            "source": "Anthropic News",
+            "summary": (
+                "Anthropic 把 A 类普通股 IPO 价格定为每股 $83，发行 9.8 亿股，其中 956,351,354 股由公司发行、23,648,646 股来自老股东，老股东减持部分公司不获得募资。"
+                "预计 11 月 19 日在纳斯达克全球精选市场以 “ANT” 开始交易，11 月 20 日交割；承销商另有 30 天 1.47 亿股超额配售权。"
+                "注册声明于 11 月 18 日获 SEC 生效。"
+            ),
+            "detail": D(
+                "按 $83 × 9.8 亿股计算，发行规模约 813 亿美元（未计超额配售），公司自留约 794 亿美元；上市主体为 Public Benefit Corporation。",
+                "前沿实验室从“拿捐赠/融资”进入公开市场定价，算力与合规投入的资本结构随之改变，客户与供应商的议价关系也会被财报节奏牵动。",
+                "对使用者最直接的影响是产品与定价策略会更受季度业绩约束；值得跟踪首日表现与首份财报里的算力成本口径。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "观点与好文",
+    "items": [
+        {
+            "title": "纳德拉谈“软件工厂”：代码变便宜后稀缺的是验证，企业必须能换掉任何一个模型而不丢自己的学习循环",
+            "url": U("zUC0vHq9xm3BFHSqQlw3"),
+            "source": "InfoQ 中文 · The Pragmatic Engineer",
+            "summary": (
+                "在 11 月 16 日的 The Pragmatic Engineer 播客里，纳德拉回应微软 10 月 26 日推出的自愿离职方案，并把当下变化概括为“软件工厂”重构：人负责规格、意图与验证，agent 承担越来越多的执行。"
+                "他承认模型能力的非线性跃升让产品形态必须立刻改变，Claude Code 让 CLI 在约半年内成为可行的产品形态，IDE 一定程度上淡出视野，但不会永久消失。"
+                "架构主张很明确：上下文、记忆、harness 与模型必须相互分离，否则会被单一供应商锁死；检验标准是“能替换任何一个模型，同时在自己的私有评估指标上继续改进”。"
+                "安全上他要求把智能与权限在架构上分离，把 agent 当作潜在内部风险来管理，在运行时做监控、可观测性、审计日志与防护。"
+                "招聘方面他认为现在断言初级工程师招聘放缓是长期趋势为时过早，企业要先建好新的软件工厂再决定要什么样的人。"
+            ),
+            "detail": D(
+                "给出“软件工厂”的具体分工：规格/意图/验证归人，执行归 agent；配套三条架构原则——上下文·记忆·harness·模型解耦、智能与权限分离、可替换模型仍能在私有评估上改进。",
+                "企业上 agent 最常见的两个坑：把编排细节绑死在某家模型上，以及给不可靠 agent 配了执行权限；这两条正好对应他的两个主张。",
+                "做内部 agent 平台时，这三条可以直接当设计验收项；访谈本身不含实现细节，价值在于判断方向而不是照抄方案。",
+            ),
+        },
+    ],
+})
+
+ai_cats.append({
+    "label": "安全与治理",
+    "items": [
+        {
+            "title": "Azure Firewall Premium 加 AI Security 加载项（预览）：五项能力覆盖 AI 应用防护与敏感数据",
+            "url": U("580694"),
+            "source": "Azure Updates",
+            "summary": (
+                "Azure Firewall Premium 的 AI Security 加载项进入公开预览，随 Ignite 发布，官方给出五项能力：保护 AI 应用、守护敏感数据、强化恶意软件与应用层防护。"
+                "定位是在网络出口处对发往模型的流量做统一检查，而不是在每个应用里重复实现。"
+            ),
+            "detail": D(
+                "在防火墙层对进出 AI 应用的流量做策略化检查，把提示词/响应侧的敏感数据与恶意内容检查集中到网络边界。",
+                "各业务各写一套模型调用代理时，审计与数据外泄策略无法统一；边界设备是唯一能一刀切的位置。",
+                "若已经在用 Azure Firewall Premium，可先评估；自建 K8s 栈的等价做法是在出口网关（Envoy/网关侧）挂 DLP 与审计，思路一致。",
+            ),
+        },
+    ],
+})
+
+sections.append({"label": "🤖 AI 板块", "categories": ai_cats})
+
+# ---------------- 基础设施板块 ----------------
+infra_cats = [
+    {
+        "label": "K8s × AI",
+        "items": [
+            {
+                "title": "Envoy 往“第 8/9 层”走：按请求体里的 model / tools.call 路由，按 token 预算限流，已经承载 GKE 上的 Agent Substrate 数据面",
+                "url": U("the-envoy-agentic-stack"),
+                "source": "Google Cloud Blog",
+                "summary": (
+                    "Google Cloud 把 agent 流量的路由问题拆成两层新协议层：第 8 层是 LLM API、MCP、A2A 这类跑在 JSON-RPC 2.0 / gRPC 上的交互协议，第 9 层是 UCP、AP2、ADK 这类 agent 框架接口。"
+                    "传统 L7 代理在这两层上失效：几乎所有 LLM 流量共用 /v1/chat/completions 这类路径，靠 header 分不出“便宜一问”和“50 万 token 的长提示”，也分不出用的是哪个模型。"
+                    "限流同样失真——每分钟 1 个请求配巨大上下文，消耗的算力可能超过几十个短查询，agent 循环能把预算悄悄烧光。"
+                    "Envoy 的做法是把策略属性（tools/call、tool_name、model 等）从请求体里解出来做路由与配额，并处理多轮推理需要的会话亲和与工具调用边界。"
+                    "这套能力已经用在 Google Cloud 的 Application Load Balancer 与 GKE 上的 Agent Substrate 数据面上。"
+                ),
+                "detail": D(
+                    "在 Envoy 里解析请求体做模型/工具级路由与 token 预算限流，替代按 URI 与 QPS 的传统策略；同一份配置可用于网关、服务网格与 GKE 上的 agent 数据面。",
+                    "多模型、多租户的 agent 网关如果只按路径和请求数限流，既分不清成本也拦不住单请求烧穿预算；token 维度才是真正需要计量的资源。",
+                    "自建 agent 网关的重点参考：把“按 token 计量 + 按工具/模型路由”放进数据面而不是应用层。注意解析请求体会带来性能与隐私权衡，需评估是否在网关解密。",
+                ),
+            },
+            {
+                "title": "GKE 支持单栈 IPv6：节点与 Pod 全 IPv6，每节点 /112 给 65,536 个地址，TPU v6e 与 Axion 池已在预览",
+                "url": U("ipv6-only-gke"),
+                "source": "Google Cloud Blog",
+                "summary": (
+                    "GKE 上线单栈 IPv6 预览：节点与 Pod 都只跑 IPv6，不再占用私有 IPv4；Cloud TPU v6e（Trillium）与 CPU 节点池（含 Axion）先支持，GKE 版本 1.37.1-gke.3020000。"
+                    "每个节点分到 /112 的 Pod 网段，即 65,536 个地址，地址容量不再是集群规模的上限（单节点 Pod 上限仍受 GKE 限制约束）。"
+                    "与 IPv4 端点互通靠 DNS64（VPC 侧）+ NAT64（区域 Cloud NAT）：Pod 可透明访问只支持 IPv4 的镜像仓库、数据集站点。"
+                    "性能方面官方称 burst 调度、CNI sandbox 建立、节点间 TCP/UDP 时延与多流吞吐、eBPF Service 负载均衡与 NodeLocalDNS 都与 IPv4 持平；每个 Pod 有唯一 IPv6 地址，无需集群内 NAT，便于遥测与网络策略排障。"
+                ),
+                "detail": D(
+                    "节点与 Pod 只用 IPv6，nodes/pods 不再吃 RFC1918；每节点 /112（65,536 地址）；DNS64/NAT64 打通 IPv4 端点；eBPF Service LB 与 NodeLocalDNS 无额外开销。",
+                    "大 AI 集群真正的瓶颈常在地址：上千加速节点 + 推理副本 + Ray worker + sidecar + 向量库，私有 IPv4 很快耗尽，双栈也顶不住与本地网络/对等 VPC 的地址冲突。",
+                    "走 GKE 且集群规模大的可以评估单栈 IPv6；自建集群的等价物是 IPv6-only 节点 + NAT64，但要先确认所有依赖（镜像仓库、许可服务）能过 NAT64；预览阶段仅限 TPU v6e 与指定机型族。",
+                ),
+            },
+        ],
+    },
+    {
+        "label": "K8s 核心技术",
+        "items": [
+            {
+                "title": "Kyverno 定位 CEL 准入的真实开销：86.8% 分配花在对象转换，改成循环外转换一次后降到 2.9%，1.19.2 已修",
+                "url": U("kyvernos-cel"),
+                "source": "CNCF Blog · Nirmata",
+                "summary": (
+                    "Nirmata 对 Kyverno 的 CEL 引擎做 profile，本以为成本在 CEL 表达式求值，结果 86.8% 的内存分配花在 ConvertObjectToUnstructured——把 AdmissionRequest 的原始 JSON 字节转成 CEL 能读的 map。"
+                    "根因是转换写在“遍历匹配策略”的循环里：启用 Pod Security Standards 后，一次典型 Pod 创建约匹配 16 条策略，同一个 Pod 被解析 16 次，复杂度 O(策略数) 而本应是 O(1)。"
+                    "修复把转换提到循环外：先把对象临时置空做一次便宜转换，再把对象拼回去，保证策略看到的语义完全不变；各引擎（Validating/Mutating/Generating）保留各自既有契约，并用等价性测试逐字段比对原实现。"
+                    "效果：转换占比 86.8% → 2.9%；MutatingPolicy 引擎在 64 条策略下分配次数 258,943 → 52,689、耗时 10.59ms → 2.97ms。修复随 Kyverno 1.19.2 发布。"
+                ),
+                "detail": D(
+                    "把准入对象的 unstructured 转换从 per-policy 循环里提到循环外，一次构建、多策略复用；保持 Validating 与 Mutating 引擎各自原有的对象视图语义，附等价性回归测试。",
+                    "策略数量越多、Pod 越大，准入延迟越线性膨胀，而成本藏在“没人以为贵”的对象转换上；这也是公共基准里 Kyverno 落后的隐藏原因之一。",
+                    "跑 Kyverno 的直接评估 1.19.2；自研 admission webhook 的把“每次请求只解码一次请求体”当硬规则——这类 O(策略数) 的重复解析在准入路径上最容易被忽略。",
+                ),
+            },
+        ],
+    },
+]
+
+sections.append({"label": "☸️ 基础设施板块", "categories": infra_cats})
+
+flash = [
+    {"title": "AscendGYM：面向昇腾 NPU 真实负载的“成本感知”算子优化 benchmark", "url": U("2611.17621"), "source": "HuggingFace Papers"},
+    {"title": "TeleChat 到 Xing4：国产芯片与框架上推进前沿 agentic 模型", "url": U("2611.22115"), "source": "HuggingFace Papers"},
+    {"title": "AKS Confidential VM 节点池支持 Intel TDX（GA），补齐与 AMD SEV-SNP 并行的机密计算选项", "url": U("581130"), "source": "Azure Updates"},
+    {"title": "Azure Kubernetes 上的 DocumentDB（Arc 启用）进入预览，可在本地/边缘/多云跑 MongoDB 兼容负载", "url": U("578242"), "source": "Azure Updates"},
+    {"title": "Google Cloud：AI 加速器 ROI 的瓶颈正在从算力转向配套存储", "url": U("maximizing-ai-accelerator"), "source": "Google Cloud Blog"},
+]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 11 月 19 日 · 星期四",
+    "issue": 59,
+    "kicker": "AI & INFRASTRUCTURE DAILY · NO.059",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": (
+        "今天两件事都指向同一层：agent 的判断要能被外部验证。Sashiko 把 Linux 内核评审做成长期笔记 + 多轮循环的 harness，在 1000 个带 Fixes 的内核补丁上命中约 53%，并对全部 lkml 提交公开评审；"
+        "Google PageBreak 则更彻底——模型只提假设，只有安全工程师写的确定性验证器在运行环境里复现成功才允许上报，于是在自家 Web 应用里找出 500 多个 XSS 而误报接近零。"
+        "执行面同样在往外挪：Simon Willison 的 external sandbox 模式让 agent 留在外面、代码进沙箱，一次给了 v86 / Apple Containers / Quicksand 三套实现。"
+        "工具链上 Orca 把 Hermes 会话接进 Chat 侧栏、OpenCode 修掉 GPT-6.2 system prompt 不入缓存的烧钱细节；模型侧 Gemini 4 Neon 以 $3/$15、95% 缓存折扣和 Coding Agent Index 第一进场，Anthropic 则以每股 $83 完成 IPO 定价、代码 ANT 今天开始在纳斯达克交易。"
+    ),
+    "highlights": highlights,
+    "sections": sections,
+    "flash": flash,
+    "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+}
+
+# post-process: category label -> title/emoji; assert every item has title/summary/detail/url
+for sec in brief["sections"]:
+    for c in sec["categories"]:
+        c["title"] = c["label"]
+        c["emoji"] = EMOJI[c["label"]]
+
+allitems = list(brief["highlights"])
+for sec in brief["sections"]:
+    for c in sec["categories"]:
+        allitems += c["items"]
+for it in allitems:
+    assert it.get("title"), it
+    assert it.get("summary") and len(it["summary"]) > 40, it["title"]
+    assert len(it.get("detail", [])) == 3, it["title"]
+    assert it["url"] == URL.get(it["url"]), f"URL not from processed.json: {it['url']}"
+for f_ in brief["flash"]:
+    assert f_["url"] == URL.get(f_["url"]), f_["url"]
+
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("items:", len(allitems), "flash:", len(flash),
+      "sections:", [(s["label"], [c["label"] for c in s["categories"]]) for s in sections])
