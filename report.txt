@@ -1,59 +1,58 @@
 ======================================================================
-处理报告  (原始 396 条)
+处理报告  (原始 415 条)
 ======================================================================
 
-① 过滤: 保留 244 条, 过滤掉 152 条
+① 过滤: 保留 267 条, 过滤掉 148 条
    过滤掉的样例(非AI相关):
-     ✗ [GitHub Trending] getarcaneapp/arcane
      ✗ [GitHub Trending] cursor/plugins
+     ✗ [GitHub Trending] getarcaneapp/arcane
+     ✗ [GitHub Trending] nvm-sh/nvm
+     ✗ [GitHub Trending] astral-sh/uv
      ✗ [GitHub Trending] sveltejs/svelte
-     ✗ [GitHub 升星repo] krisgfx9/Wireless-Device-Battery-Monitor
-     ✗ [GitHub 升星repo] gylive/google-ultra
-     ✗ [GitHub 升星repo] erkamyaman/rust-anything
-     ✗ [GitHub 升星repo] chuanqisun/spaceship
-     ✗ [GitHub 升星repo] siliconjungle/shapeshift-labs-ink-studio
+     ✗ [GitHub Trending] jquery/jquery
+     ✗ [GitHub Trending] DeanChensj/jiangshan-map
+     ✗ [GitHub Trending] solidjs/solid
 
-② 去重: 244 → 212 条 (同批合并 3, 跨天历史去重 29)
+② 去重: 267 → 245 条 (同批合并 1, 跨天历史去重 21)
    跨天去重(此前已发过，跳过):
-     ⏭️  [GitHub Trending] elementalsouls/Claude-BugHunter
      ⏭️  [GitHub Trending] mvanhorn/last30days-skill
-     ⏭️  [GitHub Trending] Tencent/LoopForge
-     ⏭️  [GitHub Trending] google-labs-code/stitch-skills
-     ⏭️  [GitHub Trending] ag-ui-protocol/ag-ui
-     ⏭️  [GitHub Trending] backnotprop/plannotator
+     ⏭️  [GitHub Trending] NVIDIA/SkillEvaluator
      ⏭️  [GitHub Trending] google-research/paper-orchestra
-     ⏭️  [Orca] v1.4.262
+     ⏭️  [GitHub Trending] google-labs-code/stitch-skills
+     ⏭️  [Claude Code] v2.1.327
+     ⏭️  [Claude Code] v2.1.326
+     ⏭️  [Codex CLI] 0.172.0-alpha.1
+     ⏭️  [Codex CLI] 0.171.0-alpha.13
    跨源合并的事件:
-     ⇉ ViRA: Toward Ultra-High-Resolution Visua  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ LynnReal-Hand: Unlocking World Interacti  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Do LLM Agents Still Need to Be Told How   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent 工具链: 8 条 (含🔧开源 1)
-     - 安全与治理: 6 条
-     - 模型与研究: 99 条
-     - 产品与商业: 11 条
-     - Agent & Skill: 38 条 (含🔧开源 5)
-     - 观点与好文: 2 条
+     - 模型与研究: 111 条
+     - Agent 工具链: 20 条 (含🔧开源 2)
+     - 沙箱与运行时: 5 条
+     - 安全与治理: 7 条
+     - 产品与商业: 8 条
+     - Agent & Skill: 48 条 (含🔧开源 4)
      - AI 工程落地: 25 条 (含🔧开源 3)
-     - 沙箱与运行时: 6 条
-     - 平台政策与风控: 2 条
+     - 观点与好文: 2 条
+     - 平台政策与风控: 1 条
    【基础设施】
-     - K8s 核心: 2 条
+     - K8s 核心: 3 条
      - 云原生周边: 1 条
-     - K8s × AI: 3 条
+     - K8s × AI: 5 条
      - 公有云: 6 条
      - 社区与项目: 3 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
      🔥 [19分] Astra for Law leads in legal intelligence
         源:OpenAI News 类:产品与商业 跨源:[]
-     🔥 [19分] The King’s Trust and OpenAI launch £1m partnership
-        源:OpenAI News 类:产品与商业 跨源:[]
+     🔥 [19分] Anthropic launches roadshow for proposed initial public
+        源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
       19分 [OpenAI News ] Astra for Law leads in legal intelligence
-      19分 [OpenAI News ] The King’s Trust and OpenAI launch £1m partne
       19分 [Anthropic News] Anthropic launches roadshow for proposed init
       17分 [Simon Willison] GPT‑6.2 Astra and GPT‑6.2 Sol
       16分 [OpenAI News ] Introducing GPT-6.2 Astra and Sol
+      16分 [OpenAI News ] How Revolut raises ambition without lowering 
