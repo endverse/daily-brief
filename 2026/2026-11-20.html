@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 20 日 · 星期五</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>AI &amp; INFRASTRUCTURE DAILY · NO.060</span><span class="issue-badge">第 060 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 20 日 · 星期五</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天两条主线都在问同一件事：agent 的产出要能被外部检验。Anthropic 让 Claude 补完物理学家 2003 年列出的计算、并证明一个 2009 年以来的质量上界无法再降，做法是 22 个候选问题各派一个独立 agent 并行、互相读进度；curl 作者 Stenberg 则给了另一侧的账本——同三周里 agent 把 18.5 万行 C 写成 34 万行 Rust，而上游合并了 300+ 提交、200+ bugfix，这些修复并不在重写产物里。执行面继续往硬件边界走：Firecracker 1.18 支持 Nitro Sandboxes，直接由 Nitro Hypervisor 从父 EC2 实例切隔离 VM，不再需要 /dev/kvm；gVisor 则把文件系统 checkpoint 的格式版本写清楚。工具链上 Orca 把 agent 身份提到会话级、Codex 给 TUI 加了实时语音、Claude Code 让 Code Mode 与 OpenTelemetry 同开；政策面 OpenAI 新使用政策今日生效，模型路由器与网关须事先获批。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://www.anthropic.com/research/claude-black-hole-physics" target="_blank" rel="noopener">Claude 解出两个理论物理开放问题：补完 2003 年没人算完的计算，并证明一个 2009 年以来的质量上界无法再降</a></h2>
+    <p>Anthropic 公开了两个理论物理结果：Claude 补完了物理学家 2003 年列出、因过于复杂而从未完成的计算——在五维反 de Sitter 空间里确认 Hawking-Page 相变是否仍然突变，结论是即使时空不再具有确定几何，黑洞形成带来的突变依然存在。第二个问题在二维宇宙的全息 bootstrap 上：自 2009 年起学界用这套方法给“最轻黑洞质量”设上界，数值计算暗示了更好的上界但无法证明，Claude Fable 5.2 从数值结果里看出一个被忽略的模式，借用数学与物理其他分支的方法算出精确上界并证明它无法再降低。做法本身是 agent 编排的样本：研究者 Hongbin Chen 让 Claude 列出黑洞与 bootstrap 方向的开放问题，它返回 22 个候选，随后每个候选派一个独立 agent 并行推进、互相读取彼此的中间进度。Anthropic 明确写了结果不直接描述真实宇宙、也无工程应用，属于量子引力长期研究的一步；第一问的关键是它按“一小组自己的副本”拆分了一个原本由人分几年做的推导。</p>
+    <div class="note">要点：两项结果均由 Claude Fable 5.2 产出，论文级推导过程公开在 Anthropic 研究博客的四个章节里；第一个问题的计算自 2003 年提出后一直未完成，第二个问题的上界在 2009 年方法提出后只被数值逼近过。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://github.com/firecracker-microvm/firecracker/releases/tag/v1.18.0" target="_blank" rel="noopener">Firecracker v1.18.0 支持 Nitro Sandboxes：直接用 Nitro Hypervisor 从父 EC2 实例切隔离 VM，不再依赖 /dev/kvm</a></h2>
+    <p>Firecracker v1.18.0 增加 Nitro Sandboxes：它不再要求 KVM，而是驱动 Nitro Enclaves 的 /dev/nitro_enclaves，让 Nitro Hypervisor 从当前 EC2 父实例里切出隔离 VM 交给 Firecracker 管理。对外接口几乎不变——原有 API、jailer 与 virtio 设备模型都保留，新增的只有 PUT /enclave 用来配置沙箱，并区分 confidential 与 direct 两种模式。这条路径解决的是“在 EC2 里再要一层 VM 边界”的现实约束：嵌套虚拟化通常拿不到 /dev/kvm，而没有 KVM 就没有 Firecracker，只能退回容器级隔离。现在同一套 Firecracker 控制面可以跑在 EC2 内部、以硬件虚拟化边界执行不可信代码，文档与示例已随 v1.18 一起放出。</p>
+    <div class="note">要点：v1.18.0 只有这一项新增能力，其余为常规维护；驱动从 /dev/kvm 换成 /dev/nitro_enclaves，沙箱配置走新的 PUT /enclave 接口。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">模型与研究</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://www.qbitai.com/2026/11/511071.html" target="_blank" rel="noopener">范式智能首发自研模型 Phai 系列：Phai-A1 在单张 RTX 3090 上快 8–10 倍，主打代码与多步任务</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>原第四范式（现范式智能）第一次把自研模型端到台前，发布 Phai 系列，主打代码开发与智能助手场景：写代码、修 bug、调工具、跑多步任务。官方给的对比是在效果相当的前提下 Phai-A1 响应快约 8–10 倍，且两个模型都跑在单张 RTX 3090、同一个版本的某 Code 智能体上做同样任务，不是实验室特调环境。在 SWE-Bench-Verified、SWE-Bench-Pro、SWE-Bench-Multilingual 上它跑赢同级模型，官方称不弱于部分千亿参数级前沿模型；长上下文走“原生”路线，后训练数据直接覆盖百万 token 场景。两款模型近期将在 Hugging Face 与 ModelScope 开放权重。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">单卡 3090 可跑的代码/agent 模型，原生百万 token 后训练，SWE-Bench 三套基准对标同级；官方给出的 8–10 倍是响应速度而非吞吐，衡量条件是同一 Code 智能体、同样任务。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业内部跑代码 agent 时常卡在两点：前沿模型 API 成本与出网合规，本地开源模型又慢到无法交互；单卡可用的模型能把这两点同时往回收。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得盯权重放出后的第三方复测：单卡 3090 意味着开发机就能跑 agent 循环，适合做内网试点；但官方对比均来自自家白皮书场景，长上下文“原生”也需要实测验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.qbitai.com/2026/11/511071.html" target="_blank" rel="noopener">量子位</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3/" target="_blank" rel="noopener">OKF v0.3：给 agent 的开放知识格式补上一致性规则、信任分级与自描述 bundle，并配两个读写 skill</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OKF（Open Knowledge Format）是 Google 6 月提出的开放规范，用纯 markdown + YAML 给 agent 提供上下文；v0.2 加了来源、信任、新鲜度、生命周期与证明五类信任信号。v0.3 的重点是跨组织可用：新增正式的 conformance 章节（RFC 2119 措辞），规定独立的生产者与消费者如何按同一套规则读同一个 bundle；信任分级会跟随 agent 的编辑更新。bundle 变成自描述并带 licensing 字段，消费端对 null、空串、单值当列表用等真实输入给出确定行为，只告警不失败；不是 markdown 的文件按 asset 处理。同时发布 OKF use cases 社区指南，以及两个 agent skill 让 coding agent 直接读写 OKF bundle；仓库也从 GoogleCloudPlatform GitHub 组织迁出，便于跨组织协作。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一套自包含规范：YAML 1.2 frontmatter + CommonMark（含 GFM 表格/脚注）+ RFC 3339 时间戳；v0.3 定义一致性级别、信任分级、自描述 bundle 与 licensing，无 type 的 .md 会被跳过，因此 README/AGENTS/SKILL.md 可以和知识库共存。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多 agent 共享知识库时，各家工具对同一份 markdown 的解读不一致，freshness 与来源也随编辑漂移；没有一致性规则就没法跨团队交换 bundle。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果正在给自建 agent 平台设计上下文层，这是少数有成文一致性规则的方案，且与 SKILL.md 生态兼容；门槛是要接受 Google 定义的信任分级语义，生态仍在早期。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3/" target="_blank" rel="noopener">Google Cloud Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧭</span><span class="sec-title">Agent 工具链</span></div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/stablyai/orca/releases/tag/v1.4.265" target="_blank" rel="noopener">Orca v1.4.265 引入 Orca Bots：每个受管 agent 会话都有自己的工具与身份，不再绑定 Claude/Codex</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Orca v1.4.265 的主线是 Orca Bots：每个受管 agent 会话启动时带着自己的工具与身份，此前这类会话只支持 Claude 与 Codex，现在扩展成通用形态。bot 可以像 owner 一样调用分享能力，agent CLI 调用方也能用同一套分享语义；Slack 线程会显示当前 turn 在做什么，长回答整段送达而不是被切碎。Gmail 触发器改为匹配发件人的真实地址而非可能被伪造的显示名，连接 bot 的授权确认弹窗也写清了具体授予了什么权限。同版还补了多会话并发的桌面性能问题（长 tab 条只渲染可见区、新会话发送优先于后台流式写入、终端滚动死循环修复），并新增可选的自动更新（默认关闭，遇到活跃终端会等待）。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">多 agent 并行 ADE 的会话身份层：每个受管会话独立获得工具集与身份，bot 可代 owner 分享、可被 Slack 线程与 Gmail 触发器驱动；自动更新可选并会避让活跃终端。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多租户/多会话跑 agent 时，会话之间共享一个身份会让权限、审计与分享边界糊在一起；Orca 把“身份”提到会话级，正好对上这个缺口。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">和他在评估的按会话隔离运行时是同一问题域：可借鉴的是“会话级身份 + 分享代理”，以及自动更新避让活跃终端的实现细节；Orca 仍是桌面 ADE，服务端多租户要自己补。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/stablyai/orca/releases/tag/v1.4.265" target="_blank" rel="noopener">GitHub Releases · stablyai/orca</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/openai/codex/releases/tag/rust-v0.170.0" target="_blank" rel="noopener">Codex rust-v0.170.0：TUI 支持 WebRTC 实时语音，OTel 导出器自动刷新认证头</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Codex 0.170.0 在 TUI 里加入实时语音通话的 WebRTC 协商，等于把语音交互接进终端工作流；OpenTelemetry HTTP 导出器改为自动刷新认证头，长时间会话不再因 token 过期丢 trace。新增实验性的跨环境同名 MCP server 支持，同一个名字在不同环境里可以各自独立存在。修复集中在沙箱与凭据：Windows 重复建立沙箱时保留文件权限、权限更新不再让子线程丢掉既有沙箱限制、MCP OAuth 在取消/登录/登出竞争时的凭据写坏问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">TUI 内实时语音通话（WebRTC 协商）、OTel 导出器自动续期认证、跨环境同名 MCP server 隔离；沙箱权限在子线程与权限更新时保持继承。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">长会话里 trace 因 token 过期断裂、多环境同名 MCP 互相覆盖、Windows 沙箱反复建立导致权限漂移，都是实际跑 agent 时打断排障的细节问题。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跟 Codex 的团队可以直接升；对他更相关的是“沙箱权限随子线程继承”这条语义——自建执行面时容易漏掉，值得对照自己的实现。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/openai/codex/releases/tag/rust-v0.170.0" target="_blank" rel="noopener">GitHub Releases · openai/codex</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.329" target="_blank" rel="noopener">Claude Code v2.1.329：Code Mode 可与 OpenTelemetry 同开，/tasks 收进计划任务与 /loop 唤醒</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>v2.1.329 让 Code Mode 在开启 OpenTelemetry 事件与指标时也能用，脚本里每次工具调用都会发出事件（开启 tracing 时仍会关掉 Code Mode），这解决了两者在可观测性上互斥的老问题。/tasks 现在列出本会话的计划任务、/loop 唤醒、目标以及会话分叉，按 x 可在确认后停止其中一个；/mcp 的 server 页面新增 “Server message” 行，直接显示远端 HTTP MCP 拒绝连接时的 JSON-RPC 错误。修复了 macOS 上 Keychain 可读不可写导致反复登出的问题（该会话到期即停并说明原因，其它会话保持登录），以及 ~/.claude.json 在网络抖动或文件锁下被重置为默认值。/code-review &lt;PR 号&gt; 之前可能评审的是当前检出分支而不是该 PR，现在改用 gh pr diff 读取，读不到会明说。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">Code Mode 与 OTel 事件/指标可同时开启，逐次工具调用发出事件；/tasks 统一展示计划任务、/loop 唤醒、目标与分叉；/mcp 暴露远端 MCP 的 JSON-RPC 错误；/code-review 改为按 PR 取 diff。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 跑批时既要脚本化执行又要 trace，之前只能二选一；计划任务散落在各处、MCP 连接失败只报“连不上”，都让排障靠猜。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">日常用 Claude Code 的直接升级即可；Code Mode + OTel 这条对自建 agent 观测最有参考价值——它把“脚本内每次工具调用”当成可观测事件而不是黑盒。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/anthropics/claude-code/releases/tag/v2.1.329" target="_blank" rel="noopener">GitHub Releases · anthropics/claude-code</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🏖️</span><span class="sec-title">沙箱与运行时</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/gvisor/gvisor/releases/tag/release-20261116.0" target="_blank" rel="noopener">gVisor 20261116.0：加入 fscheckpoint 语料与格式版本化，沙箱被限制进 device cgroup</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>这一版的核心是把文件系统 checkpoint 做成可维护的能力：新增 fscheckpoint 语料管线、兼容性与格式版本化文档（明确写了面向 agent 的存档格式版本约定），并有独立的一致性测试集。隔离面同时收紧：sandbox 被限制进 device cgroup，Sentry seccomp 过滤里限制 fallocate(2) 的可用模式，filesystem gofer 的 seccomp 白名单移除 accept(2)。架构侧一个二进制同时支持 arm64 4K 与 64K 页（含页表两种翻译粒度），并为 NVProxy 负载暴露虚拟 NUMA 拓扑。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">沙箱文件系统可 checkpoint 并跨版本恢复（fscheckpoint 有格式版本与语料测试）；device cgroup 限制设备访问；seccomp 收紧 fallocate 与 gofer 的 accept；单二进制兼容 arm64 两种页大小。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">agent 沙箱要么每次冷启动重装环境，要么恢复时踩到格式不兼容；设备节点与 fallocate 这类系统调用又是逃逸面常见的入口。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">做多租户 agent 执行面时，checkpoint/恢复是压启动时延的关键手段，gVisor 现在把格式版本写清楚，可以当基线参考；代价是 gVisor 的系统调用兼容性仍需逐负载验证。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/gvisor/gvisor/releases/tag/release-20261116.0" target="_blank" rel="noopener">GitHub Releases · google/gvisor</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">AI 工程落地</span></div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/6xqcZfMgJ99ZQiGFbjym?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">红帽谈企业 AI 落地：模型一季一换，平台要做的是让换模型不重建环境——20 多个开源模型、700 多个版本</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>红帽全球副总裁曹衡康描述的现实是：模型选定、平台搭好、业务刚接完，市场上又出现更强的模型，CEO 转头问 CIO 能不能换——而换模型牵动 GPU 适配、推理服务、数据接口与业务流程。红帽的答案是“四个 Any”（任意加速器、任意云、任意模型、任意智能体），称平台当前支持 20 多个开源模型、合计 700 多个版本，加速器除 NVIDIA/Intel/AMD 外已适配国产 GPU 厂商沐曦。推理侧的打法从 GPU as a Service 走到 Token 工厂（集中 GPU 生产 token 供各业务部门），再到 Model as a Service；但文章也点明自建 token 工厂不是天然更便宜，需要稳定负载、合理利用率与运维团队。另一个被明确提出的问题是 Agent 权限：agent 接入内部系统后能访问什么数据、能执行什么操作必须写清，否则为了完成任务它甚至可能直接删掉生产数据库。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">以 OpenShift 为底座抽象加速器、模型与 agent 运行时，声称支持 20+ 开源模型/700+ 版本、含国产 GPU 适配；推理侧提供 GPUaaS→Token 工厂→MaaS 三层形态。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业 AI 的真实痛点是“换模型等于重建平台”，以及 agent 接入内部系统后权限边界不清；这两点决定了试点能不能进生产。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读的是它对成本的判断：token 单价下降不等于总账下降，多轮推理与工具调用会把消耗拉回去；自建要先算有效任务成本。对 K8s 平台方的直接含义是 GPU 调度与租户配额必须先立起来。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.infoq.cn/article/6xqcZfMgJ99ZQiGFbjym?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://arxiv.org/abs/2611.24880v1" target="_blank" rel="noopener">本地部署 agent 的成本被量化：电力电子仿真里测功耗、能耗、token 与时间，算“每个解决任务的成本”</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文针对的场景很具体：agent 接管电力电子的仿真闭环——建模、跑仿真、测量、按规格改设计——而这类组织的设计数据、客户数据或出口管制材料不能出网，仿真器也只授权在本地，因此 agent 必须本地部署。本地部署后 agent 变成组织自己设备上的一个电负载：每次运行都消耗电力与能量、生成 token、占用时间。已有工作大多只报云端模型能做到什么，这篇给出系统化评测框架，把本地服务的模型放到从变换器级到系统级的 agent 任务上，测量功耗、能耗、token 与时间四项成本，并刻画能力边界与“每个解决任务的成本”。结论以框架与测量方法为主，给出了本地 agent 在成本维度上可比较的口径。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一套可复用的测量框架：在真实仿真任务上同时记录功耗、能耗、token 与耗时，换算成 per-solved-task 成本，并把模型能力边界一起标出来。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">内网/离线环境只能用本地模型，但没人说得清一次 agent 循环的真实代价；只看 API 单价会低估本地部署的电费、折旧与时间成本。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">如果公司内网隔离、只让模型出网，这套口径可以直接借用：把 agent 的经济性算成“每解决一个任务的能耗+时间”，比按 token 报价更接近真实账单。论文偏方法论，缺少跨模型横评数字。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://arxiv.org/abs/2611.24880v1" target="_blank" rel="noopener">arXiv cs.AI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📜</span><span class="sec-title">平台政策与风控</span></div>
+    <div class="item">
+      <div class="num">09</div>
+      <div class="item-body">
+        <h3><a href="https://openai.com/policies/usage-policies" target="_blank" rel="noopener">OpenAI 新使用政策 11 月 20 日生效：模型路由器与 AI 网关须事先获批，引入 SafetyIDs</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>OpenAI 10 月 21 日重写使用政策，11 月 20 日生效（即今日）。影响面最大的一条不在内容而在访问：任何“让第三方直接访问 OpenAI 模型”的服务——模型路由器、AI 网关等中介平台——必须先获得 OpenAI 的审核批准。政策同时写明豁免：仅仅因为应用集成了 OpenAI 模型来支撑自身功能，不触发这条审批要求；换句话说，卖“访问权”的要批，用模型做产品的不用。其余变化包括：禁止用模型或输出为替代/竞争模型构建训练数据与信号、禁止通过未授权访问或逆向提取受保护的推理过程、高风险领域不得无人复核地自动执行、执法与情报用途需审批。OpenAI 还引入 SafetyIDs，让客户在滥用调查中区分终端用户而无需让 OpenAI 知道用户身份；目前未公布哪些路由器/网关已获批，也未给出审核时长。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把“中介平台”纳入事前审批：路由器/网关类服务需先报批，应用内集成豁免；同时明确禁止蒸馏竞品、提取推理链，并为执法/情报用途设审批口；SafetyIDs 用于区分终端用户。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">此前多租户代理、二次分发与共享订阅处在灰区，风控只能事后封号；新条款把边界前移到“你是否在转售模型访问权”，直接影响自建网关与聚合平台的合规设计。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">若公司产品对外提供统一模型入口（含内部分发平台对外），这条要按“中介平台”评估并预留审批路径；纯内部应用不受此条约束，但仍受蒸馏与推理链提取禁令约束。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://openai.com/policies/usage-policies" target="_blank" rel="noopener">OpenAI</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">💡</span><span class="sec-title">观点与好文</span></div>
+    <div class="item">
+      <div class="num">10</div>
+      <div class="item-body">
+        <h3><a href="https://simonwillison.net/2026/Nov/18/daniel-stenberg/" target="_blank" rel="noopener">Stenberg 的账本：agent 把 18.5 万行 C 改写成 34 万行 Rust 的三周里，curl 合并了 300+ 提交、200+ 修复</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>curl 作者 Daniel Stenberg 给出的数字：在外部 agent 把 185,000 行 C 代码转写成 340,000 行 Rust 的同一段时间里，curl 主项目合并了 300 多个提交。这些提交里包含 200 多个 bugfix 和若干安全修复——他特别指出，那些 Rust 重写版本并不包含这些修复。这段话的价值在于把“AI 重写一遍”与“维护一个被数十亿设备使用的项目”区分开：前者产出代码行数，后者产出经过评审、回归与发布的修复。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">一组可直接引用的对照数字：18.5 万行 C → 34 万行 Rust 的转写周期约三周，同期上游合并 300+ 提交、200+ bugfix 与若干安全修复。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">评估 AI 编程收益时，代码行数与“修掉多少真实缺陷”是两个量纲；直接把重写产物当成果会忽略上游维护工作。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">适合作为内部论证材料：判断 agent 产出应看合并率、回归与缺陷修复，而不是生成量。属观点引述，无方法论细节。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://simonwillison.net/2026/Nov/18/daniel-stenberg/" target="_blank" rel="noopener">Simon Willison（引 Daniel Stenberg）</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.21.0-rc.0" target="_blank" rel="noopener">Kueue v0.21.0-rc.0：ConcurrentAdmission 缺省切 TryPreferredFlavors，拒绝 LWS 的 groupIdentity: Hash</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>v0.21.0-rc.0 的破坏性变更集中在准入语义：ClusterQueue 省略 spec.concurrentAdmissionPolicy.migration.mode 时现在默认 TryPreferredFlavors，Go 侧 ConcurrentAdmissionMigration.Mode 也改成指针类型。配额绕过被堵上一个口子：Kueue 现在拒绝受管 LeaderWorkerSet 使用 spec.groupIdentity: Hash——此前这种模式下 leader Pod 未经准入就在跑、worker Pod 却被门控，等于配额被绕过。Helm chart 新增 managerConfig.structuredOverrides，可不复制整份配置就改 manager 参数；MultiKueue 改读 ClusterProfile 的 multicluster.x-k8s.io/v1alpha2，并要求先把 CRD 升到 cluster-inventory-api v0.2.0。可观测性上，调度周期进度、调度尝试与 workload 重新入队日志提到 verbosity 3，依赖这些日志的 Grafana 面板需要同步调级别。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">GPU/批任务排队器的准入修正：ConcurrentAdmission 迁移默认值明确化、拒绝 LWS Hash 分组（防 leader 绕过配额）、Helm 支持结构化覆盖、MultiKueue 跟进 ClusterProfile v1alpha2。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">多集群 GPU 配额最容易出的问题是“某些 Pod 没走准入就在跑”，配额账面与实际用量对不上；日志级别变动又会让既有面板静默失效。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">跑 Kueue 管 GPU 队列的要按 rc 先验证 LWS 用法（有 Hash 的需改 Ordinal）；对自建集群，这条 LWS 绕过路径值得当成配额审计项自查。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.21.0-rc.0" target="_blank" rel="noopener">GitHub Releases · kubernetes-sigs/kueue</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">K8s 核心技术</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/cilium/cilium/releases/tag/1.20.5" target="_blank" rel="noopener">Cilium 1.20.5：修掉 egress 策略 toServices+toPorts 的任意目的地放行与 strict 加密的明文漏口</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>这一版最重要的两条都是策略放行缺陷：egress 规则同时使用 toServices 与 toPorts 时，若引用的 Service 不存在、或是没有后端的 selector-less Service，流量会被放行到任意目的地的那几个端口；strict egress encryption 在 --encryption-strict-egress-cidr 含 host bits 时允许了未加密流量。数据面还有几处直接影响业务：带宽管理器在单个包携带超出丢弃窗口的 departure time 后，会把该 Pod 的全部出向流量丢弃数十秒；多池 IPAM 会把 Pod IP 摊到多个 CIDR 而不是先填满最旧的，导致节点占着多余 CIDR。L7 重定向 ID 定义补上 L7 parser 类型，同一 endpoint/port 上的 HTTP 与 TLS 规则改用各自独立的 proxy listener；HTTP URL query 在 Envoy 访问日志解析失败时不再漏进 Hubble flow。operator 侧修复 ENI 多池 IP 被释放到 min-allocate 以下又立刻重分配、以及 operator 的 controller-runtime manager 失败后不再静默继续运行。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">安全与稳定性修复包：egress 策略在 Service 缺失时不再放行任意目的地、strict egress encryption 的 CIDR 校验修正、带宽管理器不再长时间丢弃整 Pod 出向流量、L7 规则按 parser 类型分 listener。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">策略引擎的“条件不满足就放行”是最危险的失败模式，且这类 bug 在测试里很难覆盖；带宽管理器的长时间丢包则会被误判为 CNI 或应用问题。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">生产跑 Cilium 的应尽快跟进，尤其是用 toServices+toPorts 写 egress 白名单、或开了 strict egress encryption 的集群——前者等于白名单失效，后者等于加密形同虚设。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://github.com/cilium/cilium/releases/tag/1.20.5" target="_blank" rel="noopener">GitHub Releases · cilium/cilium</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://github.com/google-gemini/gemini-cli/releases/tag/v0.70.0" target="_blank" rel="noopener">Gemini CLI v0.70.0：策略参数匹配改用 re2js 做线性时间求值，修复模型列表输出 token 上限不准</a></li>
+      <li><a href="https://github.com/e2b-dev/E2B/releases/tag/e2b%402.64.0" target="_blank" rel="noopener">E2B SDK 2.64.0 与 @e2b/cli 2.24.0 同步发布，code-interpreter 到 2.11.10</a></li>
+      <li><a href="https://www.infoq.cn/article/y1DHWaCUGxsuSrQwqEXi?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">商汤小浣熊发布街道办 AI 白皮书：12 类高频任务、3 类实践案例</a></li>
+      <li><a href="https://github.com/jingyaogong/minimind" target="_blank" rel="noopener">jingyaogong/minimind 仍在 GitHub Trending：从零训练小模型的完整教程与代码</a></li>
+      <li><a href="https://github.com/firecrawl/firecrawl" target="_blank" rel="noopener">firecrawl/firecrawl 在 Trending：把网页抓成 agent 可读 markdown 的服务</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 08:30 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
