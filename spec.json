@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 19 日 · 星期四(如 2026年09月19日 · 星期六)、059(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 20 日 · 星期五(如 2026年09月19日 · 星期六)、060(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 19 日 · 星期四 · 第059期",
+  "subtitle": "2026 年 11 月 20 日 · 星期五 · 第060期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Sashiko：Google 的 Linux 内核 agent 代码评审上线全部 lkml 提交，在 1000 个 Fixes 补丁里命中约 53% 的 bug**\nSashiko 是 Google 内核团队（Roman Gushchin 等）做的 agent 代码评审系统，目标很窄：在补丁进内核之前把新问题拦下来。衡量方式是对 1000 个带 “Fixes:” 标记的近期上游内核问题做一次不过滤的回顾评审，命中约 53%；这套系统已在 Google 内部跑了一段时间，如今公开并对 Linux 内核邮件列表的全部提交…\n\n2. **外部沙箱（external sandbox）模式：agent 留在沙箱外、只通过 localhost API 调执行环境，已有 v86 / Apple Containers / Quicksand 三套实现**\nSimon Willison 与 Prime Radiant 合作提出“外部沙箱”模式：agent 本身跑在宿主机上，真正执行代码的那部分放进一个独立沙箱，两者之间只走一个统一的 localhost HTTP API。这样 agent 的推理与工具编排不受沙箱限制，而被 prompt injection 或本地小模型失误引爆的代码只能待在沙箱里。"
+   "content": "**🔥 今日重点**\n\n1. **Claude 解出两个理论物理开放问题：补完 2003 年没人算完的计算，并证明一个 2009 年以来的质量上界无法再降**\nAnthropic 公开了两个理论物理结果：Claude 补完了物理学家 2003 年列出、因过于复杂而从未完成的计算——在五维反 de Sitter 空间里确认 Hawking-Page 相变是否仍然突变，结论是即使时空不再具有确定几何，黑洞形成带来的突变依然存在。第二个问题在二维宇宙的全息 bootstrap 上：自 2009 年起学界用这套方法给“…\n\n2. **Firecracker v1.18.0 支持 Nitro Sandboxes：直接用 Nitro Hypervisor 从父 EC2 实例切隔离 VM，不再依赖 /dev/kvm**\nFirecracker v1.18.0 增加 Nitro Sandboxes：它不再要求 KVM，而是驱动 Nitro Enclaves 的 /dev/nitro_enclaves，让 Nitro Hypervisor 从当前 EC2 父实例里切出隔离 VM 交给 Firecracker 管理。对外接口几乎不变——原有 API、jailer 与 virt…"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **模型与研究** · Google 发布 Gemini 4 Neon，定位“前沿能力 + 端到端快速完成任务”，价格 $3/$15 每百万 token，缓存输入 $0.15（95% 折扣），上下文 1M。\n\n🧩 **Agent & Skill** · 论文问的是一个很实际的问题：模型越来越强，还需要人规定“怎么自我改进”吗？实验设定是“自主范式”：只给基础原语、资源和一句笼统的自我改进目标，agent 自己构造基于上下文的自我学习算法。\n\n🧭 **Agent 工具链** · Orca 1.4.263 的主线是“少重写、少启动开销”：恢复的聊天界面改为首次显示时才加载，启动时不再重写每个已保存会话，返回时保留草稿与滚动位置。\n\n🏖️ **沙箱与运行时** · OpenAI 系统讲了 Codex 如何在你的机器上执行命令同时守住文件系统与网络边界，并跨 macOS、Linux、Windows 三平台各自用系统原生原语：macOS 走 Seatbelt（sandbox-exec 的 SBPL profile），Linux 走 bubblewrap 命名空间加 Landlock LSM，Windows 走 AppC…\n\n🛠️ **AI 工程落地** · Google 的 AI 安全 agent PageBreak 自今年 1 月全面运行以来，在自家各类 Web 应用里发现了 500 多个 XSS 漏洞。\n\n📊 **产品与商业** · OpenAI 推出 Astra for Law（GPT-6.2 Astra 的法律专用配置），在覆盖 24 个法律领域的发布评测里排名第一，所有 ChatGPT Enterprise 客户可申请访问，并包含 API。\n\n💡 **观点与好文** · 在 11 月 16 日的 The Pragmatic Engineer 播客里，纳德拉回应微软 10 月 26 日推出的自愿离职方案，并把当下变化概括为“软件工厂”重构：人负责规格、意图与验证，agent 承担越来越多的执行。\n\n🛡️ **安全与治理** · Azure Firewall Premium 的 AI Security 加载项进入公开预览，随 Ignite 发布，官方给出五项能力：保护 AI 应用、守护敏感数据、强化恶意软件与应用层防护。\n\n🤖☸️ **K8s × AI** · Google Cloud 把 agent 流量的路由问题拆成两层新协议层：第 8 层是 LLM API、MCP、A2A 这类跑在 JSON-RPC 2.0 / gRPC 上的交互协议，第 9 层是 UCP、AP2、ADK 这类 agent 框架接口。\n\n☸️ **K8s 核心技术** · Nirmata 对 Kyverno 的 CEL 引擎做 profile，本以为成本在 CEL 表达式求值，结果 86.8% 的内存分配花在 ConvertObjectToUnstructured——把 AdmissionRequest 的原始 JSON 字节转成 CEL 能读的 map。"
+   "content": "**📌 今日看点**\n\n🧠 **模型与研究** · 原第四范式（现范式智能）第一次把自研模型端到台前，发布 Phai 系列，主打代码开发与智能助手场景：写代码、修 bug、调工具、跑多步任务。\n\n🧩 **Agent & Skill** · OKF（Open Knowledge Format）是 Google 6 月提出的开放规范，用纯 markdown + YAML 给 agent 提供上下文；v0.2 加了来源、信任、新鲜度、生命周期与证明五类信任信号。\n\n🧭 **Agent 工具链** · Orca v1.4.265 的主线是 Orca Bots：每个受管 agent 会话启动时带着自己的工具与身份，此前这类会话只支持 Claude 与 Codex，现在扩展成通用形态。\n\n🏖️ **沙箱与运行时** · 这一版的核心是把文件系统 checkpoint 做成可维护的能力：新增 fscheckpoint 语料管线、兼容性与格式版本化文档（明确写了面向 agent 的存档格式版本约定），并有独立的一致性测试集。\n\n🛠️ **AI 工程落地** · 红帽全球副总裁曹衡康描述的现实是：模型选定、平台搭好、业务刚接完，市场上又出现更强的模型，CEO 转头问 CIO 能不能换——而换模型牵动 GPU 适配、推理服务、数据接口与业务流程。\n\n📜 **平台政策与风控** · OpenAI 10 月 21 日重写使用政策，11 月 20 日生效（即今日）。\n\n💡 **观点与好文** · curl 作者 Daniel Stenberg 给出的数字：在外部 agent 把 185,000 行 C 代码转写成 340,000 行 Rust 的同一段时间里，curl 主项目合并了 300 多个提交。\n\n🤖☸️ **K8s × AI** · v0.21.0-rc.0 的破坏性变更集中在准入语义：ClusterQueue 省略 spec.concurrentAdmissionPolicy.migration.mode 时现在默认 TryPreferredFlavors，Go 侧 ConcurrentAdmissionMigration.Mode 也改成指针类型。\n\n☸️ **K8s 核心技术** · 这一版最重要的两条都是策略放行缺陷：egress 规则同时使用 toServices 与 toPorts 时，若引用的 Service 不存在、或是没有后端的 selector-less Service，流量会被放行到任意目的地的那几个端口；strict egress encryption 在 --encryption-strict-egress-cid…"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 10 个板块 16 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 9 个板块 12 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-19.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-20.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
