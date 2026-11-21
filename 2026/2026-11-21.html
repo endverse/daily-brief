@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI &amp; 基础设施早报 · 2026 年 11 月 21 日 · 星期六</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f; --paper:#e9e2d6; --red:#d7382f; --sub:#6d6459;
+    --line:#c9bfae; --card:#f3eee3; --tagbg:#e4dccc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+  html,body{background:#d8cfbe}
+  body{color:var(--ink);font-family:"Noto Serif SC","Songti SC",SimSun,serif;
+    line-height:1.8;font-size:16px;
+    background:radial-gradient(circle at 30% 12%, rgba(255,255,255,.28), transparent 30%),
+      linear-gradient(135deg, rgba(21,19,15,.035) 0 1px, transparent 1px 8px),var(--paper);
+    padding:0 0 70px;}
+  .paper{max-width:680px;margin:0 auto;
+    background:radial-gradient(circle at 70% 8%, rgba(255,255,255,.22), transparent 34%),var(--paper);
+    box-shadow:0 0 40px rgba(21,19,15,.12);min-height:100vh}
+  .masthead{padding:30px 28px 22px;border-bottom:3px double var(--ink)}
+  .brandbar{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .issue-badge{background:var(--red);color:#fff;padding:3px 10px;font-weight:700;
+    letter-spacing:1px;border-radius:2px}
+  .title{font-size:46px;font-weight:900;letter-spacing:3px;line-height:1.15;margin:14px 0 6px;text-align:center}
+  .title .amp{color:var(--red)}
+  .dateline{text-align:center;font-size:13px;letter-spacing:4px;color:var(--sub);
+    display:flex;align-items:center;justify-content:center;gap:12px}
+  .dateline::before,.dateline::after{content:"";height:1px;width:40px;background:var(--line)}
+  .hint{text-align:center;font-size:12px;color:var(--sub);padding:12px 28px 0;letter-spacing:1px}
+  .hint b{color:var(--red)}
+  .lead{padding:20px 28px;font-size:15px;color:#3a352d;border-bottom:1px dashed var(--line);position:relative}
+  .lead .q{font-size:52px;color:var(--red);font-weight:900;line-height:0;
+    position:relative;top:14px;margin-right:4px;font-family:Georgia,serif}
+  .hot{padding:24px 28px;border-bottom:1px dashed var(--line);
+    background:linear-gradient(180deg,rgba(215,56,47,.05),transparent)}
+  .hot-kicker{display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;margin-bottom:14px}
+  .hot h2{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px}
+  .hot h2 a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--red)}
+  .hot p{font-size:15px;color:#3a352d;margin-bottom:8px}
+  .hot .note{font-size:14px;color:var(--sub);border-left:3px solid var(--red);padding-left:12px;margin-top:10px}
+  .section{padding:22px 28px 6px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;
+    border-bottom:2px solid var(--ink);padding-bottom:6px}
+  .sec-emoji{font-size:20px}
+  .sec-title{font-size:21px;font-weight:900;letter-spacing:1px}
+  .sec-en{margin-left:auto;font-size:11px;letter-spacing:2px;color:var(--sub);text-transform:uppercase}
+  .board-label{text-align:center;font-size:13px;letter-spacing:6px;color:var(--red);
+    font-weight:700;padding:26px 0 4px;text-transform:uppercase}
+  .board-label span{border-bottom:2px solid var(--red);padding-bottom:4px}
+  .item{padding:15px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px}
+  .item:last-child{border-bottom:none}
+  .num{font-size:22px;font-weight:900;color:var(--red);line-height:1.2;min-width:30px;font-family:Georgia,serif}
+  .item-body{flex:1;min-width:0}
+  .item h3{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:5px}
+  .item h3 a{color:var(--ink);text-decoration:none}
+  .item h3 a:hover{color:var(--red)}
+  .item p{font-size:14.5px;color:#4a453c;margin-bottom:8px}
+  /* ==== 点击展开：决策导向详情（grid-rows 丝滑动画） ==== */
+  .expand{position:relative;cursor:pointer;border-radius:4px;transition:background .25s ease;padding:2px 6px;margin:0 -6px}
+  .expand:hover{background:rgba(215,56,47,.05)}
+  .expand p{font-size:14.5px;color:#4a453c;margin-bottom:0}
+  .brief-text{overflow:hidden;transition:opacity .3s ease,max-height .4s ease}
+  .detail-wrap{display:grid;grid-template-rows:0fr;opacity:0;
+    transition:grid-template-rows .42s cubic-bezier(.22,.61,.36,1),opacity .3s ease .04s}
+  .detail-wrap>.detail-inner{overflow:hidden;min-height:0}
+  .expand.open .detail-wrap{grid-template-rows:1fr;opacity:1}
+  .expand.open .brief-text{opacity:0;max-height:0;margin:0}
+  .detail-text{font-size:14.5px;padding-top:2px}
+  .dt-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dotted var(--line)}
+  .dt-row:last-child{border-bottom:none}
+  .dt-key{flex-shrink:0;width:88px;font-weight:700;color:var(--red);font-size:13px;letter-spacing:1px}
+  .dt-val{flex:1;font-size:14px;color:#3a352d;line-height:1.7}
+  .toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--red);
+    letter-spacing:1px;font-weight:500;user-select:none;margin-top:6px}
+  .toggle .chev{transition:transform .35s cubic-bezier(.22,.61,.36,1);display:inline-block}
+  .expand.open .toggle .chev{transform:rotate(180deg)}
+  .expand.open .toggle .lbl-more{display:none}
+  .toggle .lbl-less{display:none}
+  .expand.open .toggle .lbl-less{display:inline}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .tag{background:var(--tagbg);color:#6a5f4d;padding:2px 9px;border-radius:2px;font-size:11px;letter-spacing:1px}
+  .tag.oss{background:#dfe8d8;color:#4a6b3a}
+  .src{color:var(--red);text-decoration:none;font-weight:500}
+  .src::after{content:" ↗";font-size:10px}
+  .flash{padding:20px 28px}
+  .flash-title{font-size:15px;font-weight:900;letter-spacing:2px;margin-bottom:10px;color:var(--sub)}
+  .flash ul{list-style:none}
+  .flash li{font-size:14px;padding:7px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+  .flash li::before{content:"▪";color:var(--red);flex-shrink:0}
+  .flash li a{color:var(--ink);text-decoration:none}
+  .flash li a:hover{color:var(--red);text-decoration:underline}
+  .footer{padding:28px;text-align:center;border-top:3px double var(--ink);margin-top:14px}
+  .footer .logo{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+  .footer .logo .amp{color:var(--red)}
+  .footer p{font-size:12px;color:var(--sub);letter-spacing:1px;line-height:1.9}
+  @media (max-width:480px){.title{font-size:36px}.hot h2{font-size:22px}
+    .section,.masthead,.lead,.hot,.flash{padding-left:20px;padding-right:20px}.dt-key{width:72px}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <header class="masthead">
+    <div class="brandbar"><span>AI &amp; INFRASTRUCTURE DAILY · NO.061</span><span class="issue-badge">第 061 期</span></div>
+    <h1 class="title">AI &amp; 基础设施早报</h1>
+    <div class="dateline">2026 年 11 月 21 日 · 星期六</div>
+  </header>
+  <div class="hint">👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回</div>
+  <div class="lead"><span class="q">“</span>今天最实用的一条落在沙箱上：Kubernetes 原生的 Agent Sandbox 把 suspend/resume 补齐到三个 SDK，挂起时释放 Pod、保留 claim 与持久卷——空闲 agent 会话不再只能靠删沙箱省钱。模型侧 Thinking Machines 放出 Inkling 2 Mini，用「中间层重复三遍」的循环 Transformer 在 100B 以下做到 DeepSWE v1.1 48.2%，还能跑在笔记本上；一篇论文则让 27B 模型自己改写自己的权重，未见题目 +6.6 点。落地案例有两条：Architect Labs 用 agent 群从零设计出通用 CPU（ISA 到 GDS 全链路），Google 则演示了 Airflow agent 如何在没有 traceback 的 OOM 事故里，把 worker 内存指标和重试记录对上再给修法。基础设施侧 Kueue rc.1 把 DRA 优先级列表与可消费容量配额推到 Beta；CNCF 一篇复盘值得所有用 Sync hook 跑迁移的人看——Argo CD 的 self-heal 会跳过 hook，5 个 region 里 2 个就这么漏了迁移。</div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://github.com/kubernetes-sigs/agent-sandbox/releases/tag/v1.0.12" target="_blank" rel="noopener">Agent Sandbox v1.0.12：三个 SDK 统一支持 suspend/resume，空闲沙箱释放 Pod 但保留 claim 与持久卷</a></h2>
+    <p>kubernetes-sigs 的 Agent Sandbox 11 月 20 日发布 v1.0.12，核心是把 suspend()/resume()/is_suspended() 补齐到 Go、Python、TypeScript 三个 SDK：通过对 Sandbox 打 spec.operatingMode 补丁（带 UID 守卫）释放 Pod，但保留 SandboxClaim 与持久卷。运行中的进程、内存与 emptyDir 不会随挂起保留，要连内存一起留住得配 pod snapshot。控制面新增 SandboxWarmPool 的 per-pool readinessGracePeriodSeconds（最小 30 秒，默认 5 分钟，可双向覆盖集群级默认）。sandbox-router 增加 Ed25519 v2 的沙箱级 scoped token，绑定 (namespace, name, uid)，在过期前授权该沙箱所有端口与方法；sandboxd 增加 ?stat=true 的单路径元数据与更细的 REST 错误码（ENOSPC/EDQUOT→507、ENAMETOOLONG→400）。示例里补了 CI runner sandbox 与 Claude Code 走集群内模型代理、跨 suspend/resume 保持会话两套。</p>
+    <div class="note">v1.0.12 于 11 月 20 日发布；suspend/resume 覆盖 Go/Python/TypeScript 三个 SDK；readyness grace 最小 30s、默认 5m；Ed25519 v2 token 绑定 namespace+name+uid；新增 CI runner 与 Claude Code 两个示例。</div>
+  </div>
+  <div class="hot">
+    <span class="hot-kicker">🔥 今日重点</span>
+    <h2><a href="https://thinkingmachines.ai/news/inkling-2-mini/" target="_blank" rel="noopener">Inkling 2 Mini：中间层重复三遍的循环 Transformer，100B 以下开源权重在 agentic coding 上排到前列</a></h2>
+    <p>Thinking Machines 11 月 20 日发布 Inkling 2 Mini，架构上是循环 Transformer：每个 token 都把模型中间层重复计算三次，官方说法是用更少的 token 换更高的推理质量，重点针对依赖推理质量的 agentic coding。总参数低于 100B，小到能在笔记本上跑。官方基准是 DeepSWE v1.1 解出 48.2%、Vals Index v2.2 拿到 46.5%，称在 100B 以下的开源权重里排第一，且在同等成绩的模型里理论 token/s 更高。权重已在 Hugging Face 放出，可通过 Tinker 调用。</p>
+    <div class="note">11 月 20 日发布；循环 Transformer，中间层每 token 跑 3 次；总参数 &lt;100B、可跑在笔记本；DeepSWE v1.1 48.2%、Vals Index v2.2 46.5%；权重开源在 Hugging Face，可经 Tinker 调用。</div>
+  </div>
+  <div class="board-label"><span>🤖 AI 板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧠</span><span class="sec-title">🧠 模型与研究</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.21885" target="_blank" rel="noopener">27B 开源模型自己改自己的权重：无梯度、不训练，未见题目上准确率 +6.6 点</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文提出 self-rewriting：把权重、评分后的答案和「运行自己」的能力交给模型，让它诊断自己的失败并直接改写背后的权重，全程没有梯度也没有训练。在一个开放 27B 模型上，一次自编辑让未见题目的准确率提升 6.6 个点，并在连续八次会话里单调上升——每次先在练习题上验证编辑，只提交有效的。它还能修一个几乎全错的自身副本：不重训、不读原始权重，恢复到原模型 80% 以上的图像任务准确率。作者称该能力随规模涌现：同一模型家族里小模型改不动或把自己改坏，只有最大的那个能改进并自修。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">模型把自身权重当可编辑对象：自评 + 自运行定位失败，再写权重补丁；27B 单次编辑 +6.6 点，八次会话单调提升，还能把损坏副本恢复到 &gt;80% 准确率。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">常规后训练要重跑训练管线与 GPU 集群；推理期的 prompt/scaffold 收益任务一结束就消失。self-rewriting 把收益写进权重，且每次回答不额外付费。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得跟进但别急着上生产：目前是单模型、单任务族的结果，编辑正确性靠自评把关，退化风险与可复现性仍需第三方复现；关注持续学习方向的话，这是近期最具体的一篇。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://huggingface.co/papers/2611.21885" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧩</span><span class="sec-title">🧩 Agent &amp; Skill</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.21053" target="_blank" rel="noopener">System 1 agents：不生成文本、把工具调用做成选择题，1952 次请求里 97.0% 选对工具</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文针对「敏感临床数据不能出网、本地 LLM 又会编参数」的两难，提出 System 1 agents：本地 agent 调工具时不生成文本。做法是用一个确定性编译器，把每个工具的 schema 与请求变成若干选择题——选项只来自请求和 schema——再由一遍式决策模型作答。在 157 个生物医学工具、1952 次请求上，最好的 System 1 agent 选对工具或正确拒答的比例是 97.0%，高于 18 个本地 LLM agent 设置里最好的 95.2%；6056 个参数值填对 97.0%，且没有任何一次调用含编造内容，而 LLM 调用有 5.5%–19.7% 含编造值。框架已开源。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">把开放式生成换成受限多选题：工具选择与参数填充都变成从 schema/请求里枚举的选项，决策模型一遍作答，因此不可能产出 schema 之外的值。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">医疗等场景不能把数据发给云端 LLM，本地小模型又会幻觉参数，而一次编造的值会污染后续每一步工具调用。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读它的编译器设计——把「工具调用」降成「分类 + 填空」是可控 agent 的通用套路，可迁移到任何有清晰 schema 的内部工具集；限制是工具必须有严格 schema，开放式任务不适用。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://huggingface.co/papers/2611.21053" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="item-body">
+        <h3><a href="https://huggingface.co/papers/2611.20455" target="_blank" rel="noopener">Repo-Premium 基准：稠密检索的领先大半来自评测口径，用 LLM 生成标识符再 grep 就能追平</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>论文指出代码检索基准里「稠密向量远胜 BM25」多半是评测选出来的：查询精心构造、代码偏旧、BM25 还被削弱（把文件切块、把改过的测试算作相关）。作者自建 Repo-Premium——真实仓库的文件级排序、Python/JS/TS/Go/Rust/Java 六种语言、2022–2026 的 PR、91 个仓库的预注册测试池。结论是稠密优势可拆成两部分：偏袒稠密的评测选择，以及查询里缺少代码中的稀有标识符。用 LLM 先写出可能的标识符再 grep（generate-then-grep），在每一个 Python 测试池里都能追平稠密检索，包括模型发布之后才开的 PR。作者给出三条建议：跟公平的词法基线比、稠密与 BM25 融合、给缺词的查询补上代码里的词。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用 91 个真实仓库、六语言、四年 PR 的基准把「稠密 vs 词法」拆开度量，并给出廉价补强：让 LLM 生成候选标识符再 grep。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">团队常按论文结论直接上向量库，忽略 BM25 基线，换来很小的实际收益却付出索引与延迟成本；代码 agent 里 grep 明明够用，却说不清为什么。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得用来校准内部代码检索选型：先做公平 BM25 基线，再决定是否加向量；不宜据此彻底放弃稠密——论文自己也承认没有方法能预测单条查询该用哪个，融合更稳。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://huggingface.co/papers/2611.20455" target="_blank" rel="noopener">HuggingFace Papers</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🧭</span><span class="sec-title">🧭 Agent 工具链</span></div>
+    <div class="item">
+      <div class="num">04</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.330" target="_blank" rel="noopener">Claude Code v2.1.330：企业管理员控制台登录落地、内置 easel 图表、自托管 runner 加两个时延指标</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>11 月 20 日的 v2.1.330 把企业侧打通：支持登录由 Anthropic Enterprise Admin Console 管理的组织，claude auth login 之后自动套用组织设置并走组织指定的云厂商或网关。新增内置 easel mod，被要求画图时直接出图，也能画在 MCP 指标结果下面（Pro/Max 与部分 Team/Enterprise，macOS 与 Linux，可在 /config 关掉自动图表）。自托管 runner 增加 --start-dir / SELF_HOSTED_RUNNER_START_DIR，让会话从仓库某个子目录开始；/metrics 增加 order→registered 与 order→first-session 两个秒级指标。修复面很实：长对话 compact 后卡死数分钟、WebFetch 在部分页面卡住或返回空、多进程并发写设置互相覆盖、子 agent 声明的 MCP server 被提前关闭、退出 worktree 时删掉另一个会话正在用的 worktree。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">组织级登录与策略下发走 Admin Console；easel 是内置图表 mod（含 MCP 指标可视化）；runner 增加启动目录与两个排队时延指标；一批并发与卡死 bug 被修掉。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">企业内推广 Claude Code 最难的是账号与策略统一（谁属于哪个组织、走哪个网关），以及长会话卡死、多开实例互相踩设置这类日常磨损。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得升级，尤其是有自托管 runner 或多开窗口的用法；升级前确认组织确实在 Admin Console 里管理，否则这条登录路径不生效。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/anthropics/claude-code/releases/tag/v2.1.330" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">05</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/openai/codex/releases/tag/rust-v0.171.0" target="_blank" rel="noopener">Codex 0.171.0：模型目录加入 GPT-6.2 Sol/Astra、TUI 工作区默认开、codex exec 可挂远端 app server</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>0.171.0 把 GPT-6.2 Sol 与 Astra 写进模型目录，Sol 成为默认目录选项。TUI 工作区默认启用：主对话旁可并排看可搜索的文档预览、图片预览与子 agent 转录。非交互场景新增 codex exec --remote &lt;ADDR&gt;，直接在已有的 app server 上开或续会话；TUI 里用 /rc、/remote 管本地远控与设备配对码。修复切换或恢复会话时草稿与排队 follow-up 丢失、换工作目录后权限 profile 失效、上一轮的完成事件取消新一轮审批、steering 时聚合 diff 丢旧编辑等问题。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">模型目录接入 Sol/Astra 且 Sol 默认；TUI 变多面板工作区（文档/图片/子 agent 转录）；exec 支持远端 attach，/rc 管设备配对码。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">在服务器上跑 app server、本地只做前端的人，很难把非交互任务挂到同一会话；多面板省掉在终端与编辑器之间来回切。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得跟，尤其是有「远端会话 + 本地 TUI」用法的人；Sol 成为默认目录项意味着新配置默认选它，脚本里显式指定模型的要复核。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/openai/codex/releases/tag/rust-v0.171.0" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛠️</span><span class="sec-title">🛠️ AI 工程落地</span></div>
+    <div class="item">
+      <div class="num">06</div>
+      <div class="item-body">
+        <h3><a href="https://architectlabs.com/blog/frostbite" target="_blank" rel="noopener">Frostbite：AI 从零设计出一颗通用 CPU，ISA、微架构、RTL、验证到 GDS 全由 agent 群迭代</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Architect Labs 11 月 18 日发布 Frostbite：一颗指令集全新设计的通用 CPU，从编译器、ISA、微架构、RTL、验证到最终 GDS 都由 AI 系统自主迭代产出，公司称全程「零架构先验」，过程中跑的是多个 agent swarm。设计押在 interaction nets 上——程序的每一步都是局部的、依赖显式、每个值只有一个所有者——因此不必靠乱序执行在运行时重新发现依赖。作者给的例子是五皇后搜索：顺序程序一次只看一个候选，interaction net 平均每一步有约 12 个交互可并行执行，而程序本身一行没改。公司称由此拿到「免多线程」的并行（无锁、无竞争）与台阶式的性能提升。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用 agent swarm 跑完架构探索→ISA→微架构→RTL→验证→GDS 全链路，产出一个基于 interaction nets 的新 ISA 通用 CPU 设计。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">通用 CPU 架构几十年停滞，根因之一是主流语言把依赖藏在共享可变状态里，硬件只能在运行时猜；interaction nets 把并行性暴露在程序结构里，省掉乱序与一致性开销。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得读方法论而不是等芯片：这是「agent 群做长链路硬件工程」目前最完整的公开案例，验证与收敛怎么组织比结果更有参考价值；性能数字要打折看——来自公司自己的工作负载与仿真。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://architectlabs.com/blog/frostbite" target="_blank" rel="noopener">Architect Labs</a></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="num">07</div>
+      <div class="item-body">
+        <h3><a href="https://cloud.google.com/blog/products/data-analytics/scaling-airflow-pipelines-with-ai-agents-on-managed-airflow/" target="_blank" rel="noopener">生产 DAG 半夜 OOM 没有 traceback：Managed Airflow Agent 把 worker 内存与重试对上，给出三条修法</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Google Cloud 用一个具体案例讲 Managed Airflow（原 Cloud Composer）里的 agent：零售商 Cymbal 的 clickstream DAG 由 agent 生成并部署到 Airflow 2.11.1 环境（worker 2 vCPU/4GB，1–6 台自动伸缩）。10 月大促加新版 App 让一小时事件从约 350MB 涨到约 1.4GB，pandas 把整小时 concat 进内存后，10 月 23 日 14:00 UTC 那次运行三次重试全挂且任务日志无报错。控制台的 Investigate 让 agent 自己查：它把 worker 内存指标与任务重试对上，报告里每条结论都附证据，最后给出三条修法——直接写 BigQuery、分批处理、或加 worker 内存。运维先选加内存，再让 agent 分析整个环境该给多少内存。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">在控制台对失败 run 一键 Investigate：关联 worker 内存指标、任务重试与日志，输出带证据链的诊断与可执行修法；同一 agent 还能判断 DAG 是否适配新版本 Airflow。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">生产管道失败的难点不是修而是定位——任务无 traceback 死掉时，线索散在 task log、scheduler log 与 worker 指标三处，人工要跨三处对时间线。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得看它的「证据链」设计：每条结论给依据，是把 agent 放进运维闭环的前提；但它绑定 Managed Airflow 控制台，自建 Airflow 只能借鉴「指标 + 重试」的关联诊断思路。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://cloud.google.com/blog/products/data-analytics/scaling-airflow-pipelines-with-ai-agents-on-managed-airflow/" target="_blank" rel="noopener">Google Cloud</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🛡️</span><span class="sec-title">🛡️ 安全与治理</span></div>
+    <div class="item">
+      <div class="num">08</div>
+      <div class="item-body">
+        <h3><a href="https://www.infoq.cn/article/AH8deOIGb5hMHRPIKfrf?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">Grab 给 AI 生成代码上分层防御：预生产门禁 + 灰度 + 开关，崩溃自动映射到具体 PR</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>Grab 说 AI 编程助手普及后每版代码变更量变大，缺陷与崩溃概率随之上升，于是把稳定性防线做成四段：合并前用 Android Lint/SwiftLint（含自研规则）与单测、UI 测试拦；预生产用 Grab Early Access 把早期包发给内部用户持续监控——只有少数内部用户会碰到的崩溃，到生产规模就是崩溃率飙升与紧急热修；发布阶段用分阶段放量与功能开关，崩溃率超阈值就关开关而不发版；发布后用 Crashlytics + BigQuery 实时监控，自动分诊把崩溃元数据与堆栈映射到具体 PR，事后复盘再反哺 Lint 规则与测试覆盖。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">用左移的 lint/测试、内部灰度门禁、分阶段放量与实时崩溃监控四层接住 AI 带来的变更量增长，并形成「事故→规则」的反馈环。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">AI 让提交变多、单次变更变大，崩溃更难定位——并非所有崩溃都有符号化堆栈，得交叉比对发布时间表、开关发布记录与会话元数据。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">值得抄结构而不是工具：内部灰度门禁 + 开关兜底 + 崩溃→PR 映射这套组合，对任何「AI 提效后变更量翻倍」的团队都成立；门槛是会话与版本元数据要打通。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.infoq.cn/article/AH8deOIGb5hMHRPIKfrf?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">InfoQ 中国</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="board-label"><span>☸️ 基础设施板块</span></div>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤖☸️</span><span class="sec-title">🤖☸️ K8s × AI</span></div>
+    <div class="item">
+      <div class="num">01</div>
+      <div class="item-body">
+        <h3><a href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.21.0-rc.1" target="_blank" rel="noopener">Kueue v0.21.0-rc.1：DRA 优先级列表与可消费容量配额升 Beta，拒收受管的 LWS groupIdentity: Hash</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>rc.1 把两个 DRA 特性推到 Beta：KueueDRAIntegrationPrioritizedList 默认开启，调度时会把 firstAvailable 请求的 CEL 选择器与集群实际设备比对；consumable capacity 配额也升 Beta，DeviceClass 的容量维度可以用独立配额资源计费，请求取整导致多收费时会报告。另一处是准入收紧：受 Kueue 管理的 LeaderWorkerSet 用 spec.groupIdentity: Hash 会被直接拒绝——此前该模式下 leader Pod 绕过准入、worker 一直被门控。Helm 增加 managerConfig.structuredOverrides，可在不复制整份配置的前提下改 manager 设置。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">让 DRA 的设备申请进入 Kueue 的配额与优先级体系（含按设备容量维度计费、取整多收费提示），并堵上 LWS 的准入漏洞。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">GPU 用 DRA 申请后配额仍按整卡计数，与实际可切分容量对不上；LWS 的 Hash 模式让部分 Pod 绕过队列，等于配额失效。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">用 DRA + Kueue 做 GPU 配额的话值得上 rc 验证：升级要同时处理 feature gate——关 KueueDRAIntegration 必须一并关 ConsumableCapacity 与 PrioritizedList，否则 controller 起不来。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><span class="tag oss">🔧 开源</span><a class="src" href="https://github.com/kubernetes-sigs/kueue/releases/tag/v0.21.0-rc.1" target="_blank" rel="noopener">GitHub Releases</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">☸️</span><span class="sec-title">☸️ K8s 核心技术</span></div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="item-body">
+        <h3><a href="https://www.cncf.io/blog/2026/11/20/when-a-sync-window-closes-how-argo-cd-self-heal-skipped-the-migration-hook/" target="_blank" rel="noopener">Argo CD 的 self-heal 会跳过 Sync hook：5 个 region 里 2 个没跑迁移，36–44 分钟跑的是新代码</a></h3>
+        <div class="expand" onclick="toggleExpand(this)">
+          <div class="brief-text"><p>一篇 CNCF 博客复盘了真实现象：发布时 5 个 region 的 Application 同时上线同一 commit，3 个跑了数据库迁移、2 个没跑，新代码随后 36–44 分钟里一直报错——而 UI 上这两个 Application 显示 Synced + Healthy、「successfully synced (all tasks run)」。根因是两种刷新在抢：level-2 刷新来自约 2–3 分钟一次的 reconcile 定时器、会完整比对 Git；level-1 刷新由被管理对象变化触发、复用控制器已知状态。deny window 关闭时没有任何事件通知，先到的 level-1 被当成「修漂移」处理，而修漂移从不执行 hook。作者用最小复现（一个 Application + Sync hook Job + 四分钟 deny window）在 6 次里复现 5 次，并指出控制器日志里那次操作只列了 13 个资源、self-heal 计数为 1。</p></div>
+          <div class="detail-wrap"><div class="detail-inner"><div class="detail-text">
+<div class="dt-row"><div class="dt-key">能做什么</div><div class="dt-val">解释「同步成功但 hook 没跑」的竞态：self-heal 走 level-1 刷新时只修漂移、不执行 Sync hook，而 UI 与 last operation 都显示成功。</div></div><div class="dt-row"><div class="dt-key">解决什么痛点</div><div class="dt-val">把迁移放在 Sync hook 又开 self-heal 的团队会遇到「部分 region 迁移没跑、代码却已上线」，排查时被绿色状态误导，事故窗口被拉长。</div></div><div class="dt-row"><div class="dt-key">值不值得</div><div class="dt-val">必读类：作者给了可复现的最小实验，读完能自己判断该改成 PreSync/PostSync 显式 hook、还是关掉 self-heal 或调整 deny window 策略。</div></div>
+          </div></div></div>
+          <div class="toggle"><span class="chev">▾</span><span class="lbl-more">展开</span><span class="lbl-less">收起</span></div>
+        </div>
+        <div class="meta"><a class="src" href="https://www.cncf.io/blog/2026/11/20/when-a-sync-window-closes-how-argo-cd-self-heal-skipped-the-migration-hook/" target="_blank" rel="noopener">CNCF Blog</a></div>
+      </div>
+    </div>
+  </section>
+  <div class="flash">
+    <div class="flash-title">⚡ 快讯速览</div>
+    <ul>
+      <li><a href="https://azure.microsoft.com/updates?id=581963" target="_blank" rel="noopener">Azure Firewall for Containers 进入公共预览：把防火墙策略延伸到容器化工作负载</a></li>
+      <li><a href="https://cloud.google.com/blog/products/data-analytics/a-data-simulator-to-test-agents/" target="_blank" rel="noopener">Google Cloud 给 data agent 造「风洞」：用可复现的仿真仓库替代生产数据做测试</a></li>
+      <li><a href="https://simonwillison.net/2026/Nov/20/levent-alpoge/" target="_blank" rel="noopener">Levent Alpöge 称与 Claude 合作给出黎曼猜想证明，尚无同行评议</a></li>
+    </ul>
+  </div>
+  <footer class="footer">
+    <div class="logo">AI &amp; 基础设施早报</div>
+    <p>由 Hermes 自动汇编 · 每日 08:30 更新</p>
+  </footer>
+</div>
+<script>
+function toggleExpand(el){ el.classList.toggle('open'); }
+</script>
+</body>
+</html>
