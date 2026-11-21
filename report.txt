@@ -1,59 +1,61 @@
 ======================================================================
-处理报告  (原始 418 条)
+处理报告  (原始 261 条)
 ======================================================================
 
-① 过滤: 保留 268 条, 过滤掉 150 条
+① 过滤: 保留 215 条, 过滤掉 46 条
    过滤掉的样例(非AI相关):
      ✗ [GitHub Trending] cursor/plugins
      ✗ [GitHub Trending] nginx/nginx
      ✗ [GitHub Trending] toeverything/AFFiNE
      ✗ [GitHub Trending] XiaoYouChR/Ghost-Downloader-3
-     ✗ [GitHub 升星repo] sourmitocand1987/VividFrame-GPU
-     ✗ [GitHub 升星repo] 0marContreras/gta6recomp
      ✗ [GitHub 升星repo] MSNightmare/FastUnlock
+     ✗ [GitHub 升星repo] nataphong-lab/Open-Source-Face-Recognition-Ultimat
      ✗ [GitHub 升星repo] duwqijlk/google-trial-tool
+     ✗ [GitHub 升星repo] umbra0688/windows-clipboard-manager-sync
 
-② 去重: 268 → 233 条 (同批合并 2, 跨天历史去重 33)
+② 去重: 215 → 175 条 (同批合并 6, 跨天历史去重 34)
    跨天去重(此前已发过，跳过):
      ⏭️  [GitHub Trending] elementalsouls/Claude-BugHunter
+     ⏭️  [GitHub Trending] jingyaogong/minimind
+     ⏭️  [GitHub Trending] firecrawl/firecrawl
      ⏭️  [GitHub Trending] mvanhorn/last30days-skill
      ⏭️  [GitHub Trending] google-labs-code/stitch-skills
+     ⏭️  [Orca] v1.4.267
+     ⏭️  [Orca] v1.4.266
      ⏭️  [Orca] v1.4.265
-     ⏭️  [Orca] v1.4.264
-     ⏭️  [Orca] Orca Mobile Android android-v0.0.68
-     ⏭️  [Orca] v1.4.263
-     ⏭️  [Orca] v1.4.262
    跨源合并的事件:
-     ⇉ General progress substitutes for specifi  ← ['HuggingFace Papers', 'arXiv cs.AI']
-     ⇉ WorldRuler: Interactive World Modeling u  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ RL Post-Training in Diffusion Transforme  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Language Models Can Rewrite Their Own We  ← ['HuggingFace Papers', 'Hacker News']
+     ⇉ AURA: AUdio-dRiven streaming Avatar  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ A CPU Inside an LLM: Zero-Gradient Compi  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ One Prior, Two Dynamics: Repurposing Vid  ← ['HuggingFace Papers', 'arXiv cs.AI']
+     ⇉ Probing the "Conscious" Mind: Selective   ← ['HuggingFace Papers', 'arXiv cs.AI']
 
 ③ 分类分布:
    【AI 板块】
-     - Agent 工具链: 10 条 (含🔧开源 2)
-     - AI 工程落地: 30 条 (含🔧开源 5)
-     - Agent & Skill: 50 条 (含🔧开源 6)
-     - 模型与研究: 108 条 (含🔧开源 1)
-     - 沙箱与运行时: 4 条
-     - 安全与治理: 5 条
-     - 产品与商业: 6 条 (含🔧开源 1)
+     - 模型与研究: 102 条 (含🔧开源 1)
+     - AI 工程落地: 14 条 (含🔧开源 4)
+     - Agent 工具链: 8 条 (含🔧开源 2)
+     - Agent & Skill: 29 条 (含🔧开源 7)
+     - 沙箱与运行时: 1 条
+     - 安全与治理: 4 条
+     - 产品与商业: 7 条 (含🔧开源 1)
      - 观点与好文: 2 条
      - 平台政策与风控: 1 条
    【基础设施】
-     - K8s 核心: 3 条
-     - 云原生周边: 1 条
-     - K8s × AI: 4 条
-     - 公有云: 6 条
-     - 社区与项目: 3 条
+     - 社区与项目: 1 条
+     - K8s 核心: 4 条
+     - 公有云: 2 条
 
 ④ 🔥今日重点 (阈值≥13, 最多2条): 选中 2 条
-     🔥 [21分] General progress substitutes for specific training data
-        源:HuggingFace Papers 类:模型与研究 跨源:['HuggingFace Papers', 'arXiv cs.AI']
+     🔥 [19分] Hebbia sees improvements in financial research with GPT
+        源:OpenAI News 类:AI 工程落地 跨源:[]
      🔥 [19分] Anthropic launches roadshow for proposed initial public
         源:Anthropic News 类:产品与商业 跨源:[]
 
    打分Top5(参考):
-      21分 [HuggingFace Papers] General progress substitutes for specific tra
+      19分 [OpenAI News ] Hebbia sees improvements in financial researc
       19分 [Anthropic News] Anthropic launches roadshow for proposed init
-      17分 [Simon Willison] GPT‑6.2 Astra and GPT‑6.2 Sol
-      16分 [OpenAI News ] Introducing GPT-6.2 Astra and Sol
       16分 [Anthropic News] Expanding our partnership with GSA to bring C
+      16分 [Anthropic News] Introducing the Anthropic Cyber MissionWe’re 
+      16分 [Anthropic News] Expanding the Cyber Verification ProgramWe’re
