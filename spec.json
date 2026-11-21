@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 20 日 · 星期五(如 2026年09月19日 · 星期六)、060(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 21 日 · 星期六(如 2026年09月19日 · 星期六)、061(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 20 日 · 星期五 · 第060期",
+  "subtitle": "2026 年 11 月 21 日 · 星期六 · 第061期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Claude 解出两个理论物理开放问题：补完 2003 年没人算完的计算，并证明一个 2009 年以来的质量上界无法再降**\nAnthropic 公开了两个理论物理结果：Claude 补完了物理学家 2003 年列出、因过于复杂而从未完成的计算——在五维反 de Sitter 空间里确认 Hawking-Page 相变是否仍然突变，结论是即使时空不再具有确定几何，黑洞形成带来的突变依然存在。第二个问题在二维宇宙的全息 bootstrap 上：自 2009 年起学界用这套方法给“…\n\n2. **Firecracker v1.18.0 支持 Nitro Sandboxes：直接用 Nitro Hypervisor 从父 EC2 实例切隔离 VM，不再依赖 /dev/kvm**\nFirecracker v1.18.0 增加 Nitro Sandboxes：它不再要求 KVM，而是驱动 Nitro Enclaves 的 /dev/nitro_enclaves，让 Nitro Hypervisor 从当前 EC2 父实例里切出隔离 VM 交给 Firecracker 管理。对外接口几乎不变——原有 API、jailer 与 virt…"
+   "content": "**🔥 今日重点**\n\n1. **Agent Sandbox v1.0.12：三个 SDK 统一支持 suspend/resume，空闲沙箱释放 Pod 但保留 claim 与持久卷**\nkubernetes-sigs 的 Agent Sandbox 11 月 20 日发布 v1.0.12，核心是把 suspend()/resume()/is_suspended() 补齐到 Go、Python、TypeScript 三个 SDK：通过对 Sandbox 打 spec.operatingMode 补丁（带 UID 守卫）释放 Pod，但保留…\n\n2. **Inkling 2 Mini：中间层重复三遍的循环 Transformer，100B 以下开源权重在 agentic coding 上排到前列**\nThinking Machines 11 月 20 日发布 Inkling 2 Mini，架构上是循环 Transformer：每个 token 都把模型中间层重复计算三次，官方说法是用更少的 token 换更高的推理质量，重点针对依赖推理质量的 agentic coding。总参数低于 100B，小到能在笔记本上跑。"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **模型与研究** · 原第四范式（现范式智能）第一次把自研模型端到台前，发布 Phai 系列，主打代码开发与智能助手场景：写代码、修 bug、调工具、跑多步任务。\n\n🧩 **Agent & Skill** · OKF（Open Knowledge Format）是 Google 6 月提出的开放规范，用纯 markdown + YAML 给 agent 提供上下文；v0.2 加了来源、信任、新鲜度、生命周期与证明五类信任信号。\n\n🧭 **Agent 工具链** · Orca v1.4.265 的主线是 Orca Bots：每个受管 agent 会话启动时带着自己的工具与身份，此前这类会话只支持 Claude 与 Codex，现在扩展成通用形态。\n\n🏖️ **沙箱与运行时** · 这一版的核心是把文件系统 checkpoint 做成可维护的能力：新增 fscheckpoint 语料管线、兼容性与格式版本化文档（明确写了面向 agent 的存档格式版本约定），并有独立的一致性测试集。\n\n🛠️ **AI 工程落地** · 红帽全球副总裁曹衡康描述的现实是：模型选定、平台搭好、业务刚接完，市场上又出现更强的模型，CEO 转头问 CIO 能不能换——而换模型牵动 GPU 适配、推理服务、数据接口与业务流程。\n\n📜 **平台政策与风控** · OpenAI 10 月 21 日重写使用政策，11 月 20 日生效（即今日）。\n\n💡 **观点与好文** · curl 作者 Daniel Stenberg 给出的数字：在外部 agent 把 185,000 行 C 代码转写成 340,000 行 Rust 的同一段时间里，curl 主项目合并了 300 多个提交。\n\n🤖☸️ **K8s × AI** · v0.21.0-rc.0 的破坏性变更集中在准入语义：ClusterQueue 省略 spec.concurrentAdmissionPolicy.migration.mode 时现在默认 TryPreferredFlavors，Go 侧 ConcurrentAdmissionMigration.Mode 也改成指针类型。\n\n☸️ **K8s 核心技术** · 这一版最重要的两条都是策略放行缺陷：egress 规则同时使用 toServices 与 toPorts 时，若引用的 Service 不存在、或是没有后端的 selector-less Service，流量会被放行到任意目的地的那几个端口；strict egress encryption 在 --encryption-strict-egress-cid…"
+   "content": "**📌 今日看点**\n\n🧠 **🧠 模型与研究** · 论文提出 self-rewriting：把权重、评分后的答案和「运行自己」的能力交给模型，让它诊断自己的失败并直接改写背后的权重，全程没有梯度也没有训练。\n\n🧩 **🧩 Agent & Skill** · 论文针对「敏感临床数据不能出网、本地 LLM 又会编参数」的两难，提出 System 1 agents：本地 agent 调工具时不生成文本。\n\n🧭 **🧭 Agent 工具链** · 11 月 20 日的 v2.1.330 把企业侧打通：支持登录由 Anthropic Enterprise Admin Console 管理的组织，claude auth login 之后自动套用组织设置并走组织指定的云厂商或网关。\n\n🛠️ **🛠️ AI 工程落地** · Architect Labs 11 月 18 日发布 Frostbite：一颗指令集全新设计的通用 CPU，从编译器、ISA、微架构、RTL、验证到最终 GDS 都由 AI 系统自主迭代产出，公司称全程「零架构先验」，过程中跑的是多个 agent swarm。\n\n🛡️ **🛡️ 安全与治理** · Grab 说 AI 编程助手普及后每版代码变更量变大，缺陷与崩溃概率随之上升，于是把稳定性防线做成四段：合并前用 Android Lint/SwiftLint（含自研规则）与单测、UI 测试拦；预生产用 Grab Early Access 把早期包发给内部用户持续监控——只有少数内部用户会碰到的崩溃，到生产规模就是崩溃率飙升与紧急热修；发布阶段用分阶段放…\n\n🤖☸️ **🤖☸️ K8s × AI** · rc.1 把两个 DRA 特性推到 Beta：KueueDRAIntegrationPrioritizedList 默认开启，调度时会把 firstAvailable 请求的 CEL 选择器与集群实际设备比对；consumable capacity 配额也升 Beta，DeviceClass 的容量维度可以用独立配额资源计费，请求取整导致多收费时会报告。\n\n☸️ **☸️ K8s 核心技术** · 一篇 CNCF 博客复盘了真实现象：发布时 5 个 region 的 Application 同时上线同一 commit，3 个跑了数据库迁移、2 个没跑，新代码随后 36–44 分钟里一直报错——而 UI 上这两个 Application 显示 Synced + Healthy、「successfully synced (all tasks run)」。"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 9 个板块 12 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 7 个板块 10 条精选 + 3 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-20.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-21.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
