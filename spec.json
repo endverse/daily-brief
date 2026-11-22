@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 21 日 · 星期六(如 2026年09月19日 · 星期六)、061(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 22 日 · 星期日(如 2026年09月19日 · 星期六)、062(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 21 日 · 星期六 · 第061期",
+  "subtitle": "2026 年 11 月 22 日 · 星期日 · 第062期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Agent Sandbox v1.0.12：三个 SDK 统一支持 suspend/resume，空闲沙箱释放 Pod 但保留 claim 与持久卷**\nkubernetes-sigs 的 Agent Sandbox 11 月 20 日发布 v1.0.12，核心是把 suspend()/resume()/is_suspended() 补齐到 Go、Python、TypeScript 三个 SDK：通过对 Sandbox 打 spec.operatingMode 补丁（带 UID 守卫）释放 Pod，但保留…\n\n2. **Inkling 2 Mini：中间层重复三遍的循环 Transformer，100B 以下开源权重在 agentic coding 上排到前列**\nThinking Machines 11 月 20 日发布 Inkling 2 Mini，架构上是循环 Transformer：每个 token 都把模型中间层重复计算三次，官方说法是用更少的 token 换更高的推理质量，重点针对依赖推理质量的 agentic coding。总参数低于 100B，小到能在笔记本上跑。"
+   "content": "**🔥 今日重点**\n\n1. **Hebbia 用 GPT-6 Astra 做金融研究：引用相关性 99.5%，必需来源类型覆盖领先最好替代 13.6 个百分点**\nHebbia 的 Matrix 把尽调材料（约 2000 个文件的 data room）连到可追溯的引用单元格，客户经理问「收入为什么能持续」「和同业比怎样」，答案直接挂到原始文档。他们拿 OpenAI 的 GPT-6 Astra 测了这条链路的两端：找出问题所需来源，以及按用户给的简报结构生成演示。\n\n2. **开源 Agnes Harness：Sys1 双系统 + 版本化 Playbook，设备入库验收从 30 分钟超时压到 8 分钟**\nAgnes Harness 是 Apache 2.0 开源（GitHub 2.1k star）的 agent 执行框架，核心是两件事：Sys1 双系统决策，把快判断交给专门的小模型、慢推理交给大模型；以及 TTT × RSI 双层自进化——TTT 在当下任务里边做边调 prompt/memory/skills/subagent 的组合，RSI 把验证有效…"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **🧠 模型与研究** · 论文提出 self-rewriting：把权重、评分后的答案和「运行自己」的能力交给模型，让它诊断自己的失败并直接改写背后的权重，全程没有梯度也没有训练。\n\n🧩 **🧩 Agent & Skill** · 论文针对「敏感临床数据不能出网、本地 LLM 又会编参数」的两难，提出 System 1 agents：本地 agent 调工具时不生成文本。\n\n🧭 **🧭 Agent 工具链** · 11 月 20 日的 v2.1.330 把企业侧打通：支持登录由 Anthropic Enterprise Admin Console 管理的组织，claude auth login 之后自动套用组织设置并走组织指定的云厂商或网关。\n\n🛠️ **🛠️ AI 工程落地** · Architect Labs 11 月 18 日发布 Frostbite：一颗指令集全新设计的通用 CPU，从编译器、ISA、微架构、RTL、验证到最终 GDS 都由 AI 系统自主迭代产出，公司称全程「零架构先验」，过程中跑的是多个 agent swarm。\n\n🛡️ **🛡️ 安全与治理** · Grab 说 AI 编程助手普及后每版代码变更量变大，缺陷与崩溃概率随之上升，于是把稳定性防线做成四段：合并前用 Android Lint/SwiftLint（含自研规则）与单测、UI 测试拦；预生产用 Grab Early Access 把早期包发给内部用户持续监控——只有少数内部用户会碰到的崩溃，到生产规模就是崩溃率飙升与紧急热修；发布阶段用分阶段放…\n\n🤖☸️ **🤖☸️ K8s × AI** · rc.1 把两个 DRA 特性推到 Beta：KueueDRAIntegrationPrioritizedList 默认开启，调度时会把 firstAvailable 请求的 CEL 选择器与集群实际设备比对；consumable capacity 配额也升 Beta，DeviceClass 的容量维度可以用独立配额资源计费，请求取整导致多收费时会报告。\n\n☸️ **☸️ K8s 核心技术** · 一篇 CNCF 博客复盘了真实现象：发布时 5 个 region 的 Application 同时上线同一 commit，3 个跑了数据库迁移、2 个没跑，新代码随后 36–44 分钟里一直报错——而 UI 上这两个 Application 显示 Synced + Healthy、「successfully synced (all tasks run)」。"
+   "content": "**📌 今日看点**\n\n🧠 **🧠 模型与研究** · OpenAI 11 月 20 日公开对抗性蒸馏的防护体系：对抗测试、模型训练、分类器与 API 级防护叠加，再配合对协同抽取行为的调查与执法，防护等级对齐生物与网络安全领域。\n\n🧭 **🧭 Agent 工具链** · Orca 1.4.269 让 Bots 能跑在 Kiro、Kimi Code、Auggie、Gemini CLI、Kilo Code、MiMo Code、Droid、Goose 八个新 agent 上，Chat 也能直接开 Kiro、Auggie、Goose，且 Kiro 会话会执行你自己的 hooks。\n\n🏖️ **🏖️ 沙箱与运行时** · 4.4.0 的重点在 runtime-rs：快照恢复时保留设备生命周期状态（dragonball 后端），并补完热插块设备与 VFIO 设备的清理链路；Cloud Hypervisor 后端改用 VMDK 磁盘格式承载多层 EROFS 容器镜像，减少逐层拉取；热插前先显式预留 PCIe root port 地址，避免地址冲突；网络清理从 Tokio wo…\n\n🛠️ **🛠️ AI 工程落地** · 字节开源的 OpenViking（40k+ star 上下文数据库）给出的做法是给企业知识一个统一地址：用 viking:// 目录树把知识、记忆、技能、规则和实时数据挂在一起，用 L0/L1/L2 分层加目录递归检索替代平铺切片，用「上下文编译」把原始资料持续加工成业务知识，并把规则作为独立的上下文类型，保证该遵守的一条不漏。\n\n📊 **📊 产品与商业** · 一家美国 AI 音乐巨头进军视频生成，其底层视频模型来自中国厂商 MiniMax。\n\n🛡️ **🛡️ 安全与治理** · ChatPRD 创始人 Claire Vo 公开复盘了持续的 token 欺诈：有人批量注册免费试用、拿促销码，再把流量隧道进她的 agent 转卖，甚至有人在上面跑「Roblox / Fortnite 地图工作室」这类生意。\n\n🤖☸️ **🤖☸️ K8s × AI** · v0.34.0 是 1061 个 commit、412 位贡献者的大版本，新增 10 个模型（含 Mistral Large 4 的 1T 总参/52B 激活、MiniMax-M3.1-Flash、Nemotron-3.5-Transcribe）。\n\n☸️ **☸️ K8s 核心技术** · 0.35.1 是补丁版：跳过空的 attestation manifest；恢复 v0.33.x 之前允许的「与 docker pull 共享快照键名」的行为；修掉 filesync 模式列表过大导致报错的回归。"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 7 个板块 10 条精选 + 3 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 8 个板块 13 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-21.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-22.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
