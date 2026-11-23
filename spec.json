@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 22 日 · 星期日(如 2026年09月19日 · 星期六)、062(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 23 日 · 星期一(如 2026年09月19日 · 星期六)、063(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、1. **ACI 无服务器沙箱预览：每个 agent 一台 Hyper-V microVM，快照带内存态，Agent Grid 专管出口**\nAzure 在 ACI 上开放无服务器沙箱预览：每个沙箱是一台带独立 Hyper-V 隔离边界的轻量 microVM，生命周期被明确定义为 创建 → 跑代码/工具 → 快照 → 暂停 → 恢复 → 删除。管理面用租户级的 AIAgentsGroups（Microsoft.ContainerInstance/AIAgentsGroups）把一组沙箱与快照…\n\n2. **OpenComputer 开源：Slack 里 @ 一下就派活的 Devin 替代品，单 VM 自托管、每线程一个 rootless Podman**\ndiggerhq 开源 OpenComputer，定位是自托管版 Devin：在 Slack 线程里 @Computer 派活，agent 在自己的电脑上干活，人和同事可以实时看它操作并随时插手，结果以 PR 交付。实现刻意做得能单机自托管——一台只允许出站的 VM 上跑 Calvin 网关接 Slack 事件，每个线程起一个会话，用 rootless …(🔥今日重点：有序号加粗小标题+摘要,整块)、**🧠 模型与研究** · 11 月 20 日，Anthropic 数学家 Levent Alpöge 与纽约大学 Tristan Buckmaster 公布 79 页论文，声称证明三维 Navier–Stokes 方程在无外力条件下的有限时间爆破，并同时公开 Lean 形式化证明代码。\n\n**🧩 Agent & Skill** · 腾讯元宝与伦敦国王学院 NLP 团队发布 GroupAssistBench，数据来自真实部署的群助手：50 个真实群聊、80,299 条历史消息，构建 2,395 道题（L1 记忆召回 1,374 道、L2 开放式服务 1,021 道），比较完整上下文、检索增强、外部记忆等 14 组配置。\n\n**🧭 Agent 工具链** · Orca 1.4.271 把 Bots 从「一台电脑上的 agent 群」扩到跨机器：同一个 bot group 可以放进来自多台已配对电脑的 bots，房间里 agent @ 到的成员都会接手后续回合。\n\n**🏖️ 沙箱与运行时** · AKS 新增 Agent Sandbox 集群扩展（预览），把上游 kubernetes-sigs/agent-sandbox 的 CRD 与 controller 装进集群：用一个 Sandbox 资源描述 agent 执行环境的镜像、runtime 与资源需求，controller 负责创建并管理这些有状态的执行环境，典型用法是 coding age…\n\n**🛠️ AI 工程落地** · Tracer-Cloud 的 OpenSRE 是一个自托管的 CLI agent，只做一件事：CI/CD 可靠性。\n\n**📊 产品与商业** · autoclip 是开源的桌面端 AI 剪辑工具（Tauri）：贴一个播客/访谈/课程的长视频链接，选好平台，自动剪成短视频并生成字幕、封面与发布文案，适配抖音、小红书、TikTok、Reels、Shorts、B 站与 YouTube。\n\n**💡 观点与好文** · 作者用吉他手和作家类比：不练手就会退步，软件工程没有例外。\n\n**🤖☸️ K8s × AI** · Kueue 0.20.7 是一版补丁，但改的都是会算错账的地方：DRA 里 deviceClassMappings 若给同一 driver/name 配了两个 counter 或 capacity 源，配额会被扣两次，现在配置校验阶段直接拒绝；引用不存在 DeviceClass 的 ResourceClaimTemplate 不再被准入后占着配额却永远调…\n\n**☸️ K8s 核心技术** · GKE 的 ambient networking 正式 GA：把网络职责从每个应用 pod 里的 sidecar 挪到节点级共享组件与托管控制面。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 9 个板块 13 条精选 + 4 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-23.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 22 日 · 星期日 · 第062期",
+  "subtitle": "2026 年 11 月 23 日 · 星期一 · 第063期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Hebbia 用 GPT-6 Astra 做金融研究：引用相关性 99.5%，必需来源类型覆盖领先最好替代 13.6 个百分点**\nHebbia 的 Matrix 把尽调材料（约 2000 个文件的 data room）连到可追溯的引用单元格，客户经理问「收入为什么能持续」「和同业比怎样」，答案直接挂到原始文档。他们拿 OpenAI 的 GPT-6 Astra 测了这条链路的两端：找出问题所需来源，以及按用户给的简报结构生成演示。\n\n2. **开源 Agnes Harness：Sys1 双系统 + 版本化 Playbook，设备入库验收从 30 分钟超时压到 8 分钟**\nAgnes Harness 是 Apache 2.0 开源（GitHub 2.1k star）的 agent 执行框架，核心是两件事：Sys1 双系统决策，把快判断交给专门的小模型、慢推理交给大模型；以及 TTT × RSI 双层自进化——TTT 在当下任务里边做边调 prompt/memory/skills/subagent 的组合，RSI 把验证有效…"
+   "content": "**🔥 今日重点**\n\n1. **ACI 无服务器沙箱预览：每个 agent 一台 Hyper-V microVM，快照带内存态，Agent Grid 专管出口**\nAzure 在 ACI 上开放无服务器沙箱预览：每个沙箱是一台带独立 Hyper-V 隔离边界的轻量 microVM，生命周期被明确定义为 创建 → 跑代码/工具 → 快照 → 暂停 → 恢复 → 删除。管理面用租户级的 AIAgentsGroups（Microsoft.ContainerInstance/AIAgentsGroups）把一组沙箱与快照…\n\n2. **OpenComputer 开源：Slack 里 @ 一下就派活的 Devin 替代品，单 VM 自托管、每线程一个 rootless Podman**\ndiggerhq 开源 OpenComputer，定位是自托管版 Devin：在 Slack 线程里 @Computer 派活，agent 在自己的电脑上干活，人和同事可以实时看它操作并随时插手，结果以 PR 交付。实现刻意做得能单机自托管——一台只允许出站的 VM 上跑 Calvin 网关接 Slack 事件，每个线程起一个会话，用 rootless …"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n🧠 **🧠 模型与研究** · OpenAI 11 月 20 日公开对抗性蒸馏的防护体系：对抗测试、模型训练、分类器与 API 级防护叠加，再配合对协同抽取行为的调查与执法，防护等级对齐生物与网络安全领域。\n\n🧭 **🧭 Agent 工具链** · Orca 1.4.269 让 Bots 能跑在 Kiro、Kimi Code、Auggie、Gemini CLI、Kilo Code、MiMo Code、Droid、Goose 八个新 agent 上，Chat 也能直接开 Kiro、Auggie、Goose，且 Kiro 会话会执行你自己的 hooks。\n\n🏖️ **🏖️ 沙箱与运行时** · 4.4.0 的重点在 runtime-rs：快照恢复时保留设备生命周期状态（dragonball 后端），并补完热插块设备与 VFIO 设备的清理链路；Cloud Hypervisor 后端改用 VMDK 磁盘格式承载多层 EROFS 容器镜像，减少逐层拉取；热插前先显式预留 PCIe root port 地址，避免地址冲突；网络清理从 Tokio wo…\n\n🛠️ **🛠️ AI 工程落地** · 字节开源的 OpenViking（40k+ star 上下文数据库）给出的做法是给企业知识一个统一地址：用 viking:// 目录树把知识、记忆、技能、规则和实时数据挂在一起，用 L0/L1/L2 分层加目录递归检索替代平铺切片，用「上下文编译」把原始资料持续加工成业务知识，并把规则作为独立的上下文类型，保证该遵守的一条不漏。\n\n📊 **📊 产品与商业** · 一家美国 AI 音乐巨头进军视频生成，其底层视频模型来自中国厂商 MiniMax。\n\n🛡️ **🛡️ 安全与治理** · ChatPRD 创始人 Claire Vo 公开复盘了持续的 token 欺诈：有人批量注册免费试用、拿促销码，再把流量隧道进她的 agent 转卖，甚至有人在上面跑「Roblox / Fortnite 地图工作室」这类生意。\n\n🤖☸️ **🤖☸️ K8s × AI** · v0.34.0 是 1061 个 commit、412 位贡献者的大版本，新增 10 个模型（含 Mistral Large 4 的 1T 总参/52B 激活、MiniMax-M3.1-Flash、Nemotron-3.5-Transcribe）。\n\n☸️ **☸️ K8s 核心技术** · 0.35.1 是补丁版：跳过空的 attestation manifest；恢复 v0.33.x 之前允许的「与 docker pull 共享快照键名」的行为；修掉 filesync 模式列表过大导致报错的回归。"
+   "content": "**📌 今日看点**\n\n**🧠 模型与研究** · 11 月 20 日，Anthropic 数学家 Levent Alpöge 与纽约大学 Tristan Buckmaster 公布 79 页论文，声称证明三维 Navier–Stokes 方程在无外力条件下的有限时间爆破，并同时公开 Lean 形式化证明代码。\n\n**🧩 Agent & Skill** · 腾讯元宝与伦敦国王学院 NLP 团队发布 GroupAssistBench，数据来自真实部署的群助手：50 个真实群聊、80,299 条历史消息，构建 2,395 道题（L1 记忆召回 1,374 道、L2 开放式服务 1,021 道），比较完整上下文、检索增强、外部记忆等 14 组配置。\n\n**🧭 Agent 工具链** · Orca 1.4.271 把 Bots 从「一台电脑上的 agent 群」扩到跨机器：同一个 bot group 可以放进来自多台已配对电脑的 bots，房间里 agent @ 到的成员都会接手后续回合。\n\n**🏖️ 沙箱与运行时** · AKS 新增 Agent Sandbox 集群扩展（预览），把上游 kubernetes-sigs/agent-sandbox 的 CRD 与 controller 装进集群：用一个 Sandbox 资源描述 agent 执行环境的镜像、runtime 与资源需求，controller 负责创建并管理这些有状态的执行环境，典型用法是 coding age…\n\n**🛠️ AI 工程落地** · Tracer-Cloud 的 OpenSRE 是一个自托管的 CLI agent，只做一件事：CI/CD 可靠性。\n\n**📊 产品与商业** · autoclip 是开源的桌面端 AI 剪辑工具（Tauri）：贴一个播客/访谈/课程的长视频链接，选好平台，自动剪成短视频并生成字幕、封面与发布文案，适配抖音、小红书、TikTok、Reels、Shorts、B 站与 YouTube。\n\n**💡 观点与好文** · 作者用吉他手和作家类比：不练手就会退步，软件工程没有例外。\n\n**🤖☸️ K8s × AI** · Kueue 0.20.7 是一版补丁，但改的都是会算错账的地方：DRA 里 deviceClassMappings 若给同一 driver/name 配了两个 counter 或 capacity 源，配额会被扣两次，现在配置校验阶段直接拒绝；引用不存在 DeviceClass 的 ResourceClaimTemplate 不再被准入后占着配额却永远调…\n\n**☸️ K8s 核心技术** · GKE 的 ambient networking 正式 GA：把网络职责从每个应用 pod 里的 sidecar 挪到节点级共享组件与托管控制面。"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 8 个板块 13 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 9 个板块 13 条精选 + 4 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-22.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-23.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
