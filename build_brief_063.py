@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 063 (2026-11-23). URLs are looked up in
+processed.json by URL prefix — never hand-typed."""
+import json, os, sys
+
+REPO = os.path.dirname(os.path.abspath(__file__))
+proc = json.load(open(os.path.join(REPO, "processed.json"), encoding="utf-8"))
+
+def U(url):
+    """Return the exact URL as stored in processed.json (prefix match)."""
+    for it in proc:
+        if it["url"] == url:
+            return it["url"]
+    cands = [it["url"] for it in proc if it["url"].split("?")[0] == url.split("?")[0]]
+    if len(cands) == 1:
+        return cands[0]
+    cands = [it["url"] for it in proc if it["url"].startswith(url)]
+    if len(cands) == 1:
+        return cands[0]
+    raise SystemExit(f"URL not in processed.json: {url} (cands={cands[:3]})")
+
+def item(title, url, source, summary, detail, oss=False):
+    d = {"title": title, "url": U(url), "source": source, "summary": summary, "detail": detail}
+    if oss:
+        d["oss"] = True
+    return d
+
+def D(can, pain, worth):
+    return [{"key": "能做什么", "value": can},
+            {"key": "解决什么痛点", "value": pain},
+            {"key": "值不值得", "value": worth}]
+
+# ---------------- highlights ----------------
+highlights = [
+ {
+  "title": "ACI 无服务器沙箱预览：每个 agent 一台 Hyper-V microVM，快照带内存态，Agent Grid 专管出口",
+  "url": U("https://learn.microsoft.com/en-us/azure/container-instances/container-instances-ai-sandboxes"),
+  "source": "Microsoft Learn",
+  "summary": "Azure 在 ACI 上开放无服务器沙箱预览：每个沙箱是一台带独立 Hyper-V 隔离边界的轻量 microVM，生命周期被明确定义为 创建 → 跑代码/工具 → 快照 → 暂停 → 恢复 → 删除。管理面用租户级的 AIAgentsGroups（Microsoft.ContainerInstance/AIAgentsGroups）把一组沙箱与快照、共享身份、虚拟网络和 Agent Grid 绑定包在一起，沙箱本身不再是 ARM 资源，而是经该组的 gRPC gateway（sandboxgateway.proto）批量创建/删除。两个变体是重点：stretchable sandbox 给 CPU 与内存设 [min, initial, max]，可在不重启进程的情况下原地 resize；confidential sandbox 跑在 AMD SEV-SNP 的 TEE 里，用 Base64 编码的 CCE policy 限定可执行容器与命令。Agent Grid 把「沙箱能访问哪些外部资源」从沙箱配置里拆出来单独管，配额与出口审计走这一层。",
+  "note": "新闻要点：① 每个沙箱独立 Hyper-V microVM，不是共享内核的容器；② 快照同时覆盖内存、文件系统与运行时状态，可直接恢复；③ 沙箱走组的 gRPC endpoint 批量建删，绕开 ARM 部署条数限制，RBAC 由 AIAgentsGroups 上的角色控制谁能取 token；④ stretchable 原地扩缩容、confidential 用 AMD SEV-SNP + CCE policy（当前与 Agent Grid / VNet 集成互斥）；⑤ ACI 预览无 SLA。",
+  "detail": D(
+    "按会话给 agent 一台带硬件隔离的 VM，支持内存态快照/恢复、原地扩缩容、以及 AMD SEV-SNP 级机密计算；身份、VNet、出口策略在 AIAgentsGroups 层共享，沙箱只描述镜像、runtime 与资源。",
+    "长任务 agent 需要中途挂起再恢复，容器共享内核既撑不起隔离也保不住内存态；平台侧按会话建删成千上万个沙箱，容易撞 ARM 部署上限，也难把出口与配额集中管起来。",
+    "与他评估的「按会话 actor 多路复用 + 空闲挂起」几乎逐条对应：快照=挂起恢复、stretchable=不重建改规格、Agent Grid=出口审计位。限制是 preview 无 SLA，confidential 与 Agent Grid/VNet 不能同开，且只能从 gRPC gateway 操作、要自己生成客户端。")
+ },
+ {
+  "title": "OpenComputer 开源：Slack 里 @ 一下就派活的 Devin 替代品，单 VM 自托管、每线程一个 rootless Podman",
+  "url": U("https://github.com/diggerhq/opencomputer"),
+  "source": "Hacker News",
+  "oss": True,
+  "summary": "diggerhq 开源 OpenComputer，定位是自托管版 Devin：在 Slack 线程里 @Computer 派活，agent 在自己的电脑上干活，人和同事可以实时看它操作并随时插手，结果以 PR 交付。实现刻意做得能单机自托管——一台只允许出站的 VM 上跑 Calvin 网关接 Slack 事件，每个线程起一个会话，用 rootless Podman 隔离，状态先写本地盘再持久到 git-backed store；其余控制面跑在 Cloudflare Workers + Durable Objects，VM 通过 websocket 主动外拨。官方 benchmark 称开 PR 比 Devin 快 3.3 倍，同题对比笔记本上的 Claude Code 是 32.0s vs 36.2s。项目也提供云版，自托管支持 AWS/GCP/Azure。",
+  "note": "新闻要点：① 交互面是 Slack 线程 @ 提及，agent 在独立 VM 上跑 Claude Code / Codex / OpenCode（按配置切换）；② 隔离用 rootless Podman，每线程一个会话；③ 控制面在 Cloudflare Workers/Durable Objects，计算 VM 只出站，整体可跑在单台 VM；④ 自报 3.3× 于 Devin 的开 PR 速度，本地对比 32.0s vs 36.2s；⑤ HN 125 分。",
+  "detail": D(
+    "把「派活—执行—review—交付 PR」压进 Slack：@ 提及启动会话，多人围观与插手，会话状态在 git-backed store 里可恢复；自带 VM、自带模型、可在自己云账号里跑完整栈。",
+    "团队想要 Devin 那种「云端有自己的电脑」的体验，但不愿意把代码和凭据交给第三方 SaaS；自建又通常卡在会话编排、状态持久化和 Slack 集成这三块。",
+    "与他在做的「每用户独立沙箱 agent」同题，最值得抄的是 rootless Podman + 状态落盘再同步 + 计算侧只出站的组合，成本远低于 microVM 方案；但隔离只有容器级，多租户不可信代码场景仍需换成 gVisor/Kata 一类 runtime。")
+ },
+]
+
+# ---------------- sections ----------------
+def cat(label, emoji, items):
+    return {"label": label, "title": label, "emoji": emoji, "items": items}
+
+ai_sections = [
+ cat("🧩 Agent & Skill", "🧩", [
+  item(
+   "腾讯元宝×KCL 的 GroupAssistBench：50 个真实群聊 80,299 条消息，考 agent 记忆「用得好不好」",
+   "https://www.qbitai.com/2026/11/511841.html", "量子位",
+   "腾讯元宝与伦敦国王学院 NLP 团队发布 GroupAssistBench，数据来自真实部署的群助手：50 个真实群聊、80,299 条历史消息，构建 2,395 道题（L1 记忆召回 1,374 道、L2 开放式服务 1,021 道），比较完整上下文、检索增强、外部记忆等 14 组配置。结果给出一个清晰反差：EverMemOS 在 L1 得分 0.621，高于同任务模型用完整上下文的 0.570，但 L2 只有 0.247，低于完整上下文的 0.431——「记得住」和「用得好」是两种能力。题目按依赖结构分 M1 单条记忆、M2 多记忆整合、M3 更新与冲突处理，M3 要求判断旧决定何时被新决定取代。L2 用与历史证据绑定的定制 rubric 评分：Grounding 看是否体现必要事实、Service 看任务是否完成、Penalty 罚违反现行决定或用过时信息。抽样核验中 95.8% 的题目被多数投票判定有效。",
+   D("一套从真实群聊长出来的记忆评测：两级任务（召回 / 服务）、三类记忆结构（单条 / 整合 / 冲突更新）、L2 用 Grounding+Service+Penalty 三段 rubric 打分，避免字符串匹配误判。",
+     "常见记忆评测只考事实问答，模型背得住就算过关；真实群聊里同一条信息由多人补充、安排会被后续讨论改写，服务型回答对错取决于是否遵守最新约束。",
+     "做 agent 记忆/长期上下文时值得拿这套题当回归集：它明确区分召回与使用，能解释「记忆模块提升了召回却拖累下游」这类现象；限制是中文群聊场景、题目未覆盖多模态。"), oss=False),
+  item(
+   "skill-distill：让 Claude Code/Codex 当老师，把一次好会话蒸馏成开源模型能照着跑的 skill",
+   "https://github.com/sybil-solutions/skill-distill", "GitHub 升星repo",
+   "skill-distill 是一个给 Claude Code / Codex 用的 operator skill：在一条做得好的会话结束时调用它，指定「学生」（harness + 模型，例如 omp + DeepSeek-V4.1-Flash），老师就进入循环——读会话写出 skill → 在 tmux 里用原始 prompt 加这份 skill 起一个全新状态的学生 → 比对产物与参考产物 → 找到学生第一次走错的位置并在那里改 skill → 每版跑三次试验，直到学生复现参考结果。人保留最后裁决：老师并排展示参考与最好结果，只有人接受，skill 才算完成。产出两样东西：仓库里的可复用 operator skill，以及针对单一任务、单一模型、单一 harness 的 produced skill。",
+   D("把「前沿模型做成的事」转成可迁移指令：以产物差异为信号自动定位 skill 里的缺陷并迭代，三次试验取稳定结果，人只做验收。",
+     "换开源模型跑同一任务时，失败点往往在指令细节而不是模型能力；人工调 prompt 靠猜，改一处不知道是修好还是撞运气。",
+     "对他自己积累 skill 的做法直接可用：把「一次成功会话」当成训练样本、用产物比对定位缺口的思路，比让模型自查更靠谱；门槛是要有可自动判定的产物，纯主观任务（写作、设计）不好打分。"), oss=True),
+  item(
+   "DeepSeek V1 作者 Tony Zhang 的新项目 Linger：12GB 显卡本地跑 125B，夜间把邮件日历整理成个人 Wiki",
+   "https://www.qbitai.com/2026/11/511570.html", "量子位",
+   "前 DeepSeek V1 作者、DeepSeek-VL 负责人 Tony Zhang 公布创业项目 Linger：一块 12GB 显存的 RTX 3060 能跑 125B 参数的 Qwen3.8-Flash-Next，生成速度 45.5 tokens/s，不按 token 付费、数据不出本机。它每晚读取收件箱、日历、聊天记录与会议，把这些整理成个人知识库（Wiki）供所有 agent 查询；在长期对话记忆基准 LoCoMo 上准确率 95%，超过 Mem0、MemOS 等记忆增强系统。提醒策略按事件重要性与紧急度决定时机——周一收到客户要求周五前报价的邮件，不会立刻打扰，而是周三早上再提醒；用户也可以直接下指令改写规则。核心主张是模型与 harness 一起优化。",
+   D("本地常驻的个人 agent：夜间批处理个人数据建 Wiki、跨 agent 共享查询、按重要/紧急程度择时提醒，全部在本机完成；支持用自然语言改提醒规则。",
+     "云端 agent 拿不到完整个人上下文，把邮件日历交给 SaaS 又有数据顾虑；本地跑大模型通常受显存限制，只能用小模型。",
+     "值得关注的是 12GB 跑 125B 这个量化+harness 取舍，以及「夜间离线整理、白天在线查询」的调度思路；产品本身闭源、只公布了 LoCoMo 一项指标，成熟度待观察。"), oss=False),
+  item(
+   "Karpo 开源浏览器 agent 框架：Browserbase v2 上 89% 成功率、单任务 0.096 美元，比 Fable 5.2 + Claude Code 快 1.9 倍",
+   "https://www.qbitai.com/2026/11/511791.html", "量子位",
+   "MachinePulse 把自家 Personal Agent 用的浏览器操作框架开源：karpo-browser 框架 + 专为网页动作决策训练的 Karpo Decision 27B Act 模型 + 评测集 KBB，采用 System 1 + System 2 双系统结构。在 Browserbase Benchmark v2 的 102 道核心任务上，方案做到 89% 平均成功率、201 秒平均耗时、单任务模型成本 0.096 美元；对比榜首的 Claude Fable 5.2 + Claude Code 组合，速度快约 1.9 倍、成本只有约 1/13。同期发布的 Karpo Decision 31B 在 300 个模型参与的 Decision Index 总榜以 73.9 Full 分居首，单题最多同时判断 255 个候选、校准误差 2.3%。作者也注明该方案不参加排行，自测条件（102 题全集、三次取平均）严于榜单常见设置。",
+   D("一套可自行部署的浏览器 agent 栈：快慢双系统分工（System 1 出候选动作、System 2 做判断）、27B 动作决策模型、配套评测集，给出成功率/耗时/单任务成本三元指标。",
+     "浏览器操作的成本与延迟主要来自大模型逐步推理；纯快模型决策草率、纯大模型又慢又贵，闭源方案（如 Gemini Decision）无法自部署。",
+     "如果要做内部网页自动化（后台录入、对账、抓取），这套「小模型决策 + 双系统」是当前性价比最高的路线之一；风险是 benchmark 自测、模型权重与授权条款需先确认。"), oss=True),
+ ]),
+ cat("🧭 Agent 工具链", "🧭", [
+  item(
+   "Orca v1.4.271：bots 跨多台电脑组队、可跑 Qwen Code，手机端能改 automations 并接管会话",
+   "https://github.com/stablyai/orca/releases/tag/v1.4.271", "GitHub Releases",
+   "Orca 1.4.271 把 Bots 从「一台电脑上的 agent 群」扩到跨机器：同一个 bot group 可以放进来自多台已配对电脑的 bots，房间里 agent @ 到的成员都会接手后续回合。bot 能跑的 agent 增加 Qwen Code（此前是 Claude Code / Codex 等）。手机 App 这轮能端到端管 agent：改 automations、连 Slack/Linear/GitHub/Google/Composio、按链接分享 agent、从 OpenClaw 或 Hermes 导入 agent、查看它的 soul、管 memory 与 skills，还能把历史会话交接给另一个 agent。聊天侧可删除会话、撞到用量上限后默认自动续跑、@ 菜单支持文件夹；另外可同时挂多个 GitHub 账号。发布说明标注已知问题：应用重启或撞额度后 bot 可能停在半途，下个版本修。",
+   D("多机 bot 组队 + 多 agent 后端（含 Qwen Code）+ 手机端完整管理（automations、连接器、memory/skills、会话交接）+ 多 GitHub 账号 + 用量上限自动续跑。",
+     "agent 集群跑在多台机器上时，编排与身份各管一段；管理动作（改定时、换连接、迁移会话）过去必须回桌面端。",
+     "他已经在用 Orca 管编码 agent，这版最实际的两点是额度中断自动续跑和多 GitHub 账号；跨机组队适合「笔记本 + 常开机器」的混合部署，但已知的 bot 中途停摆问题在多机场景要留意。"), oss=True),
+ ]),
+ cat("🏖️ 沙箱与运行时", "🏖️", [
+  item(
+   "AKS Agent Sandbox 扩展预览：把 Kubernetes Agent Sandbox 的 Sandbox CRD 搬进集群，warm pool 预热、一次只能选一种 runtime",
+   "https://learn.microsoft.com/en-us/azure/aks/agent-sandbox-cluster-extension", "Microsoft Learn",
+   "AKS 新增 Agent Sandbox 集群扩展（预览），把上游 kubernetes-sigs/agent-sandbox 的 CRD 与 controller 装进集群：用一个 Sandbox 资源描述 agent 执行环境的镜像、runtime 与资源需求，controller 负责创建并管理这些有状态的执行环境，典型用法是 coding agent 跑生成的 Python、跑单测、收结果，而不把代码放进助手进程里。它给两种 runtime 供选择——基于 kata-vm-isolation-v2 的 Pod sandboxing 节点池（每个 pod 独立 guest kernel），或由 ACI 提供的无服务器沙箱；一次安装只支持一种 runtime，集群侧容量与节点池仍由用户管理。需要时可配 warm pool，让环境在会话开始前就绪；与 Pod snapshot 集群扩展配合能挂起/恢复同一个 Sandbox，但恢复要求源 VM SKU 一致，且不支持把单个快照恢复到多个独立 Sandbox。环境门槛是 Kubernetes 1.35 + Azure Linux 节点镜像。",
+   D("K8s 原生的 agent 执行环境声明：Sandbox CRD 描述镜像/runtime/资源，controller 拉起实例，可挂 warm pool 预热，可配 Kata v2 或 ACI 两种 runtime，并与 Pod snapshot 组合做挂起恢复。",
+     "自建 agent 平台要么自己做「每会话一 pod + 冷启动优化 + 状态恢复」，要么把这些逻辑写进业务代码；K8s 侧缺一层标准抽象。",
+     "对他正在搭的集群最直接：Sandbox CRD 就是「按会话 actor」的落地形态，warm pool 解决冷启动、Pod snapshot 解决空闲挂起，Kata v2 复用 VM 降低内存开销。限制是 preview、一次只能一种 runtime、恢复绑定源 VM SKU。"), oss=False),
+ ]),
+ cat("🛠️ AI 工程落地", "🛠️", [
+  item(
+   "OpenSRE 开源：CI 挂了不用人查，CLI agent 读失败 run、追根因、直接推一个待审的修复",
+   "https://github.com/Tracer-Cloud/opensre", "GitHub Trending",
+   "Tracer-Cloud 的 OpenSRE 是一个自托管的 CLI agent，只做一件事：CI/CD 可靠性。流水线失败时它读失败的 run、顺着日志与变更追到根因，然后推一个补丁等人 review，而不是只告诉你「哪一步红了」。设计上强调可自带模型与自托管，代码 Apache-2.0，当前状态是 public alpha。它的接口形态是命令行 + 直接产出 PR 式改动，适合接进现有 CI 而不是替换掉。",
+   D("从失败 run 出发做根因定位并给出可审的修复补丁；自托管、可换模型、CLI 接入现有流水线。",
+     "CI 报错只给现象不给原因，人工翻日志与 diff 占掉大量排障时间；通用编码 agent 缺 CI 领域上下文。",
+     "方向对（把 agent 收窄到 CI 可靠性这一件事，评测口径清楚），但 public alpha、无公开成功率数据；可以先在非关键仓库试，与现有 rerun/通知链路并存。"), oss=True),
+ ]),
+]
+
+model_items = [
+ item(
+  "Anthropic 数学家联手 Claude 给出三维 Navier–Stokes 爆破证明：79 页论文 + Lean 代码，陶哲轩称策略已清楚",
+  "https://www.qbitai.com/2026/11/511870.html", "量子位",
+  "11 月 20 日，Anthropic 数学家 Levent Alpöge 与纽约大学 Tristan Buckmaster 公布 79 页论文，声称证明三维 Navier–Stokes 方程在无外力条件下的有限时间爆破，并同时公开 Lean 形式化证明代码。论文 AI 声明写明这项 NS 工作全程只使用 Anthropic 的 Claude，没有用其他模型；作者的写作顺序是先有 Lean 形式化证明，再用 Scott Armstrong 开发的 Lean→自然语言工具生成初稿，之后由作者指导 Claude 重写、替换冗长论证。陶哲轩专门发文讨论，认为大体策略已清楚（数值找到近自相似的候选流，再用严格扰动理论证明附近存在真解），但仍需整理成规范证明文本。同日数学家 Alessandro Maria Masullo 发布写了近 12 年的 940 页黎曼猜想草稿，AMS 主席 Ravi Vakil 强调那份草稿没有使用 AI。两项主张都还没有完成独立核验。",
+  D("公开了一份 79 页的 NS 爆破证明主张与 Lean 形式化代码，并披露「先形式化、再生成自然语言论文、再由人指导模型改写」的工作流。",
+   "形式化证明与人类可读论文之间长期存在巨大翻译成本；这次把「机器可验的代码」放在前面、论文放在后面，顺序反过来了。",
+   "对他关心的 agent 落地有两点参考：一是长链条数学工作的分工（人定方向与验收、模型做生成与重写），二是形式化代码作为可核验中间产物。但结论未经同行评议，不宜当既成事实引用。"), oss=False),
+ item(
+  "XDOF 实测 GPT-6.2 Astra 双臂操作：16 项任务成功率 41.2%，两个月前 GPT-6 Astra 只有 19.6%",
+  "https://www.qbitai.com/2026/11/511779.html", "量子位",
+  "机器人基础设施公司 XDOF 公布对 GPT-6.2 Astra 的实测：在 16 项双臂操作任务上综合成功率 41.2%，两个月前同一套评测里 GPT-6 Astra 是 19.6%，绝对值提升 21.6 个百分点。评测用 6 台 YAM 工作站并行、每项任务重复 30 次、单日可跑 480 场，由人工标注子步骤、抓取失误与碰撞以滤除硬件偏差。41.2% 是 16 项等权平均，覆盖物体抓取、空间推理、双臂协作与工具使用；「展开 T 恤」「给绳子打结」这类形变物体任务首次全通。",
+  D("通用多模态模型在双臂机器人上直接出策略：不需要针对每个任务采集示教数据，成功率在两个月内翻倍；形变物体（布料、绳结）首次进入通过列表。",
+   "传统 VLA/策略模型换物体、换环境或串起多步动作就要重采数据补训，泛化成本高。",
+   "对他意义在于「通用模型当机器人策略」的曲线开始变陡，但 41.2% 仍不可投产；值得记的是评测方法（多工作站并行、每任务 30 次、人工标注失败类型），比单次 demo 可信。"), oss=False),
+]
+product_items = [
+ item(
+  "autoclip：贴一个链接就出短视频，本地渲染 + 云模型按量计费",
+  "https://github.com/zhouxiaoka/autoclip", "GitHub Trending", 
+  "autoclip 是开源的桌面端 AI 剪辑工具（Tauri）：贴一个播客/访谈/课程的长视频链接，选好平台，自动剪成短视频并生成字幕、封面与发布文案，适配抖音、小红书、TikTok、Reels、Shorts、B 站与 YouTube。渲染在本机完成，云端模型按量计费，剪完可进编辑器手改；仓库同时提供 MCP 接口。同类工具多是把整条流水线放在云上按次收费，它把渲染与素材留在本地。",
+  D("长视频 → 多条竖屏短视频的自动化流水线：切片、字幕、封面、文案一步出，本地渲染，可人工接管编辑，带 MCP 便于被 agent 调用。",
+   "短视频二次分发是重复劳动，云剪辑工具按次计费且素材要上传。",
+   "偏内容创作向，工程价值在于「本地渲染 + 云模型」的成本切分和 MCP 暴露方式；与他的 K8s/AI 主线关系不大，可作为 agent 驱动媒体流水线的样例。"), oss=True),
+]
+opinion_items = [
+ item(
+  "「停下手写代码，review 能力也会退化」：一篇反对纯 review 流的帖子拿到 397 分",
+  "https://cekrem.github.io/posts/if-you-stop-writing-code-you-also-get-worse-at-reviewing-it/", "Hacker News",
+  "作者用吉他手和作家类比：不练手就会退步，软件工程没有例外。他的判断是 review 本身是一项需要练的技能，「把 Claude 写的代码全 review 一遍」在实践中往往意味着有一半没真读，于是团队的把关能力随之下滑。结论不是否定 AI 编码，而是主张刻意保留手写与解题练习，把「还能不能独立解决问题」当作不能被外包的能力。HN 上 397 分、181 条评论，讨论集中在 review 深度与交付速度的取舍。",
+  D("把「review 能力也会退化」讲成可检验的论点：review 是练出来的技能，长期只做审阅会让判断力下降，因此需要刻意练习。",
+   "团队用 agent 提产后，review 变成瓶颈却没人承认自己在走过场；质量闸门名义上还在、实际失效。",
+   "与他推 AI-native 的实践直接冲突也直接有用：值得拿来当团队规范的讨论材料（例如哪些模块必须手写、review 到什么粒度），但文中没有数据，是观点而非结论。"), oss=False),
+]
+
+infra_sections = [
+ cat("🤖☸️ K8s × AI", "🤖☸️", [
+  item(
+   "Kueue v0.20.7：修 DRA 配额重复计费与 MultiKueue 重复执行",
+   "https://github.com/kubernetes-sigs/kueue/releases/tag/v0.20.7", "GitHub Releases",
+   "Kueue 0.20.7 是一版补丁，但改的都是会算错账的地方：DRA 里 deviceClassMappings 若给同一 driver/name 配了两个 counter 或 capacity 源，配额会被扣两次，现在配置校验阶段直接拒绝；引用不存在 DeviceClass 的 ResourceClaimTemplate 不再被准入后占着配额却永远调度不上；MultiKueue 从一个 MultiKueueConfig 里移除 worker 集群时，原本在该集群上已准入的 Workload 不再被重新派发到别的集群（此前会同一作业跑两遍），而是留在原集群跑完。另有 ConcurrentAdmission 变体导致的 pendingWorkloads 重复计数修复。",
+   D("修 DRA 配额双扣、无 DeviceClass 的 Workload 空占配额、MultiKueue 移除 worker 后重复派发三个会导致「配额对不上账 / 作业跑两遍」的缺陷。",
+    "GPU 配额算错在多租户队列里很难定位：表现为队列明明有空却调度不上，或同一作业在两个集群各跑一份。",
+    "跑 Kueue + DRA 管 GPU 的集群应当升：三个问题都属于静默错误，升级成本低；注意 0.20 线升级前仍要读 .0 版本的破坏性变更说明。"), oss=True),
+ ]),
+ cat("☸️ K8s 核心技术", "☸️", [
+  item(
+   "GKE ambient networking GA：per-node L4 Envoy + NRI 插件替代 sidecar，升级代理不用重启业务 Pod",
+   "https://cloud.google.com/blog/products/networking/ambient-networking-for-gke-sidecarless-service-mesh/", "Google Cloud",
+   "GKE 的 ambient networking 正式 GA：把网络职责从每个应用 pod 里的 sidecar 挪到节点级共享组件与托管控制面。节点侧在 gke-managed-ambient 命名空间里跑三样东西——NRI 插件负责底层流量重定向，node proxy 是一个共享的 L4 Envoy 处理被拦截流量（mTLS、授权策略、负载均衡、遥测），xDS agent 从 Traffic Director 收配置并按需向 GKE 控制面申请证书。业务 pod 不再注入 sidecar，服务间 mTLS 用托管 workload identity 自动加密，形成零信任默认态；代理升级与配置变更不需要重启应用或安排停机窗口。",
+   D("无 sidecar 的服务网格：每节点一个共享 L4 Envoy 做 mTLS/授权/负载均衡/遥测，证书由控制面按需签发，代理生命周期与应用解耦。",
+    "sidecar 带来的资源开销与运维负担（每 pod 一个代理、升级要重启工作负载、注入失败难排查）在规模化后是主要成本。",
+    "与他自己建集群选 CNI/服务网格直接相关：ambient 把「每 pod 代理」换成「每节点代理」，资源与升级模型都变了；但这是 GKE 托管实现，自建集群对应的是 Istio ambient 模式，需分别评估。"), oss=False),
+ ]),
+]
+
+brief = {
+ "brand": "AI & 基础设施早报",
+ "date_label": "2026 年 11 月 23 日 · 星期一",
+ "issue": 63,
+ "kicker": "AI & INFRASTRUCTURE DAILY · NO.063",
+ "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+ "lead": "今天两条线在往同一个方向走。沙箱侧从「进程隔离」推进到「每会话一台 microVM + 内存态快照」：Azure 在 ACI 上开放无服务器沙箱预览，快照直接带上内存与运行时状态，出口交给 Agent Grid 单独管；AKS 则把上游 Agent Sandbox 的 CRD 装进集群，用 warm pool 预热、用 Pod snapshot 做挂起恢复。落地侧，OpenComputer 把「Slack 里派活、云端有自己的电脑」做成可自托管的开源实现；记忆评测开始考「用得好不好」，腾讯元宝用 80,299 条真实群聊证明了记得住不等于做得对。工具链上 Orca 让 bots 跨机器组队并支持 Qwen Code；研究侧，Anthropic 数学家与 Claude 一起给出了三维 Navier–Stokes 的爆破证明主张，论文先有 Lean 代码再有正文。",
+ "highlights": highlights,
+ "sections": [
+   {"label": "🤖 AI 板块", "categories": [
+      cat("🧠 模型与研究", "🧠", model_items),
+      cat("🧩 Agent & Skill", "🧩", ai_sections[0]["items"]),
+      cat("🧭 Agent 工具链", "🧭", ai_sections[1]["items"]),
+      cat("🏖️ 沙箱与运行时", "🏖️", ai_sections[2]["items"]),
+      cat("🛠️ AI 工程落地", "🛠️", ai_sections[3]["items"]),
+      cat("📊 产品与商业", "📊", product_items),
+      cat("💡 观点与好文", "💡", opinion_items),
+   ]},
+   {"label": "☸️ 基础设施板块", "categories": infra_sections},
+ ],
+ "flash": [
+   {"title": "姚顺雨与混元团队上 Reddit 答疑：Hy 小模型已进路线图，透露部分训练取舍", "url": U("https://www.qbitai.com/2026/11/511757.html"), "source": "量子位"},
+   {"title": "Anthropic 宣布 IPO 交割完成，含超额配售权全部行使", "url": U("https://www.anthropic.com/news/ipo-close"), "source": "Anthropic News"},
+   {"title": "Microsoft Foundry 多轮评测进入公共预览：按整段对话而非单条回复打分", "url": U("https://azure.microsoft.com/updates?id=581746"), "source": "Azure Updates"},
+   {"title": "Managed Service for Apache Spark 4.0：数据平台开始按 agent 规模设计流水线", "url": U("https://cloud.google.com/blog/products/data-analytics/whats-new-in-managed-service-for-apache-spark-4-0/"), "source": "Google Cloud"},
+ ],
+ "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+}
+
+# ---- assertions ----
+def walk(o):
+    if isinstance(o, dict):
+        if "url" in o:
+            yield o
+        for v in o.values():
+            yield from walk(v)
+    elif isinstance(o, list):
+        for v in o:
+            yield from walk(v)
+
+n = 0
+for it in walk(brief):
+    n += 1
+    assert it.get("title"), f"empty title: {it}"
+    assert it.get("url"), f"empty url: {it}"
+    if "detail" in it:
+        assert len(it["detail"]) == 3, f"detail must have 3 rows: {it['title']}"
+proc_urls = {x["url"] for x in proc}
+for it in walk(brief):
+    assert it["url"] in proc_urls, f"URL not from processed.json: {it['url']}"
+print(f"items(URL nodes)={n}  all URLs verified against processed.json")
+
+json.dump(brief, open(os.path.join(REPO, "briefing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("wrote briefing.json")
