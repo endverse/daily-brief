@@ -64,20 +64,30 @@ STOP = set("the a an of to in on for with and or is are new how what why this th
 def toks(s):
     return {w for w in re.findall(r"[a-z0-9][a-z0-9\.\-]{1,}", (s or "").lower()) if w not in STOP}
 
-arch_tok = [(t, toks(t)) for t in arch_raw_titles if t]
+def grams(s):
+    c = re.sub(r"[^\u4e00-\u9fff]", "", s or "")
+    return {c[i:i+3] for i in range(len(c) - 2)} if len(c) >= 3 else set()
+
+arch_tok = [(t, toks(t), grams(t)) for t in arch_raw_titles if t]
 story_dups = []
 final = []
 for it in kept:
     tt = toks(it.get("title", ""))
+    gg = grams(it.get("title", ""))
     hit = None
-    for at, aset in arch_tok:
-        if not tt or not aset:
-            continue
-        inter = tt & aset
-        # require a distinctive overlap: >=3 shared tokens and >=60% of the shorter title
-        if len(inter) >= 3 and len(inter) >= 0.6 * min(len(tt), len(aset)):
-            hit = at
-            break
+    for at, aset, ag in arch_tok:
+        # English: >=3 shared tokens covering >=60% of shorter title
+        if tt and aset:
+            inter = tt & aset
+            if len(inter) >= 3 and len(inter) >= 0.6 * min(len(tt), len(aset)):
+                hit = at
+                break
+        # CJK: 3-gram overlap >=60% of shorter
+        if gg and ag:
+            inter = gg & ag
+            if len(inter) >= 4 and len(inter) >= 0.6 * min(len(gg), len(ag)):
+                hit = at
+                break
     if hit:
         story_dups.append((it, hit))
     else:

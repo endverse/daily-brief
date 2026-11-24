@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build briefing.json for issue 064. URLs are looked up from processed.json."""
+import json, os, sys
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+os.chdir(BASE)
+PROC = json.load(open("processed.json", encoding="utf-8"))
+URLS = [p["url"] for p in PROC]
+
+def U(key):
+    """Return the exact URL as stored in processed.json (substring match)."""
+    hits = [u for u in URLS if key in u]
+    assert len(hits) == 1, f"URL lookup {key!r} -> {hits}"
+    return hits[0]
+
+def item(title, urlkey, summary, detail, source=None, oss=False):
+    assert title and summary
+    assert len(detail) == 3 and all(d["key"] and d["value"] for d in detail), title
+    d = {"title": title, "url": U(urlkey), "summary": summary, "detail": detail}
+    if source:
+        d["source"] = source
+    if oss:
+        d["oss"] = True
+    return d
+
+EMOJI = {
+    "🧠 模型与研究": "🧠", "🧩 Agent & Skill": "🧩", "🧭 Agent 工具链": "🧭",
+    "🏖️ 沙箱与运行时": "🏖️", "🛠️ AI 工程落地": "🛠️", "📜 平台政策与风控": "📜",
+    "📊 产品与商业": "📊", "💡 观点与好文": "💡", "🛡️ 安全与治理": "🛡️",
+    "🤖☸️ K8s × AI": "🤖☸️", "☸️ K8s 核心技术": "☸️", "云原生周边": "🌐",
+}
+
+def cat(label, items):
+    return {"label": label, "title": label, "emoji": EMOJI[label], "items": items}
+
+# ---------------- 🔥 今日重点 ----------------
+highlights = [
+    item(
+        "百度智能云拆恶意 skill 生态：55% 的描述里看不出恶意，98% 静默动手",
+        "infoq.cn/article/dzgleaOZ3ILx5cztUtXw",
+        "百度智能云安全架构师林道正在 AICon 2026 深圳站复盘团队半年的企业级 Agent 安全实践。他给出的核心判断是攻击形态没变、战场变了：攻击链仍是「不可信输入 → 拿权限 → 扩权限 → 变现」，但分发对象从二进制换成了 AI 的软件，恶意 skill 分发是当下黑产性价比最高的路径——团队三月的测试里，两个人花一个晚上就让恶意 Python 脚本在几十台用户设备上执行。恶意 skill 最显著的特征叫「言行不一」：55% 不会在提示词或描述里声明危险行为，用大模型扫描述也扫不出来；98% 以上不通知用户就完成窃取。三个真实样本串起演进：FakeGit 靠刷 star 与文档质量占住搜索首位再同名替换正常 skill；第二波把恶意代码藏进云端加密压缩包，绕过静态扫描；第三波把窃取嵌进正常流程——查天气需要时区，而 OpenClaw 里时区配置与大模型 API key 在同一个文件，读完顺手把 key 混淆 base64 塞进请求 header 发走。对应防御是五维安全建模、沙箱内行为观测与数据入站校验，而不是只做静态扫描。",
+        [
+            {"key": "能做什么", "value": "给出可复用的威胁建模口径：把恶意 skill 的攻击链对齐传统恶意软件的业务流（供应链 → 分发 → 获权 → 变现），并据此把检测点放在沙箱内的进程/网络行为观测、入站数据校验和多维（账号/数据/模型/工具/流程）建模上，而不是靠扫 skill 描述文本。文中给出 55% / 98% 这两个可直接引用的分布数据，以及 FakeGit、云端压缩包、查天气偷 key 三个具体攻击样本。"},
+            {"key": "解决什么痛点", "value": "企业引入 agent/skill 时最大的阻力不是能力而是「我的数据会不会泄露、控制权会不会丢、事故谁定责」。静态扫描在第二、三波攻击面前已失效（恶意意图藏云端、藏在正常流程里），只靠上架审核的团队等于把风险留给终端用户。"},
+            {"key": "值不值得", "value": "值得作为内部 agent 平台的自查清单：凡是允许装第三方 skill 的地方（ClawHub/GitHub/marketplace），都应有完整性校验、沙箱内行为观测与出口审计，而不是只信任描述。限制是这属于方法论分享，没有公开的检测规则或产品指标，落地成本主要在自建观测面。"},
+        ],
+        source="InfoQ 中国",
+    ),
+    item(
+        "Codex 0.172.0：登录可直接选 Bedrock，连接工具按个配审批人，Code Mode 全面转 gRPC",
+        "codex/releases/tag/rust-v0.172.0",
+        "OpenAI 发布 Codex CLI 0.172.0。接入面变化最大：app-server 客户端在 setup 或登录阶段就能选 Amazon Bedrock Runtime，等于把「走哪家云、用哪个账号」前移到认证环节；config.toml 里可以给单个已连接应用的工单独设审批人（approval reviewer），把审批粒度从会话级下沉到工具级。会话体验上，带缓存工具列表的 stdio MCP 服务器改为首次调用才启动，省掉启动期的空转；codex exec resume 会恢复上次保存的沙箱权限、工作目录和 workspace roots（除非显式覆盖），跨操作系统的远程会话也开始保留工作目录、workspace roots 与可写路径。工程侧 Code Mode 的宿主连接全部换成 gRPC，code_mode_host_grpc 开关废弃；内置的 openai-docs skill 更新到覆盖迁移 GPT-6.2 Astra/Sol 的端点选择与工具调用要求。",
+        [
+            {"key": "能做什么", "value": "把 Codex 的接入与授权做到可治理：Bedrock 登录让企业能在自己的云账号下计费与审计；工具级审批人让高风险工具（写文件、发请求）与只读工具走不同审批；exec resume 恢复沙箱权限与 workspace roots，使定时任务、CI 里中断后续跑不会丢上下文或越权；Code Mode 改 gRPC 后宿主与沙箱的通信协议统一。"},
+            {"key": "解决什么痛点", "value": "团队用 Codex 时三个老问题：账号/计费只能挂在 OpenAI 一侧、MCP 服务器一多就启动变慢、被中断的自动化任务恢复后目录与权限错乱。这版分别给了对应解。"},
+            {"key": "值不值得", "value": "如果已经把 Codex 放进 CI 或定时任务，这版值得升级：resume 的权限恢复与跨 OS 路径保留直接决定自动化可靠性。Bedrock 登录对要走自有云账号合规的公司是关键能力。限制是仍是单一 CLI 生态，工具级审批人的配置面需要自己维护。"},
+        ],
+        source="GitHub Releases",
+        oss=True,
+    ),
+]
+
+# ---------------- 🤖 AI 板块 ----------------
+ai_cats = []
+
+ai_cats.append(cat("🧠 模型与研究", [
+    item(
+        "GLM-5.4 用循环 Transformer 换深度：权重共享层多跑几轮，参数不增",
+        "simonwillison.net/2026/Nov/23/glm-54/",
+        "Z.ai 发布 GLM-5.4，是它第一个使用循环 Transformer（Loop Transformer）的模型：一组权重共享的层在一次前向里跑多轮，用上一轮的隐状态继续细化，从而在不增加参数量的前提下加深网络。目前不开权重，只能通过 Z.ai 的 Coding Plan 订阅访问，普通 API 还没放；两条通道共用同一个 OpenAI 兼容的 Responses 接口（api.z.ai/api/v1），Coding Plan 的 key 可直接调新模型。Simon Willison 用自写 llm-glm 插件实测了 low/high/max 三档的 pelican 图，并指出 5.3/5.4 的画风已明显向 OpenAI/Anthropic 靠拢，不再像 5.1/5.2 那样自成一路。这已是一周内第二次出现循环 Transformer——11 月 20 日 Thinking Machines 的 Inkling 2 Mini 同样把中间层跑三遍，理由是「用更少 token 完成 agentic coding 这类依赖推理质量的任务」。",
+        [
+            {"key": "能做什么", "value": "循环 Transformer 在固定参数量下增加等效深度：层组权重共享、迭代细化隐状态，官方定位是编码等需要多步推理的任务。实测入口是 Z.ai 的 OpenAI 兼容 Responses API，coding plan 订阅即可用，说明国内模型在接口层面已能直接替换。"},
+            {"key": "解决什么痛点", "value": "编码类 agent 的瓶颈常是「一次前向的推理步数不够」，加参数则推高显存与延迟。循环结构提供第三条路：不加参数换深度，代价是同一组权重多次前向带来的延迟。"},
+            {"key": "值不值得", "value": "值得关注架构方向——一周内两家（Z.ai、Thinking Machines）都押循环层，说明这是刻意选择而非个例。但目前不给权重、只能订阅，评估成本低（换个 base_url 即可试），适合先用真实编码任务对比再决定是否接入；不要在没跑过自测前替换主力模型。"},
+        ],
+        source="Simon Willison",
+    ),
+    item(
+        "Intent Contracts：把工具从规划模型手里拿走，调用改由小模型代写",
+        "papers/2611.24025",
+        "论文提出「意图合约」这一授权接口：规划模型手上没有任何工具，每一步只提交一段会落库的短合约——目标、用户原话的逐字引用、作用域字段；代码先校验合约，再由一个小型可信模型比对用户原话并亲自写出工具调用。作者用 gpt-6.1-terra 当规划器、GLM-5.3-Flash 当可信模型，在 AmPermBench 三个任务族上测：合约条件下每个被改动的对象都出现在产生它的那份合约目标里；而直接审查规划器写的命令时，规划器只把对象名写进命令、极少写进目标。当规划器自作主张加活时，合约在 27/30 次运行里仍完成用户任务，而「意图可见」的审查者只有 16/30，因为审查者只能整条命令拒绝。结论也很克制：合约并不减少越权动作，效果与盲审无差别；环境语义澄清后，40–49% 改变状态的运行仍打错目标，那是规划器本身的能力问题。",
+        [
+            {"key": "能做什么", "value": "给 tool-using agent 一个可审计的授权边界：规划模型与工具执行彻底分离，可信侧持有工具并负责落地调用，每条合约（目标 + 用户原话 + 作用域）在调用前落库，事后可按合约回溯「谁批准了什么」。在小模型上就能实现，不需要改模型本身。"},
+            {"key": "解决什么痛点", "value": "现在主流做法是「规划模型直接出工具调用，再由一个分类器/审查器放行」，审查器只能看单条命令、只能整条拒绝，规划器一旦把真实意图藏在命令里就无从判断。合约把意图显式化，让审查对象从命令变成「目标 + 原话引用」。"},
+            {"key": "值不值得", "value": "对要做多租户 agent 执行面的人是直接可抄的架构：成本低（一个 Flash 级模型 + 一层校验代码），收益是审计与权限边界清晰。但别指望它提升任务正确率——论文明确说越权动作不减少、错目标仍占 40–49%，正确性仍要靠规划模型与验证器。"},
+        ],
+        source="Hugging Face Papers",
+    ),
+]))
+
+ai_cats.append(cat("🧭 Agent 工具链", [
+    item(
+        "Claude Code v2.1.331：Code Mode 上 Bedrock/Foundry，插件支持可选依赖",
+        "claude-code/releases/tag/v2.1.331",
+        "这版把 Code Mode 推到四个托管平台：Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry，以及跑在 AWS 上的 Claude Platform。插件 manifest 新增 optionalDependencies——被依赖的插件随主插件一起装、但可以单独禁用或卸载，正好对上「团队共享 skill 集、个人只留自己用的那几个」这种需求。可观测性上，claude_code.llm_request 的 trace span 补齐 gen_ai.usage.*、gen_ai.response.model 与 gen_ai.operation.name，其中 input_tokens 含 prompt cache 命中部分，做成本归因时不用再自己拼。修复里两条影响生产：本地或 WebSocket MCP 服务器返回畸形回复时，工具调用可能挂起 30 分钟；被中断或失败的插件更新会残留半个插件目录，之后加载时 skill 等组件静默缺失。",
+        [
+            {"key": "能做什么", "value": "Code Mode（让 Claude 写脚本调用工具而非逐个 tool call）可在四个企业托管平台跑，意味着能在自有云账号与合规边界内启用；optionalDependencies 让插件拆成可选组件；trace span 的 gen_ai.* 语义约定字段可直接对接 OTel 后端做 token 与成本看板。"},
+            {"key": "解决什么痛点", "value": "企业接入 Claude Code 的两道坎：只能走官方端点、插件只能整包装卸。这版分别给了企业云入口与可选依赖。MCP 挂起 30 分钟与半个插件目录都是会直接影响无人值守任务的坑。"},
+            {"key": "值不值得", "value": "已经在用插件市场或 MCP 的团队建议升：optionalDependencies 解决共享与个人偏好的冲突，trace 字段省掉自建埋点。如果只在本机单人用，收益主要在稳定性修复上。"},
+        ],
+        source="GitHub Releases",
+        oss=True,
+    ),
+]))
+
+ai_cats.append(cat("🏖️ 沙箱与运行时", [
+    item(
+        "Abundant 每月在 Modal 上跑 200 万个沙箱：监控器放进沙箱，靠 30 秒心跳回收",
+        "modal.com/blog/abundant-efficient-rollout",
+        "Abundant 给前沿实验室造 RL 环境（OpenAI、Anthropic、Google、Meta 都是客户），已做 7.5 万个 rollout，覆盖 GPU kernel 优化到长程编码，几乎整个 rollout 平台跑在 Modal 上：Modal Functions 承担调度 API（起任务、清死跑、评审结果），Modal Sandboxes 装每个 rollout 的执行环境。规模指标是 2026 年 11 月每月 200 万+ 个沙箱。架构上他们做了一个反直觉的选择——把 rollout monitor 放进沙箱内部而不是外面，用 30 秒一次的 HTTP 心跳上报存活、事件与最终结果；沙箱安静后控制面重试三次仍连不上才终止，避免一次网络抖动就杀掉正在跑的任务。另一个省钱的招是改用 Modal 的 CPU/内存 bursting：按平均用量申请、峰值借用同机余量，既不用为峰值预留，也不会因 CPU 限流或 OOM 丢掉几小时的工作。",
+        [
+            {"key": "能做什么", "value": "给出一个可抄的百万级沙箱运营架构：短生命周期 Function 起沙箱、沙箱内 monitor 心跳上报、控制面按 3 次重试判定死亡、资源申请用 bursting 按均值而非峰值。文中还给到每月 200 万沙箱、7.5 万 rollout 这两个规模锚点。"},
+            {"key": "解决什么痛点", "value": "自建 agent 执行面最烧钱的两件事：为峰值预留导致大量闲置算力，以及任务被误判死亡后重跑。心跳放沙箱内 + 三次重试把误杀压到最低；bursting 把「猜每个任务要多少 CPU/内存」这个难题消掉。"},
+            {"key": "值不值得", "value": "如果你在自建沙箱调度（Daytona/自研 K8s Job 都算），这套「内部心跳 + 控制面重试 + 按均值申请」的模式可以直接借鉴，与平台无关。限制是 bursting 是 Modal 特性，自建要自己做超额分配与驱逐策略；文中没有延迟与成本的具体数字。"},
+        ],
+        source="Modal Blog",
+    ),
+]))
+
+ai_cats.append(cat("🛠️ AI 工程落地", [
+    item(
+        "Richpanel 承诺 30 天替掉 50% 工单、不达标退款：半年跑了约 300 次上线",
+        "openai.com/business/customer-stories/richpanel",
+        "OpenAI 客户故事：亚太客服 SaaS Richpanel 对客户承诺首月 AI 至少接管 50% 符合条件的会话、总账单降 30%，不达标全额退款；CEO 称 2026 年 10 月前的半年完成约 300 次 AI 客服上线，全部达到该目标。值得看的是它的分工——不是让一个模型全干，而是先做一个 manager agent（客户叫它 Boss AI）起草服务流程、定义前台 agent、副驾与质检 agent 各自怎么调工具，再让前台 agent 在真实工单上跑多步工具链（比如挂起 Shopify 发货、保住订阅、更新 Recharge）。模型分层也很实用：配置与流程生成用 GPT-6 Astra 和 GPT-6.1 Sol 保准确率（这一层错了会向下游传播），真正的对话用更便宜的 GPT-6 Luna，靠长上下文与长任务把单次交互成本压住。公开案例里 Haus 一周内 55% 工单由 AI 关闭、首响中位数 22 秒，Aeons 的 AI CSAT 4.39 高于人工的 4.33。",
+        [
+            {"key": "能做什么", "value": "一套「AI 交付 AI」的落地模板：用 manager agent 生成流程与工具编排，再用便宜模型跑对话，最后用质检 agent 全量审已关闭会话。配合写在合同里的 50%/30 天与 30% 降本对赌，把效果不确定性转成商业条款。"},
+            {"key": "解决什么痛点", "value": "企业上客服 AI 的真实卡点是配置成本与效果不确定：每接一个客户都要人写流程、接工具，上线周期以月计；上线后效果没人敢承诺。Richpanel 把配置交给 agent、把效果写进合同。"},
+            {"key": "值不值得", "value": "值得作为「agent 产品化」的参考：真正的护城河在流程生成、工具编排与质检闭环，而不是模型本身。判断是否深入看你是否要做面向企业的 agent 交付——若是，这套分层（贵模型做配置、便宜模型做执行、全量质检）比只堆一个强模型更可持续。限制是数据来自厂商自己的故事页与采访，缺独立复核。"},
+        ],
+        source="OpenAI News",
+    ),
+]))
+
+ai_cats.append(cat("📜 平台政策与风控", [
+    item(
+        "OpenAI 12 月起把 ChatGPT 与 Codex 的额度合成一份 token 池",
+        "help.openai.com/en/articles/20001625",
+        "OpenAI 帮助中心的《Understanding ChatGPT and Codex usage limits》（10 月 31 日更新）写明：从 12 月起，Plus、Pro、Business 三档的用量额度在 ChatGPT 与 Codex 之间共用，按 token 计量——模型越强、输入越长、推理档越高、任务步数越多，消耗越大；Instant 聊天不计入。合并后的剩余量与重置时间在 Settings → Usage 查看，撞顶后只能等重置、升级套餐或购买 credits。官方没给确切日期，也没公布各档的具体 token 预算，只说「预计多数用户不会比现在更频繁地撞顶」。背景是 Work 与 Codex 此前已共享一份 agentic 额度，这次把高级对话也并进同一个池。",
+        [
+            {"key": "能做什么", "value": "把「一份额度跨两个产品」写进官方帮助文档：账号级配额从按产品拆分改为按 token 池计量，并明确 Instant 聊天豁免、超额后的三条出路（等重置/升级/买 credits）。"},
+            {"key": "解决什么痛点", "value": "对同时用 ChatGPT 高级模型与 Codex 的人，原本两份额度互相用不满；合并后理论上利用率更高，但撞顶的耦合也更强——白天写代码耗尽额度会直接压掉聊天侧。"},
+            {"key": "值不值得", "value": "如果你或团队按人头买 Plus/Pro，12 月前应先量一次当前 Codex 与高级对话各自的用量，再判断合并后是否需要升档；共享账号/多人共用一个席位的做法在这种按 token 池计量的模型下更容易撞顶。限制是官方未公布具体预算，无法精确预估。"},
+        ],
+        source="OpenAI Help Center",
+    ),
+]))
+
+# ---------------- ☸️ 基础设施板块 ----------------
+infra_cats = []
+
+infra_cats.append(cat("🤖☸️ K8s × AI", [
+    item(
+        "vLLM 跳过 DRAM 层：KV cache 直接放 NVMe，同池大小吞吐只差 1% 以内",
+        "vllm.ai/blog/2026-11-23-skip-the-dram-tier",
+        "vLLM 用 AgentX 基准回放真实 Claude Code 会话：中位一轮输入 142K token，其中 96% 以上是服务器此前已经见过的前缀；Kimi-K3 上的 42 次实验显示，KV 命中率每提高 1 个百分点（比如 95%→96%）大约换来 10% 吞吐。问题在于并发会话一多，前缀就留不住：Kimi-K3 每小时往 KV 池里写 2.3 到 4.6 TB，1.8 TB 的 DRAM 池（报价约 7.6 万美元）只够存最近 23 到 47 分钟的。于是他们去掉 DRAM 层，用 AMD MI355X 上的 MoRI/UMBP 把 KV 池直接放 NVMe，只在前面留 80 GB DRAM 做写缓冲与读暂存；同池大小下吞吐与 DRAM 相差 1% 以内（两组不同机器的实验都复现），第二组更长 prompt 的负载同样在 1% 内。成本模型也变了：NVMe 按写入量而非持有量计费，能存一整天 KV。DeepSeek 的 DeepInfer 更激进，agent 流量保留三天，约每 GPU 14.4 TB SSD。",
+        [
+            {"key": "能做什么", "value": "把 KV cache 的分层从 GPU→DRAM 改为 GPU→NVMe，用一个 80 GB 的 DRAM 写缓冲替代 1.8 TB DRAM 池，仍保持同池大小吞吐（差 1% 内）。给出 agentic serving 的关键比值：前缀占比 96%、命中率 +1pt ≈ 吞吐 +10%、Kimi-K3 每小时 KV 写入 2.3–4.6 TB。"},
+            {"key": "解决什么痛点", "value": "多轮 agent 会话的前缀缓存命中率决定吞吐，但 DRAM 装不下几十个并发会话的历史——买 DRAM 又贵又只能存几十分钟。用 NVMe 把容量拉大一个量级，同时不牺牲吞吐。"},
+            {"key": "值不值得", "value": "对自建推理集群（尤其跑 agent 流量）的人值得细读：它把「KV 池该放哪一层」这个问题量化了，意味着不必为 KV 缓存堆大内存机型，本地 NVMe 的容量与成本更划算。限制是实验在 MI355X + MoRI 上做的，CUDA 侧需要对应实现；层粒度加载与有界重放这两个技巧来自 DeepInfer，落地要自己补。"},
+        ],
+        source="vLLM Blog",
+    ),
+    item(
+        "Kueue v0.21.0-rc.1：DRA 优先设备列表与可消耗容量配额进 Beta 并默认开",
+        "kueue/releases/tag/v0.21.0-rc.1",
+        "候选版把 DRA 的两块能力推进 Beta：KueueDRAIntegrationPrioritizedList 默认启用——调度时会把 firstAvailable 请求里的 CEL 选择器拿去比对集群里真实存在的设备，避免排到不存在的设备组合；DRA 可消耗容量配额（DeviceClass 的容量维度可用独立配额资源，且请求取整导致加价时会报出来）也转 Beta。ConcurrentAdmission 策略的 migration.mode 缺省值改为 TryPreferredFlavors，v1beta2 里对应 Go 字段改成指针，下游代码要处理 nil。Helm chart 新增 managerConfig.structuredOverrides，可以只写差异而不复制整份 controllerManagerConfigYaml。升级注意：如果关掉了 KueueDRAIntegration，必须同时把两个子特性门控关掉，否则 kueue-controller-manager 起不来；kueuectl 也会开始拒绝「只在 borrowing-limit 里出现、nominal quota 为零」的拼错 flavor。",
+        [
+            {"key": "能做什么", "value": "让 DRA 下的 GPU 配额可被 Kueue 真正管理：优先设备列表按 CEL 选择器匹配实机、可消耗容量把 MIG/分区这类「容量维度」纳入配额并暴露取整加价；Helm 的 structuredOverrides 让托管多套集群时只维护差异。"},
+            {"key": "解决什么痛点", "value": "K8s 原生 DRA 只管单 Pod 的设备分配，跨队列的公平与借用要靠 Kueue；此前 DRA 配额要么关掉、要么按整卡算，MIG 与分区场景浪费严重。这版把容量维度纳入配额，并把「请求的设备根本不存在」提前暴露。"},
+            {"key": "值不值得", "value": "如果集群已经在用 Kueue 排 GPU 队列，rc 里的 DRA Beta 是迁移到 DRA 的前提能力，值得先在测试集群验证门控组合（尤其 KueueDRAIntegration 的联动）。注意是 rc，生产等 .0；KueueDRAIntegration 相关门控关闭顺序错了会直接起不来。"},
+        ],
+        source="GitHub Releases",
+        oss=True,
+    ),
+]))
+
+infra_cats.append(cat("☸️ K8s 核心技术", [
+    item(
+        "K8s v1.38 前瞻：DRA 可分区设备锁定为稳定，新增 EvictionRequest 协调驱逐",
+        "2026/11/23/kubernetes-v1-38-sneak-peek",
+        "v1.38 里 DRA 的可分区设备（partitionable devices）预计转稳定，DRAPartitionableDevices 门控随之锁定为开：一个 DRA 驱动可以同时把整块 GPU 和它的更小分区广播给调度器，调度器只分配能装进同一物理设备的组合——这是 MIG/切片 GPU 在原生 DRA 下被正确计量的前提。kuberc（kubectl 独立配置文件，放别名、默认参数和凭据插件策略）与 Pod 级资源（整个 Pod 一套 CPU/内存/hugepages 请求与限制）也都预计转稳定。新 Alpha 是 EvictionRequest API：驱逐不再等于直接终止，controller 先创建 EvictionRequest，Pod 上配置的 responder 可以完成数据迁移、清理等收尾；没有 responder 或超时才回落到尊重 PDB 的原生驱逐，两者是叠加而非替代。另有一个升级坑：cgroup v2 + LimitedSwap 节点上，pod 级内存 request 等于 limit 的 Pod 在 v1.38 会完全拿不到 swap，有依赖 swap 的负载要先查。",
+        [
+            {"key": "能做什么", "value": "把分裂式 GPU 的分配 correctness 交给调度器：可分区设备稳定后，整卡与分区的组合由 scheduler 保证装得下；EvictionRequest 提供「先收尾再驱逐」的协调 API，与 PDB 并存；kuberc 与 Pod 级资源转稳定意味着 kubectl 配置可以脱离 kubeconfig 管理。"},
+            {"key": "解决什么痛点", "value": "节点排空与升级时直接杀 Pod 会打断数据迁移与清理；GPU 分区此前只能靠设备插件私相授受，调度器并不知道分区之间的物理关系，容易把同一块卡的多个分区重复许诺。"},
+            {"key": "值不值得", "value": "对正在做 GPU 集群方案的人，可分区设备稳定是 DRA 真正可用的信号——可以开始评估用 DRA 替代 device plugin 做 MIG 切分。EvictionRequest 还是 Alpha，先观察 KEP 与实现再考虑；升级前务必核对 LimitedSwap 节点上的 pod 级内存设置。"},
+        ],
+        source="Kubernetes Blog",
+    ),
+]))
+
+# ---------------- ⚡ 快讯 ----------------
+flash = [
+    {"title": "Muru：Graham Dumpleton 用 AI 辅助写的 Rust ASGI/WSGI 服务器，开发过程全公开", "url": U("simonwillison.net/2026/Nov/21/muru/"), "source": "Simon Willison"},
+    {"title": "Squoosh Bench：UX-1 在 318 个历史 A/B 测试上预测胜负，结果对实验团队有参考价值", "url": U("papers/2611.25200"), "source": "Hugging Face Papers"},
+    {"title": "Anthropic 创纪录 IPO 未扭转市场悲观情绪，Claude 上市当天出现性能降级", "url": U("infoq.cn/article/OPbZhT0OHL4IbZz8exvA"), "source": "InfoQ 中国"},
+    {"title": "datasette-charts 0.1a0：Datasette 插件开始内置图表渲染", "url": U("simonwillison.net/2026/Nov/23/datasette-charts/"), "source": "Simon Willison"},
+]
+
+brief = {
+    "brand": "AI & 基础设施早报",
+    "date_label": "2026 年 11 月 24 日 · 星期二",
+    "issue": 64,
+    "kicker": "AI & INFRASTRUCTURE DAILY · NO.064",
+    "hint": "👆 点击任意条目<b>摘要区域</b>，展开「值不值得深入」的判断；再次点击收回",
+    "lead": "今天最值得看的是两件「把不确定变成可控」的事。落地侧，百度智能云把恶意 skill 的生态摊开：55% 的描述里看不出恶意、98% 静默动手，攻击链从二进制搬到 AI 软件，防御只能往沙箱内行为观测走；Richpanel 则把承诺写进合同——30 天接管 50% 工单，做不到退款，半年约 300 次上线。工具链上 Codex 0.172.0 与 Claude Code 2.1.331 同日发版，方向一致：把授权粒度下沉到单个工具、把接入前移到自有云账号。沙箱侧 Modal 给出百万级运营数据：每月 200 万沙箱，监控器放进沙箱、靠 30 秒心跳与三次重试判定生死。基础设施那头，vLLM 直接砍掉 DRAM 层，把 KV cache 放 NVMe，同池大小吞吐只差 1%——agent 流量下内存不再是必须堆的那一层。",
+    "highlights": highlights,
+    "sections": [
+        {"label": "🤖 AI 板块", "categories": ai_cats},
+        {"label": "☸️ 基础设施板块", "categories": infra_cats},
+    ],
+    "flash": flash,
+    "footer": "由 Hermes 自动汇编 · 每日 08:30 更新",
+}
+
+# ---- assertions ----
+for h in brief["highlights"]:
+    assert h["title"] and h["summary"] and len(h["detail"]) == 3
+for sec in brief["sections"]:
+    for c in sec["categories"]:
+        assert c.get("title") and c.get("emoji"), c
+        for it in c["items"]:
+            assert it["title"] and it["summary"] and len(it["detail"]) == 3, it.get("title")
+            assert it["url"] in URLS, it["url"]
+for f in brief["flash"]:
+    assert f["title"] and f["url"] in URLS
+
+json.dump(brief, open("briefing.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+n_items = len(brief["highlights"]) + sum(len(c["items"]) for s in brief["sections"] for c in s["categories"])
+print(f"✅ briefing.json 写好: {n_items} 条正文 + {len(brief['flash'])} 条快讯")
