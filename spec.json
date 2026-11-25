@@ -1,9 +1,9 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 24 日 · 星期二(如 2026年09月19日 · 星期六)、064(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、1. **百度智能云拆恶意 skill 生态：55% 的描述里看不出恶意，98% 静默动手**\n百度智能云安全架构师林道正在 AICon 2026 深圳站复盘团队半年的企业级 Agent 安全实践。他给出的核心判断是攻击形态没变、战场变了：攻击链仍是「不可信输入 → 拿权限 → 扩权限 → 变现」，但分发对象从二进制换成了 AI 的软件，恶意 skill 分发是当下黑产性价比最高的路径——团队三月的测试里，两个人花一个晚上就让恶意 Python 脚…\n\n2. **Codex 0.172.0：登录可直接选 Bedrock，连接工具按个配审批人，Code Mode 全面转 gRPC**\nOpenAI 发布 Codex CLI 0.172.0。接入面变化最大：app-server 客户端在 setup 或登录阶段就能选 Amazon Bedrock Runtime，等于把「走哪家云、用哪个账号」前移到认证环节；config.toml 里可以给单个已连接应用的工具单独设审批人（approval reviewer），把审批粒度从会话级下沉到工…(🔥今日重点：有序号加粗小标题+摘要,整块)、**🧠 模型与研究** · Z.ai 发布 GLM-5.4，是它第一个使用循环 Transformer（Loop Transformer）的模型：一组权重共享的层在一次前向里跑多轮，用上一轮的隐状态继续细化，从而在不增加参数量的前提下加深网络。\n\n**🧭 Agent 工具链** · 这版把 Code Mode 推到四个托管平台：Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry，以及跑在 AWS 上的 Claude Platform。\n\n**🏖️ 沙箱与运行时** · Abundant 给前沿实验室造 RL 环境（OpenAI、Anthropic、Google、Meta 都是客户），已做 7.5 万个 rollout，覆盖 GPU kernel 优化到长程编码，几乎整个 rollout 平台跑在 Modal 上：Modal Functions 承担调度 API（起任务、清死跑、评审结果），Modal Sandboxes…\n\n**🛠️ AI 工程落地** · OpenAI 客户故事：亚太客服 SaaS Richpanel 对客户承诺首月 AI 至少接管 50% 符合条件的会话、总账单降 30%，不达标全额退款；CEO 称 2026 年 10 月前的半年完成约 300 次 AI 客服上线，全部达到该目标。\n\n**📜 平台政策与风控** · OpenAI 帮助中心的《Understanding ChatGPT and Codex usage limits》（10 月 31 日更新）写明：从 12 月起，Plus、Pro、Business 三档的用量额度在 ChatGPT 与 Codex 之间共用，按 token 计量——模型越强、输入越长、推理档越高、任务步数越多，消耗越大；Instant …\n\n**🤖☸️ K8s × AI** · vLLM 用 AgentX 基准回放真实 Claude Code 会话：中位一轮输入 142K token，其中 96% 以上是服务器此前已经见过的前缀；Kimi-K3 上的 42 次实验显示，KV 命中率每提高 1 个百分点（比如 95%→96%）大约换来 10% 吞吐。\n\n**☸️ K8s 核心技术** · v1.38 里 DRA 的可分区设备（partitionable devices）预计转稳定，DRAPartitionableDevices 门控随之锁定为开：一个 DRA 驱动可以同时把整块 GPU 和它的更小分区广播给调度器，调度器只分配能装进同一物理设备的组合——这是 MIG/切片 GPU 在原生 DRA 下被正确计量的前提。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 7 个板块 9 条精选 + 4 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-24.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+ "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 25 日 · 星期三(如 2026年09月19日 · 星期六)、065(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、1. **iFood 自建 Remote Agents 平台：1.5 万个仓库、2.5 万次任务，单次跑完 4 美分**\niFood 把编码任务做成一个内部 REST API：提交 prompt 与环境要求后，平台在隔离沙箱里用 GPT-5.6 Luna 执行，结果以 merge request 返回。工作流首尾是确定性步骤——克隆仓库、导入 agent 可用的 skills、建工作分支，收尾发布 MR 并产出构建物，中间才是 agentic 执行。\n\n2. **OpenAI 与 Cisco 开源 Shirudo：让 Codex 现写 eBPF 盾，漏洞利用被挡住而服务不重启**\nShirudo（日语「盾」）是一个开源 Linux 运行时，目标是在补丁排队的那几天到几周里先把漏洞利用挡住。它用 eBPF 在运行中的系统上加载定向防护，让 agent 去调查漏洞、写出 shield、并用真实流量与 exploit 验证效果，人只负责批准部署。(🔥今日重点：有序号加粗小标题+摘要,整块)、**🧠 模型与研究** · OpenAI 在预印本《GPT-6 as a Universal Foundation Model for Protein Biology》中称，GPT-6 系列仅靠推理与通用代码工具就能设计蛋白质三维结构与氨基酸序列，不调用 RFdiffusion 这类专用生物模型。\n\n**🧩 Agent & Skill** · Google DeepMind 与 Google Quantum AI 在预印本《Discovering Formally Verified Quantum Programs with AI》中，把量子程序发现做成「多智能体搜索 + 形式化验证」的闭环：异构 Gemini 4 智能体团队在 Lean 4 里迭代候选电路，通过共享 wiki 与定期会议交换…\n\n**🧭 Agent 工具链** · Orca 这个版本主要补 Bot 的可观测性与移动端操作：Bot 面板直接显示下一次运行时间，条目链接可悬停预览 GitHub PR/issue，待回答的问题会保留原标签；手机端能打开 Google、GitHub、Linear 账号设置，按名字找 agent 与群组，并向跨电脑的群组发消息。\n\n**🏖️ 沙箱与运行时** · microsandbox v0.8.2 把隔离做成可调项：新增 runtime isolation options（按需选择更强的隔离约束）、opt-in 的 strict host file opens（默认不放开主机文件句柄）、快照的独立文件物化（不再依赖共享层）、有界 patch 源码暂存，以及 agent 的显式带内 relay 连接。\n\n**🛠️ AI 工程落地** · Pinterest 把「用户旅程推断」从多阶段聚类流水线换成微调的 40 亿参数语言模型，并报告邮件点击率提升 1.1%、推送消息打开率提升 1.3%。\n\n**🤖☸️ K8s × AI** · NVIDIA 的分布式推理平台 Dynamo 发布第 20 个特性版本，含 763 个 PR、150 名贡献者。\n\n**☸️ K8s 核心技术** · Rook v1.21.3 是 Ceph operator 的补丁版本，范围限定在特性补充与修复。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 7 个板块 14 条精选 + 5 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-25.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
  "header": {
   "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 24 日 · 星期二 · 第064期",
+  "subtitle": "2026 年 11 月 25 日 · 星期三 · 第065期",
   "template": "indigo",
   "icon": "myai_colorful"
  },
@@ -11,23 +11,23 @@
  "blocks": [
   {
    "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **百度智能云拆恶意 skill 生态：55% 的描述里看不出恶意，98% 静默动手**\n百度智能云安全架构师林道正在 AICon 2026 深圳站复盘团队半年的企业级 Agent 安全实践。他给出的核心判断是攻击形态没变、战场变了：攻击链仍是「不可信输入 → 拿权限 → 扩权限 → 变现」，但分发对象从二进制换成了 AI 的软件，恶意 skill 分发是当下黑产性价比最高的路径——团队三月的测试里，两个人花一个晚上就让恶意 Python 脚…\n\n2. **Codex 0.172.0：登录可直接选 Bedrock，连接工具按个配审批人，Code Mode 全面转 gRPC**\nOpenAI 发布 Codex CLI 0.172.0。接入面变化最大：app-server 客户端在 setup 或登录阶段就能选 Amazon Bedrock Runtime，等于把「走哪家云、用哪个账号」前移到认证环节；config.toml 里可以给单个已连接应用的工具单独设审批人（approval reviewer），把审批粒度从会话级下沉到工…"
+   "content": "**🔥 今日重点**\n\n1. **iFood 自建 Remote Agents 平台：1.5 万个仓库、2.5 万次任务，单次跑完 4 美分**\niFood 把编码任务做成一个内部 REST API：提交 prompt 与环境要求后，平台在隔离沙箱里用 GPT-5.6 Luna 执行，结果以 merge request 返回。工作流首尾是确定性步骤——克隆仓库、导入 agent 可用的 skills、建工作分支，收尾发布 MR 并产出构建物，中间才是 agentic 执行。\n\n2. **OpenAI 与 Cisco 开源 Shirudo：让 Codex 现写 eBPF 盾，漏洞利用被挡住而服务不重启**\nShirudo（日语「盾」）是一个开源 Linux 运行时，目标是在补丁排队的那几天到几周里先把漏洞利用挡住。它用 eBPF 在运行中的系统上加载定向防护，让 agent 去调查漏洞、写出 shield、并用真实流量与 exploit 验证效果，人只负责批准部署。"
   },
   {
    "type": "hr"
   },
   {
    "type": "markdown",
-   "content": "**📌 今日看点**\n\n**🧠 模型与研究** · Z.ai 发布 GLM-5.4，是它第一个使用循环 Transformer（Loop Transformer）的模型：一组权重共享的层在一次前向里跑多轮，用上一轮的隐状态继续细化，从而在不增加参数量的前提下加深网络。\n\n**🧭 Agent 工具链** · 这版把 Code Mode 推到四个托管平台：Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry，以及跑在 AWS 上的 Claude Platform。\n\n**🏖️ 沙箱与运行时** · Abundant 给前沿实验室造 RL 环境（OpenAI、Anthropic、Google、Meta 都是客户），已做 7.5 万个 rollout，覆盖 GPU kernel 优化到长程编码，几乎整个 rollout 平台跑在 Modal 上：Modal Functions 承担调度 API（起任务、清死跑、评审结果），Modal Sandboxes…\n\n**🛠️ AI 工程落地** · OpenAI 客户故事：亚太客服 SaaS Richpanel 对客户承诺首月 AI 至少接管 50% 符合条件的会话、总账单降 30%，不达标全额退款；CEO 称 2026 年 10 月前的半年完成约 300 次 AI 客服上线，全部达到该目标。\n\n**📜 平台政策与风控** · OpenAI 帮助中心的《Understanding ChatGPT and Codex usage limits》（10 月 31 日更新）写明：从 12 月起，Plus、Pro、Business 三档的用量额度在 ChatGPT 与 Codex 之间共用，按 token 计量——模型越强、输入越长、推理档越高、任务步数越多，消耗越大；Instant …\n\n**🤖☸️ K8s × AI** · vLLM 用 AgentX 基准回放真实 Claude Code 会话：中位一轮输入 142K token，其中 96% 以上是服务器此前已经见过的前缀；Kimi-K3 上的 42 次实验显示，KV 命中率每提高 1 个百分点（比如 95%→96%）大约换来 10% 吞吐。\n\n**☸️ K8s 核心技术** · v1.38 里 DRA 的可分区设备（partitionable devices）预计转稳定，DRAPartitionableDevices 门控随之锁定为开：一个 DRA 驱动可以同时把整块 GPU 和它的更小分区广播给调度器，调度器只分配能装进同一物理设备的组合——这是 MIG/切片 GPU 在原生 DRA 下被正确计量的前提。"
+   "content": "**📌 今日看点**\n\n**🧠 模型与研究** · OpenAI 在预印本《GPT-6 as a Universal Foundation Model for Protein Biology》中称，GPT-6 系列仅靠推理与通用代码工具就能设计蛋白质三维结构与氨基酸序列，不调用 RFdiffusion 这类专用生物模型。\n\n**🧩 Agent & Skill** · Google DeepMind 与 Google Quantum AI 在预印本《Discovering Formally Verified Quantum Programs with AI》中，把量子程序发现做成「多智能体搜索 + 形式化验证」的闭环：异构 Gemini 4 智能体团队在 Lean 4 里迭代候选电路，通过共享 wiki 与定期会议交换…\n\n**🧭 Agent 工具链** · Orca 这个版本主要补 Bot 的可观测性与移动端操作：Bot 面板直接显示下一次运行时间，条目链接可悬停预览 GitHub PR/issue，待回答的问题会保留原标签；手机端能打开 Google、GitHub、Linear 账号设置，按名字找 agent 与群组，并向跨电脑的群组发消息。\n\n**🏖️ 沙箱与运行时** · microsandbox v0.8.2 把隔离做成可调项：新增 runtime isolation options（按需选择更强的隔离约束）、opt-in 的 strict host file opens（默认不放开主机文件句柄）、快照的独立文件物化（不再依赖共享层）、有界 patch 源码暂存，以及 agent 的显式带内 relay 连接。\n\n**🛠️ AI 工程落地** · Pinterest 把「用户旅程推断」从多阶段聚类流水线换成微调的 40 亿参数语言模型，并报告邮件点击率提升 1.1%、推送消息打开率提升 1.3%。\n\n**🤖☸️ K8s × AI** · NVIDIA 的分布式推理平台 Dynamo 发布第 20 个特性版本，含 763 个 PR、150 名贡献者。\n\n**☸️ K8s 核心技术** · Rook v1.21.3 是 Ceph operator 的补丁版本，范围限定在特性补充与修复。"
   },
   {
    "type": "grey",
-   "content": "共 2 条重点 + 7 个板块 9 条精选 + 4 条快讯 · 数据源覆盖 72 小时"
+   "content": "共 2 条重点 + 7 个板块 14 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
   }
  ],
  "button": {
   "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-24.html"
+  "url": "https://endverse.github.io/daily-brief/2026/2026-11-25.html"
  },
  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
