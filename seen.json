@@ -1,64 +1,4 @@
 {
-  "u:https://huggingface.co/papers/2610.28950|t:hyperdrone批量渲染比同行走快20倍消费级gpu上百万fps的四旋翼仿真": {
-    "first_seen": "2026-10-26",
-    "title": "HyperDrone：批量渲染比同行走快 20 倍，消费级 GPU 上百万 FPS 的四旋翼仿真直接 sim2real "
-  },
-  "u:https://huggingface.co/papers/2610.31329|t:wevisonevl微信开源统一视觉感知vlm用<obj>token+轻量像素解": {
-    "first_seen": "2026-10-26",
-    "title": "WeVisOne-VL：微信开源统一视觉感知 VLM，用 <OBJ> token + 轻量像素解码器把检测/分割/mat"
-  },
-  "u:https://huggingface.co/papers/2610.25835|t:扩散语言模型的算力账同样长度输出写故事比改语法多3倍前向答错比答对更贵": {
-    "first_seen": "2026-10-26",
-    "title": "扩散语言模型的算力账：同样长度输出，写故事比改语法多 3 倍前向，答错比答对更贵"
-  },
-  "gh:tauricresearch/tradingagents": {
-    "first_seen": "2026-10-26",
-    "title": "TradingAgents v0.7.0：多智能体交易框架可直接跑在自己的 ChatGPT Plus/Pro 订阅上，回"
-  },
-  "gh:agricidaniel/claude-seo": {
-    "first_seen": "2026-10-26",
-    "title": "claude-seo：26 个子 skill + 19 个子 agent 的 Claude Code 插件，1077 个"
-  },
-  "u:https://huggingface.co/papers/2610.26233|t:heartbeatthinking把「边听边干」做成心跳式并行推理语音agent": {
-    "first_seen": "2026-10-26",
-    "title": "Heartbeat Thinking：把「边听边干」做成心跳式并行推理，语音 agent 工具覆盖率 +16pp、末响应"
-  },
-  "u:https://www.cerebras.ai/blog/how-we-deploy-trillion-parameter-frontier-models-on-cerebras|t:cerebras拆解3万亿参数模型怎么铺到59片晶圆4bit权重每片44gb片上": {
-    "first_seen": "2026-10-26",
-    "title": "Cerebras 拆解 3 万亿参数模型怎么铺到 59 片晶圆：4bit 权重、每片 44GB 片上内存、晶圆间 RDM"
-  },
-  "u:https://www.anthropic.com/news/public-benefit-fund|t:anthropic拿5%股份设公共福利基金估值每涨50%再追加2%且刻意用llc": {
-    "first_seen": "2026-10-26",
-    "title": "Anthropic 拿 5% 股份设公共福利基金：估值每涨 50% 再追加 2%，且刻意用 LLC 而不是 501(c)"
-  },
-  "u:https://huggingface.co/papers/2610.22722|t:llmattacksuite拆分式llm的隐私红队框架加上训练梯度后token恢": {
-    "first_seen": "2026-10-26",
-    "title": "LLM-Attack Suite：拆分式 LLM 的隐私红队框架，加上训练梯度后 token 恢复率 94.2%→97."
-  },
-  "u:https://www.cncf.io/blog/2026/10/15/extending-kubernetes-policy-enforcement-to-runtime-security-for-ai-workloads|t:kyverno把策略从准入推到内核bpflsm挂bprmchecksecurit": {
-    "first_seen": "2026-10-26",
-    "title": "Kyverno 把策略从准入推到内核：BPF-LSM 挂 bprm_check_security 与 file_open"
-  },
-  "u:https://kubezilla.io/kubernetes-gpu-guide|t:gpu上k8s的四条共享路线对照mig硬件隔离timeslicing无隔离mps": {
-    "first_seen": "2026-10-26",
-    "title": "GPU 上 K8s 的四条共享路线对照：MIG 硬件隔离、time-slicing 无隔离、MPS 仍 experime"
-  },
-  "u:https://www.cncf.io/blog/2026/10/22/filtering-and-reducing-ai-agent-telemetry-with-the-opentelemetry-collector|t:把claudecode的agent遥测砍到能存一次小任务181条记录289kb指": {
-    "first_seen": "2026-10-26",
-    "title": "把 Claude Code 的 agent 遥测砍到能存：一次小任务 181 条记录 289KB，指标 300 条时序压"
-  },
-  "u:https://research.google/blog/bringing-foundational-models-to-the-front-lines-of-tb-screening|t:googleresearch把基础模型推到结核病筛查一线生成式模型做胸片分诊": {
-    "first_seen": "2026-10-26",
-    "title": "Google Research：把基础模型推到结核病筛查一线，生成式模型做胸片分诊"
-  },
-  "u:https://lynchlab.net/llm-skin-cancer|t:hn热帖一个十年前的cnn在皮肤癌诊断上打赢前沿llm": {
-    "first_seen": "2026-10-26",
-    "title": "HN 热帖：一个十年前的 CNN 在皮肤癌诊断上打赢前沿 LLM"
-  },
-  "u:https://kubezilla.io/gitops-kubernetes-argo-cd-vs-flux|t:gitops选型对照argocd与flux的功能差异与决策口径两者2022年末先": {
-    "first_seen": "2026-10-26",
-    "title": "GitOps 选型对照：Argo CD 与 Flux 的功能差异与决策口径（两者 2022 年末先后毕业）"
-  },
   "u:https://simonwillison.net/2026/oct/26/gpt-61-terra|t:gpt61terra发布$1$5定价卡在中端官方把卖点压在视觉推理与comput": {
     "first_seen": "2026-10-27",
     "title": "GPT-6.1 Terra 发布：$1/$5 定价卡在中端，官方把卖点压在视觉推理与 computer use"
@@ -2202,5 +2142,101 @@
   "u:https://michaelharley.net/posts/2026/11/01/llm-agents-work-for-their-parent-companies-not-for-you|t:llmagentsworkfortheirparentcompaniesnotf": {
     "first_seen": "2026-11-25",
     "title": "LLM agents work for their parent companies, not for you（HN 8"
+  },
+  "u:https://www.infoq.cn/article/yac2tqchc09kaff1a7bs?utm_source=rss&utm_medium=article|t:google开源aqua32条生产会话挖出6个真故障改完提示词绕过校验从15条降": {
+    "first_seen": "2026-11-26",
+    "title": "Google 开源 AQuA：32 条生产会话挖出 6 个真故障，改完提示词绕过校验从 15 条降到 2 条"
+  },
+  "u:https://opencode.ai/changelog/v2.4.0|t:opencodev240agent能自己排cron自己开浏览器mcp改成服务端推": {
+    "first_seen": "2026-11-26",
+    "title": "OpenCode v2.4.0：agent 能自己排 cron、自己开浏览器，MCP 改成服务端推事件"
+  },
+  "u:https://huggingface.co/papers/2611.30017|t:owebench26个长程工程任务最强模型546%隐藏用例平均掉18分": {
+    "first_seen": "2026-11-26",
+    "title": "OWE-Bench：26 个长程工程任务，最强模型 54.6%，隐藏用例平均掉 18 分"
+  },
+  "u:https://arxiv.org/abs/2611.33031v1|t:把4bit量化网络交给前沿模型「纯推理」修opus55从604%拉回7795%": {
+    "first_seen": "2026-11-26",
+    "title": "把 4-bit 量化网络交给前沿模型「纯推理」修：Opus 5.5 从 60.4% 拉回 77.95%"
+  },
+  "u:https://huggingface.co/papers/2611.32973|t:specengineeringbench7个编码agent测试通过率91%真正暴": {
+    "first_seen": "2026-11-26",
+    "title": "SpecEngineeringBench：7 个编码 agent 测试通过率 91%，真正暴露缺陷的只有 26%"
+  },
+  "u:https://www.infoq.cn/article/xjvcbbyi4m86a9tia6hh?utm_source=rss&utm_medium=article|t:octop团队模式对照deepseeksuperagent主持人只路由不干活wo": {
+    "first_seen": "2026-11-26",
+    "title": "Octop 团队模式对照 DeepSeek Super-Agent：主持人只路由不干活，Worker 并行"
+  },
+  "u:https://azure.microsoft.com/updates?id=581498|t:foundry允许把mcp工具流量收进企业自有网关再鉴权": {
+    "first_seen": "2026-11-26",
+    "title": "Foundry 允许把 MCP 工具流量收进企业自有网关再鉴权"
+  },
+  "gh:vercel/sandbox": {
+    "first_seen": "2026-11-26",
+    "title": "Vercel Sandbox SDK 5.0.0：沙箱一律从镜像创建，runtime 参数彻底移除"
+  },
+  "u:https://kubezilla.io/kubernetes-docker-sandboxes-sbx|t:在k8s里给agent划边界的三种用法沙箱内起一次性kind只读servicea": {
+    "first_seen": "2026-11-26",
+    "title": "在 K8s 里给 agent 划边界的三种用法：沙箱内起一次性 kind、只读 ServiceAccount、出口白名单"
+  },
+  "u:https://www.infoq.cn/article/cgip7vstrxkh94l1zj76?utm_source=rss&utm_medium=article|t:octop托管专家把codebuddy挂成常驻7×24收issue改代码提pr": {
+    "first_seen": "2026-11-26",
+    "title": "Octop 托管专家：把 CodeBuddy 挂成常驻，7×24 收 Issue、改代码、提 PR"
+  },
+  "u:https://arxiv.org/abs/2611.33098v1|t:delegent前沿模型只做难的简单子任务甩给27b小模型长程编码成本降67%": {
+    "first_seen": "2026-11-26",
+    "title": "Delegent：前沿模型只做难的，简单子任务甩给 27B 小模型，长程编码成本降 67%"
+  },
+  "u:https://www.infoq.cn/article/lvqk4ftxijyzl2szee2o?utm_source=rss&utm_medium=article|t:netflix用本体+知识图谱把故障排查从4小时压下来autorca不再互传散装": {
+    "first_seen": "2026-11-26",
+    "title": "Netflix 用本体 + 知识图谱把故障排查从 4 小时压下来，AutoRCA 不再互传散装结论"
+  },
+  "u:https://www.infoq.cn/article/exbjjritilc9klfq2uet?utm_source=rss&utm_medium=article|t:pi团队每天4050个issue交给agent创始人却警告系统崩了没人说得清哪一": {
+    "first_seen": "2026-11-26",
+    "title": "Pi 团队每天 40–50 个 Issue 交给 agent，创始人却警告：系统崩了没人说得清哪一层坏了"
+  },
+  "u:https://www.infoq.cn/article/2yvroks0chz1yr4wi02o?utm_source=rss&utm_medium=article|t:oceanbase发湖库一体ai数据平台oceanlake并开源ai数据库oce": {
+    "first_seen": "2026-11-26",
+    "title": "OceanBase 发湖库一体 AI 数据平台 OceanLake，并开源 AI 数据库 OceanSeek"
+  },
+  "u:https://www.qbitai.com/2026/11/512683.html|t:逐际动力与商汤大装置合作用算力支撑人形机器人仿真训练与测试": {
+    "first_seen": "2026-11-26",
+    "title": "逐际动力与商汤大装置合作，用算力支撑人形机器人仿真训练与测试"
+  },
+  "u:https://simonwillison.net/2026/nov/24/llm-inflection-points|t:simonwillison过去12个月llm的三个拐点opus45是分水岭": {
+    "first_seen": "2026-11-26",
+    "title": "Simon Willison：过去 12 个月 LLM 的三个拐点，Opus 4.5 是分水岭"
+  },
+  "u:https://www.infoq.cn/article/lwwdlrnge3tbxpo1wict?utm_source=rss&utm_medium=article|t:akamaiai让「合法操作」成为主攻击面钓鱼平均存活期从48天缩到22天": {
+    "first_seen": "2026-11-26",
+    "title": "Akamai：AI 让「合法操作」成为主攻击面，钓鱼平均存活期从 48 天缩到 22 天"
+  },
+  "u:https://www.cncf.io/blog/2026/11/25/%f0%9f%9a%80-the-story-behind-drone-2-my-kubecon-cloudnativecon-north-america-2026-keynote|t:kubeconna2026闭幕演讲拆解agentsubstrate+kagent": {
+    "first_seen": "2026-11-26",
+    "title": "KubeCon NA 2026 闭幕演讲拆解：agent-substrate + kagent + agentgatew"
+  },
+  "gh:kubernetes/kubernetes": {
+    "first_seen": "2026-11-26",
+    "title": "Kubernetes 1.37.3 / 1.36.7 / 1.35.11 同日发补丁：修调度器崩溃、CSINode 重注"
+  },
+  "gh:apple/container": {
+    "first_seen": "2026-11-26",
+    "title": "Apple container 1.7.1：Kata 内核升到 4.3.1，K8s 集群可共享宿主镜像库"
+  },
+  "gh:kuberay-project/kuberay": {
+    "first_seen": "2026-11-26",
+    "title": "KubeRay v1.7.3：x/net 与 go-openapi 升级修 CVE"
+  },
+  "u:https://deepmind.google/blog/interpreting-mass-spectra-with-google-antigravity|t:deepmind为antigravity打包质谱解读skill科学家可直接从串联": {
+    "first_seen": "2026-11-26",
+    "title": "DeepMind 为 Antigravity 打包质谱解读 Skill，科学家可直接从串联质谱推结构"
+  },
+  "u:https://simonwillison.net/2026/nov/24/datasette-agent|t:datasetteagent07a1聊天侧栏按fragmenthash导航配合d": {
+    "first_seen": "2026-11-26",
+    "title": "datasette-agent 0.7a1：聊天侧栏按 fragment hash 导航，配合 datasette-ch"
+  },
+  "u:https://www.qbitai.com/2026/11/512538.html|t:anthropic还藏着两个更强模型社区称fable52已不是天花板": {
+    "first_seen": "2026-11-26",
+    "title": "Anthropic 还藏着两个更强模型？社区称 Fable 5.2 已不是天花板"
   }
 }
