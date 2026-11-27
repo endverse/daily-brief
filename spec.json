@@ -1,33 +1,33 @@
 {
- "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026 年 11 月 26 日 · 星期四(如 2026年09月19日 · 星期六)、066(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、1. **Google 开源 AQuA：32 条生产会话挖出 6 个真故障，改完提示词绕过校验从 15 条降到 2 条**\nAQuA（Ambient Quality Agent）是 Google 开源的参考实现，用来找出传统监控看不见的「静默质量回归」——agent 忽略用户偏好、返回成功但跳过必需的工具调用。它不进请求链路，而是与业务 agent 并行运行，从 Cloud Trace、Cloud Logging 或 BigQuery 读遥测，每次最多采样 1000 条近期会…\n\n2. **OpenCode v2.4.0：agent 能自己排 cron、自己开浏览器，MCP 改成服务端推事件**\nv2.4.0 把三个原本要靠外挂脚本的能力收进 agent 本体。Automations：让 agent 在一次性、固定间隔、cron 表达式或「某个 MCP 服务器推来事件」时触发 prompt、Code Mode 脚本或 shell 命令，用 /automation 管理，shell 动作在创建时批一次权限、每次运行记录退出码与输出，config 里…(🔥今日重点：有序号加粗小标题+摘要,整块)、**🧠 模型与研究** · OWE-Bench（OpenWorldEngineer-Bench）收了 26 个由领域专家出题的长程工程任务，覆盖软件工程、物理工程、机器学习和科学计算，从优化 kernel、设计飞机到定位地震成因。\n\n**🧩 Agent & Skill** · 文章用 DeepSeek 刚发布的 Super-Agent 长文作参照，拆解腾讯云开源 Octop 在 1.0.2 就上线的「团队模式」。\n\n**🧭 Agent 工具链** · v2.1.332 开始支持 MCP 服务器提供 skills（beta），在 / 菜单里以 server:skill 的形式出现，本地 skills 保持原名；配套加了 PreSkillShellCommand 钩子，可在 skill 或命令加载时拦截其内联 shell——注意在 2.1.331 及更早版本，settings 里写了这个钩子会在启动时弹对…\n\n**🏖️ 沙箱与运行时** · 5.0.0 的主变更是一条破坏性改动：删掉已废弃的 runtime 选项与 CLI 的 --runtime 参数，沙箱改为始终从镜像创建；既不设 image 也不设 source 时仍用 vercel/sandbox/universal。\n\n**🛠️ AI 工程落地** · 腾讯云开源的 Octop（TencentCloud/Octop）是单进程自托管的多 agent 助手，自带 Web 控制台、CLI 和 IM 集成（飞书、钉钉、QQ、微信、企业微信、Discord，以及 HTTP/SSE/WebSocket）。\n\n**📊 产品与商业** · 11 月 24 日 OceanBase 在北京发布 AI 数据平台 OceanLake，同时宣布开源核心引擎 AI 数据库 OceanSeek，提出「湖库一体、多模融合、Agent 友好、开源开放」四条原则。\n\n**💡 观点与好文** · Willison 把 AI Engineer Code Summit 的主题演讲整理成文：过去 12 个月 LLM 与编码 agent 的能力有三个拐点，其中 2025 年 11 月 24 日发布的 Claude Opus 4.5 是分水岭——它是他用 Claude Code 时「默认结果基本正确」的第一个模型，此前 Claude Code 已发布 9 …\n\n**🛡️ 安全与治理** · Akamai《2026 年欺诈与滥用报告》给出的数据：2026 年第一季度其监测到的网络诈骗检出量从约 320 万涨到 640 万，首次超过传统钓鱼；钓鱼攻击的平均持续时间从 2025 年第四季度的约 48 天缩短到 2026 年第二季度的 22 天，降幅过半。\n\n**🤖☸️ K8s × AI** · CNCF 大使 Lin Sun 复盘了 KubeCon + CloudNativeCon 北美 2026 的闭幕演讲《Cloud Native Without Limits: What Can AI Agents Do for Us?》。\n\n**☸️ K8s 核心技术** · 三条维护线在 11 月 25 日同时发布补丁版，改动集中在稳定性。\n\n**云原生周边** · 1.7.1 把默认 Kata 内核升到 4.3.1（vmlinux-6.18.56-208-debug），Containerization 依赖升到 0.54.0。(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 11 个板块 20 条精选 + 5 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-26.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
- "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
- "header": {
-  "title": "📰 AI & 基础设施早报",
-  "subtitle": "2026 年 11 月 26 日 · 星期四 · 第066期",
-  "template": "indigo",
-  "icon": "myai_colorful"
- },
- "cover_image": "/Users/endverse/daily_brief_cover.png",
- "blocks": [
-  {
-   "type": "markdown",
-   "content": "**🔥 今日重点**\n\n1. **Google 开源 AQuA：32 条生产会话挖出 6 个真故障，改完提示词绕过校验从 15 条降到 2 条**\nAQuA（Ambient Quality Agent）是 Google 开源的参考实现，用来找出传统监控看不见的「静默质量回归」——agent 忽略用户偏好、返回成功但跳过必需的工具调用。它不进请求链路，而是与业务 agent 并行运行，从 Cloud Trace、Cloud Logging 或 BigQuery 读遥测，每次最多采样 1000 条近期会…\n\n2. **OpenCode v2.4.0：agent 能自己排 cron、自己开浏览器，MCP 改成服务端推事件**\nv2.4.0 把三个原本要靠外挂脚本的能力收进 agent 本体。Automations：让 agent 在一次性、固定间隔、cron 表达式或「某个 MCP 服务器推来事件」时触发 prompt、Code Mode 脚本或 shell 命令，用 /automation 管理，shell 动作在创建时批一次权限、每次运行记录退出码与输出，config 里…"
+  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：{date}(如 2026年09月19日 · 星期六)、{issue}(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+  "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
+  "header": {
+    "title": "📰 AI & 基础设施早报",
+    "subtitle": "2026 年 11 月 27 日 · 星期五 · 第067期",
+    "template": "indigo",
+    "icon": "myai_colorful"
   },
-  {
-   "type": "hr"
+  "cover_image": "/Users/endverse/daily_brief_cover.png",
+  "blocks": [
+    {
+      "type": "markdown",
+      "content": "**🔥 今日重点**\n\n**1. AAE：把「可证伪假设 + 正确性断言」写进 agent 循环，KaHIP 求解器 122 次实验后快 3.9×**\n海德堡大学算法工程组开源 AAE（Agentic Algorithm Engineering），一个给 Claude Code 和 Codex 用的算法优化 skill。用法是先和 agent 谈定基准、指标、正确性断言与实验预算，之后它自主循环四步：从 profiling 与分析出发写下可证伪假设…\n\n**2. E2B 2.66.0：沙箱内存从「模板写死」变成可调——模板定上限、创建时分配、恢复时换规格**\nE2B 2.66.0 把沙箱内存做成可调参数：构建模板时用 maxMemoryMB 设上限，创建沙箱时用 memoryMB 选实际内存，暂停的沙箱在 Sandbox.connect 恢复时可以指定新的内存与 CPU 数。onResume 在原有 'restore' / 'reboot' 字符串之外新…"
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "type": "markdown",
+      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：AAE skill：用可证伪假设约束 agent 的每一次实验，41 个 patch 换来 …；Google 要把 agent 的 Workspace 访问收进自家 MCP，但 Gmail…\n🧭 **Agent 工具链**：Orca v1.4.278：Gemini CLI 被移除、Antigravity 全面改用 …；OpenCode v2.4.2：GPT-6.2 专用系统提示，图像/视频生成收进 Code …\n🏖️ **沙箱与运行时**：E2B 2.66.0：模板定内存上限、创建时分配、暂停恢复时还能换规格；gVisor 20261123.1：OCI seccomp 默认打开，sentry 追踪宿主…\n🛠️ **AI 工程落地**：用 Claude 把 Rockbox 塞进 512 KiB SRAM 的 9 美元 MP3…\n🧠 **模型与研究**：Mixture-of-Loops Transformer：用 KV 当跨循环记忆，700M …；NVIDIA 让模型自己管上下文：32K 预算下 GPT 6.1 分数从 21% 到 56%…\n📜 **平台政策与风控**：Google Workspace 新条款落地：2027-02-01 起 agent 访问 G…\n💡 **观点与好文**：数据侧观察：Astra 6.2 与 Sol 6.2 更像「为省钱调过」的模型——输出与推理 …\n🤖☸️ **K8s × AI**：Dynamo v1.7.0：Global Router 跨池路由 + Planner 预算交…\n☸️ **K8s 核心技术**：Kubernetes v1.37.3：修调度器同名 Pod 快速重建崩溃、节点同名重建 CS…；Kueue v0.20.8：全组件日志按策略重排，级别与键名变更会打断看板与告警"
+    },
+    {
+      "type": "grey",
+      "content": "共 2 条重点 · 9 个板块 16 条精选 · 5 条快讯 · 数据源覆盖 72 小时"
+    }
+  ],
+  "button": {
+    "text": "📖 阅读今日早报全文",
+    "url": "https://endverse.github.io/daily-brief/2026/2026-11-27.html"
   },
-  {
-   "type": "markdown",
-   "content": "**📌 今日看点**\n\n**🧠 模型与研究** · OWE-Bench（OpenWorldEngineer-Bench）收了 26 个由领域专家出题的长程工程任务，覆盖软件工程、物理工程、机器学习和科学计算，从优化 kernel、设计飞机到定位地震成因。\n\n**🧩 Agent & Skill** · 文章用 DeepSeek 刚发布的 Super-Agent 长文作参照，拆解腾讯云开源 Octop 在 1.0.2 就上线的「团队模式」。\n\n**🧭 Agent 工具链** · v2.1.332 开始支持 MCP 服务器提供 skills（beta），在 / 菜单里以 server:skill 的形式出现，本地 skills 保持原名；配套加了 PreSkillShellCommand 钩子，可在 skill 或命令加载时拦截其内联 shell——注意在 2.1.331 及更早版本，settings 里写了这个钩子会在启动时弹对…\n\n**🏖️ 沙箱与运行时** · 5.0.0 的主变更是一条破坏性改动：删掉已废弃的 runtime 选项与 CLI 的 --runtime 参数，沙箱改为始终从镜像创建；既不设 image 也不设 source 时仍用 vercel/sandbox/universal。\n\n**🛠️ AI 工程落地** · 腾讯云开源的 Octop（TencentCloud/Octop）是单进程自托管的多 agent 助手，自带 Web 控制台、CLI 和 IM 集成（飞书、钉钉、QQ、微信、企业微信、Discord，以及 HTTP/SSE/WebSocket）。\n\n**📊 产品与商业** · 11 月 24 日 OceanBase 在北京发布 AI 数据平台 OceanLake，同时宣布开源核心引擎 AI 数据库 OceanSeek，提出「湖库一体、多模融合、Agent 友好、开源开放」四条原则。\n\n**💡 观点与好文** · Willison 把 AI Engineer Code Summit 的主题演讲整理成文：过去 12 个月 LLM 与编码 agent 的能力有三个拐点，其中 2025 年 11 月 24 日发布的 Claude Opus 4.5 是分水岭——它是他用 Claude Code 时「默认结果基本正确」的第一个模型，此前 Claude Code 已发布 9 …\n\n**🛡️ 安全与治理** · Akamai《2026 年欺诈与滥用报告》给出的数据：2026 年第一季度其监测到的网络诈骗检出量从约 320 万涨到 640 万，首次超过传统钓鱼；钓鱼攻击的平均持续时间从 2025 年第四季度的约 48 天缩短到 2026 年第二季度的 22 天，降幅过半。\n\n**🤖☸️ K8s × AI** · CNCF 大使 Lin Sun 复盘了 KubeCon + CloudNativeCon 北美 2026 的闭幕演讲《Cloud Native Without Limits: What Can AI Agents Do for Us?》。\n\n**☸️ K8s 核心技术** · 三条维护线在 11 月 25 日同时发布补丁版，改动集中在稳定性。\n\n**云原生周边** · 1.7.1 把默认 Kata 内核升到 4.3.1（vmlinux-6.18.56-208-debug），Containerization 依赖升到 0.54.0。"
-  },
-  {
-   "type": "grey",
-   "content": "共 2 条重点 + 11 个板块 20 条精选 + 5 条快讯 · 数据源覆盖 72 小时"
-  }
- ],
- "button": {
-  "text": "📖 阅读今日早报全文",
-  "url": "https://endverse.github.io/daily-brief/2026/2026-11-26.html"
- },
- "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
+  "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
