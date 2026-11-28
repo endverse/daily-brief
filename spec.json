@@ -1,9 +1,9 @@
 {
-  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：{date}(如 2026年09月19日 · 星期六)、{issue}(如 001)、{cover}(封面绝对路径)、{highlights}(🔥今日重点：有序号加粗小标题+摘要,整块)、{glance}(📌今日看点：各板块 emoji+加粗标签+一句,整块)、{count_line}(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、{page_url}(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
+  "_comment": "锁定的早报卡片模板(合并版)。每天只替换占位符：2026年11月28日 · 星期六(如 2026年09月19日 · 星期六)、068(如 001)、/Users/endverse/daily_brief_cover.png(封面绝对路径)、1. **20 个 agent 组队优化 Quickwit：350 次实验 6 项落地，ClickBench 热查询超过所有公开成绩**\nTabbyML 把 20 个 agent 组成一支系统工程团队，扔进开源搜索引擎 Quickwit 里找性能瓶颈，人类只给优化目标和工程约束。4 天里团队自主跑了约 350 次实验，最终 6 项优化通过审查：亿级数据下 40 条热查询总耗时从 40.5 秒降到 27.9 秒（-31%），单条最高降 87%，ClickBench 热查询 g…\n\n2. **DoorDash 用共享 agent 平台把生鲜复购延迟 16 秒压到 2 秒，下单率 +34%**\nDoorDash 把生鲜杂货复购流程的延迟从约 16 秒压到 2 秒，做法不是换更快的模型，而是把「周期性购买需求」预计算好、请求时只做检索与目录解析。改动后购物列表查看量翻倍，该流程下单率提升约 34%。实现踩在共享 agent 平台 + grounded shopping interface 上：批量 LLM 推理先从 90 天购买历…(🔥今日重点：有序号加粗小标题+摘要,整块)、· **🧠 模型与研究** — Solve Vision with Code\n· **🧩 Agent & Skill** — Octop Memory\n· **🧭 Agent 工具链** — Crush v0.103.0\n· **🏖️ 沙箱与运行时** — 沙箱挡不住串话\n· **🛠️ AI 工程落地** — 20 个 agent 组队优化 Quickwit\n· **🛡️ 安全与治理** — EDPB 匿名化新指引没写「再识别测试怎么算数」\n· **🤖☸️ K8s × AI** — K8s v1.38 前瞻(📌今日看点：各板块 emoji+加粗标签+一句,整块)、共 2 条重点 + 7 个板块 15 条精选 + 3 条快讯 · 数据源覆盖 72 小时(统计行,如 共2条重点+5大板块21条精选+4条快讯·数据源覆盖72小时)、https://endverse.github.io/daily-brief/2026/2026-11-28.html(当天页面)。标题/圆圈图标/indigo/页脚/块顺序一律不改。",
   "chat_id": "oc_18845bcfeabb63caffa3e86c69a96d6e",
   "header": {
     "title": "📰 AI & 基础设施早报",
-    "subtitle": "2026 年 11 月 27 日 · 星期五 · 第067期",
+    "subtitle": "2026年11月28日 · 星期六 · 第068期",
     "template": "indigo",
     "icon": "myai_colorful"
   },
@@ -11,23 +11,23 @@
   "blocks": [
     {
       "type": "markdown",
-      "content": "**🔥 今日重点**\n\n**1. AAE：把「可证伪假设 + 正确性断言」写进 agent 循环，KaHIP 求解器 122 次实验后快 3.9×**\n海德堡大学算法工程组开源 AAE（Agentic Algorithm Engineering），一个给 Claude Code 和 Codex 用的算法优化 skill。用法是先和 agent 谈定基准、指标、正确性断言与实验预算，之后它自主循环四步：从 profiling 与分析出发写下可证伪假设…\n\n**2. E2B 2.66.0：沙箱内存从「模板写死」变成可调——模板定上限、创建时分配、恢复时换规格**\nE2B 2.66.0 把沙箱内存做成可调参数：构建模板时用 maxMemoryMB 设上限，创建沙箱时用 memoryMB 选实际内存，暂停的沙箱在 Sandbox.connect 恢复时可以指定新的内存与 CPU 数。onResume 在原有 'restore' / 'reboot' 字符串之外新…"
+      "content": "**🔥 今日重点**\n\n1. **20 个 agent 组队优化 Quickwit：350 次实验 6 项落地，ClickBench 热查询超过所有公开成绩**\nTabbyML 把 20 个 agent 组成一支系统工程团队，扔进开源搜索引擎 Quickwit 里找性能瓶颈，人类只给优化目标和工程约束。4 天里团队自主跑了约 350 次实验，最终 6 项优化通过审查：亿级数据下 40 条热查询总耗时从 40.5 秒降到 27.9 秒（-31%），单条最高降 87%，ClickBench 热查询 g…\n\n2. **DoorDash 用共享 agent 平台把生鲜复购延迟 16 秒压到 2 秒，下单率 +34%**\nDoorDash 把生鲜杂货复购流程的延迟从约 16 秒压到 2 秒，做法不是换更快的模型，而是把「周期性购买需求」预计算好、请求时只做检索与目录解析。改动后购物列表查看量翻倍，该流程下单率提升约 34%。实现踩在共享 agent 平台 + grounded shopping interface 上：批量 LLM 推理先从 90 天购买历…"
     },
     {
       "type": "hr"
     },
     {
       "type": "markdown",
-      "content": "**📌 今日看点**\n\n🧩 **Agent & Skill**：AAE skill：用可证伪假设约束 agent 的每一次实验，41 个 patch 换来 …；Google 要把 agent 的 Workspace 访问收进自家 MCP，但 Gmail…\n🧭 **Agent 工具链**：Orca v1.4.278：Gemini CLI 被移除、Antigravity 全面改用 …；OpenCode v2.4.2：GPT-6.2 专用系统提示，图像/视频生成收进 Code …\n🏖️ **沙箱与运行时**：E2B 2.66.0：模板定内存上限、创建时分配、暂停恢复时还能换规格；gVisor 20261123.1：OCI seccomp 默认打开，sentry 追踪宿主…\n🛠️ **AI 工程落地**：用 Claude 把 Rockbox 塞进 512 KiB SRAM 的 9 美元 MP3…\n🧠 **模型与研究**：Mixture-of-Loops Transformer：用 KV 当跨循环记忆，700M …；NVIDIA 让模型自己管上下文：32K 预算下 GPT 6.1 分数从 21% 到 56%…\n📜 **平台政策与风控**：Google Workspace 新条款落地：2027-02-01 起 agent 访问 G…\n💡 **观点与好文**：数据侧观察：Astra 6.2 与 Sol 6.2 更像「为省钱调过」的模型——输出与推理 …\n🤖☸️ **K8s × AI**：Dynamo v1.7.0：Global Router 跨池路由 + Planner 预算交…\n☸️ **K8s 核心技术**：Kubernetes v1.37.3：修调度器同名 Pod 快速重建崩溃、节点同名重建 CS…；Kueue v0.20.8：全组件日志按策略重排，级别与键名变更会打断看板与告警"
+      "content": "**📌 今日看点**\n\n· **🧠 模型与研究** — Solve Vision with Code\n· **🧩 Agent & Skill** — Octop Memory\n· **🧭 Agent 工具链** — Crush v0.103.0\n· **🏖️ 沙箱与运行时** — 沙箱挡不住串话\n· **🛠️ AI 工程落地** — 20 个 agent 组队优化 Quickwit\n· **🛡️ 安全与治理** — EDPB 匿名化新指引没写「再识别测试怎么算数」\n· **🤖☸️ K8s × AI** — K8s v1.38 前瞻"
     },
     {
       "type": "grey",
-      "content": "共 2 条重点 · 9 个板块 16 条精选 · 5 条快讯 · 数据源覆盖 72 小时"
+      "content": "共 2 条重点 + 7 个板块 15 条精选 + 3 条快讯 · 数据源覆盖 72 小时"
     }
   ],
   "button": {
     "text": "📖 阅读今日早报全文",
-    "url": "https://endverse.github.io/daily-brief/2026/2026-11-27.html"
+    "url": "https://endverse.github.io/daily-brief/2026/2026-11-28.html"
   },
   "footer": "由 Hermes 自动汇编 · 每日 08:30 更新"
 }
